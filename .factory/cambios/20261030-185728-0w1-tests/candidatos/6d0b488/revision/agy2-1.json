@@ -1,0 +1,115 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tests-unitarios/.factory/local/revisiones/6d0b488-agy2-1",
+  "base": "2e1799e263178c99e69aba782b3834c862e9e906",
+  "head": "6d0b4885c887fcec7c075599c5445337db9c64ea",
+  "diff_sha256": "d092ff6e5c1c1a1495eb66a32a4bf1815ce05f457d19b9e9442ff9ac583b7e50",
+  "context_sha256": "800475fed8e0a27e37b4260b0a3966ec39572e26f0304b123897a654d07f6a31",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-4-argon-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en modo de sólo lectura sobre el checkout del candidato (6d0b488) las suites tests.test_tests_unitarios, tests.test_pruebas_practica y tests.test_agentes (84 pruebas, todas en verde) y tools/docs_al_dia.py.",
+    "Se verificaron las citas bibliográficas de docs/tests.md y proposal.md (arXiv:2402.13521, arXiv:2608.17177, arXiv:2501.12862, arXiv:2510.09907, ImpossibleBench y EvilGenie).",
+    "Se ejecutaron 6 mutaciones manuales sobre una copia aislada en la carpeta del revisor (mutaciones_manuales.json) sin modificar el checkout del candidato."
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "docs/tests.md afirma que los avisos de requisitos sin casos y la excepción «Pruebas: no aplica» quedan para cambios futuros y contradice el mecanismo vigente",
+      "explanation": "Tras integrar main (commit base 2e1799e2, que ya incorpora el cambio hermano 20261031-011717-c2q-pruebaspractica con oracle_factory/pruebas.py, docs/trazabilidad.md y la viñeta de AGENTS.md:12), docs/tests.md quedó desfasado respecto del producto real en dos puntos centrales:\n1) Afirmaciones falsas sobre lo que Factory hace hoy (líneas 33-35, «## Qué viene»): declara que «Quedan para cambios aparte, cada uno con su decisión: avisar cuando un requisito no tiene caso asociado, declarar una excepción «sin tests» confirmada por una persona, mostrar las líneas sin caso al revisor y una vista del tablero para entrar al código creado». En realidad, en este candidato Factory ya avisa en `oracle-factory estado ID` (y en `estado ID --json` bajo `pruebas`) cuando un requisito no tiene casos en `trazabilidad.json` (oracle_factory/pruebas.py:88-156), ya soporta la excepción `Pruebas: no aplica — motivo` en la cabecera del requisito en `spec.md` confirmada por una persona al aprobar la spec (oracle_factory/pruebas.py:25-77, oracle_factory/cli.py:1119-1169), y ya muestra las líneas ejecutables cambiadas sin respaldo mediante `oracle-factory trazabilidad ID` (oracle_factory/trazabilidad.py:176-189, docs/trazabilidad.md:32).\n2) Contradicción sobre qué hacer cuando no es posible escribir pruebas (línea 19, «## El paso»): indica «Cuando no es posible (un cambio sólo de texto, un sensor que sólo corre en el motor), se deja dicho en la tarea o en el mensaje del cambio y se sigue». Esto contradice AGENTS.md:12 («si un requisito no se puede probar, declaralo en su spec con `Pruebas: no aplica — motivo` (`estado` avisa de lo que no tiene casos)`), docs/trazabilidad.md:46-59 y oracle_factory/pruebas.py:153-155. Como la guía generada por oracle_factory/agentes.py:67-68 (AGENTS.md:23) remite a `(ver docs/tests.md)`, un agente que siga docs/tests.md dejará sólo una nota en tasks.md o en un mensaje sin declarar `Pruebas: no aplica — motivo` en la spec, provocando que `oracle-factory estado ID` siga reportando el requisito como falto de pruebas.",
+      "location": {
+        "file": "docs/tests.md",
+        "start_line": 17,
+        "end_line": 35,
+        "side": "head"
+      },
+      "trigger": "Leer docs/tests.md (al que remite AGENTS.md generado por `oracle-factory agentes`) para saber qué hace Factory hoy o cómo proceder cuando un requisito no puede probarse con tests unitarios.",
+      "evidence": "En docs/tests.md:19: «Cuando no es posible (un cambio sólo de texto, un sensor que sólo corre en el motor), se deja dicho en la tarea o en el mensaje del cambio y se sigue.» y en docs/tests.md:35: «Quedan para cambios aparte, cada uno con su decisión: avisar cuando un requisito no tiene caso asociado, declarar una excepción «sin tests» confirmada por una persona, mostrar las líneas sin caso al revisor…». En cambio, en el mismo repositorio: AGENTS.md:12 dice «si un requisito no se puede probar, declaralo en su spec con `Pruebas: no aplica — motivo` (`estado` avisa de lo que no tiene casos)» y oracle_factory/pruebas.py:153-155 emite `sin casos de prueba en la trazabilidad: ... (escribí sus pruebas, o declará en la spec «Pruebas: no aplica — motivo»)`. ",
+      "related_requirement": "documento_de_la_practica",
+      "status": "pendiente",
+      "verification": "Contraste directo entre docs/tests.md:17-35, AGENTS.md:12 y 23, oracle_factory/agentes.py:67-68, docs/trazabilidad.md:39-60, oracle_factory/pruebas.py:25-161 y oracle_factory/cli.py:1119-1169 y 1861-1867."
+    },
+    {
+      "id": "F2",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "test_tu3_dice_lo_mismo_que_la_plantilla pasa por construcción al verificar la constante local PASO['es'] en vez de la plantilla real",
+      "explanation": "El escenario «el documento no se contradice con la práctica» del requisito `documento_de_la_practica` (spec.md:47-50) establece: «DADO el documento y la plantilla de tareas / CUANDO se comparan / ENTONCES ambos dicen que el paso es «cuando sea posible» y que no bloquea». Sin embargo, `DocumentoDeTests.test_tu3_dice_lo_mismo_que_la_plantilla` (tests/test_tests_unitarios.py:93-96) hace `self.assertIn('cuando sea posible', PASO['es'])`, donde `PASO['es']` es una constante literal definida en la línea 13 del propio archivo de test, sin leer `plantillas.TEXTOS['es']['tareas']` ni `plantillas.TEXTOS['en']['tareas']`. Esa comprobación sobre la plantilla es una tautología que pasa por construcción aunque `oracle_factory/plantillas.py` cambie. Además, `self.assertIn('no bloquea', self.texto)` sólo verifica que la subcadena `'no bloquea'` aparezca en algún lugar de `docs/tests.md`, por lo que si la sección «## El paso» se altera para decir «Aunque la guía no bloquea, el paso bloquea:» (o si la introducción dice «no bloquea nada» en minúscula y «## El paso» dice «El paso bloquea:»), el test también sigue pasando.",
+      "location": {
+        "file": "tests/test_tests_unitarios.py",
+        "start_line": 93,
+        "end_line": 96,
+        "side": "head"
+      },
+      "trigger": "Mutar `oracle_factory/plantillas.py` reemplazando `cuando sea posible` por `obligatoriamente` (o mutar `docs/tests.md` para que «## El paso» diga que el paso bloquea mientras persista otra ocurrencia de `no bloquea`) y correr `DocumentoDeTests.test_tu3_dice_lo_mismo_que_la_plantilla`.",
+      "evidence": "En tests/test_tests_unitarios.py:13 y 93-96: `PASO = {'es': 'Agente: escribir primero los tests de cada escenario de la spec, cuando sea posible, y comprobar que fallan antes de implementar.', ...}` y `self.assertIn('cuando sea posible', PASO['es'])`. En las mutaciones manuales M1_plantilla_sin_cuando_sea_posible, M5_doc_dice_el_paso_bloquea y M5b_doc_dice_el_paso_bloquea_explicito (mutaciones_manuales.json), `DocumentoDeTests.test_tu3_dice_lo_mismo_que_la_plantilla` terminó con returncode 0 (OK).",
+      "related_requirement": "documento_de_la_practica",
+      "status": "pendiente",
+      "verification": "Ejecución de las mutaciones M1_plantilla_sin_cuando_sea_posible, M5_doc_dice_el_paso_bloquea y M5b_doc_dice_el_paso_bloquea_explicito en copia aislada (`/home/workstation/Dev/factory-tests-unitarios/.factory/local/revisores/6d0b488-agy2-1/probar_mutaciones.py`)."
+    },
+    {
+      "id": "F3",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "test_tu1_el_paso_no_bloquea no ejecuta importar, medir, revisar, juzgar ni cerrar como exige su escenario",
+      "explanation": "El escenario «el paso no bloquea» del requisito `paso_de_tests_primero` (spec.md:19-22) exige: «DADO un cambio cuyo `tasks.md` tiene el paso sin marcar / CUANDO se corren `importar`, `medir`, `revisar`, `juzgar` y `cerrar` / ENTONCES ninguno se niega por ese paso». Sin embargo, `PasoDeTests.test_tu1_el_paso_no_bloquea` (tests/test_tests_unitarios.py:49-55) sólo crea un cambio con `f.nuevo`, verifica que `'TODO:'` no aparezca en `tasks.md` y llama a `f.exigir_plantilla_completa([carpeta / 'tasks.md'])` (validación que en `oracle_factory/cli.py:1112` sólo se usa en `aprobar_spec` para buscar `'TODO:'`). No ejecuta ninguno de los cinco comandos prometidos por el escenario (`importar`, `medir`, `revisar`, `juzgar`, `cerrar`).",
+      "location": {
+        "file": "tests/test_tests_unitarios.py",
+        "start_line": 49,
+        "end_line": 55,
+        "side": "head"
+      },
+      "trigger": "Introducir un bloqueo en `importar`, `medir`, `revisar`, `juzgar` o `cerrar` cuando el paso de tests sigue sin marcar (`- [ ]`) en `tasks.md` y ejecutar `PasoDeTests.test_tu1_el_paso_no_bloquea`.",
+      "evidence": "En tests/test_tests_unitarios.py:49-55, el método sólo contiene `ident = f.nuevo('Algo nuevo', 'algo')`, `self.assertNotIn('TODO:', tareas(self.root, ident))` y `f.exigir_plantilla_completa([carpeta / 'tasks.md'])`. En la mutación manual M3_importar_bloquea_por_paso_sin_marcar (donde `importar` lanza `FactoryError('bloqueado por paso de tests sin marcar')`), `test_tu1_el_paso_no_bloquea` pasa con returncode 0 (OK).",
+      "related_requirement": "paso_de_tests_primero",
+      "status": "pendiente",
+      "verification": "Inspección de `tests/test_tests_unitarios.py:49-55` y `oracle_factory/cli.py:1079-1112`, y ejecución de la mutación M3_importar_bloquea_por_paso_sin_marcar en `probar_mutaciones.py`."
+    },
+    {
+      "id": "F4",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "GuiaDeTests no verifica que la guía pida escribir los tests primero y DocumentoDeTests omite tres fuentes y el caso de excepción",
+      "explanation": "1) El escenario «la guía generada» del requisito `guia_de_tests_para_agentes` (spec.md:29-31) promete: «CUANDO se genera la guía con `oracle-factory agentes` / ENTONCES incluye el paso de escribir tests primero y la guarda sobre los tests existentes». En `tests/test_tests_unitarios.py:16-17 y 61-76`, la tupla `GUIA` sólo comprueba `'Los tests unitarios son parte del desarrollo y no suplantan a Oracle'` y `'Un test que ya existía no se edita para que pase sin dejarlo dicho a quien revisa'`. Ninguna prueba de `GuiaDeTests` verifica que el bloque generado pida escribir los tests primero (`escribilos primero, cuando sea posible, y no bloquean nada`), y `test_tu2_la_guia_generada_lo_dice` sólo llama a `agentes.bloque('confirmacion')` sin invocar `oracle-factory agentes`.\n2) El requisito `documento_de_la_practica` y su escenario «el documento existe y cita» (spec.md:38-46) exigen que `docs/tests.md` explique qué hacer cuando no se puede escribir tests y cite las fuentes por su identificador. `DocumentoDeTests` (`tests/test_tests_unitarios.py:18, 83-91`) sólo verifica `FUENTES = ('2402.13521', '2608.17177')`, omitiendo `2501.12862`, `2510.09907`, `ImpossibleBench` y `EvilGenie` (fuentes de la guarda en `proposal.md` y `docs/tests.md`), y no comprueba la presencia de la explicación sobre qué hacer cuando no es posible.",
+      "location": {
+        "file": "tests/test_tests_unitarios.py",
+        "start_line": 16,
+        "end_line": 91,
+        "side": "head"
+      },
+      "trigger": "Eliminar `: escribilos primero, cuando sea posible, y no bloquean nada` de `oracle_factory/agentes.py` o eliminar de `docs/tests.md` las citas `2501.12862`, `2510.09907`, `ImpossibleBench`, `EvilGenie` y el párrafo sobre qué hacer cuando no es posible.",
+      "evidence": "En las mutaciones manuales M2_guia_sin_paso_escribir_tests_primero y M4_doc_sin_fuentes_guarda_ni_excepcion (mutaciones_manuales.json), ambas clases `GuiaDeTests` y `DocumentoDeTests` pasan íntegramente con returncode 0 (OK).",
+      "related_requirement": "guia_de_tests_para_agentes",
+      "status": "pendiente",
+      "verification": "Ejecución de las mutaciones M2_guia_sin_paso_escribir_tests_primero y M4_doc_sin_fuentes_guarda_ni_excepcion en `probar_mutaciones.py`."
+    },
+    {
+      "id": "F5",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "tools/verify_tests_unitarios.py evalúa fuentes_estables y éxito antes de correr trazabilidad.trazar y filtra casos extra",
+      "explanation": "En `tools/verify_tests_unitarios.py:51-64`:\n1) `stable = fuentes() == origen` y `ok = result.wasSuccessful() and complete and stable` (líneas 54-55) se calculan antes de ejecutar la segunda corrida de los casos bajo `trazabilidad.trazar(...)` (líneas 61-62), y tampoco se verifica que todos los casos hayan dado `resultado == 'ok'` en la corrida trazada (a diferencia de `tools/verify_pruebas_practica.py:129-133`). Si las fuentes cambian durante `trazabilidad.trazar` o si un caso falla en esa segunda corrida, el sensor escribe igualmente `completa: 1` en `hechos.json` y `exitoso: true, fuentes_estables: true` en `resultado.json`.\n2) En la línea 52, `observed = {name: count for name, count in result.cantidad.items() if name in expected}` filtra por pertenencia a `expected` en vez de `name.startswith(PREFIX)` (como hace `tools/verify_pruebas_practica.py:122`), por lo que cualquier caso adicional agregado a `tests/test_tests_unitarios.py` fuera de `CONTRACTS` es ignorado al calcular `casos_exactos_sin_omisiones_duplicados_ni_fallas`.",
+      "location": {
+        "file": "tools/verify_tests_unitarios.py",
+        "start_line": 51,
+        "end_line": 64,
+        "side": "head"
+      },
+      "trigger": "Agregar un caso extra en `tests/test_tests_unitarios.py` no enumerado en `CONTRACTS`, o que ocurra un cambio de archivos o falla durante la ejecución de `trazabilidad.trazar` en `tools/verify_tests_unitarios.py`.",
+      "evidence": "En tools/verify_tests_unitarios.py:52-63: `observed = {name: count for name, count in result.cantidad.items() if name in expected}`, seguido de `stable = fuentes() == origen` y `ok = result.wasSuccessful() and complete and stable` en las líneas 54-55, mientras que `trazabilidad.trazar(...)` recién se ejecuta en las líneas 61-62.",
+      "related_requirement": "paso_de_tests_primero",
+      "status": "pendiente",
+      "verification": "Inspección de `tools/verify_tests_unitarios.py:51-64` y comparación con `tools/verify_pruebas_practica.py:121-135`."
+    }
+  ]
+}

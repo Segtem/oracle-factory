@@ -1,0 +1,68 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261030-185728-0w1-tests",
+  "contexto": {
+    "head": "c222b555aa2d9875a9f17c5c80506e379de39a94",
+    "archivos_sha256": "9d301a1ed89ad4cb4587eb8f8add60a0b439c0a41d3cd8a0b45f8efc921a4310"
+  },
+  "documentos": {
+    "openspec/changes/20261030-185728-0w1-tests/proposal.md": "ef3b6f63dea074fe7c2744f7cd3b63bc55a5015b677b212137c27e79de0400a5",
+    "openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md": "bc7325e685b68d6e792f9105c6b277963196af8351a2a15ca81f38c8caf2fe19"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "AGENTS.md",
+    "catalogos/factory_tests_unitarios.corrida_completa.oracle",
+    "catalogos/factory_tests_unitarios.documento_de_la_practica.oracle",
+    "catalogos/factory_tests_unitarios.guia_de_tests_para_agentes.oracle",
+    "catalogos/factory_tests_unitarios.paso_de_tests_primero.oracle",
+    "docs/tests.md",
+    "openspec/changes/20261030-185728-0w1-tests/design.md",
+    "openspec/changes/20261030-185728-0w1-tests/proposal.md",
+    "openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md",
+    "openspec/changes/20261030-185728-0w1-tests/tasks.md",
+    "oracle_factory/agentes.py",
+    "oracle_factory/plantillas.py",
+    "requisitos/desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica.requisito",
+    "requisitos/desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes.requisito",
+    "requisitos/desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero.requisito",
+    "tests/test_pruebas_practica.py",
+    "tests/test_tests_unitarios.py",
+    "tools/mutar_tests_unitarios.py",
+    "tools/verify_tests_unitarios.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 855 pruebas, 11 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-185728-0w1-tests/candidatos/c222b55/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-4-argon-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-185728-0w1-tests/candidatos/c222b55/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-185728-0w1-tests/candidatos/c222b55/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 6d0b488: agy (gemini-4-argon-high), 5 hallazgos: F1 (alta), F2 (media), F3 (media), F4 (media), F5 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-185728-0w1-tests/candidatos/6d0b488/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios tu1–tu3 en proyectos temporales (la plantilla y la guía se generan de verdad) y sobre docs/tests.md, en Linux. Comprueban que el paso y la guarda están dichos; no miden si un agente de verdad escribe los tests primero: eso es práctica, no gate.",
+    "agy (gemini-4-argon-high): Se revisaron todos los archivos del paquete de Oracle Clue contra proposal.md y spec.md (requisitos paso_de_tests_primero, guia_de_tests_para_agentes y documento_de_la_practica) y se verificó que los 5 hallazgos de la primera ronda (6d0b488/revision/agy2-1.json: F1–F5) quedaron resueltos sin regresiones ni defectos nuevos.",
+    "agy (gemini-4-argon-high): Se ejecutaron en modo de sólo lectura sobre el checkout del candidato c222b55 las suites tests.test_tests_unitarios, tests.test_pruebas_practica, tests.test_agentes, tests.test_docs y tests.test_idioma (99 pruebas, todas en verde) y tools/docs_al_dia.py (sin problemas).",
+    "agy (gemini-4-argon-high): Se ejecutaron sobre una copia aislada en la carpeta del revisor las 9 mutaciones de tools/mutar_tests_unitarios.py (9/9 detectadas) y 6 mutaciones adicionales en probar_mutaciones.py (6/6 detectadas), sin tocar el checkout del candidato.",
+    "codex (gpt-6-luna): Se revisaron la spec, la propuesta, los 19 archivos del diff del paquete y la revisión anterior indicada por la persona solicitante.",
+    "codex (gpt-6-luna): No se ejecutaron la suite ni tools/mutar_tests_unitarios.py: el checkout del candidato se mantuvo de solo lectura; no se hicieron copias mutables separadas para mutaciones.",
+    "codex (gpt-6-luna): La revisión estática encontró que las pruebas añadidas ejercitan los escenarios pedidos, incluido el recorrido cerrado del paso pendiente, y que el verificador exige nombres exactos, resultados exitosos, trazabilidad y fuentes estables."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

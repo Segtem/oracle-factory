@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "3dedbef9d6a97a253506018c8707e10ca05f00780bc31487f351e4dd597cb04b",
+  "actor": "Brian Hollweg",
+  "motivo": "Dos rondas de revisión. La primera (agy2; agy1 no pudo por cuota agotada) dejó hallazgos reales: docs/tests.md decía que el aviso y la excepción de pruebas eran futuros cuando ya existían en main, y dos pruebas probaban menos de lo que prometían (una verificaba una constante propia y otra no recorría el flujo); todos corregidos, con el verificador alineado al de pruebas-practica. La segunda, con agy2 y codex, dio 0 hallazgos en ambos. Suite completa sin fallas, evidencia con éxito y las 9 mutaciones detectadas. El cambio se integró con main conservando la redacción de su paso en la plantilla.",
+  "decisiones": []
+}

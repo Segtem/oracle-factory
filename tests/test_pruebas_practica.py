@@ -67,17 +67,17 @@ class Pruebas(unittest.TestCase):
     def test_pp1_un_cambio_nuevo_en_espanol_pide_las_pruebas_antes_de_implementar(self):
         tareas = (self.root / 'openspec/changes' / f.nuevo('Uno', 'algo') / 'tasks.md').read_text(encoding='utf-8')
         lineas = [l for l in tareas.splitlines() if l.startswith('- [ ]')]
-        [pruebas_] = [i for i, l in enumerate(lineas) if 'escribir' in l.lower() and 'pruebas de cada escenario' in l.lower()]
+        [pruebas_] = [i for i, l in enumerate(lineas) if 'escribir primero' in l.lower() and 'tests de cada escenario' in l.lower()]
         [implementar] = [i for i, l in enumerate(lineas) if 'implementar y correr las pruebas' in l.lower()]
         self.assertLess(pruebas_, implementar)
 
     def test_pp1_un_cambio_nuevo_en_ingles_pide_las_pruebas_antes_de_implementar(self):
         tareas = (self.root / 'openspec/changes' / f.nuevo('Uno', 'algo', idioma='en') / 'tasks.md').read_text(encoding='utf-8')
         lineas = [l for l in tareas.splitlines() if l.startswith('- [ ]')]
-        [pruebas_] = [i for i, l in enumerate(lineas) if 'write' in l.lower() and 'tests for each scenario' in l.lower()]
+        [pruebas_] = [i for i, l in enumerate(lineas) if 'write' in l.lower() and 'tests for each spec scenario' in l.lower()]
         [implementar] = [i for i, l in enumerate(lineas) if 'implement and run the product tests' in l.lower()]
         self.assertLess(pruebas_, implementar)
-        self.assertNotIn('pruebas de cada escenario', tareas)
+        self.assertNotIn('tests de cada escenario', tareas)
 
     def test_pp1_el_paso_nuevo_no_cambia_los_demas_pasos(self):
         tareas = (self.root / 'openspec/changes' / f.nuevo('Uno', 'algo') / 'tasks.md').read_text(encoding='utf-8')

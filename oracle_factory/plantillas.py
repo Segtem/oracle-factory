@@ -45,7 +45,7 @@ El sistema DEBE TODO: escribir una promesa que se pueda comprobar.
 - [ ] Persona: revisar y aceptar proposal.md + spec.md.
 - [ ] Agente: importar requisitos Oracle y señalar lo aún sin medir.
 - [ ] Persona + agente: acordar medidas y evidencia para cada requisito.
-- [ ] Agente: escribir primero las pruebas de cada escenario de la spec, antes de implementar.
+- [ ] Agente: escribir primero los tests de cada escenario de la spec, cuando sea posible, y comprobar que fallan antes de implementar.
 - [ ] Agente: implementar y correr las pruebas del producto.
 - [ ] Revisor: revisar el diff; registrar y resolver hallazgos.
 - [ ] Agente: correr Oracle sobre hechos observados.
@@ -91,7 +91,7 @@ The system SHALL TODO: write one testable promise.
 - [ ] Person: review and accept proposal.md + spec.md.
 - [ ] Agent: import the Oracle requirements and point out what is still unmeasured.
 - [ ] Person + agent: agree the measures and evidence for each requirement.
-- [ ] Agent: write the tests for each scenario of the spec first, before implementing.
+- [ ] Agent: write the tests for each spec scenario first, when possible, and check that they fail before implementing.
 - [ ] Agent: implement and run the product tests.
 - [ ] Reviewer: review the diff; record and resolve findings.
 - [ ] Agent: run Oracle on observed facts.
