@@ -1,0 +1,133 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-pruebas-practica/.factory/local/revisiones/a5a4cc4-agy-1",
+  "base": "ae8c617ad0fb67e1631a23c424e0923556e5fc62",
+  "head": "a5a4cc43be6cba1e46bf2d7c7c914f9c7289ddf4",
+  "diff_sha256": "e8a289a513917bba95ba8e85ef3a5bbc8130c0cac205f97dea6ac4bd3233cbd1",
+  "context_sha256": "e103afc8bf91ffeeeaa534981849937ddd02e185ab8fcd7b2dc6330b3adc1a88",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-4-argon-high"
+  },
+  "findings": [
+    {
+      "id": "F01-documentos-o-nada-lee-fuera-del-proyecto-y-sigue-enlaces",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "cli.documentos_o_nada lee archivos fuera del proyecto («..») y sigue enlaces simbólicos antes de que pruebas.datos valide la ruta, y acepta proposal.md enlazado",
+      "explanation": "El docstring de pruebas.datos() (oracle_factory/pruebas.py:98) promete «No se sigue ninguna ruta fuera del proyecto ni por enlaces» y docs/trazabilidad.md:57-58 declara «La ruta de la spec tiene que estar dentro del proyecto, sin .. ni enlaces simbólicos». Sin embargo, tanto cli.mostrar (cli.py:1854) como lecturas.datos_estado (lecturas.py:363) evalúan documentos_o_nada(carpeta, estado) ANTES de invocar pruebas.datos(). Dentro de documentos(carpeta, estado) (cli.py:491-493), «(ROOT / estado['spec']).relative_to(ROOT)» es puramente léxico en pathlib: cuando estado['spec'] es '../secreto_afuera.md' u 'openspec/../../secreto_afuera.md', relative_to(ROOT) NO lanza ValueError y p.read_bytes() abre y lee el archivo externo antes de que pruebas.datos rechace '..'. Lo mismo ocurre cuando spec.md o proposal.md son enlaces simbólicos hacia afuera del proyecto (e incluso cuando estado['fase'] es 'abandonada' o 'cerrada' en datos_estado, donde pruebas.datos devuelve None sin mirar nada). Además, pruebas.datos (pruebas.py:112) sólo ejecuta proc.sin_enlaces(raiz, spec) y nunca verifica enlaces simbólicos sobre proposal.md: si proposal.md se reemplaza por un symlink a un archivo externo con el mismo SHA-256 aprobado, documentos_o_nada sigue el enlace y pruebas.datos da por vigentes las excepciones (invalidas == []). Si cualquiera de esas rutas apunta a un archivo especial bloqueante (p. ej. un FIFO), «oracle-factory estado» y «estado --json» quedan colgados indefinidamente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 496,
+        "end_line": 501,
+        "side": "head"
+      },
+      "trigger": "(a) Tener estado['spec'] = '../secreto_afuera.md' o un enlace simbólico en spec.md hacia un archivo fuera del proyecto (o un FIFO) y ejecutar «oracle-factory estado ID» o «estado ID --json» (incluso con fase='abandonada' o 'cerrada' en --json). (b) Reemplazar openspec/changes/<id>/proposal.md por un symlink a un archivo externo con el contenido aprobado y consultar «oracle-factory estado ID».",
+      "evidence": "Reproducido empíricamente en repro.py (casos 1A, 1B y 1C, registrados en repro.log líneas 1-13): (1A) con estado['spec']='../secreto_afuera.md' y spec_aprobada=None, f.datos_estado(ident) abrió y leyó '../secreto_afuera.md' fuera de self.root tanto en fase activa como en fase='abandonada' y fase='cerrada' ('leyó archivo externo secreto_afuera.md en datos_estado?: True'); (1B) con spec.md enlazado simbólicamente a '../afuera_spec.md', datos_estado siguió el symlink externo ('True'); (1C) con proposal.md enlazado simbólicamente a '../afuera_proposal.md', self.estado(ident) siguió el symlink y devolvió excepciones={'demo_ce99b811a7062ee12.hacer_uno': 'motivo'} e invalidas=[].",
+      "related_requirement": "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "status": "pendiente",
+      "verification": "Validar antes de leer bytes en documentos_o_nada (o calcular las huellas dentro de pruebas.datos tras descartar fases inactivas) que tanto proposal.md como estado['spec'] sean rutas relativas dentro de ROOT sin '..' y pasen proc.sin_enlaces(ROOT, ...)."
+    },
+    {
+      "id": "F02-estado-cae-con-registros-corruptos-pese-a-pruebas-que-dicen-probarlo",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "«oracle-factory estado» y «estado --json» caen con excepciones no capturadas ante spec_aprobada, spec o requisitos malformados que cuatro pruebas afirman que «no rompen el estado»",
+      "explanation": "Cuatro pruebas del contrato en tests/test_pruebas_practica.py afirman por nombre y comentario que valores corruptos en factory.json no rompen el comando de estado: test_pp3_valores_raros_en_el_registro_no_rompen_el_estado (líneas 304-317), test_pp3_la_ruta_de_la_spec_no_puede_salir_del_proyecto con ruta absoluta (líneas 370-380), test_pp3_un_registro_sin_la_clave_spec_se_avisa_y_no_rompe (líneas 453-458) y test_pp3_un_registro_con_spec_aprobada_rara_no_rompe_el_estado (líneas 474-483, agregada en la tercera ronda para cerrar el AttributeError en spec_aprobada). Sin embargo, las cuatro invocan únicamente pruebas.datos(...) en aislamiento y nunca ejecutan f.mostrar(ident) ni f.datos_estado(ident). Al consultar el estado real en texto o JSON con esos mismos valores guardados en factory.json: (1) spec_aprobada en (5, 'si', ['x'], True) lanza «AttributeError: '<tipo>' object has no attribute 'get'» en cli.exigir_spec (cli.py:505-508: «aprobacion = estado.get('spec_aprobada') or {}»), en cli.quien (cli.py:1861) y en cli._decision (lecturas.py:375); (2) spec en (None, 7, ['x']) lanza TypeError en PosixPath / ...; (3) spec='a\\x00b' o ruta absoluta lanza ValueError; (4) la ausencia de 'spec' lanza KeyError: 'spec'; y (5) requisitos=[1, 2] lanza TypeError en mostrar (cli.py:1848) y datos_estado (lecturas.py:368-372). Por el mismo motivo, la mutación M05 (quitar KeyError, TypeError y ValueError de cli.documentos_o_nada en cli.py:500) sobrevive a las 63 pruebas.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1854,
+        "end_line": 1861,
+        "side": "head"
+      },
+      "trigger": "Guardar en openspec/changes/<id>/factory.json cualquiera de los valores probados en test_pp3_un_registro_con_spec_aprobada_rara_no_rompe_el_estado (p. ej. spec_aprobada=5 o True) o en test_pp3_valores_raros_en_el_registro_no_rompen_el_estado (p. ej. spec=None o sin clave 'spec') y ejecutar «oracle-factory estado ID» o «oracle-factory estado ID --json».",
+      "evidence": "Reproducido empíricamente en repro.py (caso 2, repro.log líneas 15-26) sobre los 11 casos: tanto f.datos_estado(ident) como f.mostrar(ident) caen sin capturar con AttributeError para spec_aprobada en (5, 'si', ['x'], True), TypeError para spec en (None, 7, ['x']) y requisitos=[1, 2], ValueError para spec='a\\x00b' y spec absoluta, y KeyError para ausencia de 'spec'. Además, M05_documentos_o_nada_solo_oserror sobrevive con rc=0 (mutar.log línea 5).",
+      "related_requirement": "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "status": "pendiente",
+      "verification": "Proteger exigir_spec, quien, _decision, pendientes_actuales y el renderizado de estado/datos_estado frente a valores no-dict o tipos inválidos en spec_aprobada, spec y requisitos, y hacer que las pruebas pp3 correspondientes ejerciten self.estado(ident) (mostrar + datos_estado) en lugar de llamar sólo a pruebas.datos()."
+    },
+    {
+      "id": "F03-divergencias-espacios-y-slug-con-importador-openspec",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "pruebas.leer mantiene divergencias de espacios/tabuladores y de prefijo numérico en slugs respecto del importador de OpenSpec de Oracle",
+      "explanation": "En oracle_factory/pruebas.py:16, 28 y 49 y docs/trazabilidad.md:54-55 se afirma que pruebas.leer delimita cada requisito «como el importador de OpenSpec de Oracle» (oracle_metalenguaje/tools/openspec.py:22-50). Aunque la tercera ronda corrigió #{1,6} a ENCABEZADO = r'^(?:#{1,3}\\s|####\\s+Scenario:)', quedan tres diferencias concretas frente a openspec.py: (1) openspec.py:41 y 44 exigen exactamente un espacio ASCII tras los numerales («re.fullmatch(r'#### Scenario:\\s*(.*?)\\s*', linea)» y «re.match(r'#{1,3} ', linea)»), mientras ENCABEZADO en pruebas.py:16 usa \\s y \\s+. Así, una línea «####  Scenario: auxiliar» (dos espacios) o «#\\tnota» (tabulador) cierra actual=None en pruebas.leer pero NO en openspec.py: una línea «Pruebas: no aplica» sin motivo escrita debajo pasa aprobar-spec, importar y estado sin error ni aviso y termina copiada dentro del archivo .requisito; e inversamente, una excepción válida «Pruebas: no aplica — es estático» debajo de «#\\tnota» se descarta y dispara un falso sin_casos. (2) pruebas.py:44 usa «r'^###\\s+Requirement:'» mientras openspec.py:40 exige «r'### Requirement:'» con un solo espacio: «###  Requirement: fantasma» se muestra como excepción aceptada en estado antes de importar aunque Oracle lo ignora como sección común. (3) Para nombres de requisito que empiezan con dígito (p. ej. «### Requirement: 2fa obligatorio»), openspec._slug (openspec.py:25-27) antepone 'r_' («demo.r_2fa_obligatorio»), pero pruebas.leer usa modos.slug («2fa_obligatorio»), por lo que r.split('.', 1)[-1] in por_slug (pruebas.py:123) no asocia la excepción.",
+      "location": {
+        "file": "oracle_factory/pruebas.py",
+        "start_line": 44,
+        "end_line": 50,
+        "side": "head"
+      },
+      "trigger": "(a) Escribir en la cabecera de un requisito «####  Scenario: auxiliar» o «#\\tnota» seguido de «Pruebas: no aplica» (sin motivo) antes de «#### Scenario: real», y ejecutar «aprobar-spec», «importar» y «estado». (b) Escribir «###  Requirement: fantasma» con excepción y consultar «estado» antes de importar, o un requisito cuyo nombre empiece con dígito.",
+      "evidence": "Reproducido empíricamente en repro.py (casos 3A–3D, repro.log líneas 28-40): (3A) tanto con '####  Scenario: auxiliar' como con '#\\tnota', f.aprobar_spec e f.importar terminan sin error, graban 'Pruebas: no aplica' dentro de requisitos/<id>.requisito y estado reporta invalidas=[]; (3B) con '#\\tnota' antes de 'Pruebas: no aplica — es estático', estado devuelve excepciones={} y sin_casos=['demo_c8fa007b28b3c7cc1.hacer_uno']; (3C) con '###  Requirement: fantasma', estado antes de importar muestra excepciones={'fantasma': 'no existe en Oracle'} mientras openspec.requisitos_de_spec sólo importa ['demo.hacer_uno']; (3D) para '2fa obligatorio', pruebas.excepciones da {'2fa_obligatorio': 'externo'} frente a ['demo.r_2fa_obligatorio'] en Oracle.",
+      "related_requirement": "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "status": "pendiente",
+      "verification": "Usar en pruebas.py exactamente un espacio ASCII en los delimitadores ('^### Requirement:\\s*(.+?)\\s*$' y '^(?:#{1,3} |#### Scenario:)') y normalizar el slug con la misma regla 'r_' para iniciales numéricas que openspec._slug."
+    },
+    {
+      "id": "F04-candidato-no-texto-lanza-typeerror-en-pruebas-datos",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "pruebas.datos valida isinstance(identificador, str) pero no isinstance(candidato, str), lanzando TypeError si candidato no es cadena",
+      "explanation": "En la tercera ronda se agregó «not isinstance(identificador, str)» en oracle_factory/pruebas.py:102 (probado con identificador=7 en test_pp2_un_identificador_con_forma_rara_no_arma_rutas) para que entradas mal tipadas no lancen excepciones al invocar pruebas.datos(). Sin embargo, en la línea 125 se evalúa «if not requisitos or not candidato or not CANDIDATO.fullmatch(candidato):» sin comprobar «not isinstance(candidato, str)». Si candidato recibe un valor verdadero que no sea str ni bytes (por ejemplo 7, True o ['abcd']), CANDIDATO.fullmatch(candidato) lanza TypeError sin capturar.",
+      "location": {
+        "file": "oracle_factory/pruebas.py",
+        "start_line": 125,
+        "end_line": 128,
+        "side": "head"
+      },
+      "trigger": "Invocar pruebas.datos(raiz, identificador, estado, 7) (o con candidato=True o ['abcd']) en un cambio con requisitos importados.",
+      "evidence": "Reproducido en repro.py (caso 4, repro.log líneas 42-44): para candidato en (7, True, ['abcd']), pruebas.datos lanza «TypeError: expected string or bytes-like object, got 'int'/'bool'/'list'».",
+      "related_requirement": "practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "status": "pendiente",
+      "verification": "Añadir «not isinstance(candidato, str)» antes de «not CANDIDATO.fullmatch(candidato)» en pruebas.py:125."
+    },
+    {
+      "id": "F05-verify-excluye-openspec-changes-y-kb-notas-en-fuentes",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "tools/verify_pruebas_practica.py sigue excluyendo openspec/changes/ y kb/notas/ del control de estabilidad de fuentes",
+      "explanation": "La tercera ronda corrigió en tools/verify_pruebas_practica.py la exclusión de la carpeta --salida (línea 97) y la verificación de que todos los casos pasen en la corrida trazada (línea 123). No obstante, fuentes() (línea 96) sigue descartando todo archivo bajo 'openspec/changes/' y 'kb/', dejando fuera del control «origen == fuentes(output)» tanto los artefactos propios del cambio (openspec/changes/20261031-011717-c2q-pruebaspractica/proposal.md, design.md, tasks.md y specs/practicas/spec.md) como las notas humanas en kb/notas/, pese a que cli.es_producto (oracle_factory/cli.py:519-524) y el paquete de Clue los tratan como producto.",
+      "location": {
+        "file": "tools/verify_pruebas_practica.py",
+        "start_line": 92,
+        "end_line": 99,
+        "side": "head"
+      },
+      "trigger": "Modificar openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md o un archivo bajo kb/notas/ mientras corre tools/verify_pruebas_practica.py.",
+      "evidence": "Comprobado en repro.py (caso 4, repro.log línea 45): verify_pruebas_practica.fuentes()['sha256'] devuelve False para 'openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md'.",
+      "related_requirement": "practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "status": "pendiente",
+      "verification": "Alinear el filtro de fuentes() en tools/verify_pruebas_practica.py con cli.es_producto para incluir openspec/changes/ (salvo factory.json, review.md y oracle-veredicto.txt) y kb/notas/."
+    },
+    {
+      "id": "F06-mutaciones-sobrevivientes-ronda-4",
+      "kind": "bug",
+      "severity": "informativa",
+      "confidence": 0.99,
+      "title": "Cuatro de doce mutaciones manuales sobreviven a las 63 pruebas de tests/test_pruebas_practica.py",
+      "explanation": "Las 11 pruebas nuevas agregadas para el candidato a5a4cc4 matan las mutaciones reportadas en la tercera ronda sobre cotas de CANDIDATO (M08), niveles de ENCABEZADO (M09), orden del primer error en excepciones() (M10), proc.sin_enlaces en spec (M11), guion ASCII como separador (M03) y propagación de avisos en CLI y JSON (M06, M07). De las 12 mutaciones evaluadas sobre copias aisladas contra tests/test_pruebas_practica.py, sobreviven 4: (1) M02: exigir espacio tras viñeta en EXCEPCION ('(?:[-*]\\s+)?' en pruebas.py:15; no se prueba '-Pruebas:' sin espacio); (2) M04: cambiar 'if por_slug or invalidas:' por 'if por_slug:' en pruebas.py:116 (cuando una spec sin aprobación vigente sólo tiene una línea inválida, ninguna prueba verifica que también se agregue el aviso de falta de aprobación vigente); (3) M05: cambiar 'except (OSError, KeyError, TypeError, ValueError):' por 'except OSError:' en cli.documentos_o_nada (cli.py:500; consecuencia directa de F02); y (4) M12: quitar dict(...) al devolver 'excepciones' en pruebas.analizar (pruebas.py:84 y 91).",
+      "location": {
+        "file": "tests/test_pruebas_practica.py",
+        "start_line": 474,
+        "end_line": 565,
+        "side": "head"
+      },
+      "trigger": "Aplicar M02, M04, M05 o M12 sobre una copia aislada del candidato y ejecutar «.venv/bin/python -B -m unittest discover -s tests -p test_pruebas_practica.py </dev/null».",
+      "evidence": "Registrado en mutar.py / mutar.log (líneas 1-12): 8 mutaciones matadas (rc=1: M01, M03, M06, M07, M08, M09, M10, M11) y 4 sobrevivientes (rc=0: M02, M04, M05, M12).",
+      "related_requirement": "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "status": "pendiente",
+      "verification": "Añadir subpruebas en tests/test_pruebas_practica.py para viñeta pegada ('-Pruebas:'), aviso de falta de aprobación vigente cuando sólo hay líneas inválidas, invocación de self.estado con spec malformada (que mata M05) e inmutabilidad del dict de excepciones."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md, tasks.md, specs/practicas/spec.md y los seis informes de las tres rondas previas (b160cda, 8104329 y 8d1350a, agy-1 y agy2-1), comprobando el cierre de los arreglos de la tercera ronda. Los 31 archivos fuera de producto (.factory, kb generado y tareas) no se revisaron.",
+    "Sobre copias aisladas en la carpeta del revisor (sin editar ni generar bytecode en el checkout de sólo lectura del candidato a5a4cc4 ni tocar la configuración de Git de ningún repositorio) se ejecutaron: tests/test_pruebas_practica.py (63 pruebas OK, en test_pp.log), el sensor completo «tools/verify_pruebas_practica.py --salida .../evidencia_verify» (836 pruebas, 63 casos de contrato, éxito: True, 100 % de líneas de funciones de oracle_factory/pruebas.py trazadas, en verify.log), un script de reproducción empírica para F01–F05 (repro.py / repro.log) y 12 mutaciones manuales sobre copias de pruebas.py, cli.py y lecturas.py (mutar.py / mutar.log: 8 matadas, 4 sobrevivientes)."
+  ]
+}

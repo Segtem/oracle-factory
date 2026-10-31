@@ -1,0 +1,114 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-pruebas-practica/.factory/local/revisiones/b160cda-agy2-1",
+  "base": "ae8c617ad0fb67e1631a23c424e0923556e5fc62",
+  "head": "b160cda33934b49f879cdbda3a05e0d5e5a9c6b2",
+  "diff_sha256": "41c893a67a69d21318f93faea7e94c47f4bbd65e2ada24fb91e73a5e2d21c5cb",
+  "context_sha256": "91a50148cfe190580b6dfb708defe33a50ccfde40c6ba5e4a684691e92b0368e",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-4-argon-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la suite completa de pruebas (797 pruebas, 10 omitidas) y tests/test_pruebas_practica.py (24 pruebas) con el entorno virtual del repositorio.",
+    "Se realizaron pruebas de reproducción y mutación manual sobre copias en memoria/temporales fuera del checkout del candidato (que se mantuvo de sólo lectura)."
+  ],
+  "findings": [
+    {
+      "id": "hallazgo-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "datos() no se calcula cuando candidato_vigente es None: editar spec.md con una excepción inválida tras importar no avisa en estado y el test lo enmascara con un mock",
+      "explanation": "En oracle_factory/pruebas.py, datos() devuelve None inmediatamente si candidato es None (`if not requisitos or not candidato or estado.get(\"fase\") in (\"cerrada\", \"abandonada\"): return None`). Sin embargo, en oracle_factory/lecturas.py se invoca `pruebas.datos(raiz, estado, candidato)` donde `candidato = cli.candidato_vigente(ident)`. Como `openspec/changes/<ID>/specs/<cap>/spec.md` es considerado archivo de producto (`cli.es_producto` devuelve True), cualquier modificación a `spec.md` en el worktree (o un commit sin directorio de candidato vigente) hace que `cli.candidato_vigente(ident)` devuelva None por cambios locales de producto. Por lo tanto, el escenario del requisito «una excepción sin motivo» cuando se pide el estado tras editar `spec.md` (o antes de crear un candidato) produce `datos[\"pruebas\"] = None` y ningún aviso en `oracle-factory estado ID`. En `tests/test_pruebas_practica.py`, el método auxiliar `estado()` reemplaza `f.candidato_vigente` con un lambda fijo `'abc1234'`, enmascarando que `test_pp3_una_excepcion_sin_motivo_que_llego_al_estado_no_exceptua_y_se_avisa` falla en una ejecución real sin ese parche. Además, las excepciones válidas (`excepciones`) e inválidas (`invalidas`) dependen únicamente de `spec.md` y de los requisitos importados, por lo que tampoco se muestran cuando no hay candidato vigente.",
+      "location": {
+        "file": "oracle_factory/pruebas.py",
+        "start_line": 68,
+        "end_line": 79,
+        "side": "head"
+      },
+      "trigger": "Importar los requisitos de un cambio, editar `openspec/changes/<ID>/specs/<cap>/spec.md` agregando `Pruebas: no aplica` (sin motivo) a un requisito y ejecutar `oracle-factory estado <ID>` o `datos_estado(<ID>)` sin parchear `candidato_vigente`.",
+      "evidence": "Al reproducir los pasos exactos de `test_pp3_una_excepcion_sin_motivo_que_llego_al_estado_no_exceptua_y_se_avisa` llamando a `f.datos_estado(ident)` real: `cli.cambios_locales_de_producto()` detecta `openspec/changes/.../spec.md` modificado, `cli.candidato_vigente(ident)` devuelve `None`, `pruebas.datos()` retorna `None` en la línea 72 y `estado` no imprime ningún `Aviso:` ni informa `invalidas`.",
+      "related_requirement": "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "status": "pendiente",
+      "verification": "Se verificó ejecutando el flujo real de `nuevo`, `aprobar-spec`, `importar`, modificación de `spec.md` y `f.datos_estado(ident)` sin `mock.patch.object(f, 'candidato_vigente', ...)`, comprobando que `datos['pruebas']` es `None`."
+    },
+    {
+      "id": "hallazgo-2",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Una línea Pruebas: inválida en un requisito borra las excepciones válidas de los demás requisitos y oculta errores adicionales en la misma spec",
+      "explanation": "En `oracle_factory/pruebas.py`, `excepciones()` lanza `PruebasInvalidas` en el primer requisito con una declaración `Pruebas:` inválida, y `datos()` captura la excepción asignando `por_slug = {}` para todo el cambio (líneas 75-79). Si una spec tiene varios requisitos donde el requisito A declara una excepción válida (`Pruebas: no aplica — es sólo un texto de ayuda`) y el requisito B tiene una declaración inválida (`Pruebas: no aplica` sin motivo): (1) se descarta la excepción válida de A, por lo que `datos[\"pruebas\"][\"excepciones\"]` queda vacío `{}` y el requisito A pasa a reportarse falsamente en `sin_casos` (`Aviso: el requisito ...hacer_uno no tiene casos en la trazabilidad.`), y (2) si un tercer requisito C también tiene una línea `Pruebas:` inválida, no se incluye en `invalidas` porque `excepciones()` abortó en B.",
+      "location": {
+        "file": "oracle_factory/pruebas.py",
+        "start_line": 74,
+        "end_line": 94,
+        "side": "head"
+      },
+      "trigger": "Tener un cambio con dos o más requisitos en `spec.md`, donde uno tiene `Pruebas: no aplica — motivo válido` y otro tiene `Pruebas: no aplica` sin motivo (o dos requisitos tienen `Pruebas:` inválidas), y consultar `datos()` / `estado`.",
+      "evidence": "Con `hacer_uno` (`Pruebas: no aplica — es sólo un texto de ayuda`) y `hacer_dos` (`Pruebas: no aplica`), `pruebas.datos()` devuelve `{'excepciones': {}, 'sin_casos': ['demo_c1.hacer_uno', 'demo_c1.hacer_dos'], 'invalidas': [\"El requisito 'hacer dos' declara 'Pruebas: no aplica' sin motivo...\"]}`, perdiendo la excepción de `hacer_uno` y emitiendo un falso aviso de falta de casos sobre `hacer_uno`.",
+      "related_requirement": "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "status": "pendiente",
+      "verification": "Se reprodujo invocando `pruebas.datos(raiz, estado, 'abc1234')` con una spec de dos requisitos (`hacer uno` con motivo válido y `hacer dos` sin motivo)."
+    },
+    {
+      "id": "hallazgo-3",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "datos() lee estado['spec'] sin validar enlaces simbólicos, contención en la raíz ni tipos no cadena, y valida sólo la hoja de trazabilidad.json",
+      "explanation": "En `oracle_factory/pruebas.py`: (1) la línea 75 ejecuta `(raiz / estado[\"spec\"]).read_text(encoding=\"utf-8\")` sin comprobar que la ruta ni sus directorios padres estén libres de symlinks ni que resuelvan dentro de `raiz` (a diferencia de `cli.ruta_segura` o `lecturas.datos_trazabilidad`). Si `spec.md` (o un directorio intermedio) es un symlink hacia un archivo externo, `datos()` lo sigue y lee el archivo externo. De forma similar, en la línea 82 `ruta.is_file() and not ruta.is_symlink()` sólo verifica la hoja `trazabilidad.json`, pero no si `evidencia/` o algún directorio padre es un symlink; (2) si `estado.get(\"spec\")` es `None` o no es `str` en `factory.json`, `raiz / estado[\"spec\"]` lanza `TypeError` no capturado y rompe `oracle-factory estado`; y si falta la clave `\"spec\"`, capturar `KeyError` agrega `\"'spec'\"` (`str(KeyError('spec'))`) a `invalidas`, mostrando `Aviso: 'spec'.`.",
+      "location": {
+        "file": "oracle_factory/pruebas.py",
+        "start_line": 74,
+        "end_line": 84,
+        "side": "head"
+      },
+      "trigger": "Reemplazar `spec.md` o el directorio `evidencia` por un enlace simbólico a una ruta fuera del repositorio, o tener `\"spec\": null` / ausente en `factory.json`, y ejecutar `oracle-factory estado <ID>`.",
+      "evidence": "Al reemplazar `spec.md` por un symlink a `/tmp/outside_spec.md` con `Pruebas: no aplica — leido por symlink`, `pruebas.datos()` leyó el archivo externo y devolvió `{'excepciones': {'demo_c1.hacer_uno': 'leido por symlink'}, 'sin_casos': [], 'invalidas': []}`. Con `estado['spec'] = None`, `pruebas.datos()` lanzó `TypeError: unsupported operand type(s) for /: 'PosixPath' and 'NoneType'`.",
+      "related_requirement": "practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "status": "pendiente",
+      "verification": "Se verificó en un directorio temporal creando un symlink para `spec.md` hacia un archivo externo y probando `estado['spec'] = None` y `{}`."
+    },
+    {
+      "id": "hallazgo-4",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.92,
+      "title": "excepciones() acepta guiones separados por espacio como motivo válido y no ignora bloques de código cercados (```)",
+      "explanation": "En `oracle_factory/pruebas.py`: (1) `NO_APLICA = re.compile(r\"no\\s+aplica\\s*(?:[—–-]+\\s*(.*))?$\", re.IGNORECASE)` sólo consume guiones contiguos sin espacios en `[—–-]+`. Si la línea tiene guiones separados por espacios (por ejemplo `Pruebas: no aplica — -` o `Pruebas: no aplica - —`), el grupo `(.*)` captura `\"-\"` o `\"—\"` como `motivo` no vacío y acepta la excepción con motivo `\"-\"` en lugar de rechazarla por falta de motivo; (2) a diferencia de `oracle_metalenguaje/tools/openspec.py` (`requisitos_de_spec`), que controla `if linea.lstrip().startswith(\"```\"): en_codigo = not en_codigo`, `excepciones()` no ignora bloques cercados con ```` ``` ````, por lo que líneas `Pruebas:` o encabezados `#` dentro de ejemplos de código en la spec alteran el parseo o disparan `PruebasInvalidas`.",
+      "location": {
+        "file": "oracle_factory/pruebas.py",
+        "start_line": 14,
+        "end_line": 51,
+        "side": "head"
+      },
+      "trigger": "Escribir `Pruebas: no aplica — -` en un requisito de `spec.md`, o incluir un bloque de código ```` ```markdown ```` dentro de un requisito con un ejemplo de `Pruebas: otra cosa` o `# comentario`.",
+      "evidence": "`pruebas.excepciones('### Requirement: hacer uno\\nPruebas: no aplica — -\\n')` devuelve `{'hacer_uno': '-'}` en vez de lanzar `PruebasInvalidas`. Y un bloque ```` ``` ```` con `Pruebas: ejemplo` dentro de un requisito lanza `PruebasInvalidas`.",
+      "related_requirement": "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "status": "pendiente",
+      "verification": "Se verificó llamando directamente a `pruebas.excepciones()` con ambas entradas."
+    },
+    {
+      "id": "hallazgo-5",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Mutaciones en pruebas.py sobreviven a tests/test_pruebas_practica.py (casos con espacios, sección MODIFIED, viñeta '- Pruebas:' y orden de líneas)",
+      "explanation": "Al aplicar pruebas de mutación sobre una copia de `oracle_factory/pruebas.py` contra `tests/test_pruebas_practica.py`, sobreviven varias mutaciones en la lógica nueva: (1) en `con_casos()` (línea 62), cambiar `c.strip()` por `bool(c)` sobrevive porque `test_un_caso_vacio_o_no_texto_no_cuenta_como_caso` sólo prueba `\"\"` y no cadenas de espacios como `\"   \"`; (2) en `excepciones()` (línea 31), tratar `## MODIFIED Requirements` como `retirados = True` sobrevive porque ninguna prueba ejercita `MODIFIED Requirements`; (3) en `EXCEPCION` (línea 14), eliminar `(?:-\\s*)?` o `re.IGNORECASE` sobrevive porque no hay pruebas con `- Pruebas:` ni `pruebas:`; (4) en `lineas()` (línea 103), quitar `sorted(...)` sobrevive porque sólo se prueba con un único requisito exceptuado.",
+      "location": {
+        "file": "tests/test_pruebas_practica.py",
+        "start_line": 60,
+        "end_line": 256,
+        "side": "head"
+      },
+      "trigger": "Introducir cualquiera de las 4 mutaciones anteriores en `oracle_factory/pruebas.py` y ejecutar `tests/test_pruebas_practica.py`.",
+      "evidence": "Las 24 pruebas de `tests/test_pruebas_practica.py` pasan (`OK`) frente a cada una de las mutaciones descritas.",
+      "related_requirement": "practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "status": "pendiente",
+      "verification": "Se ejecutó un script de mutación sobre una copia temporal de `oracle_factory/pruebas.py` corriendo las 24 pruebas de `tests/test_pruebas_practica.py` para cada mutante."
+    }
+  ]
+}

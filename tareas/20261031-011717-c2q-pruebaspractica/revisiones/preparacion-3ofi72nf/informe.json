@@ -1,0 +1,105 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261031-011717-c2q-pruebaspractica",
+  "contexto": {
+    "head": "014c0cda83f41512cfa0933abd55b36befb74844",
+    "archivos_sha256": "7e1fc119cfe5e79c983a0988014f7f45c4f164e5be6c125e6cad30eee72df579"
+  },
+  "documentos": {
+    "openspec/changes/20261031-011717-c2q-pruebaspractica/proposal.md": "e2fe02193ad52ddee247cd3c2311c5c30a466833951915557aa7439d97137908",
+    "openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md": "a1960a76bed57e569d438ab89ad930a2f0bbfa34342d69e5e3614ee88727caba"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "AGENTS.md",
+    "catalogos/factory_pruebas_practica.corrida_completa.oracle",
+    "catalogos/factory_pruebas_practica.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear.oracle",
+    "catalogos/factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas.oracle",
+    "catalogos/factory_pruebas_practica.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas.oracle",
+    "docs/trazabilidad.md",
+    "openspec/changes/20261031-011717-c2q-pruebaspractica/design.md",
+    "openspec/changes/20261031-011717-c2q-pruebaspractica/proposal.md",
+    "openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md",
+    "openspec/changes/20261031-011717-c2q-pruebaspractica/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/lecturas.py",
+    "oracle_factory/plantillas.py",
+    "oracle_factory/pruebas.py",
+    "requisitos/practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear.requisito",
+    "requisitos/practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas.requisito",
+    "requisitos/practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas.requisito",
+    "tests/datos/cli_texto/estado.txt",
+    "tests/test_pruebas_practica.py",
+    "tools/verify_pruebas_practica.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 844 pruebas, 71 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/014c0cd/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-4-argon-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/014c0cd/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-4-argon-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/014c0cd/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato b160cda: agy (gemini-4-argon-high), 8 hallazgos: F01-estado-omite-excepcion-sin-motivo-sin-candidato (alta), F02-enlaces-simbolicos-y-traversal-en-pruebas-datos (alta), F03-caida-no-controlada-por-spec-o-requisitos-no-texto (media), F04-bloques-codigo-markdown-en-excepciones (media), F05-excepcion-no-aprobada-y-borrado-de-validas (media), F06-motivo-solo-guiones-duplicados-y-vineta-asterisco (baja), F07-verify-comprueba-fuentes-antes-de-trazar (baja), F08-mutaciones-sobrevivientes-en-suite-pp (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/b160cda/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato b160cda: agy (gemini-4-argon-high), 5 hallazgos: hallazgo-1 (media), hallazgo-2 (media), hallazgo-3 (media), hallazgo-4 (baja), hallazgo-5 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/b160cda/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 8104329: agy (gemini-4-argon-high), 7 hallazgos: F01-traversal-puntos-en-pruebas-datos (alta), F02-spec-aprobada-invalidada-conserva-excepciones (media), F03-estado-calla-sin-requisitos-y-oculta-excepcion-sin-candidato (media), F04-lineas-multiples-mismo-requisito-siguen-exceptuando (media), F05-divergencia-cabecera-openspec-almohadilla (baja), F06-verify-ignora-casos-extra-y-specs-en-fuentes (baja), F07-mutaciones-sobrevivientes-ronda-2 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/8104329/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 8104329: agy (gemini-4-argon-high), 4 hallazgos: hallazgo-1 (media), hallazgo-2 (media), hallazgo-3 (media), hallazgo-4 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/8104329/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 8d1350a: agy (gemini-4-argon-high), 7 hallazgos: F01-divergencia-delimitadores-cabecera-con-openspec (media), F02-vigencia-incompleta-y-attributeerror-en-spec-aprobada (media), F03-excepciones-aprobadas-ocultas-antes-de-importar (baja), F04-identificador-sin-validar-en-pruebas-datos (baja), F05-recorte-guiones-iniciales-del-motivo (baja), F06-verify-salida-interna-trazar-fallido-y-exclusiones-fuentes (baja), F07-mutaciones-sobrevivientes-ronda-3 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/8d1350a/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 8d1350a: agy (gemini-4-argon-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/8d1350a/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a5a4cc4: agy (gemini-4-argon-high), 6 hallazgos: F01-documentos-o-nada-lee-fuera-del-proyecto-y-sigue-enlaces (media), F02-estado-cae-con-registros-corruptos-pese-a-pruebas-que-dicen-probarlo (media), F03-divergencias-espacios-y-slug-con-importador-openspec (baja), F04-candidato-no-texto-lanza-typeerror-en-pruebas-datos (baja), F05-verify-excluye-openspec-changes-y-kb-notas-en-fuentes (baja), F06-mutaciones-sobrevivientes-ronda-4 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/a5a4cc4/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a5a4cc4: agy (gemini-4-argon-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/a5a4cc4/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad que dejaría el sensor escrita a mano y el candidato vigente simulado. No se comprueba un sensor real que genere trazabilidad.json, ni qué tan buenas son las pruebas de un cambio: sólo que el estado avisa de las que faltan.",
+    "agy (gemini-4-argon-high): Se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md, tasks.md, specs/practicas/spec.md y los ocho informes de las cuatro rondas previas (b160cda, 8104329, 8d1350a y a5a4cc4, agy-1 y agy2-1), comprobando el cierre sin regresiones de todos los arreglos de la cuarta ronda (documentos_o_nada valida propuesta y spec con exigir_dentro antes de leer y omite cambios cerrados o abandonados; delimitadores de encabezados y viñetas exactos al importador OpenSpec de Oracle; validación isinstance(candidato, str); inclusión de openspec/changes/ en tools/verify_pruebas_practica.py; precisión de nombres en las pruebas de pruebas.datos). Los 39 archivos fuera del paquete (.factory, kb generado y tareas) no se revisaron, y la fragilidad preexistente de otras partes de estado ante un factory.json corrupto quedó fuera de alcance según las indicaciones.",
+    "agy (gemini-4-argon-high): Sobre copias aisladas en la carpeta del revisor (sin editar ni generar bytecode en el checkout de sólo lectura del candidato 014c0cd ni modificar la configuración de Git de ningún repositorio) se ejecutaron: tests/test_pruebas_practica.py (71 pruebas OK, en test_pp.log), el sensor completo «tools/verify_pruebas_practica.py --salida .../evidencia_verify» (844 pruebas OK, 71 casos de contrato, éxito: True, fuentes estables incluyendo openspec/changes/, 0 líneas cambiadas sin respaldo en oracle_factory/{pruebas,cli,lecturas,plantillas}.py, en verify.log), el juicio de Oracle sobre hechos.json (las 4 medidas en verde: corrida_completa 1==1, pp1 3==3, pp2 20==20, pp3 48==48) y «oracle-factory agentes --verificar».",
+    "agy (gemini-4-argon-high): Se evaluaron 35 mutaciones manuales sobre copias aisladas de oracle_factory/{pruebas,cli,lecturas}.py contra tests/test_pruebas_practica.py (mutar.py / mutar.log): 31 mutaciones matadas (incluidas las 4 sobrevivientes de la cuarta ronda) y 4 micro-mutaciones equivalentes o de casos marginales sobrevivientes sin defecto funcional: M09 (quitar '+' en [—–-]+ de NO_APLICA cuando no hay separadores de varios guiones contiguos), M12 (quitar RENAMED de la sección delta cuando no sigue a una sección REMOVED), M15 (quitar la raya mediana '–' del filtro de motivo de puros guiones) y M19 (omitir la rama de ruta relativa en exigir_dentro porque los llamadores siempre pasan rutas bajo ROOT).",
+    "agy (gemini-4-argon-high): Sin hallazgos abiertos: todas las promesas y escenarios de la spec (la_plantilla_de_tareas_pide_escribir_primero_las_pruebas, el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear y una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas) se cumplen.",
+    "agy (gemini-4-argon-high): Se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md, tasks.md y specs/practicas/spec.md, y se comprobaron los arreglos de las cuatro vueltas anteriores (b160cda, 8104329, 8d1350a y a5a4cc4, agy-1 y agy2-1): validación previa de rutas y enlaces en cli.documentos_o_nada con pruebas.exigir_dentro y omisión de cambios cerrados/abandonados, delimitadores de encabezados y viñeta con los espacios exactos del importador de OpenSpec de Oracle, verificación isinstance(candidato, str) antes de CANDIDATO.fullmatch, e inclusión de openspec/changes/ en tools/verify_pruebas_practica.py. Los 39 archivos excluidos fuera de producto (.factory, kb generado y tareas) no se revisaron.",
+    "agy (gemini-4-argon-high): Sobre copias aisladas en la carpeta del revisor (sin modificar ni generar bytecode en el checkout de sólo lectura del candidato 014c0cd ni tocar la configuración de Git de ningún repositorio) se ejecutaron las 71 pruebas de tests/test_pruebas_practica.py (71 OK, en test_pp.log) y 28 mutaciones manuales sobre oracle_factory/pruebas.py, cli.py y lecturas.py (mutar.py / mutar.log: 28/28 matadas, 0 sobrevivientes), además de verificar la evidencia generada para 014c0cd (844 pruebas, 71 casos de contrato, trazabilidad completa).",
+    "agy (gemini-4-argon-high): Sin hallazgos abiertos en esta quinta ronda."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

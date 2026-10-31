@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-pruebas-practica/.factory/local/revisiones/a5a4cc4-agy2-1",
+  "base": "ae8c617ad0fb67e1631a23c424e0923556e5fc62",
+  "head": "a5a4cc43be6cba1e46bf2d7c7c914f9c7289ddf4",
+  "diff_sha256": "e8a289a513917bba95ba8e85ef3a5bbc8130c0cac205f97dea6ac4bd3233cbd1",
+  "context_sha256": "55a70c0ab265e0bcb69bf275ac790a50fb43cbeda1b3d64ac3adc5788b6bf871",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-4-argon-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se verificaron todas las correcciones de las tres rondas anteriores (b160cda, 8104329 y 8d1350a) y se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md y specs/practicas/spec.md; los 31 archivos excluidos fuera de producto (.factory, kb generado y tareas) no se revisaron.",
+    "Sobre una copia aislada en la carpeta del revisor (sin modificar el checkout de sólo lectura del candidato a5a4cc4 ni la configuración de Git) se ejecutaron: las 63 pruebas de tests/test_pruebas_practica.py (63 OK, en test_pp.log) y 29 mutaciones manuales sobre oracle_factory/pruebas.py (mutar.py / mutar.log: 28/29 matadas; la única sobreviviente es quitar RENAMED de la expresión regular de sección delta cuando no viene precedida por REMOVED, ya que ENCABEZADO cierra igualmente el requisito con retirados=False).",
+    "Sin hallazgos abiertos en esta cuarta ronda: todos los escenarios de la spec (la_plantilla_de_tareas_pide_escribir_primero_las_pruebas, el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear y una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas) y las invariantes de seguridad, vigencia de aprobación, cierre de cabecera y verificación de trazabilidad se cumplen."
+  ],
+  "findings": []
+}

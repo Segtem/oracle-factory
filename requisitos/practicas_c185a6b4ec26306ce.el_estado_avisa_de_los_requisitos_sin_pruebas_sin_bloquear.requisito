@@ -1,0 +1,4 @@
+requisito practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear:
+    texto "Tipo: funcional El sistema DEBE avisar en el estado de un cambio, y en su JSON, de los requisitos que no tienen ningún caso de prueba en la trazabilidad del candidato vigente y de que el candidato no tiene trazabilidad, sin cambiar los pasos pendientes ni impedir ninguna decisión."
+    fuente "openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md#el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear"
+    medido_por factory_pruebas_practica.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear, factory_pruebas_practica.corrida_completa

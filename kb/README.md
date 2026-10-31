@@ -91,6 +91,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261030-100740-f1g-entregaa16]] — Preparar la distribución 0.1.0a16 (cerrada)
 - [[cambios/20261030-171836-7e4-publicadaa16]] — Declarar publicada la 0.1.0a16 en las notas y los textos (cerrada)
 - [[cambios/20261030-185728-0w1-tests]] — Tests unitarios como práctica del desarrollo: el paso de escribirlos primero (requisitos_importados)
+- [[cambios/20261031-011717-c2q-pruebaspractica]] — Pedir las pruebas como práctica de desarrollo, sin bloquear (cerrada)
 
 ## Requisitos
 
@@ -286,6 +287,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/portabilidad_cbe858e976e618573.respetar_los_registros_existentes]]
 - [[requisitos/portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado]]
 - [[requisitos/portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra]]
+- [[requisitos/practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear]]
+- [[requisitos/practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas]]
+- [[requisitos/practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas]]
 - [[requisitos/procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita]]
 - [[requisitos/procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv]]
 - [[requisitos/procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados]]
