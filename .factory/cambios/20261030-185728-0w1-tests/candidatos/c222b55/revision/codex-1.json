@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tests-unitarios/.factory/local/revisiones/c222b55-codex-1",
+  "base": "2e1799e263178c99e69aba782b3834c862e9e906",
+  "head": "c222b555aa2d9875a9f17c5c80506e379de39a94",
+  "diff_sha256": "60d75aa8d6846b3818cc12c45c57c6ee58ff03c0a6d8eeec331b2b1e86900021",
+  "context_sha256": "87eb6f04e78501447934d56662728a57d91cf4410d02e6eb7b4221a62b6bbc13",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la spec, la propuesta, los 19 archivos del diff del paquete y la revisión anterior indicada por la persona solicitante.",
+    "No se ejecutaron la suite ni tools/mutar_tests_unitarios.py: el checkout del candidato se mantuvo de solo lectura; no se hicieron copias mutables separadas para mutaciones.",
+    "La revisión estática encontró que las pruebas añadidas ejercitan los escenarios pedidos, incluido el recorrido cerrado del paso pendiente, y que el verificador exige nombres exactos, resultados exitosos, trazabilidad y fuentes estables."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tests-unitarios/.factory/local/revisiones/c222b55-agy2-1",
+  "base": "2e1799e263178c99e69aba782b3834c862e9e906",
+  "head": "c222b555aa2d9875a9f17c5c80506e379de39a94",
+  "diff_sha256": "60d75aa8d6846b3818cc12c45c57c6ee58ff03c0a6d8eeec331b2b1e86900021",
+  "context_sha256": "3588b23d4637782720c91b37684030d8273f54f4475e1fdefaf2daa6ce65e703",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-4-argon-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron todos los archivos del paquete de Oracle Clue contra proposal.md y spec.md (requisitos paso_de_tests_primero, guia_de_tests_para_agentes y documento_de_la_practica) y se verificó que los 5 hallazgos de la primera ronda (6d0b488/revision/agy2-1.json: F1–F5) quedaron resueltos sin regresiones ni defectos nuevos.",
+    "Se ejecutaron en modo de sólo lectura sobre el checkout del candidato c222b55 las suites tests.test_tests_unitarios, tests.test_pruebas_practica, tests.test_agentes, tests.test_docs y tests.test_idioma (99 pruebas, todas en verde) y tools/docs_al_dia.py (sin problemas).",
+    "Se ejecutaron sobre una copia aislada en la carpeta del revisor las 9 mutaciones de tools/mutar_tests_unitarios.py (9/9 detectadas) y 6 mutaciones adicionales en probar_mutaciones.py (6/6 detectadas), sin tocar el checkout del candidato."
+  ],
+  "findings": []
+}
