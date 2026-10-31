@@ -1,7 +1,7 @@
 ---
 generado: oracle-factory kb
 id: "20261031-011717-c2q-pruebaspractica"
-fase: "espera_aprobacion_spec"
+fase: "spec_aprobada"
 capacidad: "practicas"
 ---
 
@@ -9,7 +9,7 @@ capacidad: "practicas"
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Fase: espera_aprobacion_spec
+- Fase: spec_aprobada
 - Capacidad: practicas
 - Responsable: nadie
 - Spec: [openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md](../../openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md)
@@ -21,6 +21,7 @@ capacidad: "practicas"
 ## Decisiones
 
 - 2026-10-31 01:17 · Cambio creado · claude-code (agente)
+- 2026-10-31 01:36 · Spec aprobada · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
