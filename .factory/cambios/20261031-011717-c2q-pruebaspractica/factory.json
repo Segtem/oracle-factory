@@ -529,6 +529,58 @@
         "factory_pruebas_practica.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
         "factory_pruebas_practica.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-31T12:17:32.589970+00:00",
+      "revisor": "agy2",
+      "candidato": "a5a4cc4",
+      "lanzamiento": "a744e513125c"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-31T12:17:32.862240+00:00",
+      "revisor": "agy",
+      "candidato": "a5a4cc4",
+      "lanzamiento": "6dc7836e4cea"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-31T12:24:40.017853+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "a5a4cc4",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "a744e513125c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-31T12:51:21.566235+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "a5a4cc4",
+      "resultado": "ok",
+      "hallazgos": 6,
+      "lanzamiento": "6dc7836e4cea"
     }
   ],
   "tipos": {

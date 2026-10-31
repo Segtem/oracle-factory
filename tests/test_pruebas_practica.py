@@ -301,7 +301,7 @@ class Pruebas(unittest.TestCase):
         datos = self.estado(ident)[1]['pruebas']
         self.assertIn('no pude leer la spec', ' '.join(datos['invalidas']))
 
-    def test_pp3_valores_raros_en_el_registro_no_rompen_el_estado(self):
+    def test_pp3_valores_raros_en_el_registro_no_hacen_caer_a_pruebas_datos(self):
         ident = self.cambio(('hacer uno', []))
         carpeta, base = f.leer(ident)
         for campo, valor in (('spec', None), ('spec', 7), ('spec', ['x']), ('spec', 'a\x00b'), ('requisitos', 'texto'),
@@ -450,7 +450,7 @@ class Pruebas(unittest.TestCase):
         self.assertEqual(pruebas.lineas(datos), ['Pruebas: d.a no aplica — uno', 'Pruebas: d.b no aplica — dos', 'Pruebas: d.c no aplica — tres'])
         self.assertEqual(pruebas.lineas(None), [])
 
-    def test_pp3_un_registro_sin_la_clave_spec_se_avisa_y_no_rompe(self):
+    def test_pp3_un_registro_sin_la_clave_spec_se_avisa_y_pruebas_datos_no_cae(self):
         ident = self.cambio(('hacer uno', []))
         estado = json.loads(json.dumps(f.leer(ident)[1]))
         del estado['spec']
@@ -471,7 +471,7 @@ class Pruebas(unittest.TestCase):
             self.assertTrue(pruebas.datos(self.root, ident, f.leer(ident)[1], SHA)['sin_trazabilidad'])
 
     # --- tercera ronda -------------------------------------------------------------------------------------------------------
-    def test_pp3_un_registro_con_spec_aprobada_rara_no_rompe_el_estado(self):
+    def test_pp3_una_spec_aprobada_rara_no_hace_caer_a_pruebas_datos(self):
         ident = self.cambio(('hacer uno', []))
         base = f.leer(ident)[1]
         for valor in (5, 'si', ['x'], True, {'documentos': 'no'}, {'documentos': 7}, {'documentos': None}):
@@ -562,6 +562,92 @@ class Pruebas(unittest.TestCase):
         texto = spec(('hacer uno', ['Pruebas: no aplica']), ('hacer dos', ['Pruebas: sí']))
         with self.assertRaisesRegex(pruebas.PruebasInvalidas, 'hacer_uno'):
             pruebas.excepciones(texto)
+
+    # --- cuarta ronda ------------------------------------------------------------------------------------------------------
+    def test_pp3_las_huellas_no_se_leen_si_las_rutas_salen_del_proyecto_o_son_enlaces(self):
+        ident = self.cambio(('hacer uno', []))
+        carpeta, base = f.leer(ident)
+        (self.root.parent / 'secreto.md').write_text('secreto', encoding='utf-8')
+        with patch.object(f, 'documentos', side_effect=AssertionError('no debía leer')):
+            for ruta in ('../secreto.md', 'openspec/../../secreto.md', str(self.root.parent / 'secreto.md')):
+                with self.subTest(spec=ruta):
+                    estado = json.loads(json.dumps(base))
+                    estado['spec'] = ruta
+                    self.assertIsNone(f.documentos_o_nada(carpeta, estado))
+            enlace = self.root / 'enlace.md'
+            enlace.symlink_to(self.root.parent / 'secreto.md')
+            estado = json.loads(json.dumps(base))
+            estado['spec'] = 'enlace.md'
+            self.assertIsNone(f.documentos_o_nada(carpeta, estado))
+            propuesta = carpeta / 'proposal.md'
+            original = propuesta.read_text()
+            propuesta.unlink()
+            propuesta.symlink_to(self.root.parent / 'secreto.md')
+            self.assertIsNone(f.documentos_o_nada(carpeta, json.loads(json.dumps(base))))
+            propuesta.unlink()
+            propuesta.write_text(original)
+            for fase in ('cerrada', 'abandonada'):
+                estado = json.loads(json.dumps(base))
+                estado['fase'] = fase
+                self.assertIsNone(f.documentos_o_nada(carpeta, estado))
+
+    def test_pp3_las_huellas_con_una_spec_que_no_es_ruta_devuelven_nada_y_no_caen(self):
+        ident = self.cambio(('hacer uno', []))
+        carpeta, base = f.leer(ident)
+        for valor in (None, 7, ['x'], 'a\x00b'):
+            with self.subTest(spec=valor):
+                estado = json.loads(json.dumps(base))
+                estado['spec'] = valor
+                self.assertIsNone(f.documentos_o_nada(carpeta, estado))
+        estado = json.loads(json.dumps(base))
+        del estado['spec']
+        self.assertIsNone(f.documentos_o_nada(carpeta, estado))
+
+    def test_pp3_las_huellas_de_un_cambio_normal_se_leen(self):
+        ident = self.cambio(('hacer uno', []))
+        carpeta, estado = f.leer(ident)
+        self.assertEqual(f.documentos_o_nada(carpeta, estado), f.documentos(carpeta, estado))
+
+    def test_pp3_los_encabezados_se_leen_con_los_espacios_exactos_del_importador_de_oracle(self):
+        # Oracle no toma por encabezado «####  Scenario:», «#<tab>x» ni «###  Requirement:»: la cabecera sigue abierta
+        for linea in ('####  Scenario: x', '#\tnota', '##\tnota', '#### scenario: x', '####Scenario: x'):
+            with self.subTest(sigue_abierta=linea), self.assertRaisesRegex(pruebas.PruebasInvalidas, 'necesita un motivo'):
+                pruebas.excepciones(spec(('hacer uno', [linea, 'Pruebas: no aplica'])))
+        # y sí cierra exactamente lo que Oracle cierra
+        for linea in ('# x', '## x', '### x', '#### Scenario: x', '#### Scenario:'):
+            with self.subTest(cierra=linea):
+                self.assertEqual(pruebas.excepciones(spec(('hacer uno', [linea, 'Pruebas: no aplica']))), {})
+        # «###  Requirement:» (dos espacios) no abre un requisito: su línea Pruebas no es de nadie
+        texto = '# Capability: x\n\n## ADDED Requirements\n\n###  Requirement: hacer uno\nPruebas: no aplica\n'
+        self.assertEqual(pruebas.excepciones(texto), {})
+
+    def test_pp3_la_vineta_necesita_un_espacio_como_en_oracle(self):
+        self.assertEqual(pruebas.excepciones(spec(('hacer uno', ['-Pruebas: no aplica']))), {})
+        self.assertEqual(pruebas.excepciones(spec(('hacer uno', ['*Pruebas: no aplica']))), {})
+
+    def test_pp3_una_spec_sin_aprobacion_con_solo_una_linea_mala_tambien_lo_dice(self):
+        ident = f.nuevo('Mala', 'demo')
+        carpeta, estado = f.leer(ident)
+        (self.root / estado['spec']).write_text(spec(('hacer uno', ['Pruebas: no aplica'])), encoding='utf-8')
+        datos = pruebas.datos(self.root, ident, f.leer(ident)[1], None, f.documentos(carpeta, estado))
+        texto = ' '.join(datos['invalidas'])
+        self.assertIn('necesita un motivo', texto)
+        self.assertIn('no tiene una aprobación vigente', texto)
+
+    def test_pp2_un_candidato_que_no_es_texto_no_arma_rutas(self):
+        ident = self.cambio(('hacer uno', []))
+        estado = f.leer(ident)[1]
+        for candidato in (7, True, ['abcd'], b'abcd'):
+            with self.subTest(candidato=candidato):
+                self.assertIsNone(pruebas.datos(self.root, ident, estado, candidato))
+
+    def test_pp2_el_analisis_no_comparte_el_diccionario_de_excepciones_con_quien_lo_llama(self):
+        exceptuados = {'d.a': 'motivo'}
+        trazas = {'esquema': 'oracle-factory.trazabilidad-casos/1', 'requisitos': {}, 'casos': {}}
+        for t in (trazas, None):
+            r = pruebas.analizar(['d.a'], t, exceptuados)
+            r['excepciones']['d.z'] = 'otro'
+            self.assertEqual(exceptuados, {'d.a': 'motivo'})
 
 
 class Analisis(unittest.TestCase):

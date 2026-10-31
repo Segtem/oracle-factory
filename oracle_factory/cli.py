@@ -494,10 +494,17 @@ def documentos(carpeta: Path, estado: dict) -> dict[str, str]:
 
 
 def documentos_o_nada(carpeta: Path, estado: dict) -> dict | None:
-    """Las huellas actuales de la propuesta y la spec, o None si no se pueden leer (para mostrar, sin fallar)."""
+    """Las huellas actuales de la propuesta y la spec, o None si no corresponde o no se pueden leer (para mostrar, sin fallar).
+
+    Antes de leer nada se comprueba que las dos rutas estén dentro del proyecto y sin enlaces simbólicos, y un cambio cerrado o
+    abandonado no lee nada."""
+    if estado.get("fase") in ("cerrada", "abandonada"):
+        return None
     try:
+        for ruta in (carpeta / "proposal.md", ROOT / estado["spec"]):
+            pruebas_mod.exigir_dentro(ROOT, ruta)
         return documentos(carpeta, estado)
-    except (OSError, KeyError, TypeError, ValueError):
+    except (OSError, KeyError, TypeError, ValueError, procedencia_mod.ProcedenciaError):
         return None
 
 

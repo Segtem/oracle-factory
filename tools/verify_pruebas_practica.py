@@ -36,6 +36,8 @@ CONTRACTS = {
         'Pruebas.test_pp2_una_trazabilidad_que_no_se_puede_leer_cuenta_como_sin_trazabilidad',
         'Pruebas.test_pp2_un_identificador_con_forma_rara_no_arma_rutas',
         'Pruebas.test_pp2_un_candidato_demasiado_corto_o_largo_no_arma_rutas',
+        'Pruebas.test_pp2_un_candidato_que_no_es_texto_no_arma_rutas',
+        'Pruebas.test_pp2_el_analisis_no_comparte_el_diccionario_de_excepciones_con_quien_lo_llama',
         'Analisis.test_el_analisis_de_requisitos_con_y_sin_casos',
         'Analisis.test_un_caso_de_solo_espacios_no_cuenta_como_caso',
         'Analisis.test_un_caso_vacio_o_no_texto_no_cuenta_como_caso'],
@@ -56,7 +58,7 @@ CONTRACTS = {
         'Pruebas.test_pp3_una_spec_sin_excepciones_cambiada_despues_de_aprobarla_no_avisa_de_excepciones',
         'Pruebas.test_pp3_la_spec_que_es_un_enlace_simbolico_no_se_sigue',
         'Pruebas.test_pp3_una_spec_que_falta_se_avisa_y_no_rompe_el_estado',
-        'Pruebas.test_pp3_valores_raros_en_el_registro_no_rompen_el_estado',
+        'Pruebas.test_pp3_valores_raros_en_el_registro_no_hacen_caer_a_pruebas_datos',
         'Pruebas.test_pp3_un_motivo_hecho_de_guiones_no_es_un_motivo',
         'Pruebas.test_pp3_declarar_dos_veces_pruebas_en_un_requisito_se_rechaza',
         'Pruebas.test_pp3_el_ejemplo_dentro_de_un_bloque_de_codigo_no_cuenta',
@@ -72,8 +74,8 @@ CONTRACTS = {
         'Pruebas.test_pp3_un_numeral_en_la_descripcion_no_cierra_la_cabecera_del_requisito',
         'Pruebas.test_pp3_el_reconocimiento_ignora_mayusculas_sangria_y_raya_mediana',
         'Pruebas.test_pp3_las_excepciones_se_muestran_ordenadas',
-        'Pruebas.test_pp3_un_registro_sin_la_clave_spec_se_avisa_y_no_rompe',
-        'Pruebas.test_pp3_un_registro_con_spec_aprobada_rara_no_rompe_el_estado',
+        'Pruebas.test_pp3_un_registro_sin_la_clave_spec_se_avisa_y_pruebas_datos_no_cae',
+        'Pruebas.test_pp3_una_spec_aprobada_rara_no_hace_caer_a_pruebas_datos',
         'Pruebas.test_pp3_cambiar_la_propuesta_despues_de_aprobar_deja_sin_vigencia_las_excepciones',
         'Pruebas.test_pp3_sin_documentos_para_comparar_las_excepciones_no_cuentan',
         'Pruebas.test_pp3_la_ausencia_de_documentos_en_los_dos_lados_no_cuenta_como_aprobacion',
@@ -81,7 +83,13 @@ CONTRACTS = {
         'Pruebas.test_pp3_las_excepciones_aprobadas_se_ven_antes_de_importar_por_el_nombre_del_requisito',
         'Pruebas.test_pp3_un_motivo_que_empieza_con_guiones_conserva_su_texto',
         'Pruebas.test_pp3_las_secciones_delta_se_leen_en_cualquier_mayuscula_y_renamed_no_retira',
-        'Pruebas.test_pp3_el_primer_error_es_el_que_se_informa'],
+        'Pruebas.test_pp3_el_primer_error_es_el_que_se_informa',
+        'Pruebas.test_pp3_las_huellas_no_se_leen_si_las_rutas_salen_del_proyecto_o_son_enlaces',
+        'Pruebas.test_pp3_las_huellas_con_una_spec_que_no_es_ruta_devuelven_nada_y_no_caen',
+        'Pruebas.test_pp3_las_huellas_de_un_cambio_normal_se_leen',
+        'Pruebas.test_pp3_los_encabezados_se_leen_con_los_espacios_exactos_del_importador_de_oracle',
+        'Pruebas.test_pp3_la_vineta_necesita_un_espacio_como_en_oracle',
+        'Pruebas.test_pp3_una_spec_sin_aprobacion_con_solo_una_linea_mala_tambien_lo_dice'],
 }
 PREFIX = 'test_pruebas_practica.'
 LIMITES = ('Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad que dejaría el sensor escrita a mano y el candidato vigente '
@@ -93,7 +101,7 @@ def fuentes(salida=None):
     # Todo lo versionado o nuevo del producto (código, pruebas, datos de referencia, catálogos, docs); sin los registros generados.
     nombres = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '-z', '--cached', '--others', '--exclude-standard'],
                              text=True, capture_output=True, check=True).stdout.split('\0')  # -z: nombres no ASCII sin comillas
-    elegidos = [ROOT / n for n in nombres if n and not n.startswith(('.factory/', 'kb/', 'tareas/', 'openspec/changes/'))
+    elegidos = [ROOT / n for n in nombres if n and not n.startswith(('.factory/', 'kb/', 'tareas/'))
                 and (ROOT / n).is_file() and not (salida and (ROOT / n).is_relative_to(salida))]  # la evidencia no es producto
     head = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True, capture_output=True, check=True).stdout.strip()
     return {'head': head, 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(elegidos)}}

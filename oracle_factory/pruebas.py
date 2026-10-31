@@ -12,8 +12,8 @@ from . import estructura, modos
 from . import procedencia as proc
 
 ESQUEMA_CASOS = "oracle-factory.trazabilidad-casos/1"
-EXCEPCION = re.compile(r"^\s*(?:[-*]\s*)?Pruebas:\s*(.*?)\s*$", re.IGNORECASE)
-ENCABEZADO = re.compile(r"^(?:#{1,3}\s|####\s+Scenario:)")  # como el importador de OpenSpec de Oracle
+EXCEPCION = re.compile(r"^\s*(?:[-*]\s+)?Pruebas:\s*(.*?)\s*$", re.IGNORECASE)
+ENCABEZADO = re.compile(r"^(?:#{1,3} |#### Scenario:)")  # exactamente lo que cierra un requisito en el importador de OpenSpec de Oracle
 CANDIDATO = re.compile(r"[0-9a-f]{4,40}")
 NO_APLICA = re.compile(r"no\s+aplica\s*(?:[—–-]+\s*(.*))?$", re.IGNORECASE)
 
@@ -41,7 +41,7 @@ def leer(texto: str) -> tuple[dict[str, str], list[str]]:
         if delta:
             retirados, actual = delta[1].upper() == "REMOVED", None
             continue
-        cabecera = re.match(r"^###\s+Requirement:\s*(.+?)\s*$", linea)
+        cabecera = re.match(r"^### Requirement:\s*(.+?)\s*$", linea)
         if cabecera:
             actual = None if retirados else modos.slug(cabecera[1])
             continue
@@ -75,6 +75,14 @@ def excepciones(texto: str) -> dict[str, str]:
     if errores:
         raise PruebasInvalidas(errores[0])
     return salida
+
+
+def exigir_dentro(raiz: Path, ruta: Path) -> None:
+    """Falla si la ruta sale del proyecto (absoluta o con «..») o pasa por un enlace simbólico, sin leerla."""
+    relativa = ruta.relative_to(raiz) if ruta.is_absolute() else ruta
+    if ".." in relativa.parts:
+        raise proc.ProcedenciaError(f"tiene que estar dentro del proyecto, sin «..»: {ruta}")
+    proc.sin_enlaces(raiz, raiz / relativa)
 
 
 def analizar(requisitos: list[str], trazas: dict | None, exceptuados: dict[str, str]) -> dict:
@@ -122,7 +130,7 @@ def datos(raiz: Path, identificador: str, estado: dict, candidato: str | None, d
         invalidas.append(f"no pude leer la spec para las excepciones de pruebas ({type(e).__name__}: {e})")
     exceptuados = ({r: por_slug[r.split(".", 1)[-1]] for r in requisitos if r.split(".", 1)[-1] in por_slug}
                    if requisitos else dict(por_slug))  # antes de importar, por el nombre del requisito
-    if not requisitos or not candidato or not CANDIDATO.fullmatch(candidato):
+    if not requisitos or not isinstance(candidato, str) or not CANDIDATO.fullmatch(candidato):
         if not invalidas and not exceptuados:
             return None
         return {"sin_trazabilidad": False, "sin_casos": [], "excepciones": exceptuados, "invalidas": invalidas}
