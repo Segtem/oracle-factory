@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:e13ae5de38fcb4ab50325ada9357e9503ce6877b7a1c292e2276f5cf6860a6be -->
+<!-- oracle-factory resumen sha256:0eb54b8270ca817351123a5479348e776babd4f6455864aff12786f762a7662f -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-25 capacidades · 244 requisitos vigentes · 0 cambios abiertos
+26 capacidades · 247 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -298,6 +298,16 @@ Spec completa: [openspec/specs/portabilidad/spec.md](../openspec/specs/portabili
 | un cambio juzgado en una máquina se cierra desde otra | funcional | `portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra` | factory_portabilidad.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
 | sin rutas privadas en lo versionado | no funcional | `portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado` | factory_portabilidad.sin_rutas_privadas_en_lo_versionado, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
 | respetar los registros existentes | no funcional | `portabilidad_cbe858e976e618573.respetar_los_registros_existentes` | factory_portabilidad.respetar_los_registros_existentes, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
+
+### practicas
+
+Spec completa: [openspec/specs/practicas/spec.md](../openspec/specs/practicas/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| la_plantilla_de_tareas_pide_escribir_primero_las_pruebas | funcional | `practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas` | factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas, factory_pruebas_practica.corrida_completa | verde al cerrar el 2026-10-31 | 20261031-011717-c2q-pruebaspractica |
+| el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear | funcional | `practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear` | factory_pruebas_practica.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear, factory_pruebas_practica.corrida_completa | verde al cerrar el 2026-10-31 | 20261031-011717-c2q-pruebaspractica |
+| una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas | funcional | `practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas` | factory_pruebas_practica.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas, factory_pruebas_practica.corrida_completa | verde al cerrar el 2026-10-31 | 20261031-011717-c2q-pruebaspractica |
 
 ### procedencia
 
@@ -1353,6 +1363,14 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se verificó mediante análisis estático que ningún texto de la documentación (README.md, docs/, site/) mantiene frases de 0.1.0a16 como versión en preparación o candidata, y que el historial de versiones anteriores (0.1.0a15, 0.1.0a14, 0.1.0a13, 0.1.0a12) en NOTAS-DE-RELEASE.md y README.md se conservó intacto.
 - (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se verificó la coherencia exacta entre los casos de contrato en tools/verify_publicada_a16.py (4 para requisito 1, 5 para requisito 2; 9 en total), los catálogos en catalogos/factory_publicada_a16.*.oracle y las definiciones en requisitos/*.requisito.
 - (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio para preservar el estado limpio y de sólo lectura del checkout de revisión.
+- (20261031-011717-c2q-pruebaspractica) Evidencia: Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad que dejaría el sensor escrita a mano y el candidato vigente simulado. No se comprueba un sensor real que genere trazabilidad.json, ni qué tan buenas son las pruebas de un cambio: sólo que el estado avisa de las que faltan.
+- (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md, tasks.md, specs/practicas/spec.md y los ocho informes de las cuatro rondas previas (b160cda, 8104329, 8d1350a y a5a4cc4, agy-1 y agy2-1), comprobando el cierre sin regresiones de todos los arreglos de la cuarta ronda (documentos_o_nada valida propuesta y spec con exigir_dentro antes de leer y omite cambios cerrados o abandonados; delimitadores de encabezados y viñetas exactos al importador OpenSpec de Oracle; validación isinstance(candidato, str); inclusión de openspec/changes/ en tools/verify_pruebas_practica.py; precisión de nombres en las pruebas de pruebas.datos). Los 39 archivos fuera del paquete (.factory, kb generado y tareas) no se revisaron, y la fragilidad preexistente de otras partes de estado ante un factory.json corrupto quedó fuera de alcance según las indicaciones.
+- (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Sobre copias aisladas en la carpeta del revisor (sin editar ni generar bytecode en el checkout de sólo lectura del candidato 014c0cd ni modificar la configuración de Git de ningún repositorio) se ejecutaron: tests/test_pruebas_practica.py (71 pruebas OK, en test_pp.log), el sensor completo «tools/verify_pruebas_practica.py --salida .../evidencia_verify» (844 pruebas OK, 71 casos de contrato, éxito: True, fuentes estables incluyendo openspec/changes/, 0 líneas cambiadas sin respaldo en oracle_factory/{pruebas,cli,lecturas,plantillas}.py, en verify.log), el juicio de Oracle sobre hechos.json (las 4 medidas en verde: corrida_completa 1==1, pp1 3==3, pp2 20==20, pp3 48==48) y «oracle-factory agentes --verificar».
+- (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Se evaluaron 35 mutaciones manuales sobre copias aisladas de oracle_factory/{pruebas,cli,lecturas}.py contra tests/test_pruebas_practica.py (mutar.py / mutar.log): 31 mutaciones matadas (incluidas las 4 sobrevivientes de la cuarta ronda) y 4 micro-mutaciones equivalentes o de casos marginales sobrevivientes sin defecto funcional: M09 (quitar '+' en [—–-]+ de NO_APLICA cuando no hay separadores de varios guiones contiguos), M12 (quitar RENAMED de la sección delta cuando no sigue a una sección REMOVED), M15 (quitar la raya mediana '–' del filtro de motivo de puros guiones) y M19 (omitir la rama de ruta relativa en exigir_dentro porque los llamadores siempre pasan rutas bajo ROOT).
+- (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Sin hallazgos abiertos: todas las promesas y escenarios de la spec (la_plantilla_de_tareas_pide_escribir_primero_las_pruebas, el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear y una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas) se cumplen.
+- (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md, tasks.md y specs/practicas/spec.md, y se comprobaron los arreglos de las cuatro vueltas anteriores (b160cda, 8104329, 8d1350a y a5a4cc4, agy-1 y agy2-1): validación previa de rutas y enlaces en cli.documentos_o_nada con pruebas.exigir_dentro y omisión de cambios cerrados/abandonados, delimitadores de encabezados y viñeta con los espacios exactos del importador de OpenSpec de Oracle, verificación isinstance(candidato, str) antes de CANDIDATO.fullmatch, e inclusión de openspec/changes/ en tools/verify_pruebas_practica.py. Los 39 archivos excluidos fuera de producto (.factory, kb generado y tareas) no se revisaron.
+- (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Sobre copias aisladas en la carpeta del revisor (sin modificar ni generar bytecode en el checkout de sólo lectura del candidato 014c0cd ni tocar la configuración de Git de ningún repositorio) se ejecutaron las 71 pruebas de tests/test_pruebas_practica.py (71 OK, en test_pp.log) y 28 mutaciones manuales sobre oracle_factory/pruebas.py, cli.py y lecturas.py (mutar.py / mutar.log: 28/28 matadas, 0 sobrevivientes), además de verificar la evidencia generada para 014c0cd (844 pruebas, 71 casos de contrato, trazabilidad completa).
+- (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Sin hallazgos abiertos en esta quinta ronda.
 
 ### Históricos
 

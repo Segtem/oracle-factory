@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "2ad9899a8f5c0673ddad01380554b8ffe791d96154ca1372ff049a636da5272f",
+  "actor": "Brian Hollweg",
+  "motivo": "Cinco rondas con agy y agy2. Las cuatro primeras dejaron hallazgos reales (excepciones sin motivo sin candidato, líneas malas que borraban las buenas, vigencia de la aprobación, rutas con «..» y enlaces, cabecera del requisito como el importador de Oracle, motivos con guiones, lectura anticipada de huellas, verificador), todos corregidos con pruebas y mutaciones detectadas; la quinta dio 0 hallazgos en ambos. Suite completa sin fallas y evidencia con éxito (71 casos de contrato). Fuera de alcance, declarado: un factory.json corrupto sigue rompiendo otras partes de estado, como antes.",
+  "decisiones": []
+}

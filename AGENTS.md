@@ -9,6 +9,7 @@ Este repositorio es Factory mismo, y se desarrolla con Factory: cada cambio va e
 - Una revisión independiente se pide con `oracle-factory --agente NOMBRE pedir-revision ID --a codex` (y `--a agy`).
 - No reescribas la historia publicada de Git ni la configuración de Git de ningún repositorio.
 - Si cambiás la versión o las dependencias de `pyproject.toml`, regenerá y commiteá el `uv.lock` (`uv lock`): una prueba exige que coincidan.
+- Escribí primero las pruebas de cada escenario de la spec, antes de implementar; si un requisito no se puede probar, declaralo en su spec con `Pruebas: no aplica — motivo` (`estado` avisa de lo que no tiene casos).
 
 <!-- oracle-factory agentes: inicio (generado por `oracle-factory agentes`; no se edita a mano) -->
 

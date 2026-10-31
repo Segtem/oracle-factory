@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-pruebas-practica/.factory/local/revisiones/8d1350a-agy2-1",
+  "base": "ae8c617ad0fb67e1631a23c424e0923556e5fc62",
+  "head": "8d1350a50150808d4a70f9bccc6e3011da02a20a",
+  "diff_sha256": "d12a6f4ba232b5928ac0bf52653c5caf4d37ee2eb6131a76cf9883ab6c6a6986",
+  "context_sha256": "83987974cb7c458ddee0871d79a812e1ac36a8f475fdea1af2940d071205fc27",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-4-argon-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se verificaron todas las correcciones de la primera y segunda ronda (b160cda y 8104329) y se revisaron todos los archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md y specs/practicas/spec.md; los 23 archivos excluidos fuera de producto (.factory, kb generado y tareas) no se revisaron.",
+    "Sobre copias aisladas en la carpeta del revisor (sin modificar el checkout de sólo lectura del candidato 8d1350a) se ejecutaron: la suite completa del proyecto (825 pruebas OK, 10 omitidas, en suite_full.log), tests/test_pruebas_practica.py (52 pruebas OK, en test_pp.log) y 24 mutaciones manuales sobre oracle_factory/pruebas.py (mutar.py / mutar.log: 24/24 matadas, 0 sobrevivientes).",
+    "Sin hallazgos abiertos en esta tercera ronda: los escenarios de los tres requisitos (la_plantilla_de_tareas_pide_escribir_primero_las_pruebas, el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear y una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas) y las invariantes de seguridad, vigencia de aprobación y trazabilidad están cubiertos y verificados."
+  ],
+  "findings": []
+}
