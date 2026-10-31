@@ -32,6 +32,8 @@ CONTRACTS = {
         'Pruebas.test_pp2_un_cambio_sin_requisitos_importados_o_cerrado_no_avisa',
         'Pruebas.test_pp2_una_carpeta_de_evidencia_enlazada_no_se_sigue',
         'Pruebas.test_pp2_un_cambio_abandonado_no_avisa',
+        'Pruebas.test_pp2_un_candidato_con_forma_rara_no_arma_rutas',
+        'Pruebas.test_pp2_una_trazabilidad_que_no_se_puede_leer_cuenta_como_sin_trazabilidad',
         'Analisis.test_el_analisis_de_requisitos_con_y_sin_casos',
         'Analisis.test_un_caso_de_solo_espacios_no_cuenta_como_caso',
         'Analisis.test_un_caso_vacio_o_no_texto_no_cuenta_como_caso'],
@@ -56,9 +58,19 @@ CONTRACTS = {
         'Pruebas.test_pp3_un_motivo_hecho_de_guiones_no_es_un_motivo',
         'Pruebas.test_pp3_declarar_dos_veces_pruebas_en_un_requisito_se_rechaza',
         'Pruebas.test_pp3_el_ejemplo_dentro_de_un_bloque_de_codigo_no_cuenta',
+        'Pruebas.test_pp3_un_bloque_de_codigo_con_sangria_tambien_se_ignora',
         'Pruebas.test_pp3_la_viñeta_con_asterisco_y_con_guion_se_leen_igual',
         'Pruebas.test_pp3_una_seccion_modified_tambien_puede_declarar_la_excepcion',
-        'Pruebas.test_pp3_el_motivo_conserva_su_texto_con_guiones_y_espacios_internos'],
+        'Pruebas.test_pp3_el_motivo_conserva_su_texto_con_guiones_y_espacios_internos',
+        'Pruebas.test_pp3_la_ruta_de_la_spec_no_puede_salir_del_proyecto',
+        'Pruebas.test_pp3_una_aprobacion_invalidada_no_deja_vigentes_las_excepciones',
+        'Pruebas.test_pp3_una_excepcion_valida_se_muestra_aunque_todavia_no_haya_candidato',
+        'Pruebas.test_pp3_una_excepcion_mal_escrita_se_avisa_antes_de_importar',
+        'Pruebas.test_pp3_un_requisito_con_varias_lineas_pruebas_queda_sin_excepcion',
+        'Pruebas.test_pp3_un_numeral_en_la_descripcion_no_cierra_la_cabecera_del_requisito',
+        'Pruebas.test_pp3_el_reconocimiento_ignora_mayusculas_sangria_y_raya_mediana',
+        'Pruebas.test_pp3_las_excepciones_se_muestran_ordenadas',
+        'Pruebas.test_pp3_un_registro_sin_la_clave_spec_se_avisa_y_no_rompe'],
 }
 PREFIX = 'test_pruebas_practica.'
 LIMITES = ('Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad que dejaría el sensor escrita a mano y el candidato vigente '
@@ -68,9 +80,10 @@ LIMITES = ('Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad
 
 def fuentes():
     # Todo lo versionado o nuevo del producto (código, pruebas, datos de referencia, catálogos, docs); sin los registros generados.
-    nombres = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '--cached', '--others', '--exclude-standard'],
-                             text=True, capture_output=True, check=True).stdout.splitlines()
-    elegidos = [ROOT / n for n in nombres if not n.startswith(('.factory/', 'kb/', 'tareas/', 'openspec/')) and (ROOT / n).is_file()]
+    nombres = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '-z', '--cached', '--others', '--exclude-standard'],
+                             text=True, capture_output=True, check=True).stdout.split('\0')  # -z: nombres no ASCII sin comillas
+    elegidos = [ROOT / n for n in nombres if n and not n.startswith(('.factory/', 'kb/', 'tareas/', 'openspec/changes/'))
+                and (ROOT / n).is_file()]
     head = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True, capture_output=True, check=True).stdout.strip()
     return {'head': head, 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(elegidos)}}
 
@@ -87,7 +100,7 @@ def main(argv=None):
     suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
     result = unittest.TextTestRunner(stream=stream, verbosity=2, resultclass=Resultado).run(suite)
     expected = [PREFIX + name for names in CONTRACTS.values() for name in names]
-    observed = {name: count for name, count in result.cantidad.items() if name in expected}
+    observed = {name: count for name, count in result.cantidad.items() if name.startswith(PREFIX)}
     complete = observed == Counter(expected) and all(result.observados.get(name, 1) == 0 for name in expected)
     rows = [{'requisito': suffix, 'caso': name, 'codigo': result.observados.get(PREFIX + name, 1)}
             for suffix, names in CONTRACTS.items() for name in names]

@@ -14,6 +14,7 @@ from . import procedencia as proc
 
 ESQUEMA_CASOS = "oracle-factory.trazabilidad-casos/1"
 EXCEPCION = re.compile(r"^\s*(?:[-*]\s*)?Pruebas:\s*(.*?)\s*$", re.IGNORECASE)
+CANDIDATO = re.compile(r"[0-9a-f]{4,40}")
 NO_APLICA = re.compile(r"no\s+aplica\s*(?:[—–-]+\s*(.*))?$", re.IGNORECASE)
 
 
@@ -28,6 +29,7 @@ def leer(texto: str) -> tuple[dict[str, str], list[str]]:
     suma un error y no descarta las buenas de los otros requisitos."""
     salida: dict[str, str] = {}
     errores: list[str] = []
+    declaradas: set[str] = set()  # los requisitos con una línea «Pruebas:» (buena o mala): una segunda los deja sin excepción
     actual, retirados, cercado = None, False, False
     for linea in texto.splitlines():
         if linea.lstrip().startswith("```"):
@@ -43,12 +45,18 @@ def leer(texto: str) -> tuple[dict[str, str], list[str]]:
         if cabecera:
             actual = None if retirados else modos.slug(cabecera[1])
             continue
-        if linea.startswith("#"):
-            actual = None  # un escenario (####) u otra sección cierra la cabecera del requisito
+        if re.match(r"^#{1,6}(\s|$)", linea):
+            actual = None  # un escenario (####) u otra sección cierra la cabecera; «#42» en una descripción no es un encabezado
             continue
         declarada = EXCEPCION.match(linea)
         if not declarada or actual is None:
             continue
+        if actual in declaradas:
+            if actual in salida:
+                errores.append(f"requisito {actual}: «Pruebas:» declarada dos veces")
+                del salida[actual]  # lo contradictorio no exceptúa a nadie
+            continue
+        declaradas.add(actual)
         valor = NO_APLICA.fullmatch(declarada[1])
         if not valor:
             errores.append(f"requisito {actual}: «Pruebas:» sólo admite «no aplica — motivo»; encontré «{declarada[1]}»")
@@ -56,8 +64,6 @@ def leer(texto: str) -> tuple[dict[str, str], list[str]]:
         motivo = re.sub(r"^[\s—–-]+", "", valor[1] or "").strip()  # un motivo hecho de guiones no es un motivo
         if not motivo:
             errores.append(f"requisito {actual}: la excepción «Pruebas: no aplica» necesita un motivo («Pruebas: no aplica — por qué»)")
-        elif actual in salida:
-            errores.append(f"requisito {actual}: «Pruebas:» declarada dos veces")
         else:
             salida[actual] = motivo
     return salida, errores
@@ -88,31 +94,40 @@ def analizar(requisitos: list[str], trazas: dict | None, exceptuados: dict[str, 
 def datos(raiz: Path, identificador: str, estado: dict, candidato: str | None) -> dict | None:
     """Lo que `estado` muestra de las pruebas; None si no hay nada que mostrar.
 
-    Sin candidato no hay trazabilidad que mirar, pero una excepción mal escrita se avisa igual. Las excepciones sólo cuentan si
-    la spec es la que una persona aprobó."""
-    requisitos = estado.get("requisitos")
-    if (not isinstance(requisitos, list) or not requisitos or not all(isinstance(r, str) for r in requisitos)
+    Sin candidato no hay trazabilidad que mirar, pero las excepciones (y las mal escritas) se muestran igual. Las excepciones
+    sólo cuentan si la spec es la que una persona aprobó, y no se sigue ninguna ruta fuera del proyecto ni por enlaces."""
+    requisitos = estado.get("requisitos", [])
+    if (not isinstance(requisitos, list) or not all(isinstance(r, str) for r in requisitos)
             or estado.get("fase") in ("cerrada", "abandonada")):
         return None
     invalidas: list[str] = []
     por_slug: dict[str, str] = {}
     try:
-        spec = raiz / estado["spec"]
+        relativa = Path(estado["spec"])
+        if relativa.is_absolute() or ".." in relativa.parts:
+            raise proc.ProcedenciaError(f"la spec tiene que estar dentro del proyecto, sin «..»: {estado['spec']}")
+        spec = raiz / relativa
         proc.sin_enlaces(raiz, spec)
         contenido = spec.read_bytes()
         por_slug, invalidas = leer(contenido.decode("utf-8"))
-        if hashlib.sha256(contenido).hexdigest() != estado.get("spec_sha256"):
-            if por_slug or invalidas:  # lo escrito después de la aprobación no lo aceptó nadie
-                invalidas = invalidas + ["la spec cambió desde su aprobación: sus excepciones «Pruebas:» no cuentan hasta aprobarla de nuevo"]
+        huella = hashlib.sha256(contenido).hexdigest()
+        documentos = (estado.get("spec_aprobada") or {}).get("documentos")
+        aprobada = isinstance(documentos, dict) and documentos.get(estado["spec"]) == huella  # la misma regla que exigir_spec
+        if not aprobada:
+            if por_slug or invalidas:  # lo escrito sin una aprobación vigente de esta spec no lo aceptó nadie
+                invalidas = invalidas + ["la spec no tiene una aprobación vigente (cambió o se invalidó): sus excepciones «Pruebas:» "
+                                         "no cuentan hasta aprobarla de nuevo"]
             por_slug = {}
     except (proc.ProcedenciaError, OSError, KeyError, TypeError, ValueError) as e:
         por_slug = {}
         invalidas.append(f"no pude leer la spec para las excepciones de pruebas ({type(e).__name__}: {e})")
     exceptuados = {r: por_slug[r.split(".", 1)[-1]] for r in requisitos if r.split(".", 1)[-1] in por_slug}
-    if not candidato:
-        if not invalidas:
+    if not candidato or not CANDIDATO.fullmatch(candidato):
+        if not invalidas and not exceptuados:
             return None
         return {"sin_trazabilidad": False, "sin_casos": [], "excepciones": exceptuados, "invalidas": invalidas}
+    if not requisitos:
+        return {"sin_trazabilidad": False, "sin_casos": [], "excepciones": exceptuados, "invalidas": invalidas} if invalidas else None
     ruta = estructura.ruta_canonica(raiz, identificador, "evidencia", candidato) / "trazabilidad.json"
     try:
         proc.sin_enlaces(raiz, ruta)

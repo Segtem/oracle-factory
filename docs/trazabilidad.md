@@ -53,7 +53,9 @@ Pruebas: no aplica — es un texto de ayuda, lo revisa una persona
 
 La línea va en la cabecera del requisito (antes del primer escenario y fuera de los bloques de código), una sola vez, y necesita un motivo
 que no sea sólo guiones; sin él, `aprobar-spec` e `importar` se niegan. Una línea mala no descarta las buenas de los otros requisitos.
-Las excepciones sólo cuentan si la spec es la que se aprobó: si se editó después, `estado` lo avisa y no las toma. Como la spec la aprueba una persona, aprobarla es aprobar el
+Un requisito con más de una línea `Pruebas:` queda sin excepción. Las excepciones sólo cuentan si la spec tiene una aprobación vigente
+(la misma comprobación que usa `importar`): si se editó después o se invalidó, `estado` lo avisa y no las toma. La ruta de la spec tiene que
+estar dentro del proyecto, sin `..` ni enlaces simbólicos. Como la spec la aprueba una persona, aprobarla es aprobar el
 motivo, y `estado` lo muestra («Pruebas: ID no aplica — motivo»). Un requisito exceptuado deja de avisar.
 
 ## Límites
