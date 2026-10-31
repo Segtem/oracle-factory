@@ -2,7 +2,7 @@
   "id": "20261031-011717-c2q-pruebaspractica",
   "titulo": "Pedir las pruebas como práctica de desarrollo, sin bloquear",
   "capacidad": "practicas",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md",
   "spec_sha256": "a1960a76bed57e569d438ab89ad930a2f0bbfa34342d69e5e3614ee88727caba",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md": "a1960a76bed57e569d438ab89ad930a2f0bbfa34342d69e5e3614ee88727caba"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+    "practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas",
+    "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261031-011717-c2q-pruebaspractica/proposal.md": "e2fe02193ad52ddee247cd3c2311c5c30a466833951915557aa7439d97137908",
         "openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md": "a1960a76bed57e569d438ab89ad930a2f0bbfa34342d69e5e3614ee88727caba"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T01:37:07.565477+00:00",
+      "ids": [
+        "practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+        "practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas",
+        "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear": "funcional",
+    "practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas": "funcional",
+    "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

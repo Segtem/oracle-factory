@@ -1,0 +1,4 @@
+requisito practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas:
+    texto "Tipo: funcional El sistema DEBE reconocer la línea `Pruebas: no aplica — motivo` de un requisito en su spec, mostrarla en el estado con su motivo y no avisar por falta de pruebas de ese requisito, y DEBE rechazar una excepción sin motivo."
+    fuente "openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md#una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas"
+    sin_medir "sin medida todavía; escenarios: «una excepción con motivo», «una excepción sin motivo»"
