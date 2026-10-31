@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa`
 - Vigente: sí
-- Cambio: [[cambios/20261031-220741-vts-listaprevia]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: `factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa`, `factory_lista_previa.corrida_completa`
 - Fuente: openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md#la_guia_para_agentes_nombra_la_lista_previa

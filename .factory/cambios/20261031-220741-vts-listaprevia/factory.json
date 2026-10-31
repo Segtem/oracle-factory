@@ -2,7 +2,7 @@
   "id": "20261031-220741-vts-listaprevia",
   "titulo": "Una lista previa a la revisión con las clases de problema que más rondas cuestan",
   "capacidad": "practicas",
-  "fase": "requisitos_importados",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md",
   "spec_sha256": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e",
   "spec_aprobada": {
@@ -10,17 +10,13 @@
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-31T22:25:03.873378+00:00",
+    "cuando": "2026-10-31T23:48:34.831896+00:00",
     "documentos": {
-      "openspec/changes/20261031-220741-vts-listaprevia/proposal.md": "b4d9b63ed8bc74391485872f7141bea95b27d7a625e28ab51cf932ebb7df0e61",
+      "openspec/changes/20261031-220741-vts-listaprevia/proposal.md": "44cfdd5344d5bf541887a964fafc896bc5e3643e0c198674d467ecb85ac07608",
       "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e"
     }
   },
-  "requisitos": [
-    "practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa",
-    "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente",
-    "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear"
-  ],
+  "requisitos": [],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -203,13 +199,21 @@
       "resultado": "ok",
       "hallazgos": 5,
       "lanzamiento": "f78e19fc6462"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T23:48:34.831917+00:00",
+      "documentos": {
+        "openspec/changes/20261031-220741-vts-listaprevia/proposal.md": "44cfdd5344d5bf541887a964fafc896bc5e3643e0c198674d467ecb85ac07608",
+        "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e"
+      }
     }
   ],
-  "tipos": {
-    "practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa": "funcional",
-    "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente": "funcional",
-    "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear": "funcional"
-  },
+  "tipos": {},
   "medidas": {
     "practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa": {
       "actor": "Brian Hollweg",

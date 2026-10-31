@@ -43,3 +43,7 @@ Medidas de practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente: Br
 ### Nota (2026-10-31 22:36:27 UTC)
 
 Medidas de practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-31 23:48:34 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md; se reiniciaron las validaciones dependientes.
