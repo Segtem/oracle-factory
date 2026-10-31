@@ -33,6 +33,7 @@ from . import trazabilidad as trazabilidad_mod
 from . import modos
 from . import plantillas
 from . import osv as osv_mod
+from . import pruebas as pruebas_mod
 from . import procedencia as procedencia_mod
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
@@ -1103,7 +1104,8 @@ def aprobar_spec(identificador: str) -> None:
     print(f"Modo de trabajo: {modo_de(estado)}. Aceptar reinicia importación, revisión y veredicto de este cambio.")
     try:
         tipos = list(modos.tipos_spec(contenido).values())
-    except modos.TipoInvalido as e:
+        pruebas_mod.excepciones(contenido)
+    except (modos.TipoInvalido, pruebas_mod.PruebasInvalidas) as e:
         raise FactoryError(str(e)) from e
     forma = decidir(estado, "spec", tipos, huellas, (f"Aprobar la propuesta y la spec de {identificador}", "Aprobar",
                     "reinicia importación, revisión y veredicto de este cambio"),
@@ -1148,7 +1150,8 @@ def importar(identificador: str) -> None:
     dominio = estado["capacidad"].replace("-", "_") + "_c" + version
     try:
         tipos = modos.tipos_spec(spec.read_text(encoding="utf-8"), obligatorios=config_proyecto()["tipos_obligatorios"])
-    except modos.TipoInvalido as e:
+        pruebas_mod.excepciones(spec.read_text(encoding="utf-8"))
+    except (modos.TipoInvalido, pruebas_mod.PruebasInvalidas) as e:
         raise FactoryError(f"{e}. No se modificó el registro.") from e
     estado.update(requisitos=[], revision=None, oracle=None, fase="importacion_pendiente")
     guardar(carpeta, estado)
@@ -1840,9 +1843,13 @@ def mostrar(identificador: str) -> None:
         print(linea + ".")
     print(linea_commits(commits_del_cambio(identificador, estado)) + ".")
     print(linea_quien(quien_del_cambio(estado)) + ".")
+    prueba = pruebas_mod.datos(ROOT, identificador, estado, candidato_vigente(identificador))
     for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
-                  + aviso_sin_medir(identificador, estado) + aviso_notas(identificador, estado) + aviso_union(identificador, estado)):
+                  + aviso_sin_medir(identificador, estado) + aviso_notas(identificador, estado) + aviso_union(identificador, estado)
+                  + pruebas_mod.avisos(prueba)):
         print("Aviso: " + aviso + ".")
+    for linea in pruebas_mod.lineas(prueba):
+        print(linea + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
     rev = estado.get("revision")
     print("Revisión: " + (f"{rev['revisor']} / {rev['decision']} / {rev['hallazgos_abiertos']} abiertos" if rev else "pendiente"))

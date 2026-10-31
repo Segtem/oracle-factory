@@ -1,0 +1,8 @@
+medida factory_pruebas_practica.corrida_completa:
+    de pruebas_practica_corrida c
+    donde c.completa == 1 y c.casos == 24
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
+    requiere pruebas_practica_corrida
+    ambito universal
+    alcance "integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana"

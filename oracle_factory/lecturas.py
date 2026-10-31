@@ -359,10 +359,12 @@ def datos_estado(identificador: str) -> dict:
                 "cuando": registro.get("cuando"), "vigente": vigente}
 
     pendientes_medidas = estado.get("medidas_pendientes") or {}
+    candidato = None if abandonado else cli.candidato_vigente(identificador)
+    prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, candidato)
     return {
         "esquema": cli.ESQUEMA_ESTADO, "id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase"),
         "modo": cli.modo_de(estado), "capacidad": estado.get("capacidad"),
-        "candidato": None if abandonado else cli.candidato_vigente(identificador),
+        "candidato": candidato,
         "requisitos": [{"id": rid, "tipo": (estado.get("tipos") or {}).get(rid, "funcional"), "medidas": medido_por.get(rid, []),
                         "decision": cli._decision((estado.get("medidas") or {}).get(rid)),
                         "propuesta": cli._decision(None if (pendientes_medidas.get(rid) or {}).get("descartada")
@@ -381,7 +383,9 @@ def datos_estado(identificador: str) -> dict:
         "aceptados": estado.get("aceptados") or [],
         "avisos": cli.aviso_union(identificador, estado) if abandonado else (cli.avisos_head(estado) + cli.aviso_revision(estado) + cli.aviso_lanzamientos(estado)
                                          + cli.aviso_sin_autor(estado) + cli.aviso_sin_medir(identificador, estado)
-                                         + cli.aviso_notas(identificador, estado) + cli.aviso_union(identificador, estado)),
+                                         + cli.aviso_notas(identificador, estado) + cli.aviso_union(identificador, estado)
+                                         + cli.pruebas_mod.avisos(prueba)),
+        "pruebas": prueba,
         "commits": cli.commits_del_cambio(identificador, estado),
         "quien": cli.quien_del_cambio(estado),
     }

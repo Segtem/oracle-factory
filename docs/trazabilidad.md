@@ -36,6 +36,24 @@ Toma el candidato vigente y lo compara con su base: el merge-base del candidato 
 
 Los registros de Factory (`.factory/`, `tareas/`) no cuentan: no son producto.
 
+## Avisos de pruebas en `estado`
+
+`oracle-factory estado ID` (y `estado ID --json`, en la clave `pruebas`) usa esta misma trazabilidad para avisar, sin bloquear nada, de los
+requisitos del cambio que no tienen ningún caso de prueba en el candidato vigente, o de que el candidato no tiene `trazabilidad.json`.
+El aviso no cambia los pendientes ni el próximo paso: es una práctica de desarrollo (escribir primero las pruebas de cada escenario de la
+spec), no un paso que reemplace a Oracle ni a las mutaciones.
+
+Si un requisito no se puede probar, se declara en su spec, antes del primer escenario:
+
+```markdown
+### Requirement: el_texto_de_ayuda_es_claro
+Tipo: no funcional
+Pruebas: no aplica — es un texto de ayuda, lo revisa una persona
+```
+
+La línea necesita un motivo; sin él, `aprobar-spec` e `importar` se niegan. Como la spec la aprueba una persona, aprobarla es aprobar el
+motivo, y `estado` lo muestra («Pruebas: ID no aplica — motivo»). Un requisito exceptuado deja de avisar.
+
 ## Límites
 
 - Ejecutar una línea no prueba que sea correcta: sólo que algún caso del contrato pasó por ella.
