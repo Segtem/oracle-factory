@@ -51,3 +51,15 @@ Medidas de desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes propuestas po
 ### Nota (2026-10-31 20:42:25 UTC)
 
 Medidas de desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-31 20:56:39 UTC)
+
+Medidas de desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-31 20:56:39 UTC)
+
+Medidas de desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-31 20:56:39 UTC)
+
+Medidas de desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero: Brian Hollweg (persona, confirmo, modo confirmacion).
