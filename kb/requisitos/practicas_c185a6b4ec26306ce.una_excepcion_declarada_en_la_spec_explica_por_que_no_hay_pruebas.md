@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas`
 - Vigente: sí
 - Cambio: [[cambios/20261031-011717-c2q-pruebaspractica]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_pruebas_practica.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas`, `factory_pruebas_practica.corrida_completa`
 - Fuente: openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md#una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas
 

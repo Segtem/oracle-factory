@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas`
 - Vigente: sí
 - Cambio: [[cambios/20261031-011717-c2q-pruebaspractica]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas`, `factory_pruebas_practica.corrida_completa`
 - Fuente: openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md#la_plantilla_de_tareas_pide_escribir_primero_las_pruebas
 

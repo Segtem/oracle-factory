@@ -1,6 +1,6 @@
 # Pedir las pruebas como práctica de desarrollo, sin bloquear
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -139,3 +139,11 @@ Medidas de practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explic
 ### Nota (2026-10-31 17:55:43 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Cinco rondas con agy y agy2. Las cuatro primeras dejaron hallazgos reales (excepciones sin motivo sin candidato, líneas malas que borraban las buenas, vigencia de la aprobación, rutas con «..» y enlaces, cabecera del requisito como el importador de Oracle, motivos con guiones, lectura anticipada de huellas, verificador), todos corregidos con pruebas y mutaciones detectadas; la quinta dio 0 hallazgos en ambos. Suite completa sin fallas y evidencia con éxito (71 casos de contrato). Fuera de alcance, declarado: un factory.json corrupto sigue rompiendo otras partes de estado, como antes.); 0 abiertos derivados; commit 014c0cda83f41512cfa0933abd55b36befb74844; informe tareas/20261031-011717-c2q-pruebaspractica/revisiones/registro-cw48wxfh/informe.json; decisiones tareas/20261031-011717-c2q-pruebaspractica/revisiones/registro-cw48wxfh/decisiones.json.
+
+### Nota (2026-10-31 17:55:53 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261031-011717-c2q-pruebaspractica/oracle-veredicto.txt.
+
+### Nota (2026-10-31 17:56:52 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

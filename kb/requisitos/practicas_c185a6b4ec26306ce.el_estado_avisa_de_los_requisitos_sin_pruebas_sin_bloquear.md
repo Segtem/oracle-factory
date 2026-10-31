@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear`
 - Vigente: sí
 - Cambio: [[cambios/20261031-011717-c2q-pruebaspractica]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_pruebas_practica.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear`, `factory_pruebas_practica.corrida_completa`
 - Fuente: openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md#el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear
 

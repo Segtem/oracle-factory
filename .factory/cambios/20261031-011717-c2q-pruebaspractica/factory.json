@@ -2,7 +2,7 @@
   "id": "20261031-011717-c2q-pruebaspractica",
   "titulo": "Pedir las pruebas como práctica de desarrollo, sin bloquear",
   "capacidad": "practicas",
-  "fase": "revision_aprobada",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md",
   "spec_sha256": "a1960a76bed57e569d438ab89ad930a2f0bbfa34342d69e5e3614ee88727caba",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "7e1fc119cfe5e79c983a0988014f7f45c4f164e5be6c125e6cad30eee72df579"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261031-011717-c2q-pruebaspractica/candidatos/014c0cd/evidencia/hechos.json",
+    "hechos_sha256": "44e3ff3caf69811690851ceaaf28e80965f5c424c7da2e954e859d4760f94599",
+    "informe": ".factory/cambios/20261031-011717-c2q-pruebaspractica/oracle-veredicto.txt",
+    "informe_sha256": "3830056983e6ca749ac76d9c4e6156a692f7d539cf949049277557c405c26511",
+    "cuando": "2026-10-31T17:55:53.248365+00:00",
+    "contexto": {
+      "head": "fb06bea783e174b4864ad1c22e4f6e777b8d9f7b",
+      "archivos_sha256": "7e1fc119cfe5e79c983a0988014f7f45c4f164e5be6c125e6cad30eee72df579"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -755,6 +767,37 @@
       "abiertos": 0,
       "sha256": "2ad9899a8f5c0673ddad01380554b8ffe791d96154ca1372ff049a636da5272f",
       "decisiones_sha256": "165335957d8a24d6c764318965b6402458a19b5b3ed9cf77c847b7b2ae257c47"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T17:55:53.248379+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "44e3ff3caf69811690851ceaaf28e80965f5c424c7da2e954e859d4760f94599"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T17:56:52.479625+00:00",
+      "oracle": ".factory/cambios/20261031-011717-c2q-pruebaspractica/oracle-veredicto.txt",
+      "revision": "tareas/20261031-011717-c2q-pruebaspractica/revisiones/registro-cw48wxfh/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T17:56:52.515316+00:00",
+      "capacidad": "practicas",
+      "spec": "openspec/specs/practicas/spec.md"
     }
   ],
   "tipos": {
@@ -813,5 +856,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-31T17:56:52.416640+00:00"
+  },
+  "archivo": {
+    "capacidad": "practicas",
+    "spec": "openspec/specs/practicas/spec.md",
+    "cuando": "2026-10-31T17:56:52.515307+00:00"
+  }
 }
