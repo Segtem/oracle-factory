@@ -2,10 +2,20 @@
   "id": "20261031-220741-vts-listaprevia",
   "titulo": "Una lista previa a la revisión con las clases de problema que más rondas cuestan",
   "capacidad": "practicas",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-31T22:25:03.873378+00:00",
+    "documentos": {
+      "openspec/changes/20261031-220741-vts-listaprevia/proposal.md": "b4d9b63ed8bc74391485872f7141bea95b27d7a625e28ab51cf932ebb7df0e61",
+      "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,31 @@
       "forma": "decidio",
       "cuando": "2026-10-31T22:07:41.987977+00:00",
       "capacidad": "practicas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T22:09:31.882862+00:00",
+      "documentos": {
+        "openspec/changes/20261031-220741-vts-listaprevia/proposal.md": "b4d9b63ed8bc74391485872f7141bea95b27d7a625e28ab51cf932ebb7df0e61",
+        "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T22:25:03.873405+00:00",
+      "documentos": {
+        "openspec/changes/20261031-220741-vts-listaprevia/proposal.md": "b4d9b63ed8bc74391485872f7141bea95b27d7a625e28ab51cf932ebb7df0e61",
+        "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }

@@ -7,3 +7,11 @@
 ### Nota (2026-10-31 22:07:42 UTC)
 
 OpenSpec: openspec/changes/20261031-220741-vts-listaprevia. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-10-31 22:09:31 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-31 22:25:03 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md; se reiniciaron las validaciones dependientes.
