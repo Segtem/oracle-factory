@@ -1,0 +1,24 @@
+{
+  "id": "20261031-220741-vts-listaprevia",
+  "titulo": "Una lista previa a la revisión con las clases de problema que más rondas cuestan",
+  "capacidad": "practicas",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T22:07:41.987977+00:00",
+      "capacidad": "practicas"
+    }
+  ]
+}
