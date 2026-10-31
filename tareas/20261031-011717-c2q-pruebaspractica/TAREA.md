@@ -123,3 +123,15 @@ Medidas de practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pru
 ### Nota (2026-10-31 15:09:14 UTC)
 
 Medidas de practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-31 15:10:30 UTC)
+
+Medidas de practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-31 15:10:30 UTC)
+
+Medidas de practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-31 15:10:30 UTC)
+
+Medidas de practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas: Brian Hollweg (persona, confirmo, modo confirmacion).

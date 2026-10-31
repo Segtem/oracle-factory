@@ -37,6 +37,9 @@ capacidad: "practicas"
 - 2026-10-31 12:10 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-10-31 12:10 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-10-31 12:10 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-10-31 15:10 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-10-31 15:10 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-10-31 15:10 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
