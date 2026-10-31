@@ -1,6 +1,6 @@
 # Tests unitarios como práctica del desarrollo: el paso de escribirlos primero
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -67,3 +67,11 @@ Medidas de desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero: Brian Hollweg (pe
 ### Nota (2026-10-31 21:53:31 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos rondas de revisión. La primera (agy2; agy1 no pudo por cuota agotada) dejó hallazgos reales: docs/tests.md decía que el aviso y la excepción de pruebas eran futuros cuando ya existían en main, y dos pruebas probaban menos de lo que prometían (una verificaba una constante propia y otra no recorría el flujo); todos corregidos, con el verificador alineado al de pruebas-practica. La segunda, con agy2 y codex, dio 0 hallazgos en ambos. Suite completa sin fallas, evidencia con éxito y las 9 mutaciones detectadas. El cambio se integró con main conservando la redacción de su paso en la plantilla.); 0 abiertos derivados; commit c222b555aa2d9875a9f17c5c80506e379de39a94; informe tareas/20261030-185728-0w1-tests/revisiones/registro-g5k6ggl2/informe.json; decisiones tareas/20261030-185728-0w1-tests/revisiones/registro-g5k6ggl2/decisiones.json.
+
+### Nota (2026-10-31 21:53:41 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261030-185728-0w1-tests/oracle-veredicto.txt.
+
+### Nota (2026-10-31 21:54:46 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

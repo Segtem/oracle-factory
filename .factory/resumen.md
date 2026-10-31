@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:0eb54b8270ca817351123a5479348e776babd4f6455864aff12786f762a7662f -->
+<!-- oracle-factory resumen sha256:1bfbdefaeeb5ebbc6315bc0a7fc61e52fefb86f56e2cc610515f7218e58f4d12 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-26 capacidades · 247 requisitos vigentes · 0 cambios abiertos
+27 capacidades · 250 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -142,6 +142,16 @@ Spec completa: [openspec/specs/decisiones/spec.md](../openspec/specs/decisiones/
 | el motivo se elige | funcional | `decisiones_c59754a250f5b3593.el_motivo_se_elige` | factory_decisiones.el_motivo_se_elige, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
 | confirmar las medidas propuestas de una vez | funcional | `decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez` | factory_decisiones.confirmar_las_medidas_propuestas_de_una_vez, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
 | sin terminal no hay decisión de persona | no funcional | `decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona` | factory_decisiones.sin_terminal_no_hay_decision_de_persona, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
+
+### desarrollo
+
+Spec completa: [openspec/specs/desarrollo/spec.md](../openspec/specs/desarrollo/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| paso_de_tests_primero | funcional | `desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero` | factory_tests_unitarios.paso_de_tests_primero, factory_tests_unitarios.corrida_completa | verde al cerrar el 2026-10-31 | 20261030-185728-0w1-tests |
+| guia_de_tests_para_agentes | funcional | `desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes` | factory_tests_unitarios.guia_de_tests_para_agentes, factory_tests_unitarios.corrida_completa | verde al cerrar el 2026-10-31 | 20261030-185728-0w1-tests |
+| documento_de_la_practica | funcional | `desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica` | factory_tests_unitarios.documento_de_la_practica, factory_tests_unitarios.corrida_completa | verde al cerrar el 2026-10-31 | 20261030-185728-0w1-tests |
 
 ### distribucion
 
@@ -1363,6 +1373,13 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se verificó mediante análisis estático que ningún texto de la documentación (README.md, docs/, site/) mantiene frases de 0.1.0a16 como versión en preparación o candidata, y que el historial de versiones anteriores (0.1.0a15, 0.1.0a14, 0.1.0a13, 0.1.0a12) en NOTAS-DE-RELEASE.md y README.md se conservó intacto.
 - (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se verificó la coherencia exacta entre los casos de contrato en tools/verify_publicada_a16.py (4 para requisito 1, 5 para requisito 2; 9 en total), los catálogos en catalogos/factory_publicada_a16.*.oracle y las definiciones en requisitos/*.requisito.
 - (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio para preservar el estado limpio y de sólo lectura del checkout de revisión.
+- (20261030-185728-0w1-tests) Evidencia: Escenarios tu1–tu3 en proyectos temporales (la plantilla y la guía se generan de verdad) y sobre docs/tests.md, en Linux. Comprueban que el paso y la guarda están dichos; no miden si un agente de verdad escribe los tests primero: eso es práctica, no gate.
+- (20261030-185728-0w1-tests) agy (gemini-4-argon-high): Se revisaron todos los archivos del paquete de Oracle Clue contra proposal.md y spec.md (requisitos paso_de_tests_primero, guia_de_tests_para_agentes y documento_de_la_practica) y se verificó que los 5 hallazgos de la primera ronda (6d0b488/revision/agy2-1.json: F1–F5) quedaron resueltos sin regresiones ni defectos nuevos.
+- (20261030-185728-0w1-tests) agy (gemini-4-argon-high): Se ejecutaron en modo de sólo lectura sobre el checkout del candidato c222b55 las suites tests.test_tests_unitarios, tests.test_pruebas_practica, tests.test_agentes, tests.test_docs y tests.test_idioma (99 pruebas, todas en verde) y tools/docs_al_dia.py (sin problemas).
+- (20261030-185728-0w1-tests) agy (gemini-4-argon-high): Se ejecutaron sobre una copia aislada en la carpeta del revisor las 9 mutaciones de tools/mutar_tests_unitarios.py (9/9 detectadas) y 6 mutaciones adicionales en probar_mutaciones.py (6/6 detectadas), sin tocar el checkout del candidato.
+- (20261030-185728-0w1-tests) codex (gpt-6-luna): Se revisaron la spec, la propuesta, los 19 archivos del diff del paquete y la revisión anterior indicada por la persona solicitante.
+- (20261030-185728-0w1-tests) codex (gpt-6-luna): No se ejecutaron la suite ni tools/mutar_tests_unitarios.py: el checkout del candidato se mantuvo de solo lectura; no se hicieron copias mutables separadas para mutaciones.
+- (20261030-185728-0w1-tests) codex (gpt-6-luna): La revisión estática encontró que las pruebas añadidas ejercitan los escenarios pedidos, incluido el recorrido cerrado del paso pendiente, y que el verificador exige nombres exactos, resultados exitosos, trazabilidad y fuentes estables.
 - (20261031-011717-c2q-pruebaspractica) Evidencia: Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad que dejaría el sensor escrita a mano y el candidato vigente simulado. No se comprueba un sensor real que genere trazabilidad.json, ni qué tan buenas son las pruebas de un cambio: sólo que el estado avisa de las que faltan.
 - (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md, tasks.md, specs/practicas/spec.md y los ocho informes de las cuatro rondas previas (b160cda, 8104329, 8d1350a y a5a4cc4, agy-1 y agy2-1), comprobando el cierre sin regresiones de todos los arreglos de la cuarta ronda (documentos_o_nada valida propuesta y spec con exigir_dentro antes de leer y omite cambios cerrados o abandonados; delimitadores de encabezados y viñetas exactos al importador OpenSpec de Oracle; validación isinstance(candidato, str); inclusión de openspec/changes/ en tools/verify_pruebas_practica.py; precisión de nombres en las pruebas de pruebas.datos). Los 39 archivos fuera del paquete (.factory, kb generado y tareas) no se revisaron, y la fragilidad preexistente de otras partes de estado ante un factory.json corrupto quedó fuera de alcance según las indicaciones.
 - (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Sobre copias aisladas en la carpeta del revisor (sin editar ni generar bytecode en el checkout de sólo lectura del candidato 014c0cd ni modificar la configuración de Git de ningún repositorio) se ejecutaron: tests/test_pruebas_practica.py (71 pruebas OK, en test_pp.log), el sensor completo «tools/verify_pruebas_practica.py --salida .../evidencia_verify» (844 pruebas OK, 71 casos de contrato, éxito: True, fuentes estables incluyendo openspec/changes/, 0 líneas cambiadas sin respaldo en oracle_factory/{pruebas,cli,lecturas,plantillas}.py, en verify.log), el juicio de Oracle sobre hechos.json (las 4 medidas en verde: corrida_completa 1==1, pp1 3==3, pp2 20==20, pp3 48==48) y «oracle-factory agentes --verificar».

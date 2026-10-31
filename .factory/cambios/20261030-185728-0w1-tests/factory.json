@@ -2,7 +2,7 @@
   "id": "20261030-185728-0w1-tests",
   "titulo": "Tests unitarios como práctica del desarrollo: el paso de escribirlos primero",
   "capacidad": "desarrollo",
-  "fase": "revision_aprobada",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md",
   "spec_sha256": "bc7325e685b68d6e792f9105c6b277963196af8351a2a15ca81f38c8caf2fe19",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "9d301a1ed89ad4cb4587eb8f8add60a0b439c0a41d3cd8a0b45f8efc921a4310"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261030-185728-0w1-tests/candidatos/c222b55/evidencia/hechos.json",
+    "hechos_sha256": "80da999fbd9bf60c0b3bb3018ca2609aeda0b5dcc3318c4b7e0d177a2fce8b3f",
+    "informe": ".factory/cambios/20261030-185728-0w1-tests/oracle-veredicto.txt",
+    "informe_sha256": "18857d50a388564ab7a0d3848fb19e6c8b40ff6e054e3679d1ede36feac04367",
+    "cuando": "2026-10-31T21:53:41.083903+00:00",
+    "contexto": {
+      "head": "9b3a5ca2ba54957455bdf05a5e5f5769d28ff4ae",
+      "archivos_sha256": "9d301a1ed89ad4cb4587eb8f8add60a0b439c0a41d3cd8a0b45f8efc921a4310"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -365,6 +377,37 @@
       "abiertos": 0,
       "sha256": "3dedbef9d6a97a253506018c8707e10ca05f00780bc31487f351e4dd597cb04b",
       "decisiones_sha256": "e958e268f622e037ae6a5a6815edc50526232e5feba4087880057d54d6d127c8"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T21:53:41.083920+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "80da999fbd9bf60c0b3bb3018ca2609aeda0b5dcc3318c4b7e0d177a2fce8b3f"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T21:54:47.012964+00:00",
+      "oracle": ".factory/cambios/20261030-185728-0w1-tests/oracle-veredicto.txt",
+      "revision": "tareas/20261030-185728-0w1-tests/revisiones/registro-g5k6ggl2/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T21:54:47.048332+00:00",
+      "capacidad": "desarrollo",
+      "spec": "openspec/specs/desarrollo/spec.md"
     }
   ],
   "tipos": {
@@ -423,5 +466,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-31T21:54:46.948044+00:00"
+  },
+  "archivo": {
+    "capacidad": "desarrollo",
+    "spec": "openspec/specs/desarrollo/spec.md",
+    "cuando": "2026-10-31T21:54:47.048322+00:00"
+  }
 }

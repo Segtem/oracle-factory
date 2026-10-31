@@ -11,7 +11,7 @@ vigente: true
 - Id: `desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes`
 - Vigente: sí
 - Cambio: [[cambios/20261030-185728-0w1-tests]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_tests_unitarios.guia_de_tests_para_agentes`, `factory_tests_unitarios.corrida_completa`
 - Fuente: openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md#guia_de_tests_para_agentes
 
