@@ -3,6 +3,7 @@
 Ningún secreto está escrito entero en este archivo (la puerta lo bloquearía al empujarlo): se arman al ejecutar."""
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -116,6 +117,25 @@ class Detectar(unittest.TestCase):
         self.assertIn('Sólo lectura', documento)
         for nombre, *_ in puerta.VERIFICACIONES:
             self.assertIn(f'`{nombre} --verificar`', documento)
+
+    def test_pu1_el_contrato_del_verificador_nombra_exactamente_los_casos_que_existen(self):
+        """Un nombre de caso mal escrito en tools/verify_puerta_local.py deja la evidencia en rojo sin que el producto falle."""
+        from tools import verify_puerta_local as verificador
+
+        def ids(suite):
+            for x in suite:
+                yield from ids(x) if isinstance(x, unittest.TestSuite) else [x.id()]
+        reales = {'.'.join(i.split('.')[-2:]) for i in ids(unittest.defaultTestLoader.loadTestsFromModule(sys.modules[__name__]))
+                  if re.search(r'\.test_pu\d_', i)}
+        contratados = [n for nombres in verificador.CONTRACTS.values() for n in nombres]
+        self.assertEqual(len(contratados), len(set(contratados)))
+        self.assertEqual(set(contratados), reales)
+        numeros = {'la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican': '1', 'la_puerta_corre_las_verificaciones_del_proyecto': '2',
+                   'el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja': '3', 'la_puerta_no_modifica_el_arbol_de_trabajo': '4'}
+        self.assertEqual(set(verificador.CONTRACTS), set(numeros))
+        for requisito, nombres in verificador.CONTRACTS.items():
+            for nombre in nombres:
+                self.assertRegex(nombre, rf'\.test_pu{numeros[requisito]}_')
 
     def test_pu1_el_texto_nombra_cada_hallazgo(self):
         texto = puerta.texto_de_hallazgos(puerta.hallazgos(log('abc1234def', 'src/c.py', f'x = "{GITHUB}"')))
