@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente`
 - Vigente: sí
 - Cambio: [[cambios/20261031-220741-vts-listaprevia]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_lista_previa.la_lista_previa_tiene_una_sola_fuente`, `factory_lista_previa.corrida_completa`
 - Fuente: openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md#la_lista_previa_tiene_una_sola_fuente
 

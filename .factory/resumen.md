@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:1bfbdefaeeb5ebbc6315bc0a7fc61e52fefb86f56e2cc610515f7218e58f4d12 -->
+<!-- oracle-factory resumen sha256:87d4933f6adbb79aa5cc2fbb24480aee622deb2e76669ac64430c4109cdc6af9 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-27 capacidades · 250 requisitos vigentes · 0 cambios abiertos
+27 capacidades · 253 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -318,6 +318,9 @@ Spec completa: [openspec/specs/practicas/spec.md](../openspec/specs/practicas/sp
 | la_plantilla_de_tareas_pide_escribir_primero_las_pruebas | funcional | `practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas` | factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas, factory_pruebas_practica.corrida_completa | verde al cerrar el 2026-10-31 | 20261031-011717-c2q-pruebaspractica |
 | el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear | funcional | `practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear` | factory_pruebas_practica.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear, factory_pruebas_practica.corrida_completa | verde al cerrar el 2026-10-31 | 20261031-011717-c2q-pruebaspractica |
 | una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas | funcional | `practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas` | factory_pruebas_practica.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas, factory_pruebas_practica.corrida_completa | verde al cerrar el 2026-10-31 | 20261031-011717-c2q-pruebaspractica |
+| pedir_revision_muestra_la_lista_previa_sin_bloquear | funcional | `practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear` | factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear, factory_lista_previa.corrida_completa | verde al cerrar el 2026-11-01 | 20261031-220741-vts-listaprevia |
+| la_lista_previa_tiene_una_sola_fuente | funcional | `practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente` | factory_lista_previa.la_lista_previa_tiene_una_sola_fuente, factory_lista_previa.corrida_completa | verde al cerrar el 2026-11-01 | 20261031-220741-vts-listaprevia |
+| la_guia_para_agentes_nombra_la_lista_previa | funcional | `practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa` | factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa, factory_lista_previa.corrida_completa | verde al cerrar el 2026-11-01 | 20261031-220741-vts-listaprevia |
 
 ### procedencia
 
@@ -1388,6 +1391,14 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md, tasks.md y specs/practicas/spec.md, y se comprobaron los arreglos de las cuatro vueltas anteriores (b160cda, 8104329, 8d1350a y a5a4cc4, agy-1 y agy2-1): validación previa de rutas y enlaces en cli.documentos_o_nada con pruebas.exigir_dentro y omisión de cambios cerrados/abandonados, delimitadores de encabezados y viñeta con los espacios exactos del importador de OpenSpec de Oracle, verificación isinstance(candidato, str) antes de CANDIDATO.fullmatch, e inclusión de openspec/changes/ en tools/verify_pruebas_practica.py. Los 39 archivos excluidos fuera de producto (.factory, kb generado y tareas) no se revisaron.
 - (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Sobre copias aisladas en la carpeta del revisor (sin modificar ni generar bytecode en el checkout de sólo lectura del candidato 014c0cd ni tocar la configuración de Git de ningún repositorio) se ejecutaron las 71 pruebas de tests/test_pruebas_practica.py (71 OK, en test_pp.log) y 28 mutaciones manuales sobre oracle_factory/pruebas.py, cli.py y lecturas.py (mutar.py / mutar.log: 28/28 matadas, 0 sobrevivientes), además de verificar la evidencia generada para 014c0cd (844 pruebas, 71 casos de contrato, trazabilidad completa).
 - (20261031-011717-c2q-pruebaspractica) agy (gemini-4-argon-high): Sin hallazgos abiertos en esta quinta ronda.
+- (20261031-220741-vts-listaprevia) Evidencia: Escenarios lp1–lp3 con un revisor de prueba, el repositorio temporal y la CLI de verdad. Comprueban que la lista se muestra, que no cambia el pedido y que el documento y la guía la nombran; no miden si la lista reduce las rondas de revisión: eso se mide después, sobre los cambios que vengan.
+- (20261031-220741-vts-listaprevia) agy (gemini-4-argon-high): Se revisaron todos los archivos del paquete de Oracle Clue y se verificó que los hallazgos de la primera vuelta (AGY-001 a AGY-005 y codex-1) quedaron cerrados sin regresiones.
+- (20261031-220741-vts-listaprevia) agy (gemini-4-argon-high): Se ejecutó tools/medir_rondas.py sobre el checkout del candidato y se comprobó que todas las cifras y afirmaciones de docs/lista-previa.md y openspec/changes/20261031-220741-vts-listaprevia/proposal.md coinciden con la salida de la herramienta (20 cambios cerrados, mediana 2, máximo 6, 85 de 133 hallazgos altos y medios en ronda 1 y 18 en ronda 3+, totales 130/46/24/10/2 y conteos por clase 20/18/13/11/9/9 en ronda 1).
+- (20261031-220741-vts-listaprevia) agy (gemini-4-argon-high): Se ejecutaron las suites tests/test_lista_previa.py (16 pruebas), tests/test_medir_rondas.py (6 pruebas) y oracle-factory agentes --verificar, y se probaron mutaciones en memoria sin modificar el checkout del candidato; no se encontraron defectos ni discrepancias con la spec.
+- (20261031-220741-vts-listaprevia) codex (gpt-6-luna): Revisé la spec y propuesta, todos los archivos de producto del diff, el flujo de pedir revisión, la generación de AGENTS.md y las pruebas nuevas. Confirmé en el candidato que los arreglos de la vuelta anterior siguen presentes: orden de rondas por eventos, impresión con flush, vaciado del buffer y comprobación exacta de preguntas numeradas.
+- (20261031-220741-vts-listaprevia) codex (gpt-6-luna): Ejecuté python tools/medir_rondas.py desde el checkout candidato. Imprimió 20 cambios cerrados, mediana 2.0, máximo 6; 130/46/24/10/2 hallazgos por ronda (85 altos y medios en la primera y 18 desde la tercera), y las cifras de clases publicadas coinciden con la tabla. La propuesta no repite las cifras específicas de clases, pero no contradice el resultado actual.
+- (20261031-220741-vts-listaprevia) codex (gpt-6-luna): Intenté python -m unittest discover -s tests -p test_lista_previa.py </dev/null: 16 casos, con 1 fallo y 5 errores porque el Python del entorno (/usr/bin/python) no tiene instalado oracle-clue; los restantes casos ejecutaron. El fallo observado también ocurrió antes de que el flujo pudiera llegar a imprimir, por la misma ausencia de dependencia. No atribuí ese problema del entorno al cambio.
+- (20261031-220741-vts-listaprevia) codex (gpt-6-luna): No ejecuté mutaciones adicionales: el checkout es de sólo lectura y la suite de escenarios de pedir revisión no pudo completar su preparación sin oracle-clue. La inspección estática confirmó los arreglos de las mutaciones anotadas en la vuelta previa.
 
 ### Históricos
 

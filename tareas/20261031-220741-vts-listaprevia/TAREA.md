@@ -1,6 +1,6 @@
 # Una lista previa a la revisión con las clases de problema que más rondas cuestan
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -79,3 +79,11 @@ Medidas de practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_si
 ### Nota (2026-11-01 01:14:20 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de revisión. La primera (agy2 y codex) dejó hallazgos reales, entre ellos que las cifras de la medición que justificaba el cambio estaban mal (las rondas se ordenaban por la fecha de los archivos y no por los eventos): se corrigió la medición, se volvió a aprobar la propuesta, la medición quedó reproducible con tools/medir_rondas.py y protegida por pruebas, la comprobación del documento exige que la lista numerada sea exactamente la del código y pedir-revision vacía el buffer. La segunda vuelta dio 0 hallazgos en ambos revisores. Suite completa sin fallas y evidencia con éxito. Todas las mutaciones aplicadas al código nuevo se detectan, salvo dos equivalentes declaradas (vaciar el buffer en las dos primeras líneas impresas, porque la última ya vacía todo lo anterior).); 0 abiertos derivados; commit ee0a578353b39104d11568da20dcf3a25fac1ce2; informe tareas/20261031-220741-vts-listaprevia/revisiones/registro-6h4630vy/informe.json; decisiones tareas/20261031-220741-vts-listaprevia/revisiones/registro-6h4630vy/decisiones.json.
+
+### Nota (2026-11-01 01:14:28 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261031-220741-vts-listaprevia/oracle-veredicto.txt.
+
+### Nota (2026-11-01 01:16:32 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

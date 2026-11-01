@@ -2,7 +2,7 @@
   "id": "20261031-220741-vts-listaprevia",
   "titulo": "Una lista previa a la revisión con las clases de problema que más rondas cuestan",
   "capacidad": "practicas",
-  "fase": "revision_aprobada",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md",
   "spec_sha256": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "5a68795134cf917219aca1e1b707a8922f0b28b52f97de479168b33ed5f2df49"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261031-220741-vts-listaprevia/candidatos/ee0a578/evidencia/hechos.json",
+    "hechos_sha256": "f828fe1063a9563c158caded57c995fe7a7843e063ceee9fd65bca2d3ebf8b55",
+    "informe": ".factory/cambios/20261031-220741-vts-listaprevia/oracle-veredicto.txt",
+    "informe_sha256": "35b3b0a8af83e3e832ac2cc81fabfca3171bb0b4fffee22f038c3d47459318e0",
+    "cuando": "2026-11-01T01:14:28.887297+00:00",
+    "contexto": {
+      "head": "f52977b86bf9b40a3c13f7f7234648292362bfe7",
+      "archivos_sha256": "5a68795134cf917219aca1e1b707a8922f0b28b52f97de479168b33ed5f2df49"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -412,6 +424,37 @@
       "abiertos": 0,
       "sha256": "a0af216062089f2a4bbcac159468eb34c6002e140d367dffe814a988b70fa916",
       "decisiones_sha256": "49d5c5ece6f5713d57bbcfc0f3bfbb7a1f37903cc713e52b6ef6ef00201bc02c"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T01:14:28.887314+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "f828fe1063a9563c158caded57c995fe7a7843e063ceee9fd65bca2d3ebf8b55"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T01:16:32.888701+00:00",
+      "oracle": ".factory/cambios/20261031-220741-vts-listaprevia/oracle-veredicto.txt",
+      "revision": "tareas/20261031-220741-vts-listaprevia/revisiones/registro-6h4630vy/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T01:16:32.923247+00:00",
+      "capacidad": "practicas",
+      "spec": "openspec/specs/practicas/spec.md"
     }
   ],
   "tipos": {
@@ -470,5 +513,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T01:16:32.823463+00:00"
+  },
+  "archivo": {
+    "capacidad": "practicas",
+    "spec": "openspec/specs/practicas/spec.md",
+    "cuando": "2026-11-01T01:16:32.923235+00:00"
+  }
 }
