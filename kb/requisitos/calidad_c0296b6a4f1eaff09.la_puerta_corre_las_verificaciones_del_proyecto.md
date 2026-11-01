@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `calidad_c0296b6a4f1eaff09.la_puerta_corre_las_verificaciones_del_proyecto`
 - Vigente: sí
-- Cambio: [[cambios/20261101-121356-ih8-puertalocal]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: ninguna
 - Sin medir: sin medida todavía; escenarios: «todo al día», «una guía vieja»
