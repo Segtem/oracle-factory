@@ -18,11 +18,11 @@ CAMBIO = '20261101-012816-1qf-testseditados'
 CONTRACTS = {
     'el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro': [
         'EstadoAvisa.test_te1_un_archivo_borrado_y_un_test_con_su_asercion_quitados',
-        'A.test_te1_un_archivo_de_pruebas_renombrado_con_tests_quitados',
-        'A.test_te1_solo_agregar_tests_y_archivos_nuevos_no_avisa',
-        'A.test_te1_sin_candidato_vigente_no_se_calcula',
-        'A.test_te1_un_cambio_de_linea_en_un_test_cuenta_como_quitada',
-        'A.test_te1_el_texto_del_estado_nombra_cada_archivo_y_no_es_un_pendiente',
+        'EstadoAvisa.test_te1_un_archivo_de_pruebas_renombrado_con_tests_quitados',
+        'EstadoAvisa.test_te1_solo_agregar_tests_y_archivos_nuevos_no_avisa',
+        'EstadoAvisa.test_te1_sin_candidato_vigente_no_se_calcula',
+        'EstadoAvisa.test_te1_un_cambio_de_linea_en_un_test_cuenta_como_quitada',
+        'EstadoAvisa.test_te1_el_texto_del_estado_nombra_cada_archivo_y_no_es_un_pendiente',
         'GitFalso.test_te1_si_git_falla_al_listar_o_al_leer_un_archivo_no_se_calcula_nada',
         'GitFalso.test_te1_sin_candidato_o_sin_base_no_se_calcula_y_no_se_llama_a_git_de_mas',
         'GitFalso.test_te1_con_la_base_dada_no_se_busca_el_merge_base',
@@ -33,6 +33,7 @@ CONTRACTS = {
         'PedidoAlRevisor.test_te2_la_revision_se_pide_igual_aunque_haya_tests_editados',
         'GitFalso.test_te2_el_texto_para_el_revisor_nombra_cada_archivo_y_sin_nada_es_vacio'],
     'solo_cuentan_los_archivos_de_pruebas': [
+        'QueEsUnTest.test_te3_el_contrato_del_verificador_nombra_exactamente_los_casos_que_existen',
         'QueEsUnTest.test_te3_los_nombres_de_archivos_de_pruebas',
         'QueEsUnTest.test_te3_los_que_no_son_de_pruebas',
         'ProductoNoAvisa.test_te3_un_archivo_de_producto_que_pierde_lineas_no_avisa',

@@ -139,6 +139,43 @@
         "factory_tests_editados.solo_cuentan_los_archivos_de_pruebas",
         "factory_tests_editados.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T01:45:58.674355+00:00",
+      "revisor": "codex",
+      "candidato": "1fd6363",
+      "lanzamiento": "79f4dd329d95"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T01:45:58.825555+00:00",
+      "revisor": "agy2",
+      "candidato": "1fd6363",
+      "lanzamiento": "57754155e9cd"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T01:46:40.596998+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "1fd6363",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "79f4dd329d95"
     }
   ],
   "tipos": {

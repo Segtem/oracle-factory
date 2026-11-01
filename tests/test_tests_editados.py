@@ -3,6 +3,7 @@ import contextlib
 import io
 import json
 from pathlib import Path
+import re
 import sys
 import unittest
 
@@ -250,6 +251,24 @@ class GitFalso(unittest.TestCase):
 
 class QueEsUnTest(unittest.TestCase):
     # --- te3: sólo cuentan los archivos de pruebas -------------------------------------------------------------------------
+    def test_te3_el_contrato_del_verificador_nombra_exactamente_los_casos_que_existen(self):
+        """Un nombre de caso mal escrito en tools/verify_tests_editados.py deja la evidencia en rojo sin que el producto falle."""
+        from tools import verify_tests_editados as verificador
+
+        def ids(suite):
+            for x in suite:
+                yield from ids(x) if isinstance(x, unittest.TestSuite) else [x.id()]
+        reales = {'.'.join(i.split('.')[-2:]) for i in ids(unittest.defaultTestLoader.loadTestsFromModule(sys.modules[__name__]))
+                  if re.search(r'\.test_te\d_', i)}  # «Clase.metodo», igual si se invoca como tests.x o como x
+        contratados = [n for nombres in verificador.CONTRACTS.values() for n in nombres]
+        self.assertEqual(len(contratados), len(set(contratados)))  # ninguno repetido
+        self.assertEqual(set(contratados), reales)
+        for requisito, nombres in verificador.CONTRACTS.items():  # y cada uno bajo el requisito de su número
+            numero = {'el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro': '1',
+                      'el_pedido_al_revisor_lleva_los_tests_editados': '2', 'solo_cuentan_los_archivos_de_pruebas': '3'}[requisito]
+            for nombre in nombres:
+                self.assertRegex(nombre, rf'\.test_te{numero}_')
+
     def test_te3_los_nombres_de_archivos_de_pruebas(self):
         for ruta in ('tests/a.py', 'test/a.py', 'pkg/tests/a.py', 'pkg/test_b.py', 'pkg/c_test.go', 'web/d.test.js', 'web/e.test.ts',
                      'test_f.py', 'x/y_test.py', 'web/g.test.cjs'):
