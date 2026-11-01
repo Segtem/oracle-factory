@@ -13,7 +13,10 @@ from . import trazabilidad
 # Una carpeta tests o test en cualquier nivel, o un nombre test_*, *_test.* o *.test.*; no «contest.py», «docs/tests.md» ni «test.py».
 RUTA_DE_PRUEBAS = re.compile(r"(?:^|/)(?:tests?/|test_[^/]*$|[^/]*_test\.[^/]+$|[^/]*\.test\.[^/]+$)")
 NOMBRE_DE_TEST = re.compile(r"^-\s*(?:async\s+)?def\s+(test\w*)|^-\s*func\s+(Test\w+)|^-\s*(?:it|test)\(\s*[\"'`]([^\"'`]+)")
-ASERCION = re.compile(r"\bassert\w*\b|\bexpect\(", re.IGNORECASE)
+# Una comprobación según el lenguaje: assert* / ASSERT_* (Python, JS, C++), expect( / EXPECT_*( (JS, C++), self.fail / pytest.raises (Python), t.Error* / t.Fatal* /
+# t.Fail* (Go: *_test.go no tiene «assert»).
+ASERCION = re.compile(r"\bassert\w*\b|\bexpect(?:_\w+)?\(|\.fail\(|\bpytest\.raises\b|\bt\.(?:Error|Errorf|Fatal|Fatalf|Fail|FailNow)\b",
+                      re.IGNORECASE)
 ESTADOS = {"D": "borrado", "R": "renombrado", "M": "modificado"}
 
 

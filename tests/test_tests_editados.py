@@ -239,6 +239,31 @@ class GitFalso(unittest.TestCase):
         self.assertIn('test_x', linea)
         self.assertIn('1 aserción(es) quitada(s)', linea)
 
+    def test_te1_las_comprobaciones_de_cada_lenguaje_se_cuentan_como_aserciones(self):
+        casos = {
+            'tests/c_test.go': ('-\tt.Errorf("want %d, got %d", want, got)', '-\tt.Fatal("boom")', '-\tt.Fail()', '-\tt.FailNow()', '-\tt.Error("x")',
+                                '-\tt.Fatalf("x")'),
+            'tests/test_p.py': ('-    self.assertEqual(1, 1)', '-    assert x == 1', '-    self.fail("no")', '-    with pytest.raises(ValueError):'),
+            'web/d.test.js': ('-  expect(x).toBe(1);', '-  assert.equal(x, 1);'),
+            'tests/e_test.cc': ('-  EXPECT_EQ(a, b);', '-  ASSERT_TRUE(ok);', '-  Assert.Equal(1, 1);'),
+        }
+        for archivo, lineas in casos.items():
+            for linea in lineas:
+                with self.subTest(archivo=archivo, linea=linea):
+                    def respuesta(argv, archivo=archivo, linea=linea):
+                        return (0, f'M\0{archivo}\0') if '--name-status' in argv else (0, f'{linea}\n')
+                    [e] = alarmas.tests_editados(self.ejecutor(respuesta), 'b', 'c')
+                    self.assertEqual((e['lineas_quitadas'], e['asserts_quitados']), (1, 1), linea)
+
+    def test_te1_una_linea_que_no_es_comprobacion_no_cuenta_como_asercion(self):
+        for linea in ('-    x = compute()', '-\tt.Run("sub", func(t *testing.T) {', '-  const y = 2;', '-    # el assert estaba comentado: no, esto sí dice assert',
+                      '-    foo.fail_safe = True', '-    expect = 3', '-    expected = compute()', '-    expectation_of_x = 1'):
+            with self.subTest(linea=linea):
+                def respuesta(argv, linea=linea):
+                    return (0, 'M\0tests/test_p.py\0') if '--name-status' in argv else (0, f'{linea}\n')
+                [e] = alarmas.tests_editados(self.ejecutor(respuesta), 'b', 'c')
+                self.assertEqual(e['asserts_quitados'], 1 if 'assert' in linea else 0, linea)
+
     def test_te2_el_texto_para_el_revisor_nombra_cada_archivo_y_sin_nada_es_vacio(self):
         self.assertEqual(alarmas.texto_para_el_revisor([]), '')
         self.assertEqual(alarmas.texto_para_el_revisor(None), '')

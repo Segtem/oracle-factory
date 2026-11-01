@@ -26,7 +26,9 @@ CONTRACTS = {
         'GitFalso.test_te1_si_git_falla_al_listar_o_al_leer_un_archivo_no_se_calcula_nada',
         'GitFalso.test_te1_sin_candidato_o_sin_base_no_se_calcula_y_no_se_llama_a_git_de_mas',
         'GitFalso.test_te1_con_la_base_dada_no_se_busca_el_merge_base',
-        'GitFalso.test_te1_la_lista_sale_ordenada_por_archivo_y_nombra_el_origen_de_un_renombre'],
+        'GitFalso.test_te1_la_lista_sale_ordenada_por_archivo_y_nombra_el_origen_de_un_renombre',
+        'GitFalso.test_te1_las_comprobaciones_de_cada_lenguaje_se_cuentan_como_aserciones',
+        'GitFalso.test_te1_una_linea_que_no_es_comprobacion_no_cuenta_como_asercion'],
     'el_pedido_al_revisor_lleva_los_tests_editados': [
         'PedidoAlRevisor.test_te2_el_pedido_nombra_los_tests_quitados_y_pide_mencionarlos',
         'PedidoAlRevisor.test_te2_sin_tests_editados_el_pedido_es_el_mismo',
