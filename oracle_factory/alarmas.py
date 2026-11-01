@@ -12,7 +12,9 @@ from . import trazabilidad
 
 # Una carpeta tests o test en cualquier nivel, o un nombre test_*, *_test.* o *.test.*; no «contest.py», «docs/tests.md» ni «test.py».
 RUTA_DE_PRUEBAS = re.compile(r"(?:^|/)(?:tests?/|test_[^/]*$|[^/]*_test\.[^/]+$|[^/]*\.test\.[^/]+$)")
-NOMBRE_DE_TEST = re.compile(r"^-\s*(?:async\s+)?def\s+(test\w*)|^-\s*func\s+(Test\w+)|^-\s*(?:it|test)\(\s*[\"'`]([^\"'`]+)")
+# El nombre de un test quitado: def test_x (Python), func TestX (Go), it("…") / test("…") (JS, con la misma comilla de apertura y de cierre).
+NOMBRES_DE_TEST = (re.compile(r"^-\s*(?:async\s+)?def\s+(test\w*)"), re.compile(r"^-\s*func\s+(Test\w+)"),
+                   re.compile(r"^-\s*(?:it|test)\(\s*([\"'`])(.+?)\1"))
 # Una comprobación según el lenguaje: assert* / ASSERT_* (Python, JS, C++), expect( / EXPECT_*( (JS, C++), self.fail / pytest.raises (Python), t.Error* / t.Fatal* /
 # t.Fail* (Go: *_test.go no tiene «assert»).
 ASERCION = re.compile(r"\bassert\w*\b|\bexpect(?:_\w+)?\(|\.fail\(|\bpytest\.raises\b|\bt\.(?:Error|Errorf|Fatal|Fatalf|Fail|FailNow)\b",
@@ -25,35 +27,51 @@ def es_de_pruebas(ruta: str) -> bool:
 
 
 def _quitado(diff: str) -> tuple[int, list[str], int]:
-    """(líneas quitadas, nombres de tests quitados, aserciones quitadas) del texto de `git diff -U0`."""
-    lineas = [l for l in diff.splitlines() if l.startswith("-") and not l.startswith("---")]
-    nombres = [next(g for g in m.groups() if g) for l in lineas if (m := NOMBRE_DE_TEST.match(l))]
+    """(líneas quitadas, nombres de tests quitados, aserciones quitadas) del texto de `git diff -U0`.
+
+    Sólo cuenta lo que está dentro de un hunk: las cabeceras («--- a/x», «+++ b/x») van antes del primer «@@», así que una línea
+    quitada que empiece con «--» (un separador, un comentario SQL) no se confunde con una cabecera."""
+    lineas, en_hunk = [], False
+    for l in diff.splitlines():
+        if l.startswith("diff --git"):
+            en_hunk = False
+        elif l.startswith("@@"):
+            en_hunk = True
+        elif en_hunk and l.startswith("-"):
+            lineas.append(l)
+    nombres = [m.groups()[-1] for l in lineas for patron in NOMBRES_DE_TEST if (m := patron.match(l))]
     return len(lineas), nombres, sum(bool(ASERCION.search(l)) for l in lineas)
 
 
-def tests_editados(ejecutar: Callable, base: str, candidato: str) -> list[dict] | None:
-    """Los archivos de pruebas de `base` que `candidato` borró, renombró o a los que les quitó líneas; None si Git no pudo."""
+def tests_editados(ejecutar: Callable, base: str, candidato: str, es_producto: Callable[[str], bool] | None = None) -> list[dict] | None:
+    """Los archivos de pruebas de `base` que `candidato` borró, renombró o a los que les quitó líneas; None si Git no pudo.
+
+    Un archivo es «de pruebas» por su ruta en la base (lo que ya existía), y se miran sólo los archivos del producto (`es_producto`,
+    si se da): los registros generados no cuentan. Un renombre avisa siempre: mover un test a un archivo que nadie ejecuta lo desactiva."""
     lista = ejecutar(["git", "diff", "--name-status", "-z", "-M", base, candidato])
     if lista.returncode:
         return None
     editados = []
     for archivo in trazabilidad.archivos_cambiados(lista.stdout):
-        origen = archivo["origen"] or archivo["ruta"]
-        if archivo["estado"] not in ESTADOS or not (es_de_pruebas(origen) or es_de_pruebas(archivo["ruta"])):
-            continue  # agregados (A) y copias (C) son tests nuevos: libres
+        origen = archivo["origen"] or archivo["ruta"]  # la ruta en la base
+        if archivo["estado"] not in ESTADOS or not es_de_pruebas(origen):
+            continue  # agregados (A) y copias (C) son tests nuevos: libres; y lo que no era de pruebas en la base, no es un test existente
+        if es_producto is not None and not (es_producto(origen) or es_producto(archivo["ruta"])):
+            continue
         rutas = [archivo["origen"], archivo["ruta"]] if archivo["origen"] else [archivo["ruta"]]
-        diff = ejecutar(["git", "diff", "-U0", "-M", "--no-color", base, candidato, "--", *rutas])
+        diff = ejecutar(["git", "--literal-pathspecs", "diff", "-U0", "-M", "--no-color", base, candidato, "--", *rutas])
         if diff.returncode:
             return None
         quitadas, nombres, aserciones = _quitado(diff.stdout)
-        if archivo["estado"] != "D" and not quitadas:
+        if archivo["estado"] == "M" and not quitadas:
             continue  # sólo se agregó: no es una edición que afloje nada
         editados.append({"archivo": archivo["ruta"], "estado": ESTADOS[archivo["estado"]], "origen": archivo["origen"],
                          "lineas_quitadas": quitadas, "tests_quitados": nombres, "asserts_quitados": aserciones})
     return sorted(editados, key=lambda e: e["archivo"])
 
 
-def del_candidato(ejecutar: Callable, candidato: str, base: str | None = None) -> list[dict] | None:
+def del_candidato(ejecutar: Callable, candidato: str, base: str | None = None,
+                  es_producto: Callable[[str], bool] | None = None) -> list[dict] | None:
     """Lo mismo contra la base del candidato (merge-base con main); None si no hay candidato o no se encuentra la base."""
     if not candidato:
         return None
@@ -62,7 +80,7 @@ def del_candidato(ejecutar: Callable, candidato: str, base: str | None = None) -
         if p.returncode:
             return None
         base = p.stdout.strip()
-    return tests_editados(ejecutar, base, candidato)
+    return tests_editados(ejecutar, base, candidato, es_producto)
 
 
 def _detalle(e: dict) -> str:

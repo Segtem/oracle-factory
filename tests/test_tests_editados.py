@@ -51,6 +51,18 @@ class Base(unittest.TestCase):
         self.base = self.git('rev-parse', 'HEAD')
         self.git('checkout', '-qb', 'tarea')
 
+    def en_la_base(self, archivos):
+        """Pone archivos en main (la base del candidato) y vuelve a la rama de trabajo: en la rama serían archivos nuevos, no existentes."""
+        self.git('checkout', '-q', 'main')
+        for ruta, contenido in archivos.items():
+            (self.root / ruta).parent.mkdir(parents=True, exist_ok=True)
+            (self.root / ruta).write_text(contenido)
+        self.git('add', '-A')
+        self.git('commit', '-qm', 'más archivos en la base')
+        self.git('checkout', '-q', 'tarea')
+        self.git('merge', '-q', 'main')
+        self.base = self.git('rev-parse', 'HEAD')
+
     def candidato(self, editar):
         """Aplica `editar`, hace el commit de producto y deja la carpeta de evidencia que lo vuelve el candidato vigente."""
         editar()
@@ -85,8 +97,12 @@ class A(unittest.TestCase):
         self.assertEqual(1, 1)
 ''')
         self.candidato(editar)
-        antes = f.datos_estado(self.ident)
+        from unittest.mock import patch
+        with patch.object(alarmas, 'del_candidato', return_value=None):  # el mismo estado, con la alarma apagada
+            antes = f.datos_estado(self.ident)
+        self.assertIsNone(antes['tests_editados'])
         texto, datos = self.estado()
+        self.assertTrue(datos['tests_editados'])
         editados = {e['archivo']: e for e in datos['tests_editados']}
         self.assertEqual(set(editados), {'tests/test_a.py', 'tests/test_b.py'})
         self.assertEqual(editados['tests/test_b.py']['estado'], 'borrado')
@@ -128,9 +144,11 @@ class A(unittest.TestCase):
 
     def test_te1_sin_candidato_vigente_no_se_calcula(self):
         self.preparar()
-        texto, datos = self.estado()
+        from unittest.mock import patch
+        with patch.object(alarmas, 'del_candidato', side_effect=AssertionError('sin candidato no se llama a Git')):
+            texto, datos = self.estado()
         self.assertIsNone(datos['tests_editados'])
-        self.assertNotIn('Tests editados', texto)
+        self.assertNotIn('test existente editado', texto)
 
     def test_te1_un_cambio_de_linea_en_un_test_cuenta_como_quitada(self):
         self.preparar()
@@ -145,6 +163,48 @@ class A(unittest.TestCase):
         linea = [l for l in texto.splitlines() if 'tests/test_b.py' in l]
         self.assertTrue(linea)
         self.assertTrue(all(l.startswith('Aviso: ') for l in linea), linea)
+
+
+class MasCasosDeEstado(Base):
+    def test_te1_un_renombre_puro_avisa_aunque_no_se_haya_quitado_ninguna_linea(self):
+        self.preparar()
+        self.candidato(lambda: self.git('mv', 'tests/test_a.py', 'tests/desactivado.py'))
+        [e] = self.estado()[1]['tests_editados']
+        self.assertEqual((e['archivo'], e['estado'], e['origen'], e['lineas_quitadas']), ('tests/desactivado.py', 'renombrado', 'tests/test_a.py', 0))
+
+    def test_te1_un_test_movido_fuera_de_las_carpetas_de_pruebas_avisa(self):
+        self.preparar()
+        self.candidato(lambda: self.git('mv', 'tests/test_a.py', 'src/a.py'))
+        [e] = self.estado()[1]['tests_editados']
+        self.assertEqual((e['archivo'], e['estado'], e['origen']), ('src/a.py', 'renombrado', 'tests/test_a.py'))
+
+    def test_te1_un_archivo_de_producto_renombrado_a_tests_no_era_un_test_existente(self):
+        self.preparar()
+        grande = ''.join(f'def f{i}():\n    return {i}\n\n\n' for i in range(12))
+        self.en_la_base({'src/grande.py': grande})
+
+        def editar():
+            self.git('mv', 'src/grande.py', 'tests/grande.py')
+            (self.root / 'tests/grande.py').write_text(grande.replace('def f0():\n    return 0\n\n\n', ''))  # y le quita una función
+        self.candidato(editar)
+        salida = self.git('diff', '--name-status', '-M', self.base, 'HEAD')
+        self.assertIn('R', salida.split('\n')[-1][:1], salida)  # Git lo ve como renombre: es el caso que importa
+        self.assertEqual(self.estado()[1]['tests_editados'], [])
+
+    def test_te1_los_archivos_generados_que_no_son_producto_no_avisan(self):
+        self.preparar()
+        self.en_la_base({'kb/requisitos/demo.algo_test.md': 'generado\n'})
+        self.candidato(lambda: (self.root / 'kb/requisitos/demo.algo_test.md').unlink())
+        self.assertEqual(self.estado()[1]['tests_editados'], [])
+        self.assertTrue(alarmas.es_de_pruebas('kb/requisitos/demo.algo_test.md'))  # por el nombre sí lo parece: lo salva ser generado
+
+    def test_te1_un_nombre_de_archivo_con_caracteres_de_pathspec_se_lee_literal(self):
+        self.preparar()
+        raro = self.root / 'tests/test_[x].py'
+        self.en_la_base({'tests/test_[x].py': TEST_A})
+        self.candidato(lambda: raro.write_text(TEST_A.replace('    def test_dos(self):\n        assert 2 == 2\n', '')))
+        [e] = self.estado()[1]['tests_editados']
+        self.assertEqual((e['archivo'], e['tests_quitados']), ('tests/test_[x].py', ['test_dos']))
 
 
 class PedidoAlRevisor(Base):
@@ -181,6 +241,18 @@ class PedidoAlRevisor(Base):
             sin = self.pedir()
         self.assertEqual(con.replace('prueba-1', 'prueba-N'), sin.replace('prueba-2', 'prueba-N'))
         self.assertNotRegex(con, r'(?i)tests existentes que')
+
+    def test_te2_un_archivo_generado_borrado_no_agrega_nada_al_pedido(self):
+        self.preparar()
+        self.en_la_base({'kb/requisitos/demo.algo_test.md': 'generado\n'})
+        self.preparar_revisor('ok')
+        def editar():  # un cambio de producto de verdad (si no, no hay nada que revisar) y, además, el archivo generado borrado
+            (self.root / 'src/modulo.py').write_text('def f():\n    return 1\n\n\ndef g():\n    return 3\n')
+            (self.root / 'kb/requisitos/demo.algo_test.md').unlink()
+        self.candidato(editar)
+        con = self.pedir()
+        self.assertNotRegex(con, r'(?i)tests existentes que')  # la sección no está; el archivo sólo figura donde ya figuraba: «Fuera del paquete»
+        self.assertIn('Fuera del paquete', con)
 
     def test_te2_la_revision_se_pide_igual_aunque_haya_tests_editados(self):
         self.preparar()
@@ -230,7 +302,7 @@ class GitFalso(unittest.TestCase):
         def respuesta(argv):
             if '--name-status' in argv:
                 return 0, 'M\0tests/z.py\0R090\0tests/vieja.py\0tests/a_nueva.py\0'
-            return 0, '-def test_x():\n-    assert 1\n'
+            return 0, '@@ -1,2 +0,0 @@\n-def test_x():\n-    assert 1\n'
         editados = alarmas.tests_editados(self.ejecutor(respuesta), 'b', 'c')
         self.assertEqual([e['archivo'] for e in editados], ['tests/a_nueva.py', 'tests/z.py'])
         linea = alarmas.avisos(editados)[0]
@@ -251,7 +323,7 @@ class GitFalso(unittest.TestCase):
             for linea in lineas:
                 with self.subTest(archivo=archivo, linea=linea):
                     def respuesta(argv, archivo=archivo, linea=linea):
-                        return (0, f'M\0{archivo}\0') if '--name-status' in argv else (0, f'{linea}\n')
+                        return (0, f'M\0{archivo}\0') if '--name-status' in argv else (0, f'@@ -1 +0,0 @@\n{linea}\n')
                     [e] = alarmas.tests_editados(self.ejecutor(respuesta), 'b', 'c')
                     self.assertEqual((e['lineas_quitadas'], e['asserts_quitados']), (1, 1), linea)
 
@@ -260,9 +332,50 @@ class GitFalso(unittest.TestCase):
                       '-    foo.fail_safe = True', '-    expect = 3', '-    expected = compute()', '-    expectation_of_x = 1'):
             with self.subTest(linea=linea):
                 def respuesta(argv, linea=linea):
-                    return (0, 'M\0tests/test_p.py\0') if '--name-status' in argv else (0, f'{linea}\n')
+                    return (0, 'M\0tests/test_p.py\0') if '--name-status' in argv else (0, f'@@ -1 +0,0 @@\n{linea}\n')
                 [e] = alarmas.tests_editados(self.ejecutor(respuesta), 'b', 'c')
                 self.assertEqual(e['asserts_quitados'], 1 if 'assert' in linea else 0, linea)
+
+    def test_te1_una_linea_quitada_que_empieza_con_guiones_cuenta_y_las_cabeceras_no(self):
+        diff = ('diff --git a/tests/x.py b/tests/x.py\nindex 1..2 100644\n--- a/tests/x.py\n+++ b/tests/x.py\n@@ -1,2 +1 @@\n'
+                '---opcion\n-    assert 1\n+# nuevo\n')
+        git = self.ejecutor(lambda argv: (0, 'M\0tests/x.py\0') if '--name-status' in argv else (0, diff))
+        [e] = alarmas.tests_editados(git, 'b', 'c')
+        self.assertEqual((e['lineas_quitadas'], e['asserts_quitados']), (2, 1))  # «--opcion» y el assert; no las cabeceras
+        dos = ('diff --git a/tests/a.py b/tests/a.py\n--- a/tests/a.py\n+++ b/tests/a.py\n@@ -1 +0,0 @@\n-    assert 1\n'
+               'diff --git a/tests/b.py b/tests/b.py\n--- a/tests/b.py\n+++ b/tests/b.py\n@@ -1 +0,0 @@\n-    assert 2\n')
+        self.assertEqual(alarmas._quitado(dos)[0], 2)  # las cabeceras del segundo archivo no son líneas quitadas
+        solo = 'diff --git a/tests/x.py b/tests/x.py\n--- a/tests/x.py\n+++ b/tests/x.py\n@@ -1 +1,2 @@\n+nuevo\n'
+        git = self.ejecutor(lambda argv: (0, 'M\0tests/x.py\0') if '--name-status' in argv else (0, solo))
+        self.assertEqual(alarmas.tests_editados(git, 'b', 'c'), [])  # las cabeceras solas no son líneas quitadas
+
+    def test_te1_los_nombres_de_tests_de_cada_lenguaje(self):
+        casos = {'-    def test_py(self):': 'test_py', '-async def test_async():': 'test_async', '-func TestGo(t *testing.T) {': 'TestGo',
+                 '-  it("doesn\'t crash", () => {': "doesn't crash", "-  test('dice \"hola\"', async () => {": 'dice "hola"',
+                 '-  it(`usa ${x}`, () => {': 'usa ${x}'}
+        for linea, nombre in casos.items():
+            with self.subTest(linea=linea):
+                git = self.ejecutor(lambda argv, linea=linea: (0, 'M\0tests/x.test.js\0') if '--name-status' in argv else (0, f'@@ -1 +0,0 @@\n{linea}\n'))
+                [e] = alarmas.tests_editados(git, 'b', 'c')
+                self.assertEqual(e['tests_quitados'], [nombre])
+
+    def test_te1_el_filtro_de_producto_deja_afuera_lo_generado_y_los_pathspecs_van_literales(self):
+        llamadas = []
+
+        def respuesta(argv):
+            llamadas.append(argv)
+            return (0, 'D\0kb/requisitos/a_test.md\0D\0tests/b.py\0') if '--name-status' in argv else (0, '@@ -1 +0,0 @@\n-def test_b(): pass\n')
+        git = self.ejecutor(respuesta)
+        con_filtro = alarmas.tests_editados(git, 'b', 'c', es_producto=lambda ruta: not ruta.startswith('kb/'))
+        self.assertEqual([e['archivo'] for e in con_filtro], ['tests/b.py'])
+        # un test movido a un lugar que no es producto igual avisa: su origen sí lo era
+        movido = self.ejecutor(lambda argv: (0, 'R100\0tests/a.py\0kb/a.py\0') if '--name-status' in argv else (0, '@@ -1 +0,0 @@\n'))
+        self.assertEqual([e['archivo'] for e in alarmas.tests_editados(movido, 'b', 'c', es_producto=lambda r: not r.startswith('kb/'))], ['kb/a.py'])
+        sin_filtro = alarmas.tests_editados(self.ejecutor(respuesta), 'b', 'c')
+        self.assertEqual([e['archivo'] for e in sin_filtro], ['kb/requisitos/a_test.md', 'tests/b.py'])
+        por_archivo = [a for a in llamadas if '--name-status' not in a]
+        self.assertTrue(por_archivo)
+        self.assertTrue(all(a[1] == '--literal-pathspecs' and '--' in a for a in por_archivo))
 
     def test_te2_el_texto_para_el_revisor_nombra_cada_archivo_y_sin_nada_es_vacio(self):
         self.assertEqual(alarmas.texto_para_el_revisor([]), '')

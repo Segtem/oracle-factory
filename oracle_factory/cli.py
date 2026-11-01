@@ -1861,7 +1861,7 @@ def mostrar(identificador: str) -> None:
     print(linea_quien(quien_del_cambio(estado)) + ".")
     vigente = candidato_vigente(identificador)
     prueba = pruebas_mod.datos(ROOT, identificador, estado, vigente, documentos_o_nada(carpeta, estado))
-    editados = alarmas_mod.del_candidato(ejecutar, vigente) if vigente else None
+    editados = alarmas_mod.del_candidato(ejecutar, vigente, es_producto=es_producto) if vigente else None
     for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
                   + aviso_sin_medir(identificador, estado) + aviso_notas(identificador, estado) + aviso_union(identificador, estado)
                   + pruebas_mod.avisos(prueba) + alarmas_mod.avisos(editados)):
