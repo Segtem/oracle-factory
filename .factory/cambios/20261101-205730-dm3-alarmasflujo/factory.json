@@ -2,11 +2,25 @@
   "id": "20261101-205730-dm3-alarmasflujo",
   "titulo": "Avisar de los bucles de revisión y de los cambios demasiado grandes",
   "capacidad": "practicas",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "08959cd1e35797783e490f91e02688f68bb5f6a8e38ef163386530450123746d",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T21:08:43.158834+00:00",
+    "documentos": {
+      "openspec/changes/20261101-205730-dm3-alarmasflujo/proposal.md": "c3ed8cbcca97d50175e276504704a998adf9b6ead1cb645eae975f5b22dd2a6f",
+      "openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md": "08959cd1e35797783e490f91e02688f68bb5f6a8e38ef163386530450123746d"
+    }
+  },
+  "requisitos": [
+    "practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado",
+    "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+    "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +33,38 @@
       "forma": "decidio",
       "cuando": "2026-11-01T20:57:30.051834+00:00",
       "capacidad": "practicas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T21:08:43.158856+00:00",
+      "documentos": {
+        "openspec/changes/20261101-205730-dm3-alarmasflujo/proposal.md": "c3ed8cbcca97d50175e276504704a998adf9b6ead1cb645eae975f5b22dd2a6f",
+        "openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md": "08959cd1e35797783e490f91e02688f68bb5f6a8e38ef163386530450123746d"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T21:10:12.618893+00:00",
+      "ids": [
+        "practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado",
+        "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+        "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado": "funcional",
+    "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto": "funcional",
+    "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
