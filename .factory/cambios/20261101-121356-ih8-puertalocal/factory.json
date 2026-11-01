@@ -1,0 +1,747 @@
+{
+  "id": "20261101-121356-ih8-puertalocal",
+  "titulo": "Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push",
+  "capacidad": "calidad",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md",
+  "spec_sha256": "60b9ae3af9a3ac5279debc341a7815283b9f9c06efc6c42ca7e185ef4b010fdc",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T13:58:32.820051+00:00",
+    "documentos": {
+      "openspec/changes/20261101-121356-ih8-puertalocal/proposal.md": "768f7ba9f2a62e09800b5c033916a458364af2888ba28066f914aafe96de226a",
+      "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md": "60b9ae3af9a3ac5279debc341a7815283b9f9c06efc6c42ca7e185ef4b010fdc"
+    }
+  },
+  "requisitos": [
+    "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+    "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+    "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+    "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261101-121356-ih8-puertalocal/revisiones/registro-m_b0ybs7/informe.json",
+    "sha256": "04d9eed78e96283ee18f71d72e31fe1d3bdd6f078a2922fde46773c7c7a79ea0",
+    "decisiones": "tareas/20261101-121356-ih8-puertalocal/revisiones/registro-m_b0ybs7/decisiones.json",
+    "decisiones_sha256": "8e6e7163dfd4acfc89f31b3a90bca38e136c148107720d142fe5f4b26be6c874",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T20:32:24.726440+00:00",
+    "motivo": "Tres rondas con revisores independientes (agy2-flash y codex): ronda 1, 11 hallazgos; ronda 2, 7; ronda 3, 0 de ambos sobre el candidato 2fa1bb7. Todos los hallazgos de las rondas 1 y 2 eran reales y se corrigieron con prueba y mutación (merges y merge pulpo con --cc, claves ASIA y de Google terminadas en guion, líneas enteras, triples comillas, rutas con escapes de Git, SHA-256, línea sugerida para hooks ajenos válida con set -e, verificaciones omitidas o al día informadas con un fallo); las asignaciones con el valor en otra línea quedan como límite declarado en docs/puerta.md. Evidencia con éxito: 969 pruebas, 62 casos de contrato. Mutaciones: 10 de 11 detectadas en la segunda ronda; sobrevive la que quita '& 255' del octal, equivalente para entradas reales de Git.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "0fdd1ccf38e0c2de5f9de8f85393b513ab856fa1",
+      "archivos_sha256": "aee48b6fb6b57a819fef663273f73b69b09dea16518a3fa6075024ddfc1b5790"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261101-121356-ih8-puertalocal/candidatos/2fa1bb7/evidencia/hechos.json",
+    "hechos_sha256": "1bb474f0699ff99d747cb5519852f24dc084a288f2dca476946e90689ceca9b3",
+    "informe": ".factory/cambios/20261101-121356-ih8-puertalocal/oracle-veredicto.txt",
+    "informe_sha256": "fe22f51fc85fe5a27081b4fc2062ffae7256d26857e9cb1c932c46baf68f48af",
+    "cuando": "2026-11-01T20:32:40.628886+00:00",
+    "contexto": {
+      "head": "c7193e1b48cce974764713dcf7480ae0a962e7ce",
+      "archivos_sha256": "aee48b6fb6b57a819fef663273f73b69b09dea16518a3fa6075024ddfc1b5790"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T12:13:56.325556+00:00",
+      "capacidad": "calidad"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T12:20:04.916791+00:00",
+      "documentos": {
+        "openspec/changes/20261101-121356-ih8-puertalocal/proposal.md": "6e380630bb894dbc11416aebc631071a3a37fc45b59edf1a237b3d54e008eade",
+        "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md": "4a3e713cd722d592a4692d000bfb991d94869d4c5a4319c225fa9efa161b2eee"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T12:33:04.530753+00:00",
+      "documentos": {
+        "openspec/changes/20261101-121356-ih8-puertalocal/proposal.md": "6e380630bb894dbc11416aebc631071a3a37fc45b59edf1a237b3d54e008eade",
+        "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md": "4a3e713cd722d592a4692d000bfb991d94869d4c5a4319c225fa9efa161b2eee"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T12:33:14.809414+00:00",
+      "ids": [
+        "calidad_c0296b6a4f1eaff09.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "calidad_c0296b6a4f1eaff09.la_puerta_corre_las_verificaciones_del_proyecto",
+        "calidad_c0296b6a4f1eaff09.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican"
+      ]
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T13:58:32.820071+00:00",
+      "documentos": {
+        "openspec/changes/20261101-121356-ih8-puertalocal/proposal.md": "768f7ba9f2a62e09800b5c033916a458364af2888ba28066f914aafe96de226a",
+        "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md": "60b9ae3af9a3ac5279debc341a7815283b9f9c06efc6c42ca7e185ef4b010fdc"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T14:06:52.206582+00:00",
+      "ids": [
+        "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+        "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+        "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T14:07:39.298232+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "medidas": [
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+        "factory_puerta_local.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T14:07:40.589930+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+      "medidas": [
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto",
+        "factory_puerta_local.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T14:07:41.886032+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+      "medidas": [
+        "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "factory_puerta_local.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T14:07:43.185715+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo",
+      "medidas": [
+        "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo",
+        "factory_puerta_local.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T16:12:02.515736+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+      "medidas": [
+        "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T16:12:02.670980+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+      "medidas": [
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T16:12:02.818163+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "medidas": [
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T16:12:02.969169+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo",
+      "medidas": [
+        "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T16:20:21.826219+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "7658f1d",
+      "lanzamiento": "ccee316910b9"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T16:20:21.923530+00:00",
+      "revisor": "codex",
+      "candidato": "7658f1d",
+      "lanzamiento": "f9ffeb05c9ea"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T16:22:30.229890+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "7658f1d",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "f9ffeb05c9ea"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T16:35:32.732499+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "7658f1d",
+      "resultado": "ok",
+      "hallazgos": 9,
+      "lanzamiento": "ccee316910b9"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T16:56:49.002928+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "medidas": [
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T16:56:50.281432+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+      "medidas": [
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T16:56:51.560408+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+      "medidas": [
+        "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T16:56:52.853138+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo",
+      "medidas": [
+        "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T19:37:33.254452+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+      "medidas": [
+        "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T19:37:33.411047+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+      "medidas": [
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T19:37:33.558871+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "medidas": [
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T19:37:33.706216+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo",
+      "medidas": [
+        "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T19:45:36.661901+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "65b2fca",
+      "lanzamiento": "f5036197b922"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T19:45:36.689154+00:00",
+      "revisor": "codex",
+      "candidato": "65b2fca",
+      "lanzamiento": "7953ae0b4145"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T19:46:24.139602+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "65b2fca",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "7953ae0b4145"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T19:58:36.144671+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "65b2fca",
+      "resultado": "ok",
+      "hallazgos": 6,
+      "lanzamiento": "f5036197b922"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T20:02:30.669388+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "medidas": [
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T20:02:32.036170+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+      "medidas": [
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T20:02:33.397855+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+      "medidas": [
+        "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T20:02:34.836738+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo",
+      "medidas": [
+        "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T20:04:25.245370+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+      "medidas": [
+        "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T20:04:25.403886+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+      "medidas": [
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T20:04:25.555108+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "medidas": [
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T20:04:25.707757+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo",
+      "medidas": [
+        "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T20:12:33.743866+00:00",
+      "revisor": "codex",
+      "candidato": "2fa1bb7",
+      "lanzamiento": "b2cff5ca3cc9"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T20:12:33.776036+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "2fa1bb7",
+      "lanzamiento": "b8846ce36c37"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T20:13:38.265968+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "2fa1bb7",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "b2cff5ca3cc9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T20:31:18.037809+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "2fa1bb7",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "b8846ce36c37"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T20:31:46.381591+00:00",
+      "decision": "aprobar",
+      "candidato": "2fa1bb7"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T20:32:24.726465+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "04d9eed78e96283ee18f71d72e31fe1d3bdd6f078a2922fde46773c7c7a79ea0",
+      "decisiones_sha256": "8e6e7163dfd4acfc89f31b3a90bca38e136c148107720d142fe5f4b26be6c874"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T20:32:40.628902+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "1bb474f0699ff99d747cb5519852f24dc084a288f2dca476946e90689ceca9b3"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T20:35:32.339991+00:00",
+      "oracle": ".factory/cambios/20261101-121356-ih8-puertalocal/oracle-veredicto.txt",
+      "revision": "tareas/20261101-121356-ih8-puertalocal/revisiones/registro-m_b0ybs7/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T20:35:32.372745+00:00",
+      "capacidad": "calidad",
+      "spec": "openspec/specs/calidad/spec.md"
+    }
+  ],
+  "tipos": {
+    "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja": "funcional",
+    "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto": "funcional",
+    "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "funcional",
+    "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo": "funcional"
+  },
+  "medidas": {
+    "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T20:04:25.206934+00:00",
+      "sha256": "e5e04d541e5a52f7d11ebf2d775fecaaf2951e918c5c159621bec9191dc00fc1",
+      "catalogos": {
+        "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja": "810aad562045ada430124b80d4dc752d298a65d9b87674be1ef9389129165c40",
+        "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
+      },
+      "archivos_catalogo": {
+        "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja": "catalogos/factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja.oracle",
+        "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
+      }
+    },
+    "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T20:04:25.363619+00:00",
+      "sha256": "0a205d6c703f1de4c50dc227aa9e13148badf26abafaea7ca691e667620a08f1",
+      "catalogos": {
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto": "21832e4d61f57d9195033b70b6402a643ef7182d80adb5aa76dc9effb21a70f6",
+        "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
+      },
+      "archivos_catalogo": {
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto": "catalogos/factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto.oracle",
+        "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
+      }
+    },
+    "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T20:04:25.517916+00:00",
+      "sha256": "57fae3608108049a2095fc14598a4756ef7810c0d87780f4857d8bdcabc01fa6",
+      "catalogos": {
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "ca14f931c88f3270cf069458ecd10c6d004346535e6a533d653ae708d9831748",
+        "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
+      },
+      "archivos_catalogo": {
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "catalogos/factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican.oracle",
+        "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
+      }
+    },
+    "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T20:04:25.668900+00:00",
+      "sha256": "68b9d0e299bfc3923ed4ff5875fc7088a488ddc9273a39d262ca8aeab03c8424",
+      "catalogos": {
+        "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo": "6762849b1ce7722af6797784c09d91e3f27ff220d24bcc5a586d933609984773",
+        "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
+      },
+      "archivos_catalogo": {
+        "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo": "catalogos/factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo.oracle",
+        "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T20:35:32.277518+00:00"
+  },
+  "archivo": {
+    "capacidad": "calidad",
+    "spec": "openspec/specs/calidad/spec.md",
+    "cuando": "2026-11-01T20:35:32.372735+00:00"
+  }
+}

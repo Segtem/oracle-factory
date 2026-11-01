@@ -1,0 +1,189 @@
+"""La puerta local de salida: lo barato y determinista que se comprueba antes de publicar, en segundos.
+
+Hoy son dos comprobaciones: **secretos** (credenciales con forma de credencial en las líneas agregadas por *todos* los commits que se
+van a publicar, no sólo en el resultado: un secreto agregado y quitado después igual viaja en la historia) y las **verificaciones**
+del proyecto (`agentes`, `kb` y `resumen` con `--verificar`). Es una lista: los analizadores estáticos y `verificar` de CI se suman acá.
+
+El hook `pre-push` (ver `cli.instalar_hook`) la llama con lo que Git está por empujar. Sólo bloquea con `CODIGO_BLOQUEO`: cualquier otra
+salida (un intérprete que falta, un proyecto mal configurado, un error interno) avisa y deja pasar, porque una herramienta rota no
+tiene que impedir trabajar."""
+from __future__ import annotations
+
+import re
+from typing import Callable
+
+CODIGO_BLOQUEO = 3
+HOOK_MARCA = "# oracle-factory: puerta local de salida"
+EXENCION = "factory:secreto-ok"
+# Cada verificación y el archivo que la hace aplicable: si el proyecto todavía no lo generó, no hay nada que verificar (se omite).
+# El tercer valor: si vencida bloquea. La guía no se arregla sola y desorienta a los agentes; kb y resumen se rehacen al integrar (post-merge),
+# así que vencidos son cotidianos (p. ej. tras agregar un mensaje a un cambio): se avisan.
+VERIFICACIONES = (("agentes", "AGENTS.md", True), ("kb", "kb/README.md", False), ("resumen", ".factory/resumen.md", False))
+
+# Valores con forma de credencial, no palabras. Cada patrón captura el valor en el grupo 1 (o el 0 si no hay grupo).
+PATRONES: tuple[tuple[str, re.Pattern], ...] = (
+    ("clave privada", re.compile(r"-----BEGIN (?:RSA |EC |DSA |OPENSSH |PGP |ENCRYPTED )?PRIVATE KEY")),
+    ("clave de AWS", re.compile(r"\b(A[KS]IA[0-9A-Z]{16})\b")),
+    ("token de GitHub", re.compile(r"\b(gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{22,})")),
+    ("token de PyPI", re.compile(r"\b(pypi-[A-Za-z0-9_-]{50,})")),
+    ("token de Slack", re.compile(r"\b(xox[baprs]-[A-Za-z0-9-]{10,})")),
+    ("clave de Google", re.compile(r"\b(AIza[0-9A-Za-z_-]{35})(?![0-9A-Za-z_-])")),
+    ("clave sk-", re.compile(r"\b(sk-(?:ant-)?[A-Za-z0-9_-]{20,})")),
+)
+# Un nombre de credencial asignado a un valor entre comillas, largo, sin espacios y con letras y dígitos (descarta frases y constantes).
+ASIGNACION = re.compile(r"""(?i)\b(?:api[_-]?key|secret|token|passw(?:or)?d|clave|credencial)\w*\s*[=:]\s*["']{1,3}([^"'\s]{16,})["']""")
+ENCABEZADO_HUNK = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@")
+# Un merge con --cc: «@@@ -a -b +c @@@» (un «@» más que padres), y una línea que el merge agrega frente a todos sus padres empieza con un «+» por padre.
+ENCABEZADO_COMBINADO = re.compile(r"^(@{3,}) .* \+(\d+)(?:,\d+)? \1")
+
+
+class PuertaRota(Exception):
+    """La puerta no pudo mirar (Git falló): no se puede decir que está limpio."""
+
+
+def _tapado(valor: str) -> str:
+    return valor[:4] + "…" + "*" * 3 if len(valor) > 4 else "****"
+
+
+def _en_linea(linea: str) -> list[tuple[str, str]]:
+    """[(tipo, valor)] de lo que parece una credencial en una línea."""
+    if EXENCION in linea:
+        return []
+    encontrados = []
+    for tipo, patron in PATRONES:
+        for m in patron.finditer(linea):
+            encontrados.append((tipo, m.group(1) if patron.groups else m.group(0)))
+    for m in ASIGNACION.finditer(linea):
+        valor = m.group(1)
+        if re.search(r"\d", valor) and re.search(r"[A-Za-z]", valor) and not any(v == valor for _, v in encontrados):
+            encontrados.append(("asignación sospechosa", valor))
+    return encontrados
+
+
+_ESCAPES = {"a": 7, "b": 8, "f": 12, "n": 10, "r": 13, "t": 9, "v": 11, "\\": 92, '"': 34}
+
+
+def _sin_escapes(ruta: str) -> str:
+    """Deshace el entrecomillado de Git (`core.quotePath`): \\t, \\n, \\", \\\\ y bytes en octal (\\303\\261)."""
+    salida, i = bytearray(), 0
+    while i < len(ruta):
+        if ruta[i] != "\\" or i + 1 >= len(ruta):
+            salida += ruta[i].encode()
+            i += 1
+        elif m := re.match(r"[0-7]{3}", ruta[i + 1:]):
+            salida.append(int(m[0], 8) & 255)
+            i += 4
+        else:
+            salida.append(_ESCAPES.get(ruta[i + 1], ord(ruta[i + 1]) if ord(ruta[i + 1]) < 128 else 63))
+            i += 2
+    return salida.decode("utf-8", errors="replace")
+
+
+def _ruta(cabecera: str) -> str:
+    """El archivo de una cabecera «+++ …»: sin la tabulación que Git agrega a rutas con espacios, sin comillas, sin el «b/»."""
+    ruta = cabecera.rstrip("\t")
+    if len(ruta) > 1 and ruta[0] == ruta[-1] == '"':
+        ruta = _sin_escapes(ruta[1:-1])
+    return ruta.removeprefix("b/")
+
+
+def hallazgos(texto_del_log: str) -> list[dict]:
+    """Las credenciales en las líneas agregadas del texto de `git log -p --cc -U0 --format=commit:%H`: archivo, línea, commit, tipo, vista."""
+    salida, commit, archivo, linea, en_hunk, padres = [], "", "", 0, False, 0
+    for crudo in texto_del_log.splitlines():
+        if re.fullmatch(r"commit:[0-9a-f]{7,64}", crudo):  # nuestra línea de formato; dentro de un hunk las líneas empiezan con + o -
+            commit, archivo, en_hunk = crudo[7:], "", False
+        elif crudo.startswith("diff --git") or crudo.startswith("diff --cc"):
+            en_hunk, archivo = False, ""
+        elif not en_hunk and crudo.startswith("+++ "):
+            archivo = "" if crudo == "+++ /dev/null" else _ruta(crudo[4:])
+        elif crudo.startswith("@@"):
+            m = ENCABEZADO_COMBINADO.match(crudo) or ENCABEZADO_HUNK.match(crudo)
+            padres = len(crudo) - len(crudo.lstrip("@")) - 1 if m and crudo.startswith("@@@") else 0
+            en_hunk, linea = bool(m), int((m.group(2) if padres else m.group(1)) if m else 0)
+        elif en_hunk and padres and "-" not in crudo[:padres]:  # merge: las columnas dicen de qué padres viene; las líneas quitadas no están
+            if crudo[:padres] == "+" * padres:
+                for tipo, valor in _en_linea(crudo[padres:]):
+                    salida.append({"archivo": archivo, "linea": linea, "commit": commit, "tipo": tipo, "vista": _tapado(valor)})
+            linea += 1  # la conservada de algún padre también ocupa su lugar en el archivo
+        elif en_hunk and not padres and crudo.startswith("+"):
+            for tipo, valor in _en_linea(crudo[1:]):
+                salida.append({"archivo": archivo, "linea": linea, "commit": commit, "tipo": tipo, "vista": _tapado(valor)})
+            linea += 1
+    return salida
+
+
+def texto_de_hallazgos(encontrados: list[dict]) -> str:
+    return "\n".join(f"      {h['archivo']}:{h['linea']} (commit {h['commit'][:7]}): {h['tipo']} {h['vista']}" for h in encontrados)
+
+
+def secretos(ejecutar: Callable, rango: list[str]) -> list[dict]:
+    """Busca credenciales en todos los commits del rango (argumentos de `git log`)."""
+    p = ejecutar(["git", "log", "-p", "--cc", "-U0", "--no-color", "--format=commit:%H", *rango])
+    if p.returncode:
+        raise PuertaRota(f"git no pudo leer los commits {' '.join(rango)}: {(getattr(p, 'stderr', '') or '').strip()[:200]}")
+    return hallazgos(p.stdout)
+
+
+def verificaciones(verificar: Callable, existe: Callable[[str], bool] | None = None) -> tuple[list[str], list[str], list[str]]:
+    """(problemas, avisos, omitidas): corre agentes, kb y resumen con --verificar (todas, aunque una falle).
+
+    Una guía vieja es un problema (bloquea); un kb o un resumen vencidos son un aviso; una verificación cuyo archivo todavía no existe se
+    omite: no hay nada vencido que corregir, y bloquear el primer push de un proyecto nuevo sería hostil."""
+    problemas, avisos, omitidas = [], [], []
+    for nombre, archivo, bloquea in VERIFICACIONES:
+        if existe is not None and not existe(archivo):
+            omitidas.append(nombre)
+            continue
+        codigo, salida = verificar([nombre, "--verificar"])
+        if codigo:
+            primera = next((l.strip() for l in (salida or "").splitlines() if l.strip()), "falló sin mensaje")
+            (problemas if bloquea else avisos).append(f"{nombre}: {primera[:200]}")
+    return problemas, avisos, omitidas
+
+
+def correr(ejecutar: Callable, rangos: list[list[str]], verificar: Callable, existe: Callable[[str], bool] | None = None) -> tuple[int, str]:
+    """(código, texto): 0 si todo pasa, CODIGO_BLOQUEO si alguna comprobación encuentra algo."""
+    encontrados = [h for rango in rangos for h in secretos(ejecutar, rango)]
+    problemas, avisos, omitidas = verificaciones(verificar, existe)
+    lineas = ["Puerta local de salida:"]
+    if encontrados:
+        lineas += [f"  ✗ secretos: {len(encontrados)} hallazgo(s) en los commits que se publican", texto_de_hallazgos(encontrados)]
+    else:
+        lineas.append("  ✓ secretos: ninguno en los commits que se publican")
+    hechas = [n for n, _, _ in VERIFICACIONES if n not in omitidas and not any(x.startswith(n + ":") for x in problemas + avisos)]
+    if problemas:
+        lineas += ["  ✗ verificaciones:", *[f"      {p}" for p in problemas]]
+        if hechas:
+            lineas.append("  ✓ al día: " + ", ".join(hechas))
+        if omitidas:
+            lineas.append(f"  - se omiten {', '.join(omitidas)}: el proyecto todavía no los generó")
+    else:
+        lineas.append("  ✓ verificaciones: " + (", ".join(hechas) + " al día" if hechas else "ninguna aplicable")
+                      + (f" (se omiten {', '.join(omitidas)}: el proyecto todavía no los generó)" if omitidas else ""))
+    if avisos:
+        lineas += ["  ! vencidos, no bloquean (se rehacen al integrar):", *[f"      {a}" for a in avisos]]
+    if encontrados or problemas:
+        lineas.append("La puerta no deja pasar el push. Arreglalo; si sabés lo que hacés, salteala con git push --no-verify "
+                      f"(para una línea de ejemplo conocida, agregale {EXENCION}).")
+        return CODIGO_BLOQUEO, "\n".join(lineas) + "\n"
+    return 0, "\n".join(lineas) + "\n"
+
+
+def rangos_del_hook(entrada: str, ejecutar: Callable) -> list[list[str]]:
+    """Los rangos a mirar a partir de lo que Git le pasa al pre-push: «ref_local sha_local ref_remota sha_remoto» por línea.
+
+    Un borrado no se mira; una rama nueva (o un sha remoto que no tenemos) se mira desde lo que ningún remoto tiene."""
+    rangos, sha = [], r"[0-9a-f]{40}|[0-9a-f]{64}"  # SHA-1 o SHA-256, según el formato de objetos del repositorio
+    for linea in entrada.splitlines():
+        partes = linea.split()
+        if len(partes) != 4 or not re.fullmatch(sha, partes[1]) or not re.fullmatch(sha, partes[3]):
+            continue
+        local, remoto = partes[1], partes[3]
+        if set(local) == {"0"}:
+            continue  # borrar una rama remota: no hay nada nuevo que publicar
+        if set(remoto) != {"0"} and ejecutar(["git", "cat-file", "-e", f"{remoto}^{{commit}}"]).returncode == 0:
+            rangos.append([f"{remoto}..{local}"])
+        else:
+            rangos.append([local, "--not", "--remotes"])
+    return rangos

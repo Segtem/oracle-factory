@@ -1,0 +1,192 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-puerta-local/.factory/local/revisiones/7658f1d-agy2-flash-1",
+  "base": "d939a4fc3c5eaede01fbea6faff2d8fefccece12",
+  "head": "7658f1da78892302c248a4707f78f138bd3964ed",
+  "diff_sha256": "13bbaccb6f599291d74488ab01870cd99fec4d4cc6f65df8adc2180c4aa06157",
+  "context_sha256": "99dc43f9979c26b12df8bfecbe5b76a119f3fca93d4814e23bf7b9a83b394f6b",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "puerta-secretos-commits-de-merge",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Los commits de merge no muestran diff y sus secretos no se detectan",
+      "explanation": "En puerta.secretos(), la invocación a git log (\"git log -p -U0 --no-color --format=commit:%H\") no incluye -m ni --cc. En Git, git log -p omite por defecto el diff de los commits de fusión. Si un merge introduce un secreto al resolver un conflicto o mediante un commit de integración con cambios propios, git log sólo emite la cabecera commit:<hash> sin hunks de diff (+). Como resultado, la puerta pasa por alto los secretos introducidos en commits de merge y permite el push.",
+      "location": {
+        "file": "oracle_factory/puerta.py",
+        "start_line": 88,
+        "end_line": 93,
+        "side": "head"
+      },
+      "trigger": "Crear un conflicto de fusión entre dos ramas, resolverlo incorporando un secreto (por ejemplo un token de GitHub ghp_...) en el archivo en conflicto, hacer commit del merge y ejecutar la puerta sobre ese commit o rango.",
+      "evidence": "En un repositorio de prueba local con un commit de merge que resolvió un conflicto agregando secret = \"ghp_111111111111111111111111111111111111\", puerta.secretos(ejecutar, [\"HEAD~1..HEAD\"]) devolvió 0 hallazgos ([]). Agregando la bandera -m a git log, el diff se despliega y el secreto es detectado inmediatamente.",
+      "related_requirement": "la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "status": "pendiente",
+      "verification": "Incluir -m (o --cc) en los argumentos pasados a git log en puerta.secretos() para inspeccionar el diff introducido en commits de merge."
+    },
+    {
+      "id": "puerta-secretos-asignacion-multilinea-y-triples-comillas",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Las asignaciones multilínea y con triples comillas no son detectadas por ASIGNACION",
+      "explanation": "La expresión regular ASIGNACION exige nombre de credencial y valor entre comillas en la misma línea. Dado que hallazgos() procesa el diff línea por línea, construcciones sintácticas comunes donde el valor va en otra línea (como asignaciones entre paréntesis api_key = (\\n \"...\"), JSON/YAML con salto de línea tras dos puntos o continuaciones con barra invertida), así como cadenas con triples comillas (donde la segunda comilla no califica en [^\"'\\s]), nunca coinciden. Un token genérico estructurado de esta manera pasa desapercibido.",
+      "location": {
+        "file": "oracle_factory/puerta.py",
+        "start_line": 34,
+        "end_line": 35,
+        "side": "head"
+      },
+      "trigger": "Agregar en un commit api_key = (\\n    \"mysecrettoken12345678\"\\n) o token = \"\"\"mysecrettoken12345678\"\"\" y ejecutar oracle-factory puerta.",
+      "evidence": "En pruebas sintéticas agregando ambas formas a un archivo de configuración, puerta.secretos() devolvió una lista vacía ([]).",
+      "related_requirement": "la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "status": "pendiente",
+      "verification": "Soportar sintaxis de triples comillas y considerar asignaciones partidas entre líneas contiguas dentro del mismo hunk de diff."
+    },
+    {
+      "id": "puerta-claves-aws-sts-temporales-no-detectadas",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Las credenciales temporales de AWS STS (prefijo ASIA) no son reconocidas como claves de AWS",
+      "explanation": "El patrón de PATRONES para claves de AWS es \\b(AKIA[0-9A-Z]{16})\\b. Las credenciales de seguridad temporales provistas por AWS STS (utilizadas de forma ubicua en roles IAM, AssumeRole, SSO, instancias EC2, tareas ECS, funciones Lambda y workflows de GitHub Actions) comienzan invariablemente con ASIA y tienen exactamente la misma longitud (20 caracteres: ASIA seguido de 16 caracteres alfanuméricos). Al restringir el patrón a AKIA, cualquier token temporal de AWS agregado en scripts, Dockerfiles o configuraciones sin comillas no es detectado como clave de AWS.",
+      "location": {
+        "file": "oracle_factory/puerta.py",
+        "start_line": 27,
+        "end_line": 27,
+        "side": "head"
+      },
+      "trigger": "Agregar en un commit una línea como export AWS_ACCESS_KEY_ID=ASIAIOSFODNN7EXAMPLE y correr la puerta.",
+      "evidence": "En una prueba controlada, puerta.secretos devolvió 0 hallazgos para una clave con prefijo ASIA, mientras que con prefijo AKIA es detectada inmediatamente como clave de AWS.",
+      "related_requirement": "la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "status": "pendiente",
+      "verification": "Ampliar el patrón regex a \\b((?:AKIA|ASIA)[0-9A-Z]{16})\\b para dar cobertura a credenciales STS temporales."
+    },
+    {
+      "id": "puerta-secretos-lineas-largas-truncadas",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Secretos ubicados después del carácter 300.000 se ignoran silenciosamente",
+      "explanation": "En _en_linea(), toda línea que exceda LINEA_MAXIMA (300.000 caracteres) se trunca silenciosamente con linea = linea[:LINEA_MAXIMA]. Aunque este límite se menciona en docs/puerta.md, la spec promete buscar credenciales en las líneas agregadas por cada commit que se publica sin establecer truncamientos. Si un commit incorpora un archivo minificado, bundle JS o JSON extenso donde el secreto aparece después de la posición 300.000, la puerta no lo detecta y no emite aviso de truncamiento.",
+      "location": {
+        "file": "oracle_factory/puerta.py",
+        "start_line": 51,
+        "end_line": 52,
+        "side": "head"
+      },
+      "trigger": "Agregar una línea con más de 300.000 caracteres de relleno y un token conocido (por ejemplo ghp_...) después del carácter 300.000, y ejecutar la puerta.",
+      "evidence": "Con una línea de 300.000 caracteres de relleno seguida de un token ghp_ válido, puerta._en_linea devolvió 0 hallazgos ([]). El test existente test_pu1_una_linea_enorme_se_mira_pero_no_cuelga ubica el token en el carácter 150.000, por lo que pasa por construcción dentro del margen escaneado.",
+      "related_requirement": "la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "status": "pendiente",
+      "verification": "Analizar la línea completa en bloques con solapamiento o emitir una advertencia visible de que la línea excedió el límite y no pudo ser escaneada íntegramente."
+    },
+    {
+      "id": "puerta-instruccion-hook-ajeno-riesgosa",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La línea sugerida para hooks pre-push ajenos no gestiona el código de salida y puede ignorar bloqueos o romper con set -e",
+      "explanation": "Cuando instalar_pre_push() encuentra un hook ajeno, avisa y recomienda agregar antes del final sólo {LLAMADA_PUERTA}. Sin embargo, la puerta sale con código 3 cuando bloquea y con código 2 ante errores internos. Si el hook preexistente no comprueba expresamente el código de retorno ($? -eq 3), el código 3 de bloqueo se ignora y el push continúa. Si por el contrario el script utiliza set -e, una salida con código 2 (que según la spec debe avisar y dejar pasar) abortará el push abruptamente. La sugerencia debe incluir la lógica de control completa provista en hook_pre_push().",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 801,
+        "end_line": 806,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory hooks en un repositorio con un hook pre-push ajeno y revisar el texto de instrucción brindado.",
+      "evidence": "El mensaje indica que se agregue únicamente la llamada directa a la CLI, omitiendo capturar rc y evaluar si rc es igual a 3 para abortar.",
+      "related_requirement": "el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+      "status": "pendiente",
+      "verification": "Proveer en el aviso el snippet de shell completo que captura rc, bloquea si rc es 3 y permite continuar con aviso en otros códigos distintos de cero."
+    },
+    {
+      "id": "puerta-ruta-git-con-espacios-comillas-y-caracteres-especiales",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "Rutas con espacios, comillas o caracteres especiales se reportan con formato mangled de Git",
+      "explanation": "En hallazgos(), crudo[4:].removeprefix(\"b/\") presupone que la cabecera +++ siempre inicia con \"+++ b/\". No obstante, unified diff de Git añade una tabulación \\t al final de la ruta si contiene espacios (\"+++ b/con espacio.py\\t\"), resultando en que archivo conserva la tabulación final. Asimismo, cuando el nombre contiene comillas, caracteres no ASCII o escapes (con core.quotePath activo por defecto), Git entrecomilla toda la ruta (\"+++ \\\"b/con...\\\"\"). Al iniciar con comilla, removeprefix(\"b/\") no hace coincidencia y no desescapa el texto, mostrando \"b/...\" entre comillas al usuario.",
+      "location": {
+        "file": "oracle_factory/puerta.py",
+        "start_line": 72,
+        "end_line": 73,
+        "side": "head"
+      },
+      "trigger": "Agregar un secreto en un archivo con espacios (con espacio.py) o comillas (con\"comillas.py) y correr la puerta.",
+      "evidence": "En pruebas con git log real, h['archivo'] devolvió 'con espacio.py\\t' y '\"b/con\\\\\"comillas.py\"'. El texto del reporte imprime 'con espacio.py\\t:1' y '\"b/con\\\"comillas.py\":1'.",
+      "related_requirement": "la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "status": "pendiente",
+      "verification": "Desescapar comillas C-quoting de Git y limpiar tabulaciones o espacios terminales en la extracción del nombre de archivo."
+    },
+    {
+      "id": "puerta-hook-repositorio-sha256-ignorado",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "En repositorios con formato de objeto SHA-256 el hook pre-push ignora todas las referencias",
+      "explanation": "En rangos_del_hook(), se filtran las líneas de entrada de pre-push exigiendo exactamente 40 caracteres hexadecimales: re.fullmatch(r\"[0-9a-f]{40}\", partes[1]) y cero = \"0\" * 40. En repositorios Git con objectFormat = sha256, Git suministra hashes de 64 caracteres. El filtro descarta todas las líneas, rangos queda vacío y la puerta responde 'nada nuevo que publicar' sin escanear ningún commit.",
+      "location": {
+        "file": "oracle_factory/puerta.py",
+        "start_line": 141,
+        "end_line": 145,
+        "side": "head"
+      },
+      "trigger": "Pasar a rangos_del_hook() una línea de pre-push con hashes SHA-256 de 64 caracteres.",
+      "evidence": "Con entrada 'refs/heads/main ' + 'a'*64 + ' refs/heads/main ' + '0'*64 + '\\n', puerta.rangos_del_hook devolvió [] (lista vacía), a pesar de que en la línea 68 los commits se reconocen con hasta 64 caracteres (commit:[0-9a-f]{7,64}).",
+      "related_requirement": "el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+      "status": "pendiente",
+      "verification": "Permitir hashes de 40 o 64 caracteres ([0-9a-f]{40}|[0-9a-f]{64}) y ajustar cero según la longitud del hash detectado."
+    },
+    {
+      "id": "puerta-mensaje-instalacion-contradice-spec-bloqueo",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "El mensaje de instalación del hook afirma erróneamente que las verificaciones vencidas bloquean el push",
+      "explanation": "En instalar_pre_push(), el mensaje devuelto dice: 'Puerta local de salida en ...: un push con un secreto o con verificaciones vencidas se bloquea'. Esto contradice la spec ('avisar sin fallar si el conocimiento o el resumen están vencidos (se rehacen al integrar)') y el comportamiento del código (sólo la guía vieja bloquea; kb y resumen vencidos son cotidianos y no bloquean). Indicar que 'con verificaciones vencidas se bloquea' desinforma sobre la política de la puerta.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 809,
+        "end_line": 809,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory hooks e inspeccionar el mensaje retornado.",
+      "evidence": "La salida afirma 'un push con un secreto o con verificaciones vencidas se bloquea', contradiciendo los escenarios donde kb o resumen vencidos pasan con éxito.",
+      "related_requirement": "la_puerta_corre_las_verificaciones_del_proyecto",
+      "status": "pendiente",
+      "verification": "Clarificar el mensaje indicando que sólo la guía para agentes desactualizada bloquea, mientras que el conocimiento o resumen vencidos únicamente avisan."
+    },
+    {
+      "id": "puerta-verificaciones-al-dia-ocultas-ante-fallo",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Las verificaciones al día u omitidas no se informan cuando una verificación falla",
+      "explanation": "El escenario de la spec 'una guía vieja' establece: 'ENTONCES la puerta falla nombrando la verificación de la guía y las demás se informan igual'. En puerta.correr(), el reporte de las verificaciones exitosas (hechas) y omitidas (omitidas) se ubica exclusivamente en la rama else de if problemas:. Cuando agentes falla, problemas no está vacío, por lo que la rama else se saltea por completo y la salida no informa si kb o resumen estaban al día o si fueron omitidos.",
+      "location": {
+        "file": "oracle_factory/puerta.py",
+        "start_line": 122,
+        "end_line": 127,
+        "side": "head"
+      },
+      "trigger": "Llamar a puerta.correr simulando un fallo en agentes pero con kb al día y resumen omitido.",
+      "evidence": "El texto devuelto sólo imprime '✗ verificaciones:\\n      agentes: ...' y no menciona en ningún punto el estado de kb ni la omisión de resumen.",
+      "related_requirement": "la_puerta_corre_las_verificaciones_del_proyecto",
+      "status": "pendiente",
+      "verification": "Informar las verificaciones que resultaron al día u omitidas independientemente de si hubo problemas en otra verificación."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron propuesta, spec, código, pruebas y documentación incluidos en el paquete Clue.",
+    "Se ejecutaron las 51 pruebas de test_puerta.py (aprobadas) y la suite completa del proyecto (958 pruebas aprobadas, 10 omitidas).",
+    "Se reprodujeron sintética y programáticamente los casos de falsos negativos (commits de merge, asignaciones multilínea, triples comillas, claves STS ASIA, rutas escapadas de Git, repositorios SHA-256 y truncamiento de 300.000 caracteres).",
+    "Se examinó la modificación de tests preexistentes en tests/datos/ayuda-cli.json (1 línea quitada): se determinó que está justificada ya que actualiza la ayuda general de la CLI para incluir el subcomando puerta."
+  ]
+}

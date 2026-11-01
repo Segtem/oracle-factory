@@ -1,0 +1,89 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261101-121356-ih8-puertalocal",
+  "contexto": {
+    "head": "0fdd1ccf38e0c2de5f9de8f85393b513ab856fa1",
+    "archivos_sha256": "aee48b6fb6b57a819fef663273f73b69b09dea16518a3fa6075024ddfc1b5790"
+  },
+  "documentos": {
+    "openspec/changes/20261101-121356-ih8-puertalocal/proposal.md": "768f7ba9f2a62e09800b5c033916a458364af2888ba28066f914aafe96de226a",
+    "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md": "60b9ae3af9a3ac5279debc341a7815283b9f9c06efc6c42ca7e185ef4b010fdc"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_puerta_local.corrida_completa.oracle",
+    "catalogos/factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja.oracle",
+    "catalogos/factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto.oracle",
+    "catalogos/factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican.oracle",
+    "catalogos/factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo.oracle",
+    "docs/puerta.md",
+    "openspec/changes/20261101-121356-ih8-puertalocal/design.md",
+    "openspec/changes/20261101-121356-ih8-puertalocal/proposal.md",
+    "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md",
+    "openspec/changes/20261101-121356-ih8-puertalocal/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/parser.py",
+    "oracle_factory/puerta.py",
+    "requisitos/calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja.requisito",
+    "requisitos/calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto.requisito",
+    "requisitos/calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican.requisito",
+    "requisitos/calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo.requisito",
+    "tests/datos/ayuda-cli.json",
+    "tests/test_puerta.py",
+    "tools/verify_puerta_local.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 969 pruebas, 62 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-121356-ih8-puertalocal/candidatos/2fa1bb7/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-121356-ih8-puertalocal/candidatos/2fa1bb7/revision/agy2-flash-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-121356-ih8-puertalocal/candidatos/2fa1bb7/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7658f1d: agy (gemini-3.8-flash-high), 9 hallazgos: puerta-secretos-commits-de-merge (alta), puerta-secretos-asignacion-multilinea-y-triples-comillas (media), puerta-claves-aws-sts-temporales-no-detectadas (media), puerta-secretos-lineas-largas-truncadas (media), puerta-instruccion-hook-ajeno-riesgosa (media), puerta-ruta-git-con-espacios-comillas-y-caracteres-especiales (baja), puerta-hook-repositorio-sha256-ignorado (baja), puerta-mensaje-instalacion-contradice-spec-bloqueo (baja), puerta-verificaciones-al-dia-ocultas-ante-fallo (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-121356-ih8-puertalocal/candidatos/7658f1d/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7658f1d: codex (gpt-6-luna), 2 hallazgos: puerta-secretos-lineas-largas (media), puerta-ruta-git-entrecomillada (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-121356-ih8-puertalocal/candidatos/7658f1d/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 65b2fca: agy (gemini-3.8-flash-high), 6 hallazgos: puerta-secretos-commits-de-merge-pulpo (alta), puerta-secretos-desincronizacion-lineas-diff-combinado (media), puerta-clave-google-terminada-en-guion (media), puerta-hook-ajeno-salida-falsa-bloqueante-y-set-e (media), puerta-verificaciones-omitidas-ocultas-con-problemas (baja), puerta-ruta-git-c-quoting-incompleto (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-121356-ih8-puertalocal/candidatos/65b2fca/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 65b2fca: codex (gpt-6-luna), 1 hallazgo: puerta-rutas-citadas-no-decodiﬁcadas (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-121356-ih8-puertalocal/candidatos/65b2fca/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios pu1–pu4 con Git de verdad (un remoto local temporal y el hook instalado), un ejecutor falso para los casos de error y secretos armados al vuelo, en Linux. Comprueban lo que la puerta detecta, bloquea y deja pasar, y que no modifica el árbol; no son un escáner completo (no miden entropía ni formatos que la lista no incluye) y no corren analizadores estáticos.",
+    "agy (gemini-3.8-flash-high): Se revisaron la propuesta, la especificación, el diseño, la documentación (docs/puerta.md), el código del candidato (oracle_factory/puerta.py, oracle_factory/cli.py, oracle_factory/parser.py), los tests unitarios (tests/test_puerta.py, tests/datos/ayuda-cli.json), y el script de verificación y contratos (tools/verify_puerta_local.py, catalogos/*.oracle, requisitos/*.requisito).",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección de los hallazgos de las rondas previas (candidatos 7658f1d y 65b2fca) y que cada solución cubra la clase completa del problema: formato combinado real de Git (--cc -U0) con 2, 3 o más padres (octopus merges), conteo exacto de líneas sumando líneas conservadas de padres y descartando quitadas, decodificación C-quoting completa en rutas con secuencias de escape y octales, lookahead en clave de Google sin backtracking, encadenamiento seguro para hooks ajenos compatible con set -e y salidas limpias/avisos, e informe visible de verificaciones omitidas tanto con éxito como ante fallos.",
+    "agy (gemini-3.8-flash-high): Se ejecutó la suite completa de tests del proyecto (.venv/bin/python -m unittest discover -s tests </dev/null), aprobando los 969 tests (10 skipped) en 383s.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las 62 pruebas unitarias específicas de tests/test_puerta.py con el intérprete del entorno (.venv/bin/python), aprobando el 100% (62 pruebas en 14.9s).",
+    "agy (gemini-3.8-flash-high): Se ejecutó el script de verificación tools/verify_puerta_local.py con generación de evidencia y trazabilidad completa, confirmando que los 62 casos de contrato pasan, la trazabilidad es completa y las fuentes permanecen estables.",
+    "agy (gemini-3.8-flash-high): Se probó en repositorios Git reales el comportamiento con diffs combinados (-p --cc -U0) en merges de 2 padres y octopus merges (3 padres generados con commit-tree) ante conflictos resueltos, líneas conservadas y líneas eliminadas.",
+    "agy (gemini-3.8-flash-high): Se analizó la edición del test preexistente en tests/datos/ayuda-cli.json (1 línea quitada de la ayuda general) y se constató que es legítima y obligada: refleja la incorporación del subcomando 'puerta' y su ayuda en la interfaz de línea de comandos de oracle-factory, requerida por test_cm1_la_ayuda_de_oracle_factory_y_de_cada_subcomando_es_identica.",
+    "codex (gpt-6-luna): Leí la propuesta, la spec, el diff del paquete y el código/pruebas relevantes en oracle_factory/puerta.py, cli.py, docs/puerta.md, tools/verify_puerta_local.py y tests/test_puerta.py.",
+    "codex (gpt-6-luna): Corrí `python -m unittest tests.test_puerta`: las 62 pruebas pasaron. `.venv/bin/python` no está presente en este checkout. No corrí la suite completa ni tools/verify_puerta_local.py, de acuerdo con el alcance fuera de alcance de la propuesta.",
+    "codex (gpt-6-luna): Contrasté los casos corregidos de rondas anteriores: encabezados combinados `@@@`/`@@@@` con `-U0`, columnas por padre y conteo de líneas conservadas; escapes C de rutas; lookahead de la clave Google terminada en guion; y llamada al hook que tolera `set -e` y sólo bloquea con código 3. Las pruebas cubren los casos mostrados; no ejecuté mutaciones persistentes sobre copias. No encontré un contraejemplo reproducible adicional.",
+    "codex (gpt-6-luna): La única edición preexistente indicada, una línea quitada de tests/datos/ayuda-cli.json, está justificada: actualiza la salida de ayuda esperada para reflejar el subcomando `puerta` agregado."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
