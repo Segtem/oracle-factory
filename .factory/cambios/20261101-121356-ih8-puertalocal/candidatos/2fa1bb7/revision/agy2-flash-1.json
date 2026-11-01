@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-puerta-local/.factory/local/revisiones/2fa1bb7-agy2-flash-1",
+  "base": "d939a4fc3c5eaede01fbea6faff2d8fefccece12",
+  "head": "2fa1bb7d7bb0d4e6eb316129397fb1098c1a3856",
+  "diff_sha256": "f65490930a61a171126292e1f6332fb5bd3ec2dbb72d3ee917430e93d739cdda",
+  "context_sha256": "8caea03da310533cf46ef4f35fc4765a0dab638425588b491fa029ca17c136c0",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, la especificación, el diseño, la documentación (docs/puerta.md), el código del candidato (oracle_factory/puerta.py, oracle_factory/cli.py, oracle_factory/parser.py), los tests unitarios (tests/test_puerta.py, tests/datos/ayuda-cli.json), y el script de verificación y contratos (tools/verify_puerta_local.py, catalogos/*.oracle, requisitos/*.requisito).",
+    "Se verificó la corrección de los hallazgos de las rondas previas (candidatos 7658f1d y 65b2fca) y que cada solución cubra la clase completa del problema: formato combinado real de Git (--cc -U0) con 2, 3 o más padres (octopus merges), conteo exacto de líneas sumando líneas conservadas de padres y descartando quitadas, decodificación C-quoting completa en rutas con secuencias de escape y octales, lookahead en clave de Google sin backtracking, encadenamiento seguro para hooks ajenos compatible con set -e y salidas limpias/avisos, e informe visible de verificaciones omitidas tanto con éxito como ante fallos.",
+    "Se ejecutó la suite completa de tests del proyecto (.venv/bin/python -m unittest discover -s tests </dev/null), aprobando los 969 tests (10 skipped) en 383s.",
+    "Se ejecutaron las 62 pruebas unitarias específicas de tests/test_puerta.py con el intérprete del entorno (.venv/bin/python), aprobando el 100% (62 pruebas en 14.9s).",
+    "Se ejecutó el script de verificación tools/verify_puerta_local.py con generación de evidencia y trazabilidad completa, confirmando que los 62 casos de contrato pasan, la trazabilidad es completa y las fuentes permanecen estables.",
+    "Se probó en repositorios Git reales el comportamiento con diffs combinados (-p --cc -U0) en merges de 2 padres y octopus merges (3 padres generados con commit-tree) ante conflictos resueltos, líneas conservadas y líneas eliminadas.",
+    "Se analizó la edición del test preexistente en tests/datos/ayuda-cli.json (1 línea quitada de la ayuda general) y se constató que es legítima y obligada: refleja la incorporación del subcomando 'puerta' y su ayuda en la interfaz de línea de comandos de oracle-factory, requerida por test_cm1_la_ayuda_de_oracle_factory_y_de_cada_subcomando_es_identica."
+  ]
+}

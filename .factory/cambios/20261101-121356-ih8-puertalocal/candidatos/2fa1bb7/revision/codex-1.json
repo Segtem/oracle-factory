@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-puerta-local/.factory/local/revisiones/2fa1bb7-codex-1",
+  "base": "d939a4fc3c5eaede01fbea6faff2d8fefccece12",
+  "head": "2fa1bb7d7bb0d4e6eb316129397fb1098c1a3856",
+  "diff_sha256": "f65490930a61a171126292e1f6332fb5bd3ec2dbb72d3ee917430e93d739cdda",
+  "context_sha256": "905f048bc7f9e84490fe413a94a39a1690012dd56503ef8ab1783592c0dfe4a5",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff del paquete y el código/pruebas relevantes en oracle_factory/puerta.py, cli.py, docs/puerta.md, tools/verify_puerta_local.py y tests/test_puerta.py.",
+    "Corrí `python -m unittest tests.test_puerta`: las 62 pruebas pasaron. `.venv/bin/python` no está presente en este checkout. No corrí la suite completa ni tools/verify_puerta_local.py, de acuerdo con el alcance fuera de alcance de la propuesta.",
+    "Contrasté los casos corregidos de rondas anteriores: encabezados combinados `@@@`/`@@@@` con `-U0`, columnas por padre y conteo de líneas conservadas; escapes C de rutas; lookahead de la clave Google terminada en guion; y llamada al hook que tolera `set -e` y sólo bloquea con código 3. Las pruebas cubren los casos mostrados; no ejecuté mutaciones persistentes sobre copias. No encontré un contraejemplo reproducible adicional.",
+    "La única edición preexistente indicada, una línea quitada de tests/datos/ayuda-cli.json, está justificada: actualiza la salida de ayuda esperada para reflejar el subcomando `puerta` agregado."
+  ]
+}
