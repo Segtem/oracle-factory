@@ -123,3 +123,7 @@ Medidas de calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_com
 ### Nota (2026-11-01 20:04:25 UTC)
 
 Medidas de calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 20:32:24 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres rondas con revisores independientes (agy2-flash y codex): ronda 1, 11 hallazgos; ronda 2, 7; ronda 3, 0 de ambos sobre el candidato 2fa1bb7. Todos los hallazgos de las rondas 1 y 2 eran reales y se corrigieron con prueba y mutación (merges y merge pulpo con --cc, claves ASIA y de Google terminadas en guion, líneas enteras, triples comillas, rutas con escapes de Git, SHA-256, línea sugerida para hooks ajenos válida con set -e, verificaciones omitidas o al día informadas con un fallo); las asignaciones con el valor en otra línea quedan como límite declarado en docs/puerta.md. Evidencia con éxito: 969 pruebas, 62 casos de contrato. Mutaciones: 10 de 11 detectadas en la segunda ronda; sobrevive la que quita '& 255' del octal, equivalente para entradas reales de Git.); 0 abiertos derivados; commit 0fdd1ccf38e0c2de5f9de8f85393b513ab856fa1; informe tareas/20261101-121356-ih8-puertalocal/revisiones/registro-m_b0ybs7/informe.json; decisiones tareas/20261101-121356-ih8-puertalocal/revisiones/registro-m_b0ybs7/decisiones.json.
