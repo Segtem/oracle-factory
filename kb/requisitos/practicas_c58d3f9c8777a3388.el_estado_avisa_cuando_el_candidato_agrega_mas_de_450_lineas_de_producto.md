@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto`
 - Vigente: sí
 - Cambio: [[cambios/20261101-205730-dm3-alarmasflujo]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_alarmas_flujo.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto`, `factory_alarmas_flujo.corrida_completa`
 - Fuente: openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md#el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto
 

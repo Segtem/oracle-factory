@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado`
 - Vigente: sí
 - Cambio: [[cambios/20261101-205730-dm3-alarmasflujo]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado`, `factory_alarmas_flujo.corrida_completa`
 - Fuente: openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md#el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado
 

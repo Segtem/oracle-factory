@@ -2,7 +2,7 @@
   "id": "20261101-205730-dm3-alarmasflujo",
   "titulo": "Avisar de los bucles de revisión y de los cambios demasiado grandes",
   "capacidad": "practicas",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md",
   "spec_sha256": "08959cd1e35797783e490f91e02688f68bb5f6a8e38ef163386530450123746d",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "90deeb2a051a60fa81ee74ff406ea1785860ab4ac023d7e2fe70ffce97c1c6e4"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261101-205730-dm3-alarmasflujo/candidatos/2aab69a/evidencia/hechos.json",
+    "hechos_sha256": "6ca0c02843c18d86e3576a357bde9d2bb8044266b0af66c83f13b0f4c4f49747",
+    "informe": ".factory/cambios/20261101-205730-dm3-alarmasflujo/oracle-veredicto.txt",
+    "informe_sha256": "b3028ca9dd1cb398ba64d39803a3469692e8f200de28b376851e98b1fb35082d",
+    "cuando": "2026-11-01T22:49:57.573963+00:00",
+    "contexto": {
+      "head": "cc891c25226096551d8c18ad31c0fdfbcf47aa31",
+      "archivos_sha256": "90deeb2a051a60fa81ee74ff406ea1785860ab4ac023d7e2fe70ffce97c1c6e4"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -365,6 +377,17 @@
       "abiertos": 0,
       "sha256": "3bf2edff8c6504080f51b29292ec152f1e7ac777f621097734b0e49953642995",
       "decisiones_sha256": "5b3f7dcf2e3a5e760689e028695c38ca2b68deda273cc5173fc1ecd3e5550f75"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T22:49:57.573980+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "6ca0c02843c18d86e3576a357bde9d2bb8044266b0af66c83f13b0f4c4f49747"
     }
   ],
   "tipos": {
