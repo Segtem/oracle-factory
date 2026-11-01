@@ -44,6 +44,19 @@
       "proveedor": "agy",
       "modelo": "gemini-4-argon-high",
       "tope_minutos": 90
+    },
+    "agy2-flash": {
+      "comando": [
+        "env",
+        "AGY_MODEL=gemini-3.8-flash-high",
+        "ask-agy2",
+        "{pedido}",
+        "{carpeta}",
+        "{carpeta}/agy2-flash.md"
+      ],
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "tope_minutos": 90
     }
   },
   "rag": {

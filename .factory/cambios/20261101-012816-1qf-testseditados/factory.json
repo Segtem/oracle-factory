@@ -269,6 +269,58 @@
         "factory_tests_editados.solo_cuentan_los_archivos_de_pruebas",
         "factory_tests_editados.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T02:28:24.282831+00:00",
+      "revisor": "agy2",
+      "candidato": "3c2793e",
+      "lanzamiento": "ab581d7cf211"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T02:28:24.318600+00:00",
+      "revisor": "codex",
+      "candidato": "3c2793e",
+      "lanzamiento": "aabfdd51dc02"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T02:29:06.767991+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "3c2793e",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "aabfdd51dc02"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T02:33:31.173523+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "3c2793e",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "ab581d7cf211"
     }
   ],
   "tipos": {
