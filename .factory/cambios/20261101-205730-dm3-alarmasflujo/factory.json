@@ -100,6 +100,45 @@
         "factory_alarmas_flujo.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T21:22:39.447127+00:00",
+      "requisito": "practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado",
+      "medidas": [
+        "factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado",
+        "factory_alarmas_flujo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T21:22:39.603031+00:00",
+      "requisito": "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "medidas": [
+        "factory_alarmas_flujo.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+        "factory_alarmas_flujo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T21:22:39.754404+00:00",
+      "requisito": "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "medidas": [
+        "factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+        "factory_alarmas_flujo.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -107,27 +146,30 @@
     "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto": "funcional",
     "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas": {
-      "sha256": "dd272edaba4bca2067b15f2836bcb183623d30d9a23e354c1dbfa80e32a9702c",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T21:13:18.419345+00:00",
+  "medidas": {
+    "practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T21:22:39.409406+00:00",
+      "sha256": "364e6932b330c5f06e14a12fe8a18abc2aea92de98e1f8d44279d8119fb6a3d5",
       "catalogos": {
-        "factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas": "c8711d0c16ac605b266dd0ebf6af4f7d6b6d0b7995c8b03f1a71c3108f384c97",
+        "factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado": "44d0a13e5b9dad844b8aad2fd30959bf32e3092f45d3ac03f7340163e12eb6de",
         "factory_alarmas_flujo.corrida_completa": "b632a2a123df59a4c00302af86bd770786640ca8b0a3b33eed7ae26fd731eada"
       },
       "archivos_catalogo": {
-        "factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas": "catalogos/factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas.oracle",
+        "factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado": "catalogos/factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado.oracle",
         "factory_alarmas_flujo.corrida_completa": "catalogos/factory_alarmas_flujo.corrida_completa.oracle"
       }
     },
     "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T21:22:39.565363+00:00",
       "sha256": "c7dd9026b2329fdd828f7bf2e2616d3fe1fd0a537913a56bc250efff3ce91691",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T21:13:19.738309+00:00",
       "catalogos": {
         "factory_alarmas_flujo.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto": "cb66cd7fa3110f538992a67fcf0b410f8c09b721559b8441f81efdd5339f5c5f",
         "factory_alarmas_flujo.corrida_completa": "b632a2a123df59a4c00302af86bd770786640ca8b0a3b33eed7ae26fd731eada"
@@ -137,19 +179,22 @@
         "factory_alarmas_flujo.corrida_completa": "catalogos/factory_alarmas_flujo.corrida_completa.oracle"
       }
     },
-    "practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado": {
-      "sha256": "364e6932b330c5f06e14a12fe8a18abc2aea92de98e1f8d44279d8119fb6a3d5",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T21:13:21.036621+00:00",
+    "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T21:22:39.716073+00:00",
+      "sha256": "dd272edaba4bca2067b15f2836bcb183623d30d9a23e354c1dbfa80e32a9702c",
       "catalogos": {
-        "factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado": "44d0a13e5b9dad844b8aad2fd30959bf32e3092f45d3ac03f7340163e12eb6de",
+        "factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas": "c8711d0c16ac605b266dd0ebf6af4f7d6b6d0b7995c8b03f1a71c3108f384c97",
         "factory_alarmas_flujo.corrida_completa": "b632a2a123df59a4c00302af86bd770786640ca8b0a3b33eed7ae26fd731eada"
       },
       "archivos_catalogo": {
-        "factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado": "catalogos/factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado.oracle",
+        "factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas": "catalogos/factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas.oracle",
         "factory_alarmas_flujo.corrida_completa": "catalogos/factory_alarmas_flujo.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
