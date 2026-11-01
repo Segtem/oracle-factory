@@ -802,11 +802,13 @@ def instalar_pre_push(carpeta: Path) -> str:
     hook = carpeta / "pre-push"
     if hook.exists() and puerta_mod.HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
         return ("Aviso: ya hay un hook pre-push que no es de Factory; no lo toqué. Para tener la puerta local de salida (secretos y "
-                f"verificaciones antes de publicar), agregale esta línea antes de su final:\n{LLAMADA_PUERTA.format(py=shlex.quote(sys.executable))}")
+                f"verificaciones antes de publicar), agregale estas líneas antes de su final (la puerta bloquea con el código {puerta_mod.CODIGO_BLOQUEO}; "
+                f"cualquier otro código es un aviso y el push sigue):\n{LLAMADA_PUERTA.format(py=shlex.quote(sys.executable))}\n"
+                f'[ "$?" -eq {puerta_mod.CODIGO_BLOQUEO} ] && exit 1')
     hook.parent.mkdir(parents=True, exist_ok=True)
     hook.write_text(hook_pre_push(), encoding="utf-8")
     hook.chmod(0o755)
-    return f"Puerta local de salida en {hook}: un push con un secreto o con verificaciones vencidas se bloquea (git push --no-verify la saltea)."
+    return f"Puerta local de salida en {hook}: un push con un secreto o con la guía para agentes vencida se bloquea; un kb o un resumen vencidos sólo avisan (git push --no-verify la saltea)."
 
 
 def instalar_hook() -> str:

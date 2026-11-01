@@ -100,9 +100,40 @@ class Detectar(unittest.TestCase):
                  'diff --git a/y b/y\ndeleted file mode 100644\n--- a/y\n+++ /dev/null\n@@ -1 +0,0 @@\n-viejo\n')
         self.assertEqual(puerta.hallazgos(texto), [])
 
-    def test_pu1_una_linea_enorme_se_mira_pero_no_cuelga(self):
-        linea = 'x' * 150_000 + f' "{GITHUB}" ' + 'y' * 10
+    def test_pu1_una_linea_enorme_se_mira_entera_y_no_cuelga(self):
+        import time
+        linea = 'x' * 400_000 + f' "{GITHUB}" ' + 'y' * 10  # el secreto queda después de los 300 000 caracteres
+        t = time.monotonic()
         self.assertEqual(len(puerta.hallazgos(log('abc1234', 'a.json', linea))), 1)
+        self.assertLess(time.monotonic() - t, 5)
+        patologica = 'token' + '_' * 400_000 + ' ' * 1000 + 'a1' * 100  # nombre de credencial que no se asigna nunca: no puede ser cuadrático
+        t = time.monotonic()
+        puerta.hallazgos(log('abc1234', 'a.json', patologica))
+        self.assertLess(time.monotonic() - t, 5)
+
+    def test_pu1_las_claves_temporales_de_aws_tambien(self):
+        [h] = puerta.hallazgos(log('abc1234', 'a.sh', 'export K=' + 'ASIA' + 'IOSFODNN7EXAMPLE'))
+        self.assertEqual(h['tipo'], 'clave de AWS')
+
+    def test_pu1_una_asignacion_con_triples_comillas_se_marca(self):
+        for comillas in ('"""', "'''"):
+            with self.subTest(comillas=comillas):
+                [h] = puerta.hallazgos(log('abc1234', 'a.py', 'token = ' + comillas + 'a1b2c3d4e5f6g7h8i9' + comillas))
+                self.assertEqual(h['tipo'], 'asignación sospechosa')
+
+    def test_pu1_un_commit_de_merge_con_un_secreto_propio_se_marca_y_el_texto_del_otro_lado_no(self):
+        # --cc: sólo lo que el merge agrega frente a todos sus padres, en el formato combinado («@@@», «++»)
+        merge = (f'commit:abc1234\n\ndiff --cc config.py\nindex 1,2..3\n--- a/config.py\n+++ b/config.py\n@@@ -1,1 -1,1 +1,2 @@@\n'
+                 f'++TOKEN = "{GITHUB}"\n +otra = "{GITHUB}"\n- viejo\n')
+        encontrados = puerta.hallazgos(merge)
+        self.assertEqual([(h['archivo'], h['linea'], h['commit']) for h in encontrados], [('config.py', 1, 'abc1234')])
+
+    def test_pu1_una_ruta_con_espacios_o_comillas_sale_con_su_nombre_real(self):
+        texto = ('commit:abc1234\n\ndiff --git "a/con espacio.py" "b/con espacio.py"\n--- "a/con espacio.py"\t\n+++ "b/con espacio.py"\t\n'
+                 f'@@ -0,0 +1 @@\n+x = "{GITHUB}"\n')
+        self.assertEqual(puerta.hallazgos(texto)[0]['archivo'], 'con espacio.py')
+        texto = texto.replace('"b/con espacio.py"', 'b/con espacio.py')
+        self.assertEqual(puerta.hallazgos(texto)[0]['archivo'], 'con espacio.py')
 
     def test_pu1_el_documento_nombra_cada_tipo_de_credencial_el_codigo_de_salida_y_la_marca(self):
         documento = (SOURCE / 'docs/puerta.md').read_text(encoding='utf-8')
@@ -205,6 +236,7 @@ class Verificaciones(unittest.TestCase):
         self.assertEqual(codigo, puerta.CODIGO_BLOQUEO)
         self.assertIn('✗ verificaciones', texto)
         self.assertIn('! vencidos, no bloquean', texto)
+        self.assertIn('✓ al día: resumen', texto)  # lo que sí está al día se informa igual cuando otra falla
 
     def test_pu2_con_todas_omitidas_la_puerta_dice_que_ninguna_aplica_y_pasa(self):
         limpio = lambda argv: SimpleNamespace(returncode=0, stdout=log('abc1234', 'a.py', 'x = 1'))  # noqa: E731
@@ -250,6 +282,13 @@ class Rangos(unittest.TestCase):
     def test_pu3_una_rama_existente_mira_desde_el_sha_remoto(self):
         entrada = f'refs/heads/main {"a" * 40} refs/heads/main {"b" * 40}\n'
         self.assertEqual(puerta.rangos_del_hook(entrada, self.git(conocidos=('b' * 40,))), [[f'{"b" * 40}..{"a" * 40}']])
+
+    def test_pu3_los_repositorios_con_hashes_de_64_caracteres_tambien_se_miran(self):
+        local, remoto = 'a' * 64, 'b' * 64
+        ejecutar = lambda argv: SimpleNamespace(returncode=0, stdout='')  # noqa: E731
+        self.assertEqual(puerta.rangos_del_hook(f'refs/heads/m {local} refs/heads/m {remoto}\n', ejecutar), [[f'{remoto}..{local}']])
+        self.assertEqual(puerta.rangos_del_hook(f'refs/heads/m {"0" * 64} refs/heads/m {remoto}\n', ejecutar), [])
+        self.assertEqual(puerta.rangos_del_hook(f'refs/heads/m {local} refs/heads/m {"0" * 64}\n', ejecutar), [[local, '--not', '--remotes']])
 
     def test_pu3_borrar_una_rama_remota_no_se_mira(self):
         entrada = f'(delete) {self.CERO} refs/heads/vieja {"b" * 40}\n'
@@ -313,6 +352,8 @@ class HookReal(unittest.TestCase):
         self.assertTrue(self.hook().is_file())
         self.assertTrue(os.access(self.hook(), os.X_OK))
         self.assertIn('pre-push', self.salida)
+        self.assertIn('kb o un resumen vencidos sólo avisan', self.salida)  # el mensaje dice la política real
+        self.assertNotIn('verificaciones vencidas se bloquea', self.salida)
         self.assertIn('puerta', self.hook().read_text())
 
     def test_pu3_un_push_limpio_pasa(self):
@@ -336,6 +377,31 @@ class HookReal(unittest.TestCase):
         codigo, salida = self.empujar('origin', 'main')
         self.assertNotEqual(codigo, 0)
         self.assertIn('config.py', salida)
+
+    def test_pu3_un_secreto_escrito_al_resolver_un_merge_bloquea(self):
+        self.commit('config.py', 'TOKEN = ""', 'base')
+        self.git('checkout', '-q', '-b', 'otra')
+        self.commit('otra.py', 'z = 3', 'lado de la otra rama')
+        self.git('checkout', '-q', 'main')
+        self.commit('b.py', 'y = 2', 'lado de main')
+        self.git('merge', '-q', '--no-ff', '--no-commit', 'otra')
+        (self.root / 'config.py').write_text(f'TOKEN = "{GITHUB}"\n')  # el secreto aparece sólo en el commit del merge
+        self.git('add', '-A')
+        self.git('commit', '-qm', 'merge con secreto')
+        codigo, salida = self.empujar('origin', 'main')
+        self.assertNotEqual(codigo, 0, salida)
+        self.assertIn('token de GitHub', salida)
+        self.assertNotIn(GITHUB, salida)
+
+    def test_pu3_un_merge_limpio_con_el_contenido_de_la_otra_rama_pasa(self):
+        self.commit('config.py', 'TOKEN = ""', 'base')
+        self.git('checkout', '-q', '-b', 'otra')
+        self.commit('otra.py', 'z = 3', 'lado de la otra rama')
+        self.git('checkout', '-q', 'main')
+        self.commit('b.py', 'y = 2', 'lado de main')
+        self.git('merge', '-q', '--no-ff', '-m', 'merge limpio', 'otra')
+        codigo, salida = self.empujar('origin', 'main')
+        self.assertEqual(codigo, 0, salida)
 
     def test_pu3_solo_se_miran_los_commits_que_el_remoto_todavia_no_tiene(self):
         self.commit('config.py', f'TOKEN = "{GITHUB}"', 'ya publicado')
@@ -401,6 +467,9 @@ class HookReal(unittest.TestCase):
         self.assertEqual(self.hook().read_text(), ajeno)
         self.assertIn('pre-push', salida)
         self.assertIn('no es de Factory', salida)
+        self.assertIn(f'-eq {puerta.CODIGO_BLOQUEO}', salida)  # la línea sugerida respeta el código de salida
+        self.assertIn('&& exit 1', salida)
+        self.assertNotIn('verificaciones vencidas se bloquea', salida)
 
     def test_pu3_instalar_dos_veces_no_duplica_ni_rompe(self):
         antes = self.hook().read_text()

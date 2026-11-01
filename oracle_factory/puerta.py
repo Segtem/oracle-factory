@@ -19,12 +19,11 @@ EXENCION = "factory:secreto-ok"
 # El tercer valor: si vencida bloquea. La guía no se arregla sola y desorienta a los agentes; kb y resumen se rehacen al integrar (post-merge),
 # así que vencidos son cotidianos (p. ej. tras agregar un mensaje a un cambio): se avisan.
 VERIFICACIONES = (("agentes", "AGENTS.md", True), ("kb", "kb/README.md", False), ("resumen", ".factory/resumen.md", False))
-LINEA_MAXIMA = 300_000  # una línea de un JSON gigante se mira entera; más que esto ya no es texto escrito por una persona
 
 # Valores con forma de credencial, no palabras. Cada patrón captura el valor en el grupo 1 (o el 0 si no hay grupo).
 PATRONES: tuple[tuple[str, re.Pattern], ...] = (
     ("clave privada", re.compile(r"-----BEGIN (?:RSA |EC |DSA |OPENSSH |PGP |ENCRYPTED )?PRIVATE KEY")),
-    ("clave de AWS", re.compile(r"\b(AKIA[0-9A-Z]{16})\b")),
+    ("clave de AWS", re.compile(r"\b(A[KS]IA[0-9A-Z]{16})\b")),
     ("token de GitHub", re.compile(r"\b(gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{22,})")),
     ("token de PyPI", re.compile(r"\b(pypi-[A-Za-z0-9_-]{50,})")),
     ("token de Slack", re.compile(r"\b(xox[baprs]-[A-Za-z0-9-]{10,})")),
@@ -32,8 +31,10 @@ PATRONES: tuple[tuple[str, re.Pattern], ...] = (
     ("clave sk-", re.compile(r"\b(sk-(?:ant-)?[A-Za-z0-9_-]{20,})")),
 )
 # Un nombre de credencial asignado a un valor entre comillas, largo, sin espacios y con letras y dígitos (descarta frases y constantes).
-ASIGNACION = re.compile(r"""(?i)\b(?:api[_-]?key|secret|token|passw(?:or)?d|clave|credencial)\w*\s*[=:]\s*["']([^"'\s]{16,})["']""")
+ASIGNACION = re.compile(r"""(?i)\b(?:api[_-]?key|secret|token|passw(?:or)?d|clave|credencial)\w*\s*[=:]\s*["']{1,3}([^"'\s]{16,})["']""")
 ENCABEZADO_HUNK = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@")
+# Un merge con --cc: «@@@ -a -b +c @@@», y una línea que el merge agrega frente a todos sus padres empieza con «++».
+ENCABEZADO_COMBINADO = re.compile(r"^@@@ .* \+(\d+)(?:,\d+)? @@@")
 
 
 class PuertaRota(Exception):
@@ -48,8 +49,6 @@ def _en_linea(linea: str) -> list[tuple[str, str]]:
     """[(tipo, valor)] de lo que parece una credencial en una línea."""
     if EXENCION in linea:
         return []
-    if len(linea) > LINEA_MAXIMA:
-        linea = linea[:LINEA_MAXIMA]
     encontrados = []
     for tipo, patron in PATRONES:
         for m in patron.finditer(linea):
@@ -61,21 +60,30 @@ def _en_linea(linea: str) -> list[tuple[str, str]]:
     return encontrados
 
 
+def _ruta(cabecera: str) -> str:
+    """El archivo de una cabecera «+++ …»: sin la tabulación que Git agrega a rutas con espacios, sin comillas, sin el «b/»."""
+    ruta = cabecera.rstrip("\t")
+    if len(ruta) > 1 and ruta[0] == ruta[-1] == '"':
+        ruta = ruta[1:-1]
+    return ruta.removeprefix("b/")
+
+
 def hallazgos(texto_del_log: str) -> list[dict]:
-    """Las credenciales en las líneas agregadas del texto de `git log -p -U0 --format=commit:%H`: archivo, línea, commit, tipo, vista."""
-    salida, commit, archivo, linea, en_hunk = [], "", "", 0, False
+    """Las credenciales en las líneas agregadas del texto de `git log -p --cc -U0 --format=commit:%H`: archivo, línea, commit, tipo, vista."""
+    salida, commit, archivo, linea, en_hunk, combinado = [], "", "", 0, False, False
     for crudo in texto_del_log.splitlines():
         if re.fullmatch(r"commit:[0-9a-f]{7,64}", crudo):  # nuestra línea de formato; dentro de un hunk las líneas empiezan con + o -
             commit, archivo, en_hunk = crudo[7:], "", False
-        elif crudo.startswith("diff --git"):
+        elif crudo.startswith("diff --git") or crudo.startswith("diff --cc"):
             en_hunk, archivo = False, ""
         elif not en_hunk and crudo.startswith("+++ "):
-            archivo = "" if crudo == "+++ /dev/null" else crudo[4:].removeprefix("b/")
+            archivo = "" if crudo == "+++ /dev/null" else _ruta(crudo[4:])
         elif crudo.startswith("@@"):
-            m = ENCABEZADO_HUNK.match(crudo)
+            m = ENCABEZADO_COMBINADO.match(crudo) or ENCABEZADO_HUNK.match(crudo)
+            combinado = crudo.startswith("@@@")
             en_hunk, linea = bool(m), int(m[1]) if m else 0
-        elif en_hunk and crudo.startswith("+"):
-            for tipo, valor in _en_linea(crudo[1:]):
+        elif en_hunk and crudo.startswith("++" if combinado else "+"):
+            for tipo, valor in _en_linea(crudo[2:] if combinado else crudo[1:]):
                 salida.append({"archivo": archivo, "linea": linea, "commit": commit, "tipo": tipo, "vista": _tapado(valor)})
             linea += 1
     return salida
@@ -87,7 +95,7 @@ def texto_de_hallazgos(encontrados: list[dict]) -> str:
 
 def secretos(ejecutar: Callable, rango: list[str]) -> list[dict]:
     """Busca credenciales en todos los commits del rango (argumentos de `git log`)."""
-    p = ejecutar(["git", "log", "-p", "-U0", "--no-color", "--format=commit:%H", *rango])
+    p = ejecutar(["git", "log", "-p", "--cc", "-U0", "--no-color", "--format=commit:%H", *rango])
     if p.returncode:
         raise PuertaRota(f"git no pudo leer los commits {' '.join(rango)}: {(getattr(p, 'stderr', '') or '').strip()[:200]}")
     return hallazgos(p.stdout)
@@ -119,10 +127,12 @@ def correr(ejecutar: Callable, rangos: list[list[str]], verificar: Callable, exi
         lineas += [f"  ✗ secretos: {len(encontrados)} hallazgo(s) en los commits que se publican", texto_de_hallazgos(encontrados)]
     else:
         lineas.append("  ✓ secretos: ninguno en los commits que se publican")
+    hechas = [n for n, _, _ in VERIFICACIONES if n not in omitidas and not any(x.startswith(n + ":") for x in problemas + avisos)]
     if problemas:
         lineas += ["  ✗ verificaciones:", *[f"      {p}" for p in problemas]]
+        if hechas:
+            lineas.append("  ✓ al día: " + ", ".join(hechas))
     else:
-        hechas = [n for n, _, _ in VERIFICACIONES if n not in omitidas and not any(a.startswith(n + ":") for a in avisos)]
         lineas.append("  ✓ verificaciones: " + (", ".join(hechas) + " al día" if hechas else "ninguna aplicable")
                       + (f" (se omiten {', '.join(omitidas)}: el proyecto todavía no los generó)" if omitidas else ""))
     if avisos:
@@ -138,15 +148,15 @@ def rangos_del_hook(entrada: str, ejecutar: Callable) -> list[list[str]]:
     """Los rangos a mirar a partir de lo que Git le pasa al pre-push: «ref_local sha_local ref_remota sha_remoto» por línea.
 
     Un borrado no se mira; una rama nueva (o un sha remoto que no tenemos) se mira desde lo que ningún remoto tiene."""
-    cero, rangos = "0" * 40, []
+    rangos, sha = [], r"[0-9a-f]{40}|[0-9a-f]{64}"  # SHA-1 o SHA-256, según el formato de objetos del repositorio
     for linea in entrada.splitlines():
         partes = linea.split()
-        if len(partes) != 4 or not re.fullmatch(r"[0-9a-f]{40}", partes[1]) or not re.fullmatch(r"[0-9a-f]{40}", partes[3]):
+        if len(partes) != 4 or not re.fullmatch(sha, partes[1]) or not re.fullmatch(sha, partes[3]):
             continue
         local, remoto = partes[1], partes[3]
-        if local == cero:
+        if set(local) == {"0"}:
             continue  # borrar una rama remota: no hay nada nuevo que publicar
-        if remoto != cero and ejecutar(["git", "cat-file", "-e", f"{remoto}^{{commit}}"]).returncode == 0:
+        if set(remoto) != {"0"} and ejecutar(["git", "cat-file", "-e", f"{remoto}^{{commit}}"]).returncode == 0:
             rangos.append([f"{remoto}..{local}"])
         else:
             rangos.append([local, "--not", "--remotes"])
