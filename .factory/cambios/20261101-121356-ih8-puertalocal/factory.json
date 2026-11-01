@@ -465,6 +465,58 @@
         "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo",
         "factory_puerta_local.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T20:04:25.245370+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+      "medidas": [
+        "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T20:04:25.403886+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+      "medidas": [
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T20:04:25.555108+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+      "medidas": [
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+        "factory_puerta_local.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T20:04:25.707757+00:00",
+      "requisito": "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo",
+      "medidas": [
+        "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo",
+        "factory_puerta_local.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -473,41 +525,14 @@
     "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "funcional",
     "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": {
-      "sha256": "57fae3608108049a2095fc14598a4756ef7810c0d87780f4857d8bdcabc01fa6",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T20:02:30.632242+00:00",
-      "catalogos": {
-        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "ca14f931c88f3270cf069458ecd10c6d004346535e6a533d653ae708d9831748",
-        "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
-      },
-      "archivos_catalogo": {
-        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "catalogos/factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican.oracle",
-        "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
-      }
-    },
-    "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto": {
-      "sha256": "0a205d6c703f1de4c50dc227aa9e13148badf26abafaea7ca691e667620a08f1",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T20:02:31.997286+00:00",
-      "catalogos": {
-        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto": "21832e4d61f57d9195033b70b6402a643ef7182d80adb5aa76dc9effb21a70f6",
-        "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
-      },
-      "archivos_catalogo": {
-        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto": "catalogos/factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto.oracle",
-        "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T20:04:25.206934+00:00",
       "sha256": "e5e04d541e5a52f7d11ebf2d775fecaaf2951e918c5c159621bec9191dc00fc1",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T20:02:33.359063+00:00",
       "catalogos": {
         "factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja": "810aad562045ada430124b80d4dc752d298a65d9b87674be1ef9389129165c40",
         "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
@@ -517,11 +542,45 @@
         "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
       }
     },
+    "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T20:04:25.363619+00:00",
+      "sha256": "0a205d6c703f1de4c50dc227aa9e13148badf26abafaea7ca691e667620a08f1",
+      "catalogos": {
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto": "21832e4d61f57d9195033b70b6402a643ef7182d80adb5aa76dc9effb21a70f6",
+        "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
+      },
+      "archivos_catalogo": {
+        "factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto": "catalogos/factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto.oracle",
+        "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
+      }
+    },
+    "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T20:04:25.517916+00:00",
+      "sha256": "57fae3608108049a2095fc14598a4756ef7810c0d87780f4857d8bdcabc01fa6",
+      "catalogos": {
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "ca14f931c88f3270cf069458ecd10c6d004346535e6a533d653ae708d9831748",
+        "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
+      },
+      "archivos_catalogo": {
+        "factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "catalogos/factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican.oracle",
+        "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
+      }
+    },
     "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T20:04:25.668900+00:00",
       "sha256": "68b9d0e299bfc3923ed4ff5875fc7088a488ddc9273a39d262ca8aeab03c8424",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T20:02:34.798935+00:00",
       "catalogos": {
         "factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo": "6762849b1ce7722af6797784c09d91e3f27ff220d24bcc5a586d933609984773",
         "factory_puerta_local.corrida_completa": "3f5ca0c5f997374525394fc704a620d6963c2c8706d55a9c7f421c1da73a214b"
@@ -531,5 +590,6 @@
         "factory_puerta_local.corrida_completa": "catalogos/factory_puerta_local.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
