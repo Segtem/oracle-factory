@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tests-editados/.factory/local/revisiones/3c2793e-codex-1",
+  "base": "2b0860396629c3540ea559d5fd54ecf89181ec2b",
+  "head": "3c2793e55c52425167665b8ffd79452336d075fb",
+  "diff_sha256": "acb65a2403dc8643ac6f56fd4886d4c93daa423a5ebc9e4a6e6b3adef8656009",
+  "context_sha256": "664732661fbe93bd14cc7db1c34ae97f62fb7a93e7b8c9ac7855bad15743d788",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "assertions-counts-non-assertion-text",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "El contador suma texto que solo contiene “assert”",
+      "explanation": "ASERCION usa \bassert\\w*\b sobre cualquier línea eliminada, sin distinguir una llamada de aserción de comentarios, cadenas o identificadores. Por ejemplo, al borrar `# assert era la implementación vieja`, el estado informa una aserción quitada aunque no se quitó ninguna comprobación ejecutable; también puede contar `assertion = ...`. El resultado contradice la promesa de mostrar la cantidad de aserciones quitadas y puede inducir al revisor a pensar que se debilitó un test cuando solo se quitó texto. La prueba `test_te1_una_linea_que_no_es_comprobacion...` refuerza este defecto: incluye comentario con “assert” y espera deliberadamente 1.",
+      "location": {
+        "file": "oracle_factory/alarmas.py",
+        "start_line": 20,
+        "end_line": 21,
+        "side": "head"
+      },
+      "trigger": "Eliminar una línea comentario o cadena de un archivo de pruebas que contenga la palabra assert sin una llamada/comprobación.",
+      "evidence": "La línea eliminada `-    # assert era sólo una nota` coincide con `\\bassert\\w*\\b`, por lo que `_quitado` incrementa `asserts_quitados`. La prueba en tests/test_tests_editados.py:330-337 también espera 1 para una línea comentada que contiene assert.",
+      "related_requirement": "el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro",
+      "status": "pendiente",
+      "verification": "Inspección estática de la regex y la prueba existente. La ejecución local de tests.test_tests_editados produjo 17 errores por dependencias oracle_metalenguaje/oracle-clue ausentes en el entorno, por lo que no se validó la integración; las pruebas aisladas de regex sí describen el comportamiento."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Inspeccioné la propuesta, la spec, el diff y el contexto del paquete; revisé las vueltas anteriores como contexto de las correcciones declaradas.",
+    "Intenté ejecutar `python -m unittest tests.test_tests_editados`; 17 casos fallaron al importar dependencias externas ausentes (oracle_metalenguaje/oracle-clue), aunque 13 pasaron. No ejecuté la suite completa ni mutaciones en copia.",
+    "No cambié el checkout."
+  ]
+}

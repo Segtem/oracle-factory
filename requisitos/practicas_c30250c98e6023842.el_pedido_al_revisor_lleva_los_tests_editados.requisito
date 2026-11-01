@@ -1,0 +1,4 @@
+requisito practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados:
+    texto "Tipo: funcional El sistema DEBE incluir en el pedido que recibe el revisor la lista de tests existentes que el candidato modificó o borró, con la indicación de nombrarla en su informe, y DEBE dejar el pedido igual cuando no hay ninguno."
+    fuente "openspec/changes/20261101-012816-1qf-testseditados/specs/practicas/spec.md#el_pedido_al_revisor_lleva_los_tests_editados"
+    medido_por factory_tests_editados.el_pedido_al_revisor_lleva_los_tests_editados, factory_tests_editados.corrida_completa

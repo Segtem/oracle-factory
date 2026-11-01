@@ -1,0 +1,31 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tests-editados/.factory/local/revisiones/1fd6363-codex-1",
+  "base": "2b0860396629c3540ea559d5fd54ecf89181ec2b",
+  "head": "1fd636328c6d6d6a742f498df51df40dc59297f2",
+  "diff_sha256": "ef0c8980c888b0f89c675318561d1468479eb3fd108ea088340e1cd6da08eb14",
+  "context_sha256": "612298b1c9de6facf19bb6fbf248377af69ee0a81d0072eec93d66b247391ba4",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "tests-editados-go-assert-count",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "No cuenta aserciones habituales de Go",
+      "explanation": "La clasificación acepta archivos Go con nombre *_test.go, pero el contador sólo reconoce nombres que contienen assert o expect(. En tests de Go, las comprobaciones suelen expresarse con t.Errorf, t.Fatalf, t.Error o t.Fatal. Si se quita una de esas comprobaciones, el estado y el pedido al revisor dicen que se quitaron cero aserciones, incumpliendo la cantidad prometida y ocultando qué tan debilitado quedó el test.",
+      "location": {"file": "oracle_factory/alarmas.py", "start_line": 16, "end_line": 16, "side": "head"},
+      "trigger": "Modificar tests/c_test.go eliminando `t.Errorf(\"want %d, got %d\", want, got)` del cuerpo de `func TestC(t *testing.T)`.",
+      "evidence": "La línea 16 define ASERCION como `\\bassert\\w*\\b|\\bexpect\\(`. Ninguno de los métodos estándar `t.Error`, `t.Errorf`, `t.Fatal` o `t.Fatalf` coincide. La spec incluye `pkg/c_test.go` expresamente entre los archivos de pruebas que cuentan; el recuento se calcula aplicando esta expresión a cada línea quitada (línea 28), por lo que devuelve 0 para ese caso.",
+      "related_requirement": "el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro: nombrar la cantidad de aserciones quitadas; escenario de nombres de archivos de pruebas que incluye *_test.go.",
+      "status": "pendiente",
+      "verification": "Inspección estática de la expresión y del flujo que suma coincidencias; reproducción del patrón: `ASERCION.search('-    t.Errorf(\"failed\")')` no coincide. No hay prueba de regresión para aserciones Go en tests/test_tests_editados.py."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, los textos de producto y parches incluidos en el paquete; limité la revisión a producto y no inspeccioné los siete archivos de registros/evidencia excluidos.",
+    "No corrí la suite ni herramientas de evidencia: este entorno contiene el paquete de revisión y no una materialización del checkout del candidato. No hice mutaciones; la falla informada se verifica directamente contra la expresión del contador y un patrón de aserción Go.",
+    "No evalué comportamiento específico de configuraciones de Git externas al paquete; no cambié configuración ni estado de Git."
+  ]
+}

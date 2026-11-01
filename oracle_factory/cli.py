@@ -32,6 +32,7 @@ from . import preparacion
 from . import trazabilidad as trazabilidad_mod
 from . import modos
 from . import plantillas
+from . import alarmas as alarmas_mod
 from . import osv as osv_mod
 from . import pruebas as pruebas_mod
 from . import procedencia as procedencia_mod
@@ -1858,10 +1859,12 @@ def mostrar(identificador: str) -> None:
         print(linea + ".")
     print(linea_commits(commits_del_cambio(identificador, estado)) + ".")
     print(linea_quien(quien_del_cambio(estado)) + ".")
-    prueba = pruebas_mod.datos(ROOT, identificador, estado, candidato_vigente(identificador), documentos_o_nada(carpeta, estado))
+    vigente = candidato_vigente(identificador)
+    prueba = pruebas_mod.datos(ROOT, identificador, estado, vigente, documentos_o_nada(carpeta, estado))
+    editados = alarmas_mod.del_candidato(ejecutar, vigente, es_producto=es_producto) if vigente else None
     for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
                   + aviso_sin_medir(identificador, estado) + aviso_notas(identificador, estado) + aviso_union(identificador, estado)
-                  + pruebas_mod.avisos(prueba)):
+                  + pruebas_mod.avisos(prueba) + alarmas_mod.avisos(editados)):
         print("Aviso: " + aviso + ".")
     for linea in pruebas_mod.lineas(prueba):
         print(linea + ".")

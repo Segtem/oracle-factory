@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:87d4933f6adbb79aa5cc2fbb24480aee622deb2e76669ac64430c4109cdc6af9 -->
+<!-- oracle-factory resumen sha256:13f07da49b9337c9f2437a97c805eb490d88ed09f4a0c082d4b2df44fe817dc0 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-27 capacidades · 253 requisitos vigentes · 0 cambios abiertos
+27 capacidades · 256 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -321,6 +321,9 @@ Spec completa: [openspec/specs/practicas/spec.md](../openspec/specs/practicas/sp
 | pedir_revision_muestra_la_lista_previa_sin_bloquear | funcional | `practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear` | factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear, factory_lista_previa.corrida_completa | verde al cerrar el 2026-11-01 | 20261031-220741-vts-listaprevia |
 | la_lista_previa_tiene_una_sola_fuente | funcional | `practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente` | factory_lista_previa.la_lista_previa_tiene_una_sola_fuente, factory_lista_previa.corrida_completa | verde al cerrar el 2026-11-01 | 20261031-220741-vts-listaprevia |
 | la_guia_para_agentes_nombra_la_lista_previa | funcional | `practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa` | factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa, factory_lista_previa.corrida_completa | verde al cerrar el 2026-11-01 | 20261031-220741-vts-listaprevia |
+| el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro | funcional | `practicas_c30250c98e6023842.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro` | factory_tests_editados.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro, factory_tests_editados.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-012816-1qf-testseditados |
+| el_pedido_al_revisor_lleva_los_tests_editados | funcional | `practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados` | factory_tests_editados.el_pedido_al_revisor_lleva_los_tests_editados, factory_tests_editados.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-012816-1qf-testseditados |
+| solo_cuentan_los_archivos_de_pruebas | funcional | `practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas` | factory_tests_editados.solo_cuentan_los_archivos_de_pruebas, factory_tests_editados.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-012816-1qf-testseditados |
 
 ### procedencia
 
@@ -505,6 +508,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **BLOQUEOS-V2-01** (20261026-144045-3h6-bloqueos): Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan. Aceptado por Brian Hollweg: Acepto el riesgo: Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan
 - **BLOQUEOS-V2-02** (20261026-144045-3h6-bloqueos): test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit. Aceptado por Brian Hollweg: Acepto el riesgo: test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit
 - **BLOQUEOS-V2-03** (20261026-144045-3h6-bloqueos): El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas. Aceptado por Brian Hollweg: Acepto el riesgo: El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas
+- **assertions-counts-non-assertion-text** (20261101-012816-1qf-testseditados): El contador suma texto que solo contiene “assert”. Aceptado por Brian Hollweg: Acepto el riesgo: El contador suma texto que solo contiene “assert”
 
 ### Históricos
 
@@ -1399,6 +1403,16 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261031-220741-vts-listaprevia) codex (gpt-6-luna): Ejecuté python tools/medir_rondas.py desde el checkout candidato. Imprimió 20 cambios cerrados, mediana 2.0, máximo 6; 130/46/24/10/2 hallazgos por ronda (85 altos y medios en la primera y 18 desde la tercera), y las cifras de clases publicadas coinciden con la tabla. La propuesta no repite las cifras específicas de clases, pero no contradice el resultado actual.
 - (20261031-220741-vts-listaprevia) codex (gpt-6-luna): Intenté python -m unittest discover -s tests -p test_lista_previa.py </dev/null: 16 casos, con 1 fallo y 5 errores porque el Python del entorno (/usr/bin/python) no tiene instalado oracle-clue; los restantes casos ejecutaron. El fallo observado también ocurrió antes de que el flujo pudiera llegar a imprimir, por la misma ausencia de dependencia. No atribuí ese problema del entorno al cambio.
 - (20261031-220741-vts-listaprevia) codex (gpt-6-luna): No ejecuté mutaciones adicionales: el checkout es de sólo lectura y la suite de escenarios de pedir revisión no pudo completar su preparación sin oracle-clue. La inspección estática confirmó los arreglos de las mutaciones anotadas en la vuelta previa.
+- (20261101-012816-1qf-testseditados) Evidencia: Escenarios te1–te3 sobre repositorios Git temporales y un ejecutor de Git falso, en Linux. Comprueban que el aviso sale en el estado, en su JSON y en el pedido al revisor, y qué archivos cuentan como de pruebas; no juzgan si una edición fue legítima, y las convenciones fuera de tests/test, test_*, *_test.* y *.test.* (por ejemplo __tests__ o *.spec.*) no se miran todavía.
+- (20261101-012816-1qf-testseditados) agy (gemini-3.8-flash-high): Se revisaron la propuesta, la especificación de practicas, el diseño, la documentación en docs/tests.md y el diff completo entre base (2b08603) y head (3c2793e).
+- (20261101-012816-1qf-testseditados) agy (gemini-3.8-flash-high): Se comprobó el cierre efectivo de los hallazgos de la primera vuelta (te-1 a te-5 de agy2-1 y codex-1): verify_tests_editados referencia clases reales y comprueba paridad con los métodos del módulo; un renombre puro sin líneas quitadas avisa en estado y pedido; la clasificación de archivos toma la ruta de origen en base; el diff usa --literal-pathspecs; es_producto descarta notas y archivos generados; las líneas eliminadas se cuentan sólo dentro del hunk; los nombres de tests JS usan backreference de comillas; y se reconocen aserciones de Go (t.Error*, t.Fatal*, t.Fail*), C++ (EXPECT_*, ASSERT_*), pytest y .fail().
+- (20261101-012816-1qf-testseditados) agy (gemini-3.8-flash-high): Se ejecutó el verificador de evidencia tools/verify_tests_editados.py sobre una carpeta temporal: ejecutó 907 pruebas (incluyendo los 30 casos de contrato te1-te3), finalizando con exitoso=True, completa=1 y código 0.
+- (20261101-012816-1qf-testseditados) agy (gemini-3.8-flash-high): Se realizaron 11 pruebas de mutación manual en memoria (eliminando soporte de test/, aserciones Go, C++, fail, pytest.raises, async def, func Test, it/test JS, backreference de comillas y textos de aviso): las 11 mutaciones fueron detectadas por los tests unitarios (ninguna sobrevivió).
+- (20261101-012816-1qf-testseditados) agy (gemini-3.8-flash-high): Se respetó la indicación de no reiterar el hallazgo bajo conocido relativo a que el contador de aserciones evalúa coincidencias léxicas en cualquier línea eliminada (incluyendo comentarios que contengan la palabra assert).
+- (20261101-012816-1qf-testseditados) agy (gemini-3.8-flash-high): No se modificó el checkout de revisión ni se alteró la configuración de Git de ningún repositorio.
+- (20261101-012816-1qf-testseditados) codex (gpt-6-luna): Inspeccioné la propuesta, la spec, el diff y el contexto del paquete; revisé las vueltas anteriores como contexto de las correcciones declaradas.
+- (20261101-012816-1qf-testseditados) codex (gpt-6-luna): Intenté ejecutar `python -m unittest tests.test_tests_editados`; 17 casos fallaron al importar dependencias externas ausentes (oracle_metalenguaje/oracle-clue), aunque 13 pasaron. No ejecuté la suite completa ni mutaciones en copia.
+- (20261101-012816-1qf-testseditados) codex (gpt-6-luna): No cambié el checkout.
 
 ### Históricos
 

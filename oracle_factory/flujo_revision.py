@@ -16,6 +16,7 @@ import subprocess
 import sys
 import tempfile
 
+from . import alarmas
 from . import estructura
 from . import lista_previa
 from . import preparacion
@@ -299,6 +300,7 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         vueltas += ("Riesgos ya aceptados por una persona en este cambio (no los reportes otra vez salvo que el defecto haya "
                     "cambiado o empeorado):\n" + "\n".join(f"- {a['archivo']}: {a['titulo']} (aceptado por {a['actor']}: "
                                                             f"{a['motivo']})" for a in estado["aceptados"]) + "\n")
+    vueltas += alarmas.texto_para_el_revisor(alarmas.tests_editados(cli.ejecutar, base, head, cli.es_producto))  # la guarda de los tests existentes
     if datos_paquete.get("excluded_files"):
         vueltas += (f"Fuera del paquete, porque no son producto ({', '.join(datos_paquete.get('exclusions') or [])}): "
                     f"{len(datos_paquete['excluded_files'])} archivos de registros y evidencia de Factory; no los revises.\n")
