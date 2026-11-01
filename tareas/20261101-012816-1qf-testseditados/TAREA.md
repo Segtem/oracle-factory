@@ -51,3 +51,15 @@ Medidas de practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_edit
 ### Nota (2026-11-01 02:15:38 UTC)
 
 Medidas de practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-01 02:18:56 UTC)
+
+Medidas de practicas_c30250c98e6023842.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 02:18:56 UTC)
+
+Medidas de practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 02:18:57 UTC)
+
+Medidas de practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas: Brian Hollweg (persona, confirmo, modo confirmacion).

@@ -230,6 +230,45 @@
         "factory_tests_editados.solo_cuentan_los_archivos_de_pruebas",
         "factory_tests_editados.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T02:18:56.680216+00:00",
+      "requisito": "practicas_c30250c98e6023842.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro",
+      "medidas": [
+        "factory_tests_editados.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro",
+        "factory_tests_editados.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T02:18:56.833556+00:00",
+      "requisito": "practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados",
+      "medidas": [
+        "factory_tests_editados.el_pedido_al_revisor_lleva_los_tests_editados",
+        "factory_tests_editados.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T02:18:56.982111+00:00",
+      "requisito": "practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas",
+      "medidas": [
+        "factory_tests_editados.solo_cuentan_los_archivos_de_pruebas",
+        "factory_tests_editados.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -237,13 +276,14 @@
     "practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados": "funcional",
     "practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "practicas_c30250c98e6023842.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T02:18:56.643993+00:00",
       "sha256": "412885fabe84bdef09fb09ca1c088a58e909ac993fb26782b265cfcbdee33d5e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T02:15:35.262672+00:00",
       "catalogos": {
         "factory_tests_editados.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro": "c36b4787d51598875b11ee95f6cba29a2e171f617ce3f7ef79973177b18f96ee",
         "factory_tests_editados.corrida_completa": "afccd84da082891965680ee692bd47b99dacd395c9f2ca10ae8303929b0705e2"
@@ -254,10 +294,12 @@
       }
     },
     "practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T02:18:56.797039+00:00",
       "sha256": "1cf227ff8921689fb9808f8950d0c6da17ae11586d423f57a70cde27e084dd40",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T02:15:36.602078+00:00",
       "catalogos": {
         "factory_tests_editados.el_pedido_al_revisor_lleva_los_tests_editados": "d23d06b4001ef342f4c715385f3a7006460d289a05a7a88dfd358bab5c864ebc",
         "factory_tests_editados.corrida_completa": "afccd84da082891965680ee692bd47b99dacd395c9f2ca10ae8303929b0705e2"
@@ -268,10 +310,12 @@
       }
     },
     "practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-01T02:18:56.945318+00:00",
       "sha256": "ab10fc71c79df9d8d5c1a517f0b37632ed4f6e955119009cf7063aee2728f692",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T02:15:37.935972+00:00",
       "catalogos": {
         "factory_tests_editados.solo_cuentan_los_archivos_de_pruebas": "06ec27feed151d9a9db5d302e14e271b0b52f521b293f29681e20dc44a25da01",
         "factory_tests_editados.corrida_completa": "afccd84da082891965680ee692bd47b99dacd395c9f2ca10ae8303929b0705e2"
@@ -281,5 +325,6 @@
         "factory_tests_editados.corrida_completa": "catalogos/factory_tests_editados.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
