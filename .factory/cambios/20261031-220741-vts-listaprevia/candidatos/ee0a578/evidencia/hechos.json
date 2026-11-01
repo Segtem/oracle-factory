@@ -1,0 +1,90 @@
+{
+  "lista_previa_caso": [
+    {
+      "requisito": "pedir_revision_muestra_la_lista_previa_sin_bloquear",
+      "caso": "PedirRevision.test_lp1_la_lista_sale_antes_de_anunciar_al_revisor",
+      "codigo": 0
+    },
+    {
+      "requisito": "pedir_revision_muestra_la_lista_previa_sin_bloquear",
+      "caso": "PedirRevision.test_lp1_el_revisor_se_lanza_igual_y_deja_su_informe",
+      "codigo": 0
+    },
+    {
+      "requisito": "pedir_revision_muestra_la_lista_previa_sin_bloquear",
+      "caso": "PedirRevision.test_lp1_la_lista_se_muestra_aunque_el_revisor_falle",
+      "codigo": 0
+    },
+    {
+      "requisito": "pedir_revision_muestra_la_lista_previa_sin_bloquear",
+      "caso": "PedirRevision.test_lp1_el_pedido_que_recibe_el_revisor_no_cambia",
+      "codigo": 0
+    },
+    {
+      "requisito": "pedir_revision_muestra_la_lista_previa_sin_bloquear",
+      "caso": "PedirRevision.test_lp1_lo_impreso_se_vacia_antes_de_esperar_al_revisor",
+      "codigo": 0
+    },
+    {
+      "requisito": "pedir_revision_muestra_la_lista_previa_sin_bloquear",
+      "caso": "PedirRevision.test_lp1_la_lista_no_viaja_en_ningun_argumento_del_revisor",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_lista_previa_tiene_una_sola_fuente",
+      "caso": "FuenteUnica.test_lp2_la_lista_tiene_una_pregunta_por_clase_y_la_regla_de_la_clase",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_lista_previa_tiene_una_sola_fuente",
+      "caso": "FuenteUnica.test_lp2_cada_pregunta_esta_en_el_documento_con_el_mismo_texto",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_lista_previa_tiene_una_sola_fuente",
+      "caso": "FuenteUnica.test_lp2_una_pregunta_nueva_sin_documento_se_nombra",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_lista_previa_tiene_una_sola_fuente",
+      "caso": "FuenteUnica.test_lp2_una_pregunta_de_mas_en_el_documento_o_otro_orden_tambien_fallan",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_lista_previa_tiene_una_sola_fuente",
+      "caso": "FuenteUnica.test_lp2_las_preguntas_solo_cuentan_dentro_de_la_seccion_las_preguntas",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_lista_previa_tiene_una_sola_fuente",
+      "caso": "FuenteUnica.test_lp2_varias_preguntas_faltantes_se_nombran_todas_y_un_documento_vacio_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_lista_previa_tiene_una_sola_fuente",
+      "caso": "FuenteUnica.test_lp2_el_texto_para_mostrar_trae_cada_pregunta_numerada_y_es_estable",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_lista_previa_tiene_una_sola_fuente",
+      "caso": "FuenteUnica.test_lp2_el_documento_no_promete_que_bloquea",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_para_agentes_nombra_la_lista_previa",
+      "caso": "GuiaDeLaLista.test_lp3_la_guia_generada_nombra_la_lista",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_para_agentes_nombra_la_lista_previa",
+      "caso": "GuiaDeLaLista.test_lp3_una_guia_vieja_sin_la_mencion_se_detecta",
+      "codigo": 0
+    }
+  ],
+  "lista_previa_corrida": [
+    {
+      "completa": 1,
+      "casos": 16
+    }
+  ]
+}

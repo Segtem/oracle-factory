@@ -2,7 +2,7 @@
   "id": "20261031-220741-vts-listaprevia",
   "titulo": "Una lista previa a la revisión con las clases de problema que más rondas cuestan",
   "capacidad": "practicas",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md",
   "spec_sha256": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente",
     "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261031-220741-vts-listaprevia/revisiones/registro-6h4630vy/informe.json",
+    "sha256": "a0af216062089f2a4bbcac159468eb34c6002e140d367dffe814a988b70fa916",
+    "decisiones": "tareas/20261031-220741-vts-listaprevia/revisiones/registro-6h4630vy/decisiones.json",
+    "decisiones_sha256": "49d5c5ece6f5713d57bbcfc0f3bfbb7a1f37903cc713e52b6ef6ef00201bc02c",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T01:14:20.347767+00:00",
+    "motivo": "Dos vueltas de revisión. La primera (agy2 y codex) dejó hallazgos reales, entre ellos que las cifras de la medición que justificaba el cambio estaban mal (las rondas se ordenaban por la fecha de los archivos y no por los eventos): se corrigió la medición, se volvió a aprobar la propuesta, la medición quedó reproducible con tools/medir_rondas.py y protegida por pruebas, la comprobación del documento exige que la lista numerada sea exactamente la del código y pedir-revision vacía el buffer. La segunda vuelta dio 0 hallazgos en ambos revisores. Suite completa sin fallas y evidencia con éxito. Todas las mutaciones aplicadas al código nuevo se detectan, salvo dos equivalentes declaradas (vaciar el buffer en las dos primeras líneas impresas, porque la última ya vacía todo lo anterior).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "ee0a578353b39104d11568da20dcf3a25fac1ce2",
+      "archivos_sha256": "5a68795134cf917219aca1e1b707a8922f0b28b52f97de479168b33ed5f2df49"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -306,6 +326,92 @@
         "factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear",
         "factory_lista_previa.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T00:52:34.940370+00:00",
+      "revisor": "codex",
+      "candidato": "ee0a578",
+      "lanzamiento": "1d5ef106cf7f"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T00:52:35.071167+00:00",
+      "revisor": "agy2",
+      "candidato": "ee0a578",
+      "lanzamiento": "0a334660eb2b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T00:53:03.813539+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "ee0a578",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "1d5ef106cf7f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T01:01:17.474013+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "ee0a578",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "0a334660eb2b"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T01:11:56.615440+00:00",
+      "decision": "aprobar",
+      "candidato": "ee0a578"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T01:12:08.279722+00:00",
+      "decision": "aprobar",
+      "candidato": "ee0a578"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T01:14:20.347793+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "a0af216062089f2a4bbcac159468eb34c6002e140d367dffe814a988b70fa916",
+      "decisiones_sha256": "49d5c5ece6f5713d57bbcfc0f3bfbb7a1f37903cc713e52b6ef6ef00201bc02c"
     }
   ],
   "tipos": {
@@ -363,5 +469,6 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {}
 }

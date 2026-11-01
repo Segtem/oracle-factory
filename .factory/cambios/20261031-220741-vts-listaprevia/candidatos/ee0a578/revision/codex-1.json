@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-lista-previa/.factory/local/revisiones/ee0a578-codex-1",
+  "base": "768febc10fda9b5b3f2ca1da545936fdddbad32f",
+  "head": "ee0a578353b39104d11568da20dcf3a25fac1ce2",
+  "diff_sha256": "c4d26e41298fce94fc9a3ef0a3bb300c47207c11a405f1278cf6bedf66711834",
+  "context_sha256": "047edb7c9d10339f4ff12eddc7c87c745cedefbd3f783815bc51902523669672",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec y propuesta, todos los archivos de producto del diff, el flujo de pedir revisión, la generación de AGENTS.md y las pruebas nuevas. Confirmé en el candidato que los arreglos de la vuelta anterior siguen presentes: orden de rondas por eventos, impresión con flush, vaciado del buffer y comprobación exacta de preguntas numeradas.",
+    "Ejecuté python tools/medir_rondas.py desde el checkout candidato. Imprimió 20 cambios cerrados, mediana 2.0, máximo 6; 130/46/24/10/2 hallazgos por ronda (85 altos y medios en la primera y 18 desde la tercera), y las cifras de clases publicadas coinciden con la tabla. La propuesta no repite las cifras específicas de clases, pero no contradice el resultado actual.",
+    "Intenté python -m unittest discover -s tests -p test_lista_previa.py </dev/null: 16 casos, con 1 fallo y 5 errores porque el Python del entorno (/usr/bin/python) no tiene instalado oracle-clue; los restantes casos ejecutaron. El fallo observado también ocurrió antes de que el flujo pudiera llegar a imprimir, por la misma ausencia de dependencia. No atribuí ese problema del entorno al cambio.",
+    "No ejecuté mutaciones adicionales: el checkout es de sólo lectura y la suite de escenarios de pedir revisión no pudo completar su preparación sin oracle-clue. La inspección estática confirmó los arreglos de las mutaciones anotadas en la vuelta previa."
+  ]
+}
