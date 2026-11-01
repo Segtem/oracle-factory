@@ -63,3 +63,15 @@ Medidas de practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente pro
 ### Nota (2026-11-01 00:00:26 UTC)
 
 Medidas de practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-01 00:45:18 UTC)
+
+Medidas de practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 00:45:18 UTC)
+
+Medidas de practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 00:45:18 UTC)
+
+Medidas de practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear: Brian Hollweg (persona, confirmo, modo confirmacion).
