@@ -43,13 +43,31 @@ def _quitado(diff: str) -> tuple[int, list[str], int]:
     return len(lineas), nombres, sum(bool(ASERCION.search(l)) for l in lineas)
 
 
+def _git(ejecutar: Callable, argv: list[str]):
+    """El resultado de `ejecutar`, o None si no se pudo leer: un nombre de archivo que no es UTF-8 hace fallar la decodificación de la
+    salida de Git (-z entrega los bytes originales), y una alarma nunca puede romper el estado."""
+    try:
+        return ejecutar(argv)
+    except (UnicodeDecodeError, OSError):
+        return None
+
+
+def base_del_candidato(ejecutar: Callable, candidato: str) -> str | None:
+    """El merge-base del candidato con la rama principal (main o master, como en el resto de Factory); None si no se encuentra."""
+    for rama in ("main", "master"):
+        p = _git(ejecutar, ["git", "merge-base", candidato, rama])
+        if p is not None and not p.returncode and p.stdout.strip():
+            return p.stdout.strip()
+    return None
+
+
 def tests_editados(ejecutar: Callable, base: str, candidato: str, es_producto: Callable[[str], bool] | None = None) -> list[dict] | None:
     """Los archivos de pruebas de `base` que `candidato` borró, renombró o a los que les quitó líneas; None si Git no pudo.
 
     Un archivo es «de pruebas» por su ruta en la base (lo que ya existía), y se miran sólo los archivos del producto (`es_producto`,
     si se da): los registros generados no cuentan. Un renombre avisa siempre: mover un test a un archivo que nadie ejecuta lo desactiva."""
-    lista = ejecutar(["git", "diff", "--name-status", "-z", "-M", base, candidato])
-    if lista.returncode:
+    lista = _git(ejecutar, ["git", "diff", "--name-status", "-z", "-M", base, candidato])
+    if lista is None or lista.returncode:
         return None
     editados = []
     for archivo in trazabilidad.archivos_cambiados(lista.stdout):
@@ -59,8 +77,8 @@ def tests_editados(ejecutar: Callable, base: str, candidato: str, es_producto: C
         if es_producto is not None and not (es_producto(origen) or es_producto(archivo["ruta"])):
             continue
         rutas = [archivo["origen"], archivo["ruta"]] if archivo["origen"] else [archivo["ruta"]]
-        diff = ejecutar(["git", "--literal-pathspecs", "diff", "-U0", "-M", "--no-color", base, candidato, "--", *rutas])
-        if diff.returncode:
+        diff = _git(ejecutar, ["git", "--literal-pathspecs", "diff", "-U0", "-M", "--no-color", base, candidato, "--", *rutas])
+        if diff is None or diff.returncode:
             return None
         quitadas, nombres, aserciones = _quitado(diff.stdout)
         if archivo["estado"] == "M" and not quitadas:
@@ -72,14 +90,13 @@ def tests_editados(ejecutar: Callable, base: str, candidato: str, es_producto: C
 
 def del_candidato(ejecutar: Callable, candidato: str, base: str | None = None,
                   es_producto: Callable[[str], bool] | None = None) -> list[dict] | None:
-    """Lo mismo contra la base del candidato (merge-base con main); None si no hay candidato o no se encuentra la base."""
+    """Lo mismo contra la base del candidato (merge-base con la rama principal); None si no hay candidato o no se encuentra la base."""
     if not candidato:
         return None
     if base is None:
-        p = ejecutar(["git", "merge-base", candidato, "main"])
-        if p.returncode:
+        base = base_del_candidato(ejecutar, candidato)
+        if base is None:
             return None
-        base = p.stdout.strip()
     return tests_editados(ejecutar, base, candidato, es_producto)
 
 
@@ -119,9 +136,10 @@ def rondas(estado: dict) -> int | None:
     """Las rondas de revisión del cambio: los candidatos distintos a los que se pidió o lanzó una revisión (varios revisores de un
     mismo candidato son una ronda). Un registro ilegible no se cuenta: None."""
     eventos = estado.get("eventos") if isinstance(estado, dict) else None
-    if not isinstance(eventos, list):
-        return None
-    return len({e["candidato"] for e in eventos if isinstance(e, dict) and e.get("accion") in ("revision_pedida", "revision_lanzada")
+    if not isinstance(eventos, list) or not all(isinstance(e, dict) for e in eventos):
+        return None  # un registro con algo que no es un evento no se puede contar
+    # Con 7 caracteres y en minúsculas, como los guarda Factory: el mismo commit con otro largo de SHA sigue siendo una ronda.
+    return len({e["candidato"][:7].lower() for e in eventos if e.get("accion") in ("revision_pedida", "revision_lanzada")
                 and isinstance(e.get("candidato"), str) and e["candidato"]})
 
 
@@ -129,12 +147,15 @@ def lineas_de_producto(ejecutar: Callable, base: str, candidato: str, es_product
     """Las líneas que el candidato agrega a archivos de producto (no de pruebas) respecto de la base; None si Git no puede decirlo."""
     if not base or not candidato:
         return None
-    p = ejecutar(["git", "diff", "--numstat", "-z", "-M", "--no-color", base, candidato])
-    if p.returncode:
+    p = _git(ejecutar, ["git", "diff", "--numstat", "-z", "-M", "--no-color", base, candidato])
+    if p is None or p.returncode:
         return None
     partes, total, i = p.stdout.split("\0"), 0, 0
     while i < len(partes) and partes[i]:
-        agregadas, _, ruta = partes[i].split("\t", 2)
+        campos = partes[i].split("\t", 2)
+        if len(campos) != 3 or (not campos[2] and (i + 2 >= len(partes) or not partes[i + 2])):
+            return None  # una salida que no es numstat (o cortada en un renombre): no se puede decir
+        agregadas, _, ruta = campos
         if not ruta:  # un renombre: «a\td\t\0origen\0destino\0»
             ruta, i = partes[i + 2], i + 3
         else:
@@ -158,10 +179,8 @@ def avisos_de_flujo(rondas: int | None, lineas: int | None) -> list[str]:
 def del_flujo(ejecutar: Callable, estado: dict, candidato: str | None, es_producto: Callable[[str], bool] | None = None) -> dict:
     """Los dos datos del flujo para el estado y su JSON: {clave: {valor, umbral, avisa} | None}; None si no se pudo calcular."""
     n, lineas = rondas(estado), None
-    if candidato:
-        p = ejecutar(["git", "merge-base", candidato, "main"])
-        if not p.returncode:
-            lineas = lineas_de_producto(ejecutar, p.stdout.strip(), candidato, es_producto)
+    if candidato and (base := base_del_candidato(ejecutar, candidato)):
+        lineas = lineas_de_producto(ejecutar, base, candidato, es_producto)
     return {"bucle_de_revision": None if n is None else {"rondas": n, "umbral": UMBRAL_RONDAS, "avisa": n >= UMBRAL_RONDAS},
             "cambio_grande": None if lineas is None else {"lineas": lineas, "umbral": UMBRAL_LINEAS, "avisa": lineas > UMBRAL_LINEAS}}
 

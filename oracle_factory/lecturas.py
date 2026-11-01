@@ -362,7 +362,7 @@ def datos_estado(identificador: str) -> dict:
     pendientes_medidas = estado.get("medidas_pendientes") or {}
     candidato = None if abandonado else cli.candidato_vigente(identificador)
     editados = alarmas.del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto) if candidato else None
-    flujo = alarmas.del_flujo(cli.ejecutar, estado, candidato, es_producto=cli.es_producto)
+    flujo = {"bucle_de_revision": None, "cambio_grande": None} if abandonado else alarmas.del_flujo(cli.ejecutar, estado, candidato, es_producto=cli.es_producto)
     prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, candidato, cli.documentos_o_nada(carpeta, estado))
     return {
         "esquema": cli.ESQUEMA_ESTADO, "id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase"),

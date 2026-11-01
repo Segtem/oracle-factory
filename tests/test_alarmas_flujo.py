@@ -8,6 +8,7 @@ import unittest
 from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # tools/ vive en la raíz
 import test_archivo as _archivo  # noqa: E402
 import test_tests_editados as _te  # noqa: E402
 from oracle_factory import alarmas  # noqa: E402
@@ -38,7 +39,9 @@ class Rondas(unittest.TestCase):
     def test_af1_un_registro_ilegible_no_se_cuenta_ni_rompe(self):
         for estado in ({}, {'eventos': None}, {'eventos': 'x'}, {'eventos': [None, 3, 'x', {'accion': 'revision_pedida'}, {'candidato': 'a'}]}):
             with self.subTest(estado=estado):
-                self.assertIn(alarmas.rondas(estado), (0, None))
+                self.assertIsNone(alarmas.rondas(estado))
+        self.assertEqual(alarmas.rondas({'eventos': []}), 0)
+        self.assertEqual(alarmas.rondas({'eventos': [{'accion': 'revision_pedida'}, {'candidato': 'a'}]}), 0)  # eventos sin lo necesario
         self.assertEqual(alarmas.avisos_de_flujo(rondas=None, lineas=None), [])
 
     def test_af1_el_umbral_es_cuatro_y_el_aviso_sugiere_parar_a_arreglar_la_clase(self):
@@ -48,6 +51,10 @@ class Rondas(unittest.TestCase):
         self.assertIn('6 rondas', aviso)
         self.assertIn('lista previa', aviso)
 
+
+    def test_af1_el_mismo_commit_con_otro_largo_de_sha_es_una_sola_ronda(self):
+        eventos = [evento('revision_pedida', '9edd02d'), evento('revision_pedida', '9EDD02D1234567890'), evento('revision_pedida', 'bbbbbbb')]
+        self.assertEqual(alarmas.rondas({'eventos': eventos}), 2)
 
     def test_af1_una_revision_lanzada_cuenta_como_ronda_igual_que_una_pedida(self):
         eventos = [evento('revision_lanzada', c) for c in ('aaaaaaa', 'bbbbbbb')] + [evento('revision_pedida', 'ccccccc')]
@@ -82,7 +89,7 @@ class Tamano(unittest.TestCase):
 
     def test_af2_un_renombre_con_numstat_z_se_lee_con_su_destino(self):
         def ejecutar(argv):
-            return SimpleNamespace(returncode=0, stdout='3\t1\t\0src/viejo.py\0src/nuevo.py\0' + '10\t0\tsrc/b.py\0')
+            return SimpleNamespace(returncode=0, stdout='3\t1\t\0tests/test_viejo.py\0src/nuevo.py\0' + '10\t0\tsrc/b.py\0')  # de pruebas a producto
         self.assertEqual(alarmas.lineas_de_producto(ejecutar, 'base', 'cand', es_producto=lambda ruta: True), 13)
 
     def test_af2_si_git_falla_no_se_calcula(self):
@@ -117,7 +124,26 @@ class Tamano(unittest.TestCase):
             llamadas.append(argv[:2])
             return SimpleNamespace(returncode=1, stdout='999\t0\tsrc/a.py\0', stderr='sin base')
         self.assertIsNone(alarmas.del_flujo(ejecutar, {}, 'cand1234')['cambio_grande'])
-        self.assertEqual(llamadas, [['git', 'merge-base']])  # y no se le pregunta el diff a Git sin base
+        self.assertEqual(llamadas, [['git', 'merge-base']] * 2)  # main y master; y no se le pregunta el diff a Git sin base
+
+    def test_af2_la_rama_principal_puede_llamarse_master(self):
+        def ejecutar(argv):
+            if argv[:2] == ['git', 'merge-base']:
+                return SimpleNamespace(returncode=0 if argv[-1] == 'master' else 128, stdout='basebase\n', stderr='')
+            return SimpleNamespace(returncode=0, stdout='500\t0\tsrc/a.py\0')
+        self.assertEqual(alarmas.del_flujo(ejecutar, {}, 'cand1234')['cambio_grande']['lineas'], 500)
+
+    def test_af2_una_salida_rota_o_no_utf8_no_rompe_y_no_se_calcula(self):
+        for salida in ('texto sin tabulaciones\0', '3\t1\t\0solo_origen.py\0', '3\t1\t\0'):
+            with self.subTest(salida=salida):
+                ejecutar = lambda argv, s=salida: SimpleNamespace(returncode=0, stdout=s)  # noqa: E731
+                self.assertIsNone(alarmas.lineas_de_producto(ejecutar, 'base', 'cand', es_producto=lambda ruta: True))
+
+        def no_utf8(argv):
+            raise UnicodeDecodeError('utf-8', b'\xff', 0, 1, 'invalid start byte')
+        self.assertIsNone(alarmas.lineas_de_producto(no_utf8, 'base', 'cand', es_producto=lambda ruta: True))
+        self.assertIsNone(alarmas.del_candidato(no_utf8, 'cand1234', base='base'))  # la alarma de tests editados tampoco rompe
+        self.assertEqual(alarmas.del_flujo(no_utf8, {}, 'cand1234')['cambio_grande'], None)
 
     def test_af2_un_avisos_de_cada_uno_cuando_hay_los_dos(self):
         self.assertEqual(len(alarmas.avisos_de_flujo(rondas=5, lineas=900)), 2)
@@ -187,6 +213,18 @@ class EstadoReal(_te.Base):
         estado['eventos'] = [{'accion': 'revision_pedida'}, {'candidato': 'x'}] + (estado.get('eventos') or [])
         f.guardar(carpeta, estado)
         self.assertFalse(self.estado()[1]['bucle_de_revision']['avisa'])
+
+
+class Abandonado(_te.Base):
+    def test_af1_un_cambio_abandonado_no_lleva_alarmas_del_flujo_ni_en_el_json(self):
+        self.preparar()
+        carpeta, estado = f.leer(self.ident)
+        estado['fase'] = 'abandonada'
+        estado['eventos'] = (estado.get('eventos') or []) + [evento('revision_pedida', f'{i}' * 7) for i in range(5)]
+        f.guardar(carpeta, estado)
+        datos = f.datos_estado(self.ident)
+        self.assertEqual((datos['bucle_de_revision'], datos['cambio_grande']), (None, None))
+        self.assertFalse(any('rondas de revisión' in a for a in datos['avisos']))
 
 
 class Documento(unittest.TestCase):
