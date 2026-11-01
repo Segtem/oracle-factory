@@ -94,6 +94,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261031-011717-c2q-pruebaspractica]] — Pedir las pruebas como práctica de desarrollo, sin bloquear (cerrada)
 - [[cambios/20261031-220741-vts-listaprevia]] — Una lista previa a la revisión con las clases de problema que más rondas cuestan (cerrada)
 - [[cambios/20261101-012816-1qf-testseditados]] — Avisar de los tests que ya existían y el cambio modificó o borró (cerrada)
+- [[cambios/20261101-121356-ih8-puertalocal]] — Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push (espera_aprobacion_spec)
 
 ## Requisitos
 
