@@ -2,7 +2,7 @@
   "id": "20261101-012816-1qf-testseditados",
   "titulo": "Avisar de los tests que ya existían y el cambio modificó o borró",
   "capacidad": "practicas",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261101-012816-1qf-testseditados/specs/practicas/spec.md",
   "spec_sha256": "db7b8c9c8ce55d52313c31639697fffcc3652aca414352e6b678fea72bc267f7",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados",
     "practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261101-012816-1qf-testseditados/revisiones/registro-3_z4i_kd/informe.json",
+    "sha256": "152709a35466c9e42f23622ee193cf48db3634c3763f1dc6d040bf16029e680f",
+    "decisiones": "tareas/20261101-012816-1qf-testseditados/revisiones/registro-3_z4i_kd/decisiones.json",
+    "decisiones_sha256": "8ed7e006a1774089d1a3368a5f451c92f09f85a9345ec23cc0fc62f2cc122bc7",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T11:24:50.606029+00:00",
+    "motivo": "Dos vueltas de revisión. La primera (agy2 y codex) dejó hallazgos reales, entre ellos que los renombres puros no avisaban (se podía desactivar un test en silencio), que se clasificaba por el destino y no por la base, que se miraban archivos generados, que los pathspecs no eran literales, que faltaban las aserciones de Go y otros lenguajes, y que el contrato del verificador tenía nombres de casos inexistentes; todo corregido, con pruebas que ahora fallan si se vuelven a romper. La segunda vuelta la hicieron codex y agy2-flash (gemini-3.8-flash-high, porque la cuota de Gemini 4 Argon de las dos cuentas de agy se agotó): ningún hallazgo medio ni alto; codex dejó un hallazgo bajo, que el contador de aserciones cuenta también comentarios y nombres con la palabra assert, que queda como límite declarado y como riesgo aceptado. Suite completa sin fallas y evidencia con éxito (30 casos de contrato). Revisor agy2-flash agregado a la configuración por pedido de Brian.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "d8944c2b1fb092f5735430f2ee5f1f0cf7c14c22",
+      "archivos_sha256": "0c5b858b0b457cb0b54cef84cd6725690b823ab7a582ba31824a7c99aca67e5b"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -321,6 +341,56 @@
       "resultado": "sin_informe",
       "hallazgos": 0,
       "lanzamiento": "ab581d7cf211"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T03:53:41.197646+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "3c2793e",
+      "lanzamiento": "13a56be81c40"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-01T04:08:24.646479+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "3c2793e",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "13a56be81c40"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T04:41:30.675158+00:00",
+      "decision": "aprobar",
+      "candidato": "3c2793e"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T11:24:50.606059+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "152709a35466c9e42f23622ee193cf48db3634c3763f1dc6d040bf16029e680f",
+      "decisiones_sha256": "8ed7e006a1774089d1a3368a5f451c92f09f85a9345ec23cc0fc62f2cc122bc7"
     }
   ],
   "tipos": {
@@ -378,5 +448,17 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/alarmas.py",
+      "titulo": "El contador suma texto que solo contiene “assert”",
+      "firma": "oracle_factory/alarmas.py|el contador suma texto que solo contiene assert",
+      "motivo": "Acepto el riesgo: El contador suma texto que solo contiene “assert”",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-01T11:24:48.997634+00:00",
+      "candidato": "3c2793e"
+    }
+  ]
 }
