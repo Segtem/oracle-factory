@@ -2,7 +2,7 @@
   "id": "20261101-121356-ih8-puertalocal",
   "titulo": "Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push",
   "capacidad": "calidad",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md",
   "spec_sha256": "4a3e713cd722d592a4692d000bfb991d94869d4c5a4319c225fa9efa161b2eee",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md": "4a3e713cd722d592a4692d000bfb991d94869d4c5a4319c225fa9efa161b2eee"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "calidad_c0296b6a4f1eaff09.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+    "calidad_c0296b6a4f1eaff09.la_puerta_corre_las_verificaciones_del_proyecto",
+    "calidad_c0296b6a4f1eaff09.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -53,7 +57,26 @@
         "openspec/changes/20261101-121356-ih8-puertalocal/proposal.md": "6e380630bb894dbc11416aebc631071a3a37fc45b59edf1a237b3d54e008eade",
         "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md": "4a3e713cd722d592a4692d000bfb991d94869d4c5a4319c225fa9efa161b2eee"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T12:33:14.809414+00:00",
+      "ids": [
+        "calidad_c0296b6a4f1eaff09.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "calidad_c0296b6a4f1eaff09.la_puerta_corre_las_verificaciones_del_proyecto",
+        "calidad_c0296b6a4f1eaff09.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "calidad_c0296b6a4f1eaff09.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja": "funcional",
+    "calidad_c0296b6a4f1eaff09.la_puerta_corre_las_verificaciones_del_proyecto": "funcional",
+    "calidad_c0296b6a4f1eaff09.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
