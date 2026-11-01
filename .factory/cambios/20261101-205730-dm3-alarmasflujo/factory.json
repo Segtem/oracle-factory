@@ -2,7 +2,7 @@
   "id": "20261101-205730-dm3-alarmasflujo",
   "titulo": "Avisar de los bucles de revisión y de los cambios demasiado grandes",
   "capacidad": "practicas",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md",
   "spec_sha256": "08959cd1e35797783e490f91e02688f68bb5f6a8e38ef163386530450123746d",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
     "practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261101-205730-dm3-alarmasflujo/revisiones/registro-xcz437z7/informe.json",
+    "sha256": "3bf2edff8c6504080f51b29292ec152f1e7ac777f621097734b0e49953642995",
+    "decisiones": "tareas/20261101-205730-dm3-alarmasflujo/revisiones/registro-xcz437z7/decisiones.json",
+    "decisiones_sha256": "5b3f7dcf2e3a5e760689e028695c38ca2b68deda273cc5173fc1ecd3e5550f75",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T22:49:13.933199+00:00",
+    "motivo": "Dos rondas con revisores independientes (agy2-flash y codex): ronda 1, 8 hallazgos (7 de flash, 1 de codex), todos reales y corregidos con prueba y mutación; ronda 2, 0 de ambos sobre el candidato 2aab69a. Se arregló la clase y no sólo el caso: la rama principal (main o master) y los nombres no UTF-8 también en la alarma de tests editados, salidas de Git rotas, SHA de otro largo, eventos raros y cambios abandonados. Evidencia con éxito: 995 pruebas, 26 casos de contrato. Mutaciones: 12 de la primera tanda (4 sobrevivían, se agregaron pruebas y se detectan) y 10 de la segunda, todas detectadas. Declarado: un test existente cambió (test_te1_sin_candidato_o_sin_base_no_se_calcula_y_no_se_llama_a_git_de_mas pasó de 1 a 2 llamadas porque el merge-base prueba main y master); es consecuencia directa de ese arreglo y los revisores lo vieron en su pedido. Fuera del arreglo: un evento con candidato no textual rompe commits_del_cambio, fragilidad anterior a este cambio.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "d569cc9c20c2d3a1c29078663e114c5f3339b7c0",
+      "archivos_sha256": "90deeb2a051a60fa81ee74ff406ea1785860ab4ac023d7e2fe70ffce97c1c6e4"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -331,6 +351,20 @@
       "cuando": "2026-11-01T22:48:47.363109+00:00",
       "decision": "aprobar",
       "candidato": "2aab69a"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-01T22:49:13.933224+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "3bf2edff8c6504080f51b29292ec152f1e7ac777f621097734b0e49953642995",
+      "decisiones_sha256": "5b3f7dcf2e3a5e760689e028695c38ca2b68deda273cc5173fc1ecd3e5550f75"
     }
   ],
   "tipos": {
@@ -389,14 +423,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Dos rondas con revisores independientes (agy2-flash y codex): ronda 1, 8 hallazgos (7 de flash, 1 de codex), todos reales y corregidos con prueba y mutación; ronda 2, 0 de ambos sobre el candidato 2aab69a. Se arregló la clase y no sólo el caso: la rama principal (main o master) y los nombres no UTF-8 también en la alarma de tests editados, salidas de Git rotas, SHA de otro largo, eventos raros y cambios abandonados. Evidencia con éxito: 995 pruebas, 26 casos de contrato. Mutaciones: 12 de la primera tanda (4 sobrevivían, se agregaron pruebas y se detectan) y 10 de la segunda, todas detectadas. Declarado: un test existente cambió (test_te1_sin_candidato_o_sin_base_no_se_calcula_y_no_se_llama_a_git_de_mas pasó de 1 a 2 llamadas porque el merge-base prueba main y master); es consecuencia directa de ese arreglo y los revisores lo vieron en su pedido. Fuera del arreglo: un evento con candidato no textual rompe commits_del_cambio, fragilidad anterior a este cambio.",
-      "candidato": "2aab69a",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-01T22:48:47.363095+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

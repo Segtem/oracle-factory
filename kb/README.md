@@ -95,7 +95,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261031-220741-vts-listaprevia]] — Una lista previa a la revisión con las clases de problema que más rondas cuestan (cerrada)
 - [[cambios/20261101-012816-1qf-testseditados]] — Avisar de los tests que ya existían y el cambio modificó o borró (cerrada)
 - [[cambios/20261101-121356-ih8-puertalocal]] — Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push (cerrada)
-- [[cambios/20261101-205730-dm3-alarmasflujo]] — Avisar de los bucles de revisión y de los cambios demasiado grandes (requisitos_importados)
+- [[cambios/20261101-205730-dm3-alarmasflujo]] — Avisar de los bucles de revisión y de los cambios demasiado grandes (revision_aprobada)
 
 ## Requisitos
 
