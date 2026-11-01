@@ -23,3 +23,7 @@ Requisitos importados: calidad_c0296b6a4f1eaff09.el_hook_pre_push_llama_a_la_pue
 ### Nota (2026-11-01 13:58:32 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-01 14:06:52 UTC)
+
+Requisitos importados: calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja (funcional), calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto (funcional), calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican (funcional), calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

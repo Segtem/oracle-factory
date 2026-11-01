@@ -94,7 +94,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261031-011717-c2q-pruebaspractica]] — Pedir las pruebas como práctica de desarrollo, sin bloquear (cerrada)
 - [[cambios/20261031-220741-vts-listaprevia]] — Una lista previa a la revisión con las clases de problema que más rondas cuestan (cerrada)
 - [[cambios/20261101-012816-1qf-testseditados]] — Avisar de los tests que ya existían y el cambio modificó o borró (cerrada)
-- [[cambios/20261101-121356-ih8-puertalocal]] — Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push (spec_aprobada)
+- [[cambios/20261101-121356-ih8-puertalocal]] — Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push (requisitos_importados)
 
 ## Requisitos
 
@@ -126,9 +126,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/bloqueos_c675508440ed3a2b8.aprobar_spec_no_cambia_cuando_todo_esta_completo]]
 - [[requisitos/bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo]]
 - [[requisitos/bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea]]
-- [[requisitos/calidad_c0296b6a4f1eaff09.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja]]
-- [[requisitos/calidad_c0296b6a4f1eaff09.la_puerta_corre_las_verificaciones_del_proyecto]]
-- [[requisitos/calidad_c0296b6a4f1eaff09.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican]]
+- [[requisitos/calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja]]
+- [[requisitos/calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto]]
+- [[requisitos/calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican]]
+- [[requisitos/calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo]]
 - [[requisitos/cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec]]
 - [[requisitos/cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza]]
 - [[requisitos/cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base]]

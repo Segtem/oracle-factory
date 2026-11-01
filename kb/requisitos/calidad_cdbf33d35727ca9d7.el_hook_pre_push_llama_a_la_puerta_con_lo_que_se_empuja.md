@@ -1,6 +1,6 @@
 ---
 generado: oracle-factory kb
-id: "calidad_c0296b6a4f1eaff09.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja"
+id: "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja"
 vigente: true
 ---
 
@@ -8,9 +8,9 @@ vigente: true
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Id: `calidad_c0296b6a4f1eaff09.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja`
+- Id: `calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja`
 - Vigente: sí
-- Cambio: ninguno registrado
+- Cambio: [[cambios/20261101-121356-ih8-puertalocal]]
 - Veredicto: sin juicio
 - Medidas: ninguna
 - Sin medir: sin medida todavía; escenarios: «un push con un secreto», «un push limpio y una rama nueva», «un hook ajeno y un intérprete que falta»

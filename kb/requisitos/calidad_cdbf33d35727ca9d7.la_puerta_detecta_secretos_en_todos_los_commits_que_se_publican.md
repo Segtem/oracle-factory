@@ -1,6 +1,6 @@
 ---
 generado: oracle-factory kb
-id: "calidad_c0296b6a4f1eaff09.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican"
+id: "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican"
 vigente: true
 ---
 
@@ -8,9 +8,9 @@ vigente: true
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Id: `calidad_c0296b6a4f1eaff09.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican`
+- Id: `calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican`
 - Vigente: sí
-- Cambio: ninguno registrado
+- Cambio: [[cambios/20261101-121356-ih8-puertalocal]]
 - Veredicto: sin juicio
 - Medidas: ninguna
 - Sin medir: sin medida todavía; escenarios: «un secreto agregado y quitado después», «palabras que no son secretos», «una línea con la marca de exención»

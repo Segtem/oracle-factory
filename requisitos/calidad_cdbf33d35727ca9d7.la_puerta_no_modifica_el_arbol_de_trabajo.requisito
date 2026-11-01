@@ -1,0 +1,4 @@
+requisito calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo:
+    texto "Tipo: funcional El sistema DEBE correr la puerta y sus verificaciones sin escribir ni modificar ningún archivo del proyecto, aunque el conocimiento esté vencido, de modo que un push no deje el árbol de trabajo distinto de como estaba."
+    fuente "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md#la_puerta_no_modifica_el_arbol_de_trabajo"
+    sin_medir "sin medida todavía; escenarios: «un conocimiento vencido», «un push con el conocimiento vencido»"

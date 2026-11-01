@@ -2,7 +2,7 @@
   "id": "20261101-121356-ih8-puertalocal",
   "titulo": "Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push",
   "capacidad": "calidad",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md",
   "spec_sha256": "60b9ae3af9a3ac5279debc341a7815283b9f9c06efc6c42ca7e185ef4b010fdc",
   "spec_aprobada": {
@@ -16,7 +16,12 @@
       "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md": "60b9ae3af9a3ac5279debc341a7815283b9f9c06efc6c42ca7e185ef4b010fdc"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+    "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+    "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+    "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -78,9 +83,28 @@
         "openspec/changes/20261101-121356-ih8-puertalocal/proposal.md": "768f7ba9f2a62e09800b5c033916a458364af2888ba28066f914aafe96de226a",
         "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md": "60b9ae3af9a3ac5279debc341a7815283b9f9c06efc6c42ca7e185ef4b010fdc"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T14:06:52.206582+00:00",
+      "ids": [
+        "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja",
+        "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto",
+        "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican",
+        "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo"
+      ]
     }
   ],
-  "tipos": {},
+  "tipos": {
+    "calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja": "funcional",
+    "calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto": "funcional",
+    "calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican": "funcional",
+    "calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo": "funcional"
+  },
   "medidas": {},
   "medidas_pendientes": {}
 }
