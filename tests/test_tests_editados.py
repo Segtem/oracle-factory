@@ -291,7 +291,7 @@ class GitFalso(unittest.TestCase):
         self.assertEqual(nunca.llamadas, [])
         sin_base = self.ejecutor(lambda argv: (1, '') if 'merge-base' in argv else (0, ''))
         self.assertIsNone(alarmas.del_candidato(sin_base, 'abc1234'))
-        self.assertEqual(len(sin_base.llamadas), 1)  # se detuvo en el merge-base
+        self.assertEqual(len(sin_base.llamadas), 2)  # se detuvo en el merge-base, que prueba main y master
 
     def test_te1_con_la_base_dada_no_se_busca_el_merge_base(self):
         git = self.ejecutor(lambda argv: (0, ''))

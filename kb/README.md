@@ -95,6 +95,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261031-220741-vts-listaprevia]] — Una lista previa a la revisión con las clases de problema que más rondas cuestan (cerrada)
 - [[cambios/20261101-012816-1qf-testseditados]] — Avisar de los tests que ya existían y el cambio modificó o borró (cerrada)
 - [[cambios/20261101-121356-ih8-puertalocal]] — Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push (cerrada)
+- [[cambios/20261101-205730-dm3-alarmasflujo]] — Avisar de los bucles de revisión y de los cambios demasiado grandes (cerrada)
 
 ## Requisitos
 
@@ -300,6 +301,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/practicas_c30250c98e6023842.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro]]
 - [[requisitos/practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados]]
 - [[requisitos/practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas]]
+- [[requisitos/practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado]]
+- [[requisitos/practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto]]
+- [[requisitos/practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas]]
 - [[requisitos/practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa]]
 - [[requisitos/practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente]]
 - [[requisitos/practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear]]

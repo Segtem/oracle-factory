@@ -1,0 +1,4 @@
+requisito practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas:
+    texto "Tipo: funcional El sistema DEBE avisar en el estado de un cambio, y en su JSON, cuando se pidió revisión para cuatro o más candidatos distintos, sin cambiar los pasos pendientes ni impedir ninguna decisión."
+    fuente "openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md#el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas"
+    medido_por factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas, factory_alarmas_flujo.corrida_completa

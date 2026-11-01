@@ -1,0 +1,120 @@
+{
+  "alarmas_flujo_caso": [
+    {
+      "requisito": "el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "caso": "Rondas.test_af1_cuatro_candidatos_revisados_son_cuatro_rondas_y_avisan",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "caso": "Rondas.test_af1_dos_revisores_del_mismo_candidato_son_una_sola_ronda",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "caso": "Rondas.test_af1_un_registro_ilegible_no_se_cuenta_ni_rompe",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "caso": "Rondas.test_af1_el_umbral_es_cuatro_y_el_aviso_sugiere_parar_a_arreglar_la_clase",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "caso": "Rondas.test_af1_una_revision_lanzada_cuenta_como_ronda_igual_que_una_pedida",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "caso": "Rondas.test_af1_el_dato_del_json_dice_si_avisa_justo_en_el_umbral",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "caso": "EstadoReal.test_af1_cuatro_rondas_avisan_en_el_texto_y_en_el_json",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "caso": "EstadoReal.test_af1_con_tres_rondas_no_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas",
+      "caso": "EstadoReal.test_af1_un_registro_con_eventos_rotos_no_hace_fallar_el_estado",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "Tamano.test_af2_cuentan_las_lineas_agregadas_de_producto_y_no_las_de_pruebas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "Tamano.test_af2_lo_que_no_es_producto_no_cuenta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "Tamano.test_af2_un_renombre_con_numstat_z_se_lee_con_su_destino",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "Tamano.test_af2_si_git_falla_no_se_calcula",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "Tamano.test_af2_el_umbral_es_450_y_justo_en_el_umbral_no_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "Tamano.test_af2_el_dato_del_json_dice_si_avisa_justo_en_el_umbral",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "Tamano.test_af2_si_no_se_encuentra_la_base_no_se_calcula_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "Tamano.test_af2_un_avisos_de_cada_uno_cuando_hay_los_dos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "EstadoReal.test_af2_un_candidato_grande_avisa_en_el_texto_y_en_el_json_sin_cambiar_los_pendientes",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "EstadoReal.test_af2_las_pruebas_no_cuentan_en_un_candidato_real",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto",
+      "caso": "EstadoReal.test_af2_sin_candidato_vigente_no_se_calcula",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado",
+      "caso": "Documento.test_af3_el_documento_nombra_los_dos_umbrales_y_el_conteo_aproximado",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado",
+      "caso": "Documento.test_af3_el_contrato_del_verificador_nombra_exactamente_los_casos_que_existen",
+      "codigo": 0
+    }
+  ],
+  "alarmas_flujo_corrida": [
+    {
+      "completa": 1,
+      "casos": 22
+    }
+  ]
+}

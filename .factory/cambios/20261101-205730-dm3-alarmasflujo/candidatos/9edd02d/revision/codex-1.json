@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-alarmas-flujo/.factory/local/revisiones/9edd02d-codex-1",
+  "base": "a2cce55349c15ebeea3d53d4f6c52c435a95843b",
+  "head": "9edd02d90f635640cadddb8813bc070d00b4c3ef",
+  "diff_sha256": "533d7ce0447f31e9fa9fccd493899470e208a252a030432f41a16afc34ea06f7",
+  "context_sha256": "d15016c97253f4660ba6290959e5168a86600a93da2cf9f9ff6f1169df279990",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "Un nombre de archivo no UTF-8 puede hacer fallar `estado`",
+      "explanation": "La consulta numstat usa `cli.ejecutar`, que ejecuta subprocess.run con `text=True, encoding=\"utf-8\"` y no captura UnicodeDecodeError. Con `-z`, Git entrega los bytes originales del nombre; si un candidato agrega una ruta cuyo nombre no es UTF-8 válido, la decodificación del stdout falla antes de que lineas_de_producto pueda devolver None. Así, el cálculo de una alarma rompe el estado, en vez de dejar el dato sin calcular como exige el manejo tolerante a fallos.",
+      "location": {
+        "file": "oracle_factory/alarmas.py",
+        "start_line": 132,
+        "end_line": 132,
+        "side": "head"
+      },
+      "trigger": "En un repositorio Linux, agregar al candidato un archivo de producto con una ruta que contenga bytes no UTF-8 (por ejemplo, un nombre que incluya 0xff), y pedir `estado ID` o `estado ID --json`.",
+      "evidence": "El comando es `git diff --numstat -z -M --no-color base candidato`; `-z` preserva nombres de ruta sin comillas y permite bytes arbitrarios. El ejecutor en oracle_factory/cli.py decodifica el stdout como UTF-8 estricto. Reproduje en una copia temporal la salida binaria `b\"1\\t0\\tx-\\xff.py\\x00\"`, que no se puede decodificar con UTF-8. La excepción no se convierte en `None` ni se captura aquí.",
+      "related_requirement": "el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto / escenario: sin candidato vigente (tolerancia al cálculo no disponible); indicación de revisión: fallo de Git o ruta rara no debe romper el estado.",
+      "status": "pendiente",
+      "verification": "Reproducción en repositorio temporal de la salida numstat -z con ruta no UTF-8 y del fallo de decodificación UTF-8. No modifiqué el checkout. La suite específica se ejecutó: 16 pruebas pasaron y 6 escenarios EstadoReal fallaron por falta de oracle_metalenguaje en el entorno, por lo que esos escenarios quedaron sin verificación."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, propuesta, diff y contexto del paquete; revisé los archivos de implementación, integración, tests, verificador y documentación enumerados.",
+    "Ejecuté `python -m unittest tests.test_alarmas_flujo`: 22 pruebas; 16 pasaron y 6 fallaron al importar `oracle_metalenguaje` en escenarios EstadoReal; dependencia ausente en el entorno.",
+    "Reproduje con un repositorio Git temporal que `--numstat -z` produce bytes no UTF-8 para un nombre de ruta no UTF-8, incompatibles con la decodificación UTF-8 estricta de `cli.ejecutar`.",
+    "No ejecuté el verificador de evidencia completo ni hice mutaciones al checkout. No revisé los archivos excluidos indicados por quien pidió la revisión."
+  ]
+}

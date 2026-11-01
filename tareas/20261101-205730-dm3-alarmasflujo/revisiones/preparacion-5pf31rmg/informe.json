@@ -1,0 +1,76 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261101-205730-dm3-alarmasflujo",
+  "contexto": {
+    "head": "8fb0096315fef7e74db9620ad17c3e90f14d3285",
+    "archivos_sha256": "90deeb2a051a60fa81ee74ff406ea1785860ab4ac023d7e2fe70ffce97c1c6e4"
+  },
+  "documentos": {
+    "openspec/changes/20261101-205730-dm3-alarmasflujo/proposal.md": "c3ed8cbcca97d50175e276504704a998adf9b6ead1cb645eae975f5b22dd2a6f",
+    "openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md": "08959cd1e35797783e490f91e02688f68bb5f6a8e38ef163386530450123746d"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_alarmas_flujo.corrida_completa.oracle",
+    "catalogos/factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado.oracle",
+    "catalogos/factory_alarmas_flujo.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto.oracle",
+    "catalogos/factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas.oracle",
+    "docs/tests.md",
+    "openspec/changes/20261101-205730-dm3-alarmasflujo/design.md",
+    "openspec/changes/20261101-205730-dm3-alarmasflujo/proposal.md",
+    "openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md",
+    "openspec/changes/20261101-205730-dm3-alarmasflujo/tasks.md",
+    "oracle_factory/alarmas.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/lecturas.py",
+    "requisitos/practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado.requisito",
+    "requisitos/practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto.requisito",
+    "requisitos/practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas.requisito",
+    "tests/test_alarmas_flujo.py",
+    "tests/test_tests_editados.py",
+    "tools/verify_alarmas_flujo.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 995 pruebas, 26 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-205730-dm3-alarmasflujo/candidatos/2aab69a/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-205730-dm3-alarmasflujo/candidatos/2aab69a/revision/agy2-flash-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-205730-dm3-alarmasflujo/candidatos/2aab69a/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9edd02d: agy (gemini-3.8-flash-high), 7 hallazgos: AF-TAM-01 (media), AF-TAM-02 (media), AF-TEST-01 (media), AF-RON-01 (baja), AF-TEST-02 (baja), AF-RON-02 (baja), AF-LEC-01 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-205730-dm3-alarmasflujo/candidatos/9edd02d/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9edd02d: codex (gpt-6-luna), 1 hallazgo: F1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261101-205730-dm3-alarmasflujo/candidatos/9edd02d/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios af1–af3 con repositorios Git temporales y un ejecutor falso de Git, en Linux. Comprueban que el estado avisa de las rondas y del tamaño, que no cambia los pendientes y que el documento coincide con los umbrales del código; no validan que 4 rondas y 450 líneas sean los umbrales correctos (son referencias de 20 cambios).",
+    "agy (gemini-3.8-flash-high): No se encontraron defectos ni regresiones en el candidato 2aab69a; la lista de findings está vacía.",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección integral de los 8 hallazgos de la ronda previa (candidato 9edd02d): 1) base_del_candidato resuelve dinámicamente 'main' y 'master' tanto para alarmas del flujo como para tests editados; 2) lineas_de_producto maneja de forma tolerante salidas de git diff --numstat truncadas o sin tabulaciones devolviendo None sin excepciones no controladas; 3) el wrapper _git captura UnicodeDecodeError y OSError en todas las llamadas a Git evitando romper el estado; 4) rondas normaliza a 7 caracteres en minúsculas evitando conteos duplicados del mismo commit; 5) rondas valida exhaustivamente que todos los elementos sean diccionarios válidos devolviendo None ante listas corruptas; 6) cambios en fase abandonada devuelven null en bucle_de_revision y cambio_grande y omiten avisos en texto y JSON; 7) test_af2_un_renombre_con_numstat_z_se_lee_con_su_destino usa un archivo de pruebas como origen y de producto como destino, distinguiendo destino de origen; 8) tools/verify_alarmas_flujo.py y tests/test_alarmas_flujo.py configuran sys.path permitiendo ejecución sin requerir PYTHONPATH preconfigurado.",
+    "agy (gemini-3.8-flash-high): Se analizó la modificación del test preexistente tests/test_tests_editados.py::test_te1_sin_candidato_o_sin_base_no_se_calcula_y_no_se_llama_a_git_de_mas, donde la expectativa de llamadas a git merge-base pasó de 1 a 2. La edición se encuentra plenamente justificada ya que base_del_candidato ahora intenta buscar la base tanto en 'main' como en 'master' (2 llamadas) antes de desistir, deteniéndose correctamente sin invocar git diff sin base.",
+    "agy (gemini-3.8-flash-high): Se ejecutó el verificador tools/verify_alarmas_flujo.py (995 pruebas, 26 casos de contrato; éxito: True; fuentes estables).",
+    "agy (gemini-3.8-flash-high): Se realizaron 11 pruebas de mutación manuales y sistemáticas sobre alarmas.py (renombres, normalización SHA, umbrales, captura de UnicodeDecodeError, tolerancia a entradas corruptas, condiciones de borde en operadores de comparación); todas las mutaciones fueron detectadas y eliminadas por la suite de pruebas.",
+    "codex (gpt-6-luna): Revisé la spec, propuesta, archivos del paquete y las revisiones previas. No encontré defectos atribuibles al candidato dentro de los rangos del diff.",
+    "codex (gpt-6-luna): Las correcciones previas siguen cubriendo las clases señaladas: main/master en base_del_candidato; numstat -z reconoce renombres y rechaza salidas truncadas/malformadas; _git transforma UnicodeDecodeError/OSError en None; rondas normaliza SHA a 7 caracteres y minúsculas y devuelve None para eventos que no son objetos; lecturas deja las dos claves en null al abandonar.",
+    "codex (gpt-6-luna): La prueba tests/test_tests_editados.py::test_te1_sin_candidato_o_sin_base_no_se_calcula_y_no_se_llama_a_git_de_mas cambia la expectativa de una a dos llamadas. Es legítimo: sin base prueba merge-base contra main y master y no pide el diff si ambas fallan.",
+    "codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_alarmas_flujo tests.test_tests_editados </dev/null`: 56 tests, 23 errores por falta de dependencias del entorno (`oracle_metalenguaje` y ejecutable `oracle-clue`); los casos unitarios sin esas dependencias pasan. No pude verificar el conjunto completo ni ejecutar tools/verify_alarmas_flujo.py.",
+    "codex (gpt-6-luna): No hice mutaciones del checkout; el checkout permaneció de sólo lectura."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
