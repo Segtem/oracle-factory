@@ -27,3 +27,15 @@ Medidas de practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_edit
 ### Nota (2026-11-01 01:36:18 UTC)
 
 Medidas de practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas: factory_tests_editados.solo_cuentan_los_archivos_de_pruebas, factory_tests_editados.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-01 01:38:34 UTC)
+
+Medidas de practicas_c30250c98e6023842.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 01:38:34 UTC)
+
+Medidas de practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 01:38:34 UTC)
+
+Medidas de practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas: Brian Hollweg (persona, confirmo, modo confirmacion).
