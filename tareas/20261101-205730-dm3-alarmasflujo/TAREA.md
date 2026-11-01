@@ -51,3 +51,15 @@ Medidas de practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agreg
 ### Nota (2026-11-01 22:08:44 UTC)
 
 Medidas de practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-01 22:28:14 UTC)
+
+Medidas de practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 22:28:14 UTC)
+
+Medidas de practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 22:28:14 UTC)
+
+Medidas de practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas: Brian Hollweg (persona, confirmo, modo confirmacion).
