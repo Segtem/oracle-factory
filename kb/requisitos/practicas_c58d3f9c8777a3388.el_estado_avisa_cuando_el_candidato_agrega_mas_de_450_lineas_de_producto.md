@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261101-205730-dm3-alarmasflujo]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un candidato grande», «las pruebas no cuentan», «justo en el umbral», «sin candidato vigente»
+- Medidas: `factory_alarmas_flujo.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto`, `factory_alarmas_flujo.corrida_completa`
 - Fuente: openspec/changes/20261101-205730-dm3-alarmasflujo/specs/practicas/spec.md#el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto
 
 Tipo: funcional El sistema DEBE avisar en el estado de un cambio, y en su JSON, cuando el candidato vigente agrega más de 450 líneas en archivos de producto, sin contar los archivos de pruebas, y sin cambiar los pasos pendientes ni impedir ninguna decisión.
