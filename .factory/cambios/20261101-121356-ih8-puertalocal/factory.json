@@ -569,6 +569,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "b8846ce36c37"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T20:31:46.381591+00:00",
+      "decision": "aprobar",
+      "candidato": "2fa1bb7"
     }
   ],
   "tipos": {
@@ -643,5 +653,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres rondas con revisores independientes (agy2-flash y codex): ronda 1, 11 hallazgos; ronda 2, 7; ronda 3, 0 de ambos sobre el candidato 2fa1bb7. Todos los hallazgos de las rondas 1 y 2 eran reales y se corrigieron con prueba y mutación (merges y merge pulpo con --cc, claves ASIA y de Google terminadas en guion, líneas enteras, triples comillas, rutas con escapes de Git, SHA-256, línea sugerida para hooks ajenos válida con set -e, verificaciones omitidas o al día informadas con un fallo); las asignaciones con el valor en otra línea quedan como límite declarado en docs/puerta.md. Evidencia con éxito: 969 pruebas, 62 casos de contrato. Mutaciones: 10 de 11 detectadas en la segunda ronda; sobrevive la que quita '& 255' del octal, equivalente para entradas reales de Git.",
+      "candidato": "2fa1bb7",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-01T20:31:46.381577+00:00"
+    }
+  }
 }
