@@ -22,7 +22,16 @@ Cuando no es posible (un cambio sólo de texto, un sensor que sólo corre en el 
 
 Un agente que puede editar los tests puede aflojarlos hasta que pasen. Por eso: un test que ya existía no se edita para que pase sin dejarlo dicho a quien revisa. Agregar tests es libre; cambiar o borrar uno existente se nombra en el informe de la revisión.
 
-Factory lo hace visible sin bloquear nada: `oracle-factory estado ID` (y `estado ID --json`, en la clave `tests_editados`) avisa de los archivos de pruebas que existían en la base del candidato y que el candidato borró, renombró o a los que les quitó líneas, con los tests y las aserciones quitadas; y el pedido que recibe el revisor lleva la misma lista, con la indicación de mencionarla en su informe. Agregar tests, o archivos de pruebas nuevos, no avisa. Un renombre avisa siempre, aunque no se haya quitado ninguna línea, porque mover un test a un archivo que nadie ejecuta lo desactiva; y un archivo cuenta como «de pruebas» por su ruta en la base (lo que ya existía), de modo que un archivo de producto renombrado a `tests/` no avisa. Sólo se miran los archivos del producto: los registros generados (`kb/`, `.factory/`, `tareas/`) no cuentan. Las aserciones se reconocen por lenguaje (`assert`, `expect(`, `ASSERT_*`, `t.Error*` y `t.Fatal*` de Go, `pytest.raises`, `.fail(`). Es un aviso y no un juicio: renombrar o simplificar puede ser legítimo, y quien revisa decide. Un archivo cuenta como de pruebas por su ruta (una carpeta `tests` o `test`, o un nombre `test_*`, `*_test.*` o `*.test.*`); otras convenciones, como `__tests__` o `*.spec.*`, no se miran todavía.
+Factory lo hace visible sin bloquear nada: `oracle-factory estado ID` (y `estado ID --json`, en la clave `tests_editados`) avisa de los archivos de pruebas que existían en la base del candidato y que el candidato borró, renombró o a los que les quitó líneas, con los tests y las aserciones quitadas; y el pedido que recibe el revisor lleva la misma lista, con la indicación de mencionarla en su informe. Agregar tests, o archivos de pruebas nuevos, no avisa. Un renombre avisa siempre, aunque no se haya quitado ninguna línea, porque mover un test a un archivo que nadie ejecuta lo desactiva; y un archivo cuenta como «de pruebas» por su ruta en la base (lo que ya existía), de modo que un archivo de producto renombrado a `tests/` no avisa. Sólo se miran los archivos del producto: los registros generados (`kb/`, `.factory/`, `tareas/`) no cuentan. El conteo de aserciones quitadas es **aproximado**: las aserciones se reconocen por patrones de lenguaje (`assert`, `expect(`, `ASSERT_*`, `t.Error*` y `t.Fatal*` de Go, `pytest.raises`, `.fail(`). Es un aviso y no un juicio: renombrar o simplificar puede ser legítimo, y quien revisa decide. Un archivo cuenta como de pruebas por su ruta (una carpeta `tests` o `test`, o un nombre `test_*`, `*_test.*` o `*.test.*`); otras convenciones, como `__tests__` o `*.spec.*`, no se miran todavía.
+
+## Otras dos alarmas: el bucle y el tamaño
+
+Con la misma idea (avisar sin bloquear), `oracle-factory estado ID` avisa de dos señales del flujo, y las lleva en su JSON (`estado ID --json`) en las claves `bucle_de_revision` y `cambio_grande`, cada una con el valor, el umbral y si avisa (o `null` si no se pudo calcular):
+
+- **Bucle de revisión:** el cambio lleva 4 rondas o más. Una ronda es un candidato distinto al que se pidió revisión (varios revisores de un mismo candidato son una ronda). El aviso sugiere parar a arreglar la clase del problema entera y mirar la [lista previa](lista-previa.md) antes de pedir otra.
+- **Cambio grande:** el candidato agrega más de 450 líneas en archivos de producto, sin contar los archivos de pruebas ni los registros generados. El aviso sugiere partir el cambio.
+
+Los dos números son referencias sacadas de 20 cambios cerrados (`tools/medir_rondas.py`): hasta unas 450 líneas la mediana fue de 2 rondas, y por encima, de 3; y los cambios de 5 o 6 rondas fueron bucles que parchaban la misma clase de problema caso por caso. Son una pauta y no una ley: un cambio de 600 líneas puede estar bien si es mecánico.
 
 ## Fuentes
 
@@ -34,4 +43,4 @@ Factory lo hace visible sin bloquear nada: `oracle-factory estado ID` (y `estado
 
 ## Qué falta
 
-Quedan para cambios aparte, cada uno con su decisión: mostrar al revisor las líneas cambiadas que ningún caso ejecuta, las otras alarmas del agente (bucle de rondas, cambio de alcance, tamaño del cambio) y una vista del tablero para entrar al código creado.
+Quedan para cambios aparte, cada uno con su decisión: mostrar al revisor las líneas cambiadas que ningún caso ejecuta, la alarma de cambio de alcance (archivos que la propuesta no menciona) y una vista del tablero para entrar al código creado.

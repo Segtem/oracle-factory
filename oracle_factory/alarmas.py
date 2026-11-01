@@ -1,4 +1,4 @@
-"""Alarmas para quien revisa: hoy, los tests que ya existían y un cambio modificó o borró.
+"""Alarmas para quien revisa: los tests que ya existían y un cambio modificó o borró, el bucle de revisión y el cambio demasiado grande.
 
 La guarda de `docs/tests.md` (un test que ya existía no se edita para que pase sin dejarlo dicho) era sólo una regla escrita;
 acá Git la hace visible. Es un aviso: no bloquea nada ni juzga si la edición fue legítima. La base es la del candidato, la misma que
@@ -106,3 +106,66 @@ def texto_para_el_revisor(editados: list[dict] | None) -> str:
     return ("Tests existentes que este candidato modificó o borró (la guarda del proyecto: un test que ya existía no se edita para que "
             "pase sin dejarlo dicho). Mirá si cada edición está justificada por el cambio y mencionalo en tu informe, aunque la encuentres "
             f"legítima:\n{filas}\n")
+
+
+# --- Alarmas del flujo: el bucle de revisión y el cambio demasiado grande ---------------------------------------------------
+# Referencias sacadas de 20 cambios cerrados (tools/medir_rondas.py): hasta ~450 líneas la mediana fue de 2 rondas, y por encima, de 3;
+# los cambios de 5 o 6 rondas fueron bucles que parchaban una clase de problema caso por caso. Son avisos, no una ley.
+UMBRAL_RONDAS = 4
+UMBRAL_LINEAS = 450
+
+
+def rondas(estado: dict) -> int | None:
+    """Las rondas de revisión del cambio: los candidatos distintos a los que se pidió o lanzó una revisión (varios revisores de un
+    mismo candidato son una ronda). Un registro ilegible no se cuenta: None."""
+    eventos = estado.get("eventos") if isinstance(estado, dict) else None
+    if not isinstance(eventos, list):
+        return None
+    return len({e["candidato"] for e in eventos if isinstance(e, dict) and e.get("accion") in ("revision_pedida", "revision_lanzada")
+                and isinstance(e.get("candidato"), str) and e["candidato"]})
+
+
+def lineas_de_producto(ejecutar: Callable, base: str, candidato: str, es_producto: Callable[[str], bool] | None = None) -> int | None:
+    """Las líneas que el candidato agrega a archivos de producto (no de pruebas) respecto de la base; None si Git no puede decirlo."""
+    if not base or not candidato:
+        return None
+    p = ejecutar(["git", "diff", "--numstat", "-z", "-M", "--no-color", base, candidato])
+    if p.returncode:
+        return None
+    partes, total, i = p.stdout.split("\0"), 0, 0
+    while i < len(partes) and partes[i]:
+        agregadas, _, ruta = partes[i].split("\t", 2)
+        if not ruta:  # un renombre: «a\td\t\0origen\0destino\0»
+            ruta, i = partes[i + 2], i + 3
+        else:
+            i += 1
+        if (es_producto is None or es_producto(ruta)) and not es_de_pruebas(ruta) and agregadas.isdigit():  # «-» es un binario
+            total += int(agregadas)
+    return total
+
+
+def avisos_de_flujo(rondas: int | None, lineas: int | None) -> list[str]:
+    """Los avisos del flujo para el estado; vacío si no hay nada o no se pudo calcular."""
+    avisos = []
+    if rondas is not None and rondas >= UMBRAL_RONDAS:
+        avisos.append(f"{rondas} rondas de revisión: parate a arreglar la clase del problema entera y mirá la lista previa "
+                      "(docs/lista-previa.md) antes de pedir otra")
+    if lineas is not None and lineas > UMBRAL_LINEAS:
+        avisos.append(f"el candidato agrega {lineas} líneas de producto (referencia: {UMBRAL_LINEAS}): considerá partir el cambio")
+    return avisos
+
+
+def del_flujo(ejecutar: Callable, estado: dict, candidato: str | None, es_producto: Callable[[str], bool] | None = None) -> dict:
+    """Los dos datos del flujo para el estado y su JSON: {clave: {valor, umbral, avisa} | None}; None si no se pudo calcular."""
+    n, lineas = rondas(estado), None
+    if candidato:
+        p = ejecutar(["git", "merge-base", candidato, "main"])
+        if not p.returncode:
+            lineas = lineas_de_producto(ejecutar, p.stdout.strip(), candidato, es_producto)
+    return {"bucle_de_revision": None if n is None else {"rondas": n, "umbral": UMBRAL_RONDAS, "avisa": n >= UMBRAL_RONDAS},
+            "cambio_grande": None if lineas is None else {"lineas": lineas, "umbral": UMBRAL_LINEAS, "avisa": lineas > UMBRAL_LINEAS}}
+
+
+def avisos_del_flujo(flujo: dict) -> list[str]:
+    """Los avisos de `del_flujo`."""
+    return avisos_de_flujo((flujo["bucle_de_revision"] or {}).get("rondas"), (flujo["cambio_grande"] or {}).get("lineas"))

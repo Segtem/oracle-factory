@@ -362,6 +362,7 @@ def datos_estado(identificador: str) -> dict:
     pendientes_medidas = estado.get("medidas_pendientes") or {}
     candidato = None if abandonado else cli.candidato_vigente(identificador)
     editados = alarmas.del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto) if candidato else None
+    flujo = alarmas.del_flujo(cli.ejecutar, estado, candidato, es_producto=cli.es_producto)
     prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, candidato, cli.documentos_o_nada(carpeta, estado))
     return {
         "esquema": cli.ESQUEMA_ESTADO, "id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase"),
@@ -386,9 +387,10 @@ def datos_estado(identificador: str) -> dict:
         "avisos": cli.aviso_union(identificador, estado) if abandonado else (cli.avisos_head(estado) + cli.aviso_revision(estado) + cli.aviso_lanzamientos(estado)
                                          + cli.aviso_sin_autor(estado) + cli.aviso_sin_medir(identificador, estado)
                                          + cli.aviso_notas(identificador, estado) + cli.aviso_union(identificador, estado)
-                                         + cli.pruebas_mod.avisos(prueba) + alarmas.avisos(editados)),
+                                         + cli.pruebas_mod.avisos(prueba) + alarmas.avisos(editados) + alarmas.avisos_del_flujo(flujo)),
         "pruebas": prueba,
         "tests_editados": editados,
+        **flujo,
         "commits": cli.commits_del_cambio(identificador, estado),
         "quien": cli.quien_del_cambio(estado),
     }
