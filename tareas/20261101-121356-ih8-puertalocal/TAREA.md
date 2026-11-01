@@ -43,3 +43,19 @@ Medidas de calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_q
 ### Nota (2026-11-01 14:07:43 UTC)
 
 Medidas de calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo: factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo, factory_puerta_local.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-01 16:12:02 UTC)
+
+Medidas de calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 16:12:02 UTC)
+
+Medidas de calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 16:12:02 UTC)
+
+Medidas de calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 16:12:02 UTC)
+
+Medidas de calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo: Brian Hollweg (persona, confirmo, modo confirmacion).
