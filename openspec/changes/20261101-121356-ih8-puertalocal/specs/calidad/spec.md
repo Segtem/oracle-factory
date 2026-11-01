@@ -23,7 +23,7 @@ El sistema DEBE buscar claves privadas, claves de AWS, tokens de GitHub, PyPI y 
 
 ### Requirement: la_puerta_corre_las_verificaciones_del_proyecto
 Tipo: funcional
-El sistema DEBE correr agentes --verificar, kb --verificar y resumen --verificar, informar cuál falló y por qué, y fallar si alguna falla.
+El sistema DEBE correr agentes --verificar, kb --verificar y resumen --verificar, informar cuál falló y por qué, fallar si la guía para agentes está vieja, avisar sin fallar si el conocimiento o el resumen están vencidos (se rehacen al integrar), y omitir una verificación cuyo archivo el proyecto todavía no generó.
 
 #### Scenario: todo al día
 - DADO un proyecto con la guía para agentes, el conocimiento y el resumen al día
@@ -34,6 +34,16 @@ El sistema DEBE correr agentes --verificar, kb --verificar y resumen --verificar
 - DADO un proyecto cuya guía para agentes está vieja
 - CUANDO se corre la puerta
 - ENTONCES la puerta falla nombrando la verificación de la guía y las demás se informan igual
+
+#### Scenario: un conocimiento o un resumen vencidos
+- DADO un proyecto con la guía al día y el conocimiento o el resumen vencidos
+- CUANDO se corre la puerta
+- ENTONCES la puerta avisa cuál está vencido, aclara que no bloquea porque se rehace al integrar, y sale con éxito
+
+#### Scenario: un proyecto que todavía no generó su conocimiento ni su resumen
+- DADO un proyecto sin kb ni resumen generados
+- CUANDO se corre la puerta
+- ENTONCES esas verificaciones se omiten, se dice cuáles, y la puerta no falla por ellas
 
 ### Requirement: el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja
 Tipo: funcional
@@ -53,3 +63,17 @@ El sistema DEBE instalar con oracle-factory hooks un hook pre-push que corre la 
 - DADO un hook pre-push que no es de Factory, o un intérprete que ya no existe
 - CUANDO se corre oracle-factory hooks, o se empuja con el intérprete borrado
 - ENTONCES no se pisa el hook ajeno, y con el intérprete borrado el push pasa con un aviso
+
+### Requirement: la_puerta_no_modifica_el_arbol_de_trabajo
+Tipo: funcional
+El sistema DEBE correr la puerta y sus verificaciones sin escribir ni modificar ningún archivo del proyecto, aunque el conocimiento esté vencido, de modo que un push no deje el árbol de trabajo distinto de como estaba.
+
+#### Scenario: un conocimiento vencido
+- DADO un proyecto con el conocimiento vencido y el árbol de trabajo limpio
+- CUANDO se corre la puerta, o la verificación de la guía para agentes
+- ENTONCES el estado de Git del proyecto es el mismo que antes y el conocimiento sigue vencido
+
+#### Scenario: un push con el conocimiento vencido
+- DADO el hook instalado y un conocimiento vencido
+- CUANDO se empuja
+- ENTONCES el push pasa con el aviso y el árbol de trabajo queda como estaba

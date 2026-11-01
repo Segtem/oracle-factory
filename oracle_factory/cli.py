@@ -36,6 +36,7 @@ from . import alarmas as alarmas_mod
 from . import osv as osv_mod
 from . import pruebas as pruebas_mod
 from . import procedencia as procedencia_mod
+from . import puerta as puerta_mod
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
 from . import kb as kb_mod
@@ -780,6 +781,34 @@ def aviso_union(identificador: str, estado: dict) -> list[str]:
             f"{unir_mod.como_resolver(x.get('campo', ''), identificador)}" for x in estado.get("pendientes_de_union") or []]
 
 
+LLAMADA_PUERTA = ("{py} -c 'import sys; from oracle_factory.cli import main; sys.exit(main())' puerta --hook")
+
+
+def hook_pre_push() -> str:
+    """El pre-push de la puerta local: bloquea sólo con el código propio de la puerta; todo lo demás avisa y deja pasar."""
+    py = shlex.quote(sys.executable)
+    return (f"#!/bin/sh\n{puerta_mod.HOOK_MARCA} (secretos y verificaciones antes de publicar). Lo instaló oracle-factory hooks; "
+            "git push --no-verify la saltea.\n"
+            f'if [ ! -x {py} ]; then\n  echo "Aviso: no encuentro el intérprete de oracle-factory ({sys.executable}); la puerta local de salida no corrió." >&2\n'
+            "  exit 0\nfi\n"
+            f"{LLAMADA_PUERTA.format(py=py)}\nrc=$?\n"
+            f'[ "$rc" -eq {puerta_mod.CODIGO_BLOQUEO} ] && exit 1\n'
+            '[ "$rc" -ne 0 ] && echo "Aviso: la puerta local de salida no pudo comprobar (código $rc); el push sigue." >&2\n'
+            "exit 0\n")
+
+
+def instalar_pre_push(carpeta: Path) -> str:
+    """El hook pre-push de la puerta, aparte de los de commits; nunca pisa uno ajeno."""
+    hook = carpeta / "pre-push"
+    if hook.exists() and puerta_mod.HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
+        return ("Aviso: ya hay un hook pre-push que no es de Factory; no lo toqué. Para tener la puerta local de salida (secretos y "
+                f"verificaciones antes de publicar), agregale esta línea antes de su final:\n{LLAMADA_PUERTA.format(py=shlex.quote(sys.executable))}")
+    hook.parent.mkdir(parents=True, exist_ok=True)
+    hook.write_text(hook_pre_push(), encoding="utf-8")
+    hook.chmod(0o755)
+    return f"Puerta local de salida en {hook}: un push con un secreto o con verificaciones vencidas se bloquea (git push --no-verify la saltea)."
+
+
 def instalar_hook() -> str:
     """Instala los hooks de Factory en la carpeta de hooks de Git (la comparten los worktrees); nunca pisa uno ajeno."""
     p = ejecutar(["git", "rev-parse", "--git-path", "hooks"])
@@ -796,9 +825,10 @@ def instalar_hook() -> str:
         for nombre in HOOKS:
             if carpeta / nombre not in ajenos and (carpeta / nombre).exists():
                 (carpeta / nombre).unlink()
-        return "\n".join(f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué ni instalé los de Factory. Para "
-                         f"que tus commits digan de qué cambio son, agregale esta línea antes de su final:\n{llamada}"
-                         for hook in ajenos)
+        avisos = "\n".join(f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué ni instalé los de Factory. Para "
+                           f"que tus commits digan de qué cambio son, agregale esta línea antes de su final:\n{llamada}"
+                           for hook in ajenos)
+        return avisos + "\n" + instalar_pre_push(carpeta)
     instalados = []
     for nombre in HOOKS:
         hook = carpeta / nombre
@@ -808,7 +838,43 @@ def instalar_hook() -> str:
         hook.chmod(0o755)
         instalados.append(nombre)
     return (f"Hook de commits en {carpeta} ({', '.join(instalados)}): un commit hecho con un solo cambio abierto lleva "
-            "«Cambio: ID».")
+            f"«Cambio: ID».\n{instalar_pre_push(carpeta)}")
+
+
+def verificar_en_proceso(argv: list[str]) -> tuple[int, str]:
+    """Corre un comando de Factory en este proceso con la salida capturada; (código, salida). Para las verificaciones de la puerta."""
+    global ROOT, CHANGES, AGENTE
+    guardado = (ROOT, CHANGES, AGENTE)
+    salida = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(salida), contextlib.redirect_stderr(salida):
+            codigo = main(["--proyecto", str(ROOT), *argv])
+    except SystemExit as e:
+        codigo = e.code if isinstance(e.code, int) else 1
+    finally:
+        ROOT, CHANGES, AGENTE = guardado
+    return codigo or 0, salida.getvalue()
+
+
+def comando_puerta(en_hook: bool, rango: list[str]) -> int:
+    """La puerta local de salida. Sale con CODIGO_BLOQUEO si encuentra algo; con otro código distinto de cero, si no pudo mirar."""
+    try:
+        if en_hook:
+            rangos = puerta_mod.rangos_del_hook(sys.stdin.read(), ejecutar)
+        elif rango:
+            rangos = [rango]
+        else:
+            arriba = ejecutar(["git", "rev-parse", "--verify", "--quiet", "@{upstream}"])
+            rangos = [["@{upstream}..HEAD"] if arriba.returncode == 0 else ["HEAD", "--not", "--remotes"]]
+        if not rangos:
+            print("Puerta local de salida: nada nuevo que publicar.")
+            return 0
+        codigo, texto = puerta_mod.correr(ejecutar, rangos, verificar_en_proceso, lambda archivo: (ROOT / archivo).exists())
+        print(texto, end="")
+        return codigo
+    except Exception as e:  # noqa: BLE001 — una puerta rota avisa y deja pasar; sólo bloquea cuando encuentra algo
+        print(f"Aviso: la puerta local de salida no pudo comprobar ({type(e).__name__}: {e}); el push sigue.", file=sys.stderr)
+        return 2
 
 
 @reintentar_si_cambia
@@ -1455,7 +1521,8 @@ def marcar_archivado(estado: dict, capacidad: str, spec: str, forma: str) -> Non
 
 
 SOLO_LECTURA = {"estado", "donde", "log", "tablero", "por-que", "kb", "resumen", "listar", "ruta", "buscar", "trazabilidad",
-               "trailer", "hooks", "init", "ejemplo", "preguntar", "unir-registro", "unir-generado", "rehacer-generado"}
+               "trailer", "hooks", "init", "ejemplo", "preguntar", "unir-registro", "unir-generado", "rehacer-generado",
+               "agentes", "puerta"}  # agentes escribe AGENTS.md, no el registro: no hay kb que refrescar; la puerta no escribe nada
 
 
 def archivar() -> None:
@@ -2287,6 +2354,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "soltar": soltar(args.id)
         elif args.comando == "mensaje": mensaje(args.id, args.texto, args.de)
         elif args.comando == "hooks": print(instalar_hook()); print(instalar_union())
+        elif args.comando == "puerta": return comando_puerta(args.hook, args.rango)
         elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)
         elif args.comando == "unir-generado": return 0  # lo generado se queda como está y se rehace en el post-merge
         elif args.comando == "rehacer-generado": rehacer_generado()

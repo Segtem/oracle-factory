@@ -10,7 +10,8 @@ Hay tres tareas abiertas que tocan el tema: `shift-left` (correr lo determinista
 
 - Un comando nuevo, `oracle-factory puerta`, corre las comprobaciones y sale con código distinto de cero si alguna falla:
   - **secretos:** busca claves privadas, claves de AWS, tokens de GitHub, de PyPI y de Slack, claves de Google y claves tipo `sk-…`, y asignaciones sospechosas (`token = "…"` con un valor largo), en las líneas agregadas por **todos** los commits del rango que se va a publicar, no sólo en el resultado final. Muestra archivo, línea, commit y tipo, con el valor tapado: nunca imprime el secreto entero.
-  - **verificaciones:** `agentes --verificar`, `kb --verificar` y `resumen --verificar`.
+  - **verificaciones:** `agentes --verificar`, `kb --verificar` y `resumen --verificar`. Una guía para agentes vieja bloquea: confunde a los agentes y no se arregla sola. Un conocimiento o un resumen vencidos avisan sin bloquear, porque Factory los rehace al integrar. Lo que el proyecto todavía no generó se omite, para no frenar el primer push de un proyecto nuevo.
+- La puerta es de **sólo lectura**: no escribe nada en el proyecto. Para eso se corrige un defecto que apareció al probarla: `oracle-factory agentes` (con o sin `--verificar`) regeneraba `kb/` al terminar, porque no figuraba entre los comandos de sólo lectura; una verificación que escribe dejaría el árbol de trabajo distinto después de un push.
 - `oracle-factory hooks` instala además un hook `pre-push` que llama a la puerta con los commits que se van a empujar. Bloquea el push si falla, y se puede saltear con `git push --no-verify`, como cualquier hook de Git. Si el intérprete de Factory no está (un `.venv` borrado), el hook avisa y deja pasar: una herramienta rota no impide trabajar.
 - Una línea con la marca `factory:secreto-ok` queda exenta, para los casos conocidos (un valor de ejemplo, una prueba).
 
