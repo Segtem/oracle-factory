@@ -1,6 +1,6 @@
 # Avisar de los bucles de revisión y de los cambios demasiado grandes
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -71,3 +71,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-01 22:49:57 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261101-205730-dm3-alarmasflujo/oracle-veredicto.txt.
+
+### Nota (2026-11-01 22:52:35 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
