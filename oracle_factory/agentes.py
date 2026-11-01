@@ -65,7 +65,9 @@ def bloque(modo_por_defecto: str) -> str:
         "- Antes de implementar, la spec tiene que estar aprobada por una persona. No edites a mano `.factory/`, "
         "`tareas/` ni `kb/` generado.",
         "- Los tests unitarios son parte del desarrollo y no suplantan a Oracle: escribilos primero, cuando sea posible, y no "
-        "bloquean nada. Un test que ya existía no se edita para que pase sin dejarlo dicho a quien revisa (ver `docs/tests.md`).", "",
+        "bloquean nada. Un test que ya existía no se edita para que pase sin dejarlo dicho a quien revisa (ver `docs/tests.md`).",
+        "- Antes de pedir una revisión, mirá la lista previa (`docs/lista-previa.md`): reusá el ayudante que ya existe y arreglá la "
+        "clase de problema entera, no sólo el caso. No bloquea nada.", "",
         "### Las decisiones, según el modo de trabajo", "",
         "Cada decisión tiene su comando. Con `--agente`, según el modo del cambio, el agente la decide, la propone (cuenta "
         "cuando una persona la confirma repitiendo el comando sin `--agente`) o no puede; una persona, desde su terminal, "

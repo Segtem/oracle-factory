@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-lista-previa/.factory/local/revisiones/5bdd65d-codex-1",
+  "base": "768febc10fda9b5b3f2ca1da545936fdddbad32f",
+  "head": "5bdd65d9d56e29944f0ba1d101e354ef1338785e",
+  "diff_sha256": "4e20d4e4656bfa10ba4989b98e69424cc409949a6accabf808ad966c44220557",
+  "context_sha256": "7b196de21febaceef3d59bf13bba2dda58afc789072d07512cae80bd23c04283",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "codex-1",
+      "kind": "pregunta",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "Las conclusiones de la medición no se pueden auditar desde el documento",
+      "explanation": "El texto afirma como resultados medidos que el lazo de revisión es el cuello de botella principal, que las correcciones causan más hallazgos al abrir superficie nueva y que una clase concreta pasó de 3 a 17. La propuesta agrega un universo de 19 cambios y conteos de hallazgos, pero ni el documento ni el diff incluyen la fuente de datos, la definición de ronda/clase, el cálculo de la mediana o el análisis que sustenta la causalidad. Así, un lector no puede reproducir los números ni distinguir observación de explicación; la lista presenta como base empírica conclusiones que el cambio no permite verificar.",
+      "location": {
+        "file": "docs/lista-previa.md",
+        "start_line": 7,
+        "end_line": 7,
+        "side": "head"
+      },
+      "trigger": "Intentar comprobar en el propio cambio cuántos cambios se midieron, cómo se calcularon la mediana y los valores 3→17, o de qué análisis sale que las correcciones causan la subida.",
+      "evidence": "docs/lista-previa.md:7 contiene las afirmaciones, sin cita ni método. proposal.md da el denominador (19) y otros conteos, pero tampoco enlaza o incorpora los datos/cálculos. El diff añade la lista y sus pruebas, no evidencia de medición.",
+      "related_requirement": "la_lista_previa_tiene_una_sola_fuente",
+      "status": "pendiente",
+      "verification": "Inspección estática del documento, propuesta y diff incluidos en el paquete. No pude reproducir los valores ni la inferencia causal con los artefactos revisados."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec y los archivos de producto incluidos en el paquete, contrastando en particular flujo_revision, lista_previa, documento, guía y pruebas. No ejecuté la suite ni mutaciones; la comprobación requerida de informe/paquete sí se ejecutará.",
+    "No verifiqué los datos primarios detrás de las cifras: el paquete no los aporta y los registros de Factory indicados por quien pidió la revisión están fuera de alcance.",
+    "El hallazgo es de auditabilidad y sustento de una afirmación empírica; no afirmo que los conteos sean numéricamente falsos."
+  ]
+}

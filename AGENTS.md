@@ -21,6 +21,7 @@ Este proyecto usa Oracle Factory: cada cambio tiene su propuesta, su spec, requi
 - El próximo paso de un cambio lo dice `oracle-factory estado ID` (o `--json`): seguilo en vez de adivinar.
 - Antes de implementar, la spec tiene que estar aprobada por una persona. No edites a mano `.factory/`, `tareas/` ni `kb/` generado.
 - Los tests unitarios son parte del desarrollo y no suplantan a Oracle: escribilos primero, cuando sea posible, y no bloquean nada. Un test que ya existía no se edita para que pase sin dejarlo dicho a quien revisa (ver `docs/tests.md`).
+- Antes de pedir una revisión, mirá la lista previa (`docs/lista-previa.md`): reusá el ayudante que ya existe y arreglá la clase de problema entera, no sólo el caso. No bloquea nada.
 
 ### Las decisiones, según el modo de trabajo
 

@@ -17,6 +17,7 @@ import sys
 import tempfile
 
 from . import estructura
+from . import lista_previa
 from . import preparacion
 from . import revision as documentos_revision
 from . import revisores as revisores_mod
@@ -309,8 +310,10 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     argv = revisores_mod.argumentos(revisor["comando"], {"pedido": texto, "pedido_archivo": pedido_archivo, "carpeta": trabajo,
                                                          "informe": informe, "registro": registro, "paquete": paquete,
                                                          "checkout": checkout})
-    print(f"Revisor {nombre} ({revisor['proveedor']}, {revisor['modelo']}) sobre el candidato {sha}; tope {revisor['tope_minutos']} min.")
-    print("Comando: " + " ".join(a if len(a) < 80 else a[:77] + "..." for a in argv))
+    # flush: el revisor tarda minutos y, con la salida a un pipe o un archivo, lo impreso no se vería hasta que termine
+    print(lista_previa.texto(), end="", flush=True)  # un recordatorio para quien pide: no cambia el pedido ni bloquea
+    print(f"Revisor {nombre} ({revisor['proveedor']}, {revisor['modelo']}) sobre el candidato {sha}; tope {revisor['tope_minutos']} min.", flush=True)
+    print("Comando: " + " ".join(a if len(a) < 80 else a[:77] + "..." for a in argv), flush=True)
     with cli.turno_de_pedidos(identificador):  # el lanzamiento queda antes: un pedido cortado a mitad no desaparece
         _, estado = cli.leer(identificador)
         lanzamiento = os.urandom(6).hex()  # el resultado dice qué lanzamiento cierra

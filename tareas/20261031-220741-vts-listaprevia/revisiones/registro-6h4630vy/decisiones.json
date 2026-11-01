@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "a0af216062089f2a4bbcac159468eb34c6002e140d367dffe814a988b70fa916",
+  "actor": "Brian Hollweg",
+  "motivo": "Dos vueltas de revisión. La primera (agy2 y codex) dejó hallazgos reales, entre ellos que las cifras de la medición que justificaba el cambio estaban mal (las rondas se ordenaban por la fecha de los archivos y no por los eventos): se corrigió la medición, se volvió a aprobar la propuesta, la medición quedó reproducible con tools/medir_rondas.py y protegida por pruebas, la comprobación del documento exige que la lista numerada sea exactamente la del código y pedir-revision vacía el buffer. La segunda vuelta dio 0 hallazgos en ambos revisores. Suite completa sin fallas y evidencia con éxito. Todas las mutaciones aplicadas al código nuevo se detectan, salvo dos equivalentes declaradas (vaciar el buffer en las dos primeras líneas impresas, porque la última ya vacía todo lo anterior).",
+  "decisiones": []
+}

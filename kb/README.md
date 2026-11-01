@@ -92,6 +92,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261030-171836-7e4-publicadaa16]] — Declarar publicada la 0.1.0a16 en las notas y los textos (cerrada)
 - [[cambios/20261030-185728-0w1-tests]] — Tests unitarios como práctica del desarrollo: el paso de escribirlos primero (cerrada)
 - [[cambios/20261031-011717-c2q-pruebaspractica]] — Pedir las pruebas como práctica de desarrollo, sin bloquear (cerrada)
+- [[cambios/20261031-220741-vts-listaprevia]] — Una lista previa a la revisión con las clases de problema que más rondas cuestan (cerrada)
 
 ## Requisitos
 
@@ -290,6 +291,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear]]
 - [[requisitos/practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas]]
 - [[requisitos/practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas]]
+- [[requisitos/practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa]]
+- [[requisitos/practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente]]
+- [[requisitos/practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear]]
 - [[requisitos/procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita]]
 - [[requisitos/procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv]]
 - [[requisitos/procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados]]
