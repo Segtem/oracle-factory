@@ -228,6 +228,45 @@
         "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente",
         "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T00:00:24.112077+00:00",
+      "requisito": "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear",
+      "medidas": [
+        "factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear",
+        "factory_lista_previa.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T00:00:25.388301+00:00",
+      "requisito": "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente",
+      "medidas": [
+        "factory_lista_previa.la_lista_previa_tiene_una_sola_fuente",
+        "factory_lista_previa.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T00:00:26.648687+00:00",
+      "requisito": "practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa",
+      "medidas": [
+        "factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa",
+        "factory_lista_previa.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -235,55 +274,49 @@
     "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente": "funcional",
     "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear": "funcional"
   },
-  "medidas": {
-    "practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-31T22:36:27.283366+00:00",
-      "sha256": "3913de9922bd016bbfc6d97a120304fe1b7869fffb35fec96ffd5b623110d2fd",
+  "medidas": {},
+  "medidas_pendientes": {
+    "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear": {
+      "sha256": "2c30ab8c671e16a0d37bd68b6f7d2614c1726314953180df3d4ebb86d11228cc",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-01T00:00:24.075972+00:00",
       "catalogos": {
-        "factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa": "c4ab2ea41d3fcd56338340c485f3525a7fcc225fe5b0c09f8e4a5987844c630c",
-        "factory_lista_previa.corrida_completa": "54ad941da78a4f42483df72ce3372f1bc5f218aacd195ead77fcde151caa42c3"
+        "factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear": "53007427716688ce641ab629c3d752584aac9690298468727ce8106e781773d9",
+        "factory_lista_previa.corrida_completa": "f2a58403a63e38d3b6c21212f765d492073aa526dc006746f91fa7358d85dc18"
       },
       "archivos_catalogo": {
-        "factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa": "catalogos/factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa.oracle",
+        "factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear": "catalogos/factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear.oracle",
         "factory_lista_previa.corrida_completa": "catalogos/factory_lista_previa.corrida_completa.oracle"
       }
     },
     "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-31T22:36:27.430852+00:00",
       "sha256": "bb8fcbea0166509014c60097e3a513ef15c6a2c2cdf6328aa0e58610131fa692",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-01T00:00:25.352289+00:00",
       "catalogos": {
-        "factory_lista_previa.la_lista_previa_tiene_una_sola_fuente": "45ef92033db9ba16fc1a39d3eaf1d890e1e1d3561a53132358dd2fa6e57c8c54",
-        "factory_lista_previa.corrida_completa": "54ad941da78a4f42483df72ce3372f1bc5f218aacd195ead77fcde151caa42c3"
+        "factory_lista_previa.la_lista_previa_tiene_una_sola_fuente": "5bdc0314305f26cc31595108243d9a0a809f35c8a291dc82538ce2b80a128347",
+        "factory_lista_previa.corrida_completa": "f2a58403a63e38d3b6c21212f765d492073aa526dc006746f91fa7358d85dc18"
       },
       "archivos_catalogo": {
         "factory_lista_previa.la_lista_previa_tiene_una_sola_fuente": "catalogos/factory_lista_previa.la_lista_previa_tiene_una_sola_fuente.oracle",
         "factory_lista_previa.corrida_completa": "catalogos/factory_lista_previa.corrida_completa.oracle"
       }
     },
-    "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-31T22:36:27.575995+00:00",
-      "sha256": "2c30ab8c671e16a0d37bd68b6f7d2614c1726314953180df3d4ebb86d11228cc",
+    "practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa": {
+      "sha256": "3913de9922bd016bbfc6d97a120304fe1b7869fffb35fec96ffd5b623110d2fd",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-01T00:00:26.612748+00:00",
       "catalogos": {
-        "factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear": "0cf8a58206a2d6c7a1be8f19f77a9d6bf54722e19a2f82cc37c1be8218342189",
-        "factory_lista_previa.corrida_completa": "54ad941da78a4f42483df72ce3372f1bc5f218aacd195ead77fcde151caa42c3"
+        "factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa": "c4ab2ea41d3fcd56338340c485f3525a7fcc225fe5b0c09f8e4a5987844c630c",
+        "factory_lista_previa.corrida_completa": "f2a58403a63e38d3b6c21212f765d492073aa526dc006746f91fa7358d85dc18"
       },
       "archivos_catalogo": {
-        "factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear": "catalogos/factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear.oracle",
+        "factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa": "catalogos/factory_lista_previa.la_guia_para_agentes_nombra_la_lista_previa.oracle",
         "factory_lista_previa.corrida_completa": "catalogos/factory_lista_previa.corrida_completa.oracle"
       }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }

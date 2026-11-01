@@ -51,3 +51,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-31 23:59:32 UTC)
 
 Requisitos importados: practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa (funcional), practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente (funcional), practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-01 00:00:24 UTC)
+
+Medidas de practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-01 00:00:25 UTC)
+
+Medidas de practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-01 00:00:26 UTC)
+
+Medidas de practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
