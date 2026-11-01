@@ -27,14 +27,14 @@ PATRONES: tuple[tuple[str, re.Pattern], ...] = (
     ("token de GitHub", re.compile(r"\b(gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{22,})")),
     ("token de PyPI", re.compile(r"\b(pypi-[A-Za-z0-9_-]{50,})")),
     ("token de Slack", re.compile(r"\b(xox[baprs]-[A-Za-z0-9-]{10,})")),
-    ("clave de Google", re.compile(r"\b(AIza[0-9A-Za-z_-]{35})\b")),
+    ("clave de Google", re.compile(r"\b(AIza[0-9A-Za-z_-]{35})(?![0-9A-Za-z_-])")),
     ("clave sk-", re.compile(r"\b(sk-(?:ant-)?[A-Za-z0-9_-]{20,})")),
 )
 # Un nombre de credencial asignado a un valor entre comillas, largo, sin espacios y con letras y dígitos (descarta frases y constantes).
 ASIGNACION = re.compile(r"""(?i)\b(?:api[_-]?key|secret|token|passw(?:or)?d|clave|credencial)\w*\s*[=:]\s*["']{1,3}([^"'\s]{16,})["']""")
 ENCABEZADO_HUNK = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@")
-# Un merge con --cc: «@@@ -a -b +c @@@», y una línea que el merge agrega frente a todos sus padres empieza con «++».
-ENCABEZADO_COMBINADO = re.compile(r"^@@@ .* \+(\d+)(?:,\d+)? @@@")
+# Un merge con --cc: «@@@ -a -b +c @@@» (un «@» más que padres), y una línea que el merge agrega frente a todos sus padres empieza con un «+» por padre.
+ENCABEZADO_COMBINADO = re.compile(r"^(@{3,}) .* \+(\d+)(?:,\d+)? \1")
 
 
 class PuertaRota(Exception):
@@ -60,17 +60,36 @@ def _en_linea(linea: str) -> list[tuple[str, str]]:
     return encontrados
 
 
+_ESCAPES = {"a": 7, "b": 8, "f": 12, "n": 10, "r": 13, "t": 9, "v": 11, "\\": 92, '"': 34}
+
+
+def _sin_escapes(ruta: str) -> str:
+    """Deshace el entrecomillado de Git (`core.quotePath`): \\t, \\n, \\", \\\\ y bytes en octal (\\303\\261)."""
+    salida, i = bytearray(), 0
+    while i < len(ruta):
+        if ruta[i] != "\\" or i + 1 >= len(ruta):
+            salida += ruta[i].encode()
+            i += 1
+        elif m := re.match(r"[0-7]{3}", ruta[i + 1:]):
+            salida.append(int(m[0], 8) & 255)
+            i += 4
+        else:
+            salida.append(_ESCAPES.get(ruta[i + 1], ord(ruta[i + 1]) if ord(ruta[i + 1]) < 128 else 63))
+            i += 2
+    return salida.decode("utf-8", errors="replace")
+
+
 def _ruta(cabecera: str) -> str:
     """El archivo de una cabecera «+++ …»: sin la tabulación que Git agrega a rutas con espacios, sin comillas, sin el «b/»."""
     ruta = cabecera.rstrip("\t")
     if len(ruta) > 1 and ruta[0] == ruta[-1] == '"':
-        ruta = ruta[1:-1]
+        ruta = _sin_escapes(ruta[1:-1])
     return ruta.removeprefix("b/")
 
 
 def hallazgos(texto_del_log: str) -> list[dict]:
     """Las credenciales en las líneas agregadas del texto de `git log -p --cc -U0 --format=commit:%H`: archivo, línea, commit, tipo, vista."""
-    salida, commit, archivo, linea, en_hunk, combinado = [], "", "", 0, False, False
+    salida, commit, archivo, linea, en_hunk, padres = [], "", "", 0, False, 0
     for crudo in texto_del_log.splitlines():
         if re.fullmatch(r"commit:[0-9a-f]{7,64}", crudo):  # nuestra línea de formato; dentro de un hunk las líneas empiezan con + o -
             commit, archivo, en_hunk = crudo[7:], "", False
@@ -80,10 +99,15 @@ def hallazgos(texto_del_log: str) -> list[dict]:
             archivo = "" if crudo == "+++ /dev/null" else _ruta(crudo[4:])
         elif crudo.startswith("@@"):
             m = ENCABEZADO_COMBINADO.match(crudo) or ENCABEZADO_HUNK.match(crudo)
-            combinado = crudo.startswith("@@@")
-            en_hunk, linea = bool(m), int(m[1]) if m else 0
-        elif en_hunk and crudo.startswith("++" if combinado else "+"):
-            for tipo, valor in _en_linea(crudo[2:] if combinado else crudo[1:]):
+            padres = len(crudo) - len(crudo.lstrip("@")) - 1 if m and crudo.startswith("@@@") else 0
+            en_hunk, linea = bool(m), int((m.group(2) if padres else m.group(1)) if m else 0)
+        elif en_hunk and padres and "-" not in crudo[:padres]:  # merge: las columnas dicen de qué padres viene; las líneas quitadas no están
+            if crudo[:padres] == "+" * padres:
+                for tipo, valor in _en_linea(crudo[padres:]):
+                    salida.append({"archivo": archivo, "linea": linea, "commit": commit, "tipo": tipo, "vista": _tapado(valor)})
+            linea += 1  # la conservada de algún padre también ocupa su lugar en el archivo
+        elif en_hunk and not padres and crudo.startswith("+"):
+            for tipo, valor in _en_linea(crudo[1:]):
                 salida.append({"archivo": archivo, "linea": linea, "commit": commit, "tipo": tipo, "vista": _tapado(valor)})
             linea += 1
     return salida
@@ -132,6 +156,8 @@ def correr(ejecutar: Callable, rangos: list[list[str]], verificar: Callable, exi
         lineas += ["  ✗ verificaciones:", *[f"      {p}" for p in problemas]]
         if hechas:
             lineas.append("  ✓ al día: " + ", ".join(hechas))
+        if omitidas:
+            lineas.append(f"  - se omiten {', '.join(omitidas)}: el proyecto todavía no los generó")
     else:
         lineas.append("  ✓ verificaciones: " + (", ".join(hechas) + " al día" if hechas else "ninguna aplicable")
                       + (f" (se omiten {', '.join(omitidas)}: el proyecto todavía no los generó)" if omitidas else ""))

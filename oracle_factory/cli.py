@@ -797,14 +797,18 @@ def hook_pre_push() -> str:
             "exit 0\n")
 
 
+def lineas_para_encadenar(llamada: str) -> str:
+    """Las líneas para un hook ajeno: sólo el código de bloqueo frena el push, y valen con `set -e` y como última línea del script."""
+    return f'rc=0\n{llamada} || rc=$?\nif [ "$rc" -eq {puerta_mod.CODIGO_BLOQUEO} ]; then exit 1; fi'
+
+
 def instalar_pre_push(carpeta: Path) -> str:
     """El hook pre-push de la puerta, aparte de los de commits; nunca pisa uno ajeno."""
     hook = carpeta / "pre-push"
     if hook.exists() and puerta_mod.HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
         return ("Aviso: ya hay un hook pre-push que no es de Factory; no lo toqué. Para tener la puerta local de salida (secretos y "
                 f"verificaciones antes de publicar), agregale estas líneas antes de su final (la puerta bloquea con el código {puerta_mod.CODIGO_BLOQUEO}; "
-                f"cualquier otro código es un aviso y el push sigue):\n{LLAMADA_PUERTA.format(py=shlex.quote(sys.executable))}\n"
-                f'[ "$?" -eq {puerta_mod.CODIGO_BLOQUEO} ] && exit 1')
+                f"cualquier otro código es un aviso y el push sigue):\n{lineas_para_encadenar(LLAMADA_PUERTA.format(py=shlex.quote(sys.executable)))}")
     hook.parent.mkdir(parents=True, exist_ok=True)
     hook.write_text(hook_pre_push(), encoding="utf-8")
     hook.chmod(0o755)

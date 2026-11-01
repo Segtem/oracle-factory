@@ -13,7 +13,7 @@ from types import SimpleNamespace
 
 SOURCE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SOURCE))
-from oracle_factory import puerta  # noqa: E402
+from oracle_factory import cli, puerta  # noqa: E402
 
 PYTHON_CLI = [sys.executable, '-c', 'import sys; from oracle_factory.cli import main; sys.exit(main())']
 ENTORNO = {**os.environ, 'PYTHONPATH': str(SOURCE), 'GIT_AUTHOR_NAME': 'Persona fixture', 'GIT_AUTHOR_EMAIL': 'p@example.invalid',
@@ -128,6 +128,28 @@ class Detectar(unittest.TestCase):
         encontrados = puerta.hallazgos(merge)
         self.assertEqual([(h['archivo'], h['linea'], h['commit']) for h in encontrados], [('config.py', 1, 'abc1234')])
 
+    def test_pu1_un_merge_pulpo_de_tres_padres_tambien_se_mira(self):
+        pulpo = (f'commit:abc1234\n\ndiff --cc config.py\nindex 1,2,3..4\n--- a/config.py\n+++ b/config.py\n@@@@ -1,1 -1,1 -1,1 +1,2 @@@@\n'
+                 f'+++TOKEN = "{GITHUB}"\n++ otra = "{GITHUB}"\n')
+        self.assertEqual([(h['archivo'], h['linea']) for h in puerta.hallazgos(pulpo)], [('config.py', 1)])
+
+    def test_pu1_en_un_merge_la_linea_cuenta_tambien_las_que_conserva_de_los_padres(self):
+        merge = ('commit:abc1234\n\ndiff --cc config.py\nindex 1,2..3\n--- a/config.py\n+++ b/config.py\n@@@ -1,1 -1,1 +1,4 @@@\n'
+                 f' +uno\n+ dos\n- quitada del padre\n++tres\n++TOKEN = "{GITHUB}"\n')
+        self.assertEqual([h['linea'] for h in puerta.hallazgos(merge)], [4])  # uno=1, dos=2, tres=3, el secreto=4 (la quitada no está)
+
+    def test_pu1_una_clave_de_google_que_termina_en_guion_tambien(self):
+        clave = 'AIza' + 'Sy' + 'A1b2C3d4' * 4 + '-'
+        self.assertEqual(len(clave), 39)
+        self.assertEqual([h['tipo'] for h in puerta.hallazgos(log('abc1234', 'a.py', f"K = '{clave}'"))], ['clave de Google'])
+
+    def test_pu1_las_rutas_con_escapes_de_git_se_decodifican(self):
+        for escapada, real in (('"b/test\\"quote.py"', 'test"quote.py'), ('"b/dise\\303\\261o.py"', 'diseño.py'), ('"b/a\\tb.py"', 'a\tb.py'),
+                               ('"b/a\\\\b.py"', 'a\\b.py')):
+            with self.subTest(real=real):
+                texto = f'commit:abc1234\n\ndiff --git a/x b/x\n--- a/x\n+++ {escapada}\n@@ -0,0 +1 @@\n+x = "{GITHUB}"\n'
+                self.assertEqual(puerta.hallazgos(texto)[0]['archivo'], real)
+
     def test_pu1_una_ruta_con_espacios_o_comillas_sale_con_su_nombre_real(self):
         texto = ('commit:abc1234\n\ndiff --git "a/con espacio.py" "b/con espacio.py"\n--- "a/con espacio.py"\t\n+++ "b/con espacio.py"\t\n'
                  f'@@ -0,0 +1 @@\n+x = "{GITHUB}"\n')
@@ -237,6 +259,9 @@ class Verificaciones(unittest.TestCase):
         self.assertIn('✗ verificaciones', texto)
         self.assertIn('! vencidos, no bloquean', texto)
         self.assertIn('✓ al día: resumen', texto)  # lo que sí está al día se informa igual cuando otra falla
+        codigo, texto = puerta.correr(limpio, [['HEAD']], self.verificar(falla=('agentes',)), existe=lambda archivo: archivo != 'kb/README.md')
+        self.assertEqual(codigo, puerta.CODIGO_BLOQUEO)
+        self.assertIn('se omiten kb', texto)  # y lo omitido también
 
     def test_pu2_con_todas_omitidas_la_puerta_dice_que_ninguna_aplica_y_pasa(self):
         limpio = lambda argv: SimpleNamespace(returncode=0, stdout=log('abc1234', 'a.py', 'x = 1'))  # noqa: E731
@@ -468,7 +493,11 @@ class HookReal(unittest.TestCase):
         self.assertIn('pre-push', salida)
         self.assertIn('no es de Factory', salida)
         self.assertIn(f'-eq {puerta.CODIGO_BLOQUEO}', salida)  # la línea sugerida respeta el código de salida
-        self.assertIn('&& exit 1', salida)
+        self.assertIn('exit 1', salida)
+        for rc, esperado in ((0, 0), (2, 0), (puerta.CODIGO_BLOQUEO, 1)):  # con set -e, un push limpio o un aviso no frenan; sólo el bloqueo
+            with self.subTest(rc=rc):
+                script = 'set -e\n' + cli.lineas_para_encadenar(f'(exit {rc})') + '\nexit 0\n'
+                self.assertEqual(subprocess.run(['sh', '-c', script], capture_output=True).returncode, esperado)
         self.assertNotIn('verificaciones vencidas se bloquea', salida)
 
     def test_pu3_instalar_dos_veces_no_duplica_ni_rompe(self):
