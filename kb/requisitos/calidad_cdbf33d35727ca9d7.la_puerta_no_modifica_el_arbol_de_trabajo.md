@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261101-121356-ih8-puertalocal]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un conocimiento vencido», «un push con el conocimiento vencido»
+- Medidas: `factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo`, `factory_puerta_local.corrida_completa`
 - Fuente: openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md#la_puerta_no_modifica_el_arbol_de_trabajo
 
 Tipo: funcional El sistema DEBE correr la puerta y sus verificaciones sin escribir ni modificar ningún archivo del proyecto, aunque el conocimiento esté vencido, de modo que un push no deje el árbol de trabajo distinto de como estaba.
