@@ -1,4 +1,4 @@
 requisito practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas:
     texto "Tipo: funcional El sistema DEBE tomar por archivo de pruebas sólo el que está en una carpeta tests o test, o se llama test_*, *_test.* o *.test.*, y no avisar por otros archivos aunque pierdan líneas."
     fuente "openspec/changes/20261101-012816-1qf-testseditados/specs/practicas/spec.md#solo_cuentan_los_archivos_de_pruebas"
-    sin_medir "sin medida todavía; escenarios: «un archivo de producto pierde líneas», «nombres de archivos de pruebas»"
+    medido_por factory_tests_editados.solo_cuentan_los_archivos_de_pruebas, factory_tests_editados.corrida_completa

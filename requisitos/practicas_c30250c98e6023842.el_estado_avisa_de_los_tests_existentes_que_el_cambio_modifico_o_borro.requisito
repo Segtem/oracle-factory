@@ -1,4 +1,4 @@
 requisito practicas_c30250c98e6023842.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro:
     texto "Tipo: funcional El sistema DEBE avisar en el estado de un cambio, y en su JSON, de los archivos de pruebas que existían en la base del candidato y que el candidato borró, renombró o a los que les quitó líneas, nombrando los tests y la cantidad de aserciones quitadas, sin cambiar los pasos pendientes ni impedir ninguna decisión."
     fuente "openspec/changes/20261101-012816-1qf-testseditados/specs/practicas/spec.md#el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro"
-    sin_medir "sin medida todavía; escenarios: «se quita un test o una aserción», «sólo se agregan tests», «sin candidato vigente»"
+    medido_por factory_tests_editados.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro, factory_tests_editados.corrida_completa

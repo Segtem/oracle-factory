@@ -58,6 +58,48 @@
         "practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados",
         "practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T01:36:15.970281+00:00",
+      "requisito": "practicas_c30250c98e6023842.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro",
+      "medidas": [
+        "factory_tests_editados.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro",
+        "factory_tests_editados.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T01:36:17.326111+00:00",
+      "requisito": "practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados",
+      "medidas": [
+        "factory_tests_editados.el_pedido_al_revisor_lleva_los_tests_editados",
+        "factory_tests_editados.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-01T01:36:18.672457+00:00",
+      "requisito": "practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas",
+      "medidas": [
+        "factory_tests_editados.solo_cuentan_los_archivos_de_pruebas",
+        "factory_tests_editados.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "practicas_c30250c98e6023842.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro": {
+      "sha256": "412885fabe84bdef09fb09ca1c088a58e909ac993fb26782b265cfcbdee33d5e",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-01T01:36:15.933496+00:00",
+      "catalogos": {
+        "factory_tests_editados.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro": "93c469b4f0c11b68d9fe2a0a2447d046f116f0fff6e8227af1b53ebcea7cd0ff",
+        "factory_tests_editados.corrida_completa": "408ea8325ce2fcc41d03a2bcfc02fe5cd0f01d212b362134dcce45b0bdc776ad"
+      },
+      "archivos_catalogo": {
+        "factory_tests_editados.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro": "catalogos/factory_tests_editados.el_estado_avisa_de_los_tests_existentes_que_el_cambio_modifico_o_borro.oracle",
+        "factory_tests_editados.corrida_completa": "catalogos/factory_tests_editados.corrida_completa.oracle"
+      }
+    },
+    "practicas_c30250c98e6023842.el_pedido_al_revisor_lleva_los_tests_editados": {
+      "sha256": "1cf227ff8921689fb9808f8950d0c6da17ae11586d423f57a70cde27e084dd40",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-01T01:36:17.289518+00:00",
+      "catalogos": {
+        "factory_tests_editados.el_pedido_al_revisor_lleva_los_tests_editados": "bf57acaf4b2028e41ce0ad658c9d999fecb2f786cb6dd7f3008cd42214292484",
+        "factory_tests_editados.corrida_completa": "408ea8325ce2fcc41d03a2bcfc02fe5cd0f01d212b362134dcce45b0bdc776ad"
+      },
+      "archivos_catalogo": {
+        "factory_tests_editados.el_pedido_al_revisor_lleva_los_tests_editados": "catalogos/factory_tests_editados.el_pedido_al_revisor_lleva_los_tests_editados.oracle",
+        "factory_tests_editados.corrida_completa": "catalogos/factory_tests_editados.corrida_completa.oracle"
+      }
+    },
+    "practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas": {
+      "sha256": "ab10fc71c79df9d8d5c1a517f0b37632ed4f6e955119009cf7063aee2728f692",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-01T01:36:18.635307+00:00",
+      "catalogos": {
+        "factory_tests_editados.solo_cuentan_los_archivos_de_pruebas": "116ae534fdc8c1e9e8b9bbe9f9e3131f3e348914f1b0b7e756765ae910ad7949",
+        "factory_tests_editados.corrida_completa": "408ea8325ce2fcc41d03a2bcfc02fe5cd0f01d212b362134dcce45b0bdc776ad"
+      },
+      "archivos_catalogo": {
+        "factory_tests_editados.solo_cuentan_los_archivos_de_pruebas": "catalogos/factory_tests_editados.solo_cuentan_los_archivos_de_pruebas.oracle",
+        "factory_tests_editados.corrida_completa": "catalogos/factory_tests_editados.corrida_completa.oracle"
+      }
+    }
+  }
 }
