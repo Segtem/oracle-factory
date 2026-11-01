@@ -91,3 +91,19 @@ Medidas de calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_com
 ### Nota (2026-11-01 19:37:33 UTC)
 
 Medidas de calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-01 20:02:30 UTC)
+
+Medidas de calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-01 20:02:32 UTC)
+
+Medidas de calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-01 20:02:33 UTC)
+
+Medidas de calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-01 20:02:34 UTC)
+
+Medidas de calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
