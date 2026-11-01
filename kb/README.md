@@ -93,7 +93,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261030-185728-0w1-tests]] — Tests unitarios como práctica del desarrollo: el paso de escribirlos primero (cerrada)
 - [[cambios/20261031-011717-c2q-pruebaspractica]] — Pedir las pruebas como práctica de desarrollo, sin bloquear (cerrada)
 - [[cambios/20261031-220741-vts-listaprevia]] — Una lista previa a la revisión con las clases de problema que más rondas cuestan (cerrada)
-- [[cambios/20261101-012816-1qf-testseditados]] — Avisar de los tests que ya existían y el cambio modificó o borró (espera_aprobacion_spec)
+- [[cambios/20261101-012816-1qf-testseditados]] — Avisar de los tests que ya existían y el cambio modificó o borró (spec_aprobada)
 
 ## Requisitos
 

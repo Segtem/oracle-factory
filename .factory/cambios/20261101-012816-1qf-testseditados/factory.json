@@ -2,10 +2,20 @@
   "id": "20261101-012816-1qf-testseditados",
   "titulo": "Avisar de los tests que ya existían y el cambio modificó o borró",
   "capacidad": "practicas",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261101-012816-1qf-testseditados/specs/practicas/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "db7b8c9c8ce55d52313c31639697fffcc3652aca414352e6b678fea72bc267f7",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T01:29:14.508863+00:00",
+    "documentos": {
+      "openspec/changes/20261101-012816-1qf-testseditados/proposal.md": "6aab59c2df55759e211e21e48200e3a226992895b8b04ae092fa2ada543d8d0c",
+      "openspec/changes/20261101-012816-1qf-testseditados/specs/practicas/spec.md": "db7b8c9c8ce55d52313c31639697fffcc3652aca414352e6b678fea72bc267f7"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-01T01:28:16.892760+00:00",
       "capacidad": "practicas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T01:29:14.508888+00:00",
+      "documentos": {
+        "openspec/changes/20261101-012816-1qf-testseditados/proposal.md": "6aab59c2df55759e211e21e48200e3a226992895b8b04ae092fa2ada543d8d0c",
+        "openspec/changes/20261101-012816-1qf-testseditados/specs/practicas/spec.md": "db7b8c9c8ce55d52313c31639697fffcc3652aca414352e6b678fea72bc267f7"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
