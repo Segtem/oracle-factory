@@ -11,7 +11,7 @@ vigente: true
 - Id: `calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja`
 - Vigente: sí
 - Cambio: [[cambios/20261101-121356-ih8-puertalocal]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja`, `factory_puerta_local.corrida_completa`
 - Fuente: openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md#el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja
 

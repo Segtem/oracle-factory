@@ -11,7 +11,7 @@ vigente: true
 - Id: `calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto`
 - Vigente: sí
 - Cambio: [[cambios/20261101-121356-ih8-puertalocal]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto`, `factory_puerta_local.corrida_completa`
 - Fuente: openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md#la_puerta_corre_las_verificaciones_del_proyecto
 

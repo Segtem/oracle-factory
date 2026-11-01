@@ -2,7 +2,7 @@
   "id": "20261101-121356-ih8-puertalocal",
   "titulo": "Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push",
   "capacidad": "calidad",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261101-121356-ih8-puertalocal/specs/calidad/spec.md",
   "spec_sha256": "60b9ae3af9a3ac5279debc341a7815283b9f9c06efc6c42ca7e185ef4b010fdc",
   "spec_aprobada": {
@@ -43,7 +43,19 @@
       "archivos_sha256": "aee48b6fb6b57a819fef663273f73b69b09dea16518a3fa6075024ddfc1b5790"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261101-121356-ih8-puertalocal/candidatos/2fa1bb7/evidencia/hechos.json",
+    "hechos_sha256": "1bb474f0699ff99d747cb5519852f24dc084a288f2dca476946e90689ceca9b3",
+    "informe": ".factory/cambios/20261101-121356-ih8-puertalocal/oracle-veredicto.txt",
+    "informe_sha256": "fe22f51fc85fe5a27081b4fc2062ffae7256d26857e9cb1c932c46baf68f48af",
+    "cuando": "2026-11-01T20:32:40.628886+00:00",
+    "contexto": {
+      "head": "c7193e1b48cce974764713dcf7480ae0a962e7ce",
+      "archivos_sha256": "aee48b6fb6b57a819fef663273f73b69b09dea16518a3fa6075024ddfc1b5790"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -613,6 +625,17 @@
       "abiertos": 0,
       "sha256": "04d9eed78e96283ee18f71d72e31fe1d3bdd6f078a2922fde46773c7c7a79ea0",
       "decisiones_sha256": "8e6e7163dfd4acfc89f31b3a90bca38e136c148107720d142fe5f4b26be6c874"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T20:32:40.628902+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "1bb474f0699ff99d747cb5519852f24dc084a288f2dca476946e90689ceca9b3"
     }
   ],
   "tipos": {
