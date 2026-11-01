@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:13f07da49b9337c9f2437a97c805eb490d88ed09f4a0c082d4b2df44fe817dc0 -->
+<!-- oracle-factory resumen sha256:ef17eedee1be1b812848704de2db1a167011888e0b48691bf9cfd39886d697f5 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-27 capacidades · 256 requisitos vigentes · 0 cambios abiertos
+28 capacidades · 260 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -56,6 +56,17 @@ Spec completa: [openspec/specs/bloqueos/spec.md](../openspec/specs/bloqueos/spec
 | el_bloqueo_de_aprobar_spec_nombra_la_linea | funcional | `bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea` | factory_bloqueo_causa.el_bloqueo_de_aprobar_spec_nombra_la_linea, factory_bloqueo_causa.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-100820-5n7-causa |
 | el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo | funcional | `bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo` | factory_bloqueo_causa.el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo, factory_bloqueo_causa.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-100820-5n7-causa |
 | aprobar_spec_no_cambia_cuando_todo_esta_completo | funcional | `bloqueos_c675508440ed3a2b8.aprobar_spec_no_cambia_cuando_todo_esta_completo` | factory_bloqueo_causa.aprobar_spec_no_cambia_cuando_todo_esta_completo, factory_bloqueo_causa.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-100820-5n7-causa |
+
+### calidad
+
+Spec completa: [openspec/specs/calidad/spec.md](../openspec/specs/calidad/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican | funcional | `calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican` | factory_puerta_local.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican, factory_puerta_local.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-121356-ih8-puertalocal |
+| la_puerta_corre_las_verificaciones_del_proyecto | funcional | `calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto` | factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto, factory_puerta_local.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-121356-ih8-puertalocal |
+| el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja | funcional | `calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja` | factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja, factory_puerta_local.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-121356-ih8-puertalocal |
+| la_puerta_no_modifica_el_arbol_de_trabajo | funcional | `calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo` | factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo, factory_puerta_local.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-121356-ih8-puertalocal |
 
 ### cli
 
@@ -1413,6 +1424,18 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261101-012816-1qf-testseditados) codex (gpt-6-luna): Inspeccioné la propuesta, la spec, el diff y el contexto del paquete; revisé las vueltas anteriores como contexto de las correcciones declaradas.
 - (20261101-012816-1qf-testseditados) codex (gpt-6-luna): Intenté ejecutar `python -m unittest tests.test_tests_editados`; 17 casos fallaron al importar dependencias externas ausentes (oracle_metalenguaje/oracle-clue), aunque 13 pasaron. No ejecuté la suite completa ni mutaciones en copia.
 - (20261101-012816-1qf-testseditados) codex (gpt-6-luna): No cambié el checkout.
+- (20261101-121356-ih8-puertalocal) Evidencia: Escenarios pu1–pu4 con Git de verdad (un remoto local temporal y el hook instalado), un ejecutor falso para los casos de error y secretos armados al vuelo, en Linux. Comprueban lo que la puerta detecta, bloquea y deja pasar, y que no modifica el árbol; no son un escáner completo (no miden entropía ni formatos que la lista no incluye) y no corren analizadores estáticos.
+- (20261101-121356-ih8-puertalocal) agy (gemini-3.8-flash-high): Se revisaron la propuesta, la especificación, el diseño, la documentación (docs/puerta.md), el código del candidato (oracle_factory/puerta.py, oracle_factory/cli.py, oracle_factory/parser.py), los tests unitarios (tests/test_puerta.py, tests/datos/ayuda-cli.json), y el script de verificación y contratos (tools/verify_puerta_local.py, catalogos/*.oracle, requisitos/*.requisito).
+- (20261101-121356-ih8-puertalocal) agy (gemini-3.8-flash-high): Se verificó la corrección de los hallazgos de las rondas previas (candidatos 7658f1d y 65b2fca) y que cada solución cubra la clase completa del problema: formato combinado real de Git (--cc -U0) con 2, 3 o más padres (octopus merges), conteo exacto de líneas sumando líneas conservadas de padres y descartando quitadas, decodificación C-quoting completa en rutas con secuencias de escape y octales, lookahead en clave de Google sin backtracking, encadenamiento seguro para hooks ajenos compatible con set -e y salidas limpias/avisos, e informe visible de verificaciones omitidas tanto con éxito como ante fallos.
+- (20261101-121356-ih8-puertalocal) agy (gemini-3.8-flash-high): Se ejecutó la suite completa de tests del proyecto (.venv/bin/python -m unittest discover -s tests </dev/null), aprobando los 969 tests (10 skipped) en 383s.
+- (20261101-121356-ih8-puertalocal) agy (gemini-3.8-flash-high): Se ejecutaron las 62 pruebas unitarias específicas de tests/test_puerta.py con el intérprete del entorno (.venv/bin/python), aprobando el 100% (62 pruebas en 14.9s).
+- (20261101-121356-ih8-puertalocal) agy (gemini-3.8-flash-high): Se ejecutó el script de verificación tools/verify_puerta_local.py con generación de evidencia y trazabilidad completa, confirmando que los 62 casos de contrato pasan, la trazabilidad es completa y las fuentes permanecen estables.
+- (20261101-121356-ih8-puertalocal) agy (gemini-3.8-flash-high): Se probó en repositorios Git reales el comportamiento con diffs combinados (-p --cc -U0) en merges de 2 padres y octopus merges (3 padres generados con commit-tree) ante conflictos resueltos, líneas conservadas y líneas eliminadas.
+- (20261101-121356-ih8-puertalocal) agy (gemini-3.8-flash-high): Se analizó la edición del test preexistente en tests/datos/ayuda-cli.json (1 línea quitada de la ayuda general) y se constató que es legítima y obligada: refleja la incorporación del subcomando 'puerta' y su ayuda en la interfaz de línea de comandos de oracle-factory, requerida por test_cm1_la_ayuda_de_oracle_factory_y_de_cada_subcomando_es_identica.
+- (20261101-121356-ih8-puertalocal) codex (gpt-6-luna): Leí la propuesta, la spec, el diff del paquete y el código/pruebas relevantes en oracle_factory/puerta.py, cli.py, docs/puerta.md, tools/verify_puerta_local.py y tests/test_puerta.py.
+- (20261101-121356-ih8-puertalocal) codex (gpt-6-luna): Corrí `python -m unittest tests.test_puerta`: las 62 pruebas pasaron. `.venv/bin/python` no está presente en este checkout. No corrí la suite completa ni tools/verify_puerta_local.py, de acuerdo con el alcance fuera de alcance de la propuesta.
+- (20261101-121356-ih8-puertalocal) codex (gpt-6-luna): Contrasté los casos corregidos de rondas anteriores: encabezados combinados `@@@`/`@@@@` con `-U0`, columnas por padre y conteo de líneas conservadas; escapes C de rutas; lookahead de la clave Google terminada en guion; y llamada al hook que tolera `set -e` y sólo bloquea con código 3. Las pruebas cubren los casos mostrados; no ejecuté mutaciones persistentes sobre copias. No encontré un contraejemplo reproducible adicional.
+- (20261101-121356-ih8-puertalocal) codex (gpt-6-luna): La única edición preexistente indicada, una línea quitada de tests/datos/ayuda-cli.json, está justificada: actualiza la salida de ayuda esperada para reflejar el subcomando `puerta` agregado.
 
 ### Históricos
 
