@@ -1,6 +1,6 @@
 # Avisar de los tests que ya existían y el cambio modificó o borró
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -67,3 +67,11 @@ Medidas de practicas_c30250c98e6023842.solo_cuentan_los_archivos_de_pruebas: Bri
 ### Nota (2026-11-01 11:24:50 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de revisión. La primera (agy2 y codex) dejó hallazgos reales, entre ellos que los renombres puros no avisaban (se podía desactivar un test en silencio), que se clasificaba por el destino y no por la base, que se miraban archivos generados, que los pathspecs no eran literales, que faltaban las aserciones de Go y otros lenguajes, y que el contrato del verificador tenía nombres de casos inexistentes; todo corregido, con pruebas que ahora fallan si se vuelven a romper. La segunda vuelta la hicieron codex y agy2-flash (gemini-3.8-flash-high, porque la cuota de Gemini 4 Argon de las dos cuentas de agy se agotó): ningún hallazgo medio ni alto; codex dejó un hallazgo bajo, que el contador de aserciones cuenta también comentarios y nombres con la palabra assert, que queda como límite declarado y como riesgo aceptado. Suite completa sin fallas y evidencia con éxito (30 casos de contrato). Revisor agy2-flash agregado a la configuración por pedido de Brian.); 0 abiertos derivados; commit d8944c2b1fb092f5735430f2ee5f1f0cf7c14c22; informe tareas/20261101-012816-1qf-testseditados/revisiones/registro-3_z4i_kd/informe.json; decisiones tareas/20261101-012816-1qf-testseditados/revisiones/registro-3_z4i_kd/decisiones.json.
+
+### Nota (2026-11-01 11:25:21 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261101-012816-1qf-testseditados/oracle-veredicto.txt.
+
+### Nota (2026-11-01 11:29:15 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

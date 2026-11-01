@@ -2,7 +2,7 @@
   "id": "20261101-012816-1qf-testseditados",
   "titulo": "Avisar de los tests que ya existían y el cambio modificó o borró",
   "capacidad": "practicas",
-  "fase": "revision_aprobada",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261101-012816-1qf-testseditados/specs/practicas/spec.md",
   "spec_sha256": "db7b8c9c8ce55d52313c31639697fffcc3652aca414352e6b678fea72bc267f7",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "0c5b858b0b457cb0b54cef84cd6725690b823ab7a582ba31824a7c99aca67e5b"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261101-012816-1qf-testseditados/candidatos/3c2793e/evidencia/hechos.json",
+    "hechos_sha256": "f318f7b9f90cc5f2047aef107249a8b30afe311cc5a2883ce87699ffe550f6b8",
+    "informe": ".factory/cambios/20261101-012816-1qf-testseditados/oracle-veredicto.txt",
+    "informe_sha256": "052377cd66217ed3a4182ac9e57128bf65230b03eaff08babad76e86ea2d3214",
+    "cuando": "2026-11-01T11:25:21.379966+00:00",
+    "contexto": {
+      "head": "dba9264f1dc1af290e82b3112f421c60fbad2f29",
+      "archivos_sha256": "0c5b858b0b457cb0b54cef84cd6725690b823ab7a582ba31824a7c99aca67e5b"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -391,6 +403,37 @@
       "abiertos": 0,
       "sha256": "152709a35466c9e42f23622ee193cf48db3634c3763f1dc6d040bf16029e680f",
       "decisiones_sha256": "8ed7e006a1774089d1a3368a5f451c92f09f85a9345ec23cc0fc62f2cc122bc7"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T11:25:21.379983+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "f318f7b9f90cc5f2047aef107249a8b30afe311cc5a2883ce87699ffe550f6b8"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T11:29:15.136138+00:00",
+      "oracle": ".factory/cambios/20261101-012816-1qf-testseditados/oracle-veredicto.txt",
+      "revision": "tareas/20261101-012816-1qf-testseditados/revisiones/registro-3_z4i_kd/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-01T11:29:15.169699+00:00",
+      "capacidad": "practicas",
+      "spec": "openspec/specs/practicas/spec.md"
     }
   ],
   "tipos": {
@@ -460,5 +503,17 @@
       "fecha": "2026-11-01T11:24:48.997634+00:00",
       "candidato": "3c2793e"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-01T11:29:15.072730+00:00"
+  },
+  "archivo": {
+    "capacidad": "practicas",
+    "spec": "openspec/specs/practicas/spec.md",
+    "cuando": "2026-11-01T11:29:15.169688+00:00"
+  }
 }
