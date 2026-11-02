@@ -33,6 +33,17 @@ Con la misma idea (avisar sin bloquear), `oracle-factory estado ID` avisa de dos
 
 Los dos números son referencias sacadas de 20 cambios cerrados (`tools/medir_rondas.py`): hasta unas 450 líneas la mediana fue de 2 rondas, y por encima, de 3; y los cambios de 5 o 6 rondas fueron bucles que parchaban la misma clase de problema caso por caso. Son una pauta y no una ley: un cambio de 600 líneas puede estar bien si es mecánico.
 
+## La evidencia de un cambio, sin un verificador por cambio
+
+Hasta ahora cada cambio traía su `tools/verify_<x>.py` y sus catálogos, casi iguales entre sí. `tools/verificar_cambio.py` los reemplaza en los cambios que vengan (los verificadores existentes siguen como están):
+
+```bash
+.venv/bin/python tools/verificar_cambio.py ID --pruebas test_x --catalogos      # escribe catalogos/factory_x.*.oracle
+.venv/bin/python tools/verificar_cambio.py ID --pruebas test_x --salida $(oracle-factory ruta ID evidencia)
+```
+
+La convención: una prueba `test_<letras><n>_…` (dos o tres letras minúsculas y el número) prueba el requisito número `n` de la spec del cambio, en el orden en que la spec los lista; el módulo es `tests/test_x.py`. La herramienta lee los nombres con `ast` (un nombre dentro de un texto no cuenta) y falla, sin declarar éxito, si un requisito no tiene casos, si un caso nombra un número que no corresponde a ningún requisito o si no hay casos. La evidencia es la de siempre —`suite.txt`, `hechos.json`, `trazabilidad.json` y `resultado.json`— y el éxito exige que todos los casos pasen, que la corrida sea exactamente la esperada, que las fuentes no cambien mientras corre y que la trazabilidad esté bien. Los catálogos de `--catalogos` cuentan los casos de cada requisito; escribirlos otra vez con los mismos casos no cambia nada. Las medidas siguen proponiéndose y confirmándose como siempre.
+
 ## Fuentes
 
 - arXiv 2402.13521: TDD para generación de código; los tests dados de antemano mejoran la corrección.
