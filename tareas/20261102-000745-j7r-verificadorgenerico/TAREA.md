@@ -155,3 +155,15 @@ Medidas de practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_compl
 ### Nota (2026-11-02 15:44:55 UTC)
 
 Medidas de practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-02 16:01:23 UTC)
+
+Medidas de practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-02 16:01:23 UTC)
+
+Medidas de practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-02 16:01:23 UTC)
+
+Medidas de practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).

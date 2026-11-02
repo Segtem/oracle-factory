@@ -42,6 +42,9 @@ capacidad: "practicas"
 - 2026-11-02 15:18 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-02 15:18 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-02 15:41 · Juicio de Oracle · agy (agente)
+- 2026-11-02 16:01 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-02 16:01 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-02 16:01 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -69,6 +72,7 @@ capacidad: "practicas"
 - `9043270` verificador-generico: proponer las medidas con los catálogos regenerados (trailer)
 - `749822a` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
 - `32805c6` verificador-generico: arreglar el hallazgo de la quinta ronda (catálogos obsoletos del módulo se retiran) (trailer)
+- `7036ab2` verificador-generico: proponer las medidas con los catálogos regenerados (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes
