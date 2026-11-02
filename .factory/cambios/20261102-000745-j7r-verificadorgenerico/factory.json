@@ -463,6 +463,45 @@
       "resultado": "ok",
       "hallazgos": 5,
       "lanzamiento": "85674dadd920"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T02:09:35.258985+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T02:09:36.623681+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T02:09:37.969806+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -470,55 +509,49 @@
     "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio": "funcional",
     "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio": "funcional"
   },
-  "medidas": {
+  "medidas": {},
+  "medidas_pendientes": {
     "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-02T01:41:12.013926+00:00",
       "sha256": "afb968d551810c00fcdb1f3e63ab617a98efdda74c33f6dc1579b2693896c6d6",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-02T02:09:35.220478+00:00",
       "catalogos": {
-        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": "c24085dcd02fe1d745cfe4f53ba670d5339d4ddc26da6cdae1dfe7a3d2a68cc4",
-        "factory_verificador_generico.corrida_completa": "8bd90ee76b0c54dda3ecc3e642e21844223988b3fb7970bc8d0e97ecee695f11"
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": "306a908eea4d06d99add0a1172684da7cac850d7fdfe7718dc45074e4f806c06",
+        "factory_verificador_generico.corrida_completa": "9da2cb526bbd28557b35dde5fe6b883102541cdeda1baf8238c935d1aeebdc36"
       },
       "archivos_catalogo": {
         "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": "catalogos/factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica.oracle",
         "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
       }
     },
-    "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-02T01:41:12.171985+00:00",
-      "sha256": "59ecc309ca1f46c9c168485f69af4e12297c6543db48de959ca530fea483bad8",
-      "catalogos": {
-        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio": "dc66787bc409b48bdc729d369a93ef9041210d5cd2a34c6b917ada5bc0b9fcc3",
-        "factory_verificador_generico.corrida_completa": "8bd90ee76b0c54dda3ecc3e642e21844223988b3fb7970bc8d0e97ecee695f11"
-      },
-      "archivos_catalogo": {
-        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio": "catalogos/factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio.oracle",
-        "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
-      }
-    },
     "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-02T01:41:12.326342+00:00",
       "sha256": "7db2cb145c952f3e04269b6b2d4175fe7b0944563f4ac8a171bb849d20333314",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-02T02:09:36.585755+00:00",
       "catalogos": {
-        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio": "6a2570105fe04ff75c54bade44c7ccff5430cf621a4ffdb5f3bb79da8df8e5cd",
-        "factory_verificador_generico.corrida_completa": "8bd90ee76b0c54dda3ecc3e642e21844223988b3fb7970bc8d0e97ecee695f11"
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio": "0155def27457b805e650ab606dc67683db3e624b776049a076e182ebe7d78d2f",
+        "factory_verificador_generico.corrida_completa": "9da2cb526bbd28557b35dde5fe6b883102541cdeda1baf8238c935d1aeebdc36"
       },
       "archivos_catalogo": {
         "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio": "catalogos/factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio.oracle",
         "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
       }
+    },
+    "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio": {
+      "sha256": "59ecc309ca1f46c9c168485f69af4e12297c6543db48de959ca530fea483bad8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-02T02:09:37.931614+00:00",
+      "catalogos": {
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio": "dc66787bc409b48bdc729d369a93ef9041210d5cd2a34c6b917ada5bc0b9fcc3",
+        "factory_verificador_generico.corrida_completa": "9da2cb526bbd28557b35dde5fe6b883102541cdeda1baf8238c935d1aeebdc36"
+      },
+      "archivos_catalogo": {
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio": "catalogos/factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio.oracle",
+        "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
+      }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }
