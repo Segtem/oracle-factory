@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-verificador-generico/.factory/local/revisiones/a35cbce-agy2-flash-1",
+  "base": "1458add3bc60bfd49e5af65bac9f1c0798e1928d",
+  "head": "a35cbcea1aec14f1539f769b98f1430108e5d3d5",
+  "diff_sha256": "ada82d0b92b549a0d3c3bce50b37f9fe5d9b46aaf926a8c311fe5182f3570337",
+  "context_sha256": "1f78ae2c10379eefcceb923fffd728023b345b102717946fabccff049ae3b166",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la suite completa del producto (1037 pruebas) sobre el candidato a35cbce verificando que pasa íntegramente y sin regresiones.",
+    "Se ejecutó verificar_cambio.py sobre el candidato produciendo evidencia completa y válida (éxito: True, 42 casos asociados, trazabilidad y fuentes estables).",
+    "Se ejecutó una batería de mutaciones sobre copias aisladas en el espacio del revisor: 16 mutantes fueron destruidos y los 5 supervivientes fueron analizados en profundidad, concluyendo que no representan defectos ni fallas en el código de producción.",
+    "Se verificaron exhaustivamente los 5 arreglos de la tercera ronda: resolución de métodos heredados en AST (incluyendo mixins y ciclos), neutralización de bloques de código Markdown, reinicio de secciones de nivel 2 post-REMOVED, rechazo de caracteres no imprimibles y de escape en --alcance conforme al JSONDecoder de Oracle, y aislamiento de cláusulas de éxito en pruebas unitarias.",
+    "Se evaluaron casos de borde: el manejo de bloques de código Markdown anidados con vallas de 4 backticks que encierren bloques de 3 backticks con cabeceras de requisitos es un caso puramente exótico sin manifestación en especificaciones reales de Factory; la herencia de mixins externos o clases sin TestCase se ajusta estrictamente a los límites documentados en docs/tests.md."
+  ]
+}

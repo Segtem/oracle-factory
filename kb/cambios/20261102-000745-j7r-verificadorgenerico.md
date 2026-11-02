@@ -59,6 +59,7 @@ capacidad: "practicas"
 - `bd88492` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
 - `4f9bbf9` verificador-generico: arreglar los hallazgos de la tercera ronda (herencia, bloques de código, secciones, separadores Unicode, cláusulas del éxito aisladas) (trailer)
 - `6aad62d` verificador-generico: proponer de nuevo las medidas (trailer)
+- `a35cbce` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes

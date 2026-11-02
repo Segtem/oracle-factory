@@ -60,11 +60,14 @@ def casos_del_modulo(texto: str) -> dict[int, list[str]]:
 def requisitos_de_la_spec(texto: str) -> list[str]:
     """Los requisitos de la spec en el orden en que aparecen, como los importa Factory: el nombre del «### Requirement: …» pasado a
     slug (`modos.slug`). Los de una sección REMOVED no se importan ni se miden, y lo que está dentro de un bloque de código tampoco."""
-    retirados, en_codigo, nombres = False, False, []
+    retirados, cerca, nombres = False, None, []  # cerca: (carácter, largo) de la que abrió el bloque de código en curso
     for linea in texto.splitlines():
-        if linea.lstrip().startswith(("```", "~~~")):
-            en_codigo = not en_codigo
-        elif en_codigo:
+        abre = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", linea)
+        if cerca is None and abre and not (abre[1][0] == "`" and "`" in abre[2]):
+            cerca = (abre[1][0], len(abre[1]))  # como CommonMark: la cerca de cierre es del mismo carácter y no más corta
+        elif cerca is not None:
+            if abre and abre[1][0] == cerca[0] and len(abre[1]) >= cerca[1] and not abre[2].strip():
+                cerca = None
             continue
         elif re.match(r"^##\s", linea):  # cualquier sección de nivel 2 cierra la anterior: «## Requirements» después de «## REMOVED» vuelve a contar
             delta = DELTA.match(linea)
@@ -124,7 +127,9 @@ def fuentes(raiz: Path, salida: Path | None = None) -> dict:
     elegidos = [raiz / n for n in nombres if n and not n.startswith(SIN_FUENTES) and (raiz / n).is_file()
                 and not (salida and (raiz / n).is_relative_to(salida))]
     head = subprocess.run(["git", "-C", str(raiz), "rev-parse", "HEAD"], text=True, capture_output=True, check=True).stdout.strip()
-    return {"head": head, "sha256": {p.relative_to(raiz).as_posix(): sha(p) for p in sorted(elegidos)}}
+    # El hash dice qué había; la hora de modificación dice si alguien lo tocó entre una lectura y la otra aunque haya devuelto los mismos bytes.
+    return {"head": head, "sha256": {p.relative_to(raiz).as_posix(): sha(p) for p in sorted(elegidos)},
+            "mtime_ns": {p.relative_to(raiz).as_posix(): p.stat().st_mtime_ns for p in sorted(elegidos)}}
 
 
 def producir(raiz: Path, cambio: str, modulo: str, salida: Path) -> bool:

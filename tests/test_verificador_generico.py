@@ -99,6 +99,16 @@ class Contrato(unittest.TestCase):
         spec = '### Requirement: uno\n\n```markdown\n### Requirement: ejemplo\n```\n\n~~~\n### Requirement: otro\n~~~\n### Requirement: dos\n'
         self.assertEqual(vc.requisitos_de_la_spec(spec), ['uno', 'dos'])
 
+    def test_vg1_las_cercas_se_cierran_como_en_commonmark_mismo_caracter_y_no_mas_cortas(self):
+        spec = ('### Requirement: uno\n````markdown\n```\n### Requirement: ejemplo\n```\n### Requirement: otro\n````\n### Requirement: dos\n'
+                '~~~\n```\n### Requirement: tilde\n~~~\n### Requirement: tres\n')
+        self.assertEqual(vc.requisitos_de_la_spec(spec), ['uno', 'dos', 'tres'])
+        self.assertEqual(vc.requisitos_de_la_spec('``` con texto\n### Requirement: x\n``` no cierra\n### Requirement: y\n```\n### Requirement: z\n'), ['z'])
+        self.assertEqual(vc.requisitos_de_la_spec('Una `` `cerca` `` en línea\n### Requirement: a\n'), ['a'])  # no abre un bloque
+        self.assertEqual(vc.requisitos_de_la_spec('```a`b\n### Requirement: x\n'), ['x'])  # una cerca de backticks no lleva backticks en su texto
+        self.assertEqual(vc.requisitos_de_la_spec('    ```\n### Requirement: y\n'), ['y'])  # con cuatro espacios es código indentado, no una cerca
+        self.assertEqual(vc.requisitos_de_la_spec('   ```\n### Requirement: z\n```\n### Requirement: w\n'), ['w'])  # con tres sí
+
     def test_vg1_una_seccion_comun_despues_de_removed_vuelve_a_contar(self):
         spec = '## REMOVED Requirements\n### Requirement: viejo\n## Requirements\n### Requirement: vigente\n'
         self.assertEqual(vc.requisitos_de_la_spec(spec), ['vigente'])
@@ -331,6 +341,16 @@ class Evidencia(ProyectoTemporal):
             self.assertTrue((self.evidencia() / nombre).is_file(), nombre)
         self.assertIn('RuntimeError', (self.evidencia() / 'trazabilidad.json').read_text())
         self.assertFalse(self.resultado()['exitoso'])
+
+    def test_vg2_un_archivo_modificado_y_restaurado_durante_la_corrida_tampoco_esta_quieto(self):
+        self.escribir('tests/test_demo.py', MODULO.replace("def test_dm1_a(self):\n        self.assertTrue(True)",
+            "def test_dm1_a(self):\n        import pathlib, time\n        d = pathlib.Path(__file__).parents[1] / 'datos.txt'\n"
+            "        original = d.read_bytes()\n        d.write_bytes(b'otro')\n        time.sleep(0.01)\n        d.write_bytes(original)"))
+        r = self.correr('--salida', str(self.evidencia()))
+        self.assertEqual(r.returncode, 1)
+        resultado = self.resultado()
+        self.assertFalse(resultado['fuentes_estables'])
+        self.assertEqual(self.git('status', '--porcelain', 'datos.txt'), '')  # los bytes quedaron igual: sólo la hora delata el cambio
 
     def test_vg2_un_contrato_roto_ni_corre_la_suite_ni_crea_la_carpeta(self):
         self.escribir(f'openspec/changes/{CAMBIO}/specs/demo/spec.md', SPEC + '\n### Requirement: el_tercero\nTipo: funcional\nEl sistema DEBE c.\n')
