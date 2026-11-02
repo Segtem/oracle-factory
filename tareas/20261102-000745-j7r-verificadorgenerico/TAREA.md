@@ -31,3 +31,15 @@ Medidas de practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_compl
 ### Nota (2026-11-02 00:17:26 UTC)
 
 Medidas de practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio: factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio, factory_verificador_generico.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-02 00:35:07 UTC)
+
+Medidas de practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-02 00:35:07 UTC)
+
+Medidas de practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-02 00:35:07 UTC)
+
+Medidas de practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).

@@ -26,6 +26,9 @@ capacidad: "practicas"
 - 2026-11-02 00:11 · Spec aprobada · Brian Hollweg (persona)
 - 2026-11-02 00:13 · Spec aprobada · Brian Hollweg (persona)
 - 2026-11-02 00:13 · Requisitos importados · claude-code (agente)
+- 2026-11-02 00:35 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-02 00:35 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-02 00:35 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -37,6 +40,7 @@ capacidad: "practicas"
 - `931405c` verificador-generico: aprobación de la spec e importación de requisitos (trailer)
 - `e672ef2` verificador-generico: herramienta, pruebas, documento y catálogos (trailer)
 - `29c271f` verificador-generico: clases sin base, trazabilidad que falla, casos que nunca corren; catálogos regenerados (trailer)
+- `bda8996` verificador-generico: proponer las medidas (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes
