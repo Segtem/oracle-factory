@@ -632,6 +632,45 @@
         "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
         "factory_verificador_generico.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T15:18:19.945223+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T15:18:20.100758+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T15:18:20.254878+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -639,13 +678,14 @@
     "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio": "funcional",
     "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-02T15:18:19.905217+00:00",
       "sha256": "afb968d551810c00fcdb1f3e63ab617a98efdda74c33f6dc1579b2693896c6d6",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-02T10:30:43.702748+00:00",
       "catalogos": {
         "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": "59e9ba1aea2fa2da65be66f7b9adabd3bcc4788a4f6d184b82bfe9653d54766f",
         "factory_verificador_generico.corrida_completa": "fb7bf8628eae9f9a87898e8a87b92501ead974f78edeb2f2b2855ee7fea75c17"
@@ -655,25 +695,13 @@
         "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
       }
     },
-    "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio": {
-      "sha256": "7db2cb145c952f3e04269b6b2d4175fe7b0944563f4ac8a171bb849d20333314",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-02T10:30:45.069406+00:00",
-      "catalogos": {
-        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio": "5dbb7b22a5d1fdfa6f794a0791fea2cbbad3b73e04a6e17bcadb10fdb54b27d8",
-        "factory_verificador_generico.corrida_completa": "fb7bf8628eae9f9a87898e8a87b92501ead974f78edeb2f2b2855ee7fea75c17"
-      },
-      "archivos_catalogo": {
-        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio": "catalogos/factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio.oracle",
-        "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
-      }
-    },
     "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-02T15:18:20.063140+00:00",
       "sha256": "59ecc309ca1f46c9c168485f69af4e12297c6543db48de959ca530fea483bad8",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-02T10:30:46.389125+00:00",
       "catalogos": {
         "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio": "dc66787bc409b48bdc729d369a93ef9041210d5cd2a34c6b917ada5bc0b9fcc3",
         "factory_verificador_generico.corrida_completa": "fb7bf8628eae9f9a87898e8a87b92501ead974f78edeb2f2b2855ee7fea75c17"
@@ -682,6 +710,23 @@
         "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio": "catalogos/factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio.oracle",
         "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
       }
+    },
+    "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-02T15:18:20.213973+00:00",
+      "sha256": "7db2cb145c952f3e04269b6b2d4175fe7b0944563f4ac8a171bb849d20333314",
+      "catalogos": {
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio": "5dbb7b22a5d1fdfa6f794a0791fea2cbbad3b73e04a6e17bcadb10fdb54b27d8",
+        "factory_verificador_generico.corrida_completa": "fb7bf8628eae9f9a87898e8a87b92501ead974f78edeb2f2b2855ee7fea75c17"
+      },
+      "archivos_catalogo": {
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio": "catalogos/factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio.oracle",
+        "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
