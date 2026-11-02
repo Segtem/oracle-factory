@@ -74,6 +74,7 @@ capacidad: "practicas"
 - `32805c6` verificador-generico: arreglar el hallazgo de la quinta ronda (catálogos obsoletos del módulo se retiran) (trailer)
 - `7036ab2` verificador-generico: proponer las medidas con los catálogos regenerados (trailer)
 - `55ef385` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
+- `dd138be` verificador-generico: arreglar el hallazgo de la sexta ronda (no se escribe sobre enlaces simbólicos) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes
