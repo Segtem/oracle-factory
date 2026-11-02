@@ -2,11 +2,25 @@
   "id": "20261102-221210-70x-caminoligero",
   "titulo": "Un camino ligero de revisión para los cambios chicos",
   "capacidad": "practicas",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "d70845b53755dfc19d568ae1e622e5f60bab7e816ad769421ca4dcc72141d900",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-02T22:20:28.804538+00:00",
+    "documentos": {
+      "openspec/changes/20261102-221210-70x-caminoligero/proposal.md": "5a3bbe2f714c63bc4dcb72a68c95211e8f77fa350f6e01da2410aeb017e7590a",
+      "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md": "d70845b53755dfc19d568ae1e622e5f60bab7e816ad769421ca4dcc72141d900"
+    }
+  },
+  "requisitos": [
+    "practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente",
+    "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+    "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +33,38 @@
       "forma": "decidio",
       "cuando": "2026-11-02T22:12:10.940145+00:00",
       "capacidad": "practicas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T22:20:28.804560+00:00",
+      "documentos": {
+        "openspec/changes/20261102-221210-70x-caminoligero/proposal.md": "5a3bbe2f714c63bc4dcb72a68c95211e8f77fa350f6e01da2410aeb017e7590a",
+        "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md": "d70845b53755dfc19d568ae1e622e5f60bab7e816ad769421ca4dcc72141d900"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T22:20:38.067214+00:00",
+      "ids": [
+        "practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente",
+        "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+        "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente": "funcional",
+    "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero": "funcional",
+    "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

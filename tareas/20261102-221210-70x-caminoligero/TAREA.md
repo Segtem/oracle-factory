@@ -7,3 +7,11 @@
 ### Nota (2026-11-02 22:12:11 UTC)
 
 OpenSpec: openspec/changes/20261102-221210-70x-caminoligero. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-11-02 22:20:28 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-02 22:20:38 UTC)
+
+Requisitos importados: practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente (funcional), practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero (funcional), practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

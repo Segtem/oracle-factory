@@ -1,0 +1,4 @@
+requisito practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente:
+    texto "Tipo: funcional El sistema NO DEBE cambiar por el camino ligero los pasos pendientes, el próximo paso ni quién decide cada paso: la aprobación de la spec, la confirmación de las medidas, la revisión humana y el cierre siguen siendo los mismos, y un candidato que no califica sigue pudiendo cerrarse."
+    fuente "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md#el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente"
+    sin_medir "sin medida todavía; escenarios: «los pendientes son iguales»"
