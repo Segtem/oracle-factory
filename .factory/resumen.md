@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:11e286b9110b4a566d7b39e2fef014cefd1cf7c8c4f0536ff0b67e450c9ff11a -->
+<!-- oracle-factory resumen sha256:63f95621792d7c0239da728fdbd1d1a9eb48bf2a8a66f8cd1e6cbd6fb206e8fe -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-28 capacidades · 264 requisitos vigentes · 0 cambios abiertos
+28 capacidades · 267 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -338,6 +338,9 @@ Spec completa: [openspec/specs/practicas/spec.md](../openspec/specs/practicas/sp
 | el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas | funcional | `practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas` | factory_alarmas_flujo.el_estado_avisa_cuando_la_revision_lleva_cuatro_rondas, factory_alarmas_flujo.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-205730-dm3-alarmasflujo |
 | el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto | funcional | `practicas_c58d3f9c8777a3388.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto` | factory_alarmas_flujo.el_estado_avisa_cuando_el_candidato_agrega_mas_de_450_lineas_de_producto, factory_alarmas_flujo.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-205730-dm3-alarmasflujo |
 | el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado | funcional | `practicas_c58d3f9c8777a3388.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado` | factory_alarmas_flujo.el_documento_nombra_los_umbrales_y_dice_que_el_conteo_de_aserciones_es_aproximado, factory_alarmas_flujo.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-205730-dm3-alarmasflujo |
+| el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica | funcional | `practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica` | factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica, factory_verificador_generico.corrida_completa | verde al cerrar el 2026-11-02 | 20261102-000745-j7r-verificadorgenerico |
+| el_verificador_produce_la_evidencia_completa_del_cambio | funcional | `practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio` | factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio, factory_verificador_generico.corrida_completa | verde al cerrar el 2026-11-02 | 20261102-000745-j7r-verificadorgenerico |
+| el_verificador_escribe_los_catalogos_del_cambio | funcional | `practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio` | factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio, factory_verificador_generico.corrida_completa | verde al cerrar el 2026-11-02 | 20261102-000745-j7r-verificadorgenerico |
 
 ### procedencia
 
@@ -1464,6 +1467,18 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261101-205730-dm3-alarmasflujo) codex (gpt-6-luna): La prueba tests/test_tests_editados.py::test_te1_sin_candidato_o_sin_base_no_se_calcula_y_no_se_llama_a_git_de_mas cambia la expectativa de una a dos llamadas. Es legítimo: sin base prueba merge-base contra main y master y no pide el diff si ambas fallan.
 - (20261101-205730-dm3-alarmasflujo) codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_alarmas_flujo tests.test_tests_editados </dev/null`: 56 tests, 23 errores por falta de dependencias del entorno (`oracle_metalenguaje` y ejecutable `oracle-clue`); los casos unitarios sin esas dependencias pasan. No pude verificar el conjunto completo ni ejecutar tools/verify_alarmas_flujo.py.
 - (20261101-205730-dm3-alarmasflujo) codex (gpt-6-luna): No hice mutaciones del checkout; el checkout permaneció de sólo lectura.
+- (20261102-000745-j7r-verificadorgenerico) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261102-000745-j7r-verificadorgenerico) agy (gemini-3.8-flash-high): Revisé la propuesta (proposal.md), la especificación (spec.md), el diseño (design.md), las tareas (tasks.md), la documentación (docs/tests.md), los requisitos (.requisito), los catálogos generados (.oracle), tools/verificar_cambio.py y la suite tests/test_verificador_generico.py contra el diff del paquete.
+- (20261102-000745-j7r-verificadorgenerico) agy (gemini-3.8-flash-high): Ejecuté la suite del verificador genérico (.venv/bin/python -m unittest discover -s tests -p test_verificador_generico.py): 46 casos pasando exitosamente.
+- (20261102-000745-j7r-verificadorgenerico) agy (gemini-3.8-flash-high): Comprobé que la corrección del hallazgo de la ronda 6 cubre la clase del problema: escribir_catalogos verifica antes de escribir si la carpeta destino 'catalogos/' o cualquiera de los catálogos a generar es un enlace simbólico, abortando con ContratoInvalido (código 2) sin modificar archivos ni destinos externos; además, la limpieza de catálogos obsoletos mediante vieja.unlink() remueve el enlace sin afectar el destino.
+- (20261102-000745-j7r-verificadorgenerico) agy (gemini-3.8-flash-high): Ejecuté pruebas de mutación manuales en una copia aislada sobre el chequeo de enlaces simbólicos (carpeta y archivos), eliminación de catálogos obsoletos, mtime_ns en fuentes quietas, condiciones de completitud y duplicados; todas las mutaciones fueron detectadas por la suite de pruebas.
+- (20261102-000745-j7r-verificadorgenerico) agy (gemini-3.8-flash-high): Verifiqué que los 4 catálogos generados coinciden exactamente con la especificación y umbrales (17 + 10 + 19 = 46 casos), y que Oracle juzga el candidato en verde con código 0.
+- (20261102-000745-j7r-verificadorgenerico) agy (gemini-3.8-flash-high): No se encontraron errores reales ni defectos de impacto práctico en la implementación ni regresiones respecto de rondas anteriores; posibles escenarios fuera de contrato (como enlaces duros del sistema de archivos o clases base importadas de otros módulos) se consideran exóticos o están explícitamente declarados fuera de alcance en la documentación.
+- (20261102-000745-j7r-verificadorgenerico) codex (gpt-6-luna): Revisé la spec, el diff incluido en el paquete, tools/verificar_cambio.py, tests/test_verificador_generico.py, docs/tests.md y los informes de rondas anteriores indicados.
+- (20261102-000745-j7r-verificadorgenerico) codex (gpt-6-luna): Ejecuté .venv/bin/python -m unittest discover -s tests -p test_verificador_generico.py </dev/null: 46 pruebas OK.
+- (20261102-000745-j7r-verificadorgenerico) codex (gpt-6-luna): No ejecuté la suite completa ni hice mutaciones manuales en copias.
+- (20261102-000745-j7r-verificadorgenerico) codex (gpt-6-luna): No revisé los 56 archivos de registros y evidencia de Factory excluidos por el pedido.
+- (20261102-000745-j7r-verificadorgenerico) codex (gpt-6-luna): No encontré hallazgos de impacto práctico; la protección contra enlaces simbólicos cubre catalogos/ y cada catálogo objetivo antes de escribir, y las regresiones reportadas previamente aparecen corregidas en el candidato.
 
 ### Históricos
 

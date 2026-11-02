@@ -1,0 +1,1723 @@
+{
+  "esquema": "oracle-factory.trazabilidad-casos/1",
+  "requisitos": {
+    "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": [
+      "test_verificador_generico.Contrato.test_vg1_cada_caso_va_al_requisito_que_su_numero_indica_con_su_clase",
+      "test_verificador_generico.Contrato.test_vg1_el_nombre_del_caso_exige_dos_o_tres_letras_minusculas_y_un_numero",
+      "test_verificador_generico.Contrato.test_vg1_el_nombre_del_requisito_se_pasa_a_slug_como_lo_importa_factory",
+      "test_verificador_generico.Contrato.test_vg1_la_cabecera_de_la_spec_tolera_los_espacios_que_tolera_factory",
+      "test_verificador_generico.Contrato.test_vg1_los_encabezados_de_la_spec_se_leen_en_orden_y_solo_los_de_nivel_tres",
+      "test_verificador_generico.Contrato.test_vg1_un_caso_con_un_numero_sin_requisito_falla_y_lo_nombra",
+      "test_verificador_generico.Contrato.test_vg1_un_modulo_sin_casos_falla",
+      "test_verificador_generico.Contrato.test_vg1_un_nombre_dentro_de_una_cadena_o_de_una_funcion_anidada_no_es_un_caso",
+      "test_verificador_generico.Contrato.test_vg1_un_requisito_que_declara_pruebas_no_aplica_sigue_necesitando_casos_y_el_limite_esta_documentado",
+      "test_verificador_generico.Contrato.test_vg1_un_requisito_repetido_falla_en_vez_de_perder_sus_casos",
+      "test_verificador_generico.Contrato.test_vg1_un_requisito_sin_casos_falla_y_lo_nombra",
+      "test_verificador_generico.Contrato.test_vg1_una_clase_sin_base_o_solo_con_object_no_aporta_casos_porque_unittest_no_la_corre",
+      "test_verificador_generico.Contrato.test_vg1_una_seccion_removed_no_cuenta_porque_no_se_importa"
+    ],
+    "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio": [
+      "test_verificador_generico.Catalogos.test_vg3_con_un_contrato_roto_no_escribe_nada",
+      "test_verificador_generico.Catalogos.test_vg3_el_catalogo_de_un_requisito_es_exactamente_este_texto",
+      "test_verificador_generico.Catalogos.test_vg3_escribirlos_de_nuevo_con_los_mismos_casos_no_cambia_nada",
+      "test_verificador_generico.Catalogos.test_vg3_este_modulo_se_verifica_a_si_mismo_con_su_propia_convencion",
+      "test_verificador_generico.Catalogos.test_vg3_hay_un_catalogo_por_requisito_y_el_de_la_corrida_con_los_numeros_de_casos",
+      "test_verificador_generico.Catalogos.test_vg3_los_catalogos_escritos_tienen_la_misma_forma_que_los_que_ya_usa_factory",
+      "test_verificador_generico.Catalogos.test_vg3_si_cambia_el_numero_de_casos_se_reescribe_solo_lo_que_cambio",
+      "test_verificador_generico.Catalogos.test_vg3_un_alcance_con_comillas_o_saltos_de_linea_se_rechaza_y_no_escribe_nada"
+    ],
+    "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio": [
+      "test_verificador_generico.Evidencia.test_vg2_fuentes_tambien_acepta_una_salida_relativa",
+      "test_verificador_generico.Evidencia.test_vg2_la_carpeta_de_evidencia_no_cuenta_como_fuente_y_no_se_pisa",
+      "test_verificador_generico.Evidencia.test_vg2_las_fallas_de_la_herramienta_no_dejan_un_exito_falso",
+      "test_verificador_generico.Evidencia.test_vg2_si_la_corrida_trae_casos_de_mas_por_herencia_no_hay_exito_aunque_todo_pase",
+      "test_verificador_generico.Evidencia.test_vg2_si_la_trazabilidad_falla_la_evidencia_queda_entera_y_en_rojo",
+      "test_verificador_generico.Evidencia.test_vg2_si_las_fuentes_cambian_durante_la_corrida_no_hay_exito",
+      "test_verificador_generico.Evidencia.test_vg2_un_cambio_completo_produce_los_cuatro_archivos_y_declara_exito",
+      "test_verificador_generico.Evidencia.test_vg2_un_caso_del_contrato_que_la_suite_nunca_corre_queda_con_codigo_distinto_de_cero",
+      "test_verificador_generico.Evidencia.test_vg2_un_caso_que_falla_deja_el_codigo_en_su_hecho_y_no_declara_exito",
+      "test_verificador_generico.Evidencia.test_vg2_un_contrato_roto_ni_corre_la_suite_ni_crea_la_carpeta",
+      "test_verificador_generico.Evidencia.test_vg2_un_modulo_cuyo_nombre_parece_un_caso_no_confunde_a_los_demas",
+      "test_verificador_generico.Evidencia.test_vg2_un_requisito_de_la_spec_que_el_registro_no_importo_falla",
+      "test_verificador_generico.Evidencia.test_vg2_una_salida_relativa_cuenta_igual_que_una_absoluta_y_producir_no_imprime",
+      "test_verificador_generico.Evidencia.test_vg2_una_spec_con_nombres_en_lenguaje_natural_se_cotejan_por_slug_con_el_registro",
+      "test_verificador_generico.Evidencia.test_vg2_una_spec_o_unas_pruebas_ilegibles_salen_con_el_codigo_2_y_sin_traceback"
+    ]
+  },
+  "casos": {
+    "test_verificador_generico.Catalogos.test_vg3_con_un_contrato_roto_no_escribe_nada": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          321,
+          322,
+          375,
+          376,
+          377,
+          378,
+          379
+        ]
+      }
+    },
+    "test_verificador_generico.Catalogos.test_vg3_el_catalogo_de_un_requisito_es_exactamente_este_texto": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          321,
+          322,
+          360,
+          361,
+          362,
+          363
+        ]
+      }
+    },
+    "test_verificador_generico.Catalogos.test_vg3_escribirlos_de_nuevo_con_los_mismos_casos_no_cambia_nada": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          321,
+          322,
+          340,
+          341,
+          342,
+          343,
+          344,
+          345,
+          346,
+          347,
+          348
+        ]
+      }
+    },
+    "test_verificador_generico.Catalogos.test_vg3_este_modulo_se_verifica_a_si_mismo_con_su_propia_convencion": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          387,
+          389,
+          390,
+          391,
+          392,
+          393
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          45,
+          46
+        ]
+      }
+    },
+    "test_verificador_generico.Catalogos.test_vg3_hay_un_catalogo_por_requisito_y_el_de_la_corrida_con_los_numeros_de_casos": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          321,
+          322,
+          324,
+          325,
+          326,
+          327,
+          328,
+          329,
+          330,
+          331,
+          332,
+          333,
+          334,
+          335,
+          336,
+          337,
+          338
+        ]
+      }
+    },
+    "test_verificador_generico.Catalogos.test_vg3_los_catalogos_escritos_tienen_la_misma_forma_que_los_que_ya_usa_factory": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          321,
+          322,
+          381,
+          382,
+          383,
+          384,
+          385
+        ]
+      }
+    },
+    "test_verificador_generico.Catalogos.test_vg3_si_cambia_el_numero_de_casos_se_reescribe_solo_lo_que_cambio": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          321,
+          322,
+          350,
+          351,
+          352,
+          353,
+          354,
+          355,
+          356,
+          357,
+          358
+        ]
+      }
+    },
+    "test_verificador_generico.Catalogos.test_vg3_un_alcance_con_comillas_o_saltos_de_linea_se_rechaza_y_no_escribe_nada": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          321,
+          322,
+          367,
+          368,
+          369,
+          370,
+          371,
+          372,
+          373
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_cada_caso_va_al_requisito_que_su_numero_indica_con_su_clase": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/modos.py": [
+          45,
+          46,
+          47
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          45,
+          46,
+          49,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          61,
+          63,
+          65,
+          66,
+          68,
+          69,
+          71,
+          72,
+          74
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_el_nombre_del_caso_exige_dos_o_tres_letras_minusculas_y_un_numero": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          121,
+          122,
+          124,
+          125,
+          126
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          45,
+          46
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_el_nombre_del_requisito_se_pasa_a_slug_como_lo_importa_factory": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/modos.py": [
+          45,
+          46,
+          47
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          99,
+          100,
+          101
+        ],
+        "tools/verificar_cambio.py": [
+          49,
+          52,
+          53,
+          54,
+          56,
+          57,
+          58
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_la_cabecera_de_la_spec_tolera_los_espacios_que_tolera_factory": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/modos.py": [
+          45,
+          46,
+          47
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          89,
+          90,
+          91,
+          92,
+          93
+        ],
+        "tools/verificar_cambio.py": [
+          49,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_los_encabezados_de_la_spec_se_leen_en_orden_y_solo_los_de_nivel_tres": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/modos.py": [
+          45,
+          46,
+          47
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          95,
+          96,
+          97
+        ],
+        "tools/verificar_cambio.py": [
+          49,
+          52,
+          53,
+          54,
+          56,
+          57,
+          58
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_un_caso_con_un_numero_sin_requisito_falla_y_lo_nombra": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          45,
+          46,
+          61,
+          63,
+          65,
+          66,
+          68,
+          69,
+          70
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_un_modulo_sin_casos_falla": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          72,
+          73,
+          74,
+          75,
+          76
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          46,
+          61,
+          63,
+          64
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_un_nombre_dentro_de_una_cadena_o_de_una_funcion_anidada_no_es_un_caso": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          78,
+          79,
+          81
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          45,
+          46
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_un_requisito_que_declara_pruebas_no_aplica_sigue_necesitando_casos_y_el_limite_esta_documentado": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/modos.py": [
+          45,
+          46,
+          47
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119
+        ],
+        "tools/verificar_cambio.py": [
+          49,
+          52,
+          53,
+          54,
+          56,
+          57,
+          58,
+          61,
+          63,
+          65,
+          66,
+          68,
+          69,
+          71,
+          72,
+          73
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_un_requisito_repetido_falla_en_vez_de_perder_sus_casos": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "tools/verificar_cambio.py": [
+          61,
+          63,
+          65,
+          66,
+          67
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_un_requisito_sin_casos_falla_y_lo_nombra": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          45,
+          46,
+          61,
+          63,
+          65,
+          66,
+          68,
+          69,
+          71,
+          72,
+          73
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_una_clase_sin_base_o_solo_con_object_no_aporta_casos_porque_unittest_no_la_corre": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          83,
+          84,
+          87
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          45,
+          46
+        ]
+      }
+    },
+    "test_verificador_generico.Contrato.test_vg1_una_seccion_removed_no_cuenta_porque_no_se_importa": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/modos.py": [
+          45,
+          46,
+          47
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          103,
+          104,
+          105
+        ],
+        "tools/verificar_cambio.py": [
+          49,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_fuentes_tambien_acepta_una_salida_relativa": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          234
+        ],
+        "tools/verificar_cambio.py": [
+          103,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "tools/verify_review_guided.py": [
+          54,
+          55
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_la_carpeta_de_evidencia_no_cuenta_como_fuente_y_no_se_pisa": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          160,
+          161,
+          304,
+          305,
+          306,
+          307,
+          308,
+          309,
+          310
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_las_fallas_de_la_herramienta_no_dejan_un_exito_falso": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          157,
+          158,
+          312,
+          313,
+          314,
+          315,
+          316
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_si_la_corrida_trae_casos_de_mas_por_herencia_no_hay_exito_aunque_todo_pase": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          160,
+          161,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_si_la_trazabilidad_falla_la_evidencia_queda_entera_y_en_rojo": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/modos.py": [
+          45,
+          46,
+          47
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          157,
+          158,
+          160,
+          161,
+          278,
+          279,
+          280,
+          281,
+          282,
+          284,
+          285,
+          286,
+          287,
+          288
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          45,
+          46,
+          49,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          61,
+          63,
+          65,
+          66,
+          68,
+          69,
+          71,
+          72,
+          74,
+          77,
+          79,
+          80,
+          81,
+          83,
+          84,
+          87,
+          88,
+          89,
+          92,
+          93,
+          95,
+          96,
+          97,
+          100,
+          103,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          114,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          149,
+          150,
+          151,
+          152
+        ],
+        "tools/verify_review_guided.py": [
+          50,
+          51,
+          54,
+          55,
+          68,
+          69,
+          70,
+          71,
+          72,
+          74,
+          75,
+          76,
+          77,
+          79,
+          80,
+          81,
+          83,
+          84,
+          87
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_si_las_fuentes_cambian_durante_la_corrida_no_hay_exito": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          160,
+          161,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_un_cambio_completo_produce_los_cuatro_archivos_y_declara_exito": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          160,
+          161,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_un_caso_del_contrato_que_la_suite_nunca_corre_queda_con_codigo_distinto_de_cero": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          160,
+          161,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_un_caso_que_falla_deja_el_codigo_en_su_hecho_y_no_declara_exito": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          160,
+          161,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_un_contrato_roto_ni_corre_la_suite_ni_crea_la_carpeta": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          290,
+          291,
+          292,
+          293,
+          294,
+          295,
+          296
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_un_modulo_cuyo_nombre_parece_un_caso_no_confunde_a_los_demas": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          157,
+          158,
+          220,
+          221,
+          222,
+          223,
+          224
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_un_requisito_de_la_spec_que_el_registro_no_importo_falla": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          298,
+          299,
+          300,
+          301,
+          302
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_una_salida_relativa_cuenta_igual_que_una_absoluta_y_producir_no_imprime": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/modos.py": [
+          45,
+          46,
+          47
+        ],
+        "oracle_factory/trazabilidad.py": [
+          37,
+          43,
+          44,
+          45,
+          47,
+          54,
+          55,
+          56,
+          58,
+          59,
+          73,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          83,
+          84,
+          86,
+          87,
+          88,
+          89
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          157,
+          158,
+          160,
+          161,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          248,
+          250,
+          251,
+          252
+        ],
+        "tools/verificar_cambio.py": [
+          36,
+          38,
+          39,
+          42,
+          43,
+          44,
+          45,
+          46,
+          49,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          61,
+          63,
+          65,
+          66,
+          68,
+          69,
+          71,
+          72,
+          74,
+          77,
+          79,
+          80,
+          81,
+          83,
+          84,
+          87,
+          88,
+          89,
+          92,
+          93,
+          95,
+          96,
+          97,
+          100,
+          103,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          114,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          149,
+          150,
+          151,
+          152
+        ],
+        "tools/verify_review_guided.py": [
+          50,
+          51,
+          54,
+          55,
+          68,
+          69,
+          70,
+          71,
+          72,
+          74,
+          75,
+          76,
+          77,
+          79,
+          80,
+          81,
+          83,
+          84,
+          87
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_una_spec_con_nombres_en_lenguaje_natural_se_cotejan_por_slug_con_el_registro": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276
+        ]
+      }
+    },
+    "test_verificador_generico.Evidencia.test_vg2_una_spec_o_unas_pruebas_ilegibles_salen_con_el_codigo_2_y_sin_traceback": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_verificador_generico.py": [
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          146,
+          147,
+          148,
+          150,
+          151,
+          153,
+          154,
+          155,
+          157,
+          158,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269
+        ]
+      }
+    }
+  }
+}

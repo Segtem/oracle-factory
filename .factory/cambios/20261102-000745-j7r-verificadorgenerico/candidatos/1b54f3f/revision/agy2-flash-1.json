@@ -1,0 +1,154 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-verificador-generico/.factory/local/revisiones/1b54f3f-agy2-flash-1",
+  "base": "1458add3bc60bfd49e5af65bac9f1c0798e1928d",
+  "head": "1b54f3f79a27929230f60ec9c1516863ef55db4b",
+  "diff_sha256": "604b8e82513989a103f29149d7c4afd299483096f854a93bab26b96dcebb46e8",
+  "context_sha256": "33875ad8d91a91ef341ff0e8bf7e6620cb851b2f45a5d945c0eb15c3eec3128a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "vg-catalogos-alcance-comillas-sintaxis-invalida",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Comillas dobles en el alcance generan catálogos Oracle con sintaxis inválida que impiden su procesamiento",
+      "explanation": "En catalogo_de_requisito() (líneas 140-145), el parámetro alcance se interpola directamente entre comillas dobles en la plantilla del catálogo (alcance \"{alcance}\"\\n) sin escapar comillas internas. Si el argumento --alcance contiene comillas dobles (por ejemplo --alcance 'escenarios con \"mock\"'), el archivo .oracle resultante queda con comillas sin escapar en la cláusula alcance. Esto genera un error de sintaxis en oracle_metalenguaje (ej. «se esperaba fin de línea; llegó 'mock'»), imposibilitando el parseo y la evaluación de las medidas de Oracle Factory.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 140,
+        "end_line": 145,
+        "side": "head"
+      },
+      "trigger": "Ejecutar python tools/verificar_cambio.py ID --pruebas test_x --catalogos --alcance 'escenarios con \"mock\" y \"Linux\"'.",
+      "evidence": "Se ejecutó escribir_catalogos con un alcance conteniendo comillas; al cargar el archivo resultante factory_demo.req1.oracle con oracle_metalenguaje.Motor.desde_texto(), falló con ErrorDeMotor: <texto>: línea 8, columna 40: se esperaba fin de línea; llegó 'mock'. Además, la mutación M1 que quitó 'y c.codigo == 0' de los catálogos sobrevivió a la suite de pruebas test_verificador_generico.py.",
+      "related_requirement": "el_verificador_escribe_los_catalogos_del_cambio",
+      "status": "pendiente",
+      "verification": "Escapar comillas dobles y caracteres especiales en la cadena de alcance (e.g. alcance.replace('\"', '\\\\\"')) y validar que Motor.desde_texto pueda cargar los catálogos generados con alcances complejos."
+    },
+    {
+      "id": "vg-spec-requisitos-lenguaje-natural-no-slugificados",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Requisitos redactados en lenguaje natural en la spec fallan al cotejar con factory.json por falta de normalización a slugs",
+      "explanation": "En leer_contrato(), requisitos_de_la_spec() extrae el texto textual del encabezado Markdown (### Requirement: comportamiento principal), mientras que oracle-factory importar almacena los requisitos en factory.json normalizados como slugs (demo.comportamiento_principal, reemplazando espacios por guiones bajos y removiendo tildes). Al verificar faltan = [r for r in requisitos if r not in ids], verificar_cambio.py busca el nombre en lenguaje natural crudo contra los slugs de ids, fallando siempre con ContratoInvalido: requisitos de la spec que el registro no importó: ... para cualquier spec que contenga espacios en los títulos de sus requisitos (como ocurre en gran parte del historial del repositorio).",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 70,
+        "end_line": 78,
+        "side": "head"
+      },
+      "trigger": "Invocar verificar_cambio.py en un cambio cuya spec use títulos de requisitos con espacios o caracteres no-slug (ej. ### Requirement: comportamiento principal).",
+      "evidence": "En una reproducción sintética con spec.md conteniendo '### Requirement: comportamiento principal' y factory.json conteniendo 'demo.comportamiento_principal', leer_contrato() lanzó ContratoInvalido: requisitos de la spec que el registro no importó: comportamiento principal.",
+      "related_requirement": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "status": "pendiente",
+      "verification": "Aplicar la misma función de normalización (slugificación) que utiliza oracle-factory importar al extraer los requisitos de la spec o tolerar la correspondencia entre slugs y nombres en lenguaje natural."
+    },
+    {
+      "id": "vg-contrato-requisitos-duplicados-sobrescritura-silenciosa",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Requisitos duplicados en la spec provocan sobrescritura silenciosa en el diccionario de contrato y fallo falso en la suite",
+      "explanation": "En contrato(requisitos, casos), se construye el diccionario mediante la comprensión {r: casos[i] for i, r in enumerate(requisitos, 1)}. Si una spec repite un nombre de requisito (o si múltiples specs de un cambio multidominio coinciden en un nombre), las claves duplicadas r sobrescriben las anteriores en el diccionario de retorno. Como consecuencia, el diccionario devuelto tiene menos elementos que la lista requisitos, perdiéndose los casos asociados al requisito anterior. En producir(), esto causa que esperados omita casos que la suite sí ejecuta, haciendo que observados == Counter(esperados) sea False y fallando con un falso negativo; además, en escribir_catalogos(), el cálculo de sum(len(v) for v in por_nombre.values()) pierde casos.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 51,
+        "end_line": 61,
+        "side": "head"
+      },
+      "trigger": "Definir una spec con dos requisitos del mismo nombre o un cambio con dos capacidades que definan un requisito homónimo.",
+      "evidence": "Se comprobó con requisitos = ['req1', 'req1'] y casos = {1: ['C.test_dm1_a'], 2: ['C.test_dm2_b']}; contrato() retornó {'req1': ['C.test_dm2_b']} perdiendo completamente el caso test_dm1_a y dejando el contrato con longitud 1 frente a 2 requisitos.",
+      "related_requirement": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "status": "pendiente",
+      "verification": "Validar en contrato() que no existan requisitos repetidos (ej. if len(set(requisitos)) != len(requisitos): raise ContratoInvalido(...))."
+    },
+    {
+      "id": "vg-fuentes-salida-relativa-is-relative-to-falso-fallo",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Pasar una ruta de salida relativa a producir() provoca falso fallo de integridad de fuentes",
+      "explanation": "En fuentes(raiz: Path, salida: Path | None = None), se filtran los archivos de la carpeta de evidencia con not (salida and (raiz / n).is_relative_to(salida)). Si salida es una ruta relativa (por ejemplo Path('evidencia'), al invocar programáticamente producir(raiz, cambio, modulo, Path('evidencia'))), (raiz / n) es una ruta absoluta pero salida es relativa. En Python, Path.is_relative_to() devuelve False cuando se compara una ruta absoluta contra una relativa. Debido a esto, los archivos generados en salida (suite.txt, etc.) no son excluidos y fuentes los incluye como código del repositorio tras la ejecución, haciendo que fuentes(raiz, salida) == origen falle con fuentes_estables: False y declare fallo de verificación a pesar de que el producto no cambió.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 87,
+        "end_line": 94,
+        "side": "head"
+      },
+      "trigger": "Invocar producir(raiz, cambio, modulo, Path('evidencia')) pasando salida como ruta relativa dentro del repositorio.",
+      "evidence": "En una ejecución de prueba controlada de producir() con salida = Path('evidencia'), la llamada retornó False, con resultado.json reportando fuentes_estables: false y exitoso: false.",
+      "related_requirement": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "status": "pendiente",
+      "verification": "Normalizar salida = salida.resolve() y raiz = raiz.resolve() tanto al inicio de producir() como en fuentes()."
+    },
+    {
+      "id": "vg-leer-contrato-tracebacks-no-manejados-spec-pruebas",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Excepciones de decodificación y E/S en specs y pruebas escapan sin atrapar generando tracebacks no controlados",
+      "explanation": "En leer_contrato(), la lectura de la spec spec.read_text(encoding=\"utf-8\") (línea 70) está fuera de cualquier bloque try...except. Si el archivo de spec es ilegible por permisos o contiene caracteres no UTF-8, se propaga un OSError o UnicodeDecodeError no capturado hasta main(), que sólo atrapa ContratoInvalido, volcando un traceback en la terminal en lugar de salir limpiamente con código 2. Del mismo modo, en la línea 82 se atrapa (OSError, SyntaxError); dado que UnicodeDecodeError hereda de ValueError (no de OSError), si tests/<modulo>.py contiene bytes no UTF-8, la excepción tampoco es capturada y genera un crash no controlado.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 70,
+        "end_line": 83,
+        "side": "head"
+      },
+      "trigger": "Ejecutar verificar_cambio.py con un archivo spec.md o test_<modulo>.py con codificación no UTF-8 (ej. Latin-1).",
+      "evidence": "Al suministrar un archivo spec.md con bytes no UTF-8 (b\"### Requirement: \\xe9xito\\n\"), la CLI finalizó con código 1 y volcó un traceback con UnicodeDecodeError. Lo mismo ocurrió con un archivo de pruebas en Latin-1.",
+      "related_requirement": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "status": "pendiente",
+      "verification": "Envolver la lectura de spec.md en un try...except (OSError, ValueError) y añadir ValueError a las excepciones capturadas al leer el archivo de pruebas en leer_contrato()."
+    },
+    {
+      "id": "vg-contrato-rechaza-pruebas-no-aplica",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "El verificador no reconoce la cláusula documentada 'Pruebas: no aplica — motivo', bloqueando cambios no funcionales",
+      "explanation": "docs/tests.md (líneas 19-20) y las políticas del proyecto contemplan que cuando un requisito no puede o no debe ser probado unitariamente (e.g. cambios de texto, documentación, sensores de motor), se declara en la spec con 'Pruebas: no aplica — motivo'. Sin embargo, verificar_cambio.py extrae incondicionalmente todos los encabezados ### Requirement: sin inspeccionar si están marcados como 'Pruebas: no aplica', y en contrato() exige que absolutamente todos los requisitos tengan al menos un caso de prueba asociado (if sin_casos: raise ContratoInvalido(...)). Esto imposibilita el uso del verificador genérico en cualquier cambio que contenga requisitos legítimamente exceptuados según la convención del proyecto.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 58,
+        "end_line": 60,
+        "side": "head"
+      },
+      "trigger": "Ejecutar verificar_cambio.py sobre una spec con un requisito que posea 'Pruebas: no aplica — motivo'.",
+      "evidence": "En una prueba con una spec conteniendo un requisito funcional y uno documental con 'Pruebas: no aplica — cambio documental', contrato() lanzó ContratoInvalido: requisitos sin ningún caso: req_documental.",
+      "related_requirement": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "status": "pendiente",
+      "verification": "Analizar el bloque del requisito en la spec para detectar 'Pruebas: no aplica' y excluirlo de la exigencia de casos en contrato(), o registrarlo correspondientemente en la trazabilidad."
+    },
+    {
+      "id": "vg-tests-catalogos-tautologicos-codigo-0-no-probado",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "La suite de pruebas no verifica cláusulas esenciales en los catálogos de requisitos, permitiendo que mutantes sobrevivan",
+      "explanation": "En test_vg3_hay_un_catalogo_por_requisito_y_el_de_la_corrida_con_los_numeros_de_casos, se realizan comprobaciones parciales con assertIn sobre fragmentos mínimos ('umbral == 2 segun contrato', 'medida factory_demo.el_primero:', 'c.requisito == \"el_segundo\"'). La prueba nunca verifica que el catálogo de requisito exija c.codigo == 0, ni comprueba resumen contar(1), requiere {x}_caso, ambito universal ni el formato del alcance. Debido a esto, mutaciones críticas en la plantilla de catalogo_de_requisito (como omitir la comprobación del código de éxito 'y c.codigo == 0' o quitar la dependencia requiere) sobreviven intactas a toda la suite de pruebas del proyecto. Asimismo, test_vg3_este_modulo_se_verifica_a_si_mismo_con_su_propia_convencion (líneas 275-282) es puramente autorreferencial: filtra if '.test_vg' in t.id() y se compara con la salida de casos_del_modulo sin contrastar contra la spec real ni el contrato del cambio.",
+      "location": {
+        "file": "tests/test_verificador_generico.py",
+        "start_line": 227,
+        "end_line": 242,
+        "side": "head"
+      },
+      "trigger": "Mutar catalogo_de_requisito eliminando 'y c.codigo == 0' o 'requiere {x}_caso' y correr tests/test_verificador_generico.py.",
+      "evidence": "En nuestro estudio de mutantes, los mutantes M1_catalogo_sin_codigo_0 (eliminar 'y c.codigo == 0') y M2_catalogo_sin_requiere (eliminar 'requiere {x}_caso') sobrevivieron con éxito, pasando los 23 tests de la suite sin alertar ningún fallo.",
+      "related_requirement": "el_verificador_escribe_los_catalogos_del_cambio",
+      "status": "pendiente",
+      "verification": "Fortalecer test_vg3 comparando los catálogos de requisitos generados contra una plantilla completa esperada o un archivo de referencia (similar a como se hace con corrida_completa), verificando explícitamente c.codigo == 0 y la estructura completa de la regla Oracle."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron propuesta, spec, diseño, código fuente del candidato (tools/verificar_cambio.py), documentación (docs/tests.md), suite de pruebas (tests/test_verificador_generico.py) y los catálogos generados (catalogos/factory_verificador_generico.*.oracle).",
+    "Se ejecutaron las 23 pruebas de tests/test_verificador_generico.py utilizando el intérprete del entorno (.venv/bin/python), aprobando en su totalidad (23 pruebas en 0.626s).",
+    "Se diseñó y ejecutó un banco de análisis de mutaciones sobre copias aisladas en el directorio de trabajo del revisor, evaluando 10 mutantes sintéticos; 8 mutantes sobrevivieron debido a aserciones parciales o tautológicas en la suite de pruebas.",
+    "Se desarrollaron y verificaron reproducciones sintéticas automatizadas (probar_defectos.py) para evaluar el manejo de comillas en alcance, nombres de requisitos con espacios/tildes en la spec frente a factory.json, requisitos duplicados, manejo de archivos no UTF-8 en spec y tests, rutas relativas en producir() y requisitos declarados con 'Pruebas: no aplica'."
+  ]
+}

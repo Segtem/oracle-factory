@@ -1,0 +1,170 @@
+{
+  "verificador_generico_caso": [
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_cada_caso_va_al_requisito_que_su_numero_indica_con_su_clase",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_el_nombre_del_caso_exige_dos_o_tres_letras_minusculas_y_un_numero",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_el_nombre_del_requisito_se_pasa_a_slug_como_lo_importa_factory",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_los_encabezados_de_la_spec_se_leen_en_orden_y_solo_los_de_nivel_tres",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_un_caso_con_un_numero_sin_requisito_falla_y_lo_nombra",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_un_modulo_sin_casos_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_un_nombre_dentro_de_una_cadena_o_de_una_funcion_anidada_no_es_un_caso",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_un_requisito_que_declara_pruebas_no_aplica_sigue_necesitando_casos_y_el_limite_esta_documentado",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_un_requisito_repetido_falla_en_vez_de_perder_sus_casos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_un_requisito_sin_casos_falla_y_lo_nombra",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_una_clase_sin_base_no_aporta_casos_porque_unittest_no_la_corre",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "caso": "Contrato.test_vg1_una_seccion_removed_no_cuenta_porque_no_se_importa",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_la_carpeta_de_evidencia_no_cuenta_como_fuente_y_no_se_pisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_las_fallas_de_la_herramienta_no_dejan_un_exito_falso",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_si_la_trazabilidad_falla_la_evidencia_queda_entera_y_en_rojo",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_si_las_fuentes_cambian_durante_la_corrida_no_hay_exito",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_un_cambio_completo_produce_los_cuatro_archivos_y_declara_exito",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_un_caso_del_contrato_que_la_suite_nunca_corre_queda_con_codigo_distinto_de_cero",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_un_caso_que_falla_deja_el_codigo_en_su_hecho_y_no_declara_exito",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_un_contrato_roto_ni_corre_la_suite_ni_crea_la_carpeta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_un_requisito_de_la_spec_que_el_registro_no_importo_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_una_salida_relativa_cuenta_igual_que_una_absoluta_y_producir_no_imprime",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_una_spec_con_nombres_en_lenguaje_natural_se_cotejan_por_slug_con_el_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "caso": "Evidencia.test_vg2_una_spec_o_unas_pruebas_ilegibles_salen_con_el_codigo_2_y_sin_traceback",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_escribe_los_catalogos_del_cambio",
+      "caso": "Catalogos.test_vg3_con_un_contrato_roto_no_escribe_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_escribe_los_catalogos_del_cambio",
+      "caso": "Catalogos.test_vg3_el_catalogo_de_un_requisito_es_exactamente_este_texto",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_escribe_los_catalogos_del_cambio",
+      "caso": "Catalogos.test_vg3_escribirlos_de_nuevo_con_los_mismos_casos_no_cambia_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_escribe_los_catalogos_del_cambio",
+      "caso": "Catalogos.test_vg3_este_modulo_se_verifica_a_si_mismo_con_su_propia_convencion",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_escribe_los_catalogos_del_cambio",
+      "caso": "Catalogos.test_vg3_hay_un_catalogo_por_requisito_y_el_de_la_corrida_con_los_numeros_de_casos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_escribe_los_catalogos_del_cambio",
+      "caso": "Catalogos.test_vg3_los_catalogos_escritos_tienen_la_misma_forma_que_los_que_ya_usa_factory",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_escribe_los_catalogos_del_cambio",
+      "caso": "Catalogos.test_vg3_si_cambia_el_numero_de_casos_se_reescribe_solo_lo_que_cambio",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_escribe_los_catalogos_del_cambio",
+      "caso": "Catalogos.test_vg3_un_alcance_con_comillas_o_saltos_de_linea_se_rechaza_y_no_escribe_nada",
+      "codigo": 0
+    }
+  ],
+  "verificador_generico_corrida": [
+    {
+      "completa": 1,
+      "casos": 32
+    }
+  ]
+}

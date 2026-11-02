@@ -1,0 +1,1176 @@
+{
+  "id": "20261102-000745-j7r-verificadorgenerico",
+  "titulo": "Un verificador reutilizable para la evidencia de cada cambio",
+  "capacidad": "practicas",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md",
+  "spec_sha256": "13273363a5bfa74f7d925556b60fbf13bf16e1bb227156aa5d2b84483d2a7eca",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-02T00:13:41.689420+00:00",
+    "documentos": {
+      "openspec/changes/20261102-000745-j7r-verificadorgenerico/proposal.md": "58e62f0f6d694753d397972bbe2229edeba07a94692898bb65e0d430d2c3e97c",
+      "openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md": "13273363a5bfa74f7d925556b60fbf13bf16e1bb227156aa5d2b84483d2a7eca"
+    }
+  },
+  "requisitos": [
+    "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+    "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+    "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261102-000745-j7r-verificadorgenerico/revisiones/registro-vimjbj5m/informe.json",
+    "sha256": "75260155ba2b91d25ee33294b78d2bfc29929104135123e9d42cd200454c599b",
+    "decisiones": "tareas/20261102-000745-j7r-verificadorgenerico/revisiones/registro-vimjbj5m/decisiones.json",
+    "decisiones_sha256": "be0078e52145519631ad1485b58134a15645c289e087e65de842384f959a4441",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-02T20:39:01.387748+00:00",
+    "motivo": "Siete rondas con revisores independientes (agy2-flash y codex), la última con 0 y 0 sobre el candidato c41e9ce. Hallazgos por ronda, sumando los dos revisores: 9, 6, 5, 2, 1, 2 y 0. Todos los de las rondas 1 a 6 eran reales y se corrigieron con prueba y mutación: alcance con comillas y caracteres no imprimibles, nombres de requisitos pasados a slug, requisitos repetidos, secciones REMOVED y bloques de código con cercas como CommonMark, salida relativa, lecturas ilegibles, herencia y mixins, cláusulas del éxito aisladas, hora de modificación de las fuentes, retiro de catálogos obsoletos y rechazo de enlaces simbólicos. Evidencia con éxito, producida por la propia herramienta: 1041 pruebas y 46 casos de contrato. En cada ronda se corrió una tanda de mutaciones sobre los arreglos; los mutantes que sobrevivían se cerraron con pruebas nuevas y los equivalentes se eliminaron simplificando el código. Límite declarado en docs/tests.md: un requisito con Pruebas: no aplica sigue necesitando un caso con esta herramienta, porque soportarlo cambiaría la spec aprobada.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "de6ef97d5f9e226b7d17f4d70fc0c589bce37218",
+      "archivos_sha256": "5ca2e9b3f0a8513b30a914e0f17c73333d9becc6f4f239e0248db7dfc252d4d7"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/candidatos/c41e9ce/evidencia/hechos.json",
+    "hechos_sha256": "b6101dd12b899c01b1b8cb320a47ab1ceb31bc72511d7b56faa94b9001ac6662",
+    "informe": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/oracle-veredicto.txt",
+    "informe_sha256": "0ba7472adebb6819045fd0280fe0675634eda10ccc937004d5a9a6033af2603e",
+    "cuando": "2026-11-02T20:39:13.724033+00:00",
+    "contexto": {
+      "head": "7ce3da2e879bf97c19d9ae127daf424d6c8ed0c0",
+      "archivos_sha256": "5ca2e9b3f0a8513b30a914e0f17c73333d9becc6f4f239e0248db7dfc252d4d7"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T00:07:45.385845+00:00",
+      "capacidad": "practicas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T00:11:00.946245+00:00",
+      "documentos": {
+        "openspec/changes/20261102-000745-j7r-verificadorgenerico/proposal.md": "58e62f0f6d694753d397972bbe2229edeba07a94692898bb65e0d430d2c3e97c",
+        "openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md": "13273363a5bfa74f7d925556b60fbf13bf16e1bb227156aa5d2b84483d2a7eca"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T00:13:41.689450+00:00",
+      "documentos": {
+        "openspec/changes/20261102-000745-j7r-verificadorgenerico/proposal.md": "58e62f0f6d694753d397972bbe2229edeba07a94692898bb65e0d430d2c3e97c",
+        "openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md": "13273363a5bfa74f7d925556b60fbf13bf16e1bb227156aa5d2b84483d2a7eca"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T00:13:52.208646+00:00",
+      "ids": [
+        "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+        "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T00:17:23.309109+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T00:17:24.716007+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T00:17:26.146864+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T00:35:07.358893+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T00:35:07.514812+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T00:35:07.671382+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T00:42:56.721286+00:00",
+      "revisor": "codex",
+      "candidato": "1b54f3f",
+      "lanzamiento": "43f8743fd89a"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T00:42:56.755587+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "1b54f3f",
+      "lanzamiento": "d5be39ec911f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T00:43:26.461805+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "1b54f3f",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "43f8743fd89a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T00:57:24.690892+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "1b54f3f",
+      "resultado": "ok",
+      "hallazgos": 7,
+      "lanzamiento": "d5be39ec911f"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T00:58:52.012041+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T00:58:53.402823+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T00:58:54.779201+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T01:14:34.480552+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T01:14:34.639974+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T01:14:34.796292+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T01:22:19.064939+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "eca559f",
+      "lanzamiento": "5aaf6506f618"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T01:22:19.096978+00:00",
+      "revisor": "codex",
+      "candidato": "eca559f",
+      "lanzamiento": "026d55a7dda9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T01:22:48.109615+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "eca559f",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "026d55a7dda9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T01:35:13.334630+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "eca559f",
+      "resultado": "ok",
+      "hallazgos": 5,
+      "lanzamiento": "5aaf6506f618"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T01:36:32.616679+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T01:36:34.015895+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T01:36:35.414475+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T01:41:12.052551+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T01:41:12.210847+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T01:41:12.365402+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T01:48:53.618143+00:00",
+      "revisor": "codex",
+      "candidato": "bd88492",
+      "lanzamiento": "d11bd46e5048"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T01:48:53.647087+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "bd88492",
+      "lanzamiento": "85674dadd920"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T01:49:26.292089+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "bd88492",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "d11bd46e5048"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T02:07:51.104549+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "bd88492",
+      "resultado": "ok",
+      "hallazgos": 5,
+      "lanzamiento": "85674dadd920"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T02:09:35.258985+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T02:09:36.623681+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T02:09:37.969806+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T10:01:25.372645+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T10:01:25.530403+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T10:01:25.684895+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T10:09:13.194842+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "a35cbce",
+      "lanzamiento": "908b8171cd75"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T10:09:13.229263+00:00",
+      "revisor": "codex",
+      "candidato": "a35cbce",
+      "lanzamiento": "091ebc1973f6"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T10:11:07.452878+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "a35cbce",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "091ebc1973f6"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T10:29:23.590297+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "a35cbce",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "908b8171cd75"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T10:30:43.740415+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T10:30:45.106946+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T10:30:46.427057+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T15:18:19.945223+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T15:18:20.100758+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T15:18:20.254878+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T15:26:03.690957+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "749822a",
+      "lanzamiento": "3e0010b41a05"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T15:26:03.724293+00:00",
+      "revisor": "codex",
+      "candidato": "749822a",
+      "lanzamiento": "6653963ee126"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T15:26:51.551484+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "749822a",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "6653963ee126"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "agy",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T15:41:16.510115+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "689176284cfccbcfe7a750a15646a5932b6fd40be34d0df4ed2dab3e641d6883"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T15:44:14.576157+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "749822a",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "3e0010b41a05"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T15:44:52.525720+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T15:44:53.903217+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T15:44:55.266119+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T16:01:23.108707+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T16:01:23.265763+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T16:01:23.419138+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T16:08:58.092793+00:00",
+      "revisor": "codex",
+      "candidato": "55ef385",
+      "lanzamiento": "8aa00597394d"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T16:08:58.124535+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "55ef385",
+      "lanzamiento": "23196b287f12"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T16:09:44.282648+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "55ef385",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "8aa00597394d"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T16:23:48.544681+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "55ef385",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "23196b287f12"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T19:54:39.831240+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T19:54:41.205298+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T19:54:42.570989+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T20:11:19.372208+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T20:11:19.530715+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T20:11:19.682741+00:00",
+      "requisito": "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio",
+      "medidas": [
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
+        "factory_verificador_generico.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T20:19:04.672084+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "c41e9ce",
+      "lanzamiento": "79f0ae7ba801"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T20:19:04.706889+00:00",
+      "revisor": "codex",
+      "candidato": "c41e9ce",
+      "lanzamiento": "128e8c6fe952"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T20:19:39.949737+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "c41e9ce",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "128e8c6fe952"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "agy",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T20:27:54.794605+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b6101dd12b899c01b1b8cb320a47ab1ceb31bc72511d7b56faa94b9001ac6662"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T20:29:28.610810+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "c41e9ce",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "79f0ae7ba801"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T20:29:52.120232+00:00",
+      "decision": "aprobar",
+      "candidato": "c41e9ce"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T20:30:02.221998+00:00",
+      "decision": "aprobar",
+      "candidato": "c41e9ce"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T20:39:01.387775+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "75260155ba2b91d25ee33294b78d2bfc29929104135123e9d42cd200454c599b",
+      "decisiones_sha256": "be0078e52145519631ad1485b58134a15645c289e087e65de842384f959a4441"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T20:39:13.724050+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b6101dd12b899c01b1b8cb320a47ab1ceb31bc72511d7b56faa94b9001ac6662"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T20:39:41.441806+00:00",
+      "oracle": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/oracle-veredicto.txt",
+      "revision": "tareas/20261102-000745-j7r-verificadorgenerico/revisiones/registro-vimjbj5m/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T20:39:41.485029+00:00",
+      "capacidad": "practicas",
+      "spec": "openspec/specs/practicas/spec.md"
+    }
+  ],
+  "tipos": {
+    "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": "funcional",
+    "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio": "funcional",
+    "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio": "funcional"
+  },
+  "medidas": {
+    "practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-02T20:11:19.332269+00:00",
+      "sha256": "afb968d551810c00fcdb1f3e63ab617a98efdda74c33f6dc1579b2693896c6d6",
+      "catalogos": {
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": "59e9ba1aea2fa2da65be66f7b9adabd3bcc4788a4f6d184b82bfe9653d54766f",
+        "factory_verificador_generico.corrida_completa": "3c8bee97576e0e3e67d455d8fcc84102a64ba4055b0b9c46fce9c490530fe466"
+      },
+      "archivos_catalogo": {
+        "factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica": "catalogos/factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica.oracle",
+        "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
+      }
+    },
+    "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-02T20:11:19.490630+00:00",
+      "sha256": "59ecc309ca1f46c9c168485f69af4e12297c6543db48de959ca530fea483bad8",
+      "catalogos": {
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio": "011130540049c0158f656bb6c8a8c98b6a727db17520c320e71af598cfd23f32",
+        "factory_verificador_generico.corrida_completa": "3c8bee97576e0e3e67d455d8fcc84102a64ba4055b0b9c46fce9c490530fe466"
+      },
+      "archivos_catalogo": {
+        "factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio": "catalogos/factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio.oracle",
+        "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
+      }
+    },
+    "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-02T20:11:19.644149+00:00",
+      "sha256": "7db2cb145c952f3e04269b6b2d4175fe7b0944563f4ac8a171bb849d20333314",
+      "catalogos": {
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio": "5dbb7b22a5d1fdfa6f794a0791fea2cbbad3b73e04a6e17bcadb10fdb54b27d8",
+        "factory_verificador_generico.corrida_completa": "3c8bee97576e0e3e67d455d8fcc84102a64ba4055b0b9c46fce9c490530fe466"
+      },
+      "archivos_catalogo": {
+        "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio": "catalogos/factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio.oracle",
+        "factory_verificador_generico.corrida_completa": "catalogos/factory_verificador_generico.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-02T20:39:41.376813+00:00"
+  },
+  "archivo": {
+    "capacidad": "practicas",
+    "spec": "openspec/specs/practicas/spec.md",
+    "cuando": "2026-11-02T20:39:41.485019+00:00"
+  }
+}
