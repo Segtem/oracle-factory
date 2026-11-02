@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio`
 - Vigente: sí
 - Cambio: [[cambios/20261102-000745-j7r-verificadorgenerico]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio`, `factory_verificador_generico.corrida_completa`
 - Fuente: openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md#el_verificador_escribe_los_catalogos_del_cambio
 
