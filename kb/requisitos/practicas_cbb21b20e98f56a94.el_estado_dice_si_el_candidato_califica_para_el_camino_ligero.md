@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261102-221210-70x-caminoligero]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un cambio chico», «un cambio grande», «justo en el umbral», «toca una regla de decisión», «las pruebas no cuentan», «sin candidato vigente»
+- Medidas: `factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero`, `factory_camino_ligero.corrida_completa`
 - Fuente: openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md#el_estado_dice_si_el_candidato_califica_para_el_camino_ligero
 
 Tipo: funcional El sistema DEBE decir en el estado de un cambio, y en su JSON, si el candidato vigente califica para el camino ligero: cuando agrega 150 líneas de producto o menos y no toca ninguna regla de decisión. Cuando no califica DEBE decir por qué, y cuando no se puede calcular DEBE decirlo en vez de afirmar un camino.

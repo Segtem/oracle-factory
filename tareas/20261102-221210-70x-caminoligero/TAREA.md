@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-02 22:20:38 UTC)
 
 Requisitos importados: practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente (funcional), practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero (funcional), practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-02 22:24:09 UTC)
+
+Medidas de practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero: factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero, factory_camino_ligero.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-02 22:24:11 UTC)
+
+Medidas de practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente: factory_camino_ligero.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente, factory_camino_ligero.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-02 22:24:12 UTC)
+
+Medidas de practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero: factory_camino_ligero.la_guia_para_agentes_explica_el_camino_ligero, factory_camino_ligero.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261102-221210-70x-caminoligero]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «los pendientes son iguales»
+- Medidas: `factory_camino_ligero.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente`, `factory_camino_ligero.corrida_completa`
 - Fuente: openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md#el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente
 
 Tipo: funcional El sistema NO DEBE cambiar por el camino ligero los pasos pendientes, el próximo paso ni quién decide cada paso: la aprobación de la spec, la confirmación de las medidas, la revisión humana y el cierre siguen siendo los mismos, y un candidato que no califica sigue pudiendo cerrarse.

@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261102-221210-70x-caminoligero]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «la guía coincide con el código», «la guía quedó vieja»
+- Medidas: `factory_camino_ligero.la_guia_para_agentes_explica_el_camino_ligero`, `factory_camino_ligero.corrida_completa`
 - Fuente: openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md#la_guia_para_agentes_explica_el_camino_ligero
 
 Tipo: funcional El sistema DEBE explicar en la guía para agentes que el camino ligero consiste en un revisor y una ronda, con los dos umbrales y la lista de reglas de decisión tal como están en el código, y que si esa ronda trae hallazgos medios o altos el cambio sigue el camino completo; y DEBE detectar con `agentes --verificar` que la guía quedó vieja si cambian esos datos.
