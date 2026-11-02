@@ -68,6 +68,7 @@ capacidad: "practicas"
 - `198f19e` verificador-generico: proponer de nuevo las medidas (trailer)
 - `9043270` verificador-generico: proponer las medidas con los catálogos regenerados (trailer)
 - `749822a` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
+- `32805c6` verificador-generico: arreglar el hallazgo de la quinta ronda (catálogos obsoletos del módulo se retiran) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes
