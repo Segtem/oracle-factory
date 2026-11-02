@@ -21,10 +21,11 @@ import unittest
 AQUI = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(AQUI))
 from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
-from oracle_factory import trazabilidad  # noqa: E402
+from oracle_factory import modos, trazabilidad  # noqa: E402
 
 CASO = re.compile(r"test_[a-z]{2,3}(\d+)_")
-REQUISITO = re.compile(r"^### Requirement: *(.+?) *$", re.MULTILINE)
+REQUISITO = re.compile(r"^### Requirement: *(.+?) *$")
+DELTA = re.compile(r"^## +(ADDED|MODIFIED|REMOVED|RENAMED) +Requirements *$", re.IGNORECASE)
 SIN_FUENTES = (".factory/", "kb/", "tareas/")  # los registros generados no son producto
 
 
@@ -44,14 +45,24 @@ def casos_del_modulo(texto: str) -> dict[int, list[str]]:
 
 
 def requisitos_de_la_spec(texto: str) -> list[str]:
-    """Los nombres de los «### Requirement: …» de la spec, en el orden en que aparecen."""
-    return REQUISITO.findall(texto)
+    """Los requisitos de la spec en el orden en que aparecen, como los importa Factory: el nombre del «### Requirement: …» pasado a
+    slug (`modos.slug`). Los de una sección REMOVED no se importan ni se miden."""
+    retirados, nombres = False, []
+    for linea in texto.splitlines():
+        if delta := DELTA.match(linea):
+            retirados = delta[1].upper() == "REMOVED"
+        elif (m := REQUISITO.match(linea)) and not retirados:
+            nombres.append(modos.slug(m[1]))
+    return nombres
 
 
 def contrato(requisitos: list[str], casos: dict[int, list[str]]) -> dict[str, list[str]]:
     """{requisito: [casos]}; ContratoInvalido si algún requisito queda sin casos, si un caso nombra un requisito que no existe o si no hay casos."""
     if not casos:
         raise ContratoInvalido("el módulo no tiene ningún caso test_<letras><n>_…")
+    repetidos = sorted({r for r in requisitos if requisitos.count(r) > 1})
+    if repetidos:
+        raise ContratoInvalido(f"requisitos repetidos en la spec (un caso no podría decir a cuál pertenece): {', '.join(repetidos)}")
     huerfanos = [c for n, lista in casos.items() if not 1 <= n <= len(requisitos) for c in lista]
     if huerfanos:
         raise ContratoInvalido(f"casos que nombran un requisito que la spec no tiene ({len(requisitos)} requisitos): {', '.join(huerfanos)}")
@@ -67,11 +78,14 @@ def leer_contrato(raiz: Path, cambio: str, modulo: str) -> tuple[dict[str, list[
     specs = sorted((carpeta / "specs").glob("*/spec.md"))
     if not specs:
         raise ContratoInvalido(f"no encuentro la spec del cambio {cambio} en {carpeta}")
-    requisitos = [r for spec in specs for r in requisitos_de_la_spec(spec.read_text(encoding="utf-8"))]
+    try:
+        requisitos = [r for spec in specs for r in requisitos_de_la_spec(spec.read_text(encoding="utf-8"))]
+    except (OSError, ValueError) as e:  # ValueError incluye UnicodeDecodeError
+        raise ContratoInvalido(f"no puedo leer la spec del cambio {cambio}: {e}") from e
     registro = raiz / ".factory" / "cambios" / cambio / "factory.json"
     try:
         ids = {i.rsplit(".", 1)[-1]: i for i in json.loads(registro.read_text(encoding="utf-8")).get("requisitos") or []}
-    except (OSError, ValueError) as e:
+    except (OSError, ValueError, AttributeError) as e:
         raise ContratoInvalido(f"no puedo leer el registro del cambio {cambio} ({registro}): {e}") from e
     faltan = [r for r in requisitos if r not in ids]
     if faltan:
@@ -79,7 +93,7 @@ def leer_contrato(raiz: Path, cambio: str, modulo: str) -> tuple[dict[str, list[
     archivo = raiz / "tests" / f"{modulo}.py"
     try:
         casos = casos_del_modulo(archivo.read_text(encoding="utf-8"))
-    except (OSError, SyntaxError) as e:
+    except (OSError, ValueError, SyntaxError) as e:
         raise ContratoInvalido(f"no puedo leer las pruebas {archivo}: {e}") from e
     return contrato(requisitos, casos), {r: ids[r] for r in requisitos}
 
@@ -96,6 +110,7 @@ def fuentes(raiz: Path, salida: Path | None = None) -> dict:
 
 def producir(raiz: Path, cambio: str, modulo: str, salida: Path) -> bool:
     """Corre la suite y escribe suite.txt, hechos.json, trazabilidad.json y resultado.json en `salida`; True si hay éxito."""
+    raiz, salida = raiz.resolve(), salida.resolve()
     por_nombre, ids = leer_contrato(raiz, cambio, modulo)  # antes de crear nada: un contrato roto no deja una carpeta a medias
     salida.mkdir(parents=True, exist_ok=False)
     x, prefijo = modulo.removeprefix("test_"), f"{modulo}."
@@ -125,7 +140,6 @@ def producir(raiz: Path, cambio: str, modulo: str, salida: Path) -> bool:
         "versiones": {**versiones, "python": sys.version},
         "limites": "Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
         "artefactos_sha256": {n: sha(salida / n) for n in ("suite.txt", "hechos.json", "trazabilidad.json")}})
-    print(f"Evidencia: {salida}; {resultado.testsRun} pruebas, {len(esperados)} casos de contrato; éxito: {exito}.")
     return exito
 
 
@@ -153,6 +167,8 @@ def catalogo_de_corrida(x: str, casos: int) -> str:
 
 def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> list[str]:
     """Escribe los catálogos del cambio en `raiz/catalogos`; devuelve los nombres de los que cambiaron (los que ya estaban igual no se tocan)."""
+    if any(c in alcance for c in '"\n\r'):
+        raise ContratoInvalido("el alcance no puede llevar comillas dobles ni saltos de línea: el catálogo Oracle lo escribe entre comillas")
     por_nombre, _ = leer_contrato(raiz, cambio, modulo)
     x = modulo.removeprefix("test_")
     destino = raiz / "catalogos"
@@ -187,7 +203,11 @@ def main(argv=None) -> int:
             cambiados = escribir_catalogos(raiz, args.cambio, args.pruebas, args.alcance)
             print(("Catálogos escritos: " + ", ".join(cambiados)) if cambiados else "Catálogos sin cambios.")
         if args.salida:
-            return 0 if producir(raiz, args.cambio, args.pruebas, args.salida.expanduser().resolve()) else 1
+            salida = args.salida.expanduser().resolve()
+            exito = producir(raiz, args.cambio, args.pruebas, salida)
+            resumen = json.loads((salida / "resultado.json").read_text(encoding="utf-8"))
+            print(f"Evidencia: {salida}; {resumen['tests']} pruebas, {resumen['casos_contrato']} casos de contrato; éxito: {exito}.")
+            return 0 if exito else 1
     except ContratoInvalido as e:
         print(f"Contrato inválido: {e}", file=sys.stderr)
         return 2

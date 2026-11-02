@@ -88,6 +88,28 @@ class Contrato(unittest.TestCase):
         spec = '### Requirement: uno\n#### Scenario: no\n## Requirement: tampoco\n### Requirement:   dos  \n    ### Requirement: indentado\n'
         self.assertEqual(vc.requisitos_de_la_spec(spec), ['uno', 'dos'])
 
+    def test_vg1_el_nombre_del_requisito_se_pasa_a_slug_como_lo_importa_factory(self):
+        spec = '### Requirement: Comportamiento principal\n### Requirement: El año   pasa: ¡bien!\n'
+        self.assertEqual(vc.requisitos_de_la_spec(spec), ['comportamiento_principal', 'el_ano_pasa_bien'])
+
+    def test_vg1_una_seccion_removed_no_cuenta_porque_no_se_importa(self):
+        spec = '## ADDED Requirements\n### Requirement: uno\n## REMOVED Requirements\n### Requirement: viejo\n## MODIFIED Requirements\n### Requirement: dos\n'
+        self.assertEqual(vc.requisitos_de_la_spec(spec), ['uno', 'dos'])
+
+    def test_vg1_un_requisito_repetido_falla_en_vez_de_perder_sus_casos(self):
+        with self.assertRaises(vc.ContratoInvalido) as e:
+            vc.contrato(['igual', 'otro', 'igual'], {1: ['A.test_dm1_x'], 2: ['A.test_dm2_x'], 3: ['A.test_dm3_x']})
+        self.assertIn('igual', str(e.exception))
+        self.assertNotIn('otro', str(e.exception))
+
+    def test_vg1_un_requisito_que_declara_pruebas_no_aplica_sigue_necesitando_casos_y_el_limite_esta_documentado(self):
+        spec = '### Requirement: uno\n### Requirement: dos\nPruebas: no aplica — motivo\n'
+        with self.assertRaises(vc.ContratoInvalido) as e:
+            vc.contrato(vc.requisitos_de_la_spec(spec), {1: ['A.test_dm1_x']})
+        self.assertIn('dos', str(e.exception))
+        documento = (SOURCE / 'docs/tests.md').read_text(encoding='utf-8')
+        self.assertRegex(documento, r'(?s)verificar_cambio.*Pruebas: no aplica.*(a mano|no lo cubre|todavía)')
+
     def test_vg1_el_nombre_del_caso_exige_dos_o_tres_letras_minusculas_y_un_numero(self):
         for nombre, n in (('test_a1_x', None), ('test_ab1_x', 1), ('test_abc12_x', 12), ('test_abcd1_x', None), ('test_AB1_x', None),
                           ('test_ab_x', None), ('test_ab1', None)):
@@ -178,6 +200,48 @@ class Evidencia(ProyectoTemporal):
         self.assertEqual(codigos['NoCorre.test_dm1_fantasma'], 1)
         self.assertFalse(self.resultado()['casos_exactos_sin_omisiones_duplicados_ni_fallas'])
 
+    def test_vg2_una_salida_relativa_cuenta_igual_que_una_absoluta_y_producir_no_imprime(self):
+        import contextlib
+        import io
+        from unittest.mock import patch
+        salida = io.StringIO()
+        cwd = os.getcwd()
+        os.chdir(self.raiz)
+        try:
+            with patch.object(sys, 'path', list(sys.path)), contextlib.redirect_stdout(salida):
+                try:
+                    self.assertTrue(vc.producir(self.raiz, CAMBIO, 'test_demo', Path('evidencia')))
+                finally:
+                    sys.modules.pop('test_demo', None)
+        finally:
+            os.chdir(cwd)
+        self.assertTrue(self.resultado()['exitoso'])
+        self.assertEqual(salida.getvalue().count('Evidencia:'), 0)  # sólo main() imprime; así una prueba en el mismo proceso no ensucia a quien lee la salida
+
+    def test_vg2_una_spec_o_unas_pruebas_ilegibles_salen_con_el_codigo_2_y_sin_traceback(self):
+        (self.raiz / f'openspec/changes/{CAMBIO}/specs/demo/spec.md').write_bytes(b'### Requirement: el_primero\n\xff\xfe\n')
+        r = self.correr('--salida', str(self.evidencia()))
+        self.assertEqual(r.returncode, 2)
+        self.assertNotIn('Traceback', r.stderr)
+        self.assertIn('spec', r.stderr)
+        self.escribir(f'openspec/changes/{CAMBIO}/specs/demo/spec.md', SPEC)
+        (self.raiz / 'tests/test_demo.py').write_bytes(b'def test_dm1_a(:\n')
+        r = self.correr('--salida', str(self.evidencia()))
+        self.assertEqual(r.returncode, 2)
+        self.assertNotIn('Traceback', r.stderr)
+        (self.raiz / 'tests/test_demo.py').write_bytes(b'# \xff\n')
+        r = self.correr('--salida', str(self.evidencia()))
+        self.assertEqual(r.returncode, 2)
+        self.assertNotIn('Traceback', r.stderr)
+        self.assertFalse(self.evidencia().exists())
+
+    def test_vg2_una_spec_con_nombres_en_lenguaje_natural_se_cotejan_por_slug_con_el_registro(self):
+        self.escribir(f'openspec/changes/{CAMBIO}/specs/demo/spec.md', SPEC.replace('el_primero', 'El primero').replace('el_segundo', 'El segundo'))
+        r = self.correr('--salida', str(self.evidencia()))
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        hechos = json.loads((self.evidencia() / 'hechos.json').read_text())
+        self.assertEqual({h['requisito'] for h in hechos['demo_caso']}, {'el_primero', 'el_segundo'})
+
     def test_vg2_si_la_trazabilidad_falla_la_evidencia_queda_entera_y_en_rojo(self):
         from unittest.mock import patch
         with patch.object(vc.trazabilidad, 'trazar', side_effect=RuntimeError('adrede')), patch.object(sys, 'path', list(sys.path)):
@@ -259,6 +323,21 @@ class Catalogos(ProyectoTemporal):
         cambiados = {n for n in despues if despues[n] != antes[n]}
         self.assertEqual(cambiados, {'factory_demo.el_primero.oracle', 'factory_demo.corrida_completa.oracle'})
         self.assertIn('umbral == 3 segun contrato', despues['factory_demo.el_primero.oracle'].decode())
+
+    def test_vg3_el_catalogo_de_un_requisito_es_exactamente_este_texto(self):
+        self.correr('--catalogos', '--alcance', 'mi alcance')
+        self.assertEqual((self.carpeta() / 'factory_demo.el_primero.oracle').read_text(), (
+            'medida factory_demo.el_primero:\n    de demo_caso c\n    donde c.requisito == "el_primero" y c.codigo == 0\n    resumen contar(1)\n'
+            '    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tests/test_demo.py; '
+            'asociar junto a corrida_completa"\n    requiere demo_caso\n    ambito universal\n    alcance "mi alcance"\n'))
+
+    def test_vg3_un_alcance_con_comillas_o_saltos_de_linea_se_rechaza_y_no_escribe_nada(self):
+        for alcance in ('escenarios con "mock"', 'dos\nlíneas', 'con\rretorno'):
+            with self.subTest(alcance=alcance):
+                r = self.correr('--catalogos', '--alcance', alcance)
+                self.assertEqual(r.returncode, 2)
+                self.assertIn('alcance', r.stderr)
+                self.assertFalse(self.carpeta().exists())
 
     def test_vg3_con_un_contrato_roto_no_escribe_nada(self):
         self.escribir('tests/test_demo.py', 'import unittest\n')

@@ -41,6 +41,7 @@ capacidad: "practicas"
 - `e672ef2` verificador-generico: herramienta, pruebas, documento y catálogos (trailer)
 - `29c271f` verificador-generico: clases sin base, trazabilidad que falla, casos que nunca corren; catálogos regenerados (trailer)
 - `bda8996` verificador-generico: proponer las medidas (trailer)
+- `1b54f3f` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes

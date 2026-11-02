@@ -44,6 +44,8 @@ Hasta ahora cada cambio traía su `tools/verify_<x>.py` y sus catálogos, casi i
 
 La convención: una prueba `test_<letras><n>_…` (dos o tres letras minúsculas y el número) prueba el requisito número `n` de la spec del cambio, en el orden en que la spec los lista; el módulo es `tests/test_x.py`. La herramienta lee los nombres con `ast` (un nombre dentro de un texto no cuenta) y falla, sin declarar éxito, si un requisito no tiene casos, si un caso nombra un número que no corresponde a ningún requisito o si no hay casos. La evidencia es la de siempre —`suite.txt`, `hechos.json`, `trazabilidad.json` y `resultado.json`— y el éxito exige que todos los casos pasen, que la corrida sea exactamente la esperada, que las fuentes no cambien mientras corre y que la trazabilidad esté bien. Los catálogos de `--catalogos` cuentan los casos de cada requisito; escribirlos otra vez con los mismos casos no cambia nada. Las medidas siguen proponiéndose y confirmándose como siempre.
 
+Los nombres de los requisitos se comparan como los importa Factory (pasados a slug), los de una sección `REMOVED` no cuentan y un requisito repetido es un error. **Límite todavía:** un requisito que declara `Pruebas: no aplica — motivo` también necesita al menos un caso con esta herramienta; si de verdad no se puede probar, ese cambio sigue con un verificador a mano, como hasta ahora.
+
 ## Fuentes
 
 - arXiv 2402.13521: TDD para generación de código; los tests dados de antemano mejoran la corrección.
