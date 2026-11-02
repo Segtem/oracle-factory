@@ -98,7 +98,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261101-121356-ih8-puertalocal]] — Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push (cerrada)
 - [[cambios/20261101-205730-dm3-alarmasflujo]] — Avisar de los bucles de revisión y de los cambios demasiado grandes (cerrada)
 - [[cambios/20261102-000745-j7r-verificadorgenerico]] — Un verificador reutilizable para la evidencia de cada cambio (cerrada)
-- [[cambios/20261102-221210-70x-caminoligero]] — Un camino ligero de revisión para los cambios chicos (spec_aprobada)
+- [[cambios/20261102-221210-70x-caminoligero]] — Un camino ligero de revisión para los cambios chicos (requisitos_importados)
 
 ## Requisitos
 

@@ -2,7 +2,7 @@
   "id": "20261102-221210-70x-caminoligero",
   "titulo": "Un camino ligero de revisión para los cambios chicos",
   "capacidad": "practicas",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md",
   "spec_sha256": "d70845b53755dfc19d568ae1e622e5f60bab7e816ad769421ca4dcc72141d900",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md": "d70845b53755dfc19d568ae1e622e5f60bab7e816ad769421ca4dcc72141d900"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente",
+    "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+    "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -199,9 +203,26 @@
         "openspec/changes/20261102-221210-70x-caminoligero/proposal.md": "1bc78f4afb28e5115c3727532a3b9c53abf7c12e40b5568f46bd8a095a8a6bcf",
         "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md": "d70845b53755dfc19d568ae1e622e5f60bab7e816ad769421ca4dcc72141d900"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T23:55:12.870336+00:00",
+      "ids": [
+        "practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente",
+        "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+        "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero"
+      ]
     }
   ],
-  "tipos": {},
+  "tipos": {
+    "practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente": "funcional",
+    "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero": "funcional",
+    "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero": "funcional"
+  },
   "medidas": {
     "practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente": {
       "actor": "Brian Hollweg",
