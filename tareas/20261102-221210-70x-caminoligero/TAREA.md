@@ -47,3 +47,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-02 23:55:12 UTC)
 
 Requisitos importados: practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente (funcional), practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero (funcional), practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-02 23:55:14 UTC)
+
+Medidas de practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-02 23:55:16 UTC)
+
+Medidas de practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-02 23:55:17 UTC)
+
+Medidas de practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
