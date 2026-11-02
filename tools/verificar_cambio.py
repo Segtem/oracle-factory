@@ -36,7 +36,7 @@ def casos_del_modulo(texto: str) -> dict[int, list[str]]:
     """{n: ['Clase.método', …]}: los métodos `test_<letras><n>_…` de las clases del módulo (leídas con `ast`, no con el texto)."""
     casos: dict[int, list[str]] = {}
     for clase in ast.parse(texto).body:
-        if isinstance(clase, ast.ClassDef):
+        if isinstance(clase, ast.ClassDef) and clase.bases:  # sin base no puede ser un TestCase: unittest no la correría
             for metodo in clase.body:
                 if isinstance(metodo, (ast.FunctionDef, ast.AsyncFunctionDef)) and (m := CASO.match(metodo.name)):
                     casos.setdefault(int(m[1]), []).append(f"{clase.name}.{metodo.name}")
@@ -109,9 +109,12 @@ def producir(raiz: Path, cambio: str, modulo: str, salida: Path) -> bool:
     completa = observados == Counter(esperados) and all(resultado.observados.get(n, 1) == 0 for n in esperados)
     filas = [{"requisito": r, "caso": c, "codigo": resultado.observados.get(prefijo + c, 1)} for r, lista in por_nombre.items() for c in lista]
     (salida / "suite.txt").write_text(stream.getvalue(), encoding="utf-8")
-    traza = trazabilidad.trazar(raiz, {ids[r]: [prefijo + c for c in lista] for r, lista in por_nombre.items()})
+    try:
+        traza = trazabilidad.trazar(raiz, {ids[r]: [prefijo + c for c in lista] for r, lista in por_nombre.items()})
+        trazada = all(c.get("resultado") == "ok" for c in traza["casos"].values()) and len(traza["casos"]) == len(esperados)
+    except Exception as e:  # un caso que no se puede cargar deja la evidencia en rojo y entera, no a medias
+        traza, trazada = {"error": f"{type(e).__name__}: {e}"}, False
     escribir(salida / "trazabilidad.json", traza)
-    trazada = all(c.get("resultado") == "ok" for c in traza["casos"].values()) and len(traza["casos"]) == len(esperados)
     estables = fuentes(raiz, salida) == origen  # después de la segunda corrida, la trazada: ahí también tienen que seguir quietas
     exito = resultado.wasSuccessful() and completa and estables and trazada
     escribir(salida / "hechos.json", {f"{x}_caso": filas, f"{x}_corrida": [{"completa": int(exito), "casos": len(esperados)}]})

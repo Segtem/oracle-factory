@@ -80,6 +80,10 @@ class Contrato(unittest.TestCase):
                  '        def test_dm8_anidado():\n            pass\n\n\ndef test_dm7_suelta():\n    pass\n')
         self.assertEqual(vc.casos_del_modulo(texto), {1: ['A.test_dm1_real']})
 
+    def test_vg1_una_clase_sin_base_no_aporta_casos_porque_unittest_no_la_corre(self):
+        texto = 'import unittest\n\n\nclass Suelta:\n    def test_dm1_fantasma(self):\n        pass\n\n\nclass Real(unittest.TestCase):\n    def test_dm1_ok(self):\n        pass\n'
+        self.assertEqual(vc.casos_del_modulo(texto), {1: ['Real.test_dm1_ok']})
+
     def test_vg1_los_encabezados_de_la_spec_se_leen_en_orden_y_solo_los_de_nivel_tres(self):
         spec = '### Requirement: uno\n#### Scenario: no\n## Requirement: tampoco\n### Requirement:   dos  \n    ### Requirement: indentado\n'
         self.assertEqual(vc.requisitos_de_la_spec(spec), ['uno', 'dos'])
@@ -101,7 +105,7 @@ class ProyectoTemporal(unittest.TestCase):
         self.raiz = Path(self.tmp.name) / 'proyecto'
         self.escribir('tests/test_demo.py', MODULO)
         self.escribir('datos.txt', 'uno\n')
-        self.escribir('.gitignore', '__pycache__/\nevidencia/\n')  # como en un proyecto de verdad
+        self.escribir('.gitignore', '__pycache__/\n')  # como en un proyecto de verdad: la carpeta de evidencia sí cuenta si no se la excluye
         self.escribir(f'openspec/changes/{CAMBIO}/specs/demo/spec.md', SPEC)
         self.escribir(f'.factory/cambios/{CAMBIO}/factory.json',
                       json.dumps({'requisitos': ['demo_h.el_segundo', 'demo_h.el_primero']}))  # fuera de orden a propósito
@@ -165,6 +169,26 @@ class Evidencia(ProyectoTemporal):
         resultado = self.resultado()
         self.assertFalse(resultado['fuentes_estables'])
         self.assertFalse(resultado['exitoso'])
+
+    def test_vg2_un_caso_del_contrato_que_la_suite_nunca_corre_queda_con_codigo_distinto_de_cero(self):
+        self.escribir('tests/test_demo.py', MODULO + '\n\nclass NoCorre(object):\n    def test_dm1_fantasma(self):\n        pass\n')  # tiene base, no es un TestCase
+        r = self.correr('--salida', str(self.evidencia()))
+        self.assertEqual(r.returncode, 1)
+        codigos = {h['caso']: h['codigo'] for h in json.loads((self.evidencia() / 'hechos.json').read_text())['demo_caso']}
+        self.assertEqual(codigos['NoCorre.test_dm1_fantasma'], 1)
+        self.assertFalse(self.resultado()['casos_exactos_sin_omisiones_duplicados_ni_fallas'])
+
+    def test_vg2_si_la_trazabilidad_falla_la_evidencia_queda_entera_y_en_rojo(self):
+        from unittest.mock import patch
+        with patch.object(vc.trazabilidad, 'trazar', side_effect=RuntimeError('adrede')), patch.object(sys, 'path', list(sys.path)):
+            try:
+                self.assertFalse(vc.producir(self.raiz, CAMBIO, 'test_demo', self.evidencia()))
+            finally:
+                sys.modules.pop('test_demo', None)
+        for nombre in ('suite.txt', 'hechos.json', 'trazabilidad.json', 'resultado.json'):
+            self.assertTrue((self.evidencia() / nombre).is_file(), nombre)
+        self.assertIn('RuntimeError', (self.evidencia() / 'trazabilidad.json').read_text())
+        self.assertFalse(self.resultado()['exitoso'])
 
     def test_vg2_un_contrato_roto_ni_corre_la_suite_ni_crea_la_carpeta(self):
         self.escribir(f'openspec/changes/{CAMBIO}/specs/demo/spec.md', SPEC + '\n### Requirement: el_tercero\nTipo: funcional\nEl sistema DEBE c.\n')
