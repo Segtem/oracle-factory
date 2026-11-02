@@ -1017,6 +1017,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "79f0ae7ba801"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-02T20:29:52.120232+00:00",
+      "decision": "aprobar",
+      "candidato": "c41e9ce"
     }
   ],
   "tipos": {
@@ -1074,5 +1084,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Siete rondas con revisores independientes (agy2-flash y codex) hasta 0 y 0 sobre el candidato c41e9ce. Hallazgos por ronda: 9, 6, 5 (flash; codex 0), 2 (codex; flash 0), 1 (codex; flash 0), 2 bajos iguales y 0 y 0 en la séptima. Todos los hallazgos de las rondas 1 a 6 eran reales y se corrigieron con prueba y mutación (alcance con comillas y caracteres no imprimibles, nombres de requisitos pasados a slug, requisitos repetidos, secciones REMOVED y bloques de código con cercas como CommonMark, salida relativa, lecturas ilegibles, herencia y mixins, cláusulas del éxito aisladas, hora de modificación de las fuentes, retiro de catálogos obsoletos y rechazo de enlaces simbólicos). Evidencia con éxito, producida por la propia herramienta: 1041 pruebas, 46 casos de contrato. Mutaciones: más de 90 en total, todas detectadas al final; dos mutantes equivalentes se eliminaron simplificando el código. Límite declarado en docs/tests.md: un requisito con Pruebas: no aplica sigue necesitando un caso con esta herramienta (soportarlo cambiaría la spec aprobada). Un test existente cambió en alarmas-flujo, no en este cambio.",
+      "candidato": "c41e9ce",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-02T20:29:52.120220+00:00"
+    }
+  }
 }
