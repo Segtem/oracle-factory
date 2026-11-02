@@ -1,0 +1,118 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-verificador-generico/.factory/local/revisiones/eca559f-agy2-flash-1",
+  "base": "1458add3bc60bfd49e5af65bac9f1c0798e1928d",
+  "head": "eca559f93e6c0bbd21330d66d84f134578ebcffe",
+  "diff_sha256": "ae9c421eac2b654aa9c7d1c34f2614bf6e446fc4a8a8e787fd4e6c0a25d9afd6",
+  "context_sha256": "72abb64b29cdca1a566f56a6aee0cc680b880d8c64c4910286c5ba1ba6dc7f3f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "vg-observados-search-prefijo-falso-fallo",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "CASO.search sobre el id completo de la prueba atribuye métodos auxiliares y falla para módulos o clases que contengan el patrón",
+      "explanation": "En producir() (línea 123), para filtrar los casos observados de la corrida correspondientes al contrato, se evalúa: observados = {n: k for n, k in resultado.cantidad.items() if n.startswith(prefijo) and CASO.search(n)}. Mientras que casos_del_modulo() usa CASO.match(metodo.name) (línea 42) exclusivamente sobre el nombre del método, CASO.search(n) busca la subcadena en el identificador completo de la prueba n = f\"{modulo}.{Clase}.{metodo}\". Si el módulo de pruebas coincide con CASO (por ejemplo test_cli1_modulos, test_git1_sync, test_rag1_specs, test_v2_migration, test_vg1_modulo), la subcadena test_<letras><n>_ está presente en el prefijo para absolutamente todas las pruebas del módulo. Esto hace que cualquier método auxiliar o complementario sin número de requisito (como test_sin_numero o test_helper), que casos_del_modulo excluye deliberadamente de esperados, sea capturado por CASO.search(n). En consecuencia, observados incluye pruebas que no están en esperados, la comparación observados == Counter(esperados) evalúa False, y la verificación falla declarando falsamente casos_exactos_sin_omisiones_duplicados_ni_fallas = False y exitoso = False. El mismo falso fallo ocurre si un método auxiliar contiene el patrón en otra parte de su nombre (ej. test_verificar_test_dm1_funciona) o si el nombre de una clase coincide con CASO.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 122,
+        "end_line": 124,
+        "side": "head"
+      },
+      "trigger": "Ejecutar verificar_cambio.py en un cambio cuyo módulo de pruebas sea test_cli1_modulos.py o test_vg1_algo.py conteniendo al menos un método auxiliar sin número (como test_sin_numero), o que contenga un método como test_verificar_test_dm1_funciona.",
+      "evidence": "Se reprodujo con un módulo sintético test_cli1_modulos.py conteniendo un caso test_dm1_caso_a y un auxiliar test_helper_sin_numero. A pesar de pasar todas las pruebas, la herramienta finalizó con código 1, resultado exitoso: False y casos_exactos_sin_omisiones_duplicados_ni_fallas: False. Asimismo, la mutación M17 que reemplaza CASO.search(n) por CASO.match(n.rsplit('.', 1)[-1]) sobrevivió a la suite de pruebas del candidato.",
+      "related_requirement": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "status": "pendiente",
+      "verification": "En la línea 123 de tools/verificar_cambio.py, reemplazar CASO.search(n) por una verificación exclusiva sobre el nombre del método: CASO.match(n.removeprefix(prefijo).rsplit('.', 1)[-1])."
+    },
+    {
+      "id": "vg-catalogos-alcance-tab-backslash-invalida-oracle",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "El control de --alcance no valida caracteres de escape ni de control como tabuladores o barras invertidas finales, produciendo catálogos Oracle sintácticamente inválidos",
+      "explanation": "En la primera ronda de revisión se reportó que comillas dobles en --alcance rompían la sintaxis del catálogo Oracle. El candidato intentó corregirlo añadiendo if any(c in alcance for c in '\"\\n\\r'): raise ContratoInvalido(...) en escribir_catalogos() (líneas 170-171). Sin embargo, este arreglo no cubre la clase entera de cadenas inválidas para los literales de cadena del metalenguaje Oracle (regidos por la sintaxis de literales de cadena JSON): 1) Si --alcance contiene un carácter de tabulación \\t (ej. 'escenarios\\tcon tab'), any(...) devuelve False y la herramienta escribe el catálogo con un tabulador literal sin escapar en alcance \"{alcance}\"\\n; al parsearlo con oracle_metalenguaje.Motor.desde_texto(), el motor falla con ErrorDeMotor: se esperaba texto JSON válido; llegó '\"alcance con\\ttab\"', pues la especificación RFC 8259 prohíbe caracteres de control sin escapar. 2) Si --alcance termina con una barra invertida \\ (ej. una ruta de Windows como 'C:\\tests\\'), la barra escapa la comilla de cierre de la plantilla, dejando la cadena sin cerrar y arrojando igualmente ErrorDeMotor. 3) Otros caracteres de control U+0000..U+001F causan la misma rotura sintáctica.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 170,
+        "end_line": 171,
+        "side": "head"
+      },
+      "trigger": "Invocar verificar_cambio.py ID --pruebas test_x --catalogos --alcance $'escenarios\\tcon tab' o --alcance 'escenarios en C:\\tests\\'.",
+      "evidence": "Se ejecutó escribir_catalogos con ambos alcances. En ambos casos la herramienta retornó código 0 y escribió los archivos en catalogos/. Al intentar procesar los catálogos resultantes con oracle_metalenguaje.Motor.desde_texto(), se produjo una excepción ErrorDeMotor: se esperaba texto JSON válido.",
+      "related_requirement": "el_verificador_escribe_los_catalogos_del_cambio",
+      "status": "pendiente",
+      "verification": "En lugar de interpolar \"{alcance}\", serializar el texto usando json.dumps(alcance) o validar exhaustivamente que la cadena no contenga caracteres de control (c < ' ') ni termine con una cantidad impar de barras invertidas."
+    },
+    {
+      "id": "vg-spec-espaciado-cabecera-requisito-no-detectado",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "La expresión regular REQUISITO exige un único espacio tras ###, omitiendo requisitos válidos importados por Factory",
+      "explanation": "En tools/verificar_cambio.py (línea 27), REQUISITO = re.compile(r\"^### Requirement: *(.+?) *$\") exige estrictamente un solo espacio entre ### y Requirement:. Sin embargo, la especificación de OpenSpec y los componentes canónicos de Factory (oracle_factory.archivo.CABECERA_REQ y oracle_factory.modos.tipos_spec) emplean r\"^###\\s+Requirement:\\s*(.+?)\\s*$\", tolerando múltiples espacios o tabulaciones. Si una spec aprobada posee más de un espacio o un tabulador tras ### (ej. ###  Requirement: mi_requisito), oracle-factory importar lo reconoce e importa exitosamente en factory.json, pero requisitos_de_la_spec() lo ignora. Esto desalinea el conteo ordinal de los requisitos subsecuentes en la spec (asociando pruebas al requisito incorrecto) o falla con ContratoInvalido (\"el módulo no tiene ningún caso\").",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 27,
+        "end_line": 27,
+        "side": "head"
+      },
+      "trigger": "Ejecutar verificar_cambio.py sobre una spec cuyos encabezados tengan dos espacios o un tabulador tras ### (ej. ###  Requirement: nombre).",
+      "evidence": "Con una spec conteniendo '###  Requirement: mi_req', oracle_factory.modos.tipos_spec devuelve {'mi_req': 'funcional'} mientras que vc.requisitos_de_la_spec() devuelve [], provocando el descarte silencioso del requisito.",
+      "related_requirement": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "status": "pendiente",
+      "verification": "Reemplazar la expresión regular por r\"^###\\s+Requirement:\\s*(.+?)\\s*$\" o reutilizar directamente las funciones de oracle_factory.archivo."
+    },
+    {
+      "id": "vg-fuentes-salida-relativa-sin-resolver-falso-fallo",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "La función fuentes() no normaliza salidas relativas, omitiendo la exclusión de la carpeta de evidencia si se invoca modularmente",
+      "explanation": "En la primera ronda se detectó que (raiz / n).is_relative_to(salida) falla cuando salida es relativa porque compara una ruta absoluta contra una relativa. El candidato aplicó salida = salida.resolve() al inicio de producir(), pero no en la función pública fuentes(raiz, salida) (líneas 101-106). Si fuentes() es llamada pasando una ruta relativa (ej. fuentes(raiz, Path(\"evidencia\"))), is_relative_to(salida) retorna False para todos los archivos, impidiendo que la carpeta de evidencia sea excluida de la comprobación de integridad.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 105,
+        "end_line": 106,
+        "side": "head"
+      },
+      "trigger": "Invocar programáticamente fuentes(raiz, Path(\"evidencia\")) con una ruta relativa de salida.",
+      "evidence": "En pruebas directas en el entorno, fuentes(raiz) reporta 1321 archivos; fuentes(raiz, Path(\"catalogos\")) reporta 1321 archivos (omite la exclusión por ser relativa), mientras que fuentes(raiz, raiz / \"catalogos\") reporta 959 archivos correctamente filtrados.",
+      "related_requirement": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "status": "pendiente",
+      "verification": "Normalizar raiz = raiz.resolve() y salida = salida.resolve() if salida is not None else None al inicio de fuentes()."
+    },
+    {
+      "id": "vg-tests-mutacion-completa-sobrevive-sin-cobertura",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "La suite de pruebas no verifica la cláusula completa de forma aislada, permitiendo que mutaciones en exito sobrevivan",
+      "explanation": "En producir() (línea 134), exito exige que resultado.wasSuccessful(), completa, estables y trazada sean verdaderos simultáneamente. No obstante, en tests/test_verificador_generico.py no existe ningún escenario de prueba donde completa sea False mientras wasSuccessful(), estables y trazada son True (por ejemplo, cuando se ejecutan pruebas duplicadas por herencia entre clases de prueba o pruebas extra asociadas a prefijos del módulo). Al mutar la línea 134 eliminando completa (exito = resultado.wasSuccessful() and estables and trazada), el mutante sobrevivió intacto aprobando los 32 tests de la suite. En el único test donde la suite verifica casos fantasma (test_vg2_un_caso_del_contrato_que_la_suite_nunca_corre_...), el fallo de exito ocurre porque trazada es False (trazar falla), dejando la guarda completa desprotegida.",
+      "location": {
+        "file": "tests/test_verificador_generico.py",
+        "start_line": 195,
+        "end_line": 201,
+        "side": "head"
+      },
+      "trigger": "Mutar la línea 134 de tools/verificar_cambio.py eliminando completa y ejecutar tests/test_verificador_generico.py.",
+      "evidence": "El mutante M13_producir_no_completa sobrevivió en el análisis de mutaciones automáticas ejecutado en mutaciones.py. Al reproducir una jerarquía de clases donde un caso se ejecuta dos veces pero pasa con éxito (probar_subclass_duplicate.py), el mutante declara falsamente éxito a pesar de no cumplirse la condición completa.",
+      "related_requirement": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "status": "pendiente",
+      "verification": "Incorporar un caso de prueba en tests/test_verificador_generico.py que ejecute un caso duplicado o no anticipado que pase exitosamente, comprobando que producir() retorne False específicamente por fallo en casos_exactos_sin_omisiones_duplicados_ni_fallas."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron propuesta, spec, diseño, código fuente del candidato (tools/verificar_cambio.py), documentación (docs/tests.md), suite de pruebas (tests/test_verificador_generico.py) y los catálogos generados (catalogos/factory_verificador_generico.*.oracle).",
+    "Se ejecutaron las 32 pruebas unitarias de tests/test_verificador_generico.py utilizando el intérprete del entorno (.venv/bin/python), aprobando en su totalidad (32 pruebas en 0.914s).",
+    "Se evaluaron las 4 medidas de los catálogos Oracle contra los hechos de la evidencia del candidato utilizando oracle_metalenguaje.Motor.desde_texto(), comprobando veredictos aprobados (ok=True).",
+    "Se diseñó y ejecutó un banco de análisis de mutaciones sobre copias aisladas en el directorio de trabajo del revisor, evaluando 17 mutantes sintéticos; 2 mutantes sobrevivieron (M13_producir_no_completa y M17_fix_caso_search).",
+    "Se desarrollaron y verificaron reproducciones sintéticas automatizadas para evaluar: falso fallo con CASO.search ante módulos o métodos con el patrón, rechazo de tabuladores y barras invertidas en --alcance frente a oracle_metalenguaje, espaciado de encabezados de requisitos Markdown frente a modos/archivo, y comportamiento de fuentes() con salida relativa.",
+    "No se modificó el checkout ni la configuración de Git del repositorio; todas las ejecuciones y pruebas auxiliares se confinaron al directorio del revisor."
+  ]
+}

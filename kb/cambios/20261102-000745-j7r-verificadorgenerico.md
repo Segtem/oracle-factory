@@ -47,6 +47,7 @@ capacidad: "practicas"
 - `1b54f3f` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
 - `a0a7312` verificador-generico: arreglar los hallazgos de la primera ronda (alcance con comillas, slug de requisitos, repetidos, salida relativa, lecturas ilegibles, catálogos exactos, límite de 'Pruebas: no aplica') (trailer)
 - `053682b` verificador-generico: proponer de nuevo las medidas (trailer)
+- `eca559f` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes

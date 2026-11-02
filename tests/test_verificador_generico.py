@@ -80,9 +80,17 @@ class Contrato(unittest.TestCase):
                  '        def test_dm8_anidado():\n            pass\n\n\ndef test_dm7_suelta():\n    pass\n')
         self.assertEqual(vc.casos_del_modulo(texto), {1: ['A.test_dm1_real']})
 
-    def test_vg1_una_clase_sin_base_no_aporta_casos_porque_unittest_no_la_corre(self):
-        texto = 'import unittest\n\n\nclass Suelta:\n    def test_dm1_fantasma(self):\n        pass\n\n\nclass Real(unittest.TestCase):\n    def test_dm1_ok(self):\n        pass\n'
-        self.assertEqual(vc.casos_del_modulo(texto), {1: ['Real.test_dm1_ok']})
+    def test_vg1_una_clase_sin_base_o_solo_con_object_no_aporta_casos_porque_unittest_no_la_corre(self):
+        texto = ('import unittest\n\n\nclass Suelta:\n    def test_dm1_fantasma(self):\n        pass\n\n\nclass Objeto(object):\n'
+                 '    def test_dm1_otro(self):\n        pass\n\n\nclass Real(unittest.TestCase):\n    def test_dm1_ok(self):\n        pass\n\n\n'
+                 'class Hija(Real):\n    def test_dm1_propio(self):\n        pass\n\n\nclass Ajena(otro.Base):\n    def test_dm1_ajeno(self):\n        pass\n')
+        self.assertEqual(vc.casos_del_modulo(texto), {1: ['Ajena.test_dm1_ajeno', 'Hija.test_dm1_propio', 'Real.test_dm1_ok']})
+
+    def test_vg1_la_cabecera_de_la_spec_tolera_los_espacios_que_tolera_factory(self):
+        spec = '###  Requirement:   uno  \n###\tRequirement: dos\n##  ADDED   Requirements\n###  Requirement: tres\n'
+        self.assertEqual(vc.requisitos_de_la_spec(spec), ['uno', 'dos', 'tres'])
+        retirado = '##\tREMOVED\tRequirements\n### Requirement: viejo\n##  added  requirements\n### Requirement: nuevo\n'
+        self.assertEqual(vc.requisitos_de_la_spec(retirado), ['nuevo'])
 
     def test_vg1_los_encabezados_de_la_spec_se_leen_en_orden_y_solo_los_de_nivel_tres(self):
         spec = '### Requirement: uno\n#### Scenario: no\n## Requirement: tampoco\n### Requirement:   dos  \n    ### Requirement: indentado\n'
@@ -193,12 +201,37 @@ class Evidencia(ProyectoTemporal):
         self.assertFalse(resultado['exitoso'])
 
     def test_vg2_un_caso_del_contrato_que_la_suite_nunca_corre_queda_con_codigo_distinto_de_cero(self):
-        self.escribir('tests/test_demo.py', MODULO + '\n\nclass NoCorre(object):\n    def test_dm1_fantasma(self):\n        pass\n')  # tiene base, no es un TestCase
+        self.escribir('tests/test_demo.py', MODULO + '\n\nclass Auxiliar:\n    pass\n\n\nclass NoCorre(Auxiliar):\n    def test_dm1_fantasma(self):\n        pass\n')  # tiene base, no es un TestCase
         r = self.correr('--salida', str(self.evidencia()))
         self.assertEqual(r.returncode, 1)
         codigos = {h['caso']: h['codigo'] for h in json.loads((self.evidencia() / 'hechos.json').read_text())['demo_caso']}
         self.assertEqual(codigos['NoCorre.test_dm1_fantasma'], 1)
         self.assertFalse(self.resultado()['casos_exactos_sin_omisiones_duplicados_ni_fallas'])
+
+    def test_vg2_si_la_corrida_trae_casos_de_mas_por_herencia_no_hay_exito_aunque_todo_pase(self):
+        self.escribir('tests/test_demo.py', MODULO + '\n\nclass Hija(Uno):\n    pass\n')  # unittest corre también Hija.test_dm1_a, etc.
+        r = self.correr('--salida', str(self.evidencia()))
+        self.assertEqual(r.returncode, 1)
+        resultado = self.resultado()
+        self.assertFalse(resultado['casos_exactos_sin_omisiones_duplicados_ni_fallas'])
+        self.assertTrue(resultado['fuentes_estables'])
+        self.assertFalse(resultado['exitoso'])
+
+    def test_vg2_un_modulo_cuyo_nombre_parece_un_caso_no_confunde_a_los_demas(self):
+        self.escribir('tests/test_dm1_demo.py', MODULO)
+        r = subprocess.run([sys.executable, str(HERRAMIENTA), CAMBIO, '--pruebas', 'test_dm1_demo', '--raiz', str(self.raiz),
+                            '--salida', str(self.evidencia())], env=ENTORNO, capture_output=True, text=True, stdin=subprocess.DEVNULL)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+    def test_vg2_fuentes_tambien_acepta_una_salida_relativa(self):
+        cwd = os.getcwd()
+        (self.raiz / 'evidencia').mkdir()
+        (self.raiz / 'evidencia/algo.txt').write_text('x')
+        os.chdir(self.raiz)
+        try:
+            self.assertNotIn('evidencia/algo.txt', vc.fuentes(self.raiz, Path('evidencia'))['sha256'])
+        finally:
+            os.chdir(cwd)
 
     def test_vg2_una_salida_relativa_cuenta_igual_que_una_absoluta_y_producir_no_imprime(self):
         import contextlib
@@ -332,7 +365,7 @@ class Catalogos(ProyectoTemporal):
             'asociar junto a corrida_completa"\n    requiere demo_caso\n    ambito universal\n    alcance "mi alcance"\n'))
 
     def test_vg3_un_alcance_con_comillas_o_saltos_de_linea_se_rechaza_y_no_escribe_nada(self):
-        for alcance in ('escenarios con "mock"', 'dos\nlíneas', 'con\rretorno'):
+        for alcance in ('escenarios con "mock"', 'dos\nlíneas', 'con\rretorno', 'con\ttab', 'en C:\\tests\\'):
             with self.subTest(alcance=alcance):
                 r = self.correr('--catalogos', '--alcance', alcance)
                 self.assertEqual(r.returncode, 2)

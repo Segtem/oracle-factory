@@ -21,11 +21,11 @@ import unittest
 AQUI = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(AQUI))
 from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
-from oracle_factory import modos, trazabilidad  # noqa: E402
+from oracle_factory import archivo, modos, trazabilidad  # noqa: E402
 
 CASO = re.compile(r"test_[a-z]{2,3}(\d+)_")
-REQUISITO = re.compile(r"^### Requirement: *(.+?) *$")
-DELTA = re.compile(r"^## +(ADDED|MODIFIED|REMOVED|RENAMED) +Requirements *$", re.IGNORECASE)
+REQUISITO = archivo.CABECERA_REQ  # la misma cabecera que lee Factory al importar
+DELTA = re.compile(r"^##\s+(ADDED|MODIFIED|REMOVED|RENAMED)\s+Requirements\s*$", re.IGNORECASE)  # la de modos.tipos_spec
 SIN_FUENTES = (".factory/", "kb/", "tareas/")  # los registros generados no son producto
 
 
@@ -37,7 +37,9 @@ def casos_del_modulo(texto: str) -> dict[int, list[str]]:
     """{n: ['Clase.método', …]}: los métodos `test_<letras><n>_…` de las clases del módulo (leídas con `ast`, no con el texto)."""
     casos: dict[int, list[str]] = {}
     for clase in ast.parse(texto).body:
-        if isinstance(clase, ast.ClassDef) and clase.bases:  # sin base no puede ser un TestCase: unittest no la correría
+        # Sin base, o sólo con `object`, no puede ser un TestCase: unittest no la correría. Con cualquier otra base (también una importada o
+        # una clase propia del módulo) se cuenta: si no corre, el hecho de ese caso queda con código 1 y la evidencia en rojo.
+        if isinstance(clase, ast.ClassDef) and any(not (isinstance(b, ast.Name) and b.id == "object") for b in clase.bases):
             for metodo in clase.body:
                 if isinstance(metodo, (ast.FunctionDef, ast.AsyncFunctionDef)) and (m := CASO.match(metodo.name)):
                     casos.setdefault(int(m[1]), []).append(f"{clase.name}.{metodo.name}")
@@ -100,6 +102,7 @@ def leer_contrato(raiz: Path, cambio: str, modulo: str) -> tuple[dict[str, list[
 
 def fuentes(raiz: Path, salida: Path | None = None) -> dict:
     """Todo lo versionado o nuevo del producto con su hash; sin los registros generados ni la carpeta de evidencia."""
+    raiz, salida = raiz.resolve(), salida.resolve() if salida else None
     nombres = subprocess.run(["git", "-C", str(raiz), "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
                              text=True, capture_output=True, check=True).stdout.split("\0")  # -z: nombres no ASCII sin comillas
     elegidos = [raiz / n for n in nombres if n and not n.startswith(SIN_FUENTES) and (raiz / n).is_file()
@@ -120,7 +123,7 @@ def producir(raiz: Path, cambio: str, modulo: str, salida: Path) -> bool:
     suite = unittest.defaultTestLoader.discover(str(raiz / "tests"))
     resultado = unittest.TextTestRunner(stream=stream, verbosity=2, resultclass=Resultado).run(suite)
     esperados = [prefijo + c for lista in por_nombre.values() for c in lista]
-    observados = {n: k for n, k in resultado.cantidad.items() if n.startswith(prefijo) and CASO.search(n)}
+    observados = {n: k for n, k in resultado.cantidad.items() if n.startswith(prefijo) and CASO.match(n.rsplit(".", 1)[-1])}
     completa = observados == Counter(esperados) and all(resultado.observados.get(n, 1) == 0 for n in esperados)
     filas = [{"requisito": r, "caso": c, "codigo": resultado.observados.get(prefijo + c, 1)} for r, lista in por_nombre.items() for c in lista]
     (salida / "suite.txt").write_text(stream.getvalue(), encoding="utf-8")
@@ -167,8 +170,8 @@ def catalogo_de_corrida(x: str, casos: int) -> str:
 
 def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> list[str]:
     """Escribe los catálogos del cambio en `raiz/catalogos`; devuelve los nombres de los que cambiaron (los que ya estaban igual no se tocan)."""
-    if any(c in alcance for c in '"\n\r'):
-        raise ContratoInvalido("el alcance no puede llevar comillas dobles ni saltos de línea: el catálogo Oracle lo escribe entre comillas")
+    if any(c in '"\\' or ord(c) < 32 for c in alcance):  # el catálogo lo escribe entre comillas dobles, con la sintaxis de cadenas de JSON
+        raise ContratoInvalido("el alcance no puede llevar comillas dobles, barras invertidas ni caracteres de control (tabulaciones, saltos de línea)")
     por_nombre, _ = leer_contrato(raiz, cambio, modulo)
     x = modulo.removeprefix("test_")
     destino = raiz / "catalogos"
