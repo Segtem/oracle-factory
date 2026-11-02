@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica`
 - Vigente: sí
 - Cambio: [[cambios/20261102-000745-j7r-verificadorgenerico]]
-- Veredicto: cumple
+- Veredicto: sin juicio
 - Medidas: `factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica`, `factory_verificador_generico.corrida_completa`
 - Fuente: openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md#el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica
 

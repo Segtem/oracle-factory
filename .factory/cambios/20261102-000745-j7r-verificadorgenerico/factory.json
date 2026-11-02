@@ -2,7 +2,7 @@
   "id": "20261102-000745-j7r-verificadorgenerico",
   "titulo": "Un verificador reutilizable para la evidencia de cada cambio",
   "capacidad": "practicas",
-  "fase": "oracle_verde",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md",
   "spec_sha256": "13273363a5bfa74f7d925556b60fbf13bf16e1bb227156aa5d2b84483d2a7eca",
   "spec_aprobada": {
@@ -21,20 +21,28 @@
     "practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio",
     "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio"
   ],
-  "revision": null,
-  "oracle": {
-    "codigo": 0,
-    "codigo_oracle": 0,
-    "hechos": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/candidatos/c41e9ce/evidencia/hechos.json",
-    "hechos_sha256": "b6101dd12b899c01b1b8cb320a47ab1ceb31bc72511d7b56faa94b9001ac6662",
-    "informe": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/oracle-veredicto.txt",
-    "informe_sha256": "0ba7472adebb6819045fd0280fe0675634eda10ccc937004d5a9a6033af2603e",
-    "cuando": "2026-11-02T20:27:54.794586+00:00",
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261102-000745-j7r-verificadorgenerico/revisiones/registro-vimjbj5m/informe.json",
+    "sha256": "75260155ba2b91d25ee33294b78d2bfc29929104135123e9d42cd200454c599b",
+    "decisiones": "tareas/20261102-000745-j7r-verificadorgenerico/revisiones/registro-vimjbj5m/decisiones.json",
+    "decisiones_sha256": "be0078e52145519631ad1485b58134a15645c289e087e65de842384f959a4441",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-02T20:39:01.387748+00:00",
+    "motivo": "Siete rondas con revisores independientes (agy2-flash y codex), la última con 0 y 0 sobre el candidato c41e9ce. Hallazgos por ronda, sumando los dos revisores: 9, 6, 5, 2, 1, 2 y 0. Todos los de las rondas 1 a 6 eran reales y se corrigieron con prueba y mutación: alcance con comillas y caracteres no imprimibles, nombres de requisitos pasados a slug, requisitos repetidos, secciones REMOVED y bloques de código con cercas como CommonMark, salida relativa, lecturas ilegibles, herencia y mixins, cláusulas del éxito aisladas, hora de modificación de las fuentes, retiro de catálogos obsoletos y rechazo de enlaces simbólicos. Evidencia con éxito, producida por la propia herramienta: 1041 pruebas y 46 casos de contrato. En cada ronda se corrió una tanda de mutaciones sobre los arreglos; los mutantes que sobrevivían se cerraron con pruebas nuevas y los equivalentes se eliminaron simplificando el código. Límite declarado en docs/tests.md: un requisito con Pruebas: no aplica sigue necesitando un caso con esta herramienta, porque soportarlo cambiaría la spec aprobada.",
+    "origen_motivo": "agente",
     "contexto": {
-      "head": "c41e9cedfb742bc5e5a8deccfbb0488256f15843",
+      "head": "de6ef97d5f9e226b7d17f4d70fc0c589bce37218",
       "archivos_sha256": "5ca2e9b3f0a8513b30a914e0f17c73333d9becc6f4f239e0248db7dfc252d4d7"
     }
   },
+  "oracle": null,
   "modo": "confirmacion",
   "eventos": [
     {
@@ -1037,6 +1045,20 @@
       "cuando": "2026-11-02T20:30:02.221998+00:00",
       "decision": "aprobar",
       "candidato": "c41e9ce"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T20:39:01.387775+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "75260155ba2b91d25ee33294b78d2bfc29929104135123e9d42cd200454c599b",
+      "decisiones_sha256": "be0078e52145519631ad1485b58134a15645c289e087e65de842384f959a4441"
     }
   ],
   "tipos": {
@@ -1095,14 +1117,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Siete rondas con revisores independientes (agy2-flash y codex), la última con 0 y 0 sobre el candidato c41e9ce. Hallazgos por ronda, sumando los dos revisores: 9, 6, 5, 2, 1, 2 y 0. Todos los de las rondas 1 a 6 eran reales y se corrigieron con prueba y mutación: alcance con comillas y caracteres no imprimibles, nombres de requisitos pasados a slug, requisitos repetidos, secciones REMOVED y bloques de código con cercas como CommonMark, salida relativa, lecturas ilegibles, herencia y mixins, cláusulas del éxito aisladas, hora de modificación de las fuentes, retiro de catálogos obsoletos y rechazo de enlaces simbólicos. Evidencia con éxito, producida por la propia herramienta: 1041 pruebas y 46 casos de contrato. En cada ronda se corrió una tanda de mutaciones sobre los arreglos; los mutantes que sobrevivían se cerraron con pruebas nuevas y los equivalentes se eliminaron simplificando el código. Límite declarado en docs/tests.md: un requisito con Pruebas: no aplica sigue necesitando un caso con esta herramienta, porque soportarlo cambiaría la spec aprobada.",
-      "candidato": "c41e9ce",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-02T20:30:02.221982+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
