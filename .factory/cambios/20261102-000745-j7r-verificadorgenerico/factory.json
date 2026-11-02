@@ -25,14 +25,14 @@
   "oracle": {
     "codigo": 0,
     "codigo_oracle": 0,
-    "hechos": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/candidatos/749822a/evidencia/hechos.json",
-    "hechos_sha256": "689176284cfccbcfe7a750a15646a5932b6fd40be34d0df4ed2dab3e641d6883",
+    "hechos": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/candidatos/c41e9ce/evidencia/hechos.json",
+    "hechos_sha256": "b6101dd12b899c01b1b8cb320a47ab1ceb31bc72511d7b56faa94b9001ac6662",
     "informe": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/oracle-veredicto.txt",
     "informe_sha256": "0ba7472adebb6819045fd0280fe0675634eda10ccc937004d5a9a6033af2603e",
-    "cuando": "2026-11-02T15:41:16.510099+00:00",
+    "cuando": "2026-11-02T20:27:54.794586+00:00",
     "contexto": {
-      "head": "749822afceeb9d2f48a0ac78f89fa1c3f9ca7e10",
-      "archivos_sha256": "049d933c409de33991a4700623dc5c7c6594b2951db7cc954088cc00f1d0547d"
+      "head": "c41e9cedfb742bc5e5a8deccfbb0488256f15843",
+      "archivos_sha256": "5ca2e9b3f0a8513b30a914e0f17c73333d9becc6f4f239e0248db7dfc252d4d7"
     }
   },
   "modo": "confirmacion",
@@ -954,6 +954,69 @@
         "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
         "factory_verificador_generico.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T20:19:04.672084+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "c41e9ce",
+      "lanzamiento": "79f0ae7ba801"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T20:19:04.706889+00:00",
+      "revisor": "codex",
+      "candidato": "c41e9ce",
+      "lanzamiento": "128e8c6fe952"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T20:19:39.949737+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "c41e9ce",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "128e8c6fe952"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "agy",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T20:27:54.794605+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b6101dd12b899c01b1b8cb320a47ab1ceb31bc72511d7b56faa94b9001ac6662"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T20:29:28.610810+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "c41e9ce",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "79f0ae7ba801"
     }
   ],
   "tipos": {

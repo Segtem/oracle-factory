@@ -191,3 +191,7 @@ Medidas de practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_
 ### Nota (2026-11-02 20:11:19 UTC)
 
 Medidas de practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-02 20:27:54 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261102-000745-j7r-verificadorgenerico/oracle-veredicto.txt.
