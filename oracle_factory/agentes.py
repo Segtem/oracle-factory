@@ -6,7 +6,7 @@ AGENTS.md fuera del bloque no se toca.
 """
 from __future__ import annotations
 
-from . import modos
+from . import alarmas, modos
 
 INICIO = "<!-- oracle-factory agentes: inicio (generado por `oracle-factory agentes`; no se edita a mano) -->"
 FIN = "<!-- oracle-factory agentes: fin -->"
@@ -67,7 +67,12 @@ def bloque(modo_por_defecto: str) -> str:
         "- Los tests unitarios son parte del desarrollo y no suplantan a Oracle: escribilos primero, cuando sea posible, y no "
         "bloquean nada. Un test que ya existía no se edita para que pase sin dejarlo dicho a quien revisa (ver `docs/tests.md`).",
         "- Antes de pedir una revisión, mirá la lista previa (`docs/lista-previa.md`): reusá el ayudante que ya existe y arreglá la "
-        "clase de problema entera, no sólo el caso. No bloquea nada.", "",
+        "clase de problema entera, no sólo el caso. No bloquea nada.",
+        f"- Un cambio chico va por el **camino ligero** (`estado ID` lo dice en la línea «Camino de revisión» y en la clave `camino` del JSON): "
+        f"hasta {alarmas.UMBRAL_LIGERO} líneas de producto, sin contar pruebas, y sin tocar las reglas de decisión "
+        f"({', '.join(f'`{r}`' for r in alarmas.REGLAS_DE_DECISION)}). Alcanza **un revisor y una ronda**: si no trae hallazgos medios o altos, "
+        "preparás la revisión; si los trae, el cambio sigue el **camino completo**. Es una orientación: no cambia ningún paso pendiente ni lo que "
+        "decide una persona.", "",
         "### Las decisiones, según el modo de trabajo", "",
         "Cada decisión tiene su comando. Con `--agente`, según el modo del cambio, el agente la decide, la propone (cuenta "
         "cuando una persona la confirma repitiendo el comando sin `--agente`) o no puede; una persona, desde su terminal, "

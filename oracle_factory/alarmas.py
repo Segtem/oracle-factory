@@ -188,3 +188,45 @@ def del_flujo(ejecutar: Callable, estado: dict, candidato: str | None, es_produc
 def avisos_del_flujo(flujo: dict) -> list[str]:
     """Los avisos de `del_flujo`."""
     return avisos_de_flujo((flujo["bucle_de_revision"] or {}).get("rondas"), (flujo["cambio_grande"] or {}).get("lineas"))
+
+
+# --- El camino ligero: cuánta revisión independiente conviene pedir ----------------------------------------------------------
+# Una orientación, no un gate: no cambia ningún paso pendiente ni lo que decide una persona. Un cambio chico y que no toca las reglas de
+# decisión alcanza con un revisor y una ronda. `cli.py` entero cuenta por prudencia: un cambio chico en él pasa por el camino completo.
+UMBRAL_LIGERO = 150
+REGLAS_DE_DECISION = ("oracle_factory/cli.py", "oracle_factory/modos.py", "oracle_factory/flujo_revision.py", "oracle_factory/flujo_medidas.py",
+                      "oracle_factory/revision.py", "oracle_factory/preparacion.py", "oracle_factory/puerta.py", "oracle_factory/unir.py")
+
+
+def archivos_tocados(ejecutar: Callable, base: str, candidato: str) -> set[str] | None:
+    """Las rutas que el candidato cambió respecto de la base, con el origen de los renombres; None si Git no pudo."""
+    p = _git(ejecutar, ["git", "diff", "--name-status", "-z", "-M", base, candidato])
+    if p is None or p.returncode:
+        return None
+    return {n for a in trazabilidad.archivos_cambiados(p.stdout) for n in (a["ruta"], a["origen"]) if n}
+
+
+def camino_del_candidato(ejecutar: Callable, candidato: str | None, es_producto: Callable[[str], bool] | None = None) -> dict | None:
+    """{tipo: ligero|completo, lineas, umbral, reglas_tocadas}; None si no hay candidato o Git no puede decirlo (no se afirma nada)."""
+    if not candidato or not (base := base_del_candidato(ejecutar, candidato)):
+        return None
+    lineas = lineas_de_producto(ejecutar, base, candidato, es_producto)
+    tocados = archivos_tocados(ejecutar, base, candidato)
+    if lineas is None or tocados is None:
+        return None
+    reglas = sorted(tocados & set(REGLAS_DE_DECISION))
+    return {"tipo": "ligero" if lineas <= UMBRAL_LIGERO and not reglas else "completo", "lineas": lineas, "umbral": UMBRAL_LIGERO,
+            "reglas_tocadas": reglas}
+
+
+def linea_camino(camino: dict | None) -> str | None:
+    """La línea del estado; None si no se pudo calcular."""
+    if not camino:
+        return None
+    if camino["tipo"] == "ligero":
+        return (f"Camino de revisión: ligero ({camino['lineas']} líneas de producto, {camino['umbral']} o menos, sin reglas de decisión): "
+                "alcanza un revisor y una ronda (ver la guía para agentes)")
+    motivos = ([f"{camino['lineas']} líneas de producto, más de {camino['umbral']}"] if camino["lineas"] > camino["umbral"] else [])
+    if camino["reglas_tocadas"]:
+        motivos.append("toca reglas de decisión: " + ", ".join(camino["reglas_tocadas"]))
+    return f"Camino de revisión: completo ({'; '.join(motivos)})"

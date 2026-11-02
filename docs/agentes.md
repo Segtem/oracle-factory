@@ -55,3 +55,10 @@ revisor no decide: lo que trae se decide en `revisar`. Ver [revisión guiada](re
 
 Factory no necesita un agente comercial: cualquier agente que corra comandos puede trabajar con Factory siguiendo la guía
 de `AGENTS.md`. Los embeddings de `preguntar` ya corren en la máquina con Ollama ([conocimiento](conocimiento.md)).
+
+## El camino ligero
+
+No todo cambio necesita el mismo recorrido de revisión. `oracle-factory estado ID` dice, en la línea «Camino de revisión» y en la clave `camino` de su JSON, si el candidato califica para el **camino ligero**: agrega 150 líneas de producto o menos (sin contar las pruebas) y no toca las reglas de decisión (`cli.py`, `modos.py`, `flujo_revision.py`, `flujo_medidas.py`, `revision.py`, `preparacion.py`, `puerta.py` y `unir.py`, dentro de `oracle_factory/`). Si no califica, dice por qué. Con el camino ligero alcanza **un revisor y una ronda**: si no trae hallazgos medios ni altos, se pasa a preparar la revisión; si trae, el cambio sigue el camino completo.
+
+Es una orientación, no un gate: no cambia los pasos pendientes, el próximo paso ni quién decide. La aprobación de la spec, la confirmación de las medidas, la revisión humana y el cierre siguen siendo los de siempre, y un candidato que no califica puede cerrarse igual. Si Git no puede decirlo, o no hay candidato, `camino` queda en `null` y no se afirma nada. Los umbrales salen de 20 cambios cerrados y son una referencia, no una ley.
+

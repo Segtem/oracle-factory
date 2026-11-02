@@ -1936,10 +1936,13 @@ def mostrar(identificador: str) -> None:
     prueba = pruebas_mod.datos(ROOT, identificador, estado, vigente, documentos_o_nada(carpeta, estado))
     editados = alarmas_mod.del_candidato(ejecutar, vigente, es_producto=es_producto) if vigente else None
     flujo = alarmas_mod.del_flujo(ejecutar, estado, vigente, es_producto=es_producto)
+    camino = alarmas_mod.linea_camino(alarmas_mod.camino_del_candidato(ejecutar, vigente, es_producto=es_producto))
     for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
                   + aviso_sin_medir(identificador, estado) + aviso_notas(identificador, estado) + aviso_union(identificador, estado)
                   + pruebas_mod.avisos(prueba) + alarmas_mod.avisos(editados) + alarmas_mod.avisos_del_flujo(flujo)):
         print("Aviso: " + aviso + ".")
+    if camino:
+        print(camino + ".")
     for linea in pruebas_mod.lineas(prueba):
         print(linea + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
