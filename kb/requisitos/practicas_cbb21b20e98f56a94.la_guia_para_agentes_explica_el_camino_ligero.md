@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero`
 - Vigente: sí
-- Cambio: [[cambios/20261102-221210-70x-caminoligero]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: `factory_camino_ligero.la_guia_para_agentes_explica_el_camino_ligero`, `factory_camino_ligero.corrida_completa`
 - Fuente: openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md#la_guia_para_agentes_explica_el_camino_ligero

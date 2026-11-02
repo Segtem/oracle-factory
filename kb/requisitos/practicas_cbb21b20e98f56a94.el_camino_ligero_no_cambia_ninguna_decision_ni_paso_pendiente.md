@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente`
 - Vigente: sí
-- Cambio: [[cambios/20261102-221210-70x-caminoligero]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: `factory_camino_ligero.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente`, `factory_camino_ligero.corrida_completa`
 - Fuente: openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md#el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente

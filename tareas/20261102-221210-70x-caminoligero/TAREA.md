@@ -39,3 +39,7 @@ Medidas de practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_p
 ### Nota (2026-11-02 22:27:43 UTC)
 
 Medidas de practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-02 23:55:00 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md; se reiniciaron las validaciones dependientes.
