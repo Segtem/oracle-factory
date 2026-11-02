@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-verificador-generico/.factory/local/revisiones/55ef385-codex-1",
+  "base": "1458add3bc60bfd49e5af65bac9f1c0798e1928d",
+  "head": "55ef3857606c373ae9eefb4c1d263f178626b85c",
+  "diff_sha256": "fae0deea82aecd61f5841035a773ee65ff098ad9e9b9dc44d97019fd10e0909c",
+  "context_sha256": "1cb40e0b8a4e9bd2412c478027cad78fd20442bb6f6ca36a80981f69a0fa2b66",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "VG-55ef385-1",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.97,
+      "title": "La escritura de un catálogo sigue enlaces simbólicos fuera de catalogos/",
+      "explanation": "Si ya existe `catalogos/factory_<módulo>.<requisito>.oracle` como enlace simbólico, `Path.is_file()` y `read_text()` siguen el enlace; cuando cambia el contenido calculado, `write_text()` también sigue el enlace y trunca/escribe el destino externo. Así `--catalogos` puede modificar un archivo fuera del árbol de catálogos (incluso fuera del repositorio), aunque sólo se pretende regenerar medidas. Es un caso exótico porque requiere que alguien haya preparado o recibido un catálogo enlazado, pero puede darse en worktrees que comparten catálogos o donde esos archivos se gestionan mediante symlinks. El retiro de catálogos obsoletos usa `unlink()` sobre el enlace y no sigue el destino; la brecha está en la escritura de catálogos vigentes.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 204,
+        "end_line": 207,
+        "side": "head"
+      },
+      "trigger": "Crear `catalogos/factory_demo.el_primero.oracle` como symlink a un archivo temporal fuera del proyecto; cambiar casos o alcance para que cambie el texto, y ejecutar `--catalogos`.",
+      "evidence": "En líneas 204–207 el código consulta `ruta.is_file()`, compara leyendo `ruta`, y luego hace `ruta.write_text(texto, ...)`. En pathlib, esas operaciones de lectura/escritura siguen symlinks de archivo; no hay `is_symlink()` ni escritura atómica mediante reemplazo del enlace. Consecuencia directa: el contenido del destino se reemplaza. No se ejecutaron mutaciones manuales, dado que el candidato suministrado es sólo lectura.",
+      "related_requirement": "el_verificador_escribe_los_catalogos_del_cambio",
+      "status": "pendiente",
+      "verification": "Inspección estática de Path.is_file/read_text/write_text y de las líneas del diff; no ejecuté tests ni mutaciones. La regresión principal del quinto ciclo sí está cubierta por `test_vg3_un_requisito_renombrado_retira_su_catalogo_viejo_y_no_toca_los_de_otros_modulos`: renombra un requisito, comprueba el retiro y protege `demo_extra` y otro módulo. No vi manejo/prueba de symlinks, subcarpetas ni fallo parcial de unlink; un fallo de unlink puede dejar retiradas parciales, pero la excepción lo hace visible y no lo conté como hallazgo independiente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, el diff completo incluido en el paquete y las cinco rondas de revisiones indicadas; el hallazgo de catálogos obsoletos de la ronda anterior está corregido y su regresión tiene una prueba directa para renombrado, delimitación de prefijo y segunda regeneración idempotente.",
+    "Inspeccioné tools/verificar_cambio.py, tests/test_verificador_generico.py, docs/tests.md y los catálogos del diff. No ejecuté unittest, Oracle ni pruebas de mutación; el pedido no exigía correr tests y el checkout candidato está montado sólo para lectura.",
+    "La eliminación con glob no recorre subcarpetas, por lo que no borra catálogos allí; los enlaces simbólicos obsoletos se eliminan como enlaces. Los errores de permisos/escritura/interrupción entre la fase de escritura y retiro pueden dejar resultados parciales, y no están cubiertos; no los clasifiqué como defectos independientes porque el comando falla explícitamente y no hay promesa de transacción/rollback.",
+    "Los cambios en docs/tests.md y los tres catálogos concuerdan con la limitación declarada: los requisitos con `Pruebas: no aplica — motivo` aún necesitan un caso; no observé afirmación contraria ni regresión en el alcance revisado.",
+    "No edité el código, el checkout ni la configuración de Git. No revisé archivos excluidos por el paquete."
+  ]
+}

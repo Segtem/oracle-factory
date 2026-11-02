@@ -198,6 +198,10 @@ def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> li
     destino = raiz / "catalogos"
     textos = {f"factory_{x}.corrida_completa.oracle": catalogo_de_corrida(x, sum(len(v) for v in por_nombre.values())),
               **{f"factory_{x}.{r}.oracle": catalogo_de_requisito(x, r, len(c), alcance) for r, c in por_nombre.items()}}
+    # Nada de seguir enlaces simbólicos: escribir sobre uno modificaría un archivo fuera de catalogos/ (o del repositorio). Se mira todo antes de escribir.
+    enlaces = [n for n in (destino.name, *textos) if (destino if n == destino.name else destino / n).is_symlink()]
+    if enlaces:
+        raise ContratoInvalido(f"no escribo catálogos sobre enlaces simbólicos: {', '.join(enlaces)}")
     cambiados = []
     for nombre, texto in textos.items():
         ruta = destino / nombre

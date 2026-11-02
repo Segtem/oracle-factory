@@ -1,0 +1,43 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-verificador-generico/.factory/local/revisiones/55ef385-agy2-flash-1",
+  "base": "1458add3bc60bfd49e5af65bac9f1c0798e1928d",
+  "head": "55ef3857606c373ae9eefb4c1d263f178626b85c",
+  "diff_sha256": "fae0deea82aecd61f5841035a773ee65ff098ad9e9b9dc44d97019fd10e0909c",
+  "context_sha256": "0635d481db724a061afa6c25d202022d5c824ffd4c0975c12b3c236e7236f725",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "VG-55ef385-1",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "La escritura de un catálogo sigue enlaces simbólicos y sobreescribe destinos externos",
+      "explanation": "En `escribir_catalogos`, si un catálogo vigente (`factory_<módulo>.<requisito>.oracle`) existe previamente como enlace simbólico, las llamadas `ruta.is_file()` y `ruta.read_text()` siguen el enlace. Cuando el contenido calculado difiere del existente, `ruta.write_text(texto, encoding=\"utf-8\")` sigue el enlace y trunca/sobreescribe el archivo de destino externo a `catalogos/` (pudiendo modificar archivos fuera del repositorio o en otros worktrees). Por contraste, el retiro de catálogos obsoletos emplea `vieja.unlink()`, el cual elimina el enlace simbólico sin alterar el archivo destino. Es un caso exótico porque en el flujo estándar de Git los catálogos son archivos de texto planos versionados directamente, pero afecta la seguridad y contención en configuraciones donde se compartan catálogos mediante symlinks.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 204,
+        "end_line": 207,
+        "side": "head"
+      },
+      "trigger": "Crear un enlace simbólico en `catalogos/factory_demo.el_primero.oracle` hacia un archivo fuera del directorio `catalogos/` (o fuera del repositorio); ejecutar `tools/verificar_cambio.py` con `--catalogos` y un `--alcance` o casos modificados que obliguen a actualizar el texto del catálogo.",
+      "evidence": "En `tools/verificar_cambio.py` líneas 204–207:\n```python\nif ruta.is_file() and ruta.read_text(encoding=\"utf-8\") == texto:\n    continue\ndestino.mkdir(exist_ok=True)\nruta.write_text(texto, encoding=\"utf-8\")\n```\nEn Python/POSIX, `Path.write_text` sigue enlaces simbólicos y escribe en el destino referenciado. No se comprueba `is_symlink()` ni se desenlaza `ruta` antes de escribir para asegurar que el archivo resida estrictamente en `catalogos/`.",
+      "related_requirement": "el_verificador_escribe_los_catalogos_del_cambio",
+      "status": "pendiente",
+      "verification": "Comprobado mediante prueba aislada en directorio temporal: al colocar un symlink en `catalogos/` apuntando a un archivo externo, `escribir_catalogos` modificó el archivo externo. En contrapartida, se verificó que la rutina de retiro en líneas 211–214 sí desvincula enlaces simbólicos de forma segura con `vieja.unlink()` sin tocar el destino."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff completo del paquete y las revisiones de las 5 rondas anteriores; corroboré que los defectos reportados previamente sigan cerrados y sin regresiones.",
+    "Corrí la suite de pruebas completa `python3 -m unittest discover -s tests -p test_verificador_generico.py </dev/null`: los 45 casos pasaron exitosamente.",
+    "Ejecuté pruebas de mutación manuales en un directorio temporal (`mutation_test`): 11 de 12 mutaciones (retiro de catálogos obsoletos, delimitador por punto de prefijo, sufijo (retirado), omisión de saltos idénticos, caracteres no imprimibles en alcance, chequeo de fuentes estables por mtime, y rechazo de requisitos duplicados) fueron detectadas y eliminadas por la suite. La única mutación sobreviviente (`sorted` en glob) no altera la corrección sino únicamente el determinismo en el orden de reporte cuando hay múltiples retiros.",
+    "Verifiqué la cobertura de la clase del problema de catálogos obsoletos y regeneración: la discriminación por punto `factory_{x}.*.oracle` aísla correctamente módulos con prefijos compartidos (`demo` vs `demo_extra`); el orden de escritura previa al retiro garantiza que no se pierdan medidas ante fallos tempranos de E/S; un fallo a mitad de retiro deja el sistema en un estado reanudable e idempotente en ejecuciones subsecuentes; `glob` no desciende recursivamente a subcarpetas; si existiera un directorio con nombre `.oracle`, `unlink` arroja `IsADirectoryError` (caso altamente exótico).",
+    "Revisé los 4 catálogos Oracle de `catalogos/` y los archivos en `requisitos/`: los umbrales (17 para atribución, 19 para evidencia, 9 para catálogos y 45 para corrida completa) coinciden de manera exacta con los 45 casos de prueba.",
+    "Verifiqué `docs/tests.md`: documenta con precisión la convención, el formato, los comandos y el límite explícito sobre requisitos con `Pruebas: no aplica — motivo`.",
+    "No edité el checkout candidato, no realicé commits, no modifiqué configuraciones de Git ni revisé los 48 archivos de registros generados excluidos del paquete."
+  ]
+}

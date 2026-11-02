@@ -456,6 +456,30 @@ class Catalogos(ProyectoTemporal):
         again = self.correr('--catalogos')
         self.assertIn('sin cambios', again.stdout)  # y ya no hay nada que retirar
 
+    def test_vg3_un_catalogo_o_una_carpeta_que_son_enlaces_simbolicos_se_rechazan_y_no_se_escribe_sobre_su_destino(self):
+        self.correr('--catalogos')
+        fuera = Path(self.tmp.name) / 'fuera.oracle'
+        fuera.write_text('no tocar\n')
+        viejo = self.carpeta() / 'factory_demo.el_primero.oracle'
+        viejo.unlink()
+        viejo.symlink_to(fuera)
+        r = self.correr('--catalogos', '--alcance', 'otro alcance para que cambie el texto')
+        self.assertEqual(r.returncode, 2)
+        self.assertIn('enlaces simbólicos', r.stderr)
+        self.assertIn('factory_demo.el_primero.oracle', r.stderr)
+        self.assertEqual(fuera.read_text(), 'no tocar\n')
+        self.assertFalse(any('otro alcance' in p.read_text() for p in self.carpeta().glob('*.oracle') if not p.is_symlink()))  # y nada se escribió a medias
+        viejo.unlink()
+        real = Path(self.tmp.name) / 'carpeta_real'
+        real.mkdir()
+        import shutil
+        shutil.rmtree(self.carpeta())
+        self.carpeta().symlink_to(real)
+        r = self.correr('--catalogos')
+        self.assertEqual(r.returncode, 2)
+        self.assertIn('catalogos', r.stderr)
+        self.assertEqual(list(real.iterdir()), [])
+
     def test_vg3_con_un_contrato_roto_no_escribe_nada(self):
         self.escribir('tests/test_demo.py', 'import unittest\n')
         r = self.correr('--catalogos')
