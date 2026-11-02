@@ -82,6 +82,7 @@ capacidad: "practicas"
 - `217081a` verificador-generico: proponer las medidas con los catálogos regenerados (trailer)
 - `c41e9ce` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
 - `7b795e5` verificador-generico: registrar la séptima ronda de revisiones y la evidencia (trailer)
+- `dda725f` verificador-generico: proponer la aprobación de la revisión (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes
