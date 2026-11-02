@@ -100,6 +100,45 @@
         "factory_camino_ligero.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T22:27:42.810776+00:00",
+      "requisito": "practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente",
+      "medidas": [
+        "factory_camino_ligero.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente",
+        "factory_camino_ligero.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T22:27:42.970322+00:00",
+      "requisito": "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+      "medidas": [
+        "factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+        "factory_camino_ligero.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-02T22:27:43.123555+00:00",
+      "requisito": "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero",
+      "medidas": [
+        "factory_camino_ligero.la_guia_para_agentes_explica_el_camino_ligero",
+        "factory_camino_ligero.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -107,27 +146,14 @@
     "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero": "funcional",
     "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero": {
-      "sha256": "11100eb496b0564a34d716c8a5db576509ad05a73c3b3acad31e6f2e57e2a327",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-02T22:24:09.541782+00:00",
-      "catalogos": {
-        "factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero": "f2ceffa29a2759842255ab782334dd0a484eaf369c03d93429b187236ab07096",
-        "factory_camino_ligero.corrida_completa": "22fabf302da03d458085286932e9c90ea9cc89834cb47693b4429b57a251ba31"
-      },
-      "archivos_catalogo": {
-        "factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero": "catalogos/factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero.oracle",
-        "factory_camino_ligero.corrida_completa": "catalogos/factory_camino_ligero.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-02T22:27:42.769667+00:00",
       "sha256": "062cc62dc55b76372279ba9738400f4e276733137a36550c4687b33320b2e4ed",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-02T22:24:10.935611+00:00",
       "catalogos": {
         "factory_camino_ligero.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente": "f210ec9fa0d9012b5dea7a5f4fd85c242adb37125dd1ca9fb3146f8b6213aab3",
         "factory_camino_ligero.corrida_completa": "22fabf302da03d458085286932e9c90ea9cc89834cb47693b4429b57a251ba31"
@@ -137,11 +163,29 @@
         "factory_camino_ligero.corrida_completa": "catalogos/factory_camino_ligero.corrida_completa.oracle"
       }
     },
+    "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-02T22:27:42.931954+00:00",
+      "sha256": "11100eb496b0564a34d716c8a5db576509ad05a73c3b3acad31e6f2e57e2a327",
+      "catalogos": {
+        "factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero": "f2ceffa29a2759842255ab782334dd0a484eaf369c03d93429b187236ab07096",
+        "factory_camino_ligero.corrida_completa": "22fabf302da03d458085286932e9c90ea9cc89834cb47693b4429b57a251ba31"
+      },
+      "archivos_catalogo": {
+        "factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero": "catalogos/factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero.oracle",
+        "factory_camino_ligero.corrida_completa": "catalogos/factory_camino_ligero.corrida_completa.oracle"
+      }
+    },
     "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-02T22:27:43.084969+00:00",
       "sha256": "ba2739ce9e77ac1ce01675b37d9d9fec8295abf8b7e93be6b4c276d83ddbdfe0",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-02T22:24:12.333568+00:00",
       "catalogos": {
         "factory_camino_ligero.la_guia_para_agentes_explica_el_camino_ligero": "63905b66cbbb2194d04c58b7a1b37c4184a18f6935decd4b2bc7c40bfee4b801",
         "factory_camino_ligero.corrida_completa": "22fabf302da03d458085286932e9c90ea9cc89834cb47693b4429b57a251ba31"
@@ -151,5 +195,6 @@
         "factory_camino_ligero.corrida_completa": "catalogos/factory_camino_ligero.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
