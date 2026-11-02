@@ -59,3 +59,15 @@ Medidas de practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decisi
 ### Nota (2026-11-02 23:55:17 UTC)
 
 Medidas de practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-02 23:56:36 UTC)
+
+Medidas de practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-02 23:56:36 UTC)
+
+Medidas de practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-02 23:56:37 UTC)
+
+Medidas de practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero: Brian Hollweg (persona, confirmo, modo confirmacion).
