@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261025-201245-erb-docs-clue",
+  "contexto": {
+    "head": "dc669334df4c7a62d708b1a1f4700019fcc606c5",
+    "archivos_sha256": "6113d912fc940931a173d1516bc292075d857d151ac4e9d4eba5e001a3027f2e"
+  },
+  "documentos": {
+    "openspec/changes/20261025-201245-erb-docs-clue/proposal.md": "ff0c5c411b2576ef15dffcd6dac1ae92230849dd4e14746fdaf8e666579ec40a",
+    "openspec/changes/20261025-201245-erb-docs-clue/specs/web/spec.md": "afb436848040a357d3688343dfa355f00dcf342d222f9c0fbd377b818cd43fcb"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_docs_clue.corrida_completa.oracle",
+    "catalogos/factory_docs_clue.la_portada_explica_el_papel_real_de_clue.oracle",
+    "openspec/changes/20261025-201245-erb-docs-clue/design.md",
+    "openspec/changes/20261025-201245-erb-docs-clue/proposal.md",
+    "openspec/changes/20261025-201245-erb-docs-clue/specs/web/spec.md",
+    "openspec/changes/20261025-201245-erb-docs-clue/tasks.md",
+    "requisitos/web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue.requisito",
+    "site/index.html",
+    "tools/verify_docs_clue.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 480 pruebas, ? casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261025-201245-erb-docs-clue/candidatos/38b81f9/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261025-201245-erb-docs-clue/candidatos/38b81f9/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261025-201245-erb-docs-clue/candidatos/38b81f9/revision/agy2-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Comprobación de fragmentos concretos de la portada y la guía frente a las llamadas preparar/validar de la CLI, con cuatro alteraciones documentales en memoria. Suite existente y navegador en Linux. No analiza prosa arbitraria ni demuestra comprensión de una persona; la valoración del texto corresponde a la revisión independiente.",
+    "agy (gemini-3.8-flash-high): Alcance de la revisión y del diff: se auditó el candidato 38b81f9e13221eb2ba3d5b8818d70400275929da frente a openspec/changes/20261025-201245-erb-docs-clue/specs/web/spec.md, proposal.md, design.md y tasks.md. Se revisó el cambio en el párrafo de Oracle Clue en site/index.html, el script de verificación tools/verify_docs_clue.py, los catálogos en catalogos/factory_docs_clue.*.oracle y el requisito requisitos/web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue.requisito.",
+    "agy (gemini-3.8-flash-high): Sin defectos en el diff: el texto corregido en site/index.html (línea 68) elimina la negación contradictoria 'Factory no invoca Clue' y explica coherentemente que Factory usa Oracle Clue para preparar el contexto de revisión y validar informes externos. Distingue con claridad esas funciones del análisis del código (a cargo del revisor configurado) y de las decisiones sobre los hallazgos en revisar (que siguen el modo del proyecto, correspondiendo a la persona en modo confirmación). Preserva con precisión el límite del alpha de Clue ('el alpha de Clue todavía no busca defectos con IA'). El texto es enteramente consistente con las invocaciones reales a oracle-clue en oracle_factory/cli.py (preparar y validar) y con la guía docs/agentes.md. No se encontraron contradicciones, regresiones ni defectos dentro de los rangos modificados del diff, por lo que la lista de hallazgos (findings) queda vacía conforme al esquema oracle-clue.review/v1.",
+    "agy (gemini-3.8-flash-high): Auditoría del verificador tools/verify_docs_clue.py: el verificador declara límites textuales explícitos (LIMITES y el alcance de las medidas en el catálogo Oracle: 'fragmentos enumerados de la portada, guía y llamadas preparar/validar; no demuestra comprensión ni evalúa prosa arbitraria'). Evalúa siete controles textuales y estructurales sobre el HTML, la guía docs/agentes.md y el AST de oracle_factory/cli.py. Ejecuta cuatro alteraciones documentales en memoria sobre base conforme (negacion_original, sin_validacion, analisis_atribuido_a_clue, limite_ia_invertido), detectando las cuatro. Comprueba la estabilidad de las fuentes mediante hashes SHA-256 antes y después de la ejecución. Emite hechos honestos y trazabilidad para el caso contractual test_docs.Docs.test_dc1_alguien_llega_al_proyecto.",
+    "agy (gemini-3.8-flash-high): Pruebas dirigidas ejecutadas: se corrió exactamente en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-docs-clue/.venv/bin/python -m unittest tests.test_docs tests.test_web </dev/null (11 pruebas ejecutadas en 0.760s, todas exitosas con código 0). Por instrucción explícita y al ser un clon sin node_modules, no se atribuyó ejecución de navegador a esta corrida dirigida (la ejecución formal de 480 casos y pruebas reales de navegador consta en candidatos/38b81f9/evidencia). No se corrió la suite completa ni el sensor formal ni se realizaron cambios en la configuración Git ni en el checkout.",
+    "agy (gemini-3.8-flash-high): Mutaciones evaluadas en copias locales: se verificó en memoria que las cuatro alteraciones implementadas en verify_docs_clue.py fallan adecuadamente los controles sin_negacion, contexto_y_validacion, analisis_externo y limite_ia. Adicionalmente, se verificó mediante simulación en memoria que la prueba preexistente test_docs.Docs.test_dc1_alguien_llega_al_proyecto no evalúa la redacción específica del párrafo de Clue (pasaba tanto con el texto anterior como con el actual), lo que corrobora la necesidad del verificador específico tools/verify_docs_clue.py y de la revisión independiente de la prosa.",
+    "agy (gemini-3.8-flash-high): Pruebas unitarias dirigidas: se ejecutó en primer plano desde la raíz del checkout del candidato el comando autorizado: PYTHONPATH=. /home/workstation/Dev/factory-docs-clue/.venv/bin/python -m unittest tests.test_docs tests.test_web </dev/null, resultando en 11 pruebas exitosas en 0.771s sin errores, fallas ni omisiones.",
+    "agy (gemini-3.8-flash-high): Alcance de la corrida y navegador: los clones no traen node_modules y conforme a las indicaciones no se atribuyó ejecución de pruebas de navegador a esa corrida dirigida; la ejecución de suite completa y de pruebas de navegador quedó registrada en la evidencia formal commiteada del candidato.",
+    "agy (gemini-3.8-flash-high): Preservación de fuentes del clon: para mantener las fuentes quietas y no alterar el checkout, no se ejecutó la suite completa (480 casos) ni el sensor formal tools/verify_docs_clue.py en vivo sobre el árbol fuente del clon, ni se realizaron commits o cambios de configuración en Git.",
+    "agy (gemini-3.8-flash-high): Auditoría documental y de producto: se contrastó el párrafo modificado de Oracle Clue en site/index.html (líneas 65-71) contra openspec/changes/20261025-201245-erb-docs-clue/specs/web/spec.md, proposal.md, design.md, docs/agentes.md y las llamadas en oracle_factory/cli.py. Se verificó que: 1) describe de forma consistente que Factory usa Oracle Clue para preparar contexto y validar informes; 2) distingue el análisis a cargo del revisor configurado de las decisiones tomadas por la persona según el modo del proyecto en revisar; 3) se removió la negación contradictoria 'Factory no invoca Clue'; 4) se conserva honestamente el límite del alpha de Clue indicando que aún no busca defectos con IA ni se atribuyen capacidades no implementadas; 5) es plenamente coherente con las otras secciones de la portada (elenco, novedades/revisores).",
+    "agy (gemini-3.8-flash-high): Auditoría del verificador tools/verify_docs_clue.py: se auditó el script de evidencia comprobando límites textuales explícitos (LIMITES en observacion.json y resultado.json), verificación de 7 controles con base conforme, 4 alteraciones sintéticas en memoria (negacion_original, sin_validacion, analisis_atribuido_a_clue, limite_ia_invertido) detectadas correctamente, verificación de suite completa sin omisiones ni duplicados con resultado.observados, fuentes estables antes y después de la corrida (fuentes()), trazabilidad de requisitos a casos (Docs.test_dc1_alguien_llega_al_proyecto) y emisión conforme de hechos (docs_clue_texto y docs_clue_corrida) para las dos medidas en catalogos/.",
+    "agy (gemini-3.8-flash-high): Análisis de mutaciones independiente: se implementó y ejecutó un arnés de mutaciones en la carpeta de trabajo del revisor (test_mutaciones.py) sobre site/index.html, docs/agentes.md y cli.py. Se constató la detección de alteraciones que reintroducen negaciones, remueven validaciones, atribuyen análisis o IA a Clue o quitan la referencia al modo de confirmación, así como mutaciones en agentes.md o cli.py. Asimismo, se constató que la comprobación compara fragmentos literales de la tarjeta y palabras clave en el texto sin constituir un analizador general de prosa, límite declarado y documentado de forma explícita tanto en el verificador como en el catálogo de medidas de Oracle.",
+    "agy (gemini-3.8-flash-high): Auditoría de evidencia formal del candidato 38b81f9: se auditó el directorio candidatos/38b81f9/evidencia, verificando suite.txt con 480 pruebas exitosas sin omisiones, observacion.json con los 7 controles conformes y 4 alteraciones detectadas, hechos.json coincidente con las fórmulas de las medidas y resultado.json con trazabilidad completa y hashes SHA256 íntegros."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

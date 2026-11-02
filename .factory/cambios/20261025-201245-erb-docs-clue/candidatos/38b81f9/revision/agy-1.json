@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs-clue/.factory/local/revisiones/38b81f9-agy-1",
+  "base": "ff0a5eb94f12e832a318520d4a50babdcdcc1760",
+  "head": "38b81f9e13221eb2ba3d5b8818d70400275929da",
+  "diff_sha256": "b44d546a39774f868eb094a0c9847626dfe7907c426728800f531b0e27a35835",
+  "context_sha256": "361aea5566170d0b84123eece9fd01d87bb146f42162123e4f57d87144b04ea9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance de la revisión y del diff: se auditó el candidato 38b81f9e13221eb2ba3d5b8818d70400275929da frente a openspec/changes/20261025-201245-erb-docs-clue/specs/web/spec.md, proposal.md, design.md y tasks.md. Se revisó el cambio en el párrafo de Oracle Clue en site/index.html, el script de verificación tools/verify_docs_clue.py, los catálogos en catalogos/factory_docs_clue.*.oracle y el requisito requisitos/web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue.requisito.",
+    "Sin defectos en el diff: el texto corregido en site/index.html (línea 68) elimina la negación contradictoria 'Factory no invoca Clue' y explica coherentemente que Factory usa Oracle Clue para preparar el contexto de revisión y validar informes externos. Distingue con claridad esas funciones del análisis del código (a cargo del revisor configurado) y de las decisiones sobre los hallazgos en revisar (que siguen el modo del proyecto, correspondiendo a la persona en modo confirmación). Preserva con precisión el límite del alpha de Clue ('el alpha de Clue todavía no busca defectos con IA'). El texto es enteramente consistente con las invocaciones reales a oracle-clue en oracle_factory/cli.py (preparar y validar) y con la guía docs/agentes.md. No se encontraron contradicciones, regresiones ni defectos dentro de los rangos modificados del diff, por lo que la lista de hallazgos (findings) queda vacía conforme al esquema oracle-clue.review/v1.",
+    "Auditoría del verificador tools/verify_docs_clue.py: el verificador declara límites textuales explícitos (LIMITES y el alcance de las medidas en el catálogo Oracle: 'fragmentos enumerados de la portada, guía y llamadas preparar/validar; no demuestra comprensión ni evalúa prosa arbitraria'). Evalúa siete controles textuales y estructurales sobre el HTML, la guía docs/agentes.md y el AST de oracle_factory/cli.py. Ejecuta cuatro alteraciones documentales en memoria sobre base conforme (negacion_original, sin_validacion, analisis_atribuido_a_clue, limite_ia_invertido), detectando las cuatro. Comprueba la estabilidad de las fuentes mediante hashes SHA-256 antes y después de la ejecución. Emite hechos honestos y trazabilidad para el caso contractual test_docs.Docs.test_dc1_alguien_llega_al_proyecto.",
+    "Pruebas dirigidas ejecutadas: se corrió exactamente en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-docs-clue/.venv/bin/python -m unittest tests.test_docs tests.test_web </dev/null (11 pruebas ejecutadas en 0.760s, todas exitosas con código 0). Por instrucción explícita y al ser un clon sin node_modules, no se atribuyó ejecución de navegador a esta corrida dirigida (la ejecución formal de 480 casos y pruebas reales de navegador consta en candidatos/38b81f9/evidencia). No se corrió la suite completa ni el sensor formal ni se realizaron cambios en la configuración Git ni en el checkout.",
+    "Mutaciones evaluadas en copias locales: se verificó en memoria que las cuatro alteraciones implementadas en verify_docs_clue.py fallan adecuadamente los controles sin_negacion, contexto_y_validacion, analisis_externo y limite_ia. Adicionalmente, se verificó mediante simulación en memoria que la prueba preexistente test_docs.Docs.test_dc1_alguien_llega_al_proyecto no evalúa la redacción específica del párrafo de Clue (pasaba tanto con el texto anterior como con el actual), lo que corrobora la necesidad del verificador específico tools/verify_docs_clue.py y de la revisión independiente de la prosa."
+  ]
+}

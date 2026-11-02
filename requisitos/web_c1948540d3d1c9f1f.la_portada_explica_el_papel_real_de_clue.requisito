@@ -1,0 +1,4 @@
+requisito web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue:
+    texto "Tipo: funcional La portada SHALL describir de forma coherente que Factory usa Oracle Clue para preparar el contexto de revisión y validar los informes externos. SHALL distinguir esas tareas del análisis del revisor configurado y de las decisiones de la persona según el modo del proyecto. SHALL NOT afirmar que Factory no invoca Clue ni atribuir al alpha de Clue una revisión automática con IA que no ofrece. La explicación SHALL ser consistente con la CLI y con docs/agentes.md."
+    fuente "openspec/changes/20261025-201245-erb-docs-clue/specs/web/spec.md#la portada explica el papel real de Clue"
+    medido_por factory_docs_clue.la_portada_explica_el_papel_real_de_clue, factory_docs_clue.corrida_completa

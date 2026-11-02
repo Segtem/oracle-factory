@@ -1,0 +1,8 @@
+medida factory_docs_clue.corrida_completa:
+    de docs_clue_corrida c
+    donde c.completa == 1 y c.casos == 1
+    resumen contar(1)
+    umbral == 1 segun contrato porque "suite completa sin omisiones, duplicados ni fallas, requisito trazado, controles conformes, alteraciones detectadas y fuentes estables"
+    requiere docs_clue_corrida
+    ambito universal
+    alcance "integridad local de tools/verify_docs_clue.py; no autentica la evidencia ni reemplaza la revisión humana del texto"

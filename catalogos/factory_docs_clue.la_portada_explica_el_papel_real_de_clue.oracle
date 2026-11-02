@@ -1,0 +1,8 @@
+medida factory_docs_clue.la_portada_explica_el_papel_real_de_clue:
+    de docs_clue_texto c
+    donde c.conforme == 1 y c.controles == 7 y c.alteraciones_detectadas == 4
+    resumen contar(1)
+    umbral == 1 segun contrato porque "siete comprobaciones textuales y de referencias concretas, con cuatro alteraciones detectadas; asociar junto a corrida_completa"
+    requiere docs_clue_texto
+    ambito universal
+    alcance "fragmentos enumerados de la portada, guía y llamadas preparar/validar; no demuestra comprensión ni evalúa prosa arbitraria"
