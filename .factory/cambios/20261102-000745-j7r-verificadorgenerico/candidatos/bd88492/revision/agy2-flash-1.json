@@ -1,0 +1,117 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-verificador-generico/.factory/local/revisiones/bd88492-agy2-flash-1",
+  "base": "1458add3bc60bfd49e5af65bac9f1c0798e1928d",
+  "head": "bd8849241dd0d3a66b7d561bc5859f2a8be2e0f6",
+  "diff_sha256": "43f34844337027b164bd9fafc9f31c3f282726775151241df3baa6db9af05775",
+  "context_sha256": "2e4844b17cf49e191c1550ce512e4557fac9fef0ced7b5181762808f642e8309",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "vg-herencia-unittest-casos-duplicados-falso-fallo",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "La extracción AST omite métodos heredados en clases de prueba, causando fallos de verificación en suites con herencia",
+      "explanation": "En tools/verificar_cambio.py, casos_del_modulo() extrae los casos analizando únicamente el cuerpo sintáctico directo de cada clase con AST (for metodo in clase.body:). Sin embargo, unittest.defaultTestLoader.discover() ejecuta todos los métodos test_* heredados en cada subclase que derive de TestCase. Si un módulo de pruebas organiza casos compartidos en una clase base (un patrón estándar en Python para reutilizar escenarios comunes entre distintas implementaciones o configuraciones), unittest ejecuta dichos métodos tanto en la clase base como en cada una de sus subclases. Al no estar en clase.body de la subclase, casos_del_modulo() no los incluye en el contrato de esa subclase, por lo que no forman parte de esperados. En producir(), observados captura los métodos heredados ejecutados por unittest, provocando que observados == Counter(esperados) evalúe a False. La herramienta rechaza la corrida declarando casos_exactos_sin_omisiones_duplicados_ni_fallas = False y exitoso = False (código de salida 1), a pesar de que todas las pruebas pasaron. La propia prueba del verificador (test_vg1_una_clase_sin_base_o_solo_con_object_no_aporta_casos...) contiene una clase Hija(Real) donde Real define test_dm1_ok e Hija define test_dm1_propio, aseverando erróneamente que Hija solo aporta su método propio; si ese módulo se ejecuta con producir(), la evidencia falla en rojo.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 39,
+        "end_line": 46,
+        "side": "head"
+      },
+      "trigger": "Ejecutar producir() sobre un módulo de pruebas donde una subclase de prueba herede métodos test_<letras><n>_... de una clase base TestCase en el mismo módulo.",
+      "evidence": "Se creó un módulo con class Base(unittest.TestCase): def test_dm1_base(self): pass y class Sub(Base): def test_dm1_propio(self): pass. Al correr unittest, se ejecutan Base.test_dm1_base, Sub.test_dm1_base y Sub.test_dm1_propio. casos_del_modulo() solo extrae ['Base.test_dm1_base', 'Sub.test_dm1_propio']. Al llamar a producir(), observados tiene 3 elementos frente a 2 esperados, observados == Counter(esperados) es False, completa es False y producir() retorna False.",
+      "related_requirement": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica; el_verificador_produce_la_evidencia_completa_del_cambio",
+      "status": "pendiente",
+      "verification": "En tools/verificar_cambio.py, o bien documentar en docs/tests.md y validar explícitamente en casos_del_modulo() que las clases de prueba no pueden heredar métodos de prueba de otras clases del módulo (rechazando con ContratoInvalido si se detecta herencia de métodos de prueba), o resolver la jerarquía de herencia dentro del módulo antes de conformar el contrato."
+    },
+    {
+      "id": "vg-spec-bloques-codigo-falso-requisito",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "requisitos_de_la_spec no ignora bloques de código Markdown (```), desalineando el contrato del importador de Factory y Oracle",
+      "explanation": "En tools/verificar_cambio.py (líneas 52-58), requisitos_de_la_spec() recorre las líneas de la especificación buscando cabeceras con REQUISITO.match(linea) sin ignorar bloques de código cercados (fenced code blocks ```). Si una spec incluye un bloque de código Markdown con un ejemplo explicativo que contenga ### Requirement: <ejemplo>, requisitos_de_la_spec() lo incorpora como un requisito formal del cambio. Sin embargo, el importador de Oracle (oracle_metalenguaje.tools.openspec.requisitos_de_spec) y el lector de pruebas de Factory (oracle_factory.pruebas.leer) omiten explícitamente todo contenido delimitado por ```. Por ello, Oracle nunca importa el requisito de ejemplo en el registro factory.json. Al ejecutarse leer_contrato(), la comparación faltan = [r for r in requisitos if r not in ids] detecta el requisito del ejemplo y lanza ContratoInvalido ('requisitos de la spec que el registro no importó: ...'), abortando la verificación con código 2. Esto contradice el principio de la spec del cambio en su escenario 'un nombre dentro de una cadena no es un caso'.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 52,
+        "end_line": 58,
+        "side": "head"
+      },
+      "trigger": "Incluir en una spec un bloque de código cercado (```markdown ... ```) que contenga una línea con ### Requirement: nombre_ejemplo.",
+      "evidence": "Se contrastó el comportamiento de openspec.requisitos_de_spec() y vc.requisitos_de_la_spec() con un bloque cercado: openspec extrae únicamente los requisitos reales fuera del bloque, mientras que requisitos_de_la_spec() extrae también el requisito contenido en el bloque de código. Al invocar leer_contrato(), la herramienta termina con ContratoInvalido y código de retorno 2.",
+      "related_requirement": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "status": "pendiente",
+      "verification": "En requisitos_de_la_spec(), incorporar una guarda de bloque cercado (similar a la de oracle_factory.pruebas.leer y openspec.py) alternando una bandera booleana en_codigo / cercado cuando la línea despojada de espacios inicie con ```, e ignorar líneas de requisito mientras la bandera esté activa."
+    },
+    {
+      "id": "vg-spec-seccion-requirements-post-removed-ignorada",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La sección estándar ## Requirements tras una sección ## REMOVED Requirements omite requisitos activos",
+      "explanation": "En tools/verificar_cambio.py (líneas 54-58), requisitos_de_la_spec() actualiza la variable retirados mediante la expresión regular DELTA = re.compile(r\"^##\\s+(ADDED|MODIFIED|REMOVED|RENAMED)\\s+Requirements\\s*$\", re.IGNORECASE). Cuando encuentra una sección de requisitos eliminados (## REMOVED Requirements), establece retirados = True. Si a continuación la especificación contiene una sección estándar ## Requirements (la forma canónica de OpenSpec para requisitos consolidados o generales), DELTA no coincide porque carece del prefijo de delta. Por tanto, retirados permanece en True y todos los requisitos legítimos definidos bajo ## Requirements son ignorados. Si no hay más secciones, requisitos_de_la_spec() devuelve una lista incompleta o vacía, impidiendo la verificación del cambio o desalineando el orden ordinal de los casos respecto a los requisitos.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 54,
+        "end_line": 58,
+        "side": "head"
+      },
+      "trigger": "Una spec que defina requisitos activos bajo un encabezado ## Requirements posterior a una sección ## REMOVED Requirements.",
+      "evidence": "Con spec = '## REMOVED Requirements\\n### Requirement: viejo\\n## Requirements\\n### Requirement: activo\\n', vc.requisitos_de_la_spec(spec) retorna [] en lugar de ['activo'].",
+      "related_requirement": "el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica",
+      "status": "pendiente",
+      "verification": "En requisitos_de_la_spec(), reconocer también cabeceras de sección de nivel 2 no delta como ## Requirements para restablecer retirados = False, o reiniciar la bandera ante cualquier encabezado de nivel 2 distinto de REMOVED."
+    },
+    {
+      "id": "vg-catalogos-alcance-saltos-unicode-invalida-oracle",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La validación de --alcance no rechaza separadores de línea Unicode (\\u2028 y \\u2029), escribiendo catálogos con sintaxis inválida",
+      "explanation": "En tools/verificar_cambio.py (línea 173), la comprobación if any(c in '\"\\\\' or ord(c) < 32 for c in alcance): busca impedir que el valor de alcance corrompa la sintaxis del catálogo Oracle. Sin embargo, no contempla los separadores de línea y de párrafo de Unicode U+2028 y U+2029 (cuyo valor ord() es 8232 y 8233, mayor a 32). Al suministrar un texto con estos caracteres mediante --alcance, escribir_catalogos() no los rechaza y escribe el archivo .oracle con alcance \"{alcance}\"\\n. Debido a que el analizador del metalenguaje Oracle (oracle_metalenguaje.Motor.desde_texto) procesa las medidas dividiendo el texto con str.splitlines() —el cual reconoce y divide en \\u2028 y \\u2029—, la línea se fractura en dos. La primera línea queda como un literal JSON inconcluso sin comilla de cierre (alcance \"texto...), provocando que Motor.desde_texto() falle con ErrorDeMotor ('se esperaba texto JSON válido') e invalidando los catálogos generados.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 173,
+        "end_line": 174,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tools/verificar_cambio.py con la opción --catalogos y un argumento --alcance que contenga los caracteres Unicode \\u2028 o \\u2029.",
+      "evidence": "Se generó un catálogo con --alcance conteniendo \\u2028. Al cargarlo con oracle_metalenguaje.Motor.desde_texto(), el motor falló con ErrorDeMotor: <texto>: línea 8, columna 13: se esperaba texto JSON válido; llegó '\"alcance con'.",
+      "related_requirement": "el_verificador_escribe_los_catalogos_del_cambio",
+      "status": "pendiente",
+      "verification": "En escribir_catalogos(), validar que alcance no contenga saltos de línea según str.splitlines (ej. len(alcance.splitlines()) > 1) o bien utilizar json.dumps(alcance, ensure_ascii=False) y verificar que no genere saltos multilinea en la plantilla."
+    },
+    {
+      "id": "vg-tests-cobertura-mutantes-completa-trazada",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "Falta de aserciones aisladas para la completitud de trazabilidad y códigos en la suite de pruebas",
+      "explanation": "En tests/test_verificador_generico.py, existen dos cláusulas críticas en producir() que carecen de pruebas que aíslen su comportamiento, permitiendo la supervivencia de mutantes: 1) En línea 132, trazada = all(...) and len(traza['casos']) == len(esperados). La mutación que elimina len(traza['casos']) == len(esperados) sobrevive intacta porque ningún test simula una trazabilidad que devuelva menos casos que los esperados o un diccionario vacío (donde all() es trivialmente True). 2) En línea 127, completa = observados == Counter(esperados) and all(resultado.observados.get(n, 1) == 0 for n in esperados). La mutación que elimina la verificación de códigos all(...) sobrevive intacta porque en test_vg2_un_caso_que_falla_deja_el_codigo_en_su_hecho_y_no_declara_exito nunca se afirma que resultado['casos_exactos_sin_omisiones_duplicados_ni_fallas'] sea False, y el test de casos fantasma ya hace fallar observados == Counter(esperados).",
+      "location": {
+        "file": "tests/test_verificador_generico.py",
+        "start_line": 182,
+        "end_line": 210,
+        "side": "head"
+      },
+      "trigger": "Introducir mutaciones en producir() suprimiendo len(traza['casos']) == len(esperados) o suprimiendo la comprobación de códigos de retorno en completa, y ejecutar la suite de pruebas.",
+      "evidence": "Ambas mutaciones se aplicaron de forma independiente sobre copias en el entorno de pruebas, y en ambos casos los 36 tests de tests/test_verificador_generico.py pasaron exitosamente sin detectar la alteración.",
+      "related_requirement": "el_verificador_produce_la_evidencia_completa_del_cambio",
+      "status": "pendiente",
+      "verification": "En tests/test_verificador_generico.py, agregar aserciones explícitas para resultado['casos_exactos_sin_omisiones_duplicados_ni_fallas'] en test_vg2_un_caso_que_falla... y agregar un escenario donde trazabilidad.trazar devuelva un subconjunto incompleto de casos ok para forzar el fallo de trazada."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se contrastaron todos los requisitos y escenarios de la spec con tools/verificar_cambio.py, tests/test_verificador_generico.py, docs/tests.md y los 4 catálogos en catalogos/.",
+    "Se ejecutaron pruebas unitarias sobre el candidato bd88492 y se ejecutó la herramienta sobre sí misma generando catálogos y comparando huellas.",
+    "Se realizaron mutaciones sobre copias locales aisladas en la carpeta del revisor para comprobar qué mutantes sobreviven y cuáles son detectados por la suite.",
+    "Se comprobó la compatibilidad de carga de los catálogos y medidas resultantes con el motor de oracle_metalenguaje.",
+    "No se modificó el checkout de revisión ni se alteró la configuración de Git."
+  ]
+}

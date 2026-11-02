@@ -84,7 +84,24 @@ class Contrato(unittest.TestCase):
         texto = ('import unittest\n\n\nclass Suelta:\n    def test_dm1_fantasma(self):\n        pass\n\n\nclass Objeto(object):\n'
                  '    def test_dm1_otro(self):\n        pass\n\n\nclass Real(unittest.TestCase):\n    def test_dm1_ok(self):\n        pass\n\n\n'
                  'class Hija(Real):\n    def test_dm1_propio(self):\n        pass\n\n\nclass Ajena(otro.Base):\n    def test_dm1_ajeno(self):\n        pass\n')
-        self.assertEqual(vc.casos_del_modulo(texto), {1: ['Ajena.test_dm1_ajeno', 'Hija.test_dm1_propio', 'Real.test_dm1_ok']})
+        self.assertEqual(vc.casos_del_modulo(texto), {1: ['Ajena.test_dm1_ajeno', 'Hija.test_dm1_ok', 'Hija.test_dm1_propio', 'Real.test_dm1_ok']})  # Hija hereda el de Real
+
+    def test_vg1_los_metodos_heredados_de_una_clase_o_un_mixin_del_modulo_cuentan_en_la_subclase(self):
+        texto = ('import unittest\n\n\nclass Mixin:\n    def test_dm1_comun(self):\n        pass\n    def test_dm2_otro(self):\n        pass\n\n\n'
+                 'class Uno(Mixin, unittest.TestCase):\n    def test_dm2_otro(self):\n        pass\n\n\nclass Dos(Uno):\n    pass\n\n\n'
+                 'class Ciclo(Ciclo2):\n    pass\n\n\nclass Ciclo2(Ciclo):\n    pass\n')
+        self.assertEqual(vc.casos_del_modulo(texto), {1: ['Dos.test_dm1_comun', 'Uno.test_dm1_comun'],
+                                                      2: ['Dos.test_dm2_otro', 'Uno.test_dm2_otro']})  # el Mixin solo no cuenta; los ciclos no cuelgan
+        con_base_importada = 'from x import Base\n\n\nclass A(Base):\n    def test_dm1_a(self):\n        pass\n'
+        self.assertEqual(vc.casos_del_modulo(con_base_importada), {1: ['A.test_dm1_a']})  # una base que no está en el módulo no rompe
+
+    def test_vg1_un_encabezado_dentro_de_un_bloque_de_codigo_no_es_un_requisito(self):
+        spec = '### Requirement: uno\n\n```markdown\n### Requirement: ejemplo\n```\n\n~~~\n### Requirement: otro\n~~~\n### Requirement: dos\n'
+        self.assertEqual(vc.requisitos_de_la_spec(spec), ['uno', 'dos'])
+
+    def test_vg1_una_seccion_comun_despues_de_removed_vuelve_a_contar(self):
+        spec = '## REMOVED Requirements\n### Requirement: viejo\n## Requirements\n### Requirement: vigente\n'
+        self.assertEqual(vc.requisitos_de_la_spec(spec), ['vigente'])
 
     def test_vg1_la_cabecera_de_la_spec_tolera_los_espacios_que_tolera_factory(self):
         spec = '###  Requirement:   uno  \n###\tRequirement: dos\n##  ADDED   Requirements\n###  Requirement: tres\n'
@@ -208,12 +225,40 @@ class Evidencia(ProyectoTemporal):
         self.assertEqual(codigos['NoCorre.test_dm1_fantasma'], 1)
         self.assertFalse(self.resultado()['casos_exactos_sin_omisiones_duplicados_ni_fallas'])
 
-    def test_vg2_si_la_corrida_trae_casos_de_mas_por_herencia_no_hay_exito_aunque_todo_pase(self):
+    def test_vg2_una_subclase_que_hereda_casos_los_trae_en_el_contrato_y_hay_exito(self):
         self.escribir('tests/test_demo.py', MODULO + '\n\nclass Hija(Uno):\n    pass\n')  # unittest corre también Hija.test_dm1_a, etc.
         r = self.correr('--salida', str(self.evidencia()))
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        hechos = json.loads((self.evidencia() / 'hechos.json').read_text())
+        self.assertIn('Hija.test_dm1_a', {h['caso'] for h in hechos['demo_caso']})
+        self.assertEqual(hechos['demo_corrida'][0]['casos'], 8)
+
+    def test_vg2_si_la_corrida_trae_un_caso_que_el_contrato_no_conoce_no_hay_exito_aunque_todo_pase(self):
+        self.escribir('tests/test_demo.py', MODULO + "\n\nDinamica = type('Dinamica', (unittest.TestCase,), {'test_dm1_dinamico': lambda self: None})\n")
+        r = self.correr('--salida', str(self.evidencia()))  # una clase creada en tiempo de ejecución: ast no la ve y unittest sí
         self.assertEqual(r.returncode, 1)
         resultado = self.resultado()
         self.assertFalse(resultado['casos_exactos_sin_omisiones_duplicados_ni_fallas'])
+        self.assertTrue(resultado['fuentes_estables'])
+        self.assertFalse(resultado['exitoso'])
+
+    def test_vg2_un_caso_omitido_no_cuenta_como_pasado(self):
+        self.escribir('tests/test_demo.py', MODULO.replace("    def test_dm1_b(self):", "    @unittest.skip('adrede')\n    def test_dm1_b(self):"))
+        r = self.correr('--salida', str(self.evidencia()))
+        self.assertEqual(r.returncode, 1)
+        codigos = {h['caso']: h['codigo'] for h in json.loads((self.evidencia() / 'hechos.json').read_text())['demo_caso']}
+        self.assertEqual(codigos['Uno.test_dm1_b'], 1)
+        self.assertFalse(self.resultado()['casos_exactos_sin_omisiones_duplicados_ni_fallas'])
+
+    def test_vg2_una_trazabilidad_con_menos_casos_de_los_esperados_no_es_exito(self):
+        from unittest.mock import patch
+        with patch.object(vc.trazabilidad, 'trazar', return_value={'casos': {}, 'requisitos': {}}), patch.object(sys, 'path', list(sys.path)):
+            try:
+                self.assertFalse(vc.producir(self.raiz, CAMBIO, 'test_demo', self.evidencia()))
+            finally:
+                sys.modules.pop('test_demo', None)
+        resultado = self.resultado()
+        self.assertTrue(resultado['casos_exactos_sin_omisiones_duplicados_ni_fallas'])
         self.assertTrue(resultado['fuentes_estables'])
         self.assertFalse(resultado['exitoso'])
 
@@ -365,7 +410,7 @@ class Catalogos(ProyectoTemporal):
             'asociar junto a corrida_completa"\n    requiere demo_caso\n    ambito universal\n    alcance "mi alcance"\n'))
 
     def test_vg3_un_alcance_con_comillas_o_saltos_de_linea_se_rechaza_y_no_escribe_nada(self):
-        for alcance in ('escenarios con "mock"', 'dos\nlíneas', 'con\rretorno', 'con\ttab', 'en C:\\tests\\'):
+        for alcance in ('escenarios con "mock"', 'dos\nlíneas', 'con\rretorno', 'con\ttab', 'en C:\\tests\\', 'uno\u2028dos', 'uno\u2029dos', 'uno\x85dos', 'uno\x0bdos', 'uno\x1cdos'):
             with self.subTest(alcance=alcance):
                 r = self.correr('--catalogos', '--alcance', alcance)
                 self.assertEqual(r.returncode, 2)

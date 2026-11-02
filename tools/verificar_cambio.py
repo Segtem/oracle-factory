@@ -33,26 +33,42 @@ class ContratoInvalido(Exception):
     """Los nombres de las pruebas y la spec no coinciden: no se puede decir qué prueba qué."""
 
 
+def _metodos(clase: ast.ClassDef, clases: dict[str, ast.ClassDef], vistas: tuple[str, ...] = ()) -> set[str]:
+    """Los nombres de los métodos de la clase y de sus bases del mismo módulo: unittest corre también lo heredado."""
+    nombres = {m.name for m in clase.body if isinstance(m, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    for base in clase.bases:
+        if isinstance(base, ast.Name) and base.id in clases and base.id not in vistas + (clase.name,):  # una base importada no se conoce
+            nombres |= _metodos(clases[base.id], clases, vistas + (clase.name,))
+    return nombres
+
+
 def casos_del_modulo(texto: str) -> dict[int, list[str]]:
-    """{n: ['Clase.método', …]}: los métodos `test_<letras><n>_…` de las clases del módulo (leídas con `ast`, no con el texto)."""
+    """{n: ['Clase.método', …]}: los métodos `test_<letras><n>_…` de las clases del módulo, propios o heredados de otra clase del módulo
+    (unittest también los corre en la subclase), leídos con `ast` y no con el texto."""
+    clases = {c.name: c for c in ast.parse(texto).body if isinstance(c, ast.ClassDef)}
     casos: dict[int, list[str]] = {}
-    for clase in ast.parse(texto).body:
-        # Sin base, o sólo con `object`, no puede ser un TestCase: unittest no la correría. Con cualquier otra base (también una importada o
-        # una clase propia del módulo) se cuenta: si no corre, el hecho de ese caso queda con código 1 y la evidencia en rojo.
-        if isinstance(clase, ast.ClassDef) and any(not (isinstance(b, ast.Name) and b.id == "object") for b in clase.bases):
-            for metodo in clase.body:
-                if isinstance(metodo, (ast.FunctionDef, ast.AsyncFunctionDef)) and (m := CASO.match(metodo.name)):
-                    casos.setdefault(int(m[1]), []).append(f"{clase.name}.{metodo.name}")
+    for clase in clases.values():
+        # Sin base, o sólo con `object`, no puede ser un TestCase: unittest no la correría (un mixin sin base aporta sus métodos a las
+        # subclases que lo heredan). Con cualquier otra base se cuenta: si no corre, el hecho de ese caso queda con código 1 y la evidencia en rojo.
+        if any(not (isinstance(b, ast.Name) and b.id == "object") for b in clase.bases):
+            for nombre in _metodos(clase, clases):
+                if m := CASO.match(nombre):
+                    casos.setdefault(int(m[1]), []).append(f"{clase.name}.{nombre}")
     return {n: sorted(lista) for n, lista in sorted(casos.items())}
 
 
 def requisitos_de_la_spec(texto: str) -> list[str]:
     """Los requisitos de la spec en el orden en que aparecen, como los importa Factory: el nombre del «### Requirement: …» pasado a
-    slug (`modos.slug`). Los de una sección REMOVED no se importan ni se miden."""
-    retirados, nombres = False, []
+    slug (`modos.slug`). Los de una sección REMOVED no se importan ni se miden, y lo que está dentro de un bloque de código tampoco."""
+    retirados, en_codigo, nombres = False, False, []
     for linea in texto.splitlines():
-        if delta := DELTA.match(linea):
-            retirados = delta[1].upper() == "REMOVED"
+        if linea.lstrip().startswith(("```", "~~~")):
+            en_codigo = not en_codigo
+        elif en_codigo:
+            continue
+        elif re.match(r"^##\s", linea):  # cualquier sección de nivel 2 cierra la anterior: «## Requirements» después de «## REMOVED» vuelve a contar
+            delta = DELTA.match(linea)
+            retirados = bool(delta) and delta[1].upper() == "REMOVED"
         elif (m := REQUISITO.match(linea)) and not retirados:
             nombres.append(modos.slug(m[1]))
     return nombres
@@ -170,8 +186,8 @@ def catalogo_de_corrida(x: str, casos: int) -> str:
 
 def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> list[str]:
     """Escribe los catálogos del cambio en `raiz/catalogos`; devuelve los nombres de los que cambiaron (los que ya estaban igual no se tocan)."""
-    if any(c in '"\\' or ord(c) < 32 for c in alcance):  # el catálogo lo escribe entre comillas dobles, con la sintaxis de cadenas de JSON
-        raise ContratoInvalido("el alcance no puede llevar comillas dobles, barras invertidas ni caracteres de control (tabulaciones, saltos de línea)")
+    if any(c in '"\\' or not c.isprintable() for c in alcance):  # el catálogo lo escribe entre comillas dobles, con la sintaxis de cadenas de JSON
+        raise ContratoInvalido("el alcance no puede llevar comillas dobles, barras invertidas ni caracteres que no se imprimen (tabulaciones, saltos de línea, separadores de línea Unicode)")
     por_nombre, _ = leer_contrato(raiz, cambio, modulo)
     x = modulo.removeprefix("test_")
     destino = raiz / "catalogos"
