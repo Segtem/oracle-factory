@@ -35,6 +35,9 @@ capacidad: "practicas"
 - 2026-11-02 01:41 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-02 01:41 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-02 01:41 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-02 10:01 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-02 10:01 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-02 10:01 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -55,6 +58,7 @@ capacidad: "practicas"
 - `7d1c4f8` verificador-generico: proponer de nuevo las medidas (trailer)
 - `bd88492` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
 - `4f9bbf9` verificador-generico: arreglar los hallazgos de la tercera ronda (herencia, bloques de código, secciones, separadores Unicode, cláusulas del éxito aisladas) (trailer)
+- `6aad62d` verificador-generico: proponer de nuevo las medidas (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes
