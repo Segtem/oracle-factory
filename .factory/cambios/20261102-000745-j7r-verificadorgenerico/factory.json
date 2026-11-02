@@ -2,7 +2,7 @@
   "id": "20261102-000745-j7r-verificadorgenerico",
   "titulo": "Un verificador reutilizable para la evidencia de cada cambio",
   "capacidad": "practicas",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md",
   "spec_sha256": "13273363a5bfa74f7d925556b60fbf13bf16e1bb227156aa5d2b84483d2a7eca",
   "spec_aprobada": {
@@ -22,7 +22,19 @@
     "practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio"
   ],
   "revision": null,
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/candidatos/749822a/evidencia/hechos.json",
+    "hechos_sha256": "689176284cfccbcfe7a750a15646a5932b6fd40be34d0df4ed2dab3e641d6883",
+    "informe": ".factory/cambios/20261102-000745-j7r-verificadorgenerico/oracle-veredicto.txt",
+    "informe_sha256": "0ba7472adebb6819045fd0280fe0675634eda10ccc937004d5a9a6033af2603e",
+    "cuando": "2026-11-02T15:41:16.510099+00:00",
+    "contexto": {
+      "head": "749822afceeb9d2f48a0ac78f89fa1c3f9ca7e10",
+      "archivos_sha256": "049d933c409de33991a4700623dc5c7c6594b2951db7cc954088cc00f1d0547d"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -671,6 +683,69 @@
         "factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio",
         "factory_verificador_generico.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T15:26:03.690957+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "749822a",
+      "lanzamiento": "3e0010b41a05"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T15:26:03.724293+00:00",
+      "revisor": "codex",
+      "candidato": "749822a",
+      "lanzamiento": "6653963ee126"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T15:26:51.551484+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "749822a",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "6653963ee126"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "agy",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-02T15:41:16.510115+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "689176284cfccbcfe7a750a15646a5932b6fd40be34d0df4ed2dab3e641d6883"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T15:44:14.576157+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "749822a",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "3e0010b41a05"
     }
   ],
   "tipos": {

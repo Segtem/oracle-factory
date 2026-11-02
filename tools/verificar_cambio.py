@@ -190,7 +190,7 @@ def catalogo_de_corrida(x: str, casos: int) -> str:
 
 
 def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> list[str]:
-    """Escribe los catálogos del cambio en `raiz/catalogos`; devuelve los nombres de los que cambiaron (los que ya estaban igual no se tocan)."""
+    """Escribe los catálogos del cambio en `raiz/catalogos`; devuelve los nombres de los que cambiaron o se retiraron (los que ya estaban igual no se tocan)."""
     if any(c in '"\\' or not c.isprintable() for c in alcance):  # el catálogo lo escribe entre comillas dobles, con la sintaxis de cadenas de JSON
         raise ContratoInvalido("el alcance no puede llevar comillas dobles, barras invertidas ni caracteres que no se imprimen (tabulaciones, saltos de línea, separadores de línea Unicode)")
     por_nombre, _ = leer_contrato(raiz, cambio, modulo)
@@ -206,6 +206,12 @@ def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> li
         destino.mkdir(exist_ok=True)
         ruta.write_text(texto, encoding="utf-8")
         cambiados.append(nombre)
+    # Los catálogos de este módulo que la spec ya no pide (un requisito renombrado o quitado) seguirían siendo medidas activas: se retiran.
+    # El punto después de `factory_<x>` es lo que separa a este módulo de otro cuyo nombre empieza igual (`demo` y `demo_extra`).
+    for vieja in sorted(destino.glob(f"factory_{x}.*.oracle")) if destino.is_dir() else []:
+        if vieja.name not in textos:
+            vieja.unlink()
+            cambiados.append(f"{vieja.name} (retirado)")
     return cambiados
 
 

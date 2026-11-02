@@ -1,0 +1,33 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-verificador-generico/.factory/local/revisiones/749822a-codex-1",
+  "base": "1458add3bc60bfd49e5af65bac9f1c0798e1928d",
+  "head": "749822afceeb9d2f48a0ac78f89fa1c3f9ca7e10",
+  "diff_sha256": "b3f3dce428457b90c8e03fd71bb6aa36410d1d535deef39469ea1e07e35f1317",
+  "context_sha256": "9019f1ab19b8dc6bbbaebb48065c15f758bbac449cad8aae5f4032daf862b1f3",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "VG-749822a-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "La regeneración de catálogos conserva medidas de requisitos ya eliminados",
+      "explanation": "`escribir_catalogos` escribe o actualiza los archivos calculados para los requisitos presentes, pero nunca retira los archivos `factory_<módulo>.<requisito>.oracle` que ya existen para ese mismo módulo y dejaron de corresponder a la spec. Al renombrar o quitar un requisito y regenerar con `--catalogos`, el directorio queda con los catálogos nuevos y los obsoletos. Esos archivos siguen siendo medidas Oracle activas, así que una corrida posterior puede evaluar una medida del requisito viejo además del conjunto actual. Esto contradice la expectativa operativa de regenerar los catálogos del cambio a partir del contrato vigente.",
+      "location": {"file": "tools/verificar_cambio.py", "start_line": 201, "end_line": 209, "side": "head"},
+      "trigger": "Generar catálogos para `test_demo` con requisito `el_viejo`, cambiar la spec y el módulo de modo que el requisito se llame `el_nuevo`, y volver a ejecutar `--catalogos`.",
+      "evidence": "El bucle sólo itera `textos.items()` y escribe cada ruta calculada (líneas 201–209); no enumera ni elimina catálogos previos del prefijo `factory_demo.`. Por tanto `factory_demo.el_viejo.oracle` permanece junto a `factory_demo.el_nuevo.oracle`. Las pruebas cubren actualización de contenido y repetición idéntica, pero no el retiro de requisitos/catálogos obsoletos.",
+      "related_requirement": "el_verificador_escribe_los_catalogos_del_cambio",
+      "status": "pendiente",
+      "verification": "Análisis estático del generador y sus pruebas. No ejecuté una mutación en copia para este caso."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, el diff del paquete y las revisiones anteriores indicadas; revisé que los hallazgos previos relevantes estén cubiertos por el candidato.",
+    "Corrí `python -m unittest tests.test_verificador_generico </dev/null`: 44 pruebas pasaron. No pude usar `.venv/bin/python` porque ese entorno no existe en el checkout de revisión.",
+    "El parser de cercas conserva carácter y longitud, limita la sangría a tres espacios y rechaza backticks en la info string de una cerca de backticks; la prueba de la suite cubre esos casos y casos anidados.",
+    "La comparación de fuentes ahora comprueba hashes y `st_mtime_ns` antes y después de la suite y de la trazabilidad. Reescrituras con restauración de bytes se detectan si cambian la hora observada; la precisión reportada es de nanosegundos del sistema, pero los sistemas de archivos pueden tener granularidad menor. En un repositorio real esto puede producir un falso `fuentes no quietas` si una prueba toca y restaura un archivo producto versionado durante la corrida: es el costo intencional de detectar la clase de modificación restaurada y sólo afecta corridas que escriban dentro del árbol de producto. No encontré evidencia de que el checkout habitual reescriba por sí mismo esos archivos durante la corrida.",
+    "No revisé los archivos excluidos de Factory especificados por quien pidió la revisión; no edité el checkout. No hice mutaciones manuales."
+  ]
+}

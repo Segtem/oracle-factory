@@ -1,7 +1,7 @@
 ---
 generado: oracle-factory kb
 id: "20261102-000745-j7r-verificadorgenerico"
-fase: "requisitos_importados"
+fase: "oracle_verde"
 capacidad: "practicas"
 ---
 
@@ -9,16 +9,16 @@ capacidad: "practicas"
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Fase: requisitos_importados
+- Fase: oracle_verde
 - Capacidad: practicas
 - Responsable: nadie
 - Spec: [openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md](../../openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md)
 
 ## Requisitos
 
-- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica]] — sin juicio
-- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio]] — sin juicio
-- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio]] — sin juicio
+- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica]] — cumple
+- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio]] — cumple
+- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio]] — cumple
 
 ## Decisiones
 
@@ -41,6 +41,7 @@ capacidad: "practicas"
 - 2026-11-02 15:18 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-02 15:18 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-02 15:18 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-02 15:41 · Juicio de Oracle · agy (agente)
 
 ## Riesgos aceptados
 
@@ -66,6 +67,7 @@ capacidad: "practicas"
 - `c6c5460` verificador-generico: arreglar los hallazgos de la cuarta ronda (cercas de Markdown como CommonMark, archivo restaurado durante la corrida) (trailer)
 - `198f19e` verificador-generico: proponer de nuevo las medidas (trailer)
 - `9043270` verificador-generico: proponer las medidas con los catálogos regenerados (trailer)
+- `749822a` verificador-generico: registrar la confirmación de medidas por Brian (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes

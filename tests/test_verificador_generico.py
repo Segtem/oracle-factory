@@ -437,6 +437,25 @@ class Catalogos(ProyectoTemporal):
                 self.assertIn('alcance', r.stderr)
                 self.assertFalse(self.carpeta().exists())
 
+    def test_vg3_un_requisito_renombrado_retira_su_catalogo_viejo_y_no_toca_los_de_otros_modulos(self):
+        self.correr('--catalogos')
+        ajeno = self.carpeta() / 'factory_demo_extra.el_primero.oracle'  # otro módulo cuyo nombre empieza igual
+        ajeno.write_text('medida ajena\n')
+        otro = self.carpeta() / 'factory_otro.cosa.oracle'
+        otro.write_text('medida otra\n')
+        self.escribir(f'openspec/changes/{CAMBIO}/specs/demo/spec.md', SPEC.replace('el_segundo', 'el_nuevo'))
+        self.escribir(f'.factory/cambios/{CAMBIO}/factory.json', json.dumps({'requisitos': ['demo_h.el_nuevo', 'demo_h.el_primero']}))
+        r = self.correr('--catalogos')
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertFalse((self.carpeta() / 'factory_demo.el_segundo.oracle').exists())
+        self.assertTrue((self.carpeta() / 'factory_demo.el_nuevo.oracle').is_file())
+        self.assertTrue(ajeno.is_file())
+        self.assertTrue(otro.is_file())
+        self.assertIn('factory_demo.el_segundo.oracle (retirado)', r.stdout)
+        self.assertIn('factory_demo.el_primero.oracle', sorted(p.name for p in self.carpeta().glob('factory_demo.*.oracle')))
+        again = self.correr('--catalogos')
+        self.assertIn('sin cambios', again.stdout)  # y ya no hay nada que retirar
+
     def test_vg3_con_un_contrato_roto_no_escribe_nada(self):
         self.escribir('tests/test_demo.py', 'import unittest\n')
         r = self.correr('--catalogos')
