@@ -109,7 +109,8 @@ class CaminoPuro(unittest.TestCase):
         self.assertEqual(alarmas.UMBRAL_LIGERO, 150)
         self.assertEqual(set(alarmas.REGLAS_DE_DECISION), {
             'oracle_factory/cli.py', 'oracle_factory/modos.py', 'oracle_factory/flujo_revision.py', 'oracle_factory/flujo_medidas.py',
-            'oracle_factory/revision.py', 'oracle_factory/preparacion.py', 'oracle_factory/puerta.py', 'oracle_factory/unir.py'})
+            'oracle_factory/revision.py', 'oracle_factory/preparacion.py', 'oracle_factory/puerta.py', 'oracle_factory/unir.py',
+            'oracle_factory/alarmas.py'})
         for regla in alarmas.REGLAS_DE_DECISION:
             self.assertTrue((SOURCE / regla).is_file(), regla)  # la lista no apunta a un archivo que ya no existe
 
@@ -183,6 +184,19 @@ class Pendientes(_te.Base):
 
 class Guia(unittest.TestCase):
     # --- cl3: la guía para agentes lo explica y no se desactualiza ------------------------------------------------------------
+    def test_cl3_la_guia_dice_los_numeros_y_los_archivos_aprobados_no_solo_lo_que_diga_el_codigo(self):
+        texto = agentes.bloque('confirmacion')
+        self.assertIn('hasta 150 líneas de producto', texto)  # literales: si alguien cambia la constante, esta prueba lo nota
+        for regla in ('cli', 'modos', 'flujo_revision', 'flujo_medidas', 'revision', 'preparacion', 'puerta', 'unir', 'alarmas'):
+            self.assertIn(f'`oracle_factory/{regla}.py`', texto)
+
+    def test_cl3_el_documento_nombra_el_umbral_las_reglas_y_los_limites(self):
+        documento = (SOURCE / 'docs/agentes.md').read_text(encoding='utf-8')
+        self.assertIn(f'{alarmas.UMBRAL_LIGERO} líneas', documento)
+        for regla in alarmas.REGLAS_DE_DECISION:
+            self.assertIn(f"`{regla.rsplit('/', 1)[-1]}`", documento)
+        self.assertRegex(documento, r'(?s)Límites conocidos.*binario.*renombre')
+
     def test_cl3_la_guia_nombra_el_umbral_cada_regla_y_el_criterio_de_la_ronda(self):
         texto = agentes.bloque('confirmacion')
         self.assertIn(f'{alarmas.UMBRAL_LIGERO} líneas', texto)

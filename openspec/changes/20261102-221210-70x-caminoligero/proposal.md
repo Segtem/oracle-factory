@@ -6,7 +6,7 @@ Todos los cambios de Factory pasan hoy por el mismo recorrido de revisión, sea 
 
 ## Qué cambia
 
-- `oracle-factory estado ID` (y su JSON, clave `camino`) dice si el candidato califica para el **camino ligero**: agrega **150 líneas de producto o menos** (las mismas que cuenta la alarma de tamaño) y **no toca las reglas de decisión**, que son `oracle_factory/cli.py`, `modos.py`, `flujo_revision.py`, `flujo_medidas.py`, `revision.py`, `preparacion.py`, `puerta.py` y `unir.py`. Si no califica, dice por qué (cuántas líneas y qué archivos de decisión toca).
+- `oracle-factory estado ID` (y su JSON, clave `camino`) dice si el candidato califica para el **camino ligero**: agrega **150 líneas de producto o menos** (las mismas que cuenta la alarma de tamaño) y **no toca las reglas de decisión**, que son `oracle_factory/cli.py`, `modos.py`, `flujo_revision.py`, `flujo_medidas.py`, `revision.py`, `preparacion.py`, `puerta.py`, `unir.py` y `alarmas.py` (donde vive el propio clasificador del camino ligero: un cambio que lo toque no puede salir «ligero»). Si no califica, dice por qué (cuántas líneas y qué archivos de decisión toca).
 - La guía para agentes (`oracle-factory agentes`, bloque de `AGENTS.md`) explica el camino ligero: **un revisor y una ronda**; si esa ronda no trae hallazgos medios ni altos se pasa directo a preparar la revisión; si trae, el cambio sigue el camino completo.
 - Nada de lo que decide una persona cambia, ni ningún paso pendiente: sigue siendo necesaria la aprobación de la spec, la confirmación de las medidas, la revisión humana y el cierre. El camino ligero sólo dice cuánta revisión independiente conviene pedir; no la reemplaza ni la bloquea.
 

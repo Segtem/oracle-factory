@@ -139,6 +139,58 @@
         "factory_camino_ligero.la_guia_para_agentes_explica_el_camino_ligero",
         "factory_camino_ligero.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T23:37:27.294066+00:00",
+      "revisor": "codex",
+      "candidato": "144ad8b",
+      "lanzamiento": "dcd797da7822"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T23:37:27.386537+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "144ad8b",
+      "lanzamiento": "d6a2e8c9fc5e"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T23:38:21.689668+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "144ad8b",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "dcd797da7822"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-02T23:50:05.749079+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "144ad8b",
+      "resultado": "ok",
+      "hallazgos": 6,
+      "lanzamiento": "d6a2e8c9fc5e"
     }
   ],
   "tipos": {

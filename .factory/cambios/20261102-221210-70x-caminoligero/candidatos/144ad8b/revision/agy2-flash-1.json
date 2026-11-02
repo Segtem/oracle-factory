@@ -1,0 +1,135 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-camino-ligero/.factory/local/revisiones/144ad8b-agy2-flash-1",
+  "base": "4949d5a22c5b7cbb1b8d4268a5e6ce736bf064f7",
+  "head": "144ad8bc9f684d2ced5169769546cddb034e89df",
+  "diff_sha256": "c8696bad7cb0a5b8708d3c5b4669a9f969eda26baf702ae3071094eeae8c7b3d",
+  "context_sha256": "f5a98c897019857042be042e94028a49af2bc34aac8f92b2953a7030751b8b16",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "H-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Omisión de oracle_factory/alarmas.py en REGLAS_DE_DECISION permite camino ligero para cambios que alteran la lógica de revisión",
+      "explanation": "El módulo oracle_factory/alarmas.py define e implementa el umbral del camino ligero (UMBRAL_LIGERO), la lista de archivos de reglas (REGLAS_DE_DECISION), el cálculo de líneas de producto y archivos tocados, y la decisión entre camino ligero y completo. Sin embargo, no está incluido en la tupla REGLAS_DE_DECISION. En consecuencia, un cambio de hasta 150 líneas que modifique el comportamiento del clasificador (por ejemplo, aumentando el umbral, relajando archivos_tocados o quitando reglas) es catalogado como ligero, reduciendo la revisión independiente a 1 revisor y 1 sola ronda para un cambio en la política misma de revisión.",
+      "location": {
+        "file": "oracle_factory/alarmas.py",
+        "start_line": 196,
+        "end_line": 198,
+        "side": "head"
+      },
+      "trigger": "Un candidato modifica oracle_factory/alarmas.py con 150 o menos líneas de producto y sin tocar los 8 archivos listados en REGLAS_DE_DECISION.",
+      "evidence": "camino_del_candidato ejecutado sobre un candidato que altera UMBRAL_LIGERO o REGLAS_DE_DECISION dentro de alarmas.py devuelve tipo: 'ligero' y reglas_tocadas: [].",
+      "related_requirement": "el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+      "status": "pendiente",
+      "verification": "Incluir 'oracle_factory/alarmas.py' en REGLAS_DE_DECISION y verificar con un caso de prueba que su modificación produzca camino completo con reglas_tocadas: ['oracle_factory/alarmas.py']."
+    },
+    {
+      "id": "H-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Renombrar archivos de pruebas hacia producto agrega 0 líneas de producto y califica indebidamente como ligero",
+      "explanation": "En git diff --numstat -z -M, cuando un archivo preexistente se mueve o renombra, Git reporta únicamente las líneas netas agregadas o eliminadas relativas al contenido anterior (0\\t0\\t\\0origen\\0destino\\0 si el contenido no cambia). Si un archivo grande de tests (por ejemplo 300 líneas) se renombra mediante git mv a un módulo de producto (ej. oracle_factory/nuevo.py), lineas_de_producto toma ruta = destino y suma agregadas (0). Como 0 <= 150 y el nuevo nombre no estaba en REGLAS_DE_DECISION, el cambio califica como camino ligero a pesar de introducir cientos de líneas a la huella de producto sin revisión completa.",
+      "location": {
+        "file": "oracle_factory/alarmas.py",
+        "start_line": 209,
+        "end_line": 219,
+        "side": "head"
+      },
+      "trigger": "Un candidato mueve código de pruebas a una ruta de producto con git mv sin editar sustancialmente sus líneas.",
+      "evidence": "Un git mv de tests/test_aux.py (con 200 líneas) a src/aux.py produce en numstat 0 adiciones; lineas_de_producto computa 0 líneas y camino_del_candidato devuelve 'ligero'. Hallazgo de carácter técnico/exótico.",
+      "related_requirement": "el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+      "status": "pendiente",
+      "verification": "Al detectar un renombre donde el origen no era producto (o era de pruebas) y el destino sí lo es, computar las líneas totales del archivo como agregadas a producto."
+    },
+    {
+      "id": "H-003",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Archivos binarios agregados a producto computan 0 líneas y califican para camino ligero",
+      "explanation": "Git diff numstat representa archivos binarios con guiones ('-\\t-\\truta\\0'). En lineas_de_producto, la verificación agregadas.isdigit() evalúa False para '-', omitiendo la suma. Un cambio que agregue archivos binarios pesados (ej. base de datos local SQLite, assets o blobs binarios en rutas de producto) suma 0 líneas de producto y, si no toca reglas de decisión, califica como camino ligero (0 líneas de producto, 150 o menos).",
+      "location": {
+        "file": "oracle_factory/alarmas.py",
+        "start_line": 209,
+        "end_line": 219,
+        "side": "head"
+      },
+      "trigger": "Incorporación de un archivo binario en el candidato dentro de una ruta de producto.",
+      "evidence": "Un archivo binario en producto resulta en lineas == 0 y camino['tipo'] == 'ligero'. Hallazgo exótico para este repositorio pero presente en la heurística.",
+      "related_requirement": "el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+      "status": "pendiente",
+      "verification": "Detectar si algún archivo de producto es binario (agregadas == '-') y tratarlo como camino completo o asignarle un peso no nulo."
+    },
+    {
+      "id": "H-004",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_cl3_la_guia_nombra_el_umbral_cada_regla_y_el_criterio_de_la_ronda pasa por construcción dinámica",
+      "explanation": "El test test_cl3_la_guia_nombra_el_umbral_cada_regla_y_el_criterio_de_la_ronda comprueba que la guía mencione el umbral y las reglas haciendo assertIn(f'{alarmas.UMBRAL_LIGERO} líneas', texto) y recorriendo alarmas.REGLAS_DE_DECISION. Dado que agentes.bloque interpola directamente esas mismas variables dinámicamente en tiempo de ejecución, la prueba pasa tautológicamente por construcción para cualquier valor asignado a alarmas (ej. 9999 líneas), sin validar de forma estricta contra las 150 líneas y las 8 reglas aprobadas por el contrato de la spec.",
+      "location": {
+        "file": "tests/test_camino_ligero.py",
+        "start_line": 186,
+        "end_line": 193,
+        "side": "head"
+      },
+      "trigger": "Mutación de UMBRAL_LIGERO en alarmas.py antes de ejecutar test_cl3.",
+      "evidence": "Asignando alarmas.UMBRAL_LIGERO = 9999, el test test_cl3_la_guia_nombra_el_umbral_cada_regla_y_el_criterio_de_la_ronda continúa pasando exitosamente.",
+      "related_requirement": "la_guia_para_agentes_explica_el_camino_ligero",
+      "status": "pendiente",
+      "verification": "Asegurar que la prueba afirme textualmente '150 líneas' y los literales exactos de los 8 módulos exigidos por la spec."
+    },
+    {
+      "id": "H-005",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Falta de prueba o sensor de integridad para docs/agentes.md frente a desactualizaciones",
+      "explanation": "A diferencia de AGENTS.md, cuya consistencia con el código es validada rigurosamente por 'oracle-factory agentes --verificar' (comprobado en test_cl3_la_guia_es_igual_a_la_del_repositorio_y_se_nota_si_queda_vieja), la documentación en docs/agentes.md no posee ningún test unitario ni sensor de vigencia. Si a futuro cambian el umbral o las reglas de decisión, docs/agentes.md quedará desactualizado de manera silenciosa.",
+      "location": {
+        "file": "docs/agentes.md",
+        "start_line": 59,
+        "end_line": 64,
+        "side": "head"
+      },
+      "trigger": "Modificación futura de UMBRAL_LIGERO o REGLAS_DE_DECISION sin actualización manual concurrente de docs/agentes.md.",
+      "evidence": "No existen aserciones en tests/test_camino_ligero.py que lean ni verifiquen docs/agentes.md.",
+      "related_requirement": "la_guia_para_agentes_explica_el_camino_ligero",
+      "status": "pendiente",
+      "verification": "Agregar una aserción en tests/test_camino_ligero.py que verifique la presencia del umbral de 150 líneas y los 8 módulos de decisión en docs/agentes.md."
+    },
+    {
+      "id": "H-006",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.9,
+      "title": "Eliminaciones masivas de código de producto no impiden el camino ligero al evaluar únicamente líneas agregadas",
+      "explanation": "lineas_de_producto únicamente suma líneas agregadas y descarta las eliminadas. Un cambio arquitectónico o refactor de gran impacto que elimine 3000 líneas de código y agregue 50 líneas califica como camino ligero (1 revisor, 1 ronda), siempre que no toque las 8 reglas de decisión. Si bien esto cumple estrictamente la letra de la spec ('cuando agrega 150 líneas de producto o menos') y coincide con la alarma de tamaño preexistente, representa un riesgo práctico de falsos ligeros para cambios destructivos o refactorizaciones de alto impacto.",
+      "location": {
+        "file": "oracle_factory/alarmas.py",
+        "start_line": 209,
+        "end_line": 219,
+        "side": "head"
+      },
+      "trigger": "Un candidato elimina miles de líneas de código de producto y agrega menos de 150.",
+      "evidence": "Un commit con -2500 líneas y +20 líneas en producto computa lineas: 20 y camino: 'ligero'.",
+      "related_requirement": "el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+      "status": "pendiente",
+      "verification": "Evaluar si el camino ligero debe considerar el churn total (adiciones + eliminaciones) o fijar un umbral de líneas eliminadas."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se corrieron los 19 casos de tests/test_camino_ligero.py en el entorno virtual del proyecto con éxito total.",
+    "Se ejecutaron pruebas de mutación sobre UMBRAL_LIGERO, REGLAS_DE_DECISION, archivos_tocados, camino_del_candidato y linea_camino.",
+    "Se revisaron exhaustivamente el diff del paquete Clue, el contrato de catálogos Oracle y la documentación (proposal, spec, docs/agentes.md, AGENTS.md).",
+    "No se corrió la suite global completa de todos los módulos de Factory para mantener la velocidad y evitar efectos colaterales fuera del alcance del cambio."
+  ]
+}

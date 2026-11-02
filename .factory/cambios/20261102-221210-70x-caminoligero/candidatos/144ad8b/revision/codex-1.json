@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-camino-ligero/.factory/local/revisiones/144ad8b-codex-1",
+  "base": "4949d5a22c5b7cbb1b8d4268a5e6ce736bf064f7",
+  "head": "144ad8bc9f684d2ced5169769546cddb034e89df",
+  "diff_sha256": "c8696bad7cb0a5b8708d3c5b4669a9f969eda26baf702ae3071094eeae8c7b3d",
+  "context_sha256": "ec43a4cf337666eaa28d2e381ea84a0ced44c9cdf971fbaa3d304c3885c52646",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CL-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.72,
+      "title": "Las copias puras desde una regla de decisión no activan detección del origen",
+      "explanation": "archivos_tocados solicita `git diff --name-status -z -M` y usa las rutas que devuelve. `-M` detecta renombres, pero no pide detección de copias (`-C`); una copia pura desde, por ejemplo, oracle_factory/modos.py a un módulo nuevo se representa como archivo agregado, y sólo se coteja la ruta nueva con la lista fija. Si esa copia traslada lógica de decisión a un nombre no incluido, el candidato puede quedar como ligero pese a incorporar lógica que decide quién puede qué. Es un caso exótico: requiere que una copia conserve el origen y que el destino fuera de la lista adquiera esa responsabilidad; un movimiento que borra el origen sí se detecta, y una copia a un nombre listado también. Impacto práctico limitado; la lista por rutas no intenta inferir semántica de módulos nuevos.",
+      "location": {
+        "file": "oracle_factory/alarmas.py",
+        "start_line": 203,
+        "end_line": 206,
+        "side": "head"
+      },
+      "trigger": "Copiar sin borrar una regla de decisión a un módulo nuevo fuera de REGLAS_DE_DECISION, con menos de 151 líneas de producto, y pedir estado.",
+      "evidence": "La invocación contiene `-M` pero no `-C`; la comprensión agrega únicamente `ruta` y `origen` que parsea de esa salida. Git no identifica el origen de una copia sin detección de copias, por lo que una adición normal sólo aporta su destino. No existe escenario de copia en tests/test_camino_ligero.py.",
+      "related_requirement": "el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
+      "status": "pendiente",
+      "verification": "Inferido de las opciones de git diff y del parser invocado. No se ejecutó una reproducción aislada; clasificado como exótico y de baja severidad."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "La suite específica se intentó con Python del sistema: 19 pruebas, 8 pasaron y 11 fallaron al importar la dependencia ausente `oracle_metalenguaje`; el checkout no tenía .venv.",
+    "No se corrió la suite completa ni tools/verificar_cambio.py; no se hicieron mutaciones porque el checkout es de sólo lectura.",
+    "Se revisaron los cambios incluidos en el paquete; no se inspeccionaron los archivos explícitamente excluidos.",
+    "La referencia textual de estado se considera justificada porque el fixture representa un candidato y la nueva línea documenta el output correspondiente."
+  ]
+}
