@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261102-000745-j7r-verificadorgenerico]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «cada caso en su requisito», «un requisito sin casos», «un caso sin requisito», «un nombre dentro de una cadena no es un caso»
+- Medidas: `factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica`, `factory_verificador_generico.corrida_completa`
 - Fuente: openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md#el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica
 
 Tipo: funcional El sistema DEBE atribuir cada prueba `test_<letras><n>_…` de un módulo al requisito número `n` de la spec del cambio, en el orden en que la spec los lista, y DEBE negarse a declarar éxito si algún requisito no tiene casos, si un caso nombra un número sin requisito, o si el módulo no tiene casos.

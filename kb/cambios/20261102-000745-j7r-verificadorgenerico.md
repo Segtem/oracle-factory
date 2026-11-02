@@ -34,6 +34,9 @@ capacidad: "practicas"
 ## Commits
 
 - `205dcbb` verificador-generico: propuesta, diseño y spec (trailer)
+- `931405c` verificador-generico: aprobación de la spec e importación de requisitos (trailer)
+- `e672ef2` verificador-generico: herramienta, pruebas, documento y catálogos (trailer)
+- `29c271f` verificador-generico: clases sin base, trazabilidad que falla, casos que nunca corren; catálogos regenerados (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes

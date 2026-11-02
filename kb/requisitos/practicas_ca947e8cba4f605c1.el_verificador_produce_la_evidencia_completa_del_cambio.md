@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261102-000745-j7r-verificadorgenerico]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un cambio completo», «un caso falla», «las fuentes cambian durante la corrida»
+- Medidas: `factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio`, `factory_verificador_generico.corrida_completa`
 - Fuente: openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md#el_verificador_produce_la_evidencia_completa_del_cambio
 
 Tipo: funcional El sistema DEBE correr la suite y producir `suite.txt`, `hechos.json`, `trazabilidad.json` y `resultado.json`, y DEBE declarar éxito sólo si todos los casos pasan, la corrida es exactamente la esperada, las fuentes no cambiaron mientras corría y la trazabilidad es ok.

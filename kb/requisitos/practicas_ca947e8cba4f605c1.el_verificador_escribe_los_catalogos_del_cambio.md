@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261102-000745-j7r-verificadorgenerico]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «los catálogos del cambio», «escribirlos de nuevo»
+- Medidas: `factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio`, `factory_verificador_generico.corrida_completa`
 - Fuente: openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md#el_verificador_escribe_los_catalogos_del_cambio
 
 Tipo: funcional El sistema DEBE escribir, con `--catalogos`, el catálogo de la corrida completa y uno por requisito, cada uno contando exactamente los casos de ese requisito, y escribirlos de nuevo con los mismos casos no DEBE cambiar ningún archivo.
