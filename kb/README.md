@@ -97,7 +97,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261101-012816-1qf-testseditados]] — Avisar de los tests que ya existían y el cambio modificó o borró (cerrada)
 - [[cambios/20261101-121356-ih8-puertalocal]] — Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push (cerrada)
 - [[cambios/20261101-205730-dm3-alarmasflujo]] — Avisar de los bucles de revisión y de los cambios demasiado grandes (cerrada)
-- [[cambios/20261102-000745-j7r-verificadorgenerico]] — Un verificador reutilizable para la evidencia de cada cambio (espera_aprobacion_spec)
+- [[cambios/20261102-000745-j7r-verificadorgenerico]] — Un verificador reutilizable para la evidencia de cada cambio (requisitos_importados)
 
 ## Requisitos
 
@@ -309,6 +309,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa]]
 - [[requisitos/practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente]]
 - [[requisitos/practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear]]
+- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica]]
+- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio]]
+- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio]]
 - [[requisitos/procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita]]
 - [[requisitos/procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv]]
 - [[requisitos/procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados]]

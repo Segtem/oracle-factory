@@ -1,7 +1,7 @@
 ---
 generado: oracle-factory kb
 id: "20261102-000745-j7r-verificadorgenerico"
-fase: "espera_aprobacion_spec"
+fase: "requisitos_importados"
 capacidad: "practicas"
 ---
 
@@ -9,18 +9,23 @@ capacidad: "practicas"
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Fase: espera_aprobacion_spec
+- Fase: requisitos_importados
 - Capacidad: practicas
 - Responsable: nadie
 - Spec: [openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md](../../openspec/changes/20261102-000745-j7r-verificadorgenerico/specs/practicas/spec.md)
 
 ## Requisitos
 
-- Ninguno importado.
+- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica]] — sin juicio
+- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio]] — sin juicio
+- [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio]] — sin juicio
 
 ## Decisiones
 
 - 2026-11-02 00:07 · Cambio creado · claude-code (agente)
+- 2026-11-02 00:11 · Spec aprobada · Brian Hollweg (persona)
+- 2026-11-02 00:13 · Spec aprobada · Brian Hollweg (persona)
+- 2026-11-02 00:13 · Requisitos importados · claude-code (agente)
 
 ## Riesgos aceptados
 
@@ -28,7 +33,7 @@ capacidad: "practicas"
 
 ## Commits
 
-- Ninguno con su trailer ni candidato.
+- `205dcbb` verificador-generico: propuesta, diseño y spec (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261102-000745-j7r-verificadorgenerico`.
 
 ## Mensajes
