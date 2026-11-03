@@ -2,7 +2,7 @@
   "id": "20261102-221210-70x-caminoligero",
   "titulo": "Un camino ligero de revisión para los cambios chicos",
   "capacidad": "practicas",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md",
   "spec_sha256": "d70845b53755dfc19d568ae1e622e5f60bab7e816ad769421ca4dcc72141d900",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "406041e6149786fc86e65bf6776bd6e491fb2a7718c0b512262201b7c9c4d8e6"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261102-221210-70x-caminoligero/candidatos/02f195b/evidencia/hechos.json",
+    "hechos_sha256": "1c8e40c707e55b66339bafa190ce51403882bc3083756c1ea41b94111dc2aab5",
+    "informe": ".factory/cambios/20261102-221210-70x-caminoligero/oracle-veredicto.txt",
+    "informe_sha256": "e0112f2fa28b6958df86eedcf6aa71c9d1cbb804c8cda95215c6a695601f5592",
+    "cuando": "2026-11-03T01:02:48.724455+00:00",
+    "contexto": {
+      "head": "c5caca77e1c1a0adf630a8f0fb5a6de6369b7a7c",
+      "archivos_sha256": "406041e6149786fc86e65bf6776bd6e491fb2a7718c0b512262201b7c9c4d8e6"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -390,6 +402,17 @@
       "abiertos": 0,
       "sha256": "1d0d7e4ae0d05ba280141cfa55b2565e6f11038cf0ba3002795606e757e73cc7",
       "decisiones_sha256": "bae9710961791ac78e552182bc4272b7f5ee8b3ba3b7e8b4d4def8bda9c1a874"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T01:02:48.724472+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "1c8e40c707e55b66339bafa190ce51403882bc3083756c1ea41b94111dc2aab5"
     }
   ],
   "tipos": {

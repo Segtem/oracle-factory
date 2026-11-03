@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero`
 - Vigente: sí
 - Cambio: [[cambios/20261102-221210-70x-caminoligero]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero`, `factory_camino_ligero.corrida_completa`
 - Fuente: openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md#el_estado_dice_si_el_candidato_califica_para_el_camino_ligero
 
