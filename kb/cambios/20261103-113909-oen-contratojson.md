@@ -59,6 +59,7 @@ capacidad: "ide"
 - `67405cd` contrato-json: proponer de nuevo las medidas (trailer)
 - `0a8e4fd` contrato-json: registrar la confirmación de medidas por Brian (trailer)
 - `bd90ed8` contrato-json: registrar la cuarta ronda de revisiones y la evidencia (trailer)
+- `c21f250` contrato-json: proponer la aprobación de la revisión (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261103-113909-oen-contratojson`.
 
 ## Mensajes
