@@ -43,3 +43,15 @@ Medidas de practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill: Bri
 ### Nota (2026-11-03 19:34:14 UTC)
 
 Medidas de practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-03 20:09:17 UTC)
+
+Medidas de practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-03 20:09:19 UTC)
+
+Medidas de practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-03 20:09:20 UTC)
+
+Medidas de practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
