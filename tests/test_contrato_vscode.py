@@ -109,6 +109,20 @@ class Pura(unittest.TestCase):
         self.assertIn('modelo.js', problemas[0])
         self.assertEqual(cv.comprobar_el_codigo(contrato, {'x.js': '// c.comentado\nconst a = e.titulo.length;'}), [])
 
+    def test_cv1_los_accesos_encadenados_tambien_se_ven_en_el_codigo(self):
+        contrato = {'estado': [{'ruta': 'detalle', 'tipos': ['object']}]}
+        problemas = cv.comprobar_el_codigo(contrato, {'modelo.js': 'if (raro) return e.detalle.campo_nuevo.hondo;'})
+        self.assertEqual(sorted(p.split('«.')[1].split('»')[0] for p in problemas), ['campo_nuevo', 'hondo'])
+        self.assertEqual(cv.nombres_en_el_codigo('a.b.c; x?.y; z[0].w; f().g; 1.5; ...r; s.map(t => t.u)'), {'b', 'c', 'y', 'w', 'g', 'u'})
+
+    def test_cv1_una_clave_declarada_para_otro_comando_no_tapa_una_lectura_nueva(self):
+        contrato = {'estado': [{'ruta': 'titulo', 'tipos': ['string']}], 'tablero': [{'ruta': 'yo', 'tipos': ['string']}]}
+        self.assertEqual(cv.comprobar_el_codigo(contrato, {'modelo.js': 'e.titulo; r.yo'}), ['modelo.js: el código usa «.yo» y no es una clave del contrato de resumen/estado/donde ni un nombre propio de la extensión'])
+        problemas = cv.comprobar_el_codigo(contrato, {'tablero.js': 'c.titulo; c.yo'})
+        self.assertEqual(len(problemas), 1)
+        self.assertIn('«.titulo»', problemas[0])
+        self.assertIn('tablero', problemas[0])
+
     def test_cv1_el_contrato_del_repositorio_declara_tipos_validos_y_rutas_sin_repetir(self):
         contrato = cv.cargar()
         self.assertEqual(set(contrato), set(COMANDOS))

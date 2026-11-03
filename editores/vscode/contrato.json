@@ -291,14 +291,23 @@
   {
    "ruta": "cambios[].alternativas[].comando",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "tablero._paso: comando es None si el texto no empieza con «oracle-factory » (una indicación para hacer a mano)"
   },
   {
    "ruta": "cambios[].alternativas[].decision_de_la_persona",
    "tipos": [
     "boolean"
    ]
+  },
+  {
+   "ruta": "cambios[].alternativas[].humano",
+   "tipos": [
+    "string"
+   ],
+   "nota": "tablero._paso: la frase en lenguaje común del paso"
   },
   {
    "ruta": "cambios[].alternativas[].texto",
@@ -418,6 +427,13 @@
    ]
   },
   {
+   "ruta": "cambios[].faltan[].texto",
+   "tipos": [
+    "string"
+   ],
+   "nota": "tablero._faltan: el pendiente tal como lo da estado"
+  },
+  {
    "ruta": "cambios[].fase",
    "tipos": [
     "string"
@@ -438,8 +454,10 @@
   {
    "ruta": "cambios[].hallazgos[].archivo",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "tablero.armar: None si el informe del revisor no trae archivo"
   },
   {
    "ruta": "cambios[].hallazgos[].estado",
@@ -450,8 +468,10 @@
   {
    "ruta": "cambios[].hallazgos[].linea",
    "tipos": [
-    "number"
-   ]
+    "number",
+    "null"
+   ],
+   "nota": "tablero.armar: None si el informe del revisor no trae línea"
   },
   {
    "ruta": "cambios[].hallazgos[].revisor",
@@ -536,6 +556,14 @@
    ],
    "nota": "sólo la trae el evento que la guarda; falta en los demás",
    "opcional": true
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle.guardado_por",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true,
+   "nota": "sólo lo trae el mensaje de Live Share; falta en los demás eventos"
   },
   {
    "ruta": "cambios[].linea_de_tiempo[].detalle.hallazgos",
@@ -714,6 +742,20 @@
    ]
   },
   {
+   "ruta": "cambios[].pendientes",
+   "tipos": [
+    "array"
+   ],
+   "nota": "tablero.armar: los pendientes como texto (la extensión los usa si falta «faltan», el de una versión anterior)"
+  },
+  {
+   "ruta": "cambios[].pendientes[]",
+   "tipos": [
+    "string"
+   ],
+   "nota": "tablero.armar: los pendientes como texto (la extensión los usa si falta «faltan», el de una versión anterior)"
+  },
+  {
    "ruta": "cambios[].proximo_paso",
    "tipos": [
     "null",
@@ -733,6 +775,13 @@
    "tipos": [
     "boolean"
    ]
+  },
+  {
+   "ruta": "cambios[].proximo_paso.humano",
+   "tipos": [
+    "string"
+   ],
+   "nota": "tablero._paso: la frase en lenguaje común del paso"
   },
   {
    "ruta": "cambios[].proximo_paso.texto",
@@ -761,8 +810,10 @@
   {
    "ruta": "cambios[].quien.agentes[].cuando",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "cli.quien_del_cambio: None para un agente declarado que todavía no actuó"
   },
   {
    "ruta": "cambios[].quien.agentes[].declarado",
@@ -779,8 +830,10 @@
   {
    "ruta": "cambios[].quien.agentes[].ultima_accion",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "cli.quien_del_cambio: None para un agente declarado que todavía no actuó"
   },
   {
    "ruta": "cambios[].quien.responsable",
@@ -808,6 +861,41 @@
    ]
   },
   {
+   "ruta": "cambios[].quien.revisores_en_curso[]",
+   "tipos": [
+    "object"
+   ],
+   "opcional": true,
+   "nota": "cli.quien_del_cambio: una revisión lanzada y sin informe todavía"
+  },
+  {
+   "ruta": "cambios[].quien.revisores_en_curso[].candidato",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "opcional": true,
+   "nota": "cli.quien_del_cambio: lo que guarda el evento de la revisión lanzada"
+  },
+  {
+   "ruta": "cambios[].quien.revisores_en_curso[].cuando",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "opcional": true,
+   "nota": "cli.quien_del_cambio: lo que guarda el evento de la revisión lanzada"
+  },
+  {
+   "ruta": "cambios[].quien.revisores_en_curso[].revisor",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "opcional": true,
+   "nota": "cli.quien_del_cambio: lo que guarda el evento de la revisión lanzada"
+  },
+  {
    "ruta": "cambios[].requisitos",
    "tipos": [
     "array"
@@ -822,8 +910,10 @@
   {
    "ruta": "cambios[].requisitos[].archivo",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "tablero.armar: None si el archivo del requisito no existe"
   },
   {
    "ruta": "cambios[].requisitos[].decision",
@@ -869,8 +959,10 @@
   {
    "ruta": "cambios[].requisitos[].medidas[].archivo",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "tablero.armar: None si el catálogo de la medida no existe"
   },
   {
    "ruta": "cambios[].requisitos[].medidas[].id",
@@ -1080,8 +1172,10 @@
   {
    "ruta": "yo",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "tablero.armar: «yo»: el nombre de Git de quien mira, o None si no hay"
   }
  ]
 }

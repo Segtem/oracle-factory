@@ -1,0 +1,38 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-contrato-json/.factory/local/revisiones/58363a1-codex-1",
+  "base": "781d72e9bae51fd3485a85a9d2cb5a83c61701b2",
+  "head": "58363a1c9e38e8eac43f35a472d42848ced04535",
+  "diff_sha256": "2adbe6e554001dd05cd075ec8709a9ecbd0a50cbd01ba7dee61cddf41c98233f",
+  "context_sha256": "88601ef91556f94945da6d4a28e83bc0bde8a8c5d3a7ee113b9fb430b6263c89",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "contrato-estatico-mezcla-comandos",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "El análisis estático deja que una clave de otro comando encubra lecturas nuevas",
+      "explanation": "`comprobar_el_codigo` construye `claves` juntando las rutas de todos los comandos del contrato. Por eso no verifica que la clave leída pertenezca al JSON del comando correspondiente: una clave declarada sólo para `estado` hace que una lectura nueva de esa misma propiedad en una rama de `tablero.js` pase el análisis. Esta comprobación se agregó para cubrir ramas que los fixtures no ejercitan, así que la omisión permite justamente un falso verde en esa cobertura.",
+      "location": {
+        "file": "tools/contrato_vscode.py",
+        "start_line": 120,
+        "end_line": 122,
+        "side": "head"
+      },
+      "trigger": "Una rama no ejercitada de `tablero.js` empieza a leer `c.titulo`, mientras `titulo` ya está declarado sólo bajo `estado`; las instantáneas no atraviesan la rama.",
+      "evidence": "Mutación sintética ejecutada contra el código del candidato: `comprobar_el_codigo({\"estado\":[{\"ruta\":\"titulo\",\"tipos\":[\"string\"]}]}, {\"tablero.js\":\"function rama(c) { if (x) return c.titulo; }\"})` devolvió `[]`. En producción el resultado agrupado por nombre de clave en línea 120 pierde el comando y línea 122 lo usa como autorización global. Una lectura real hecha en una instantánea sí la detecta por Proxy; el defecto afecta la protección estática de ramas no ejercitadas prometida en líneas 118–119.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Separar las claves/rutas declaradas por comando y asociar los archivos/fuentes de extensión a los comandos que consumen, o restringir este chequeo a los nombres de propiedad de cada ruta efectiva; agregar una mutación cruzada estado/tablero para comprobar que la lectura sin declarar falla."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, spec, diff del paquete, las rondas anteriores, los archivos de contrato, registrador, pruebas y documentación, y contrasté los tipos consultando los constructores de `oracle_factory/lecturas.py`, `tablero.py` y `cli.py`.",
+    "Ejecuté una mutación sintética del analizador estático que reprodujo el falso verde. No corrí la suite completa ni las herramientas de evidencia/Oracle; tampoco modifiqué el checkout."
+  ]
+}

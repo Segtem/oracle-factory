@@ -104,19 +104,29 @@ def comprobar_la_extension(contrato: dict, leidas: dict[str, list[str]]) -> list
 NOMBRES_PROPIOS = frozenset({
     "length", "dataset", "target", "value", "elements", "exports",  # JavaScript y el DOM
     "abrir", "mostrar", "escribir", "terminal", "enlace", "alternativa", "tuya", "hecha", "sev",  # clases y claves de los nodos y del panel
+    "commit", "preguntar",  # claves del `dataset` de los botones del panel
     "sesion", "esperando", "invitado", "otros", "rol",  # la sesión de Live Share y el estado del panel: los arma la extensión, no la CLI
 })
 
 
+# Qué JSON lee cada archivo de la extensión: modelo.js arma la vista de árbol con `resumen`, `estado` y `donde`; tablero.js, el panel, con `tablero`.
+JSON_DE_CADA_ARCHIVO = {"modelo.js": ("resumen", "estado", "donde"), "tablero.js": ("tablero",)}
+
+
 def nombres_en_el_codigo(texto_js: str) -> set[str]:
-    """Los nombres que el código lee con un punto y sin llamar (`c.titulo`, no `c.map(`): candidatos a ser claves de un JSON de la CLI."""
+    """Los nombres que el código lee con un punto y sin llamar (`c.titulo` o `c.detalle.campo`, no `c.map(`): candidatos a ser claves de un JSON."""
     sin_comentarios = re.sub(r"//[^\n]*", "", texto_js)
-    return {m[1] for m in re.finditer(r"(?<![\w$])(?:\w+|\)|\])\s*\??\.(\w+)(?!\w)(?!\s*\()", sin_comentarios)}
+    return {m[1] for m in re.finditer(r"(?<=[\w)\]])\s*\??\.(\w+)(?!\w)(?!\s*\()", sin_comentarios) if not m[1].isdigit()}
 
 
 def comprobar_el_codigo(contrato: dict, textos_js: dict[str, str]) -> list[str]:
-    """Nombres que el código de la extensión usa con un punto y que no están en el contrato ni en NOMBRES_PROPIOS. Cubre las ramas que los
-    estados de las pruebas no ejercitan: una lectura que el registro no vio igual aparece acá."""
-    claves = {seg for entradas in contrato.values() for e in entradas for seg in re.split(r"[.\[\]]+", e["ruta"]) if seg}  # el «*» tampoco puede coincidir con un nombre
-    return sorted(f"{archivo}: el código usa «.{nombre}» y no es una clave del contrato ni un nombre propio de la extensión"
-                  for archivo, texto in textos_js.items() for nombre in nombres_en_el_codigo(texto) - claves - NOMBRES_PROPIOS)
+    """Nombres que el código de cada archivo de la extensión usa con un punto y que no están en el contrato de SUS comandos (ver
+    JSON_DE_CADA_ARCHIVO) ni en NOMBRES_PROPIOS. Cubre las ramas que los estados de las pruebas no ejercitan: una lectura que el registro no
+    vio igual aparece acá. Una clave declarada sólo para otro comando no sirve de excusa."""
+    problemas = []
+    for archivo, texto in textos_js.items():
+        comandos = JSON_DE_CADA_ARCHIVO.get(archivo, tuple(contrato))
+        claves = {seg for c in comandos for e in contrato.get(c, []) for seg in re.split(r"[.\[\]]+", e["ruta"]) if seg}  # el «*» no es un nombre
+        problemas += [f"{archivo}: el código usa «.{nombre}» y no es una clave del contrato de {'/'.join(comandos)} ni un nombre propio de la extensión"
+                      for nombre in sorted(nombres_en_el_codigo(texto) - claves - NOMBRES_PROPIOS)]
+    return problemas

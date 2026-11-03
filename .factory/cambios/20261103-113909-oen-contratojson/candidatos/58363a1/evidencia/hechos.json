@@ -1,0 +1,95 @@
+{
+  "contrato_vscode_caso": [
+    {
+      "requisito": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "caso": "Pura.test_cv1_el_codigo_de_la_extension_no_nombra_claves_que_el_contrato_no_conoce",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "caso": "Pura.test_cv1_el_contrato_del_repositorio_declara_tipos_validos_y_rutas_sin_repetir",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "caso": "Pura.test_cv1_una_clave_leida_y_no_declarada_se_nombra_con_su_comando",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "caso": "Pura.test_cv1_una_lectura_nueva_en_una_rama_que_nadie_ejercita_se_ve_en_el_codigo",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "caso": "Real.test_cv1_la_extension_solo_lee_lo_declarado_y_la_cli_lo_entrega",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "caso": "Real.test_cv1_si_el_contrato_pierde_una_clave_que_la_extension_lee_la_prueba_lo_nota",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "caso": "Registrador.test_cv1_el_registrador_anota_claves_arreglos_mapas_y_lecturas_de_lo_que_no_esta",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "caso": "Pura.test_cv2_la_cli_cumple_el_contrato_y_las_claves_de_mas_no_molestan",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "caso": "Pura.test_cv2_los_objetos_que_se_recorren_se_comprueban_valor_por_valor",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "caso": "Pura.test_cv2_los_tipos_se_distinguen_incluidos_booleanos_y_nulos",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "caso": "Pura.test_cv2_un_tipo_cambiado_dice_el_esperado_y_el_encontrado",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "caso": "Pura.test_cv2_una_clave_declarada_que_falta_en_un_solo_elemento_de_un_arreglo_tambien_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "caso": "Pura.test_cv2_una_clave_obligatoria_con_el_tipo_equivocado_o_ausente_en_el_padre_vacio_se_distingue",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "caso": "Pura.test_cv2_una_clave_opcional_o_bajo_un_padre_nulo_no_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "caso": "Pura.test_cv2_una_clave_renombrada_se_nombra_con_su_comando",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "caso": "Real.test_cv2_si_la_cli_renombra_una_clave_que_la_extension_lee_la_prueba_lo_nota",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_documento_explica_como_actualizar_el_contrato",
+      "caso": "Documento.test_cv3_el_documento_nombra_los_comandos_el_archivo_y_como_actualizar",
+      "codigo": 0
+    }
+  ],
+  "contrato_vscode_corrida": [
+    {
+      "completa": 1,
+      "casos": 17
+    }
+  ]
+}
