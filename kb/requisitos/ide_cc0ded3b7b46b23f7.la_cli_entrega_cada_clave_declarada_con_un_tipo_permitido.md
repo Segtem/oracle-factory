@@ -11,7 +11,7 @@ vigente: true
 - Id: `ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido`
 - Vigente: sí
 - Cambio: [[cambios/20261103-113909-oen-contratojson]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_contrato_vscode.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido`, `factory_contrato_vscode.corrida_completa`
 - Fuente: openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md#la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido
 

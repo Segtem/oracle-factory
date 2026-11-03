@@ -11,7 +11,7 @@ vigente: true
 - Id: `ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara`
 - Vigente: sí
 - Cambio: [[cambios/20261103-113909-oen-contratojson]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara`, `factory_contrato_vscode.corrida_completa`
 - Fuente: openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md#la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara
 

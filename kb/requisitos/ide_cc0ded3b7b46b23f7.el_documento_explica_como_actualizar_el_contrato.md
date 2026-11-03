@@ -11,7 +11,7 @@ vigente: true
 - Id: `ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato`
 - Vigente: sí
 - Cambio: [[cambios/20261103-113909-oen-contratojson]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato`, `factory_contrato_vscode.corrida_completa`
 - Fuente: openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md#el_documento_explica_como_actualizar_el_contrato
 

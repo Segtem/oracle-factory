@@ -2,7 +2,7 @@
   "id": "20261103-113909-oen-contratojson",
   "titulo": "Pruebas de contrato entre la CLI y la extensión de VS Code",
   "capacidad": "ide",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md",
   "spec_sha256": "09646fa8169707ca173b7f14a9b4bef7972c3437186ee830edb5edf4291f9248",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "915e77823d240a66545fc322630c9c95975eb898291764b0229fd34959b5a1fa"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261103-113909-oen-contratojson/candidatos/0a8e4fd/evidencia/hechos.json",
+    "hechos_sha256": "17cbbeb77c3b28bab372f361fb6fa62ae890c055a977cab59742cd32022692a9",
+    "informe": ".factory/cambios/20261103-113909-oen-contratojson/oracle-veredicto.txt",
+    "informe_sha256": "b6d297d10581f7a78e3dbed16d2802008dda23e773488f31fc856f8b9e8f08bd",
+    "cuando": "2026-11-03T16:21:08.773979+00:00",
+    "contexto": {
+      "head": "d17b6ee2659c5477c3d21986fe90979937f982a6",
+      "archivos_sha256": "915e77823d240a66545fc322630c9c95975eb898291764b0229fd34959b5a1fa"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -635,6 +647,17 @@
       "abiertos": 0,
       "sha256": "185c91b37c35eba9728efa3d3d90d6136ef907ab8bcebd07e50182452a461d9a",
       "decisiones_sha256": "1c1ba210609ffc7bb59a53ed468993f8c7836dc4dbf112641bf2bda2a4168205"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T16:21:08.773995+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "17cbbeb77c3b28bab372f361fb6fa62ae890c055a977cab59742cd32022692a9"
     }
   ],
   "tipos": {
