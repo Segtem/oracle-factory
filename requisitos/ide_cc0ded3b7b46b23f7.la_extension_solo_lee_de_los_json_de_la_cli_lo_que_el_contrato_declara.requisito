@@ -1,4 +1,4 @@
 requisito ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara:
     texto "Tipo: funcional El sistema DEBE fallar una prueba, nombrando el comando y la clave, cuando la extensión de VS Code lee de un JSON de la CLI una clave que `editores/vscode/contrato.json` no declara."
     fuente "openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md#la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara"
-    sin_medir "sin medida todavía; escenarios: «la extensión lee una clave declarada», «la extensión empieza a leer una clave nueva», «las claves de los índices de un arreglo»"
+    medido_por factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara, factory_contrato_vscode.corrida_completa

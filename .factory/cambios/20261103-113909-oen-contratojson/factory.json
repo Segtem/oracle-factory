@@ -58,6 +58,48 @@
         "ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
         "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T12:00:41.055262+00:00",
+      "requisito": "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "medidas": [
+        "factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+        "factory_contrato_vscode.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T12:00:42.465825+00:00",
+      "requisito": "ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "medidas": [
+        "factory_contrato_vscode.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+        "factory_contrato_vscode.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T12:00:43.883606+00:00",
+      "requisito": "ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato",
+      "medidas": [
+        "factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato",
+        "factory_contrato_vscode.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": {
+      "sha256": "2e6f2c700da640729430c4248443ea3811ce1696aae9aa2267e070a02764bbcf",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-03T12:00:41.016632+00:00",
+      "catalogos": {
+        "factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": "f898c4aca877b199fc1894dc1403abab6d0a9c9812017f2bd945108c98cbab47",
+        "factory_contrato_vscode.corrida_completa": "675dbbf88cf470d4a668cdfb84a5252db40a66040c58a5910c8a8d34a391ce94"
+      },
+      "archivos_catalogo": {
+        "factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": "catalogos/factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara.oracle",
+        "factory_contrato_vscode.corrida_completa": "catalogos/factory_contrato_vscode.corrida_completa.oracle"
+      }
+    },
+    "ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido": {
+      "sha256": "7eaeebe22abfceb1860109088b8f7dca18bbdaf3aeea3ec1d88613a741ab5916",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-03T12:00:42.426828+00:00",
+      "catalogos": {
+        "factory_contrato_vscode.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido": "b6371a1795f3dc5ed5c176accb7f65851b0edbe2ef2d95ad65e99d5c4c022060",
+        "factory_contrato_vscode.corrida_completa": "675dbbf88cf470d4a668cdfb84a5252db40a66040c58a5910c8a8d34a391ce94"
+      },
+      "archivos_catalogo": {
+        "factory_contrato_vscode.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido": "catalogos/factory_contrato_vscode.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido.oracle",
+        "factory_contrato_vscode.corrida_completa": "catalogos/factory_contrato_vscode.corrida_completa.oracle"
+      }
+    },
+    "ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato": {
+      "sha256": "b0c8e1be4335570f4285d8b61ee5b5dead316b643dab8d28f48ee9b2332efaab",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-03T12:00:43.844803+00:00",
+      "catalogos": {
+        "factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato": "e64a5d21fd1525aabd77476b6ee71e25b5f4de10c1b8d985dc3e9151e4d23d08",
+        "factory_contrato_vscode.corrida_completa": "675dbbf88cf470d4a668cdfb84a5252db40a66040c58a5910c8a8d34a391ce94"
+      },
+      "archivos_catalogo": {
+        "factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato": "catalogos/factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato.oracle",
+        "factory_contrato_vscode.corrida_completa": "catalogos/factory_contrato_vscode.corrida_completa.oracle"
+      }
+    }
+  }
 }

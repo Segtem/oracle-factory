@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261103-113909-oen-contratojson]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «la extensión lee una clave declarada», «la extensión empieza a leer una clave nueva», «las claves de los índices de un arreglo»
+- Medidas: `factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara`, `factory_contrato_vscode.corrida_completa`
 - Fuente: openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md#la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara
 
 Tipo: funcional El sistema DEBE fallar una prueba, nombrando el comando y la clave, cuando la extensión de VS Code lee de un JSON de la CLI una clave que `editores/vscode/contrato.json` no declara.

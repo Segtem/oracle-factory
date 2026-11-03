@@ -33,6 +33,8 @@ capacidad: "ide"
 ## Commits
 
 - `ab51e23` contrato-json: propuesta, diseño y spec (trailer)
+- `e59b707` contrato-json: aprobación de la spec e importación de requisitos (trailer)
+- `3f0f9ae` contrato-json: contrato, registrador en node, comprobaciones, pruebas, documento y catálogos (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261103-113909-oen-contratojson`.
 
 ## Mensajes
