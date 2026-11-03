@@ -39,6 +39,7 @@ capacidad: "ide"
 - `e59b707` contrato-json: aprobación de la spec e importación de requisitos (trailer)
 - `3f0f9ae` contrato-json: contrato, registrador en node, comprobaciones, pruebas, documento y catálogos (trailer)
 - `512202e` contrato-json: proponer las medidas (trailer)
+- `eea6c47` contrato-json: registrar la confirmación de medidas por Brian (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261103-113909-oen-contratojson`.
 
 ## Mensajes

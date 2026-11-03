@@ -57,6 +57,12 @@
    ]
   },
   {
+   "ruta": "alternativas[]",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
    "ruta": "oracle",
    "tipos": [
     "null",
@@ -84,7 +90,8 @@
   {
    "ruta": "proximo_paso",
    "tipos": [
-    "string"
+    "string",
+    "null"
    ]
   },
   {
@@ -102,26 +109,33 @@
   {
    "ruta": "requisitos[].decision",
    "tipos": [
+    "null",
     "object"
    ]
   },
   {
    "ruta": "requisitos[].decision.actor",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "lo arma cli._decision con registro.get(…): un registro anterior a los modos no tiene tipo_actor ni forma"
   },
   {
    "ruta": "requisitos[].decision.forma",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "lo arma cli._decision con registro.get(…): un registro anterior a los modos no tiene tipo_actor ni forma"
   },
   {
    "ruta": "requisitos[].decision.tipo_actor",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "lo arma cli._decision con registro.get(…): un registro anterior a los modos no tiene tipo_actor ni forma"
   },
   {
    "ruta": "requisitos[].id",
@@ -140,6 +154,37 @@
    "tipos": [
     "string"
    ]
+  },
+  {
+   "ruta": "requisitos[].propuesta",
+   "tipos": [
+    "null",
+    "object"
+   ]
+  },
+  {
+   "ruta": "requisitos[].propuesta.actor",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "nota": "lo arma cli._decision con registro.get(…): un registro anterior a los modos no tiene tipo_actor ni forma"
+  },
+  {
+   "ruta": "requisitos[].propuesta.forma",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "nota": "lo arma cli._decision con registro.get(…): un registro anterior a los modos no tiene tipo_actor ni forma"
+  },
+  {
+   "ruta": "requisitos[].propuesta.tipo_actor",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "nota": "lo arma cli._decision con registro.get(…): un registro anterior a los modos no tiene tipo_actor ni forma"
   },
   {
    "ruta": "revision",
@@ -238,16 +283,48 @@
    ]
   },
   {
+   "ruta": "cambios[].alternativas[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].alternativas[].comando",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].alternativas[].decision_de_la_persona",
+   "tipos": [
+    "boolean"
+   ]
+  },
+  {
+   "ruta": "cambios[].alternativas[].texto",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
    "ruta": "cambios[].avisos",
    "tipos": [
     "array"
    ]
   },
   {
+   "ruta": "cambios[].avisos[]",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
    "ruta": "cambios[].candidato",
    "tipos": [
+    "string",
     "null"
-   ]
+   ],
+   "nota": "tablero.armar: el sha del candidato vigente o None"
   },
   {
    "ruta": "cambios[].commits",
@@ -353,6 +430,48 @@
    ]
   },
   {
+   "ruta": "cambios[].hallazgos[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].hallazgos[].archivo",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].hallazgos[].estado",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].hallazgos[].linea",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].hallazgos[].revisor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].hallazgos[].severidad",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].hallazgos[].titulo",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
    "ruta": "cambios[].id",
    "tipos": [
     "string"
@@ -397,9 +516,9 @@
   {
    "ruta": "cambios[].linea_de_tiempo[].detalle.causa",
    "tipos": [
-    "string",
-    "null"
+    "string"
    ],
+   "nota": "sólo la trae el evento que la guarda; falta en los demás",
    "opcional": true
   },
   {
@@ -407,6 +526,7 @@
    "tipos": [
     "number"
    ],
+   "nota": "el evento de juicio guarda el código de Oracle; la clave falta en los demás eventos",
    "opcional": true
   },
   {
@@ -414,21 +534,20 @@
    "tipos": [
     "string"
    ],
+   "nota": "sólo la trae el evento que la guarda; falta en los demás",
    "opcional": true
   },
   {
    "ruta": "cambios[].linea_de_tiempo[].detalle.hallazgos",
    "tipos": [
-    "number",
-    "null"
+    "number"
    ],
    "opcional": true
   },
   {
    "ruta": "cambios[].linea_de_tiempo[].detalle.resultado",
    "tipos": [
-    "string",
-    "null"
+    "string"
    ],
    "opcional": true
   },
@@ -449,9 +568,9 @@
   {
    "ruta": "cambios[].linea_de_tiempo[].detalle.via",
    "tipos": [
-    "string",
-    "null"
+    "string"
    ],
+   "nota": "sólo la trae el evento que la guarda; falta en los demás",
    "opcional": true
   },
   {
@@ -559,8 +678,10 @@
   {
    "ruta": "cambios[].metricas.requisitos.cumplidos",
    "tipos": [
+    "number",
     "null"
-   ]
+   ],
+   "nota": "tablero._cumplidos: un entero, o None sin juicio vigente"
   },
   {
    "ruta": "cambios[].metricas.requisitos.medidos",
@@ -595,8 +716,10 @@
   {
    "ruta": "cambios[].proximo_paso",
    "tipos": [
+    "null",
     "object"
-   ]
+   ],
+   "nota": "tablero._paso devuelve None si el cambio no tiene próximo paso"
   },
   {
    "ruta": "cambios[].proximo_paso.comando",
@@ -627,6 +750,36 @@
    "ruta": "cambios[].quien.agentes",
    "tipos": [
     "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.agentes[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.agentes[].cuando",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.agentes[].declarado",
+   "tipos": [
+    "boolean"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.agentes[].nombre",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.agentes[].ultima_accion",
+   "tipos": [
+    "string"
    ]
   },
   {
@@ -675,20 +828,25 @@
   {
    "ruta": "cambios[].requisitos[].decision",
    "tipos": [
+    "null",
     "object"
    ]
   },
   {
    "ruta": "cambios[].requisitos[].decision.actor",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "lo arma cli._decision con registro.get(…): un registro anterior a los modos no tiene tipo_actor ni forma"
   },
   {
    "ruta": "cambios[].requisitos[].decision.tipo_actor",
    "tipos": [
-    "string"
-   ]
+    "string",
+    "null"
+   ],
+   "nota": "lo arma cli._decision con registro.get(…): un registro anterior a los modos no tiene tipo_actor ni forma"
   },
   {
    "ruta": "cambios[].requisitos[].id",
@@ -721,18 +879,25 @@
    ]
   },
   {
+   "ruta": "cambios[].requisitos[].propuesta",
+   "tipos": [
+    "null",
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].propuesta.actor",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "nota": "lo arma cli._decision con registro.get(…): un registro anterior a los modos no tiene tipo_actor ni forma"
+  },
+  {
    "ruta": "cambios[].titulo",
    "tipos": [
     "string"
    ]
-  },
-  {
-   "ruta": "esperando",
-   "tipos": [
-    "boolean",
-    "null"
-   ],
-   "opcional": true
   },
   {
    "ruta": "proyecto",
@@ -813,10 +978,48 @@
    ]
   },
   {
+   "ruta": "proyecto.hallazgos_por_revisor.*",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "proyecto.hallazgos_por_revisor.*.alta",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "proyecto.hallazgos_por_revisor.*.baja",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "proyecto.hallazgos_por_revisor.*.critica",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "proyecto.hallazgos_por_revisor.*.informativa",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "proyecto.hallazgos_por_revisor.*.media",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
    "ruta": "proyecto.mediana_horas_hasta_cierre",
    "tipos": [
+    "number",
     "null"
-   ]
+   ],
+   "nota": "tablero.armar: la mediana, o None si no hay cambios cerrados"
   },
   {
    "ruta": "proyecto.por_responsable",
@@ -843,10 +1046,24 @@
    ]
   },
   {
+   "ruta": "proyecto.primera_vuelta.cerrados_con_revision",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "proyecto.primera_vuelta.en_una_vuelta",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
    "ruta": "proyecto.primera_vuelta.proporcion",
    "tipos": [
+    "number",
     "null"
-   ]
+   ],
+   "nota": "tablero.armar: la proporción, o None si no hay cerrados con revisión"
   },
   {
    "ruta": "proyecto.sin_responsable",

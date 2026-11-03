@@ -8,13 +8,17 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import test_archivo as _archivo  # noqa: E402
 import test_estructura as _estructura  # noqa: E402
+import test_tablero as _tablero  # noqa: E402
+import test_vueltas as _vueltas  # noqa: E402
 from tools import contrato_vscode as cv  # noqa: E402
 
-f = _estructura.f
-SOURCE = _estructura.SOURCE
+f = _archivo.f
+SOURCE = Path(__file__).resolve().parents[1]
 EXTENSION = SOURCE / 'editores/vscode'
 NODE = shutil.which('node')
 COMANDOS = ('resumen', 'estado', 'donde', 'tablero')
@@ -92,6 +96,19 @@ class Pura(unittest.TestCase):
         self.assertTrue(any('tablero' in p and 'cambios[].avisos' in p for p in problemas))
         self.assertEqual(cv.comprobar_la_extension(self.CONTRATO, {'estado': ['proximo_paso', 'revision.decision']}), [])
 
+    def test_cv1_el_codigo_de_la_extension_no_nombra_claves_que_el_contrato_no_conoce(self):
+        textos = {a: (EXTENSION / a).read_text(encoding='utf-8') for a in ('modelo.js', 'tablero.js')}
+        self.assertEqual(cv.comprobar_el_codigo(cv.cargar(), textos), [])  # también las ramas que los estados de las pruebas no ejercitan
+
+    def test_cv1_una_lectura_nueva_en_una_rama_que_nadie_ejercita_se_ve_en_el_codigo(self):
+        contrato = {'estado': [{'ruta': 'titulo', 'tipos': ['string']}]}
+        textos = {'modelo.js': 'const t = e.titulo; if (raro) { return e.campo_nuevo + y.otro(1) + `x ${z.sev}`; }'}
+        problemas = cv.comprobar_el_codigo(contrato, textos)
+        self.assertEqual(len(problemas), 1)
+        self.assertIn('campo_nuevo', problemas[0])
+        self.assertIn('modelo.js', problemas[0])
+        self.assertEqual(cv.comprobar_el_codigo(contrato, {'x.js': '// c.comentado\nconst a = e.titulo.length;'}), [])
+
     def test_cv1_el_contrato_del_repositorio_declara_tipos_validos_y_rutas_sin_repetir(self):
         contrato = cv.cargar()
         self.assertEqual(set(contrato), set(COMANDOS))
@@ -101,50 +118,55 @@ class Pura(unittest.TestCase):
             self.assertEqual(rutas, sorted(rutas), f'{comando}: las rutas van ordenadas')
             for e in entradas:
                 self.assertTrue(e['tipos'] and set(e['tipos']) <= set(cv.TIPOS), (comando, e))
-                self.assertLessEqual(set(e), {'ruta', 'tipos', 'opcional'}, (comando, e))
+                self.assertLessEqual(set(e), {'ruta', 'tipos', 'opcional', 'nota'}, (comando, e))
+
+
+SPEC_AGENTE = ('# Capability: otra\n\n## ADDED Requirements\n\n### Requirement: algo medible\nTipo: funcional\nEl sistema DEBE hacer algo.\n\n'
+               '#### Scenario: uno\n- DADO a\n- CUANDO b\n- ENTONCES c\n')
 
 
 @unittest.skipUnless(NODE, 'hace falta node')
 class Real(unittest.TestCase):
-    """Un proyecto de verdad con cambios en varios estados, la CLI de verdad y la extensión en node."""
-    setUp_estructura = _estructura.Estructura.setUp
-    escribe, git, estado = _estructura.Estructura.escribe, _estructura.Estructura.git, _estructura.Estructura.estado
-    cambio_medido, cambio_juzgado = _estructura.Estructura.cambio_medido, _estructura.Estructura.cambio_juzgado
-    sha7 = _estructura.Estructura.sha7
-
-    def setUp(self):
-        self.setUp_estructura()
-        self.cli = self.root / '.venv/bin/oracle-factory'
-        self.cli.parent.mkdir(parents=True)
-        self.cli.write_text(f'#!/bin/sh\nexec {sys.executable} -c "import sys; from oracle_factory.cli import main; '
-                            f'sys.exit(main())" "$@"\n')
-        self.cli.chmod(0o755)
+    """Un proyecto de verdad con cambios en muchos estados (cerrado con revisión, abierto con hallazgos de dos revisores y un candidato,
+    con una propuesta de un agente, sin avanzar, con responsable y mensajes, abandonado), la CLI de verdad y la extensión en node."""
+    setUp, escribe, git, salida = (_archivo.Archivo.setUp, _archivo.Archivo.escribe, _archivo.Archivo.git, _archivo.Archivo.salida)
+    cambio_cerrado, cambio_importado = _archivo.Archivo.cambio_cerrado, _archivo.Archivo.cambio_importado
+    candidato_nuevo, pedir = _vueltas.Vueltas.candidato_nuevo, _vueltas.Vueltas.pedir
+    con_dos_revisores = _tablero.Tablero.con_dos_revisores
 
     def json(self, *args):
-        r = subprocess.run([str(self.cli), *args, '--json'], cwd=self.root, capture_output=True, text=True, timeout=120)
-        self.assertEqual(r.returncode, 0, r.stderr)
-        return json.loads(r.stdout)
+        return _tablero.cli_json(self.root, *args, '--json')
+
+    def instantanea(self, cambios):
+        return {'resumen': self.json('resumen'), 'tablero': self.json('tablero'),
+                'estado': [self.json('estado', i) for i in cambios], 'donde': [self.json('donde', i) for i in cambios]}
 
     def estados(self):
-        """{comando: [JSON de cada estado]}: un cambio juzgado, uno sin avanzar, uno de otra persona con mensajes y uno abandonado."""
-        juzgado = self.cambio_juzgado()
-        sin_avanzar = f.nuevo('Sin avanzar', capacidad='otra')
-        con_dueno = f.nuevo('Con dueño', capacidad='otra2')
+        """{comando: [JSON de cada instantánea]}: la primera con el cambio abierto con candidato vigente y hallazgos de codex y agy (sólo lo ve
+        el tablero antes de que otros cambios muevan el producto), la segunda con todos los demás estados."""
+        self.con_dos_revisores()  # self.cerrado y self.ident (el abierto, con candidato y hallazgos de codex y agy)
+        primera = self.instantanea([self.ident, self.cerrado])
+        con_propuesta = self.cambio_importado('Con propuesta', 'otra', SPEC_AGENTE)
+        with patch.object(f, 'AGENTE', 'claude-code'):
+            f.medir(con_propuesta, requisito_id=f.leer(con_propuesta)[1]['requisitos'][0], medidas=['notas.casos_ejecutados'])
+        sin_avanzar = f.nuevo('Sin avanzar', capacidad='otra2')
+        con_dueno = f.nuevo('Con dueño', capacidad='otra3')
         for accion in (lambda: f.tomar(con_dueno), lambda: f.mensaje(con_dueno, 'una nota del equipo')):
             with contextlib.suppress(Exception):
                 accion()
-        abandonado = f.nuevo('Abandonado', capacidad='otra3')
+        abandonado = f.nuevo('Abandonado', capacidad='otra4')
         with self.escribe('1'):
             f.abandonar(abandonado)
-        abiertos = [juzgado, sin_avanzar, con_dueno]
-        return {'resumen': [self.json('resumen')], 'tablero': [self.json('tablero')],
-                'estado': [self.json('estado', i) for i in abiertos], 'donde': [self.json('donde', i) for i in abiertos]}
+        segunda = self.instantanea([self.ident, self.cerrado, con_propuesta, sin_avanzar, con_dueno, abandonado])
+        return {c: [primera[c], segunda[c]] if c in ('resumen', 'tablero') else primera[c] + segunda[c] for c in COMANDOS}
 
     def leidas(self, salidas):
         carpeta = Path(self.tmp.name) / 'json'
         carpeta.mkdir()
-        (carpeta / 'resumen.json').write_text(json.dumps(salidas['resumen'][0]))
-        (carpeta / 'tablero.json').write_text(json.dumps(salidas['tablero'][0]))
+        for i, dato in enumerate(salidas['resumen']):
+            (carpeta / f'resumen-{i}.json').write_text(json.dumps(dato))
+        for i, dato in enumerate(salidas['tablero']):
+            (carpeta / f'tablero-{i}.json').write_text(json.dumps(dato))
         for i, (e, d) in enumerate(zip(salidas['estado'], salidas['donde'])):
             (carpeta / f'estado-{i}.json').write_text(json.dumps(e))
             (carpeta / f'donde-{i}.json').write_text(json.dumps(d))
@@ -155,7 +177,7 @@ class Real(unittest.TestCase):
     # --- cv1 y cv2 con la CLI y la extensión de verdad -----------------------------------------------------------------------
     def test_cv1_la_extension_solo_lee_lo_declarado_y_la_cli_lo_entrega(self):
         salidas = self.estados()
-        self.assertEqual(len(salidas['estado']), 3)
+        self.assertEqual(len(salidas['estado']), 8)
         leidas = self.leidas(salidas)
         self.assertEqual(set(leidas), set(COMANDOS))
         self.assertTrue(all(leidas[c] for c in COMANDOS), leidas)  # la extensión leyó algo de cada JSON
@@ -192,9 +214,10 @@ class Registrador(unittest.TestCase):
             (ext / 'modelo.js').write_text(
                 "exports.raiz = r => { r.lista.map(x => x); Object.entries(r.mapa).forEach(([k, v]) => v.n); r.ausente; String(r); r.objeto.toString(); r.numeros.forEach(n => n); return []; };\n"
                 "exports.hijosCambio = (e, d) => { e.a; d.b.c; };\n")
-            (ext / 'tablero.js').write_text("exports.html = d => { d.x; d.sesion.estado; d.y.z; return ''; };\n")
-            (datos / 'resumen.json').write_text(json.dumps({'lista': ['a', 'b'], 'mapa': {'uno': {'n': 1}, 'dos': {'n': 2}}, 'objeto': {}, 'numeros': [1, 2]}))
-            (datos / 'tablero.json').write_text(json.dumps({'x': 1, 'y': {'z': 2}}))
+            (ext / 'tablero.js').write_text("exports.html = d => { d.x; d.sesion.estado; d.esperando; d.y.z; if ('opcional' in d.y) d.y.z; if (d.extra) d.extra.hondo; return ''; };\n")
+            (datos / 'resumen-0.json').write_text(json.dumps({'lista': ['a', 'b'], 'mapa': {'uno': {'n': 1}, 'dos': {'n': 2}}, 'objeto': {}, 'numeros': [1, 2]}))
+            (datos / 'tablero-0.json').write_text(json.dumps({'x': 1, 'y': {'z': 2}}))
+            (datos / 'tablero-1.json').write_text(json.dumps({'x': 1, 'y': {'z': 2}, 'extra': {'hondo': 1}}))  # una segunda instantánea también se lee
             (datos / 'estado-0.json').write_text(json.dumps({'a': 1}))
             (datos / 'donde-0.json').write_text(json.dumps({'b': {'c': 1}}))
             r = subprocess.run([NODE, str(SOURCE / 'tests/contrato_en_node.cjs'), str(ext), str(datos)], capture_output=True, text=True, timeout=60)
@@ -204,7 +227,7 @@ class Registrador(unittest.TestCase):
         # toString no es una clave; los nombres de un mapa que se recorre ('uno', 'dos') tampoco; un elemento escalar de un arreglo sí.
         self.assertEqual(leidas['estado'], ['a'])
         self.assertEqual(leidas['donde'], ['b', 'b.c'])
-        self.assertEqual(leidas['tablero'], ['x', 'y', 'y.z'])  # `sesion` la pone la extensión: no viene de la CLI
+        self.assertEqual(leidas['tablero'], ['extra', 'extra.hondo', 'x', 'y', 'y.opcional', 'y.z'])  # `sesion` y `esperando` los pone la extensión; `in` también es una lectura
 
 
 class Documento(unittest.TestCase):

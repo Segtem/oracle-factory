@@ -1,0 +1,268 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-contrato-json/.factory/local/revisiones/eea6c47-agy2-flash-1",
+  "base": "781d72e9bae51fd3485a85a9d2cb5a83c61701b2",
+  "head": "eea6c47bf54a2ee02b04556778e27d07afb17ab9",
+  "diff_sha256": "9e91f208b113af38ecefbbe5302284b299b31cdf8cb1b4ad4d035c37d811dbb5",
+  "context_sha256": "6d2dfe00b1b618ea7af6273082efcd262569fc82a754a36aca6ea0574be50627",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "contrato-propuesta-no-declarada",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Omisión de requisitos[].propuesta en estado y tablero genera falso verde",
+      "explanation": "La función requisito() en editores/vscode/modelo.js (línea 48) y requisitos() en editores/vscode/tablero.js (línea 104) leen r.propuesta y sus propiedades (r.propuesta.actor, tipo_actor, forma) cuando un requisito no tiene decisión confirmada. La CLI entrega este campo (oracle_factory/lecturas.py:373 y tablero.py:279). Sin embargo, editores/vscode/contrato.json no declara la clave 'propuesta' ni para estado ni para tablero. La suite de pruebas no lo detecta porque Real.estados() en tests/test_contrato_vscode.py sólo genera un cambio con medidas ya confirmadas (cambio_juzgado) o sin requisitos (sin_avanzar, con_dueno), evitando que la rama else if (r.propuesta) se ejecute en node.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 101,
+        "end_line": 125,
+        "side": "head"
+      },
+      "trigger": "Un proyecto con un cambio donde un agente haya propuesto medidas de requisitos (o donde la spec esté aprobada e importada pero sin medidas confirmadas por una persona). Al consultar estado o abrir el tablero en VS Code, la extensión lee r.propuesta.",
+      "evidence": "En editores/vscode/contrato.json no figura ninguna entrada con 'propuesta'. En modelo.js:48: 'else if (r.propuesta) hijos.push({etiqueta: `propuesta de ${quien(r.propuesta)}, sin confirmar`...})' donde quien() accede a r.propuesta.actor, tipo_actor y forma. En tablero.js:104: 'r.propuesta ? `propuesta de ${esc(r.propuesta.actor)}, sin confirmar` : ...'. Al ejecutar comprobar_la_extension con una salida de CLI real con propuesta pendiente, falla con: 'estado: la extensión lee «requisitos[].propuesta» y el contrato no la declara'.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Correr tests/contrato_en_node.cjs o comprobar_la_extension sobre un estado generado con requisitos importados y medidas propuestas pero no confirmadas."
+    },
+    {
+      "id": "contrato-arreglos-sin-elementos-declarados",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Omisión de elementos de arreglos ([] y propiedades) leídos por la extensión",
+      "explanation": "Varios arreglos fueron declarados en editores/vscode/contrato.json únicamente como contenedores {'tipos': ['array']}, omitiendo por completo sus elementos ('[]') y las propiedades que la extensión lee al mapearlos. En particular: 1) tablero: cambios[].hallazgos es mapeado en tablero.js:72-75 accediendo a h.severidad, h.revisor, h.archivo, h.linea, h.titulo, h.estado; 2) tablero: cambios[].alternativas es mapeado en tablero.js:172 accediendo a a.comando, a.decision_de_la_persona, a.texto; 3) tablero: cambios[].avisos es mapeado en tablero.js:169 accediendo a cada elemento string (cambios[].avisos[]); 4) tablero: cambios[].quien.agentes es mapeado en tablero.js:85 accediendo a a.nombre, a.declarado, a.ultima_accion, a.cuando; 5) tablero: cambios[].quien.revisores_en_curso es mapeado en tablero.js:87 accediendo a v.revisor, v.candidato, v.cuando; 6) estado: alternativas es recorrido en modelo.js:77-79 accediendo a alternativas[]. Ninguna de estas claves figura en contrato.json.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 349,
+        "end_line": 354,
+        "side": "head"
+      },
+      "trigger": "Cualquier proyecto donde un candidato tenga hallazgos de revisores, avisos activos, agentes sumados, revisores en curso o comandos alternativos.",
+      "evidence": "En contrato.json líneas 349-354 sólo existe {'ruta': 'cambios[].hallazgos', 'tipos': ['array']} y no hay ninguna entrada para cambios[].hallazgos[].*. Lo mismo ocurre para cambios[].alternativas (L235), cambios[].avisos (L241), cambios[].quien.agentes (L627), cambios[].quien.revisores_en_curso (L652) y estado.alternativas (L53). En tests/test_contrato_vscode.py:estados(), todos estos arreglos están vacíos ([]), por lo que Array.prototype.map itera 0 veces y el Proxy nunca registra las lecturas.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Agregar un informe de revisión con un hallazgo a un cambio de prueba y ejecutar test_cv1: falla reportando que la extensión lee «cambios[].hallazgos[]» y sus campos sin estar declarados."
+    },
+    {
+      "id": "contrato-tablero-candidato-tipo-invalido",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Tipo de cambios[].candidato declarado erróneamente como únicamente null en lugar de string|null",
+      "explanation": "En editores/vscode/contrato.json (línea 249), cambios[].candidato está declarado con 'tipos': ['null']. Sin embargo, en oracle_factory/tablero.py:284 se asigna 'candidato': sha, donde sha es el commit corto del candidato vigente (str de 7 caracteres) o None. En tablero.js:171, la extensión lee c.candidato para mostrar '· candidato <sha>'. Cuando un cambio tiene un candidato vigente (el flujo estándar de revisión y juicio en Factory), la CLI devuelve una cadena, lo que hace fallar comprobar_la_cli acusando que esperaba null y recibió string.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 247,
+        "end_line": 251,
+        "side": "head"
+      },
+      "trigger": "Ejecutar comprobar_la_cli sobre la salida de 'tablero --json' en cualquier repositorio que contenga un cambio con un candidato vigente.",
+      "evidence": "editores/vscode/contrato.json:249: '\"tipos\": [\"null\"]'. En oracle_factory/cli.py:569 candidato_vigente retorna commit[:7] (str). En test_contrato_vscode.py:130-139, cambio_juzgado() no crea una carpeta bajo .factory/cambios/ID/candidatos, por lo que candidato_vigente devolvió None en todos los estados de prueba.",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Ejecutar tools/contrato_vscode.py:comprobar_la_cli con un JSON de tablero donde cambios[0]['candidato'] == 'eea6c47'. Falla con: 'tablero: «cambios[].candidato» esperaba null y la CLI dio string'."
+    },
+    {
+      "id": "contrato-primera-vuelta-incompleta-y-tipo-erroneo",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "proyecto.primera_vuelta omite claves leídas y restringe proporcion a null",
+      "explanation": "En editores/vscode/tablero.js (línea 196), se lee: v.proporcion == null ? '—' : `<b>${v.en_una_vuelta}</b> de ${v.cerrados_con_revision} cerraron en una vuelta`. La CLI en oracle_factory/tablero.py:313-314 produce {'cerrados_con_revision': con_revision, 'en_una_vuelta': en_una_vuelta, 'proporcion': float | None}. Sin embargo, contrato.json declara 'proyecto.primera_vuelta.proporcion' únicamente con tipo 'null' (L848) y omite totalmente 'proyecto.primera_vuelta.en_una_vuelta' y 'proyecto.primera_vuelta.cerrados_con_revision'. En cualquier proyecto con cambios cerrados y revisados, la CLI devolverá un number para proporcion (fallando comprobar_la_cli) y la extensión leerá las otras dos claves (fallando comprobar_la_extension).",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 840,
+        "end_line": 851,
+        "side": "head"
+      },
+      "trigger": "Correr la suite o comprobar_la_cli sobre un proyecto que tenga al menos un cambio cerrado habiendo pasado por revisión.",
+      "evidence": "editores/vscode/contrato.json líneas 840-851 declara sólo proyecto.primera_vuelta (object) y proyecto.primera_vuelta.proporcion (null). En tests/test_contrato_vscode.py:estados(), no hay ningún cambio cerrado, por lo que con_revision fue 0 y proporcion fue null.",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Ejecutar comprobar_la_cli con {'proyecto': {'primera_vuelta': {'cerrados_con_revision': 2, 'en_una_vuelta': 1, 'proporcion': 0.5}}}: falla indicando que esperaba null y dio number."
+    },
+    {
+      "id": "contrato-requisitos-decision-omite-null",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "requisitos[].decision omite el tipo null en estado y tablero",
+      "explanation": "En editores/vscode/contrato.json, tanto estado: requisitos[].decision (línea 105) como tablero: cambios[].requisitos[].decision (línea 678) están declarados con 'tipos': ['object']. Sin embargo, cuando los requisitos están recién importados o pendientes de confirmar medidas, cli._decision(...) retorna None en la CLI (oracle_factory/lecturas.py:372 y tablero.py:279). El tipo permitido debe ser ['object', 'null'].",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 103,
+        "end_line": 107,
+        "side": "head"
+      },
+      "trigger": "Consultar 'estado ID --json' o 'tablero --json' en un cambio cuyos requisitos fueron importados pero aún no tienen medidas decididas ni confirmadas.",
+      "evidence": "En contrato.json L105: '\"tipos\": [\"object\"]'. En oracle_factory/lecturas.py:372: '\"decision\": cli._decision((estado.get(\"medidas\") or {}).get(rid))'. Si rid no está en medidas, _decision retorna None. Al comprobar con comprobar_la_cli, falla con: 'estado: «requisitos[].decision» esperaba object y la CLI dio null'.",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Pasar un objeto con 'requisitos': [{'id': 'r1', 'decision': None, ...}] a comprobar_la_cli; se produce fallo de tipo."
+    },
+    {
+      "id": "contrato-cumplidos-y-mediana-restringidos-a-null",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "metricas.requisitos.cumplidos y proyecto.mediana_horas_hasta_cierre declarados sólo como null",
+      "explanation": "En contrato.json, cambios[].metricas.requisitos.cumplidos (L562) y proyecto.mediana_horas_hasta_cierre (L818) fueron tipados exclusivamente como ['null']. No obstante, en oracle_factory/tablero.py:208, _cumplidos calcula el total de requisitos aprobados por Oracle como un entero (int), y tablero.js:135 lo formatea cuando no es null. Similarmente, tablero.py:312 calcula la mediana de horas como float (round(median(cerrados_horas), 2)) y tablero.js:195 lo formatea con horas(). Cuando hay un veredicto Oracle con requisitos cumplidos o cambios cerrados, la CLI entrega number y comprobar_la_cli falla.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 560,
+        "end_line": 564,
+        "side": "head"
+      },
+      "trigger": "Correr comprobar_la_cli cuando un cambio tenga juicio exitoso de Oracle con requisitos verificados, o cuando el proyecto tenga cambios cerrados.",
+      "evidence": "contrato.json:562 y contrato.json:818 declaran 'tipos': ['null']. En tablero.py:208 y 312 los valores entregados son int y float respectivamente.",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Probar comprobar_la_cli con cumplidos: 3 o mediana_horas_hasta_cierre: 1.5; falla por tipo number."
+    },
+    {
+      "id": "contrato-hallazgos-por-revisor-omite-severidades",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "proyecto.hallazgos_por_revisor omite comodín .* y conteo de severidades",
+      "explanation": "En editores/vscode/tablero.js (líneas 190-191), la extensión procesa Object.entries(p.hallazgos_por_revisor) y llama a barras(cuenta), función que accede a cuenta[k] para cada k en SEVERIDADES ('critica', 'alta', 'media', 'baja', 'informativa'). En contrato.json (líneas 810-814) sólo se declaró proyecto.hallazgos_por_revisor como object, omitiendo 'proyecto.hallazgos_por_revisor.*' y sus claves de severidad. Cuando un proyecto contiene informes de revisores, la extensión leerá estas claves y comprobar_la_extension fallará.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 810,
+        "end_line": 814,
+        "side": "head"
+      },
+      "trigger": "Tener al menos un informe de revisor registrado en el candidato vigente.",
+      "evidence": "En contrato.json no existe proyecto.hallazgos_por_revisor.* ni ninguna de sus severidades. En test_contrato_vscode.py:estados() no se agregaron revisiones de revisores externos, por lo que hallazgos_por_revisor fue {} y el bucle map() no se ejecutó en node.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Correr tests/contrato_en_node.cjs con un tablero.json que tenga un revisor con hallazgos; la lista de leídas incluye proyecto.hallazgos_por_revisor.* y severidades."
+    },
+    {
+      "id": "contrato-proximo-paso-humano-y-guardado-por-omitidos",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Omisión de cambios[].proximo_paso.humano y linea_de_tiempo[].detalle.guardado_por",
+      "explanation": "En tablero.js:61, la función nadaPorHacer() lee p.humano cuando el próximo paso es un comando a ejecutar por un agente. En tablero.js:158, chat() lee e.detalle.guardado_por para mensajes con detalle.via. Ambas claves son producidas por la CLI (tablero.py:205 con 'humano': humano y tablero.py:292 con 'guardado_por' en detalle). Ninguna está declarada en contrato.json.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 596,
+        "end_line": 620,
+        "side": "head"
+      },
+      "trigger": "Un cambio donde el próximo paso corresponda a un agente (sin dueño), o un cambio con mensajes enviados por Live Share con guardado_por.",
+      "evidence": "contrato.json líneas 596-620 lista comando, decision_de_la_persona y texto pero no humano. Líneas 396-445 de detalle no listan guardado_por. En los estados de prueba, ningun paso cumplió !dueno && p.comando && !p.decision_de_la_persona y los mensajes no tenían vía live-share.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Configurar un cambio con próximo paso de agente y comprobar con node: se registra la lectura de cambios[].proximo_paso.humano."
+    },
+    {
+      "id": "contrato-estado-proximo-paso-omite-null",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "estado.proximo_paso no admite null para cambios cerrados o abandonados",
+      "explanation": "En contrato.json (líneas 85-89), estado.proximo_paso tiene 'tipos': ['string']. Sin embargo, para cambios en fase cerrada o abandonada, cli.pasos() retorna [] y lecturas.py:377 entrega proximo_paso: None (null). En test_contrato_vscode.py:136-141, se creó un cambio 'abandonado' pero la línea 141 lo excluyó explícitamente de la lista de estados probados con 'estado': [self.json('estado', i) for i in abiertos]. De incluirse o evaluarse un cambio cerrado/abandonado, comprobar_la_cli falla.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 85,
+        "end_line": 89,
+        "side": "head"
+      },
+      "trigger": "Ejecutar comprobar_la_cli incluyendo la salida de 'estado ID --json' de un cambio cerrado o abandonado.",
+      "evidence": "contrato.json:87 declara únicamente 'string'. En test_contrato_vscode.py:26 (clase Pura), el CONTRATO de juguete sí incluía 'tipos': ['string', 'null'], pero en el contrato real del repositorio se omitió 'null'.",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Incluir abandonado en la lista de salidas['estado'] en test_cv1: comprobar_la_cli falla por proximo_paso: null."
+    },
+    {
+      "id": "contrato-comprobacion-arreglos-vacios-sin-muestra",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.90,
+      "title": "Arreglos legítimamente vacíos no opcionales fallan como sin muestra en comprobar_la_cli",
+      "explanation": "En tools/contrato_vscode.py:66-67, muestras() devuelve len(valores), 0 cuando la ruta termina en '[]' o '*', documentando que 'un arreglo vacío es legítimo, y no se puede saber cuántos elementos se esperaban'. Sin embargo, en comprobar_la_cli (línea 89), la condición 'elif not opcional and not padres and not hallados:' se cumple cuando todos los arreglos están vacíos (padres=0, hallados=0), agregando un fallo que exige marcar la clave como opcional o sumar un estado. Esto contradice el principio de que un arreglo vacío es válido y penaliza salidas estándar como sin_responsable: [].",
+      "location": {
+        "file": "tools/contrato_vscode.py",
+        "start_line": 66,
+        "end_line": 91,
+        "side": "head"
+      },
+      "trigger": "Tener una clave declarada obligatoria que termina en '[]' donde el arreglo padre está presente pero vacío en todos los estados probados.",
+      "evidence": "cv.comprobar_la_cli({'tablero': [{'ruta': 'proyecto.sin_responsable[]', 'tipos': ['string']}]}, {'tablero': [{'proyecto': {'sin_responsable': []}}]}) devuelve ['tablero: «proyecto.sin_responsable[]» no se pudo comprobar con los estados de la prueba (sin muestra): marcala opcional o sumá un estado'].",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Ejecutar comprobar_la_cli sobre un estado donde sin_responsable sea []; la herramienta falla aunque el campo exista."
+    },
+    {
+      "id": "contrato-detalle-ensanchamiento-inadecuado-a-null",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "Ensanchamiento manual indebido de tipos a null en cambios[].linea_de_tiempo[].detalle.*",
+      "explanation": "En contrato.json, las propiedades cambios[].linea_de_tiempo[].detalle.causa, resultado, hallazgos y via fueron ampliadas manualmente incluyendo 'null' entre sus tipos permitidos, además de estar marcadas como 'opcional': true. Al revisar oracle_factory, ninguna acción o evento asigna None a estos campos: cuando no aplican, la clave directamente no se incluye en el diccionario 'detalle'; y cuando están presentes, causa, resultado y via son siempre string, y hallazgos es siempre number. Permitir null en el contrato enmascara posibles regresiones donde la CLI emita valores nulos literales en vez de omitir la clave.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 396,
+        "end_line": 445,
+        "side": "head"
+      },
+      "trigger": "Inspección de código en oracle_factory/cli.py y flujo_revision.py en comparación con los tipos permitidos en contrato.json.",
+      "evidence": "En contrato.json:399 (causa: ['string', 'null']), 417 (hallazgos: ['number', 'null']), 423 (resultado: ['string', 'null']), 441 (via: ['string', 'null']). En oracle_factory, todos los eventos que definen estos campos pasan valores no nulos.",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Búsqueda exhaustiva de llamadas a evento() en oracle_factory: ningún evento define causa=None, resultado=None, hallazgos=None o via=None."
+    },
+    {
+      "id": "contrato-documento-omite-sintaxis-comodin",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "docs/tablero.md no explica cómo declarar mapas con nombres variables (.*)",
+      "explanation": "En docs/tablero.md (líneas 45-51), la sección 'Para actualizar el contrato' instruye cómo declarar claves nuevas: 'su ruta, con [] por cada arreglo, y los tipos que puede tener; \"opcional\": true si falta en algunos estados'. Sin embargo, omite completamente explicar la convención '.*' para objetos dinámicos o mapas cuyos nombres de clave son variables (como proyecto.por_responsable.*), sintaxis que sí está soportada en tools/contrato_vscode.py:3-4 y utilizada en contrato.json. Quien consulte la documentación para declarar un nuevo mapa dinámico carecerá de la especificación de esta regla.",
+      "location": {
+        "file": "docs/tablero.md",
+        "start_line": 45,
+        "end_line": 51,
+        "side": "head"
+      },
+      "trigger": "Un desarrollador consulta docs/tablero.md para aprender a actualizar el contrato tras agregar la lectura de un mapa con claves dinámicas.",
+      "evidence": "docs/tablero.md:47 menciona '[]' y 'opcional', pero no '.*'. tools/contrato_vscode.py:3-4 documenta explícitamente: '«.*» para un objeto que la extensión recorre (nombres variables)'.",
+      "related_requirement": "el_documento_explica_como_actualizar_el_contrato",
+      "status": "pendiente",
+      "verification": "Contrastar el párrafo 'Para actualizar el contrato' en docs/tablero.md contra el docstring de tools/contrato_vscode.py."
+    },
+    {
+      "id": "contrato-node-proxy-limitaciones-trampas",
+      "kind": "bug",
+      "severity": "informativa",
+      "confidence": 0.90,
+      "title": "Limitaciones en el Proxy de tests/contrato_en_node.cjs (falta trap has y sobre-generalización por ownKeys)",
+      "explanation": "tests/contrato_en_node.cjs utiliza un Proxy que sólo implementa get y ownKeys. 1) No implementa la trampa 'has', por lo que el uso del operador 'in' ('clave' in obj) no es interceptado por el Proxy y no registra lecturas. 2) La trampa 'ownKeys' ejecuta mapas.add(ruta) de forma indiscriminada. Si un objeto con claves estáticas es inspeccionado con Object.keys(), Object.entries() o desestructuración rest ({...obj}), la ruta queda marcada permanentemente como mapa dinámico, haciendo que todo acceso posterior a propiedades regulares se registre erróneamente como .* en lugar de .propiedad. 3) Para arreglos, la trampa get filtra por /^\\d+$/ y sólo registra si se accede a un índice numérico; si un arreglo está vacío ([]), el Proxy no registra la existencia del tipo de elemento ni sus campos hijos.",
+      "location": {
+        "file": "tests/contrato_en_node.cjs",
+        "start_line": 15,
+        "end_line": 32,
+        "side": "head"
+      },
+      "trigger": "Uso del operador 'in' en la extensión, o uso de Object.keys() / spread en un objeto con claves fijas.",
+      "evidence": "tests/contrato_en_node.cjs:15-32 no define trampa has(t, p). Línea 29: 'if (!arreglo) mapas.add(ruta)'. Línea 19: 'if (!/^\\d+$/.test(p)) return Reflect.get(t, p, r)'.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Ejecutar pruebas con el registrador Proxy evaluando 'clave in obj': la clave no aparece en el JSON de salida."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó el diff completo contra el paquete de Clue, la propuesta, la especificación openspec, el código fuente en Python de la CLI y de la extensión de VS Code en JavaScript.",
+    "Se ejecutaron los tests unitarios e integrados (test_contrato_vscode.py) con unittest y Node.js.",
+    "Se analizaron los esquemas de salida JSON de oracle_factory (consultas, lecturas, tablero) y las funciones de lectura de editores/vscode (modelo.js, tablero.js).",
+    "No se modificó el checkout ni la configuración de Git."
+  ]
+}

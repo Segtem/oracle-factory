@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 
 RAIZ = Path(__file__).resolve().parents[1]
 CONTRATO = RAIZ / "editores/vscode/contrato.json"
@@ -96,3 +97,26 @@ def comprobar_la_extension(contrato: dict, leidas: dict[str, list[str]]) -> list
     declaradas = {c: {e["ruta"] for e in entradas} for c, entradas in contrato.items()}
     return sorted(f"{comando}: la extensión lee «{ruta}» y el contrato no la declara"
                   for comando, rutas in leidas.items() for ruta in rutas if ruta not in declaradas.get(comando, set()))
+
+
+# Nombres que el código de la extensión usa con un punto y que NO son claves de un JSON de la CLI: del navegador y de JavaScript, de los nodos
+# que arma modelo.js, de los mensajes del panel y de las clases CSS que están dentro de las plantillas de texto.
+NOMBRES_PROPIOS = frozenset({
+    "length", "dataset", "target", "value", "elements", "exports",  # JavaScript y el DOM
+    "abrir", "mostrar", "escribir", "terminal", "enlace", "alternativa", "tuya", "hecha", "sev",  # clases y claves de los nodos y del panel
+    "sesion", "esperando", "invitado", "otros", "rol",  # la sesión de Live Share y el estado del panel: los arma la extensión, no la CLI
+})
+
+
+def nombres_en_el_codigo(texto_js: str) -> set[str]:
+    """Los nombres que el código lee con un punto y sin llamar (`c.titulo`, no `c.map(`): candidatos a ser claves de un JSON de la CLI."""
+    sin_comentarios = re.sub(r"//[^\n]*", "", texto_js)
+    return {m[1] for m in re.finditer(r"(?<![\w$])(?:\w+|\)|\])\s*\??\.(\w+)(?!\w)(?!\s*\()", sin_comentarios)}
+
+
+def comprobar_el_codigo(contrato: dict, textos_js: dict[str, str]) -> list[str]:
+    """Nombres que el código de la extensión usa con un punto y que no están en el contrato ni en NOMBRES_PROPIOS. Cubre las ramas que los
+    estados de las pruebas no ejercitan: una lectura que el registro no vio igual aparece acá."""
+    claves = {seg for entradas in contrato.values() for e in entradas for seg in re.split(r"[.\[\]]+", e["ruta"]) if seg}  # el «*» tampoco puede coincidir con un nombre
+    return sorted(f"{archivo}: el código usa «.{nombre}» y no es una clave del contrato ni un nombre propio de la extensión"
+                  for archivo, texto in textos_js.items() for nombre in nombres_en_el_codigo(texto) - claves - NOMBRES_PROPIOS)
