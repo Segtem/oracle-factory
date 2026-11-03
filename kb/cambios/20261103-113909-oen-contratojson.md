@@ -46,6 +46,7 @@ capacidad: "ide"
 - `7850cc0` contrato-json: estados más ricos, contrato completo con notas, revisión estática del código, trampa has, documento (hallazgos de la ronda 1) (trailer)
 - `07a7aac` contrato-json: proponer de nuevo las medidas (trailer)
 - `58363a1` contrato-json: registrar la confirmación de medidas por Brian (trailer)
+- `e3ca20e` contrato-json: contrato completo por ruta, revisión estática por archivo y por comando, accesos encadenados (hallazgos de la ronda 2) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261103-113909-oen-contratojson`.
 
 ## Mensajes
