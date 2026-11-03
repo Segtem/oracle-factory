@@ -2,7 +2,7 @@
   "id": "20261102-221210-70x-caminoligero",
   "titulo": "Un camino ligero de revisión para los cambios chicos",
   "capacidad": "practicas",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md",
   "spec_sha256": "d70845b53755dfc19d568ae1e622e5f60bab7e816ad769421ca4dcc72141d900",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero",
     "practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261102-221210-70x-caminoligero/revisiones/registro-jib_gwno/informe.json",
+    "sha256": "1d0d7e4ae0d05ba280141cfa55b2565e6f11038cf0ba3002795606e757e73cc7",
+    "decisiones": "tareas/20261102-221210-70x-caminoligero/revisiones/registro-jib_gwno/decisiones.json",
+    "decisiones_sha256": "bae9710961791ac78e552182bc4272b7f5ee8b3ba3b7e8b4d4def8bda9c1a874",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-03T01:02:15.430085+00:00",
+    "motivo": "Dos rondas con revisores independientes (agy2-flash y codex): ronda 1, 7 hallazgos (6 de flash, 1 de codex); ronda 2, 0 y 0 sobre el candidato 02f195b. De la ronda 1: alarmas.py faltaba entre las reglas de decisión (se sumó por decisión de Brian, con reaprobación de la spec), la prueba de la guía era tautológica (ahora hay otra con literales), docs/agentes.md no tenía prueba (hay una) y cuatro huecos de cómputo (binarios, borrados, renombres puros de pruebas a producto y copias sin origen modificado) se declararon como límites conocidos en docs/agentes.md; los revisores de la ronda 2 los vieron y no los objetaron. Evidencia con éxito, producida por tools/verificar_cambio.py: 1062 pruebas y 21 casos de contrato. Mutaciones en tres tandas; los mutantes que sobrevivían se cerraron con pruebas y el equivalente (la condición de abandonado, redundante porque un cambio abandonado no tiene candidato) se eliminó simplificando el código. Declarado: tests/datos/cli_texto/estado.txt, la referencia de texto de estado, recibió una línea nueva sin quitar ninguna; ambos revisores la vieron. Es una orientación, no un gate: los pasos pendientes, el próximo paso y quién decide no cambian (hay una prueba).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "7b087e11b79c30aba53a1eadf955e176d7bea459",
+      "archivos_sha256": "406041e6149786fc86e65bf6776bd6e491fb2a7718c0b512262201b7c9c4d8e6"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -356,6 +376,20 @@
       "cuando": "2026-11-03T00:27:41.509693+00:00",
       "decision": "aprobar",
       "candidato": "02f195b"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T01:02:15.430115+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "1d0d7e4ae0d05ba280141cfa55b2565e6f11038cf0ba3002795606e757e73cc7",
+      "decisiones_sha256": "bae9710961791ac78e552182bc4272b7f5ee8b3ba3b7e8b4d4def8bda9c1a874"
     }
   ],
   "tipos": {
@@ -414,14 +448,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Dos rondas con revisores independientes (agy2-flash y codex): ronda 1, 7 hallazgos (6 de flash, 1 de codex); ronda 2, 0 y 0 sobre el candidato 02f195b. De la ronda 1: alarmas.py faltaba entre las reglas de decisión (se sumó por decisión de Brian, con reaprobación de la spec), la prueba de la guía era tautológica (ahora hay otra con literales), docs/agentes.md no tenía prueba (hay una) y cuatro huecos de cómputo (binarios, borrados, renombres puros de pruebas a producto y copias sin origen modificado) se declararon como límites conocidos en docs/agentes.md; los revisores de la ronda 2 los vieron y no los objetaron. Evidencia con éxito, producida por tools/verificar_cambio.py: 1062 pruebas y 21 casos de contrato. Mutaciones en tres tandas; los mutantes que sobrevivían se cerraron con pruebas y el equivalente (la condición de abandonado, redundante porque un cambio abandonado no tiene candidato) se eliminó simplificando el código. Declarado: tests/datos/cli_texto/estado.txt, la referencia de texto de estado, recibió una línea nueva sin quitar ninguna; ambos revisores la vieron. Es una orientación, no un gate: los pasos pendientes, el próximo paso y quién decide no cambian (hay una prueba).",
-      "candidato": "02f195b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-03T00:27:41.509673+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
