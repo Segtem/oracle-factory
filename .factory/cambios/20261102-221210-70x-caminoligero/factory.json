@@ -2,7 +2,7 @@
   "id": "20261102-221210-70x-caminoligero",
   "titulo": "Un camino ligero de revisión para los cambios chicos",
   "capacidad": "practicas",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261102-221210-70x-caminoligero/specs/practicas/spec.md",
   "spec_sha256": "d70845b53755dfc19d568ae1e622e5f60bab7e816ad769421ca4dcc72141d900",
   "spec_aprobada": {
@@ -413,6 +413,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "1c8e40c707e55b66339bafa190ce51403882bc3083756c1ea41b94111dc2aab5"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T11:19:40.685616+00:00",
+      "oracle": ".factory/cambios/20261102-221210-70x-caminoligero/oracle-veredicto.txt",
+      "revision": "tareas/20261102-221210-70x-caminoligero/revisiones/registro-jib_gwno/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T11:19:40.725916+00:00",
+      "capacidad": "practicas",
+      "spec": "openspec/specs/practicas/spec.md"
     }
   ],
   "tipos": {
@@ -471,5 +491,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-03T11:19:40.621785+00:00"
+  },
+  "archivo": {
+    "capacidad": "practicas",
+    "spec": "openspec/specs/practicas/spec.md",
+    "cuando": "2026-11-03T11:19:40.725906+00:00"
+  }
 }

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:63f95621792d7c0239da728fdbd1d1a9eb48bf2a8a66f8cd1e6cbd6fb206e8fe -->
+<!-- oracle-factory resumen sha256:4cf71ac4477ff6f322190b7e28e6e3461afb5fc6580c315303f3ced94ed8e7a0 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-28 capacidades · 267 requisitos vigentes · 0 cambios abiertos
+28 capacidades · 270 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -341,6 +341,9 @@ Spec completa: [openspec/specs/practicas/spec.md](../openspec/specs/practicas/sp
 | el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica | funcional | `practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica` | factory_verificador_generico.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica, factory_verificador_generico.corrida_completa | verde al cerrar el 2026-11-02 | 20261102-000745-j7r-verificadorgenerico |
 | el_verificador_produce_la_evidencia_completa_del_cambio | funcional | `practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio` | factory_verificador_generico.el_verificador_produce_la_evidencia_completa_del_cambio, factory_verificador_generico.corrida_completa | verde al cerrar el 2026-11-02 | 20261102-000745-j7r-verificadorgenerico |
 | el_verificador_escribe_los_catalogos_del_cambio | funcional | `practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio` | factory_verificador_generico.el_verificador_escribe_los_catalogos_del_cambio, factory_verificador_generico.corrida_completa | verde al cerrar el 2026-11-02 | 20261102-000745-j7r-verificadorgenerico |
+| el_estado_dice_si_el_candidato_califica_para_el_camino_ligero | funcional | `practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero` | factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero, factory_camino_ligero.corrida_completa | verde al cerrar el 2026-11-03 | 20261102-221210-70x-caminoligero |
+| el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente | funcional | `practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente` | factory_camino_ligero.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente, factory_camino_ligero.corrida_completa | verde al cerrar el 2026-11-03 | 20261102-221210-70x-caminoligero |
+| la_guia_para_agentes_explica_el_camino_ligero | funcional | `practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero` | factory_camino_ligero.la_guia_para_agentes_explica_el_camino_ligero, factory_camino_ligero.corrida_completa | verde al cerrar el 2026-11-03 | 20261102-221210-70x-caminoligero |
 
 ### procedencia
 
@@ -1479,6 +1482,19 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261102-000745-j7r-verificadorgenerico) codex (gpt-6-luna): No ejecuté la suite completa ni hice mutaciones manuales en copias.
 - (20261102-000745-j7r-verificadorgenerico) codex (gpt-6-luna): No revisé los 56 archivos de registros y evidencia de Factory excluidos por el pedido.
 - (20261102-000745-j7r-verificadorgenerico) codex (gpt-6-luna): No encontré hallazgos de impacto práctico; la protección contra enlaces simbólicos cubre catalogos/ y cada catálogo objetivo antes de escribir, y las regresiones reportadas previamente aparecen corregidas en el candidato.
+- (20261102-221210-70x-caminoligero) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261102-221210-70x-caminoligero) agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias abiertas en el candidato 02f195b; los 7 hallazgos de la ronda previa fueron resueltos o adecuadamente documentados como límites conocidos.
+- (20261102-221210-70x-caminoligero) agy (gemini-3.8-flash-high): Se ejecutaron los 21 casos de prueba de tests/test_camino_ligero.py en el entorno virtual del proyecto con éxito total (OK).
+- (20261102-221210-70x-caminoligero) agy (gemini-3.8-flash-high): Se ejecutaron suites relacionadas (test_agentes.py, test_alarmas_flujo.py, test_cli_modulos.py, test_cli_json.py, test_cli_humana.py) con éxito total.
+- (20261102-221210-70x-caminoligero) agy (gemini-3.8-flash-high): Se ejecutó tools/verificar_cambio.py para el cambio 20261102-221210-70x-caminoligero, verificando los 21 casos de contrato y 1062 pruebas con éxito.
+- (20261102-221210-70x-caminoligero) agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación manuales sobre UMBRAL_LIGERO, REGLAS_DE_DECISION (omisión de alarmas.py y cli.py), condiciones de borde (150 líneas exactas), omisión de reglas en camino_del_candidato y detección de origen en archivos_tocados, verificando que la suite actual captura cada una de las mutaciones.
+- (20261102-221210-70x-caminoligero) agy (gemini-3.8-flash-high): Se contrastó exhaustivamente el diff del paquete Clue con la spec, proposal, docs/agentes.md, los catálogos Oracle y las definiciones de requisitos.
+- (20261102-221210-70x-caminoligero) agy (gemini-3.8-flash-high): Se evaluó la sección «Límites conocidos» de docs/agentes.md, confirmando que describe con precisión técnica y sin contradicciones el comportamiento de la heurística basada en git numstat/name-status y su carácter de orientación.
+- (20261102-221210-70x-caminoligero) codex (gpt-6-luna): Revisé la spec, la propuesta, todos los archivos del diff incluido en el paquete y las dos revisiones anteriores. Las correcciones de la lista de reglas, las pruebas literales de guía, la prueba de docs/agentes.md, renombres hacia/desde reglas y la línea agregada al fixture de estado están presentes; no encontré defecto práctico nuevo en esos puntos.
+- (20261102-221210-70x-caminoligero) codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_camino_ligero -v </dev/null`: 21 casos, 10 pasaron y 11 fallaron en integraciones de estado por `ModuleNotFoundError: oracle_metalenguaje`; el checkout no contiene `.venv`, por lo que no pude validar esos escenarios de integración.
+- (20261102-221210-70x-caminoligero) codex (gpt-6-luna): No corrí la suite completa ni `tools/verify_*`; no hice mutaciones porque las pruebas de estado requieren dependencias no instaladas y el checkout es de sólo lectura.
+- (20261102-221210-70x-caminoligero) codex (gpt-6-luna): Los cuatro límites de cómputo están explicados como límites conocidos. La suma sólo de líneas agregadas, binarios sin conteo, renombres pruebas→producto y copias sin cambios del origen pueden falsear casos artificiales; para los dos primeros el texto explicita que podrían calificar como ligero y recomienda criterio humano. El caso de copia literal tiene impacto práctico muy bajo: sin alterar el origen ni enrutar ejecución al duplicado, no cambia por sí solo la lógica efectiva. No los reporto como defectos.
+- (20261102-221210-70x-caminoligero) codex (gpt-6-luna): Las dos revisiones previas fueron consultadas: los hallazgos sobre lista de reglas, umbral/guía, prueba documental, renombres y líneas borradas están cubiertos en esta ronda; la observación de copias puras queda declarada y sin impacto práctico sustantivo. No inspeccioné los archivos excluidos por el pedido.
 
 ### Históricos
 
