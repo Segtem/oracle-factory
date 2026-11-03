@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:4cf71ac4477ff6f322190b7e28e6e3461afb5fc6580c315303f3ced94ed8e7a0 -->
+<!-- oracle-factory resumen sha256:1a16d31929a125e2ad52bf668bb70bc00f5a1a18bc43f88d103244e9133e3e0e -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-28 capacidades · 270 requisitos vigentes · 0 cambios abiertos
+28 capacidades · 273 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -250,6 +250,9 @@ Spec completa: [openspec/specs/ide/spec.md](../openspec/specs/ide/spec.md)
 | una_terminal_lista_recibe_el_comando_enseguida | funcional | `ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida` | factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida, factory_terminal_lista.corrida_completa | verde al cerrar el 2026-10-28 | 20261027-225048-59a-terminallista |
 | los_comandos_seguidos_se_escriben_en_orden_y_una_vez | funcional | `ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez` | factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez, factory_terminal_lista.corrida_completa | verde al cerrar el 2026-10-28 | 20261027-225048-59a-terminallista |
 | queda_constancia_en_la_salida | funcional | `ide_c6fe31e596cc9568e.queda_constancia_en_la_salida` | factory_terminal_lista.queda_constancia_en_la_salida, factory_terminal_lista.corrida_completa | verde al cerrar el 2026-10-28 | 20261027-225048-59a-terminallista |
+| la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara | funcional | `ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara` | factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara, factory_contrato_vscode.corrida_completa | verde al cerrar el 2026-11-03 | 20261103-113909-oen-contratojson |
+| la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido | funcional | `ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido` | factory_contrato_vscode.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido, factory_contrato_vscode.corrida_completa | verde al cerrar el 2026-11-03 | 20261103-113909-oen-contratojson |
+| el_documento_explica_como_actualizar_el_contrato | funcional | `ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato` | factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato, factory_contrato_vscode.corrida_completa | verde al cerrar el 2026-11-03 | 20261103-113909-oen-contratojson |
 
 ### limpieza
 
@@ -1495,6 +1498,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261102-221210-70x-caminoligero) codex (gpt-6-luna): No corrí la suite completa ni `tools/verify_*`; no hice mutaciones porque las pruebas de estado requieren dependencias no instaladas y el checkout es de sólo lectura.
 - (20261102-221210-70x-caminoligero) codex (gpt-6-luna): Los cuatro límites de cómputo están explicados como límites conocidos. La suma sólo de líneas agregadas, binarios sin conteo, renombres pruebas→producto y copias sin cambios del origen pueden falsear casos artificiales; para los dos primeros el texto explicita que podrían calificar como ligero y recomienda criterio humano. El caso de copia literal tiene impacto práctico muy bajo: sin alterar el origen ni enrutar ejecución al duplicado, no cambia por sí solo la lógica efectiva. No los reporto como defectos.
 - (20261102-221210-70x-caminoligero) codex (gpt-6-luna): Las dos revisiones previas fueron consultadas: los hallazgos sobre lista de reglas, umbral/guía, prueba documental, renombres y líneas borradas están cubiertos en esta ronda; la observación de copias puras queda declarada y sin impacto práctico sustantivo. No inspeccioné los archivos excluidos por el pedido.
+- (20261103-113909-oen-contratojson) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261103-113909-oen-contratojson) agy (gemini-3.8-flash-high): Se revisó la propuesta, la especificación (ide/spec.md), las tareas y el diff completo entre la base y el candidato 0a8e4fd.
+- (20261103-113909-oen-contratojson) agy (gemini-3.8-flash-high): Se contrastó la implementación de tools/contrato_vscode.py, tests/test_contrato_vscode.py, tests/contrato_en_node.cjs, editores/vscode/contrato.json y docs/tablero.md.
+- (20261103-113909-oen-contratojson) agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo de la ronda 3: Path(archivo).name preserva la partición estática de comandos ante rutas relativas y absolutas, y rechaza explícitamente archivos no reconocidos en lugar de mezclarlos con todos los comandos de la CLI.
+- (20261103-113909-oen-contratojson) agy (gemini-3.8-flash-high): Se ejecutaron las 20 pruebas de tests/test_contrato_vscode.py con el entorno del proyecto (.venv/bin/python), comprobando que todas pasan limpiamente (Pura, Real, Registrador y Documento).
+- (20261103-113909-oen-contratojson) agy (gemini-3.8-flash-high): Se ejecutó una corrida de prueba de evidencia mediante tools/verificar_cambio.py confirmando que los 20 casos se registran con código 0 y satisfacen los umbrales de los catálogos Oracle correspondientes.
+- (20261103-113909-oen-contratojson) agy (gemini-3.8-flash-high): Se realizaron comprobaciones de mutación y análisis de casos borde sobre la heurística estática (comentarios multilínea, encadenamiento, nombres propios) y el Proxy dinámico en Node, confirmando que los límites observados son puramente teóricos o están explícitamente documentados en docs/tablero.md, sin defectos de impacto práctico pendientes.
+- (20261103-113909-oen-contratojson) codex (gpt-6-luna): Revisé la propuesta, la spec y el diff del paquete; contrasté contrato.json con las lecturas de modelo.js/tablero.js, el registrador de tests/contrato_en_node.cjs y las salidas/productores relevantes. Inspeccioné docs/tablero.md y la implementación de tools/contrato_vscode.py.
+- (20261103-113909-oen-contratojson) codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_contrato_vscode -v </dev/null`: 17 pruebas pasaron (Pura, Registrador y Documento); las 3 pruebas Real fallaron durante el fixture por ModuleNotFoundError: oracle_metalenguaje, antes de validar el contrato contra proyectos reales. El checkout no tiene .venv, por lo que no pude usar el intérprete aislado declarado por el proyecto.
+- (20261103-113909-oen-contratojson) codex (gpt-6-luna): Verifiqué el arreglo del hallazgo previo de rutas: los casos con nombre base, ruta relativa y ruta absoluta esperan preservar la partición por comando, y un archivo desconocido ahora produce error. Por lectura, el resto de omisiones reportadas en rondas anteriores aparece cubierto en el contrato vigente. No detecté defectos de impacto práctico dentro del alcance pedido; quedan límites de verificación dinámica por dependencia ausente.
+- (20261103-113909-oen-contratojson) codex (gpt-6-luna): No modifiqué el checkout del candidato ni configuración de Git; no hice mutaciones porque el entorno de revisión no ofrece un entorno aislado instalado para probar mutaciones de producto.
 
 ### Históricos
 
