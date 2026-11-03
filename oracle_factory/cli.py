@@ -1879,6 +1879,8 @@ def comando_procedencia(args) -> None:
 
 def comando_skill(instalar: bool, forzar: bool) -> int:
     """Muestra la skill de agente o, con --instalar, la escribe en el proyecto (nunca fuera de él)."""
+    if forzar and not instalar:
+        raise FactoryError("--forzar sólo vale con --instalar")
     if not instalar:
         print(skill_mod.texto(), end="")
         return 0

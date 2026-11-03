@@ -54,6 +54,37 @@ class Contraste(unittest.TestCase):
         self.assertEqual(skill.problemas(self.completo('Un paso de más de 50 líneas: parar.'), SOURCE), [])
         self.assertIn(alarmas.UMBRAL_LINEAS, skill.numeros_antes_de(self.completo(), 'líneas'))
 
+    def test_sk1_los_comandos_encadenados_y_los_de_bloques_cercados_tambien_se_ven(self):
+        texto = self.completo('Corré `oracle-factory estado ID && oracle-factory inventado ID | tee x; oracle-factory otro_mas`.\n\n'
+                              '```bash\noracle-factory --agente N nuevo --capacidad C\ncd x && oracle-factory raro ID\nx=$(oracle-factory ruta ID evidencia)\n```\n')
+        self.assertEqual(skill.comandos_nombrados(texto), {'estado', 'inventado', 'nuevo', 'raro', 'ruta'})  # «otro_mas» no es un verbo válido: se ignora
+        problemas = skill.problemas(texto, SOURCE)
+        self.assertTrue(any('inventado' in p for p in problemas), problemas)
+        self.assertTrue(any('raro' in p for p in problemas), problemas)
+        self.assertFalse(any('estado' in p or 'nuevo' in p or 'ruta' in p for p in problemas), problemas)
+
+    def test_sk1_los_numeros_y_los_enlaces_se_leen_aunque_el_texto_se_parta_en_lineas(self):
+        texto = cuerpo(f'Hasta {alarmas.UMBRAL_LIGERO}\nlíneas es ligero; más de {alarmas.UMBRAL_LINEAS}\n  líneas, partir.',
+                       f'Con {alarmas.UMBRAL_RONDAS}\nrondas hay un bucle. Ver [la guía](docs/agentes.md) y [otra](docs/no-existe.md).')
+        self.assertEqual(skill.numeros_antes_de(texto, 'líneas'), {alarmas.UMBRAL_LIGERO, alarmas.UMBRAL_LINEAS})
+        self.assertEqual(skill.documentos_enlazados(texto), {'docs/agentes.md', 'docs/no-existe.md'})
+        [problema] = skill.problemas(texto, SOURCE)
+        self.assertIn('docs/no-existe.md', problema)
+
+    def test_sk1_falta_cualquiera_de_los_dos_umbrales_de_lineas(self):
+        sin_ligero = cuerpo(f'Más de {alarmas.UMBRAL_LINEAS} líneas, partir.', f'Con {alarmas.UMBRAL_RONDAS} rondas hay un bucle.')
+        sin_tamano = cuerpo(f'Hasta {alarmas.UMBRAL_LIGERO} líneas es ligero.', f'Con {alarmas.UMBRAL_RONDAS} rondas hay un bucle.')
+        [a] = skill.problemas(sin_ligero, SOURCE)
+        [b] = skill.problemas(sin_tamano, SOURCE)
+        self.assertIn(f'umbral de {alarmas.UMBRAL_LIGERO} líneas', a)
+        self.assertIn(f'umbral de {alarmas.UMBRAL_LINEAS} líneas', b)
+
+    def test_sk1_los_pasos_con_el_verificador_son_comandos_completos(self):
+        texto = skill.texto()
+        self.assertIn('tools/verificar_cambio.py ID --pruebas test_x --catalogos', texto)
+        self.assertIn('--salida $(.venv/bin/oracle-factory ruta ID evidencia)', texto)  # `--salida` pide una carpeta
+        self.assertIn('ruta', skill.subcomandos())
+
     def test_sk1_un_documento_que_no_existe_se_nombra(self):
         [problema] = skill.problemas(self.completo('Mirá `docs/no-existe.md` y `docs/agentes.md`.'), SOURCE)
         self.assertIn('docs/no-existe.md', problema)
@@ -155,6 +186,43 @@ class Comando(unittest.TestCase):
         r = self.correr('--instalar')
         self.assertNotEqual(r.returncode, 0)
         self.assertEqual(list(real.iterdir()), [])
+
+    def test_sk2_un_destino_que_es_un_directorio_o_un_ancestro_que_es_un_archivo_dan_un_error_claro(self):
+        self.destino.mkdir(parents=True)  # SKILL.md es un directorio
+        r = self.correr('--instalar')
+        self.assertNotEqual(r.returncode, 0)
+        self.assertNotIn('Traceback', r.stderr)
+        self.assertIn('no es un archivo', r.stderr)
+        self.destino.rmdir()
+        self.destino.parent.rmdir()
+        self.destino.parent.parent.rmdir()
+        (self.root / '.claude').rmdir()
+        (self.root / '.claude').write_text('soy un archivo\n')
+        r = self.correr('--instalar', '--forzar')
+        self.assertNotEqual(r.returncode, 0)
+        self.assertNotIn('Traceback', r.stderr)
+        self.assertIn('no pude escribir', r.stderr)
+        self.assertEqual((self.root / '.claude').read_text(), 'soy un archivo\n')
+
+    def test_sk2_la_escritura_es_atomica_un_fallo_deja_el_archivo_del_usuario_y_ningun_temporal(self):
+        self.destino.parent.mkdir(parents=True)
+        self.destino.write_text('el mío\n')
+        from unittest.mock import patch
+        with patch.object(skill.os, 'replace', side_effect=OSError('disco lleno')):
+            with self.assertRaises(skill.SkillError) as e:
+                skill.instalar(self.root, forzar=True)
+        self.assertIn('disco lleno', str(e.exception))
+        self.assertEqual(self.destino.read_text(), 'el mío\n')
+        self.assertEqual(sorted(p.name for p in self.destino.parent.iterdir()), ['SKILL.md'])  # sin SKILL.md.tmp
+        estado, _ = skill.instalar(self.root, forzar=True)
+        self.assertEqual(estado, 'reemplazada')
+        self.assertEqual(sorted(p.name for p in self.destino.parent.iterdir()), ['SKILL.md'])
+
+    def test_sk2_forzar_sin_instalar_es_un_error_y_no_se_ignora_en_silencio(self):
+        r = self.correr('--forzar')
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn('--forzar sólo vale con --instalar', r.stderr)
+        self.assertEqual(r.stdout, '')
 
     def test_sk2_nada_fuera_del_proyecto_ni_en_la_configuracion_personal(self):
         antes_casa = self.arbol(self.casa)

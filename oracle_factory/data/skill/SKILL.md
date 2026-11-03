@@ -26,7 +26,7 @@ Esta skill es el **procedimiento**. Quién decide cada paso y los comandos dispo
 2. `oracle-factory importar ID` trae los requisitos de la spec aprobada.
 3. Escribí las pruebas de cada escenario **antes** de implementar y comprobá que fallan (`docs/tests.md`). Un test que ya existía no se edita para que pase sin dejarlo dicho.
 4. Implementá; corré mutaciones sobre lo que cambiaste: cada mutante que sobrevive es una prueba que falta o código equivalente que se puede simplificar.
-5. Generá los catálogos y la evidencia con `tools/verificar_cambio.py ID --pruebas test_x --catalogos` y `--salida`. **Regenerá los catálogos antes de proponer medidas**; si no, Factory dice «sin cambios en la asociación».
+5. Generá los catálogos con `tools/verificar_cambio.py ID --pruebas test_x --catalogos` y la evidencia con `tools/verificar_cambio.py ID --pruebas test_x --salida $(.venv/bin/oracle-factory ruta ID evidencia)`. **Regenerá los catálogos antes de proponer medidas**; si no, Factory dice «sin cambios en la asociación».
 6. `oracle-factory medir ID …` propone las medidas; las confirma una persona (`medir --confirmar`).
 7. Pedí revisión (sección 5), `oracle-factory revision-preparar ID` y `oracle-factory revisar ID --decision aprobar|cambios --motivo M` propone la decisión; la registra una persona. Después `oracle-factory juzgar ID`, y una persona cierra con `cerrar`.
 8. Integrar y empujar lo decide la persona (menú, comandos listos para pegar). Antes de integrar: `oracle-factory resumen --verificar`, `oracle-factory kb --verificar` y `oracle-factory agentes --verificar` en `main`, la suite completa en `main` y un escaneo de secretos del diff. La puerta local (`oracle-factory puerta`, `docs/puerta.md`) corre sola en el push.

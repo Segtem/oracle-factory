@@ -5,6 +5,7 @@ código —comandos, umbrales y documentos— para que no se desactualice (`prob
 from __future__ import annotations
 
 from importlib import resources
+import os
 from pathlib import Path
 import re
 
@@ -29,27 +30,39 @@ def encabezado(contenido: str) -> dict[str, str]:
     return {k: v.strip() for k, v in (l.split(":", 1) for l in (m[1].splitlines() if m else []) if ":" in l)}
 
 
+def _regiones_de_codigo(contenido: str) -> list[str]:
+    """Los bloques cercados (``` o ~~~) y los fragmentos entre backticks, donde la skill escribe comandos."""
+    cercados = re.findall(r"^[ \t]*(?:```|~~~)[^\n]*\n(.*?)^[ \t]*(?:```|~~~)[ \t]*$", contenido, re.DOTALL | re.MULTILINE)
+    sin_cercados = re.sub(r"^[ \t]*(?:```|~~~)[^\n]*\n.*?^[ \t]*(?:```|~~~)[ \t]*$", "", contenido, flags=re.DOTALL | re.MULTILINE)
+    return cercados + re.findall(r"`([^`\n]+)`", sin_cercados)
+
+
 def comandos_nombrados(contenido: str) -> set[str]:
-    """Los verbos de los fragmentos de código que empiezan con `oracle-factory` (`--agente NOMBRE nuevo …` → nuevo). Un fragmento sin verbo
-    (un marcador como `…` o un nombre en mayúsculas) se ignora."""
+    """Los verbos de cada `oracle-factory …` dentro de un fragmento o bloque de código, también encadenado con `&&`, `;`, `|` o `$(…)`
+    (`--agente NOMBRE nuevo …` → nuevo). Un comando sin verbo (un marcador como `…` o un nombre en mayúsculas) se ignora."""
     verbos = set()
-    for fragmento in re.findall(r"`(oracle-factory[^`]*)`", contenido):
-        palabras = fragmento.split()[1:]
-        while palabras and palabras[0].startswith("--"):
-            opcion = palabras.pop(0)
-            if opcion in OPCIONES_CON_VALOR and palabras:
-                palabras.pop(0)
-        if palabras and re.fullmatch(r"[a-z][a-z-]*", palabras[0]):
-            verbos.add(palabras[0])
+    for region in _regiones_de_codigo(contenido):
+        for trozo in re.split(r"&&|\|\||[;&|\n]|\$\(|\)", region):
+            palabras = trozo.split()
+            if not palabras or palabras[0] != "oracle-factory":
+                continue
+            palabras = palabras[1:]
+            while palabras and palabras[0].startswith("--"):
+                opcion = palabras.pop(0)
+                if opcion in OPCIONES_CON_VALOR and palabras:
+                    palabras.pop(0)
+            if palabras and re.fullmatch(r"[a-z][a-z-]*", palabras[0]):
+                verbos.add(palabras[0])
     return verbos
 
 
 def numeros_antes_de(contenido: str, palabra: str) -> set[int]:
-    return {int(n) for n in re.findall(rf"(\d+) {palabra}\b", contenido)}
+    return {int(n) for n in re.findall(rf"(\d+)\s+{palabra}\b", contenido)}
 
 
 def documentos_enlazados(contenido: str) -> set[str]:
-    return set(re.findall(r"`(docs/[\w.-]+\.md)`", contenido))
+    """`docs/x.md` entre backticks o como destino de un enlace Markdown."""
+    return set(re.findall(r"(?<![\w/.-])(docs/[\w.-]+\.md)", contenido))
 
 
 def subcomandos() -> set[str]:
@@ -86,11 +99,21 @@ def instalar(raiz: Path, forzar: bool = False) -> tuple[str, Path]:
     if enlaces:
         raise SkillError(f"no escribo sobre enlaces simbólicos: {', '.join(enlaces)}")
     nuevo = texto()
-    existe = destino.exists()
-    if existe and destino.read_text(encoding="utf-8") == nuevo:
-        return "igual", destino
-    if existe and not forzar:
-        raise SkillError(f"ya hay un {RUTA_EN_EL_PROYECTO} distinto; --forzar lo reemplaza")
-    destino.parent.mkdir(parents=True, exist_ok=True)
-    destino.write_text(nuevo, encoding="utf-8")
+    existe = destino.exists() or destino.is_symlink()
+    try:
+        if existe and not destino.is_file():
+            raise SkillError(f"{RUTA_EN_EL_PROYECTO} existe y no es un archivo")
+        if existe and destino.read_text(encoding="utf-8") == nuevo:
+            return "igual", destino
+        if existe and not forzar:
+            raise SkillError(f"ya hay un {RUTA_EN_EL_PROYECTO} distinto; --forzar lo reemplaza")
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        temporal = destino.with_name(destino.name + ".tmp")
+        try:
+            temporal.write_text(nuevo, encoding="utf-8")
+            os.replace(temporal, destino)  # atómico: una interrupción no deja el archivo del usuario a medio escribir
+        finally:
+            temporal.unlink(missing_ok=True)
+    except (OSError, UnicodeDecodeError) as e:
+        raise SkillError(f"no pude escribir {RUTA_EN_EL_PROYECTO}: {e}") from e
     return ("reemplazada" if existe else "instalada"), destino
