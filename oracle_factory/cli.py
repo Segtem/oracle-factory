@@ -33,6 +33,7 @@ from . import trazabilidad as trazabilidad_mod
 from . import modos
 from . import plantillas
 from . import alarmas as alarmas_mod
+from . import skill as skill_mod
 from . import osv as osv_mod
 from . import pruebas as pruebas_mod
 from . import procedencia as procedencia_mod
@@ -1528,7 +1529,7 @@ def marcar_archivado(estado: dict, capacidad: str, spec: str, forma: str) -> Non
 
 SOLO_LECTURA = {"estado", "donde", "log", "tablero", "por-que", "kb", "resumen", "listar", "ruta", "buscar", "trazabilidad",
                "trailer", "hooks", "init", "ejemplo", "preguntar", "unir-registro", "unir-generado", "rehacer-generado",
-               "agentes", "puerta"}  # agentes escribe AGENTS.md, no el registro: no hay kb que refrescar; la puerta no escribe nada
+               "agentes", "puerta", "skill"}  # agentes escribe AGENTS.md y skill --instalar un archivo del proyecto, no el registro: no hay kb que refrescar
 
 
 def archivar() -> None:
@@ -1874,6 +1875,20 @@ def comando_procedencia(args) -> None:
         print(f"Guardado en {guardado[0]} (sha256 {guardado[1][:16]}…) y registrado en {args.id}.")
     else:
         print("No se guardó (indicá el cambio para guardarlo en su candidato) ni se mostró el CycloneDX (--json).")
+
+
+def comando_skill(instalar: bool, forzar: bool) -> int:
+    """Muestra la skill de agente o, con --instalar, la escribe en el proyecto (nunca fuera de él)."""
+    if not instalar:
+        print(skill_mod.texto(), end="")
+        return 0
+    try:
+        estado, ruta = skill_mod.instalar(ROOT, forzar)
+    except skill_mod.SkillError as e:
+        raise FactoryError(str(e)) from e
+    print({"instalada": f"Skill instalada en {ruta.relative_to(ROOT)}.", "reemplazada": f"Skill reemplazada en {ruta.relative_to(ROOT)}.",
+           "igual": f"La skill ya estaba instalada en {ruta.relative_to(ROOT)}: sin cambios."}[estado])
+    return 0
 
 
 def comando_agentes(verificar: bool) -> None:
@@ -2385,6 +2400,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "procedencia": comando_procedencia(args)
         elif args.comando == "preguntar": comando_preguntar(args)
         elif args.comando == "agentes": comando_agentes(args.verificar)
+        elif args.comando == "skill": return comando_skill(args.instalar, args.forzar)
         elif args.comando == "mcp": return mcp_mod.servir(ROOT, sys.stdin, sys.stdout, __version__)
         elif args.comando == "medir" and args.confirmar:
             if args.requisito or args.medida or args.listar:

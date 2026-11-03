@@ -1,0 +1,8 @@
+medida factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno:
+    de skill_agente_caso c
+    donde c.requisito == "el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno" y c.codigo == 0
+    resumen contar(1)
+    umbral == 7 segun contrato porque "deben pasar los 7 casos enumerados para este requisito en tests/test_skill_agente.py; asociar junto a corrida_completa"
+    requiere skill_agente_caso
+    ambito universal
+    alcance "escenarios sk1–sk3 con proyectos temporales y la CLI de verdad, Linux"
