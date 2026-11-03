@@ -25,6 +25,9 @@ capacidad: "ide"
 - 2026-11-03 11:39 · Cambio creado · claude-code (agente)
 - 2026-11-03 11:56 · Spec aprobada · Brian Hollweg (persona)
 - 2026-11-03 11:56 · Requisitos importados · claude-code (agente)
+- 2026-11-03 12:02 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-03 12:02 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-03 12:02 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -35,6 +38,7 @@ capacidad: "ide"
 - `ab51e23` contrato-json: propuesta, diseño y spec (trailer)
 - `e59b707` contrato-json: aprobación de la spec e importación de requisitos (trailer)
 - `3f0f9ae` contrato-json: contrato, registrador en node, comprobaciones, pruebas, documento y catálogos (trailer)
+- `512202e` contrato-json: proponer las medidas (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261103-113909-oen-contratojson`.
 
 ## Mensajes
