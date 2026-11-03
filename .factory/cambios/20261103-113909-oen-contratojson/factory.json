@@ -360,6 +360,45 @@
         "factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato",
         "factory_contrato_vscode.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T14:58:57.532233+00:00",
+      "requisito": "ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato",
+      "medidas": [
+        "factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato",
+        "factory_contrato_vscode.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T14:58:57.692265+00:00",
+      "requisito": "ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "medidas": [
+        "factory_contrato_vscode.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+        "factory_contrato_vscode.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T14:58:57.845350+00:00",
+      "requisito": "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "medidas": [
+        "factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+        "factory_contrato_vscode.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -367,27 +406,30 @@
     "ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido": "funcional",
     "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": {
-      "sha256": "2e6f2c700da640729430c4248443ea3811ce1696aae9aa2267e070a02764bbcf",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-03T13:07:18.840411+00:00",
+  "medidas": {
+    "ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-03T14:58:57.493341+00:00",
+      "sha256": "b0c8e1be4335570f4285d8b61ee5b5dead316b643dab8d28f48ee9b2332efaab",
       "catalogos": {
-        "factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": "340366f7b1d7d8b6f9ce5f91f7957c72201b06b865a7d4a0aaad4ea67d6c0894",
+        "factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato": "e64a5d21fd1525aabd77476b6ee71e25b5f4de10c1b8d985dc3e9151e4d23d08",
         "factory_contrato_vscode.corrida_completa": "ebbe886ab7668d0732ad85f00305379243e3a462ac9de14a842f359d93596206"
       },
       "archivos_catalogo": {
-        "factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": "catalogos/factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara.oracle",
+        "factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato": "catalogos/factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato.oracle",
         "factory_contrato_vscode.corrida_completa": "catalogos/factory_contrato_vscode.corrida_completa.oracle"
       }
     },
     "ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-03T14:58:57.652654+00:00",
       "sha256": "7eaeebe22abfceb1860109088b8f7dca18bbdaf3aeea3ec1d88613a741ab5916",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-03T13:07:20.274358+00:00",
       "catalogos": {
         "factory_contrato_vscode.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido": "b6371a1795f3dc5ed5c176accb7f65851b0edbe2ef2d95ad65e99d5c4c022060",
         "factory_contrato_vscode.corrida_completa": "ebbe886ab7668d0732ad85f00305379243e3a462ac9de14a842f359d93596206"
@@ -397,19 +439,22 @@
         "factory_contrato_vscode.corrida_completa": "catalogos/factory_contrato_vscode.corrida_completa.oracle"
       }
     },
-    "ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato": {
-      "sha256": "b0c8e1be4335570f4285d8b61ee5b5dead316b643dab8d28f48ee9b2332efaab",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-03T13:07:21.705384+00:00",
+    "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-03T14:58:57.806226+00:00",
+      "sha256": "2e6f2c700da640729430c4248443ea3811ce1696aae9aa2267e070a02764bbcf",
       "catalogos": {
-        "factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato": "e64a5d21fd1525aabd77476b6ee71e25b5f4de10c1b8d985dc3e9151e4d23d08",
+        "factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": "340366f7b1d7d8b6f9ce5f91f7957c72201b06b865a7d4a0aaad4ea67d6c0894",
         "factory_contrato_vscode.corrida_completa": "ebbe886ab7668d0732ad85f00305379243e3a462ac9de14a842f359d93596206"
       },
       "archivos_catalogo": {
-        "factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato": "catalogos/factory_contrato_vscode.el_documento_explica_como_actualizar_el_contrato.oracle",
+        "factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": "catalogos/factory_contrato_vscode.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara.oracle",
         "factory_contrato_vscode.corrida_completa": "catalogos/factory_contrato_vscode.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
