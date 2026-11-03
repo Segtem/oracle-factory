@@ -34,6 +34,9 @@ capacidad: "ide"
 - 2026-11-03 14:58 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-03 14:58 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-03 14:58 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-03 15:46 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-03 15:46 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-03 15:46 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -53,6 +56,7 @@ capacidad: "ide"
 - `49f728d` contrato-json: proponer de nuevo las medidas (trailer)
 - `fb5bdf2` contrato-json: registrar la confirmación de medidas por Brian (trailer)
 - `7d20747` contrato-json: el archivo se identifica por su nombre y uno desconocido falla (hallazgo de la ronda 3) (trailer)
+- `67405cd` contrato-json: proponer de nuevo las medidas (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261103-113909-oen-contratojson`.
 
 ## Mensajes
