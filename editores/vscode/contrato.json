@@ -1,0 +1,870 @@
+{
+ "resumen": [
+  {
+   "ruta": "abiertos",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "abiertos[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "abiertos[].fase",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "abiertos[].id",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "abiertos[].modo",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "abiertos[].pendientes",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "abiertos[].pendientes[]",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "abiertos[].titulo",
+   "tipos": [
+    "string"
+   ]
+  }
+ ],
+ "estado": [
+  {
+   "ruta": "alternativas",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "oracle",
+   "tipos": [
+    "null",
+    "object"
+   ]
+  },
+  {
+   "ruta": "oracle.codigo",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "oracle.informe",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "oracle.vigente",
+   "tipos": [
+    "boolean"
+   ]
+  },
+  {
+   "ruta": "proximo_paso",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "requisitos",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "requisitos[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "requisitos[].decision",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "requisitos[].decision.actor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "requisitos[].decision.forma",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "requisitos[].decision.tipo_actor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "requisitos[].id",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "requisitos[].medidas",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "requisitos[].medidas[]",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "revision",
+   "tipos": [
+    "null",
+    "object"
+   ]
+  },
+  {
+   "ruta": "revision.decision",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "revision.hallazgos_abiertos",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "revision.informe",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "revision.revisor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "revision.vigente",
+   "tipos": [
+    "boolean"
+   ]
+  }
+ ],
+ "donde": [
+  {
+   "ruta": "artefactos",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "artefactos[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "artefactos[].gate",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "artefactos[].nota",
+   "tipos": [
+    "string",
+    "null"
+   ]
+  },
+  {
+   "ruta": "artefactos[].ruta",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "artefactos[].situacion",
+   "tipos": [
+    "string"
+   ]
+  }
+ ],
+ "tablero": [
+  {
+   "ruta": "cambios",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].alternativas",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].avisos",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].candidato",
+   "tipos": [
+    "null"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[].asunto",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[].autor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[].candidato",
+   "tipos": [
+    "boolean"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[].corto",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[].evidencia",
+   "tipos": [
+    "boolean"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[].fecha",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[].revisado",
+   "tipos": [
+    "boolean"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[].sha",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].commits[].union",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].faltan",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].faltan[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].faltan[].humano",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].faltan[].quien",
+   "tipos": [
+    "string",
+    "null"
+   ]
+  },
+  {
+   "ruta": "cambios[].fase",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].hallazgos",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].id",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].accion",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].actor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].cuando",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle.causa",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle.codigo",
+   "tipos": [
+    "number"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle.decision",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle.hallazgos",
+   "tipos": [
+    "number",
+    "null"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle.resultado",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle.revisor",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle.texto",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].detalle.via",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "cambios[].linea_de_tiempo[].tipo_actor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.decisiones_por_actor",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.decisiones_por_actor.agente",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.decisiones_por_actor.persona",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.decisiones_por_actor.sin_identificar",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.fases",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.fases[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.fases[].fase",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.fases[].horas",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.hallazgos_por_severidad",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.hallazgos_por_severidad.alta",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.hallazgos_por_severidad.baja",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.hallazgos_por_severidad.critica",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.hallazgos_por_severidad.informativa",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.hallazgos_por_severidad.media",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.requisitos",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.requisitos.cumplidos",
+   "tipos": [
+    "null"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.requisitos.medidos",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.requisitos.total",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.riesgos_aceptados",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].metricas.vueltas_de_revision",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "cambios[].modo",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].proximo_paso",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].proximo_paso.comando",
+   "tipos": [
+    "string",
+    "null"
+   ]
+  },
+  {
+   "ruta": "cambios[].proximo_paso.decision_de_la_persona",
+   "tipos": [
+    "boolean"
+   ]
+  },
+  {
+   "ruta": "cambios[].proximo_paso.texto",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.agentes",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.responsable",
+   "tipos": [
+    "null",
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.responsable.desde",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.responsable.persona",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].quien.revisores_en_curso",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].archivo",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].decision",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].decision.actor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].decision.tipo_actor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].id",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].medidas",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].medidas[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].medidas[].archivo",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].requisitos[].medidas[].id",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "cambios[].titulo",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "esperando",
+   "tipos": [
+    "boolean",
+    "null"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "proyecto",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "proyecto.actividad",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "proyecto.actividad[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "proyecto.actividad[].accion",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "proyecto.actividad[].actor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "proyecto.actividad[].cambio",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "proyecto.actividad[].cuando",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "proyecto.actividad[].tipo_actor",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "proyecto.cambios",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "proyecto.cambios.abandonados",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "proyecto.cambios.abiertos",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "proyecto.cambios.cerrados",
+   "tipos": [
+    "number"
+   ]
+  },
+  {
+   "ruta": "proyecto.hallazgos_por_revisor",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "proyecto.mediana_horas_hasta_cierre",
+   "tipos": [
+    "null"
+   ]
+  },
+  {
+   "ruta": "proyecto.por_responsable",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "proyecto.por_responsable.*",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "proyecto.por_responsable.*[]",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "proyecto.primera_vuelta",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "proyecto.primera_vuelta.proporcion",
+   "tipos": [
+    "null"
+   ]
+  },
+  {
+   "ruta": "proyecto.sin_responsable",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "proyecto.sin_responsable[]",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "yo",
+   "tipos": [
+    "string"
+   ]
+  }
+ ]
+}

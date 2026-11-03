@@ -40,6 +40,12 @@ paleta y en la vista) pide una pregunta y abre la respuesta de la CLI, con sus f
 [el conocimiento del proyecto](conocimiento.md). **¿Por qué existe esta línea?** (en el menú del editor) abre el cambio
 que escribió la línea del cursor.
 
+## El contrato entre la CLI y la extensión
+
+La extensión no tiene lógica propia sobre el proyecto: lee cuatro salidas JSON de la CLI —`resumen --json`, `estado ID --json`, `donde ID --json` y `tablero --json`— y las muestra. Qué claves lee y con qué tipos está declarado en `editores/vscode/contrato.json`, y la suite lo comprueba en las dos direcciones: si la extensión lee una clave que el contrato no declara, o si la CLI deja de entregar una que está declarada (o la entrega con otro tipo), una prueba falla nombrando el comando y la clave. Que la CLI **agregue** claves no rompe nada.
+
+Para **actualizar el contrato**: si la extensión pasa a leer algo nuevo, declarala en `contrato.json` (su ruta, con `[]` por cada arreglo, y los tipos que puede tener; `"opcional": true` si falta en algunos estados). Si la CLI cambia o quita una clave declarada, la prueba te dice cuál: o se revierte el cambio de la CLI o se actualiza la extensión y el contrato juntos.
+
 ## Cada commit dice de qué cambio es
 
 `init` (o `oracle-factory hooks` en un proyecto que ya existía, una vez por clon) instala los hooks de Git
