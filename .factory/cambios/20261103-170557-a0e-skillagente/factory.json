@@ -372,6 +372,45 @@
         "factory_skill_agente.la_guia_para_agentes_nombra_la_skill",
         "factory_skill_agente.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T22:11:23.081960+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "medidas": [
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T22:11:23.243061+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+      "medidas": [
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T22:11:23.401067+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "medidas": [
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+        "factory_skill_agente.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -379,27 +418,14 @@
     "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill": "funcional",
     "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": {
-      "sha256": "531333ce7afa2f9b9789c9b4c003422a69cbcfeffee8bc4864d9d0b12458aba0",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-03T21:39:52.914339+00:00",
-      "catalogos": {
-        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "a8eacbc5a91bf0375272784d021e4e3a5efb431825c6d9b92124a4149de41f0a",
-        "factory_skill_agente.corrida_completa": "0ff95b077341f656c39b3948d88cb9d638830a134e2938a785aaaa28eb49bac0"
-      },
-      "archivos_catalogo": {
-        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "catalogos/factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo.oracle",
-        "factory_skill_agente.corrida_completa": "catalogos/factory_skill_agente.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-03T22:11:23.043279+00:00",
       "sha256": "278fada83c26a50250549b07043e111f465250b03c9f3a7182fc6f1e89b60a04",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-03T21:39:54.301745+00:00",
       "catalogos": {
         "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno": "d9c4162392dc45e2c8407802ae47d3c28a90b939ec7d571d7af06b71419fbe32",
         "factory_skill_agente.corrida_completa": "0ff95b077341f656c39b3948d88cb9d638830a134e2938a785aaaa28eb49bac0"
@@ -410,10 +436,12 @@
       }
     },
     "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-03T22:11:23.201966+00:00",
       "sha256": "a8239883e6bdcfa6e554a04ace5d3ecec6182f2caa2f3ebfc66b5784c96192e3",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-03T21:39:55.681017+00:00",
       "catalogos": {
         "factory_skill_agente.la_guia_para_agentes_nombra_la_skill": "aef26a32a28ff6ffe8d1718eb05376b01952af9c74695b6621418942bc11656b",
         "factory_skill_agente.corrida_completa": "0ff95b077341f656c39b3948d88cb9d638830a134e2938a785aaaa28eb49bac0"
@@ -422,6 +450,23 @@
         "factory_skill_agente.la_guia_para_agentes_nombra_la_skill": "catalogos/factory_skill_agente.la_guia_para_agentes_nombra_la_skill.oracle",
         "factory_skill_agente.corrida_completa": "catalogos/factory_skill_agente.corrida_completa.oracle"
       }
+    },
+    "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-03T22:11:23.358736+00:00",
+      "sha256": "531333ce7afa2f9b9789c9b4c003422a69cbcfeffee8bc4864d9d0b12458aba0",
+      "catalogos": {
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "a8eacbc5a91bf0375272784d021e4e3a5efb431825c6d9b92124a4149de41f0a",
+        "factory_skill_agente.corrida_completa": "0ff95b077341f656c39b3948d88cb9d638830a134e2938a785aaaa28eb49bac0"
+      },
+      "archivos_catalogo": {
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "catalogos/factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo.oracle",
+        "factory_skill_agente.corrida_completa": "catalogos/factory_skill_agente.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
