@@ -100,7 +100,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261102-000745-j7r-verificadorgenerico]] — Un verificador reutilizable para la evidencia de cada cambio (cerrada)
 - [[cambios/20261102-221210-70x-caminoligero]] — Un camino ligero de revisión para los cambios chicos (cerrada)
 - [[cambios/20261103-113909-oen-contratojson]] — Pruebas de contrato entre la CLI y la extensión de VS Code (cerrada)
-- [[cambios/20261103-170557-a0e-skillagente]] — Una skill de agente con el flujo de Factory (espera_aprobacion_spec)
+- [[cambios/20261103-170557-a0e-skillagente]] — Una skill de agente con el flujo de Factory (requisitos_importados)
 
 ## Requisitos
 
@@ -315,6 +315,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa]]
 - [[requisitos/practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente]]
 - [[requisitos/practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear]]
+- [[requisitos/practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno]]
+- [[requisitos/practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill]]
+- [[requisitos/practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo]]
 - [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica]]
 - [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio]]
 - [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio]]
