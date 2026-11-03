@@ -101,6 +101,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261102-221210-70x-caminoligero]] — Un camino ligero de revisión para los cambios chicos (cerrada)
 - [[cambios/20261103-113909-oen-contratojson]] — Pruebas de contrato entre la CLI y la extensión de VS Code (cerrada)
 - [[cambios/20261103-170557-a0e-skillagente]] — Una skill de agente con el flujo de Factory (cerrada)
+- [[cambios/20261103-232202-jo3-entregaa17]] — Preparar la distribución 0.1.0a17 (espera_aprobacion_spec)
 
 ## Requisitos
 
