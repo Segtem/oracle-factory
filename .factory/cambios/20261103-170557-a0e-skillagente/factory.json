@@ -1,0 +1,624 @@
+{
+  "id": "20261103-170557-a0e-skillagente",
+  "titulo": "Una skill de agente con el flujo de Factory",
+  "capacidad": "practicas",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261103-170557-a0e-skillagente/specs/practicas/spec.md",
+  "spec_sha256": "0e7751decb30650c0ae43645773f330e7c58eb3a6e982c6ca31ad2c3c57c0eb5",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-03T19:19:15.334878+00:00",
+    "documentos": {
+      "openspec/changes/20261103-170557-a0e-skillagente/proposal.md": "c7f0ec318e2e2af6cd306ecf44bbc26eec1163677d93524d7613b4879572e4df",
+      "openspec/changes/20261103-170557-a0e-skillagente/specs/practicas/spec.md": "0e7751decb30650c0ae43645773f330e7c58eb3a6e982c6ca31ad2c3c57c0eb5"
+    }
+  },
+  "requisitos": [
+    "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+    "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+    "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261103-170557-a0e-skillagente/revisiones/registro-_hosnqq_/informe.json",
+    "sha256": "a6721813737c5b59f7155070eab89b297bf968e103b22f77a8730744a40685e1",
+    "decisiones": "tareas/20261103-170557-a0e-skillagente/revisiones/registro-_hosnqq_/decisiones.json",
+    "decisiones_sha256": "e23998b64ce037ac5452bb2cbd8baa0155ad0d6ebc570ca6885d4fbd82aa8d73",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-03T22:57:28.678723+00:00",
+    "motivo": "Tres rondas con revisores independientes (agy2-flash y codex), la última con 0 y 0 sobre el candidato afd6a7c. Hallazgos por ronda, sumando los dos revisores: 8, 4 y 0. Todos los de las rondas 1 y 2 eran reales y se corrigieron con prueba y mutación: el paso 5 de la skill sin la carpeta de --salida, errores de E/S claros al instalar (destino que es directorio, ancestro que es archivo), escritura atómica con un temporal de nombre único que nunca pisa ni borra un archivo ajeno, comparación por bytes de un archivo existente que no es UTF-8, comandos encadenados, en bloques cercados, con ruta (.venv/bin/oracle-factory) y verbos mal escritos en la prueba de contraste, números y enlaces con saltos de línea, y --forzar sin --instalar como error. Evidencia con éxito, producida por tools/verificar_cambio.py: 1111 pruebas y 29 casos de contrato. En cada ronda se corrió una tanda de mutaciones sobre los arreglos; los sobrevivientes se cerraron con pruebas o eran equivalentes (el prefijo del nombre temporal). Declarado: escribí skill.py antes que sus pruebas, lo cual contradice la propia skill, y lo compensé con mutaciones; el test de que la skill viaja en el paquete es estático (no construye un wheel); dos tests existentes cambiaron sólo por agregar: tests/datos/ayuda-cli.json (la ayuda raíz suma skill y hay una entrada nueva). Además, la máquina se colgó y se reinició durante una de las corridas de evidencia (ronda 2); se relanzó sobre el mismo candidato y completó.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "6cad461583ff338ae5c650db11a2711a9c108afb",
+      "archivos_sha256": "4b6b56337d07786b3a5da0eed84dc8c93cc4c00c42e33fd9be0bb5440437ace1"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261103-170557-a0e-skillagente/candidatos/afd6a7c/evidencia/hechos.json",
+    "hechos_sha256": "14b849d32ebc8e1afe417bffac14ea4174183b88b89cf3a67ddf4a6da76b551d",
+    "informe": ".factory/cambios/20261103-170557-a0e-skillagente/oracle-veredicto.txt",
+    "informe_sha256": "6bcbab78f15ae150a1d02287888d37bccddc7df451d027dda647197fb368af2b",
+    "cuando": "2026-11-03T22:57:47.023107+00:00",
+    "contexto": {
+      "head": "d979f9f836d5e6fdbb21c1c4c841b5c3bd4af51d",
+      "archivos_sha256": "4b6b56337d07786b3a5da0eed84dc8c93cc4c00c42e33fd9be0bb5440437ace1"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T17:05:57.315272+00:00",
+      "capacidad": "practicas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T19:16:24.555990+00:00",
+      "documentos": {
+        "openspec/changes/20261103-170557-a0e-skillagente/proposal.md": "c7f0ec318e2e2af6cd306ecf44bbc26eec1163677d93524d7613b4879572e4df",
+        "openspec/changes/20261103-170557-a0e-skillagente/specs/practicas/spec.md": "0e7751decb30650c0ae43645773f330e7c58eb3a6e982c6ca31ad2c3c57c0eb5"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T19:19:15.334907+00:00",
+      "documentos": {
+        "openspec/changes/20261103-170557-a0e-skillagente/proposal.md": "c7f0ec318e2e2af6cd306ecf44bbc26eec1163677d93524d7613b4879572e4df",
+        "openspec/changes/20261103-170557-a0e-skillagente/specs/practicas/spec.md": "0e7751decb30650c0ae43645773f330e7c58eb3a6e982c6ca31ad2c3c57c0eb5"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T19:19:42.469728+00:00",
+      "ids": [
+        "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+        "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+        "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T19:22:52.875048+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "medidas": [
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+        "factory_skill_agente.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T19:22:54.991140+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "medidas": [
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+        "factory_skill_agente.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T19:22:57.026683+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+      "medidas": [
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill",
+        "factory_skill_agente.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T19:34:14.376418+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "medidas": [
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T19:34:14.536541+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+      "medidas": [
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T19:34:14.692021+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "medidas": [
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T19:50:44.693552+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "d206e22",
+      "lanzamiento": "5b7a47d5345c"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T19:50:44.740009+00:00",
+      "revisor": "codex",
+      "candidato": "d206e22",
+      "lanzamiento": "ac6da1eff1ce"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T19:51:29.948686+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "d206e22",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "ac6da1eff1ce"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T20:07:15.119630+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d206e22",
+      "resultado": "ok",
+      "hallazgos": 7,
+      "lanzamiento": "5b7a47d5345c"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T20:09:17.630924+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "medidas": [
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T20:09:19.069580+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "medidas": [
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T20:09:20.505562+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+      "medidas": [
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T20:10:39.898186+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "medidas": [
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T20:10:40.060503+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+      "medidas": [
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T20:10:40.218503+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "medidas": [
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T21:26:13.745174+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "f61bad8",
+      "lanzamiento": "8c1d7cb6b3ba"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T21:26:14.094231+00:00",
+      "revisor": "codex",
+      "candidato": "f61bad8",
+      "lanzamiento": "fa3a036280d7"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T21:27:18.918302+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "f61bad8",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "fa3a036280d7"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T21:37:49.941757+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f61bad8",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "8c1d7cb6b3ba"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T21:39:52.953414+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "medidas": [
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T21:39:54.341035+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "medidas": [
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T21:39:55.720437+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+      "medidas": [
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T22:11:23.081960+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "medidas": [
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T22:11:23.243061+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+      "medidas": [
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T22:11:23.401067+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "medidas": [
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+        "factory_skill_agente.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T22:19:31.608133+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "afd6a7c",
+      "lanzamiento": "1f5ee0a280d3"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T22:19:31.636722+00:00",
+      "revisor": "codex",
+      "candidato": "afd6a7c",
+      "lanzamiento": "9e3eb7e45a5f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T22:20:27.338400+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "afd6a7c",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "9e3eb7e45a5f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T22:35:54.405002+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "afd6a7c",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "1f5ee0a280d3"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T22:36:09.142548+00:00",
+      "decision": "aprobar",
+      "candidato": "afd6a7c"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-03T22:57:28.678760+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "a6721813737c5b59f7155070eab89b297bf968e103b22f77a8730744a40685e1",
+      "decisiones_sha256": "e23998b64ce037ac5452bb2cbd8baa0155ad0d6ebc570ca6885d4fbd82aa8d73"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T22:57:47.023121+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "14b849d32ebc8e1afe417bffac14ea4174183b88b89cf3a67ddf4a6da76b551d"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T23:00:59.407597+00:00",
+      "oracle": ".factory/cambios/20261103-170557-a0e-skillagente/oracle-veredicto.txt",
+      "revision": "tareas/20261103-170557-a0e-skillagente/revisiones/registro-_hosnqq_/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T23:00:59.446634+00:00",
+      "capacidad": "practicas",
+      "spec": "openspec/specs/practicas/spec.md"
+    }
+  ],
+  "tipos": {
+    "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno": "funcional",
+    "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill": "funcional",
+    "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "funcional"
+  },
+  "medidas": {
+    "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-03T22:11:23.043279+00:00",
+      "sha256": "278fada83c26a50250549b07043e111f465250b03c9f3a7182fc6f1e89b60a04",
+      "catalogos": {
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno": "d9c4162392dc45e2c8407802ae47d3c28a90b939ec7d571d7af06b71419fbe32",
+        "factory_skill_agente.corrida_completa": "0ff95b077341f656c39b3948d88cb9d638830a134e2938a785aaaa28eb49bac0"
+      },
+      "archivos_catalogo": {
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno": "catalogos/factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno.oracle",
+        "factory_skill_agente.corrida_completa": "catalogos/factory_skill_agente.corrida_completa.oracle"
+      }
+    },
+    "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-03T22:11:23.201966+00:00",
+      "sha256": "a8239883e6bdcfa6e554a04ace5d3ecec6182f2caa2f3ebfc66b5784c96192e3",
+      "catalogos": {
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill": "aef26a32a28ff6ffe8d1718eb05376b01952af9c74695b6621418942bc11656b",
+        "factory_skill_agente.corrida_completa": "0ff95b077341f656c39b3948d88cb9d638830a134e2938a785aaaa28eb49bac0"
+      },
+      "archivos_catalogo": {
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill": "catalogos/factory_skill_agente.la_guia_para_agentes_nombra_la_skill.oracle",
+        "factory_skill_agente.corrida_completa": "catalogos/factory_skill_agente.corrida_completa.oracle"
+      }
+    },
+    "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-03T22:11:23.358736+00:00",
+      "sha256": "531333ce7afa2f9b9789c9b4c003422a69cbcfeffee8bc4864d9d0b12458aba0",
+      "catalogos": {
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "a8eacbc5a91bf0375272784d021e4e3a5efb431825c6d9b92124a4149de41f0a",
+        "factory_skill_agente.corrida_completa": "0ff95b077341f656c39b3948d88cb9d638830a134e2938a785aaaa28eb49bac0"
+      },
+      "archivos_catalogo": {
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "catalogos/factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo.oracle",
+        "factory_skill_agente.corrida_completa": "catalogos/factory_skill_agente.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-03T23:00:59.345737+00:00"
+  },
+  "archivo": {
+    "capacidad": "practicas",
+    "spec": "openspec/specs/practicas/spec.md",
+    "cuando": "2026-11-03T23:00:59.446624+00:00"
+  }
+}

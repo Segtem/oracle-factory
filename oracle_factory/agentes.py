@@ -72,7 +72,10 @@ def bloque(modo_por_defecto: str) -> str:
         f"hasta {alarmas.UMBRAL_LIGERO} líneas de producto, sin contar pruebas, y sin tocar las reglas de decisión "
         f"({', '.join(f'`{r}`' for r in alarmas.REGLAS_DE_DECISION)}). Alcanza **un revisor y una ronda**: si no trae hallazgos medios o altos, "
         "preparás la revisión; si los trae, el cambio sigue el **camino completo**. Es una orientación: no cambia ningún paso pendiente ni lo que "
-        "decide una persona.", "",
+        "decide una persona.",
+        "- El procedimiento de punta a punta —qué mirar antes de abrir un cambio, el orden de los pasos, la evidencia, las rondas y cuándo parar— está en "
+        "la skill: `oracle-factory skill` la muestra y `oracle-factory skill --instalar` la escribe en `.claude/skills/oracle-factory/SKILL.md` del "
+        "proyecto.", "",
         "### Las decisiones, según el modo de trabajo", "",
         "Cada decisión tiene su comando. Con `--agente`, según el modo del cambio, el agente la decide, la propone (cuenta "
         "cuando una persona la confirma repitiendo el comando sin `--agente`) o no puede; una persona, desde su terminal, "

@@ -64,3 +64,9 @@ Es una orientación, no un gate: no cambia los pasos pendientes, el próximo pas
 
 **Límites conocidos.** Las líneas son las agregadas en archivos de producto: un archivo binario no suma líneas, lo que se borra no se resta, y un renombre puro (por ejemplo de un archivo de pruebas a un módulo de producto) o una copia sin modificar su origen aportan pocas o ninguna línea. Un cambio de ese tipo puede salir «ligero» aunque convenga una revisión más completa: la orientación no reemplaza el criterio de quien revisa, y ante la duda se pide la ronda completa.
 
+## La skill del flujo
+
+`AGENTS.md` dice quién decide qué y qué comandos hay; la **skill** cuenta cómo se trabaja un cambio de punta a punta y cuándo parar. `oracle-factory skill` la muestra, y `oracle-factory skill --instalar` la escribe en `.claude/skills/oracle-factory/SKILL.md` **del proyecto** (el mismo texto sirve a Claude Code, Codex y agy, que lo leen como texto). No pisa un archivo distinto salvo con `--forzar`, no sigue enlaces simbólicos y nunca escribe en la carpeta personal ni en la configuración de ninguna herramienta.
+
+Es texto escrito a mano, no generado, y una prueba lo contrasta con el código: cada comando que nombra existe, los umbrales que cita (4 rondas, 450 y 150 líneas) son los de `alarmas.py` y los documentos que enlaza existen. Si cambiás un umbral o renombrás un comando, esa prueba te dice qué línea de la skill actualizar.
+

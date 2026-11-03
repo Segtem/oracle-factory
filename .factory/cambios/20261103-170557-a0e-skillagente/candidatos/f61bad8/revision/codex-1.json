@@ -1,0 +1,34 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-skill-agente/.factory/local/revisiones/f61bad8-codex-1",
+  "base": "9bc1edee8b08f970ed3cb1871e107fd6c40e2f3d",
+  "head": "f61bad8ef58fb98696341a5a8eff91d520523dc8",
+  "diff_sha256": "d2904d3759c5c1485f8a50cf7c97bf0c7f3aa4dd2d6fc95cb9a624895402e8bd",
+  "context_sha256": "9705812aa98cb9176455370927381e30c773f94807cff37f6953d6e8e4136f26",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "SKILL-FS-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "La instalación borra un archivo preexistente llamado SKILL.md.tmp",
+      "explanation": "La escritura atómica usa un nombre temporal fijo junto al destino y, en el bloque finally, lo elimina sin comprobar si ese archivo ya existía ni si lo creó esta invocación. Si el proyecto ya contiene `.claude/skills/oracle-factory/SKILL.md.tmp`, incluso una instalación inicial sin --forzar sobrescribe ese archivo con el texto de la skill y luego lo borra. Esto contradice la garantía de no pisar archivos ajenos y puede eliminar datos del proyecto.",
+      "location": {"file": "oracle_factory/skill.py", "start_line": 111, "end_line": 116, "side": "head"},
+      "trigger": "Crear `.claude/skills/oracle-factory/SKILL.md.tmp` con contenido propio y ejecutar `oracle-factory skill --instalar`.",
+      "evidence": "Reproducción en un directorio temporal: se creó `SKILL.md.tmp` con `archivo ajeno`, se llamó `instalar(root)` sin forzar y al terminar `temp_exists=False`. La causa está en `temporal.write_text(...)` y `temporal.unlink(missing_ok=True)` usando la misma ruta fija.",
+      "related_requirement": "el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "status": "pendiente",
+      "verification": "Reproducido mediante importación local del candidato con PYTHONPATH=. y un directorio temporal; el archivo adyacente preexistente desapareció."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Inspeccioné propuesta, spec, diff y contexto del paquete, implementación, CLI, skill, guía de agentes y pruebas relevantes. No ejecuté la suite completa.",
+    "Reproduje en un directorio temporal la colisión del nombre temporal; no modifiqué el checkout del candidato.",
+    "Los hallazgos de las dos revisiones anteriores permanecen corregidos en el código y tests actuales: directorio/ancestro inválidos se reportan como SkillError, reemplazo temporal con os.replace, análisis de comandos cercados/encadenados, números con saltos de línea/enlaces Markdown, test negativo del umbral ligero y error para --forzar sin --instalar.",
+    "La edición de tests/datos/ayuda-cli.json está justificada: añade el subcomando y su entrada de ayuda generada; el diff no quitó líneas ni comandos previos.",
+    "El test que afirma que la skill viaja en el paquete sólo inspecciona pyproject.toml y la presencia del archivo fuente; no construye ni inspecciona un wheel. El propio cambio declara este límite; no observé evidencia de que falte el recurso en la configuración de empaquetado.",
+    "No encontré otro defecto de impacto práctico en oracle_factory/data/skill/SKILL.md, oracle_factory/skill.py, cli.py, agentes.py, docs/agentes.md o tests/test_skill_agente.py."
+  ]
+}

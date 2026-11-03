@@ -1,0 +1,105 @@
+{
+  "skill_agente_caso": [
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_el_encabezado_necesita_nombre_y_descripcion",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_el_umbral_de_un_paso_de_50_lineas_es_de_la_skill_y_se_permite",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_la_skill_del_repositorio_coincide_con_el_codigo",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_la_skill_viaja_en_el_paquete",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_las_opciones_globales_con_valor_no_se_toman_por_el_comando",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_los_subcomandos_salen_del_analizador_de_la_cli",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_un_comando_inventado_se_nombra",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_un_documento_que_no_existe_se_nombra",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_un_texto_correcto_no_da_problemas",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "caso": "Contraste.test_sk1_un_umbral_viejo_se_nombra",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "caso": "Comando.test_sk2_instalar_no_refresca_el_conocimiento_generado",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "caso": "Comando.test_sk2_instalarla_la_escribe_en_el_proyecto_y_dice_donde",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "caso": "Comando.test_sk2_instalarla_otra_vez_no_cambia_nada_y_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "caso": "Comando.test_sk2_mostrarla_imprime_el_texto_y_no_escribe_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "caso": "Comando.test_sk2_nada_fuera_del_proyecto_ni_en_la_configuracion_personal",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "caso": "Comando.test_sk2_no_sigue_enlaces_simbolicos_ni_siquiera_con_forzar",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "caso": "Comando.test_sk2_un_archivo_distinto_no_se_pisa_salvo_con_forzar",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_para_agentes_nombra_la_skill",
+      "caso": "Guia.test_sk3_la_guia_nombra_el_comando_y_la_ruta_de_instalacion",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_para_agentes_nombra_la_skill",
+      "caso": "Guia.test_sk3_si_la_guia_pierde_la_mencion_agentes_verificar_falla",
+      "codigo": 0
+    }
+  ],
+  "skill_agente_corrida": [
+    {
+      "completa": 0,
+      "casos": 19
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-skill-agente/.factory/local/revisiones/d206e22-agy2-flash-1",
+  "base": "9bc1edee8b08f970ed3cb1871e107fd6c40e2f3d",
+  "head": "d206e2298f591a4a26c81d659f73cdadf12e298a",
+  "diff_sha256": "ebcb39da1a25c2c9cac91b84952eac39ce2d998eef9d818a7847dc2f124f82be",
+  "context_sha256": "8e687f766365aa4c3b2a595da2116230bf6e7a03c1cdfb7ca8c4f7439c5e01f5",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la suite unitaria completa de Oracle Factory (1101 pruebas, 10 saltadas, 0 fallas) en Linux x86_64.",
+    "Se ejecutó la suite específica tests/test_skill_agente.py (19 pruebas, 0 fallas).",
+    "Se construyó el paquete wheel con uv build y se inspeccionó su contenido para validar la inclusión de oracle_factory/data/skill/SKILL.md.",
+    "Se realizaron análisis sistemáticos de mutación de código en un sandbox clonado.",
+    "No se probaron plataformas Windows ni macOS (evaluado exclusivamente sobre entorno Linux).",
+    "No se ejecutaron interacciones remotas ni llamadas que requieran conectividad externa a la red."
+  ],
+  "findings": [
+    {
+      "id": "SKILL-FS-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "skill.instalar no atrapa IsADirectoryError ni NotADirectoryError si el destino o un ancestro no es un archivo o directorio ordinario",
+      "explanation": "En oracle_factory/skill.py::instalar, si .claude/skills/oracle-factory/SKILL.md existe pero es un directorio, destino.exists() evalúa a True y la invocación inmediata destino.read_text(encoding=\"utf-8\") genera un IsADirectoryError no manejado. Asimismo, si un ancestro como .claude existe como archivo regular, destino.parent.mkdir(...) genera NotADirectoryError. En cli.py, comando_skill captura exclusivamente SkillError, permitiendo que estas excepciones de OSError escapen como un traceback no controlado hacia el usuario final.",
+      "location": {
+        "file": "oracle_factory/skill.py",
+        "start_line": 89,
+        "end_line": 95,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory skill --instalar` cuando .claude/skills/oracle-factory/SKILL.md es un directorio o .claude es un archivo plano.",
+      "evidence": "Invocando `skill.instalar(root)` con destino como directorio produce: IsADirectoryError: [Errno 21] Is a directory: '.../SKILL.md'. Con .claude como archivo plano produce: NotADirectoryError: [Errno 20] Not a directory: '.../.claude/skills/oracle-factory'. En cli.py:1886 solo se captura SkillError.",
+      "related_requirement": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "status": "pendiente",
+      "verification": "Crear un directorio en .claude/skills/oracle-factory/SKILL.md y correr `oracle-factory skill --instalar` (o con `--forzar`), observando el traceback no capturado."
+    },
+    {
+      "id": "SKILL-FS-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Instalación de la skill sin escritura atómica (vulnerable a escrituras parciales por interrupción o fallo de E/S)",
+      "explanation": "skill.instalar invoca directamente destino.write_text(nuevo, encoding=\"utf-8\"). En Python, write_text abre el archivo en modo escritura truncándolo inmediatamente. Si el proceso recibe una señal (como SIGINT/SIGTERM) o ocurre un error de disco/espacio a mitad de escritura, el archivo existente del usuario queda truncado o en estado corrupto. La práctica recomendada para evitar escritura parcial es escribir en un archivo temporal en el mismo directorio (ej. .SKILL.md.tmp) y realizar una sustitución atómica con os.replace.",
+      "location": {
+        "file": "oracle_factory/skill.py",
+        "start_line": 94,
+        "end_line": 96,
+        "side": "head"
+      },
+      "trigger": "Interrupción de señal del proceso o fallo de disco mientras write_text escribe el archivo de destino.",
+      "evidence": "oracle_factory/skill.py:95: destino.write_text(nuevo, encoding=\"utf-8\"). No se utiliza archivo temporal ni os.replace atómico.",
+      "related_requirement": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "status": "pendiente",
+      "verification": "Revisar la implementación de skill.instalar verificando la ausencia de escritura atómica con reemplazo seguro."
+    },
+    {
+      "id": "SKILL-VAL-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "comandos_nombrados no detecta comandos dentro de bloques cercados (fenced code blocks) ni subcomandos encadenados",
+      "explanation": "La función comandos_nombrados busca comandos mediante re.findall(r\"`(oracle-factory[^`]*)`\", contenido). Esto produce dos limitaciones importantes: (1) Los comandos de oracle-factory dentro de bloques de código markdown de triple backtick (```bash ... ```) no son detectados y escapan a toda validación. (2) En fragmentos con comandos encadenados (como `oracle-factory cmd1 && oracle-factory inventado`), el análisis solo toma la primera palabra tras las opciones globales (palabras[0]); cualquier comando subsecuente inventado o con errores es ignorado y pasa sin fallar la prueba de contraste.",
+      "location": {
+        "file": "oracle_factory/skill.py",
+        "start_line": 36,
+        "end_line": 44,
+        "side": "head"
+      },
+      "trigger": "Incluir comandos de Factory en bloques markdown con ``` o encadenar dos comandos en un mismo fragmento de backticks inline.",
+      "evidence": "skill.comandos_nombrados(\"`oracle-factory nuevo && oracle-factory inventado`\") retorna {\\x27nuevo\\x27} (ignora \\x27inventado\\x27). skill.comandos_nombrados(\"```bash\\noracle-factory inventado\\n```\") retorna set().",
+      "related_requirement": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "status": "pendiente",
+      "verification": "Ejecutar skill.problemas sobre un texto con un bloque de código cercado que use un comando no existente; comprobar que no lo detecta."
+    },
+    {
+      "id": "SKILL-VAL-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Fragilidad en numeros_antes_de y documentos_enlazados ante saltos de línea y enlaces Markdown",
+      "explanation": "numeros_antes_de utiliza el patrón regex rf\"(\\d+) {palabra}\\b\" con un espacio en blanco estricto. Si la skill o un documento de prueba se formatea con ajuste de línea a 80/100 columnas y se inserta un salto de línea entre el número y la palabra (ej. \"450\\nlíneas\"), la función no extrae el número y problemas() produce un falso positivo reportando que falta citar el umbral del código. Asimismo, documentos_enlazados solo busca cadenas entre backticks (docs/*.md), omitiendo enlaces markdown estándar [texto](docs/archivo.md).",
+      "location": {
+        "file": "oracle_factory/skill.py",
+        "start_line": 47,
+        "end_line": 53,
+        "side": "head"
+      },
+      "trigger": "Formateo de párrafos con saltos de línea entre el número de umbral y la unidad, o uso de enlaces markdown estándar.",
+      "evidence": "skill.numeros_antes_de(\"450\\nlíneas\", \"líneas\") retorna set(). skill.documentos_enlazados(\"[guía](docs/agentes.md)\") retorna set().",
+      "related_requirement": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "status": "pendiente",
+      "verification": "Pasar un texto con salto de línea entre \"450\" y \"líneas\" a skill.problemas() y verificar el falso positivo generado."
+    },
+    {
+      "id": "SKILL-TEST-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Mutante superviviente: omisión del umbral ligero (150 líneas) carece de prueba negativa en test_skill_agente.py",
+      "explanation": "En oracle_factory/skill.py:72 se valida: salida += [f\"no cita el umbral de {n} líneas del código\" for n in (alarmas.UMBRAL_LINEAS, alarmas.UMBRAL_LIGERO) if n not in lineas]. Sin embargo, en test_skill_agente.py::test_sk1_un_umbral_viejo_se_nombra, todos los textos evaluados incluyen f\"Hasta {alarmas.UMBRAL_LIGERO} líneas\". Nunca se prueba la ausencia de UMBRAL_LIGERO. Al mutar skill.py para verificar únicamente alarmas.UMBRAL_LINEAS, la suite pasa completa sin detectar la pérdida de verificación.",
+      "location": {
+        "file": "tests/test_skill_agente.py",
+        "start_line": 43,
+        "end_line": 52,
+        "side": "head"
+      },
+      "trigger": "Eliminar alarmas.UMBRAL_LIGERO de la tupla de umbrales obligatorios en skill.py línea 72.",
+      "evidence": "Mutando skill.py a: `for n in (alarmas.UMBRAL_LINEAS,) if n not in lineas`, la suite tests/test_skill_agente.py pasa los 19 tests sin ningún fallo.",
+      "related_requirement": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "status": "pendiente",
+      "verification": "Aplicar la mutación indicada y verificar que la suite no reporta fallas."
+    },
+    {
+      "id": "SKILL-TEST-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.85,
+      "title": "test_sk1_la_skill_viaja_en_el_paquete pasa por construcción mediante simple comprobación estática",
+      "explanation": "El test test_sk1_la_skill_viaja_en_el_paquete declara validar que la skill viaja con el paquete distribuible, pero su aserción se limita a buscar el substring \\x27data/skill/*\\x27 en pyproject.toml y verificar que el archivo existe en el árbol local del repositorio. No verifica que el empaquetado de setuptools/wheel incluya efectivamente el archivo ni que sea legible desde una instalación no editable.",
+      "location": {
+        "file": "tests/test_skill_agente.py",
+        "start_line": 77,
+        "end_line": 80,
+        "side": "head"
+      },
+      "trigger": "Revisión de las aserciones en test_sk1_la_skill_viaja_en_el_paquete.",
+      "evidence": "tests/test_skill_agente.py:78: self.assertIn(\\x27data/skill/*\\x27, (SOURCE / \\x27pyproject.toml\\x27).read_text(encoding=\\x27utf-8\\x27))",
+      "related_requirement": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "status": "pendiente",
+      "verification": "Inspeccionar las líneas 77-80 de tests/test_skill_agente.py."
+    },
+    {
+      "id": "SKILL-CLI-01",
+      "kind": "bug",
+      "severity": "informativa",
+      "confidence": 0.9,
+      "title": "oracle-factory skill ignora silenciosamente --forzar cuando no se acompaña de --instalar",
+      "explanation": "En oracle_factory/cli.py::comando_skill, la primera verificación es if not instalar: print(skill_mod.texto(), end=\"\"); return 0. Si un usuario ejecuta oracle-factory skill --forzar, el comando ignora la bandera sin emitir error ni advertencia, imprimiendo el texto y retornando 0.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1880,
+        "end_line": 1883,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory skill --forzar` sin `--instalar`.",
+      "evidence": "oracle_factory/cli.py:1880-1883: if not instalar: print(skill_mod.texto(), end=\"\"); return 0. La variable forzar es ignorada.",
+      "related_requirement": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "status": "pendiente",
+      "verification": "Ejecutar `oracle-factory skill --forzar` y observar que se imprime la skill ignorando la bandera."
+    }
+  ]
+}

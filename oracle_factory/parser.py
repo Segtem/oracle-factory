@@ -102,6 +102,9 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('texto'); q.add_argument('--max', type=int, default=200, dest='maximo', help='máximo de líneas a mostrar')
     q = sub.add_parser('agentes', help='escribir en AGENTS.md la guía para agentes, armada desde la CLI (o --verificar)')
     q.add_argument('--verificar', action='store_true', help='no escribe; falla si la guía falta o quedó vieja')
+    q = sub.add_parser('skill', help='mostrar la skill de agente con el flujo de Factory, o --instalar en el proyecto (.claude/skills/)')
+    q.add_argument('--instalar', action='store_true', help='escribirla en .claude/skills/oracle-factory/SKILL.md del proyecto')
+    q.add_argument('--forzar', action='store_true', help='con --instalar, reemplazar un archivo distinto')
     sub.add_parser('mcp', help='servir el proyecto por MCP (stdio), de sólo lectura, para un agente: claude mcp add factory -- '
                               'oracle-factory --proyecto RUTA mcp')
     q = sub.add_parser('preguntar', help='responder sobre el proyecto con fuentes, registro y un modelo configurado (sólo lectura)')
