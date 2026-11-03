@@ -8,6 +8,7 @@ Commits: 1; el último <sha7> «producto» (oracle-factory log para verlos).
 Responsable: nadie (oracle-factory tomar ID).
 Aviso: revisión registrada en <sha7>; HEAD actual <sha7> con el producto idéntico.
 Aviso: el candidato no tiene trazabilidad de pruebas: el sensor no dejó trazabilidad.json (ver docs/trazabilidad.md); sin ella no se sabe qué requisitos tienen casos de prueba.
+Camino de revisión: ligero (0 líneas de producto, 150 o menos, sin reglas de decisión): alcanza un revisor y una ronda (ver la guía para agentes).
 Aprobación spec: sí, <actor> (persona, decidio, modo confirmacion)
 Revisión: <actor> / aprobar / 0 abiertos
 Formato de revisión: guiado; consistencia estructural, no calidad del análisis

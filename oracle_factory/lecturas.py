@@ -391,6 +391,7 @@ def datos_estado(identificador: str) -> dict:
         "pruebas": prueba,
         "tests_editados": editados,
         **flujo,
+        "camino": alarmas.camino_del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto),  # un cambio abandonado no tiene candidato
         "commits": cli.commits_del_cambio(identificador, estado),
         "quien": cli.quien_del_cambio(estado),
     }

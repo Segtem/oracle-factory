@@ -98,6 +98,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261101-121356-ih8-puertalocal]] — Una puerta local de salida: escaneo de secretos y verificaciones antes de cada push (cerrada)
 - [[cambios/20261101-205730-dm3-alarmasflujo]] — Avisar de los bucles de revisión y de los cambios demasiado grandes (cerrada)
 - [[cambios/20261102-000745-j7r-verificadorgenerico]] — Un verificador reutilizable para la evidencia de cada cambio (cerrada)
+- [[cambios/20261102-221210-70x-caminoligero]] — Un camino ligero de revisión para los cambios chicos (cerrada)
 
 ## Requisitos
 
@@ -312,6 +313,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_atribuye_cada_caso_al_requisito_que_su_nombre_indica]]
 - [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_escribe_los_catalogos_del_cambio]]
 - [[requisitos/practicas_ca947e8cba4f605c1.el_verificador_produce_la_evidencia_completa_del_cambio]]
+- [[requisitos/practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente]]
+- [[requisitos/practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero]]
+- [[requisitos/practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero]]
 - [[requisitos/procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita]]
 - [[requisitos/procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv]]
 - [[requisitos/procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados]]
