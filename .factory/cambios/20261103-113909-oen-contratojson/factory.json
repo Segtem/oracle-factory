@@ -2,11 +2,25 @@
   "id": "20261103-113909-oen-contratojson",
   "titulo": "Pruebas de contrato entre la CLI y la extensión de VS Code",
   "capacidad": "ide",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "09646fa8169707ca173b7f14a9b4bef7972c3437186ee830edb5edf4291f9248",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-03T11:56:18.418345+00:00",
+    "documentos": {
+      "openspec/changes/20261103-113909-oen-contratojson/proposal.md": "8386948457a8e532804e1f73262e0781410892d21098ce38df8f2ca34cea4e1f",
+      "openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md": "09646fa8169707ca173b7f14a9b4bef7972c3437186ee830edb5edf4291f9248"
+    }
+  },
+  "requisitos": [
+    "ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato",
+    "ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+    "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +33,38 @@
       "forma": "decidio",
       "cuando": "2026-11-03T11:39:09.200989+00:00",
       "capacidad": "ide"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T11:56:18.418366+00:00",
+      "documentos": {
+        "openspec/changes/20261103-113909-oen-contratojson/proposal.md": "8386948457a8e532804e1f73262e0781410892d21098ce38df8f2ca34cea4e1f",
+        "openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md": "09646fa8169707ca173b7f14a9b4bef7972c3437186ee830edb5edf4291f9248"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T11:56:29.101925+00:00",
+      "ids": [
+        "ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato",
+        "ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+        "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato": "funcional",
+    "ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido": "funcional",
+    "ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
