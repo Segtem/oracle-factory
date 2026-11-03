@@ -70,6 +70,48 @@
         "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
         "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T19:22:52.875048+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "medidas": [
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+        "factory_skill_agente.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T19:22:54.991140+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "medidas": [
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+        "factory_skill_agente.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T19:22:57.026683+00:00",
+      "requisito": "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill",
+      "medidas": [
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill",
+        "factory_skill_agente.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -78,5 +120,48 @@
     "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": {
+      "sha256": "531333ce7afa2f9b9789c9b4c003422a69cbcfeffee8bc4864d9d0b12458aba0",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-03T19:22:52.827423+00:00",
+      "catalogos": {
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "8100090fdb8b856cc6c7cb424d8237daffed2fc56d3390f6373cf4e93e950520",
+        "factory_skill_agente.corrida_completa": "c164621f513ab6f46891209e67440dd1d7a14e7b3b5ea392444180a90254fa8c"
+      },
+      "archivos_catalogo": {
+        "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo": "catalogos/factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo.oracle",
+        "factory_skill_agente.corrida_completa": "catalogos/factory_skill_agente.corrida_completa.oracle"
+      }
+    },
+    "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno": {
+      "sha256": "278fada83c26a50250549b07043e111f465250b03c9f3a7182fc6f1e89b60a04",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-03T19:22:54.945449+00:00",
+      "catalogos": {
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno": "ca54bc7bfca94e07b2e2aa89738c4da18de01c7ecf8d145b2be86272fa4f9408",
+        "factory_skill_agente.corrida_completa": "c164621f513ab6f46891209e67440dd1d7a14e7b3b5ea392444180a90254fa8c"
+      },
+      "archivos_catalogo": {
+        "factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno": "catalogos/factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno.oracle",
+        "factory_skill_agente.corrida_completa": "catalogos/factory_skill_agente.corrida_completa.oracle"
+      }
+    },
+    "practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill": {
+      "sha256": "a8239883e6bdcfa6e554a04ace5d3ecec6182f2caa2f3ebfc66b5784c96192e3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-03T19:22:56.978689+00:00",
+      "catalogos": {
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill": "aef26a32a28ff6ffe8d1718eb05376b01952af9c74695b6621418942bc11656b",
+        "factory_skill_agente.corrida_completa": "c164621f513ab6f46891209e67440dd1d7a14e7b3b5ea392444180a90254fa8c"
+      },
+      "archivos_catalogo": {
+        "factory_skill_agente.la_guia_para_agentes_nombra_la_skill": "catalogos/factory_skill_agente.la_guia_para_agentes_nombra_la_skill.oracle",
+        "factory_skill_agente.corrida_completa": "catalogos/factory_skill_agente.corrida_completa.oracle"
+      }
+    }
+  }
 }

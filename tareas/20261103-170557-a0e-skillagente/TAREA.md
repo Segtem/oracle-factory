@@ -19,3 +19,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-03 19:19:42 UTC)
 
 Requisitos importados: practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno (funcional), practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill (funcional), practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-03 19:22:52 UTC)
+
+Medidas de practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo: factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo, factory_skill_agente.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-03 19:22:55 UTC)
+
+Medidas de practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno: factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno, factory_skill_agente.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-03 19:22:57 UTC)
+
+Medidas de practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill: factory_skill_agente.la_guia_para_agentes_nombra_la_skill, factory_skill_agente.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
