@@ -107,7 +107,7 @@ class Pura(unittest.TestCase):
         self.assertEqual(len(problemas), 1)
         self.assertIn('campo_nuevo', problemas[0])
         self.assertIn('modelo.js', problemas[0])
-        self.assertEqual(cv.comprobar_el_codigo(contrato, {'x.js': '// c.comentado\nconst a = e.titulo.length;'}), [])
+        self.assertEqual(cv.comprobar_el_codigo(contrato, {'modelo.js': '// c.comentado\nconst a = e.titulo.length;'}), [])
 
     def test_cv1_los_accesos_encadenados_tambien_se_ven_en_el_codigo(self):
         contrato = {'estado': [{'ruta': 'detalle', 'tipos': ['object']}]}
@@ -122,6 +122,16 @@ class Pura(unittest.TestCase):
         self.assertEqual(len(problemas), 1)
         self.assertIn('«.titulo»', problemas[0])
         self.assertIn('tablero', problemas[0])
+
+    def test_cv1_con_la_ruta_del_archivo_la_particion_por_comando_sigue_igual_y_un_archivo_desconocido_falla(self):
+        contrato = {'estado': [{'ruta': 'titulo', 'tipos': ['string']}], 'tablero': [{'ruta': 'yo', 'tipos': ['string']}]}
+        for ruta in ('modelo.js', 'editores/vscode/modelo.js', '/abs/editores/vscode/modelo.js'):
+            with self.subTest(ruta=ruta):
+                [problema] = cv.comprobar_el_codigo(contrato, {ruta: 'e.titulo; r.yo'})
+                self.assertIn('«.yo»', problema)  # `yo` es del tablero, no de lo que lee modelo.js
+        [problema] = cv.comprobar_el_codigo(contrato, {'editores/vscode/otro.js': 'e.titulo'})
+        self.assertIn('no sé qué JSON', problema)
+        self.assertIn('otro.js', problema)
 
     def test_cv1_el_contrato_del_repositorio_declara_tipos_validos_y_rutas_sin_repetir(self):
         contrato = cv.cargar()
