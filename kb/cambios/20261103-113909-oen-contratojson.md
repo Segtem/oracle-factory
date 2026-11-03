@@ -57,6 +57,7 @@ capacidad: "ide"
 - `fb5bdf2` contrato-json: registrar la confirmación de medidas por Brian (trailer)
 - `7d20747` contrato-json: el archivo se identifica por su nombre y uno desconocido falla (hallazgo de la ronda 3) (trailer)
 - `67405cd` contrato-json: proponer de nuevo las medidas (trailer)
+- `0a8e4fd` contrato-json: registrar la confirmación de medidas por Brian (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261103-113909-oen-contratojson`.
 
 ## Mensajes

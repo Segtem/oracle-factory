@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-contrato-json/.factory/local/revisiones/0a8e4fd-agy2-flash-1",
+  "base": "781d72e9bae51fd3485a85a9d2cb5a83c61701b2",
+  "head": "0a8e4fd1f46552266cd2fd9226671918a9ab5ed9",
+  "diff_sha256": "9452825c75950a4cbf5a4d810ba5186cb07b569882bf58583d7a6b30f2afdb6e",
+  "context_sha256": "e28b9c38ffee3f3f41b96106bbc8cfa8b81a384505a208bf42208a5d77baa1fb",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó la propuesta, la especificación (ide/spec.md), las tareas y el diff completo entre la base y el candidato 0a8e4fd.",
+    "Se contrastó la implementación de tools/contrato_vscode.py, tests/test_contrato_vscode.py, tests/contrato_en_node.cjs, editores/vscode/contrato.json y docs/tablero.md.",
+    "Se verificó la corrección del hallazgo de la ronda 3: Path(archivo).name preserva la partición estática de comandos ante rutas relativas y absolutas, y rechaza explícitamente archivos no reconocidos en lugar de mezclarlos con todos los comandos de la CLI.",
+    "Se ejecutaron las 20 pruebas de tests/test_contrato_vscode.py con el entorno del proyecto (.venv/bin/python), comprobando que todas pasan limpiamente (Pura, Real, Registrador y Documento).",
+    "Se ejecutó una corrida de prueba de evidencia mediante tools/verificar_cambio.py confirmando que los 20 casos se registran con código 0 y satisfacen los umbrales de los catálogos Oracle correspondientes.",
+    "Se realizaron comprobaciones de mutación y análisis de casos borde sobre la heurística estática (comentarios multilínea, encadenamiento, nombres propios) y el Proxy dinámico en Node, confirmando que los límites observados son puramente teóricos o están explícitamente documentados en docs/tablero.md, sin defectos de impacto práctico pendientes."
+  ]
+}
