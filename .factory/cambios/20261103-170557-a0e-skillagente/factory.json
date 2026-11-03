@@ -2,7 +2,7 @@
   "id": "20261103-170557-a0e-skillagente",
   "titulo": "Una skill de agente con el flujo de Factory",
   "capacidad": "practicas",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261103-170557-a0e-skillagente/specs/practicas/spec.md",
   "spec_sha256": "0e7751decb30650c0ae43645773f330e7c58eb3a6e982c6ca31ad2c3c57c0eb5",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "4b6b56337d07786b3a5da0eed84dc8c93cc4c00c42e33fd9be0bb5440437ace1"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261103-170557-a0e-skillagente/candidatos/afd6a7c/evidencia/hechos.json",
+    "hechos_sha256": "14b849d32ebc8e1afe417bffac14ea4174183b88b89cf3a67ddf4a6da76b551d",
+    "informe": ".factory/cambios/20261103-170557-a0e-skillagente/oracle-veredicto.txt",
+    "informe_sha256": "6bcbab78f15ae150a1d02287888d37bccddc7df451d027dda647197fb368af2b",
+    "cuando": "2026-11-03T22:57:47.023107+00:00",
+    "contexto": {
+      "head": "d979f9f836d5e6fdbb21c1c4c841b5c3bd4af51d",
+      "archivos_sha256": "4b6b56337d07786b3a5da0eed84dc8c93cc4c00c42e33fd9be0bb5440437ace1"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -507,6 +519,17 @@
       "abiertos": 0,
       "sha256": "a6721813737c5b59f7155070eab89b297bf968e103b22f77a8730744a40685e1",
       "decisiones_sha256": "e23998b64ce037ac5452bb2cbd8baa0155ad0d6ebc570ca6885d4fbd82aa8d73"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T22:57:47.023121+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "14b849d32ebc8e1afe417bffac14ea4174183b88b89cf3a67ddf4a6da76b551d"
     }
   ],
   "tipos": {

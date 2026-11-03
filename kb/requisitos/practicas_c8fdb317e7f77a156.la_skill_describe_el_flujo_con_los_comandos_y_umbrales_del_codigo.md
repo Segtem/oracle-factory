@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo`
 - Vigente: sí
 - Cambio: [[cambios/20261103-170557-a0e-skillagente]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo`, `factory_skill_agente.corrida_completa`
 - Fuente: openspec/changes/20261103-170557-a0e-skillagente/specs/practicas/spec.md#la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo
 
