@@ -8,6 +8,7 @@ from importlib import resources
 import os
 from pathlib import Path
 import re
+import tempfile
 
 from . import alarmas
 
@@ -44,14 +45,14 @@ def comandos_nombrados(contenido: str) -> set[str]:
     for region in _regiones_de_codigo(contenido):
         for trozo in re.split(r"&&|\|\||[;&|\n]|\$\(|\)", region):
             palabras = trozo.split()
-            if not palabras or palabras[0] != "oracle-factory":
+            if not palabras or palabras[0].rsplit("/", 1)[-1] != "oracle-factory":  # también `.venv/bin/oracle-factory`
                 continue
             palabras = palabras[1:]
             while palabras and palabras[0].startswith("--"):
                 opcion = palabras.pop(0)
                 if opcion in OPCIONES_CON_VALOR and palabras:
                     palabras.pop(0)
-            if palabras and re.fullmatch(r"[a-z][a-z-]*", palabras[0]):
+            if palabras and re.fullmatch(r"[a-z][a-z0-9_-]*", palabras[0]):  # un verbo mal escrito (`pedir_revision`) se reporta, no se ignora
                 verbos.add(palabras[0])
     return verbos
 
@@ -100,20 +101,24 @@ def instalar(raiz: Path, forzar: bool = False) -> tuple[str, Path]:
         raise SkillError(f"no escribo sobre enlaces simbólicos: {', '.join(enlaces)}")
     nuevo = texto()
     existe = destino.exists() or destino.is_symlink()
+    temporal = None
     try:
         if existe and not destino.is_file():
             raise SkillError(f"{RUTA_EN_EL_PROYECTO} existe y no es un archivo")
-        if existe and destino.read_text(encoding="utf-8") == nuevo:
+        if existe and destino.read_bytes() == nuevo.encode("utf-8"):  # bytes: un archivo ajeno que no es UTF-8 es «distinto», no un error
             return "igual", destino
         if existe and not forzar:
             raise SkillError(f"ya hay un {RUTA_EN_EL_PROYECTO} distinto; --forzar lo reemplaza")
         destino.parent.mkdir(parents=True, exist_ok=True)
-        temporal = destino.with_name(destino.name + ".tmp")
-        try:
-            temporal.write_text(nuevo, encoding="utf-8")
-            os.replace(temporal, destino)  # atómico: una interrupción no deja el archivo del usuario a medio escribir
-        finally:
-            temporal.unlink(missing_ok=True)
-    except (OSError, UnicodeDecodeError) as e:
+        descriptor, nombre = tempfile.mkstemp(dir=destino.parent, prefix=".SKILL.md.", suffix=".tmp")  # un nombre nuevo: nunca pisa un archivo ajeno
+        temporal = Path(nombre)
+        with os.fdopen(descriptor, "w", encoding="utf-8") as f:
+            f.write(nuevo)
+        temporal.chmod(0o644)
+        os.replace(temporal, destino)  # atómico: una interrupción no deja el archivo del usuario a medio escribir
+    except OSError as e:
         raise SkillError(f"no pude escribir {RUTA_EN_EL_PROYECTO}: {e}") from e
+    finally:
+        if temporal is not None:
+            temporal.unlink(missing_ok=True)  # sólo el que creó esta invocación (si ya se movió, no hay nada que borrar)
     return ("reemplazada" if existe else "instalada"), destino

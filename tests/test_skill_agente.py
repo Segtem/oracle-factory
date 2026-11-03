@@ -57,7 +57,7 @@ class Contraste(unittest.TestCase):
     def test_sk1_los_comandos_encadenados_y_los_de_bloques_cercados_tambien_se_ven(self):
         texto = self.completo('Corré `oracle-factory estado ID && oracle-factory inventado ID | tee x; oracle-factory otro_mas`.\n\n'
                               '```bash\noracle-factory --agente N nuevo --capacidad C\ncd x && oracle-factory raro ID\nx=$(oracle-factory ruta ID evidencia)\n```\n')
-        self.assertEqual(skill.comandos_nombrados(texto), {'estado', 'inventado', 'nuevo', 'raro', 'ruta'})  # «otro_mas» no es un verbo válido: se ignora
+        self.assertEqual(skill.comandos_nombrados(texto), {'estado', 'inventado', 'nuevo', 'raro', 'ruta', 'otro_mas'})  # un verbo con guion bajo se reporta (como inexistente), no se ignora
         problemas = skill.problemas(texto, SOURCE)
         self.assertTrue(any('inventado' in p for p in problemas), problemas)
         self.assertTrue(any('raro' in p for p in problemas), problemas)
@@ -84,6 +84,16 @@ class Contraste(unittest.TestCase):
         self.assertIn('tools/verificar_cambio.py ID --pruebas test_x --catalogos', texto)
         self.assertIn('--salida $(.venv/bin/oracle-factory ruta ID evidencia)', texto)  # `--salida` pide una carpeta
         self.assertIn('ruta', skill.subcomandos())
+
+    def test_sk1_los_comandos_con_ruta_y_los_verbos_mal_escritos_tambien_se_ven(self):
+        texto = self.completo('Corré `.venv/bin/oracle-factory ruta ID evidencia`, `./.venv/bin/oracle-factory pedir_revision ID`, '
+                              '`oracle-factory nuevo2 ID` y `$(/abs/oracle-factory estado ID)`.')
+        self.assertEqual(skill.comandos_nombrados(texto), {'ruta', 'pedir_revision', 'nuevo2', 'estado'})
+        problemas = skill.problemas(texto, SOURCE)
+        self.assertTrue(any('pedir_revision' in p for p in problemas), problemas)
+        self.assertTrue(any('nuevo2' in p for p in problemas), problemas)
+        self.assertFalse(any('ruta' in p or 'estado' in p for p in problemas), problemas)
+        self.assertIn('ruta', skill.comandos_nombrados(skill.texto()))  # la propia skill nombra `.venv/bin/oracle-factory ruta`
 
     def test_sk1_un_documento_que_no_existe_se_nombra(self):
         [problema] = skill.problemas(self.completo('Mirá `docs/no-existe.md` y `docs/agentes.md`.'), SOURCE)
@@ -217,6 +227,30 @@ class Comando(unittest.TestCase):
         estado, _ = skill.instalar(self.root, forzar=True)
         self.assertEqual(estado, 'reemplazada')
         self.assertEqual(sorted(p.name for p in self.destino.parent.iterdir()), ['SKILL.md'])
+
+    def test_sk2_un_archivo_ajeno_que_no_es_utf8_es_distinto_y_con_forzar_se_reemplaza(self):
+        self.destino.parent.mkdir(parents=True)
+        self.destino.write_bytes(b'\xff\xfe contenido en otra codificaci\xf3n\n')
+        r = self.correr('--instalar')
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn('--forzar', r.stderr)
+        self.assertNotIn('no pude escribir', r.stderr)
+        self.assertEqual(self.destino.read_bytes(), b'\xff\xfe contenido en otra codificaci\xf3n\n')
+        r = self.correr('--instalar', '--forzar')
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.destino.read_text(encoding='utf-8'), skill.texto())
+
+    def test_sk2_un_archivo_ajeno_con_el_nombre_del_temporal_no_se_pisa_ni_se_borra(self):
+        self.destino.parent.mkdir(parents=True)
+        for nombre in ('SKILL.md.tmp', '.SKILL.md.tmp', 'SKILL.md.bak'):
+            (self.destino.parent / nombre).write_text(f'ajeno {nombre}\n')
+        for args in (('--instalar',), ('--instalar', '--forzar')):
+            r = self.correr(*args)
+            self.assertEqual(r.returncode, 0, r.stderr)
+        for nombre in ('SKILL.md.tmp', '.SKILL.md.tmp', 'SKILL.md.bak'):
+            self.assertEqual((self.destino.parent / nombre).read_text(), f'ajeno {nombre}\n')
+        self.assertEqual(sorted(p.name for p in self.destino.parent.iterdir()), ['.SKILL.md.tmp', 'SKILL.md', 'SKILL.md.bak', 'SKILL.md.tmp'])
+        self.assertEqual(oct(self.destino.stat().st_mode & 0o777), '0o644')
 
     def test_sk2_forzar_sin_instalar_es_un_error_y_no_se_ignora_en_silencio(self):
         r = self.correr('--forzar')

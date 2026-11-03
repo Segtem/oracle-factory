@@ -1,0 +1,80 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-skill-agente/.factory/local/revisiones/f61bad8-agy2-flash-1",
+  "base": "9bc1edee8b08f970ed3cb1871e107fd6c40e2f3d",
+  "head": "f61bad8ef58fb98696341a5a8eff91d520523dc8",
+  "diff_sha256": "d2904d3759c5c1485f8a50cf7c97bf0c7f3aa4dd2d6fc95cb9a624895402e8bd",
+  "context_sha256": "e48f1b6d6606487942f1667895da826fa91f9fab97dbd158bc59e2e5cd7b747d",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "SKILL-FS-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "skill.instalar falla al reemplazar con --forzar si el archivo existente contiene bytes no decodificables como UTF-8",
+      "explanation": "En oracle_factory/skill.py::instalar, al verificar si el archivo existente coincide con el nuevo, se ejecuta destino.read_text(encoding='utf-8') == nuevo (línea 106) de forma incondicional antes de chequear el flag forzar. Si en la ruta destino ya existe un archivo propio que contiene secuencias binarias o una codificación incompatible con UTF-8 (como Latin-1, imágenes o contenido dañado), read_text lanza UnicodeDecodeError. La excepción es capturada en la línea 117 por except (OSError, UnicodeDecodeError) y relanzada como SkillError('no pude escribir...'). Esto genera dos fallas: 1) Con --forzar, la operación aborta y no sustituye el archivo, quebrando la promesa de --forzar de reemplazar un archivo distinto. 2) Sin --forzar, no informa adecuadamente al usuario que el archivo es distinto y que debe usar --forzar, sino que reporta un error engañoso de escritura fallida. Usar destino.read_bytes() == nuevo.encode('utf-8') o capturar UnicodeDecodeError para tratarlo como archivo no idéntico resuelve ambas situaciones.",
+      "location": {
+        "file": "oracle_factory/skill.py",
+        "start_line": 103,
+        "end_line": 118,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory skill --instalar --forzar` (o sin `--forzar`) cuando en `.claude/skills/oracle-factory/SKILL.md` ya existe un archivo con bytes que no son UTF-8 válido.",
+      "evidence": "Con un archivo que contiene b'\\xff\\xfe\\x00\\x00' en la ruta de la skill, invocar skill.instalar(root, forzar=True) produce: SkillError: no pude escribir .claude/skills/oracle-factory/SKILL.md: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte, impidiendo el reemplazo forzado.",
+      "related_requirement": "practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno",
+      "status": "pendiente",
+      "verification": "Crear un archivo con contenido binario b'\\xff\\xfe\\x00\\x00' en `.claude/skills/oracle-factory/SKILL.md` dentro de un proyecto temporal y ejecutar `oracle-factory skill --instalar --forzar` comprobando que falla en lugar de sobrescribir el archivo."
+    },
+    {
+      "id": "SKILL-VAL-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "comandos_nombrados no reconoce comandos invocados mediante rutas relativas o absolutas como .venv/bin/oracle-factory",
+      "explanation": "En oracle_factory/skill.py::comandos_nombrados, la condición if not palabras or palabras[0] != 'oracle-factory': continue (líneas 47-48) exige que el comando comience con la cadena exacta 'oracle-factory'. Cuando un comando se invoca precedido por su ruta (como `.venv/bin/oracle-factory` o `./.venv/bin/oracle-factory`), palabras[0] no coincide y el bloque entero es omitido. Esto causa dos problemas de impacto directo: 1) En la propia SKILL.md (sección 3, paso 5), la llamada `$(.venv/bin/oracle-factory ruta ID evidencia)` no es analizada y el subcomando `ruta` no se extrae en comandos_nombrados(skill.texto()) (el test solo verifica que ruta pertenezca a skill.subcomandos(), pero no que comandos_nombrados lo haya extraído de la skill). 2) La sección 2 de SKILL.md prescribe expresamente: «Dentro del worktree usá .venv/bin/oracle-factory, no el comando global». Si un autor o agente escribe un subcomando inexistente precedido por la ruta recomendada (ej. `$(.venv/bin/oracle-factory inventado ID evidencia)` o `.venv/bin/oracle-factory inventado`), skill.problemas() no lo detecta y pasa silenciosamente, eludiendo la validación de comandos inexistentes de la spec. Comprobar Path(palabras[0]).name == 'oracle-factory' o palabras[0].endswith('oracle-factory') permitiría validar correctamente cualquier invocación de la CLI.",
+      "location": {
+        "file": "oracle_factory/skill.py",
+        "start_line": 40,
+        "end_line": 56,
+        "side": "head"
+      },
+      "trigger": "Citar comandos con prefijo de ruta (e.g. `.venv/bin/oracle-factory subcomando`) dentro de fragmentos o bloques cercados de código en la skill.",
+      "evidence": "'ruta' in skill.comandos_nombrados(skill.texto()) evalúa a False a pesar de que SKILL.md incluye `$(.venv/bin/oracle-factory ruta ID evidencia)`. Al reemplazar 'ruta' por 'inventado' tras '.venv/bin/oracle-factory', skill.problemas() devuelve [] sin detectar el comando inexistente.",
+      "related_requirement": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "status": "pendiente",
+      "verification": "Ejecutar python -c \"from oracle_factory import skill; assert 'ruta' in skill.comandos_nombrados(skill.texto())\" y verificar que produce AssertionError."
+    },
+    {
+      "id": "SKILL-VAL-04",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "comandos_nombrados ignora silenciosamente verbos con guiones bajos o dígitos en vez de reportarlos como comandos inexistentes",
+      "explanation": "En oracle_factory/skill.py::comandos_nombrados, la línea 54 valida los nombres de comando con re.fullmatch(r'[a-z][a-z-]*', palabras[0]). El propósito declarado en el docstring es ignorar marcadores (como `…`) o marcadores de posición en mayúsculas (como `NOMBRE`). No obstante, la expresión regular rechaza caracteres comunes en errores tipográficos como guiones bajos (`_`) o dígitos (`0-9`). Por lo tanto, si la skill incluye un comando mal escrito usando snake_case (por ejemplo `oracle-factory pedir_revision` o `oracle-factory nuevo_cambio`) o sufijos numéricos (ej. `oracle-factory v2`), el token se descarta por completo y no se agrega a verbos para cotejarlo contra los subcomandos válidos, eludiendo la detección de subcomandos inválidos en skill.problemas().",
+      "location": {
+        "file": "oracle_factory/skill.py",
+        "start_line": 50,
+        "end_line": 56,
+        "side": "head"
+      },
+      "trigger": "Incluir en la skill un comando de Factory con un error tipográfico en snake_case (como `oracle-factory pedir_revision`) o con dígitos.",
+      "evidence": "skill.problemas(\"---\\nname: oracle-factory\\ndescription: d\\n---\\nHasta 150 líneas es ligero; más de 450 líneas, partir.\\nCon 4 rondas hay un bucle.\\n`oracle-factory pedir_revision ID`\", Path('.')) devuelve [] sin señalar que pedir_revision no existe.",
+      "related_requirement": "practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
+      "status": "pendiente",
+      "verification": "Comprobar que skill.comandos_nombrados('`oracle-factory pedir_revision`') devuelve un conjunto vacío en lugar de incluir pedir_revision para que sea detectado como comando inexistente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la suite completa de pruebas unitarias (1108 pruebas: 1108 OK, 10 saltadas, 0 fallas) en el checkout del candidato f61bad8 bajo Python 3.13 en Linux x86_64.",
+    "Se ejecutó la suite específica tests/test_skill_agente.py (26 pruebas, 0 fallas).",
+    "Se verificaron las tres capacidades funcionales de la spec (sk1, sk2, sk3) y el estado de cierre de los 8 hallazgos previos del candidato d206e22.",
+    "Se analizó la edición del test preexistente tests/datos/ayuda-cli.json (1 línea eliminada al actualizar el texto de la ayuda raíz que ahora incorpora el subcomando «skill» y su entrada correspondiente), concluyendo que es legítima y requerida por el cambio.",
+    "El empaquetado de data/skill/* en pyproject.toml se verificó de manera estática mediante inspección de configuración y pruebas unitarias, sin construir un wheel.",
+    "Se excluyeron los 19 archivos fuera del producto pertenecientes a metadatos, evidencias y registros de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas)."
+  ]
+}

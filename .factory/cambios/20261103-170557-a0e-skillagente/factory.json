@@ -281,6 +281,58 @@
         "factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo",
         "factory_skill_agente.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T21:26:13.745174+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "f61bad8",
+      "lanzamiento": "8c1d7cb6b3ba"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T21:26:14.094231+00:00",
+      "revisor": "codex",
+      "candidato": "f61bad8",
+      "lanzamiento": "fa3a036280d7"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T21:27:18.918302+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "f61bad8",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "fa3a036280d7"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-03T21:37:49.941757+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f61bad8",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "8c1d7cb6b3ba"
     }
   ],
   "tipos": {
