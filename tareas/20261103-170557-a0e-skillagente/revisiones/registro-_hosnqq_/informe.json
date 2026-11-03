@@ -1,0 +1,92 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261103-170557-a0e-skillagente",
+  "contexto": {
+    "head": "6cad461583ff338ae5c650db11a2711a9c108afb",
+    "archivos_sha256": "4b6b56337d07786b3a5da0eed84dc8c93cc4c00c42e33fd9be0bb5440437ace1"
+  },
+  "documentos": {
+    "openspec/changes/20261103-170557-a0e-skillagente/proposal.md": "c7f0ec318e2e2af6cd306ecf44bbc26eec1163677d93524d7613b4879572e4df",
+    "openspec/changes/20261103-170557-a0e-skillagente/specs/practicas/spec.md": "0e7751decb30650c0ae43645773f330e7c58eb3a6e982c6ca31ad2c3c57c0eb5"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "AGENTS.md",
+    "catalogos/factory_skill_agente.corrida_completa.oracle",
+    "catalogos/factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno.oracle",
+    "catalogos/factory_skill_agente.la_guia_para_agentes_nombra_la_skill.oracle",
+    "catalogos/factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo.oracle",
+    "docs/agentes.md",
+    "openspec/changes/20261103-170557-a0e-skillagente/design.md",
+    "openspec/changes/20261103-170557-a0e-skillagente/proposal.md",
+    "openspec/changes/20261103-170557-a0e-skillagente/specs/practicas/spec.md",
+    "openspec/changes/20261103-170557-a0e-skillagente/tasks.md",
+    "oracle_factory/agentes.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/data/skill/SKILL.md",
+    "oracle_factory/parser.py",
+    "oracle_factory/skill.py",
+    "pyproject.toml",
+    "requisitos/practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno.requisito",
+    "requisitos/practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill.requisito",
+    "requisitos/practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo.requisito",
+    "tests/datos/ayuda-cli.json",
+    "tests/test_skill_agente.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1111 pruebas, 29 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-170557-a0e-skillagente/candidatos/afd6a7c/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-170557-a0e-skillagente/candidatos/afd6a7c/revision/agy2-flash-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-170557-a0e-skillagente/candidatos/afd6a7c/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d206e22: agy (gemini-3.8-flash-high), 7 hallazgos: SKILL-FS-01 (media), SKILL-FS-02 (baja), SKILL-VAL-01 (media), SKILL-VAL-02 (baja), SKILL-TEST-01 (baja), SKILL-TEST-02 (informativa), SKILL-CLI-01 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-170557-a0e-skillagente/candidatos/d206e22/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d206e22: codex (gpt-6-luna), 1 hallazgo: skill-evidencia-salida (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-170557-a0e-skillagente/candidatos/d206e22/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f61bad8: agy (gemini-3.8-flash-high), 3 hallazgos: SKILL-FS-03 (media), SKILL-VAL-03 (media), SKILL-VAL-04 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-170557-a0e-skillagente/candidatos/f61bad8/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f61bad8: codex (gpt-6-luna), 1 hallazgo: SKILL-FS-03 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-170557-a0e-skillagente/candidatos/f61bad8/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "agy (gemini-3.8-flash-high): Se ejecutó la suite completa de pruebas unitarias (1111 pruebas: 1101 exitosas, 10 omitidas, 0 fallos) en el checkout del candidato afd6a7c bajo Python 3.13 en Linux x86_64.",
+    "agy (gemini-3.8-flash-high): Se ejecutó la suite específica tests/test_skill_agente.py (29 pruebas, 0 fallos).",
+    "agy (gemini-3.8-flash-high): Se verificaron las tres capacidades funcionales de la spec (sk1, sk2, sk3) y el estado de cierre de los 4 hallazgos de la segunda ronda (candidato f61bad8): 1) comparación por bytes sin decodificar UTF-8 ajeno antes de verificar --forzar, 2) temporal único mediante tempfile.mkstemp sin pisar archivos preexistentes, 3) reconocimiento de comandos con prefijo de ruta mediante rsplit, y 4) detección de verbos con guion bajo o dígitos como inexistentes.",
+    "agy (gemini-3.8-flash-high): Se realizaron 15 mutaciones de código en oracle_factory/skill.py en un entorno aislado, comprobando que todas fueron atrapadas (killed) por tests/test_skill_agente.py.",
+    "agy (gemini-3.8-flash-high): Se comprobó la coherencia fáctica de todas las afirmaciones, comandos (con sus opciones válidas), umbrales (150 líneas para camino ligero, 450 líneas para partir, 4 rondas para bucle, 50 líneas para paso) y documentos enlazados en oracle_factory/data/skill/SKILL.md.",
+    "agy (gemini-3.8-flash-high): Se verificó que la guía para agentes está al día mediante oracle-factory agentes --verificar.",
+    "agy (gemini-3.8-flash-high): Se analizó la edición del test preexistente tests/datos/ayuda-cli.json (1 línea eliminada/reemplazada en el snapshot de ayuda global para incorporar el subcomando «skill» y su ayuda correspondiente), concluyendo que es legítima, necesaria y requerida por la incorporación del nuevo subcomando.",
+    "agy (gemini-3.8-flash-high): El empaquetado de data/skill/* en pyproject.toml se comprobó de manera estática mediante inspección de configuración y pruebas unitarias, sin construir un archivo wheel.",
+    "agy (gemini-3.8-flash-high): Se excluyeron los 27 archivos fuera del producto pertenecientes a metadatos, evidencias y registros de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas).",
+    "codex (gpt-6-luna): Revisé la spec, propuesta incluida en el contexto, diff completo del paquete y las implementaciones y pruebas relevantes. No ejecuté la suite: el checkout candidato es de sólo lectura y ejecutar Python podría escribir __pycache__; la prueba de instalación está cubierta por casos de CLI en el diff, pero no la volví a ejecutar.",
+    "codex (gpt-6-luna): Los cuatro arreglos de la ronda anterior siguen presentes: comparar bytes antes de decidir sobre un destino no UTF-8, temporal único creado con mkstemp y limpieza limitada al propio temporal, basename para ejecutables con ruta y reconocimiento de verbos con guion bajo/dígitos. No encontré una regresión práctica en esos casos.",
+    "codex (gpt-6-luna): No encontré defectos de impacto práctico en skill.py, el texto de la skill, comando_skill, agentes.py, docs/agentes.md ni tests/test_skill_agente.py. Las afirmaciones comprobables de comandos, umbrales y enlaces de la skill concuerdan con parser, alarmas y documentos. El chequeo del paquete de distribución sigue siendo estático, como declara el cambio; no construye ni inspecciona un wheel.",
+    "codex (gpt-6-luna): La única edición de un test preexistente es tests/datos/ayuda-cli.json: actualiza la ayuda esperada para incluir el subcomando skill, cambio necesario por la nueva entrada de CLI; está justificada y no debilita una aserción de comportamiento."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
