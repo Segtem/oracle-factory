@@ -1,6 +1,6 @@
 # Una skill de agente con el flujo de Factory
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -99,3 +99,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-03 22:57:47 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261103-170557-a0e-skillagente/oracle-veredicto.txt.
+
+### Nota (2026-11-03 23:00:59 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:1a16d31929a125e2ad52bf668bb70bc00f5a1a18bc43f88d103244e9133e3e0e -->
+<!-- oracle-factory resumen sha256:83b6b1d0f20cb1fed9a8c90a49fccb73a8aee067b21b67c79d3defb6b64b0ad4 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-28 capacidades · 273 requisitos vigentes · 0 cambios abiertos
+28 capacidades · 276 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -347,6 +347,9 @@ Spec completa: [openspec/specs/practicas/spec.md](../openspec/specs/practicas/sp
 | el_estado_dice_si_el_candidato_califica_para_el_camino_ligero | funcional | `practicas_cbb21b20e98f56a94.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero` | factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero, factory_camino_ligero.corrida_completa | verde al cerrar el 2026-11-03 | 20261102-221210-70x-caminoligero |
 | el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente | funcional | `practicas_cbb21b20e98f56a94.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente` | factory_camino_ligero.el_camino_ligero_no_cambia_ninguna_decision_ni_paso_pendiente, factory_camino_ligero.corrida_completa | verde al cerrar el 2026-11-03 | 20261102-221210-70x-caminoligero |
 | la_guia_para_agentes_explica_el_camino_ligero | funcional | `practicas_cbb21b20e98f56a94.la_guia_para_agentes_explica_el_camino_ligero` | factory_camino_ligero.la_guia_para_agentes_explica_el_camino_ligero, factory_camino_ligero.corrida_completa | verde al cerrar el 2026-11-03 | 20261102-221210-70x-caminoligero |
+| la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo | funcional | `practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo` | factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo, factory_skill_agente.corrida_completa | verde al cerrar el 2026-11-03 | 20261103-170557-a0e-skillagente |
+| el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno | funcional | `practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno` | factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno, factory_skill_agente.corrida_completa | verde al cerrar el 2026-11-03 | 20261103-170557-a0e-skillagente |
+| la_guia_para_agentes_nombra_la_skill | funcional | `practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill` | factory_skill_agente.la_guia_para_agentes_nombra_la_skill, factory_skill_agente.corrida_completa | verde al cerrar el 2026-11-03 | 20261103-170557-a0e-skillagente |
 
 ### procedencia
 
@@ -1509,6 +1512,20 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261103-113909-oen-contratojson) codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_contrato_vscode -v </dev/null`: 17 pruebas pasaron (Pura, Registrador y Documento); las 3 pruebas Real fallaron durante el fixture por ModuleNotFoundError: oracle_metalenguaje, antes de validar el contrato contra proyectos reales. El checkout no tiene .venv, por lo que no pude usar el intérprete aislado declarado por el proyecto.
 - (20261103-113909-oen-contratojson) codex (gpt-6-luna): Verifiqué el arreglo del hallazgo previo de rutas: los casos con nombre base, ruta relativa y ruta absoluta esperan preservar la partición por comando, y un archivo desconocido ahora produce error. Por lectura, el resto de omisiones reportadas en rondas anteriores aparece cubierto en el contrato vigente. No detecté defectos de impacto práctico dentro del alcance pedido; quedan límites de verificación dinámica por dependencia ausente.
 - (20261103-113909-oen-contratojson) codex (gpt-6-luna): No modifiqué el checkout del candidato ni configuración de Git; no hice mutaciones porque el entorno de revisión no ofrece un entorno aislado instalado para probar mutaciones de producto.
+- (20261103-170557-a0e-skillagente) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261103-170557-a0e-skillagente) agy (gemini-3.8-flash-high): Se ejecutó la suite completa de pruebas unitarias (1111 pruebas: 1101 exitosas, 10 omitidas, 0 fallos) en el checkout del candidato afd6a7c bajo Python 3.13 en Linux x86_64.
+- (20261103-170557-a0e-skillagente) agy (gemini-3.8-flash-high): Se ejecutó la suite específica tests/test_skill_agente.py (29 pruebas, 0 fallos).
+- (20261103-170557-a0e-skillagente) agy (gemini-3.8-flash-high): Se verificaron las tres capacidades funcionales de la spec (sk1, sk2, sk3) y el estado de cierre de los 4 hallazgos de la segunda ronda (candidato f61bad8): 1) comparación por bytes sin decodificar UTF-8 ajeno antes de verificar --forzar, 2) temporal único mediante tempfile.mkstemp sin pisar archivos preexistentes, 3) reconocimiento de comandos con prefijo de ruta mediante rsplit, y 4) detección de verbos con guion bajo o dígitos como inexistentes.
+- (20261103-170557-a0e-skillagente) agy (gemini-3.8-flash-high): Se realizaron 15 mutaciones de código en oracle_factory/skill.py en un entorno aislado, comprobando que todas fueron atrapadas (killed) por tests/test_skill_agente.py.
+- (20261103-170557-a0e-skillagente) agy (gemini-3.8-flash-high): Se comprobó la coherencia fáctica de todas las afirmaciones, comandos (con sus opciones válidas), umbrales (150 líneas para camino ligero, 450 líneas para partir, 4 rondas para bucle, 50 líneas para paso) y documentos enlazados en oracle_factory/data/skill/SKILL.md.
+- (20261103-170557-a0e-skillagente) agy (gemini-3.8-flash-high): Se verificó que la guía para agentes está al día mediante oracle-factory agentes --verificar.
+- (20261103-170557-a0e-skillagente) agy (gemini-3.8-flash-high): Se analizó la edición del test preexistente tests/datos/ayuda-cli.json (1 línea eliminada/reemplazada en el snapshot de ayuda global para incorporar el subcomando «skill» y su ayuda correspondiente), concluyendo que es legítima, necesaria y requerida por la incorporación del nuevo subcomando.
+- (20261103-170557-a0e-skillagente) agy (gemini-3.8-flash-high): El empaquetado de data/skill/* en pyproject.toml se comprobó de manera estática mediante inspección de configuración y pruebas unitarias, sin construir un archivo wheel.
+- (20261103-170557-a0e-skillagente) agy (gemini-3.8-flash-high): Se excluyeron los 27 archivos fuera del producto pertenecientes a metadatos, evidencias y registros de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas).
+- (20261103-170557-a0e-skillagente) codex (gpt-6-luna): Revisé la spec, propuesta incluida en el contexto, diff completo del paquete y las implementaciones y pruebas relevantes. No ejecuté la suite: el checkout candidato es de sólo lectura y ejecutar Python podría escribir __pycache__; la prueba de instalación está cubierta por casos de CLI en el diff, pero no la volví a ejecutar.
+- (20261103-170557-a0e-skillagente) codex (gpt-6-luna): Los cuatro arreglos de la ronda anterior siguen presentes: comparar bytes antes de decidir sobre un destino no UTF-8, temporal único creado con mkstemp y limpieza limitada al propio temporal, basename para ejecutables con ruta y reconocimiento de verbos con guion bajo/dígitos. No encontré una regresión práctica en esos casos.
+- (20261103-170557-a0e-skillagente) codex (gpt-6-luna): No encontré defectos de impacto práctico en skill.py, el texto de la skill, comando_skill, agentes.py, docs/agentes.md ni tests/test_skill_agente.py. Las afirmaciones comprobables de comandos, umbrales y enlaces de la skill concuerdan con parser, alarmas y documentos. El chequeo del paquete de distribución sigue siendo estático, como declara el cambio; no construye ni inspecciona un wheel.
+- (20261103-170557-a0e-skillagente) codex (gpt-6-luna): La única edición de un test preexistente es tests/datos/ayuda-cli.json: actualiza la ayuda esperada para incluir el subcomando skill, cambio necesario por la nueva entrada de CLI; está justificada y no debilita una aserción de comportamiento.
 
 ### Históricos
 

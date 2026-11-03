@@ -2,7 +2,7 @@
   "id": "20261103-170557-a0e-skillagente",
   "titulo": "Una skill de agente con el flujo de Factory",
   "capacidad": "practicas",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261103-170557-a0e-skillagente/specs/practicas/spec.md",
   "spec_sha256": "0e7751decb30650c0ae43645773f330e7c58eb3a6e982c6ca31ad2c3c57c0eb5",
   "spec_aprobada": {
@@ -530,6 +530,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "14b849d32ebc8e1afe417bffac14ea4174183b88b89cf3a67ddf4a6da76b551d"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T23:00:59.407597+00:00",
+      "oracle": ".factory/cambios/20261103-170557-a0e-skillagente/oracle-veredicto.txt",
+      "revision": "tareas/20261103-170557-a0e-skillagente/revisiones/registro-_hosnqq_/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T23:00:59.446634+00:00",
+      "capacidad": "practicas",
+      "spec": "openspec/specs/practicas/spec.md"
     }
   ],
   "tipos": {
@@ -588,5 +608,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-03T23:00:59.345737+00:00"
+  },
+  "archivo": {
+    "capacidad": "practicas",
+    "spec": "openspec/specs/practicas/spec.md",
+    "cuando": "2026-11-03T23:00:59.446624+00:00"
+  }
 }
