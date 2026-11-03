@@ -1,7 +1,7 @@
 ---
 generado: oracle-factory kb
 id: "20261103-113909-oen-contratojson"
-fase: "requisitos_importados"
+fase: "revision_aprobada"
 capacidad: "ide"
 ---
 
@@ -9,7 +9,7 @@ capacidad: "ide"
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Fase: requisitos_importados
+- Fase: revision_aprobada
 - Capacidad: ide
 - Responsable: nadie
 - Spec: [openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md](../../openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md)
@@ -37,6 +37,7 @@ capacidad: "ide"
 - 2026-11-03 15:46 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-03 15:46 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-03 15:46 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-03 16:20 · Revisión registrada · Brian Hollweg (persona) — aprobar: Cuatro rondas con revisores independientes (agy2-flash y codex), la última con 0 y 0 sobre el candidato 0a8e4fd. Hallazgos por ronda, sumando los dos revisores: 14, 10, 1 y 0. La mayoría de las rondas 1 y 2 fueron de cobertura del contrato (el primer contrato salió sólo de lo que los estados de prueba hacían leer a la extensión): se enriquecieron los estados (cerrado con revisión, abierto con candidato y hallazgos de dos revisores, con propuesta de un agente, sin avanzar, con responsable y mensajes, abandonado), se completó el contrato con tipos tomados del código de la CLI y una nota donde son más anchos de lo observado, se agregó una revisión estática del texto de modelo.js y tablero.js por archivo y por comando (con accesos encadenados y nombres de archivo con o sin carpetas), el registrador intercepta in y lee varias instantáneas, y esperando y sesion se tratan como cosas de la extensión. Evidencia con éxito, producida por tools/verificar\_cambio.py: 1082 pruebas y 20 casos de contrato. En cada ronda se corrió una tanda de mutaciones sobre los arreglos; los sobrevivientes se cerraron con pruebas o se simplificó el código si eran equivalentes. Límite declarado en docs/tablero.md: la revisión estática compara por nombre, no por ruta, así que una clave con un nombre ya declarado bajo otro padre puede pasar sin que su ruta esté declarada.
 
 ## Riesgos aceptados
 
@@ -60,6 +61,7 @@ capacidad: "ide"
 - `0a8e4fd` contrato-json: registrar la confirmación de medidas por Brian (trailer)
 - `bd90ed8` contrato-json: registrar la cuarta ronda de revisiones y la evidencia (trailer)
 - `c21f250` contrato-json: proponer la aprobación de la revisión (trailer)
+- `b1bfe34` contrato-json: proponer la aprobación de la revisión (motivo corregido) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261103-113909-oen-contratojson`.
 
 ## Mensajes
