@@ -1,0 +1,20 @@
+{
+  "repo": "/home/workstation/Dev/factory-contrato-json/.factory/local/revisiones/0a8e4fd-codex-1",
+  "base": "781d72e9bae51fd3485a85a9d2cb5a83c61701b2",
+  "head": "0a8e4fd1f46552266cd2fd9226671918a9ab5ed9",
+  "diff_sha256": "9452825c75950a4cbf5a4d810ba5186cb07b569882bf58583d7a6b30f2afdb6e",
+  "context_sha256": "744d73f3c587c8ebc2760026ac1789a87a388e198eea6d8832ba1a2b10d7e7ef",
+  "schema_version": "oracle-clue.review/v1",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta, la spec y el diff del paquete; contrasté contrato.json con las lecturas de modelo.js/tablero.js, el registrador de tests/contrato_en_node.cjs y las salidas/productores relevantes. Inspeccioné docs/tablero.md y la implementación de tools/contrato_vscode.py.",
+    "Ejecuté `python -m unittest tests.test_contrato_vscode -v </dev/null`: 17 pruebas pasaron (Pura, Registrador y Documento); las 3 pruebas Real fallaron durante el fixture por ModuleNotFoundError: oracle_metalenguaje, antes de validar el contrato contra proyectos reales. El checkout no tiene .venv, por lo que no pude usar el intérprete aislado declarado por el proyecto.",
+    "Verifiqué el arreglo del hallazgo previo de rutas: los casos con nombre base, ruta relativa y ruta absoluta esperan preservar la partición por comando, y un archivo desconocido ahora produce error. Por lectura, el resto de omisiones reportadas en rondas anteriores aparece cubierto en el contrato vigente. No detecté defectos de impacto práctico dentro del alcance pedido; quedan límites de verificación dinámica por dependencia ausente.",
+    "No modifiqué el checkout del candidato ni configuración de Git; no hice mutaciones porque el entorno de revisión no ofrece un entorno aislado instalado para probar mutaciones de producto."
+  ]
+}

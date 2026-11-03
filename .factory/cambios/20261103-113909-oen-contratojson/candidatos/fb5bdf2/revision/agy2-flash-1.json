@@ -1,0 +1,42 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-contrato-json/.factory/local/revisiones/fb5bdf2-agy2-flash-1",
+  "base": "781d72e9bae51fd3485a85a9d2cb5a83c61701b2",
+  "head": "fb5bdf2c5b6eb332d7b4ee02fad9e1b2ebc8944a",
+  "diff_sha256": "a5fe61f14af800d996c2b115cdf83432ce8a19e34edab1bce59802354c34813b",
+  "context_sha256": "c303ed127696d58dea5cff66dde2d147d663710f595b411d2d1f265e895be85b",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "comprobar-codigo-ignora-rutas-en-archivos",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "comprobar_el_codigo degrada a mezclar todos los comandos cuando las claves de textos_js incluyen rutas de archivo",
+      "explanation": "En tools/contrato_vscode.py:128, comprobar_el_codigo determina los comandos asociados a cada archivo mediante comandos = JSON_DE_CADA_ARCHIVO.get(archivo, tuple(contrato)). Dado que JSON_DE_CADA_ARCHIVO está indexado sólo por nombres base (\"modelo.js\", \"tablero.js\"), si un llamador pasa rutas relativas o absolutas (por ejemplo editores/vscode/modelo.js o str(path)), .get(archivo) no coincide y cae al valor por defecto tuple(contrato) (todos los comandos). Esto degrada silenciosamente la partición por comando agregada en la ronda 2, permitiendo que una clave propia de tablero (como yo) pase desapercibida en modelo.js si se utiliza la ruta del archivo en lugar de sólo su nombre base.",
+      "location": {
+        "file": "tools/contrato_vscode.py",
+        "start_line": 128,
+        "end_line": 128,
+        "side": "head"
+      },
+      "trigger": "Invocar comprobar_el_codigo(contrato, {\"editores/vscode/modelo.js\": \"r.yo;\"}) con rutas en las claves de textos_js.",
+      "evidence": "PYTHONPATH=. python3 -c 'from tools import contrato_vscode as cv; print(cv.comprobar_el_codigo(cv.cargar(), {\"editores/vscode/modelo.js\": \"r.yo;\"}))' retorna [] en lugar del error esperado de que .yo no pertenece a resumen/estado/donde.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Ejecutar cv.comprobar_el_codigo(contrato, {\"editores/vscode/modelo.js\": \"r.yo;\"}) y verificar que detecte el problema igual que con {\"modelo.js\": \"r.yo;\"}."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó el diff completo contra el paquete de Clue, la propuesta openspec, la especificación en openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md, y el código fuente en Python y JavaScript de la CLI y de la extensión de VS Code.",
+    "Se ejecutó la suite completa de pruebas del repositorio (1081 pruebas, OK), la suite específica de contrato (19 pruebas en tests/test_contrato_vscode.py, OK) con unittest y Node.js, y el registrador dinámico de lecturas con proxy (tests/contrato_en_node.cjs).",
+    "Se auditó exhaustivamente y línea por línea el código de modelo.js y tablero.js contrastándolo con contrato.json y las estructuras generadas por la CLI (oracle_factory/tablero.py, lecturas.py, resumen.py y cli.py).",
+    "Se realizaron mutaciones manuales y pruebas de borde sobre la expresión regular de nombres_en_el_codigo, la comprobación estática por archivo y los casos límite de tipos y opcionalidad.",
+    "No se ejecutó la extensión dentro de una interfaz gráfica real de VS Code ni se probaron sesiones de Live Share sobre la red entre múltiples máquinas (ambas cubiertas por contratos, mocks y análisis estático).",
+    "No se editó el checkout del candidato ni se modificó la configuración de Git de ningún repositorio."
+  ]
+}

@@ -99,6 +99,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261101-205730-dm3-alarmasflujo]] — Avisar de los bucles de revisión y de los cambios demasiado grandes (cerrada)
 - [[cambios/20261102-000745-j7r-verificadorgenerico]] — Un verificador reutilizable para la evidencia de cada cambio (cerrada)
 - [[cambios/20261102-221210-70x-caminoligero]] — Un camino ligero de revisión para los cambios chicos (cerrada)
+- [[cambios/20261103-113909-oen-contratojson]] — Pruebas de contrato entre la CLI y la extensión de VS Code (cerrada)
 
 ## Requisitos
 
@@ -264,6 +265,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero]]
 - [[requisitos/ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas]]
 - [[requisitos/ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code]]
+- [[requisitos/ide_cc0ded3b7b46b23f7.el_documento_explica_como_actualizar_el_contrato]]
+- [[requisitos/ide_cc0ded3b7b46b23f7.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido]]
+- [[requisitos/ide_cc0ded3b7b46b23f7.la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara]]
 - [[requisitos/landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia]] (ya no vigente)
 - [[requisitos/landing_page_c27184b22c91734e3.distinguir_responsabilidades_y_madurez_de_herramientas]] (ya no vigente)
 - [[requisitos/landing_page_c27184b22c91734e3.explicar_la_produccion_de_software_con_oracle_factory]] (ya no vigente)

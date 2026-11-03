@@ -1,0 +1,193 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-contrato-json/.factory/local/revisiones/58363a1-agy2-flash-1",
+  "base": "781d72e9bae51fd3485a85a9d2cb5a83c61701b2",
+  "head": "58363a1c9e38e8eac43f35a472d42848ced04535",
+  "diff_sha256": "2adbe6e554001dd05cd075ec8709a9ecbd0a50cbd01ba7dee61cddf41c98233f",
+  "context_sha256": "5b2e300ab665c0b065ce6a610a76df96bfc9cac118f19c281a6bdbb3582f80d0",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "regex-nombres-codigo-omite-accesos-encadenados",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "nombres_en_el_codigo omite propiedades en accesos encadenados de más de un nivel",
+      "explanation": "En tools/contrato_vscode.py:114, nombres_en_el_codigo utiliza la expresión regular r\"(?<![\\w$])(?:\\w+|\\)|\\])\\s*\\??\\.(\\w+)(?!\\w)(?!\\s*\\()\" para auditar estáticamente lecturas en el código de la extensión y cubrir ramas no ejercitadas por las pruebas. Al consumir el identificador base antes del punto, en cualquier acceso encadenado como a.b.c el motor regex consume a.b; la siguiente posición evaluada es .c, donde el carácter inmediatamente precedente es b (un carácter de palabra). Por ello, el lookbehind negativo (?<![\\w$]) falla y omite c. En accesos de tres niveles (a.b.c) se pierde c; en accesos de cuatro niveles (a.b.c.d) se pierde el nivel intermedio. En tablero.js, esto provoca que propiedades como guardado_por (en e.detalle.guardado_por), desde (en q.responsable.desde), medidos y cumplidos (en m.requisitos.*) o abiertos, cerrados y abandonados (en p.cambios.*) sean invisibles para la herramienta. Como consecuencia directa, comprobar_el_codigo tiene un punto ciego y no detecta accesos encadenados a propiedades no declaradas en ramas no ejercitadas.",
+      "location": {
+        "file": "tools/contrato_vscode.py",
+        "start_line": 111,
+        "end_line": 115,
+        "side": "head"
+      },
+      "trigger": "Cualquier acceso a propiedades encadenadas con profundidad mayor a 1 en el código de la extensión (por ejemplo: if (raro) return e.detalle.campo_nuevo;).",
+      "evidence": "Al evaluar nombres_en_el_codigo(\"e.detalle.guardado_por\") el resultado es {\"detalle\"}, omitiendo \"guardado_por\". Al evaluar \"a.b.c\" devuelve sólo {\"b\"}. En comprobar_el_codigo({\"estado\": [{\"ruta\": \"detalle\", \"tipos\": [\"object\"]}]}, {\"modelo.js\": \"if (raro) return e.detalle.campo_nuevo;\"}) la función retorna lista vacía en lugar de denunciar \"campo_nuevo\".",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Ejecutar nombres_en_el_codigo(\"e.detalle.campo_nuevo\") en Python y verificar que \"campo_nuevo\" no forma parte del conjunto retornado."
+    },
+    {
+      "id": "contrato-revisores-en-curso-omite-elementos",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Omisión de elementos y propiedades de cambios[].quien.revisores_en_curso en contrato.json",
+      "explanation": "En editores/vscode/tablero.js:87, quien() mapea q.revisores_en_curso accediendo a v.revisor, v.candidato y v.cuando (q.revisores_en_curso.map(v => `...${esc(v.revisor)}...${esc(v.candidato)}...${hora(v.cuando)}`)). La CLI genera esta lista en oracle_factory/cli.py:985 (\"revisores_en_curso\": [{\"revisor\": e.get(\"revisor\"), \"candidato\": e.get(\"candidato\"), \"cuando\": e.get(\"cuando\")} for e in lanzamientos_abiertos(estado)]). Sin embargo, editores/vscode/contrato.json:804-809 declara la clave únicamente como un arreglo genérico {\"ruta\": \"cambios[].quien.revisores_en_curso\", \"tipos\": [\"array\"]}, omitiendo por completo sus elementos cambios[].quien.revisores_en_curso[] y sus propiedades hijas .revisor, .candidato y .cuando. En tests/test_contrato_vscode.py:Real.estados(), la suite sólo prueba candidatos con revisiones ya resueltas (self.pedir), por lo que lanzamientos_abiertos siempre está vacío, enmascarando el defecto. Cuando un cambio tiene una revisión en curso y se abre el tablero en VS Code, comprobar_la_extension falla.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 804,
+        "end_line": 809,
+        "side": "head"
+      },
+      "trigger": "Abrir el tablero en VS Code o ejecutar comprobar_la_extension en un proyecto donde un cambio tenga una revisión pedida e independiente en curso.",
+      "evidence": "contrato.json carece de entradas para cambios[].quien.revisores_en_curso[], .revisor, .candidato y .cuando. Al ejecutar tests/contrato_en_node.cjs sobre un tablero con un revisor en curso, el registrador anota dichas rutas y comprobar_la_extension reporta que el contrato no las declara.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Ejecutar tests/contrato_en_node.cjs pasando un tablero con un elemento en revisores_en_curso: comprobar_la_extension falla denunciando que el contrato no declara cambios[].quien.revisores_en_curso[].revisor, .candidato ni .cuando."
+    },
+    {
+      "id": "contrato-proximo-paso-humano-y-guardado-por-omitidos",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Omisión persistente de cambios[].proximo_paso.humano y cambios[].linea_de_tiempo[].detalle.guardado_por",
+      "explanation": "En editores/vscode/tablero.js:61, la función nadaPorHacer(c, dueno) lee p.humano cuando !dueno && p && p.comando && !p.decision_de_la_persona. En tablero.js:158, chat(c, s) lee e.detalle.guardado_por para mensajes con detalle.via (\"live-share\"). Ambas claves son producidas por la CLI: oracle_factory/tablero.py:205 genera \"humano\": humano en _paso, y tablero.py:292 incluye \"guardado_por\" en detalle. Ninguna de las dos está declarada en editores/vscode/contrato.json (líneas 716-742 omiten cambios[].proximo_paso.humano y líneas 510-575 omiten cambios[].linea_de_tiempo[].detalle.guardado_por). Este problema fue señalado en la ronda 1 (hallazgo contrato-proximo-paso-humano-y-guardado-por-omitidos) y continúa pendiente en la ronda 2.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 716,
+        "end_line": 742,
+        "side": "head"
+      },
+      "trigger": "Un cambio cuyo próximo paso sea un comando automático para un agente sin dueño asignado, o un cambio con mensajes guardados vía Live Share.",
+      "evidence": "contrato.json lista comando, decision_de_la_persona y texto bajo cambios[].proximo_paso pero omite humano. Bajo cambios[].linea_de_tiempo[].detalle lista 8 claves pero omite guardado_por. Al ejecutar contrato_en_node.cjs con un próximo paso de agente o un mensaje con guardado_por, se registran ambas rutas y comprobar_la_extension falla.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Ejecutar contrato_en_node.cjs con un cambio con proximo_paso automático y sin dueño: comprobar_la_extension reporta «tablero: la extensión lee «cambios[].proximo_paso.humano» y el contrato no la declara»."
+    },
+    {
+      "id": "contrato-tablero-yo-omite-null",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "yo en tablero no admite null cuando no está configurado user.name en Git",
+      "explanation": "En oracle_factory/tablero.py:301-308, la clave yo se calcula leyendo git config user.name y se retorna como \"yo\": yo or None. Si Git no tiene configurado un nombre de usuario (en entornos de integración continua, contenedores limpios o perfiles iniciales), la CLI entrega \"yo\": null. En editores/vscode/tablero.js:168, cambio() maneja este caso sin problemas (dueno = responsable && responsable !== yo ? responsable : null). Sin embargo, editores/vscode/contrato.json:1080-1086 declara \"yo\" exclusivamente con \"tipos\": [\"string\"]. En cualquier máquina sin user.name configurado, comprobar_la_cli falla.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 1080,
+        "end_line": 1086,
+        "side": "head"
+      },
+      "trigger": "Ejecutar la suite de contrato o comprobar_la_cli en un sistema o contenedor donde git config user.name esté vacío o no exista.",
+      "evidence": "oracle_factory/tablero.py:308 entrega \"yo\": yo or None (tipo str | None). contrato.json:1082 declara \"tipos\": [\"string\"]. Al evaluar cv.comprobar_la_cli(cv.cargar(), {\"tablero\": [{\"yo\": None}]}) se obtiene: \"tablero: «yo» esperaba string y la CLI dio null\".",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Ejecutar comprobar_la_cli sobre una salida de tablero con yo: null; la verificación falla."
+    },
+    {
+      "id": "contrato-alternativas-comando-omite-null",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "cambios[].alternativas[].comando no admite null para alternativas instructivas",
+      "explanation": "En oracle_factory/tablero.py:198-205, la función _paso(texto) define comando = texto if texto.startswith(\"oracle-factory \") else None. Cuando una alternativa no es un comando de CLI sino una indicación textual (\"hacelo vos\", notas para la persona), comando se entrega como null. En editores/vscode/contrato.json:291-296, cambios[].alternativas[].comando se declaró con \"tipos\": [\"string\"], omitiendo null (a diferencia de cambios[].proximo_paso.comando que sí admite null). En tablero.js:41, p.comando se evalúa condicionalmente soportando null. Ante un cambio con alternativas instructivas, comprobar_la_cli falla.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 291,
+        "end_line": 296,
+        "side": "head"
+      },
+      "trigger": "Un cambio abierto que presente alternativas de acción no ejecutables como comandos de oracle-factory.",
+      "evidence": "contrato.json:291-296 define \"tipos\": [\"string\"] para cambios[].alternativas[].comando. cv.comprobar_la_cli(cv.cargar(), {\"tablero\": [{\"cambios\": [{\"alternativas\": [{\"comando\": None, \"decision_de_la_persona\": False, \"texto\": \"hacer x\"}]}]}]}) produce: \"tablero: «cambios[].alternativas[].comando» esperaba string y la CLI dio null\".",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Ejecutar comprobar_la_cli suministrando una alternativa con comando: null."
+    },
+    {
+      "id": "contrato-hallazgos-archivo-y-linea-omiten-null",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "cambios[].hallazgos[].archivo y cambios[].hallazgos[].linea no admiten null en hallazgos globales o de archivo completo",
+      "explanation": "En oracle_factory/tablero.py:266-267, los campos de ubicación de un hallazgo se construyen como \"archivo\": archivo if isinstance(archivo, str) else None y \"linea\": lugar.get(\"start_line\") if isinstance(lugar.get(\"start_line\"), int) else None. Los informes de revisores (especialmente en revisiones independientes de arquitectura, Git o configuración) frecuentemente generan hallazgos generales sin archivo asociado o hallazgos sobre archivos enteros sin línea inicial. En editores/vscode/tablero.js:74, la función abrir(h.archivo, h.linea, ...) contempla expresamente h.archivo nulo (\"(sin archivo)\") y h.linea nula. En contrato.json:438-455, archivo se declaró como [\"string\"] y linea como [\"number\"], omitiendo null en ambos.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 438,
+        "end_line": 455,
+        "side": "head"
+      },
+      "trigger": "Un informe de revisor independiente que contenga un hallazgo sin atributo file en location o sin start_line numérico.",
+      "evidence": "tablero.py:266-267 genera valores None para archivo y linea cuando no son str o int. contrato.json:438-455 no incluye null en sus tipos permitidos. comprobar_la_cli falla ante tales hallazgos con «esperaba string y la CLI dio null» y «esperaba number y la CLI dio null».",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Ejecutar comprobar_la_cli suministrando un hallazgo con archivo: null y linea: null."
+    },
+    {
+      "id": "contrato-quien-agentes-cuando-y-ultima-accion-omiten-null",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "cambios[].quien.agentes[].cuando y ultima_accion no admiten null para agentes declarados sin actividad",
+      "explanation": "En oracle_factory/cli.py:970-983, cuando un agente ha sido declarado en el cambio (por ejemplo, con oracle-factory tomar ID --con NOMBRE o por evento agente_sumado) pero aún no ha realizado ninguna acción registrada en dicho cambio, ultimas.get(nombre) es None. En consecuencia, la CLI entrega \"ultima_accion\": None y \"cuando\": None. En editores/vscode/tablero.js:85, la plantilla evalúa a.ultima_accion ? ... : \"\", tolerando valores nulos e imprimiendo únicamente (declarado). Sin embargo, editores/vscode/contrato.json:761-784 declara tanto cuando como ultima_accion exclusivamente como [\"string\"]. Ante un cambio con agente declarado sin actividad previa, comprobar_la_cli falla.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 761,
+        "end_line": 784,
+        "side": "head"
+      },
+      "trigger": "Tomar un cambio asociando un agente (oracle-factory tomar ID --con agente) antes de que el agente ejecute comandos en el cambio.",
+      "evidence": "cli.py:983 genera \"ultima_accion\": (ultima or {}).get(\"accion\"), \"cuando\": (ultima or {}).get(\"cuando\"). Al probar con un agente declarado y sin acciones, cli.quien_del_cambio retorna ultima_accion: None y cuando: None. cv.comprobar_la_cli falla con «esperaba string y la CLI dio null» para ambas claves.",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Pasar a comprobar_la_cli un objeto con quien.agentes conteniendo un agente con ultima_accion: null y cuando: null."
+    },
+    {
+      "id": "contrato-requisitos-archivo-y-medidas-archivo-omiten-null",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "requisitos[].archivo y medidas[].archivo en tablero no admiten null cuando el archivo no existe en disco",
+      "explanation": "En oracle_factory/tablero.py:278 y línea 280, el atributo archivo tanto para el requisito como para cada medida se calcula con: path.relative_to(raiz).as_posix() if path.is_file() else None. Si el catálogo de una medida o el archivo de requisito no existe físicamente en el árbol (por ejemplo antes de crearse o si fue movido o eliminado), la CLI entrega None. En editores/vscode/tablero.js:105-106, abrir() verifica if (!archivo) return esc(texto) manejando null con seguridad. Sin embargo, en editores/vscode/contrato.json:822-826 y 869-874 se declaró archivo sólo como [\"string\"], omitiendo null.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 822,
+        "end_line": 874,
+        "side": "head"
+      },
+      "trigger": "Un cambio con requisitos o medidas cuyo archivo de especificación o catálogo en catalogos/ no exista como fichero en disco.",
+      "evidence": "oracle_factory/tablero.py:278 y 280 retornan None si is_file() es falso. contrato.json restringe ambas claves a [\"string\"]. comprobar_la_cli falla con «esperaba string y la CLI dio null».",
+      "related_requirement": "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido",
+      "status": "pendiente",
+      "verification": "Ejecutar comprobar_la_cli suministrando requisitos o medidas con archivo: null."
+    },
+    {
+      "id": "contrato-faltan-omite-texto",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Omisión de cambios[].faltan[].texto en contrato.json",
+      "explanation": "En editores/vscode/tablero.js:53, faltante(cambio) accede a x.humano || x.texto. En oracle_factory/tablero.py:188-191, _faltan genera diccionarios con texto, humano y quien. En editores/vscode/contrato.json:407-419 se declararon cambios[].faltan[].humano y cambios[].faltan[].quien, pero se omitió cambios[].faltan[].texto. Si un pendiente tiene humano vacío, la extensión recurre a texto; al no estar declarada en el contrato, comprobar_la_extension reportará la lectura como no declarada.",
+      "location": {
+        "file": "editores/vscode/contrato.json",
+        "start_line": 407,
+        "end_line": 419,
+        "side": "head"
+      },
+      "trigger": "Un elemento en faltan donde la descripción humana esté vacía o nula.",
+      "evidence": "tablero.js:53 lee x.texto en fallback de x.humano. contrato.json:407-419 no declara cambios[].faltan[].texto. Al evaluar con humano: \"\", contrato_en_node.cjs registra cambios[].faltan[].texto y comprobar_la_extension falla.",
+      "related_requirement": "la_extension_solo_lee_de_los_json_de_la_cli_lo_que_el_contrato_declara",
+      "status": "pendiente",
+      "verification": "Ejecutar contrato_en_node.cjs sobre un tablero con un ítem en faltan con humano: \"\"."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó el diff completo contra el paquete de Clue, la propuesta openspec, la especificación en openspec/changes/20261103-113909-oen-contratojson/specs/ide/spec.md, y el código fuente en Python y JavaScript de la CLI y de la extensión de VS Code.",
+    "Se ejecutaron los tests unitarios e integrados (tests/test_contrato_vscode.py) con unittest y Node.js.",
+    "Se contrastaron exhaustivamente todas las salidas JSON generadas por oracle_factory (tablero.py, lecturas.py, resumen.py, cli.py) contra las definiciones de editores/vscode/contrato.json y el comportamiento de tools/contrato_vscode.py y tests/contrato_en_node.cjs.",
+    "Se realizaron mutaciones y pruebas de borde en scripts independientes para comprobar falsos negativos y verificar que las anomalías no se deban a artefactos de prueba.",
+    "No se editó el checkout del candidato ni se modificó la configuración de Git."
+  ]
+}
