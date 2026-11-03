@@ -346,6 +346,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "310a3c9d3bf9"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-03T00:27:41.509693+00:00",
+      "decision": "aprobar",
+      "candidato": "02f195b"
     }
   ],
   "tipos": {
@@ -403,5 +413,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Dos rondas con revisores independientes (agy2-flash y codex): ronda 1, 7 hallazgos (6 de flash, 1 de codex); ronda 2, 0 y 0 sobre el candidato 02f195b. De la ronda 1: alarmas.py faltaba entre las reglas de decisión (se sumó por decisión de Brian, con reaprobación de la spec), la prueba de la guía era tautológica (ahora hay otra con literales), docs/agentes.md no tenía prueba (hay una) y cuatro huecos de cómputo (binarios, borrados, renombres puros de pruebas a producto y copias sin origen modificado) se declararon como límites conocidos en docs/agentes.md; los revisores de la ronda 2 los vieron y no los objetaron. Evidencia con éxito, producida por tools/verificar_cambio.py: 1062 pruebas y 21 casos de contrato. Mutaciones en tres tandas; los mutantes que sobrevivían se cerraron con pruebas y el equivalente (la condición de abandonado, redundante porque un cambio abandonado no tiene candidato) se eliminó simplificando el código. Declarado: tests/datos/cli_texto/estado.txt, la referencia de texto de estado, recibió una línea nueva sin quitar ninguna; ambos revisores la vieron. Es una orientación, no un gate: los pasos pendientes, el próximo paso y quién decide no cambian (hay una prueba).",
+      "candidato": "02f195b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-03T00:27:41.509673+00:00"
+    }
+  }
 }
