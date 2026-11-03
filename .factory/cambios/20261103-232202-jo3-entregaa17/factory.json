@@ -2,11 +2,25 @@
   "id": "20261103-232202-jo3-entregaa17",
   "titulo": "Preparar la distribución 0.1.0a17",
   "capacidad": "distribucion",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261103-232202-jo3-entregaa17/specs/distribucion/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "8b05b831ee43b4a4986182b7a75371c0687ae6f54b0e5f27a9e89c208923bb3b",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-03T23:24:57.441769+00:00",
+    "documentos": {
+      "openspec/changes/20261103-232202-jo3-entregaa17/proposal.md": "14a3e03f215bf5e1aba63e532433c74ca5569fe221ec7014bda4d359708f16ac",
+      "openspec/changes/20261103-232202-jo3-entregaa17/specs/distribucion/spec.md": "8b05b831ee43b4a4986182b7a75371c0687ae6f54b0e5f27a9e89c208923bb3b"
+    }
+  },
+  "requisitos": [
+    "distribucion_c4b4c8c6521232d76.el_wheel_a17_instalado_ofrece_lo_nuevo",
+    "distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites",
+    "distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +33,38 @@
       "forma": "decidio",
       "cuando": "2026-11-03T23:22:02.197748+00:00",
       "capacidad": "distribucion"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T23:24:57.441794+00:00",
+      "documentos": {
+        "openspec/changes/20261103-232202-jo3-entregaa17/proposal.md": "14a3e03f215bf5e1aba63e532433c74ca5569fe221ec7014bda4d359708f16ac",
+        "openspec/changes/20261103-232202-jo3-entregaa17/specs/distribucion/spec.md": "8b05b831ee43b4a4986182b7a75371c0687ae6f54b0e5f27a9e89c208923bb3b"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-03T23:25:08.958374+00:00",
+      "ids": [
+        "distribucion_c4b4c8c6521232d76.el_wheel_a17_instalado_ofrece_lo_nuevo",
+        "distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites",
+        "distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "distribucion_c4b4c8c6521232d76.el_wheel_a17_instalado_ofrece_lo_nuevo": "funcional",
+    "distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites": "funcional",
+    "distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

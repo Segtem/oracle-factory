@@ -7,3 +7,11 @@
 ### Nota (2026-11-03 23:22:02 UTC)
 
 OpenSpec: openspec/changes/20261103-232202-jo3-entregaa17. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-11-03 23:24:57 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261103-232202-jo3-entregaa17/specs/distribucion/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-03 23:25:09 UTC)
+
+Requisitos importados: distribucion_c4b4c8c6521232d76.el_wheel_a17_instalado_ofrece_lo_nuevo (funcional), distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites (funcional), distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
