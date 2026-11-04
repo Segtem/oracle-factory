@@ -27,3 +27,15 @@ Medidas de distribucion_c4b4c8c6521232d76.el_wheel_a17_instalado_ofrece_lo_nuevo
 ### Nota (2026-11-03 23:41:02 UTC)
 
 Medidas de distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites: factory_entrega_a17.la_entrega_a17_registra_sus_hashes_y_sus_limites, factory_entrega_a17.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-04 00:37:53 UTC)
+
+Medidas de distribucion_c4b4c8c6521232d76.el_wheel_a17_instalado_ofrece_lo_nuevo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-04 00:37:53 UTC)
+
+Medidas de distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-04 00:37:53 UTC)
+
+Medidas de distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado: Brian Hollweg (persona, confirmo, modo confirmacion).
