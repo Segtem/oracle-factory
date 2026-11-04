@@ -21,7 +21,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "0.1.0a17"
 SKILL_EN_EL_WHEEL = "oracle_factory/data/skill/SKILL.md"
-SUBCOMANDOS_NUEVOS = ("skill", "puerta")
+SUBCOMANDOS_NUEVOS = ("skill", "puerta", "hooks")
 LIMITES = (
     "No publica nada: ni PyPI, ni el tag, ni la release de GitHub.",
     "La construcción no es reproducible bit a bit: los hashes dicen qué se probó, no que otra construcción dé los mismos.",
@@ -80,7 +80,8 @@ def observar(wheel: Path, factory: Path, python: Path, trabajo: Path, raiz: Path
     r = correr([str(python), "-c", "import oracle_factory, sys; print(oracle_factory.__file__); print(oracle_factory.__version__)"], cwd=trabajo, env=env)
     archivo, version = (r.stdout.splitlines() + ["", ""])[:2]
     obs["importacion"] = {"rc": r.returncode, "archivo": archivo, "version": version,
-                          "desde_el_checkout": bool(archivo) and raiz.resolve() in Path(archivo).resolve().parents}
+                          "desde_el_checkout": bool(archivo) and raiz.resolve() in Path(archivo).resolve().parents,
+                          "en_el_entorno": bool(archivo) and python.parent.parent.resolve() in Path(archivo).resolve().parents}
     r = correr([str(factory), "--version"], cwd=trabajo, env=env)
     obs["cli_version"] = {"rc": r.returncode, "salida": r.stdout.strip()}
     for nombre in SUBCOMANDOS_NUEVOS:
@@ -116,7 +117,7 @@ def validar(obs: dict, version: str = VERSION) -> list[str]:
     imp = obs.get("importacion", {})
     if imp.get("rc") != 0 or imp.get("version") != version:
         p.append(f"la versión importada es «{imp.get('version')}» y debería ser {version}")
-    if imp.get("desde_el_checkout") or not imp.get("archivo"):
+    if imp.get("desde_el_checkout") or not imp.get("archivo") or not imp.get("en_el_entorno"):
         p.append(f"el módulo se importa de «{imp.get('archivo')}», fuera del entorno nuevo")
     if obs.get("cli_version", {}) != {"rc": 0, "salida": f"oracle-factory {version}"}:
         p.append(f"oracle-factory --version dice «{obs.get('cli_version', {}).get('salida')}»")
@@ -180,6 +181,7 @@ def main(argv=None) -> int:
     problemas = validar(obs)
     reg = registro(artefactos, obs, problemas)
     problemas += problemas_del_registro(reg)
+    reg["ok"] = not problemas  # `problemas` es la lista del registro: tras sumar los suyos, el «ok» se vuelve a calcular
     (salida / "registro.json").write_text(json.dumps(reg, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Entrega {VERSION}: {'ok' if not problemas else 'CON PROBLEMAS'}; wheel {reg['hashes']['wheel'][:12]}, sdist {reg['hashes']['sdist'][:12]}; registro en {salida / 'registro.json'}")
     for linea in problemas:

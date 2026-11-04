@@ -15,10 +15,11 @@ from tools import docs_al_dia, probar_entrega_a17 as pr  # noqa: E402
 VERSION = "0.1.0a17"
 BUENA = {
     "archivos_del_wheel": ["oracle_factory/__init__.py", pr.SKILL_EN_EL_WHEEL],
-    "importacion": {"rc": 0, "archivo": "/entorno/lib/oracle_factory/__init__.py", "version": VERSION, "desde_el_checkout": False},
+    "importacion": {"rc": 0, "archivo": "/entorno/lib/oracle_factory/__init__.py", "version": VERSION, "desde_el_checkout": False, "en_el_entorno": True},
     "cli_version": {"rc": 0, "salida": f"oracle-factory {VERSION}"},
     "ayuda_skill": {"rc": 0, "usage": "usage: oracle-factory skill [-h]"},
     "ayuda_puerta": {"rc": 0, "usage": "usage: oracle-factory puerta [-h]"},
+    "ayuda_hooks": {"rc": 0, "usage": "usage: oracle-factory hooks [-h]"},
     "skill": {"rc": 0, "empieza_bien": True, "largo": 5000},
     "skill_instalar": {"rc": 0, "stdout": "Skill instalada", "archivo_existe": True, "igual_a_la_del_comando": True},
     "puerta": {"rc": 0, "salida": "Puerta local de salida"},
@@ -88,7 +89,7 @@ class Juicio(unittest.TestCase):
         for camino, dicen in ((("skill_instalar", "rc"), "skill --instalar"), (("skill_instalar", "archivo_existe"), "skill --instalar"),
                               (("skill_instalar", "igual_a_la_del_comando"), "skill --instalar"), (("skill", "empieza_bien"), "oracle-factory skill"),
                               (("puerta", "rc"), "puerta"), (("agentes", "nombra_la_skill"), "agentes"), (("agentes", "nombra_el_camino_ligero"), "agentes"),
-                              (("ayuda_skill", "rc"), "skill"), (("ayuda_puerta", "usage"), "puerta")):
+                              (("ayuda_skill", "rc"), "skill"), (("ayuda_puerta", "usage"), "puerta"), (("ayuda_hooks", "rc"), "hooks")):
             with self.subTest(camino=camino):
                 [p] = self.roto(*camino, valor=1 if camino[-1] == "rc" else False if camino[-1] != "usage" else "")
                 self.assertIn(dicen, p)
@@ -97,6 +98,7 @@ class Juicio(unittest.TestCase):
         self.assertTrue(any("0.1.0a16" in p for p in self.roto("importacion", "version", valor="0.1.0a16")))
         self.assertTrue(any("fuera del entorno nuevo" in p for p in self.roto("importacion", "desde_el_checkout", valor=True)))
         self.assertTrue(any("fuera del entorno nuevo" in p for p in self.roto("importacion", "archivo", valor="")))
+        self.assertTrue(any("fuera del entorno nuevo" in p for p in self.roto("importacion", "en_el_entorno", valor=False)))  # ni del checkout ni del entorno: de otro lado
         self.assertTrue(any("--version" in p for p in self.roto("cli_version", "salida", valor="oracle-factory 0.1.0a16")))
         self.assertTrue(any("--version" in p for p in self.roto("cli_version", "rc", valor=2)))
 
@@ -126,6 +128,7 @@ class WheelReal(unittest.TestCase):
         self.assertIn(pr.SKILL_EN_EL_WHEEL, obs["archivos_del_wheel"])
         self.assertEqual(obs["importacion"]["version"], VERSION)
         self.assertFalse(obs["importacion"]["desde_el_checkout"])
+        self.assertTrue(obs["importacion"]["en_el_entorno"])
         self.assertTrue(artefactos["wheel"].name.endswith("-py3-none-any.whl"))
         self.assertTrue(artefactos["sdist"].name.endswith(".tar.gz"))
 
@@ -135,6 +138,20 @@ class WheelReal(unittest.TestCase):
         trabajo.mkdir()
         obs = pr.observar(artefactos["wheel"], factory, python, trabajo, raiz=base / "venv")  # «el checkout» es el entorno: el módulo está adentro
         self.assertTrue(obs["importacion"]["desde_el_checkout"])
+        self.assertTrue(any("fuera del entorno nuevo" in p for p in pr.validar(obs)))
+
+    def test_ea2_si_el_modulo_viene_de_fuera_del_entorno_se_detecta(self):
+        artefactos, _, (base, factory, python) = self.datos()
+        trabajo = base / "trabajo3"
+        trabajo.mkdir()
+        otro = base / "otro" / "bin"
+        otro.mkdir(parents=True)
+        envoltorio = otro / "python"  # corre el python del entorno pero «vive» fuera de él
+        envoltorio.write_text(f'#!/bin/sh\nexec "{python}" "$@"\n', encoding="utf-8")
+        envoltorio.chmod(0o755)
+        obs = pr.observar(artefactos["wheel"], factory, envoltorio, trabajo)
+        self.assertEqual(obs["importacion"]["rc"], 0)
+        self.assertFalse(obs["importacion"]["en_el_entorno"])
         self.assertTrue(any("fuera del entorno nuevo" in p for p in pr.validar(obs)))
 
     def test_ea3_main_construye_instala_juzga_y_deja_el_registro(self):
@@ -199,7 +216,10 @@ class ConFalsos(unittest.TestCase):
                 (Path(tmp) / "s").mkdir()  # lo que haría `construir`, que acá es falso
                 self.assertEqual(pr.main(["--salida", str(Path(tmp) / "s")]), 1)
                 self.assertTrue((Path(tmp) / "s" / "registro.json").is_file())
-                self.assertEqual(json.loads((Path(tmp) / "s" / "registro.json").read_text())["publicada"], False)
+                guardado = json.loads((Path(tmp) / "s" / "registro.json").read_text())
+                self.assertEqual(guardado["publicada"], False)
+                self.assertFalse(guardado["ok"])  # el registro no se contradice: con problemas, ok es falso
+                self.assertTrue(guardado["problemas"])
 
 
 class Registro(unittest.TestCase):
