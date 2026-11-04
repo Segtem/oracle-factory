@@ -39,3 +39,7 @@ Medidas de distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_s
 ### Nota (2026-11-04 00:37:53 UTC)
 
 Medidas de distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-04 03:15:36 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos rondas con agy2-flash y codex sobre el candidato. La primera trajo 3 hallazgos (1 media y 2 bajos): el probador no ejercitaba hooks en el wheel instalado, registro.json podía quedar con ok verdadero y con problemas a la vez, y no se exigía que el módulo viniera del entorno nuevo. Los tres se arreglaron y cada arreglo tiene una prueba que falla si se lo quita (4 mutaciones, todas detectadas). La segunda ronda cerró con 0 hallazgos de los dos revisores. La evidencia del candidato cc05132 corrió la suite completa: 1113 pruebas y 19 casos de contrato, éxito. Quedan declarados el borrado de test_entrega_a16.py y test_publicada_a16.py (fijados a la a16, reemplazados por test_entrega_a17.py), los cambios de cadenas de versión en test_docs.py y la regeneración de guias-texto.json. No sube nada a PyPI ni crea tag: eso queda para después del cierre.); 0 abiertos derivados; commit 5a92ce54a7245e858d939b5f903dfe1551bacc61; informe tareas/20261103-232202-jo3-entregaa17/revisiones/registro-u6_d2szh/informe.json; decisiones tareas/20261103-232202-jo3-entregaa17/revisiones/registro-u6_d2szh/decisiones.json.
