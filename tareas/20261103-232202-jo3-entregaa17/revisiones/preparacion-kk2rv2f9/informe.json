@@ -1,0 +1,91 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261103-232202-jo3-entregaa17",
+  "contexto": {
+    "head": "cc05132d97012192db4fb824e379ecefbaa1c6b4",
+    "archivos_sha256": "585d58e18d938c83a6ceebae967b6bd43c1fa7949165e3d8e13155d85ef81bf8"
+  },
+  "documentos": {
+    "openspec/changes/20261103-232202-jo3-entregaa17/proposal.md": "14a3e03f215bf5e1aba63e532433c74ca5569fe221ec7014bda4d359708f16ac",
+    "openspec/changes/20261103-232202-jo3-entregaa17/specs/distribucion/spec.md": "8b05b831ee43b4a4986182b7a75371c0687ae6f54b0e5f27a9e89c208923bb3b"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "NOTAS-DE-RELEASE.md",
+    "README.md",
+    "catalogos/factory_entrega_a17.corrida_completa.oracle",
+    "catalogos/factory_entrega_a17.el_wheel_a17_instalado_ofrece_lo_nuevo.oracle",
+    "catalogos/factory_entrega_a17.la_entrega_a17_registra_sus_hashes_y_sus_limites.oracle",
+    "catalogos/factory_entrega_a17.la_version_a17_es_coherente_y_declara_su_estado.oracle",
+    "docs/colaboracion.md",
+    "openspec/changes/20261103-232202-jo3-entregaa17/design.md",
+    "openspec/changes/20261103-232202-jo3-entregaa17/proposal.md",
+    "openspec/changes/20261103-232202-jo3-entregaa17/specs/distribucion/spec.md",
+    "openspec/changes/20261103-232202-jo3-entregaa17/tasks.md",
+    "oracle_factory/__init__.py",
+    "pyproject.toml",
+    "requisitos/distribucion_c4b4c8c6521232d76.el_wheel_a17_instalado_ofrece_lo_nuevo.requisito",
+    "requisitos/distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites.requisito",
+    "requisitos/distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado.requisito",
+    "site/colaboracion.html",
+    "site/desde-cero.html",
+    "site/index.html",
+    "site/modos.html",
+    "tests/datos/guias-texto.json",
+    "tests/test_docs.py",
+    "tests/test_entrega_a16.py",
+    "tests/test_entrega_a17.py",
+    "tests/test_publicada_a16.py",
+    "tools/probar_entrega_a17.py",
+    "uv.lock"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1113 pruebas, 19 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-232202-jo3-entregaa17/candidatos/cc05132/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-232202-jo3-entregaa17/candidatos/cc05132/revision/agy2-flash-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-232202-jo3-entregaa17/candidatos/cc05132/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4c57247: agy (gemini-3.8-flash-high), 2 hallazgos: REGISTRO-ESTADO-CONTRADICTORIO-FALLAS (baja), VALIDAR-ORIGEN-NO-COMPRUEBA-ENTORNO (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-232202-jo3-entregaa17/candidatos/4c57247/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4c57247: codex (gpt-6-luna), 1 hallazgo: a17-wheel-no-evalua-hooks (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261103-232202-jo3-entregaa17/candidatos/4c57247/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "agy (gemini-3.8-flash-high): Verificación de los arreglos de ronda 1 y análisis de clase completa: (1) Se comprobó que SUBCOMANDOS_NUEVOS en tools/probar_entrega_a17.py incluye 'hooks' ('skill', 'puerta', 'hooks'), que observar() recopila la ayuda y validar() la verifica; se inspeccionó el diff del parser frente a la versión 0.1.0a16 y no existen otros subcomandos nuevos anunciados en NOTAS-DE-RELEASE.md, README.md o web; (2) Se verificó que main() recalcula reg['ok'] = not problemas luego de incorporar los problemas de problemas_del_registro(reg), garantizando consistencia en registro.json, y que test_ea3_main_sale_con_1_si_el_juicio_o_el_registro_tienen_problemas afirma que guardado['ok'] es False ante problemas; se auditó el registro y no se identificaron otros campos susceptibles de quedar autocontradictorios; (3) Se comprobó que observar() registra obs['importacion']['en_el_entorno'] y validar() exige dicha condición, respaldado por la prueba test_ea2_si_el_modulo_viene_de_fuera_del_entorno_se_detecta con un ejecutable python envoltorio fuera del entorno.",
+    "agy (gemini-3.8-flash-high): Batería de mutaciones: se aplicaron 11 mutaciones sobre copias locales de tools/probar_entrega_a17.py (omisión de hooks en SUBCOMANDOS_NUEVOS, omisión del recálculo de ok en main, omisión de la verificación en_el_entorno, desactivación de validaciones de puerta, agentes, skill, skill --instalar, cli_version, y omisión de verificaciones de limites, publicada y hashes en el registro). Todas las 11 mutaciones fueron neutralizadas y fallaron las aserciones de tests/test_entrega_a17.py.",
+    "agy (gemini-3.8-flash-high): Suite completa de pruebas: se ejecutaron los 1113 tests de la suite del repositorio (.venv/bin/python -m unittest discover -s tests </dev/null), resultando 1103 exitosos y 10 omitidos declarados por falta de condiciones ambientales opcionales, sin fallos ni errores.",
+    "agy (gemini-3.8-flash-high): Verificador de evidencia del cambio: se ejecutó tools/verificar_cambio.py 20261103-232202-jo3-entregaa17 --pruebas test_entrega_a17 sobre directorio temporal, obteniendo corrida exitosa (1113 pruebas, 19 casos de contrato exactos sin omisiones, duplicados ni fallas).",
+    "agy (gemini-3.8-flash-high): Prueba de distribución en entorno real: se ejecutó tools/probar_entrega_a17.py sobre un directorio temporal limpio, verificando la construcción de wheel y sdist con uv build, instalación del wheel en venv nuevo con uv pip install, y ejecución de comandos CLI (skill, skill --instalar, puerta, agentes, --version, --help).",
+    "agy (gemini-3.8-flash-high): Consistencia de metadatos y lock: se contrastaron pyproject.toml, oracle_factory/__init__.py y uv.lock, verificando que la versión 0.1.0a17 coincide en todos ellos y que tests/test_uv_lock.py pasa satisfactoriamente (16 tests OK).",
+    "agy (gemini-3.8-flash-high): Revisión de textos y documentación: se inspeccionaron NOTAS-DE-RELEASE.md, README.md, docs/colaboracion.md y las páginas en site/, comprobando que ninguna mantiene 0.1.0a16 como versión actual ni afirma que 0.1.0a17 esté publicada (figura como candidata en preparación, con la 0.1.0a16 como versión publicada previa). tests/test_docs.py pasó limpiamente.",
+    "agy (gemini-3.8-flash-high): Análisis de tests existentes modificados/borrados: se auditó cada edición de tests preexistentes. tests/datos/guias-texto.json se sincronizó con el texto actualizado de las guías; tests/test_docs.py actualizó 4 aserciones para verificar la nueva versión 0.1.0a17 en vez de 0.1.0a16. El borrado de tests/test_entrega_a16.py y tests/test_publicada_a16.py está debidamente justificado por tratarse de pruebas fijadas a la versión anterior (reemplazadas por tests/test_entrega_a17.py, que traslada y adapta la verificación de entrega, wheel instalado y registro para 0.1.0a17).",
+    "agy (gemini-3.8-flash-high): Sin acceso a red externa: no se realizaron consultas remotas a PyPI ni a GitHub; la veracidad de la preparación previa se evaluó de forma estrictamente local.",
+    "agy (gemini-3.8-flash-high): Checkout de sólo lectura: no se aplicaron modificaciones, commits ni alteraciones en la configuración de git en el repositorio revisado.",
+    "codex (gpt-6-luna): Leí la spec, propuesta, diff del paquete y el código/tests del checkout; no edité el checkout.",
+    "codex (gpt-6-luna): Contrasté los tres hallazgos de la ronda anterior: SUBCOMANDOS_NUEVOS ahora incluye hooks y validar juzga su ayuda; main recalcula ok después de agregar problemas_del_registro y el test inspecciona el JSON guardado; observar registra en_el_entorno y validar lo exige, con cobertura del intérprete envoltorio externo. No vi regresiones en esos arreglos.",
+    "codex (gpt-6-luna): Revisé README, NOTAS-DE-RELEASE, docs/colaboracion y site: los comandos nuevos anunciados para esta entrega quedan cubiertos por las ayudas de skill, puerta y hooks; agentes se ejecuta funcionalmente. No encontré otro subcomando nuevo anunciado sin cobertura práctica relevante.",
+    "codex (gpt-6-luna): Revisé la construcción/instalación, verificaciones observadas, juicio, límites y registro. No encontré otro campo autocontradictorio ni un defecto de impacto práctico en tools/probar_entrega_a17.py o tests/test_entrega_a17.py. Los hashes se conservan, los límites incluyen publicación, reproducibilidad y comprobaciones omitidas.",
+    "codex (gpt-6-luna): No pude ejecutar tests.test_entrega_a17 porque el checkout no tiene .venv/bin/python. No construí un wheel adicional ni ejecuté mutaciones independientes; inspeccioné los casos armados de regresión que cubren los tres hallazgos previos.",
+    "codex (gpt-6-luna): Auditoría de tests preexistentes: tests/datos/guias-texto.json refleja la actualización de cadenas de versión; tests/test_docs.py cambia valores esperados para la versión a17. Los tests eliminados de test_entrega_a16.py y test_publicada_a16.py estaban fijados a la entrega/publicación a16; sus comprobaciones de versión vigente se sustituyen por test_entrega_a17.py y docs_al_dia. No detecté una edición sin relación con la preparación a17."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

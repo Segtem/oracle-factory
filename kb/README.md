@@ -101,6 +101,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261102-221210-70x-caminoligero]] — Un camino ligero de revisión para los cambios chicos (cerrada)
 - [[cambios/20261103-113909-oen-contratojson]] — Pruebas de contrato entre la CLI y la extensión de VS Code (cerrada)
 - [[cambios/20261103-170557-a0e-skillagente]] — Una skill de agente con el flujo de Factory (cerrada)
+- [[cambios/20261103-232202-jo3-entregaa17]] — Preparar la distribución 0.1.0a17 (cerrada)
 
 ## Requisitos
 
@@ -205,6 +206,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto]]
 - [[requisitos/distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites]]
 - [[requisitos/distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado]]
+- [[requisitos/distribucion_c4b4c8c6521232d76.el_wheel_a17_instalado_ofrece_lo_nuevo]]
+- [[requisitos/distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites]]
+- [[requisitos/distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado]]
 - [[requisitos/distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo]]
 - [[requisitos/distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites]]
 - [[requisitos/distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado]]

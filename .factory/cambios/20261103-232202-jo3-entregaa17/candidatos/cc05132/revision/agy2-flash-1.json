@@ -1,0 +1,26 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a17/.factory/local/revisiones/cc05132-agy2-flash-1",
+  "base": "860aef89f361350ccfe7d07b2b29bc87c607e365",
+  "head": "cc05132d97012192db4fb824e379ecefbaa1c6b4",
+  "diff_sha256": "9387452c3303061de1924353deac1be61541a0e10473e3791806188e277668c5",
+  "context_sha256": "a12e5ae968f13b014f79161a48e279d76a99c3ef21c42084aa9dec66c658f2ce",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Verificación de los arreglos de ronda 1 y análisis de clase completa: (1) Se comprobó que SUBCOMANDOS_NUEVOS en tools/probar_entrega_a17.py incluye 'hooks' ('skill', 'puerta', 'hooks'), que observar() recopila la ayuda y validar() la verifica; se inspeccionó el diff del parser frente a la versión 0.1.0a16 y no existen otros subcomandos nuevos anunciados en NOTAS-DE-RELEASE.md, README.md o web; (2) Se verificó que main() recalcula reg['ok'] = not problemas luego de incorporar los problemas de problemas_del_registro(reg), garantizando consistencia en registro.json, y que test_ea3_main_sale_con_1_si_el_juicio_o_el_registro_tienen_problemas afirma que guardado['ok'] es False ante problemas; se auditó el registro y no se identificaron otros campos susceptibles de quedar autocontradictorios; (3) Se comprobó que observar() registra obs['importacion']['en_el_entorno'] y validar() exige dicha condición, respaldado por la prueba test_ea2_si_el_modulo_viene_de_fuera_del_entorno_se_detecta con un ejecutable python envoltorio fuera del entorno.",
+    "Batería de mutaciones: se aplicaron 11 mutaciones sobre copias locales de tools/probar_entrega_a17.py (omisión de hooks en SUBCOMANDOS_NUEVOS, omisión del recálculo de ok en main, omisión de la verificación en_el_entorno, desactivación de validaciones de puerta, agentes, skill, skill --instalar, cli_version, y omisión de verificaciones de limites, publicada y hashes en el registro). Todas las 11 mutaciones fueron neutralizadas y fallaron las aserciones de tests/test_entrega_a17.py.",
+    "Suite completa de pruebas: se ejecutaron los 1113 tests de la suite del repositorio (.venv/bin/python -m unittest discover -s tests </dev/null), resultando 1103 exitosos y 10 omitidos declarados por falta de condiciones ambientales opcionales, sin fallos ni errores.",
+    "Verificador de evidencia del cambio: se ejecutó tools/verificar_cambio.py 20261103-232202-jo3-entregaa17 --pruebas test_entrega_a17 sobre directorio temporal, obteniendo corrida exitosa (1113 pruebas, 19 casos de contrato exactos sin omisiones, duplicados ni fallas).",
+    "Prueba de distribución en entorno real: se ejecutó tools/probar_entrega_a17.py sobre un directorio temporal limpio, verificando la construcción de wheel y sdist con uv build, instalación del wheel en venv nuevo con uv pip install, y ejecución de comandos CLI (skill, skill --instalar, puerta, agentes, --version, --help).",
+    "Consistencia de metadatos y lock: se contrastaron pyproject.toml, oracle_factory/__init__.py y uv.lock, verificando que la versión 0.1.0a17 coincide en todos ellos y que tests/test_uv_lock.py pasa satisfactoriamente (16 tests OK).",
+    "Revisión de textos y documentación: se inspeccionaron NOTAS-DE-RELEASE.md, README.md, docs/colaboracion.md y las páginas en site/, comprobando que ninguna mantiene 0.1.0a16 como versión actual ni afirma que 0.1.0a17 esté publicada (figura como candidata en preparación, con la 0.1.0a16 como versión publicada previa). tests/test_docs.py pasó limpiamente.",
+    "Análisis de tests existentes modificados/borrados: se auditó cada edición de tests preexistentes. tests/datos/guias-texto.json se sincronizó con el texto actualizado de las guías; tests/test_docs.py actualizó 4 aserciones para verificar la nueva versión 0.1.0a17 en vez de 0.1.0a16. El borrado de tests/test_entrega_a16.py y tests/test_publicada_a16.py está debidamente justificado por tratarse de pruebas fijadas a la versión anterior (reemplazadas por tests/test_entrega_a17.py, que traslada y adapta la verificación de entrega, wheel instalado y registro para 0.1.0a17).",
+    "Sin acceso a red externa: no se realizaron consultas remotas a PyPI ni a GitHub; la veracidad de la preparación previa se evaluó de forma estrictamente local.",
+    "Checkout de sólo lectura: no se aplicaron modificaciones, commits ni alteraciones en la configuración de git en el repositorio revisado."
+  ]
+}
