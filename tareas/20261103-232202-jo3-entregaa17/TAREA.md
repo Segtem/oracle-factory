@@ -1,6 +1,6 @@
 # Preparar la distribución 0.1.0a17
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -71,3 +71,7 @@ Medidas de distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_
 ### Nota (2026-11-04 03:20:56 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261103-232202-jo3-entregaa17/oracle-veredicto.txt.
+
+### Nota (2026-11-04 03:23:07 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
