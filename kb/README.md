@@ -103,6 +103,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261103-170557-a0e-skillagente]] — Una skill de agente con el flujo de Factory (cerrada)
 - [[cambios/20261103-232202-jo3-entregaa17]] — Preparar la distribución 0.1.0a17 (cerrada)
 - [[cambios/20261104-033615-oj8-publicada-a17]] — Declarar publicada la 0.1.0a17 (cerrada)
+- [[cambios/20261104-221348-2l1-binarios]] — Revisión: los archivos binarios del paquete no impiden aprobar (espera_aprobacion_spec)
 
 ## Requisitos
 
