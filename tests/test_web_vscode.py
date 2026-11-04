@@ -64,7 +64,10 @@ class WebVscode(unittest.TestCase):
         img = dest / "site" / "img" / "vscode-explorador.png"
         bueno = img.read_bytes()
         casos = {"bytes que no son un PNG": b"not a png", "un PNG truncado": bueno[: len(bueno) // 2], "un PNG sin cierre": bueno[:-12],
-                 "un PNG con la firma cambiada": b"\x88" + bueno[1:], "un PNG de ancho cero": bueno[:16] + b"\x00\x00\x00\x00" + bueno[20:]}
+                 "un PNG con la firma cambiada": b"\x88" + bueno[1:], "un PNG de ancho cero": bueno[:16] + b"\x00\x00\x00\x00" + bueno[20:],
+                 "firma, IHDR y cierre con basura en el medio": bueno[:33] + b"basura" * 7 + bueno[-12:],
+                 "un PNG con un byte de datos cambiado (CRC)": bueno[:200] + bytes([bueno[200] ^ 1]) + bueno[201:],
+                 "un PNG sin datos de imagen": bueno[:33] + bueno[-12:], "un PNG con bytes después del cierre": bueno + b"sobra"}
         for nombre, datos in casos.items():
             img.write_bytes(datos)
             self.assertTrue(any("vscode-explorador.png no es un PNG válido" in p for p in sitio_vscode.problemas(dest)), nombre)

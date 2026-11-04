@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import re
 import sys
+import zlib
 
 MAX_IMAGEN = 300 * 1024
 MAX_TOTAL = 1536 * 1024
@@ -24,16 +25,29 @@ def _attr(etiqueta: str, nombre: str) -> str | None:
     return m[1] if m else None
 
 
-PNG_FIRMA, PNG_CIERRE = b"\x89PNG\r\n\x1a\n", b"\x00\x00\x00\x00IEND\xaeB`\x82"
+PNG_FIRMA = b"\x89PNG\r\n\x1a\n"
 
 
 def medidas_png(ruta: Path) -> tuple[int, int] | None:
-    """(ancho, alto) de un PNG íntegro (firma, cabecera IHDR y cierre IEND), o None si está corrupto o truncado."""
+    """(ancho, alto) de un PNG íntegro, o None si está corrupto o truncado: recorre los bloques con su longitud y su CRC, exige IHDR primero,
+    al menos un IDAT e IEND al final, sin nada después. No decodifica los píxeles (ponytail: bastan las sumas de control de cada bloque)."""
     d = ruta.read_bytes()
-    if len(d) < 33 or not d.startswith(PNG_FIRMA) or d[12:16] != b"IHDR" or not d.endswith(PNG_CIERRE):
+    if not d.startswith(PNG_FIRMA):
         return None
-    ancho, alto = int.from_bytes(d[16:20], "big"), int.from_bytes(d[20:24], "big")
-    return (ancho, alto) if ancho and alto else None
+    pos, tipos, medidas = len(PNG_FIRMA), [], None
+    while pos + 12 <= len(d):
+        largo, tipo = int.from_bytes(d[pos:pos + 4], "big"), d[pos + 4:pos + 8]
+        fin = pos + 8 + largo
+        if fin + 4 > len(d) or int.from_bytes(d[fin:fin + 4], "big") != zlib.crc32(d[pos + 4:fin]):
+            return None
+        if tipo == b"IHDR" and not tipos and largo == 13:
+            medidas = (int.from_bytes(d[pos + 8:pos + 12], "big"), int.from_bytes(d[pos + 12:pos + 16], "big"))
+        tipos.append(tipo)
+        pos = fin + 4
+        if tipo == b"IEND":
+            break
+    ok = pos == len(d) and b"IDAT" in tipos and tipos[-1:] == [b"IEND"] and medidas and all(medidas)
+    return medidas if ok else None
 
 
 def problemas(raiz: Path) -> list[str]:
