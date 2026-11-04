@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c0fb4528d614ab5c0.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17`
 - Vigente: sí
 - Cambio: [[cambios/20261104-033615-oj8-publicada-a17]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_publicada_a17.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17`, `factory_publicada_a17.corrida_completa`
 - Fuente: openspec/changes/20261104-033615-oj8-publicada-a17/specs/distribucion/spec.md#se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17
 

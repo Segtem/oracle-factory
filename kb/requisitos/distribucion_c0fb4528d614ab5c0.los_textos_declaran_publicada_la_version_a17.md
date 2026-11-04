@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c0fb4528d614ab5c0.los_textos_declaran_publicada_la_version_a17`
 - Vigente: sí
 - Cambio: [[cambios/20261104-033615-oj8-publicada-a17]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_publicada_a17.los_textos_declaran_publicada_la_version_a17`, `factory_publicada_a17.corrida_completa`
 - Fuente: openspec/changes/20261104-033615-oj8-publicada-a17/specs/distribucion/spec.md#los_textos_declaran_publicada_la_version_a17
 
