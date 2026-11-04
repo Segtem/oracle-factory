@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-04 13:17:30 UTC)
 
 Requisitos importados: web_c2e4546f9d843453e.las_guias_muestran_vscode_real (funcional), web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales (no funcional), web_c2e4546f9d843453e.los_ejemplos_son_salida_real (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-04 13:41:43 UTC)
+
+Medidas de web_c2e4546f9d843453e.las_guias_muestran_vscode_real: factory_web_vscode.las_guias_muestran_vscode_real, factory_web_vscode.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-04 13:41:44 UTC)
+
+Medidas de web_c2e4546f9d843453e.los_ejemplos_son_salida_real: factory_web_vscode.los_ejemplos_son_salida_real, factory_web_vscode.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-04 13:41:46 UTC)
+
+Medidas de web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales: factory_web_vscode.los_ejemplos_no_filtran_datos_personales, factory_web_vscode.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
