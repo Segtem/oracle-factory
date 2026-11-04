@@ -2,10 +2,20 @@
   "id": "20261104-115430-dnr-vscode",
   "titulo": "Web: capturas reales de VS Code y ejemplos en las guías",
   "capacidad": "web",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261104-115430-dnr-vscode/specs/web/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "22c7930c9ae5915ff657db45a90375045f2b2f0a44dc762fff39164b79603981",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-04T13:17:20.915908+00:00",
+    "documentos": {
+      "openspec/changes/20261104-115430-dnr-vscode/proposal.md": "975c40c046669808463f266eb355d25e02355d752c7365b69edf1604384db763",
+      "openspec/changes/20261104-115430-dnr-vscode/specs/web/spec.md": "22c7930c9ae5915ff657db45a90375045f2b2f0a44dc762fff39164b79603981"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-04T11:54:30.875512+00:00",
       "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-04T13:17:20.915937+00:00",
+      "documentos": {
+        "openspec/changes/20261104-115430-dnr-vscode/proposal.md": "975c40c046669808463f266eb355d25e02355d752c7365b69edf1604384db763",
+        "openspec/changes/20261104-115430-dnr-vscode/specs/web/spec.md": "22c7930c9ae5915ff657db45a90375045f2b2f0a44dc762fff39164b79603981"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
