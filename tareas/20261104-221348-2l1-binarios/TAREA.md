@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-04 22:56:07 UTC)
 
 Requisitos importados: revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios (funcional), revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando (funcional), revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-04 22:56:41 UTC)
+
+Medidas de revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean: factory_revision_binarios.los_binarios_nombrados_no_bloquean, factory_revision_binarios.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-04 22:56:43 UTC)
+
+Medidas de revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando: factory_revision_binarios.lo_no_nombrado_sigue_bloqueando, factory_revision_binarios.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-04 22:56:44 UTC)
+
+Medidas de revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios: factory_revision_binarios.el_pedido_indica_como_declarar_binarios, factory_revision_binarios.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

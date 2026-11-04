@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261104-221348-2l1-binarios]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un binario sin nombrar», «incompleto por otro motivo»
+- Medidas: `factory_revision_binarios.lo_no_nombrado_sigue_bloqueando`, `factory_revision_binarios.corrida_completa`
 - Fuente: openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md#lo_no_nombrado_sigue_bloqueando
 
 Tipo: funcional El sistema DEBE seguir marcando `no_ejecutada` el informe `incompleto` cuando algún binario omitido no está nombrado en sus límites, cuando el paquete omite algo por otro motivo o cuando no hay omisiones.

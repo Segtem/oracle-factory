@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261104-221348-2l1-binarios]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el pedido de una revisión»
+- Medidas: `factory_revision_binarios.el_pedido_indica_como_declarar_binarios`, `factory_revision_binarios.corrida_completa`
 - Fuente: openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md#el_pedido_indica_como_declarar_binarios
 
 Tipo: funcional El sistema DEBE indicar al revisor, en el pedido, que abra en el checkout cada archivo que el paquete omita por no ser texto y lo nombre en sus límites.

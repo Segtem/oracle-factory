@@ -58,6 +58,48 @@
         "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando",
         "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-04T22:56:41.811375+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean",
+      "medidas": [
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-04T22:56:43.257846+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando",
+      "medidas": [
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-04T22:56:44.710678+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios",
+      "medidas": [
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean": {
+      "sha256": "88f75bb6f894fc0b9a4d0d7e7cb106836957b61b7d6924ac6e6736f5d4144ad8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-04T22:56:41.770941+00:00",
+      "catalogos": {
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "160ebb3adf7bca701490544c12c37693252e914f902097268b2eae62a305d4c4",
+        "factory_revision_binarios.corrida_completa": "391ee8931b6be37bfc2a2bd0a2d972e6f9b045ca05c486c58a4752a1def62272"
+      },
+      "archivos_catalogo": {
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "catalogos/factory_revision_binarios.los_binarios_nombrados_no_bloquean.oracle",
+        "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
+      }
+    },
+    "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando": {
+      "sha256": "9869ee304883d16503b2ddb52bdc53ea045a3a605cedf8e1a71128e89e19f3ce",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-04T22:56:43.217053+00:00",
+      "catalogos": {
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando": "e3484b483bf179e906cf4e8dd9a98d3fe176cd06d7e0e71a1417c471344a0397",
+        "factory_revision_binarios.corrida_completa": "391ee8931b6be37bfc2a2bd0a2d972e6f9b045ca05c486c58a4752a1def62272"
+      },
+      "archivos_catalogo": {
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando": "catalogos/factory_revision_binarios.lo_no_nombrado_sigue_bloqueando.oracle",
+        "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
+      }
+    },
+    "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios": {
+      "sha256": "5372f4c5b12959fc93bd436b547eb86e167e2bc3ec60a9770e0d0d555bee6f11",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-04T22:56:44.670330+00:00",
+      "catalogos": {
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios": "dbbeb7e13ed566abe1afa8986bb94c0d0393477b3b9867f661c05251d2221e08",
+        "factory_revision_binarios.corrida_completa": "391ee8931b6be37bfc2a2bd0a2d972e6f9b045ca05c486c58a4752a1def62272"
+      },
+      "archivos_catalogo": {
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios": "catalogos/factory_revision_binarios.el_pedido_indica_como_declarar_binarios.oracle",
+        "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
+      }
+    }
+  }
 }
