@@ -23,7 +23,7 @@ class Binarios(unittest.TestCase):
     def test_rb1_los_binarios_nombrados_cumplen(self):
         informe, resultado = comprobacion(revisor([f'Abrí {PNG} en el checkout con Pillow.']))
         self.assertEqual(resultado, 'cumple')
-        self.assertTrue(any(PNG in l for l in informe['limites']), informe['limites'])
+        self.assertTrue(any('binarios que el paquete no trae' in l and PNG in l for l in informe['limites']), informe['limites'])
 
     def test_rb1_varios_binarios_todos_nombrados(self):
         _, resultado = comprobacion(revisor([f'Abrí {PNG}.', f'Abrí {PNG2}.'], binarias=(PNG, PNG2)))
