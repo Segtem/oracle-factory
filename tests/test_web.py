@@ -89,7 +89,7 @@ def comandos_nombrados(fragmento):
                 if sub is None and t.startswith('-'):
                     opciones.append(t)
                 elif sub is None:
-                    sub = t
+                    sub = t.rstrip(').,;:')  # «(… oracle-factory hooks).»: la puntuación del texto no es parte del subcomando
                 elif t.startswith('--'):
                     opciones.append(t.split('=')[0])
                 i += 1

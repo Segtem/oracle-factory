@@ -2002,3 +2002,36 @@ body[data-fiesta=si] [data-estado=final] .ventana { fill:#e0705f }
 [data-estado=viva] .balanza { animation:balancea 3s steps(6) infinite }
 [data-estado=viva] .viaja2 { animation:viaja2 6s linear infinite }
 [data-estado=final] .viaja2 { translate:66px 0 }
+
+.captura, .salida {
+  margin:24px 0
+}
+.captura img {
+  display:block;
+  width:100%;
+  height:auto;
+  border:1px solid #385139
+}
+.captura figcaption, .salida figcaption {
+  margin-top:8px;
+  font-size:13px;
+  line-height:1.6;
+  color:#3d5432
+}
+.salida {
+  background:#172d23;
+  border:1px solid #385139
+}
+.salida figcaption {
+  margin:0;
+  padding:10px 22px 0;
+  color:#b6cc9d
+}
+.salida pre {
+  margin:0;
+  overflow-x:auto;
+  padding:12px 22px 18px;
+  color:#d2e6b9;
+  font:12px/1.7 var(--mono);
+  white-space:pre-wrap
+}
