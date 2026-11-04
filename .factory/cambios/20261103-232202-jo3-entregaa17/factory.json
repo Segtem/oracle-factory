@@ -191,6 +191,68 @@
       "resultado": "ok",
       "hallazgos": 2,
       "lanzamiento": "48b6ee24b5f0"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T01:25:47.356729+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "cc05132",
+      "lanzamiento": "8f8477275721"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T01:25:47.390362+00:00",
+      "revisor": "codex",
+      "candidato": "cc05132",
+      "lanzamiento": "182bd2c2cdd2"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T01:27:00.444407+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "cc05132",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "182bd2c2cdd2"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T01:52:55.709951+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "cc05132",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "8f8477275721"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-04T01:53:17.205508+00:00",
+      "decision": "aprobar",
+      "candidato": "cc05132"
     }
   ],
   "tipos": {
@@ -248,5 +310,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Dos rondas con agy2-flash y codex sobre el candidato. La primera trajo 3 hallazgos (1 media y 2 bajos): el probador no ejercitaba hooks en el wheel instalado, registro.json podía quedar con ok verdadero y con problemas a la vez, y no se exigía que el módulo viniera del entorno nuevo. Los tres se arreglaron y cada arreglo tiene una prueba que falla si se lo quita (4 mutaciones, todas detectadas). La segunda ronda cerró con 0 hallazgos de los dos revisores. La evidencia del candidato cc05132 corrió la suite completa: 1113 pruebas y 19 casos de contrato, éxito. Quedan declarados el borrado de test_entrega_a16.py y test_publicada_a16.py (fijados a la a16, reemplazados por test_entrega_a17.py), los cambios de cadenas de versión en test_docs.py y la regeneración de guias-texto.json. No sube nada a PyPI ni crea tag: eso queda para después del cierre.",
+      "candidato": "cc05132",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-04T01:53:17.205489+00:00"
+    }
+  }
 }

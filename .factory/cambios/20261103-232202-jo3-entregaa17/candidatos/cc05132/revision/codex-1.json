@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a17/.factory/local/revisiones/cc05132-codex-1",
+  "base": "860aef89f361350ccfe7d07b2b29bc87c607e365",
+  "head": "cc05132d97012192db4fb824e379ecefbaa1c6b4",
+  "diff_sha256": "9387452c3303061de1924353deac1be61541a0e10473e3791806188e277668c5",
+  "context_sha256": "9fdeb1447455f8e3a2ed2b097a9fa3a98cee38b187bb51a73916eda9c1237a2e",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, propuesta, diff del paquete y el código/tests del checkout; no edité el checkout.",
+    "Contrasté los tres hallazgos de la ronda anterior: SUBCOMANDOS_NUEVOS ahora incluye hooks y validar juzga su ayuda; main recalcula ok después de agregar problemas_del_registro y el test inspecciona el JSON guardado; observar registra en_el_entorno y validar lo exige, con cobertura del intérprete envoltorio externo. No vi regresiones en esos arreglos.",
+    "Revisé README, NOTAS-DE-RELEASE, docs/colaboracion y site: los comandos nuevos anunciados para esta entrega quedan cubiertos por las ayudas de skill, puerta y hooks; agentes se ejecuta funcionalmente. No encontré otro subcomando nuevo anunciado sin cobertura práctica relevante.",
+    "Revisé la construcción/instalación, verificaciones observadas, juicio, límites y registro. No encontré otro campo autocontradictorio ni un defecto de impacto práctico en tools/probar_entrega_a17.py o tests/test_entrega_a17.py. Los hashes se conservan, los límites incluyen publicación, reproducibilidad y comprobaciones omitidas.",
+    "No pude ejecutar tests.test_entrega_a17 porque el checkout no tiene .venv/bin/python. No construí un wheel adicional ni ejecuté mutaciones independientes; inspeccioné los casos armados de regresión que cubren los tres hallazgos previos.",
+    "Auditoría de tests preexistentes: tests/datos/guias-texto.json refleja la actualización de cadenas de versión; tests/test_docs.py cambia valores esperados para la versión a17. Los tests eliminados de test_entrega_a16.py y test_publicada_a16.py estaban fijados a la entrega/publicación a16; sus comprobaciones de versión vigente se sustituyen por test_entrega_a17.py y docs_al_dia. No detecté una edición sin relación con la preparación a17."
+  ]
+}
