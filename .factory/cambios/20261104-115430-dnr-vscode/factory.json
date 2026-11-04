@@ -100,6 +100,45 @@
         "factory_web_vscode.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-04T14:29:50.244466+00:00",
+      "requisito": "web_c2e4546f9d843453e.las_guias_muestran_vscode_real",
+      "medidas": [
+        "factory_web_vscode.las_guias_muestran_vscode_real",
+        "factory_web_vscode.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-04T14:29:50.404396+00:00",
+      "requisito": "web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales",
+      "medidas": [
+        "factory_web_vscode.los_ejemplos_no_filtran_datos_personales",
+        "factory_web_vscode.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-04T14:29:50.564071+00:00",
+      "requisito": "web_c2e4546f9d843453e.los_ejemplos_son_salida_real",
+      "medidas": [
+        "factory_web_vscode.los_ejemplos_son_salida_real",
+        "factory_web_vscode.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -107,13 +146,14 @@
     "web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales": "no funcional",
     "web_c2e4546f9d843453e.los_ejemplos_son_salida_real": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "web_c2e4546f9d843453e.las_guias_muestran_vscode_real": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-04T14:29:50.201209+00:00",
       "sha256": "f9a8379ba7d45734bd6eda0673ed3fa6c5b04b7245c588ee95dd637d1cb6e5b9",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-04T13:41:43.433155+00:00",
       "catalogos": {
         "factory_web_vscode.las_guias_muestran_vscode_real": "a6999cc2591b722bcfc1514f129cb11afc03542844856dc99efb831023c96593",
         "factory_web_vscode.corrida_completa": "dce5551a0b4ddbcc509dbcff64093b527575c92802ff71b2952d502f03530fbf"
@@ -123,25 +163,13 @@
         "factory_web_vscode.corrida_completa": "catalogos/factory_web_vscode.corrida_completa.oracle"
       }
     },
-    "web_c2e4546f9d843453e.los_ejemplos_son_salida_real": {
-      "sha256": "70a316c52f943b1046e077627ababaef99c715e3074f4513e4b4cd45399a9c5b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-04T13:41:44.901811+00:00",
-      "catalogos": {
-        "factory_web_vscode.los_ejemplos_son_salida_real": "22a9525bb13d98dc951b97a8c212765d6e463b6ee1278910abd9a91b076e661d",
-        "factory_web_vscode.corrida_completa": "dce5551a0b4ddbcc509dbcff64093b527575c92802ff71b2952d502f03530fbf"
-      },
-      "archivos_catalogo": {
-        "factory_web_vscode.los_ejemplos_son_salida_real": "catalogos/factory_web_vscode.los_ejemplos_son_salida_real.oracle",
-        "factory_web_vscode.corrida_completa": "catalogos/factory_web_vscode.corrida_completa.oracle"
-      }
-    },
     "web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-04T14:29:50.363968+00:00",
       "sha256": "8d84466462ae533118cd03bb7cef741f954a3ccf2d53a495befc0b74c1ac39f1",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-04T13:41:46.347467+00:00",
       "catalogos": {
         "factory_web_vscode.los_ejemplos_no_filtran_datos_personales": "75094e18aedff9ef4c5b1b591588e64cb50999959aa8398bb4d35d6bf4315a63",
         "factory_web_vscode.corrida_completa": "dce5551a0b4ddbcc509dbcff64093b527575c92802ff71b2952d502f03530fbf"
@@ -150,6 +178,23 @@
         "factory_web_vscode.los_ejemplos_no_filtran_datos_personales": "catalogos/factory_web_vscode.los_ejemplos_no_filtran_datos_personales.oracle",
         "factory_web_vscode.corrida_completa": "catalogos/factory_web_vscode.corrida_completa.oracle"
       }
+    },
+    "web_c2e4546f9d843453e.los_ejemplos_son_salida_real": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-04T14:29:50.523715+00:00",
+      "sha256": "70a316c52f943b1046e077627ababaef99c715e3074f4513e4b4cd45399a9c5b",
+      "catalogos": {
+        "factory_web_vscode.los_ejemplos_son_salida_real": "22a9525bb13d98dc951b97a8c212765d6e463b6ee1278910abd9a91b076e661d",
+        "factory_web_vscode.corrida_completa": "dce5551a0b4ddbcc509dbcff64093b527575c92802ff71b2952d502f03530fbf"
+      },
+      "archivos_catalogo": {
+        "factory_web_vscode.los_ejemplos_son_salida_real": "catalogos/factory_web_vscode.los_ejemplos_son_salida_real.oracle",
+        "factory_web_vscode.corrida_completa": "catalogos/factory_web_vscode.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
