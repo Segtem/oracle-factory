@@ -67,3 +67,7 @@ Medidas de distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_s
 ### Nota (2026-11-04 03:20:45 UTC)
 
 Medidas de distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-04 03:20:56 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261103-232202-jo3-entregaa17/oracle-veredicto.txt.

@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites`
 - Vigente: sí
 - Cambio: [[cambios/20261103-232202-jo3-entregaa17]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a17.la_entrega_a17_registra_sus_hashes_y_sus_limites`, `factory_entrega_a17.corrida_completa`
 - Fuente: openspec/changes/20261103-232202-jo3-entregaa17/specs/distribucion/spec.md#la_entrega_a17_registra_sus_hashes_y_sus_limites
 

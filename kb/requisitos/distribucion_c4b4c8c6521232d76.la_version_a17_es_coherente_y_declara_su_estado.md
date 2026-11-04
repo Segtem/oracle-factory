@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c4b4c8c6521232d76.la_version_a17_es_coherente_y_declara_su_estado`
 - Vigente: sí
 - Cambio: [[cambios/20261103-232202-jo3-entregaa17]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a17.la_version_a17_es_coherente_y_declara_su_estado`, `factory_entrega_a17.corrida_completa`
 - Fuente: openspec/changes/20261103-232202-jo3-entregaa17/specs/distribucion/spec.md#la_version_a17_es_coherente_y_declara_su_estado
 
