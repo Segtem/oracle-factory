@@ -107,6 +107,7 @@ def patron_preparacion(version: str) -> re.Pattern:
         rf"{v}\s*\(?en preparaci[oó]n",                                          # 0.1.0a15 (en preparación)
         rf"preparaci[oó]n\s+{v}",                                                # PREPARACIÓN 0.1.0a15
         rf"candidat[oa]\s+(?:en preparaci[oó]n\s+)?(?:de\s+)?(?:factory\s+)?[`']?(?:oracle-factory\s*(?:==)?\s*)?{v}",  # candidato Factory 0.1.0a15
+        rf"candidat[oa]\s+a\s+(?:ser\s+|publicar\s+)?(?:la\s+|el\s+)?(?:versi[oó]n\s+)?{v}",                 # La candidata a versión 0.1.0a15
         rf"versi[oó]n\s+candidat[oa]\b{cerca}{v}",                                # Esta versión candidata es la 0.1.0a15
         rf"{v}{cerca}\s(?:es|sigue siendo|queda como|como)\s+(?:la\s+|el\s+|una?\s+)?(?:versi[oó]n\s+)?candidat[oa]",  # la 0.1.0a15 es la candidata
         rf"{v}{cerca}\b(?:est[aá]|queda|sigue)\s+en preparaci[oó]n",             # la 0.1.0a15 está en preparación

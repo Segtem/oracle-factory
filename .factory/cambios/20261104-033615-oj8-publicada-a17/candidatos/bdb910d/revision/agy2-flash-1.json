@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a17/.factory/local/revisiones/bdb910d-agy2-flash-1",
+  "base": "9ce9f850b76ef77402d53013bd78dfe471245bcc",
+  "head": "bdb910d1d92aeb93acae6b1c115cbbbcb78692c0",
+  "diff_sha256": "b26e67abe904205ad8fd09fc2666be942d76916434a6af38b7501d95de79ea8b",
+  "context_sha256": "767830d927e22831b89cc965d7bee2aaf8f6d2f6547e564ff428694ca20b899c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática y contrastación de especificaciones: se analizaron la propuesta (proposal.md), la spec (specs/distribucion/spec.md), el diseño (design.md) y el diff provisto en el paquete de Oracle Clue (paquete-agy2-flash-1.json). Las promesas del requisito 'los_textos_declaran_publicada_la_version_a17' se cumplen en todos los documentos: NOTAS-DE-RELEASE.md declara publicada la versión 0.1.0a17 con su tag y release sin la mención '(en preparación)' y conserva las notas de versiones previas en orden cronológico descendente; README.md, docs/colaboracion.md, site/desde-cero.html y site/index.html presentan la 0.1.0a17 como versión publicada y eliminan frases condicionales de instalación futura. No se verificaron de forma remota PyPI ni GitHub, tomándolos como hechos externos conforme a la solicitud.",
+    "Cierre de la ronda 1 y cobertura de la clase de problema: el hallazgo medio PA17-001 (codex-1.json) está corregido en candidate bdb910d al incorporar en tools/docs_al_dia.py la expresión rf'versi[oó]n\\s+candidat[oa]\\b{cerca}{v}'. Esta solución cubre integralmente la clase de frases corrientes donde la construcción 'versión candidata' antecede al identificador de la versión ('Esta versión candidata es la 0.1.0a17.', 'La versión candidata a publicar, la 0.1.0a17, trae el tablero.', 'Instalá la versión candidata 0.1.0a17 con uv.'). No se observaron regresiones.",
+    "Análisis de falsos positivos, variantes y casos exóticos: se verificó mediante mutaciones manuales que eliminar la forma agregada reproduce la omisión en las frases indicadas, mientras que una generalización laxa (e.g. 'candidat[oa]...versión') introduce falsos positivos que rompen el requisito negativo de la spec ('palabras parecidas que no son una divergencia'), al marcar erróneamente menciones de candidatos de revisión ('El candidato ca6a267 de la versión 0.1.0a17 fue aprobado.', 'El candidato de la versión 0.1.0a17 que se revisó fue el ca6a267.'). Construcciones no idiomáticas como 'candidata a versión 0.1.0a17' son artificios gramaticalmente ajenos al castellano técnico sin precedencia en el repositorio ni impacto práctico; el patrón actual no genera falsos positivos sobre ningún texto existente en README.md, docs/ o site/, reportando docs_al_dia.problemas() cero divergencias.",
+    "Auditoría de pruebas preexistentes modificadas o borradas: (1) tests/datos/guias-texto.json (3 líneas quitadas) es una regeneración legítima desde site/desde-cero.html acorde con la versión publicada; (2) tests/test_docs.py (3 líneas quitadas) actualiza justificadamente el texto base de prueba en cambiar() a 'Versión publicada en PyPI: `oracle-factory==0.1.0a17`.'; (3) tests/test_entrega_a17.py (5 líneas quitadas, 4 aserciones cambiadas) sustituye el test ea1 de estado de preparación por aserciones del estado publicado, con comentario explícito justificatorio y cobertura complementaria detallada en la nueva suite tests/test_publicada_a17.py. Todas las modificaciones de tests existentes están justificadas por el cambio.",
+    "Ejecución de pruebas y validación: se corrieron exitosamente con el entorno Python 3.13 las suites tests.test_publicada_a17 (9 pruebas aprobadas), tests.test_docs (2 pruebas aprobadas), tests.test_entrega_a17 (19 pruebas aprobadas), así como las comprobaciones 'oracle_factory.cli kb --verificar' y 'agentes --verificar'. Se validó la conformidad formal y de diff de este informe con 'oracle-clue validar'. El checkout de revisión se mantuvo estrictamente en sólo lectura."
+  ]
+}
