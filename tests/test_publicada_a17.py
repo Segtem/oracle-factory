@@ -63,7 +63,9 @@ class PublicadaA17(unittest.TestCase):
                   "Estado: en preparación: 0.1.0a17.", "Se instala cuando se publique la 0.1.0a17.", "La 0.1.0a17 se publicará pronto.", "Versión 0.1.0a17 en preparación.",
                   "Esta guía describe Factory 0.1.0a17 en preparación para entrega.", "Esta versión candidata es la 0.1.0a17.",
                   "La versión candidata a publicar, la 0.1.0a17, trae el tablero.", "Instalá la versión candidata 0.1.0a17 con uv.",
-                  "La candidata a versión 0.1.0a17 está lista.", "Es candidata a publicar la 0.1.0a17.", "La 0.1.0a17 es candidata a ser la versión estable.", "Una candidata a la 0.1.0a17.")
+                  "La candidata a versión 0.1.0a17 está lista.", "Es candidata a publicar la 0.1.0a17.", "La 0.1.0a17 es candidata a ser la versión estable.", "Una candidata a la 0.1.0a17.",
+                  "La versión 0.1.0a17 aún no está publicada.", "La 0.1.0a17 todavía no fue publicada.", "La 0.1.0a17 aún no se publicó.", "Aún no salió la 0.1.0a17.",
+                  "La 0.1.0a17 será la próxima versión de Factory.", "La próxima versión de Factory será la 0.1.0a17.")
         with tempfile.TemporaryDirectory() as tmp:
             repo = copia(Path(tmp))
             self.assertEqual(divergencias(repo), [])
@@ -83,7 +85,8 @@ class PublicadaA17(unittest.TestCase):
                      "La 0.1.0a17 está publicada. El estado de preparación de un cambio se consulta con estado.",
                      "Los cambios se integran cuando se publique un cambio de la rama.", "En preparación: la revisión del cambio, no una versión.",
                      "La versión candidata anterior era la 0.1.0a16 y hoy está publicada, igual que la 0.1.0a17.", "El candidato de la versión 0.1.0a17 que se revisó fue el ca6a267.",
-                     "El candidato a revisar de la versión 0.1.0a17 es el ca6a267.", "Cada candidato a publicar pasa por la puerta antes de la 0.1.0a17.",
+                     "El candidato a revisar de la versión 0.1.0a17 es el ca6a267.",
+                     "La próxima versión de Factory, después de la 0.1.0a17, traerá el CI.", "La 0.1.0a17 todavía no tiene soporte para macOS.", "La 0.1.0a16 aún no está publicada en Open VSX, pero la 0.1.0a17 sí lo está en PyPI.", "Cada candidato a publicar pasa por la puerta antes de la 0.1.0a17.",
                      "La 0.1.0a17 trae muchas cosas nuevas del tablero, del idioma y de los bloqueos, y también cambia el estado de preparación de cada cambio.")
         with tempfile.TemporaryDirectory() as tmp:
             repo = copia(Path(tmp))

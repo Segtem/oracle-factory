@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a17/.factory/local/revisiones/d77b0cf-agy2-flash-1",
+  "base": "9ce9f850b76ef77402d53013bd78dfe471245bcc",
+  "head": "d77b0cf1d0277128742e4f549c118688db73576f",
+  "diff_sha256": "ffba03fab91e2d967ab0c4df6af814c6d5f253ee85b042b330afcb4866ca1f41",
+  "context_sha256": "2e96fc4bfe243149db759d8a16cf2d4752abc6ed0283003e8385fa3a693562a3",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática y contrastación de especificaciones: se analizaron la propuesta (proposal.md), la spec (specs/distribucion/spec.md) y el paquete de Oracle Clue (paquete-agy2-flash-1.json). Los requisitos 'los_textos_declaran_publicada_la_version_a17' y 'se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17' se cumplen íntegramente: NOTAS-DE-RELEASE.md declara publicada la 0.1.0a17 con su tag y release sin la mención '(en preparación)' y preserva cronológicamente las notas anteriores; README.md, docs/colaboracion.md, site/desde-cero.html y site/index.html presentan la 0.1.0a17 como versión publicada en PyPI y GitHub. No se verificaron PyPI ni GitHub por fuera del checkout, tomándose como hechos externos acordados.",
+    "Cierre de hallazgos previos de las rondas 1 y 2: PA17-001 (ronda 1) está resuelto mediante la regla 'versi[oó]n\\s+candidat[oa]\\b{cerca}{v}'; PA17-002 (ronda 2) está resuelto con la regla 'candidat[oa]\\s+a\\s+(?:ser\\s+|publicar\\s+)?(?:la\\s+|el\\s+)?(?:versi[oó]n\\s+)?{v}'. Ambas reglas cuentan con casos de prueba positivos en tests/test_publicada_a17.py y no presentan regresiones.",
+    "Exploración activa de variantes en español y análisis de impacto práctico: se generaron y probaron variantes sistemáticas para las familias «candidat[oa]», «preparación», «próxima versión», «pre-lanzamiento» y «aún no publicada» junto a la versión 0.1.0a17 frente a docs_al_dia.patron_preparacion('0.1.0a17'). En la familia «candidat[oa]» se cubren todas las formas corrientes aplicables a versiones; las exclusiones ('candidato de la versión...') corresponden intencionalmente a candidatos de revisión técnica respetando la spec y la decisión de diseño de no confundir hashes con versiones. En la familia «preparación» se detectan todas las formas reales del proyecto. Si bien construcciones teóricas aisladas como 'próxima versión 0.1.0a17' o 'pre-lanzamiento 0.1.0a17' no hacen match, no forman parte de las convenciones de redacción del proyecto ni existen en los textos reales de README, docs/ o site/, por lo que no existe riesgo práctico ni defectos pendientes. Cero falsos positivos sobre los archivos existentes del repositorio y sobre menciones legítimas.",
+    "Pruebas de mutación: se verificó mediante mutaciones manuales que suprimir cualquiera de las dos reglas agregadas en tools/docs_al_dia.py hace fallar aserciones específicas de tests/test_publicada_a17.py (mutaciones detectadas). Por su parte, relajar el patrón hacia un emparejamiento permisivo genera falsos positivos sobre candidatos de revisión legítimos ('El candidato ca6a267 de la versión 0.1.0a17 fue aprobado.').",
+    "Auditoría de pruebas preexistentes modificadas o borradas: (1) tests/datos/guias-texto.json (3 líneas quitadas) sincroniza legítimamente el texto extraído de site/desde-cero.html acorde a su estado publicado; (2) tests/test_docs.py (3 líneas quitadas) actualiza justificadamente el texto base de prueba en cambiar() a 'Versión publicada en PyPI: `oracle-factory==0.1.0a17`.'; (3) tests/test_entrega_a17.py (5 líneas quitadas, 4 aserciones cambiadas, 1 test renombrado) actualiza el test ea1 para verificar el estado publicado en vez de en preparación, con comentario explícito explicativo y respaldo en tests/test_publicada_a17.py. Todas las modificaciones a tests preexistentes son justificadas y legítimas.",
+    "Ejecución y validación: se ejecutaron 30 pruebas unitarias con Python 3.13 (tests.test_publicada_a17, tests.test_docs, tests.test_entrega_a17), todas aprobadas. Se verificaron con éxito docs_al_dia.py, 'oracle-factory kb --verificar' y 'agentes --verificar'. El checkout del candidato se mantuvo en modo sólo lectura y el informe fue validado formalmente con 'oracle-clue validar'."
+  ]
+}
