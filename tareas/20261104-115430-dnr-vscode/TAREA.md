@@ -51,3 +51,15 @@ Medidas de web_c2e4546f9d843453e.los_ejemplos_son_salida_real propuestas por cla
 ### Nota (2026-11-04 15:37:21 UTC)
 
 Medidas de web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-04 19:06:34 UTC)
+
+Medidas de web_c2e4546f9d843453e.las_guias_muestran_vscode_real: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-04 19:06:34 UTC)
+
+Medidas de web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-04 19:06:34 UTC)
+
+Medidas de web_c2e4546f9d843453e.los_ejemplos_son_salida_real: Brian Hollweg (persona, confirmo, modo confirmacion).
