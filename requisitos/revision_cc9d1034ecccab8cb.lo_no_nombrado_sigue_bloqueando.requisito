@@ -1,0 +1,4 @@
+requisito revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando:
+    texto "Tipo: funcional El sistema DEBE seguir marcando `no_ejecutada` el informe `incompleto` cuando algún binario omitido no está nombrado en sus límites, cuando el paquete omite algo por otro motivo o cuando no hay omisiones."
+    fuente "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md#lo_no_nombrado_sigue_bloqueando"
+    sin_medir "sin medida todavía; escenarios: «un binario sin nombrar», «incompleto por otro motivo»"

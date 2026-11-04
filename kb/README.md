@@ -103,7 +103,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261103-170557-a0e-skillagente]] — Una skill de agente con el flujo de Factory (cerrada)
 - [[cambios/20261103-232202-jo3-entregaa17]] — Preparar la distribución 0.1.0a17 (cerrada)
 - [[cambios/20261104-033615-oj8-publicada-a17]] — Declarar publicada la 0.1.0a17 (cerrada)
-- [[cambios/20261104-221348-2l1-binarios]] — Revisión: los archivos binarios del paquete no impiden aprobar (espera_aprobacion_spec)
+- [[cambios/20261104-221348-2l1-binarios]] — Revisión: los archivos binarios del paquete no impiden aprobar (requisitos_importados)
 
 ## Requisitos
 
@@ -350,6 +350,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados]]
 - [[requisitos/resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar]]
 - [[requisitos/resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo]]
+- [[requisitos/revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios]]
+- [[requisitos/revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando]]
+- [[requisitos/revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean]]
 - [[requisitos/revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia]]
 - [[requisitos/revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas]]
 - [[requisitos/revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido]]

@@ -1,0 +1,4 @@
+requisito revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios:
+    texto "Tipo: funcional El sistema DEBE indicar al revisor, en el pedido, que abra en el checkout cada archivo que el paquete omita por no ser texto y lo nombre en sus límites."
+    fuente "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md#el_pedido_indica_como_declarar_binarios"
+    sin_medir "sin medida todavía; escenarios: «el pedido de una revisión»"
