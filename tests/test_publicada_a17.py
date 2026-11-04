@@ -61,7 +61,8 @@ class PublicadaA17(unittest.TestCase):
                   "PREPARACIÓN 0.1.0a17", "Esta guía describe el candidato Factory 0.1.0a17.", "Esta guía describe el candidato 0.1.0a17.",
                   "La versión 0.1.0a17 es la candidata a publicar.", "La 0.1.0a17 es una versión candidata.",
                   "Estado: en preparación: 0.1.0a17.", "Se instala cuando se publique la 0.1.0a17.", "La 0.1.0a17 se publicará pronto.", "Versión 0.1.0a17 en preparación.",
-                  "Esta guía describe Factory 0.1.0a17 en preparación para entrega.")
+                  "Esta guía describe Factory 0.1.0a17 en preparación para entrega.", "Esta versión candidata es la 0.1.0a17.",
+                  "La versión candidata a publicar, la 0.1.0a17, trae el tablero.", "Instalá la versión candidata 0.1.0a17 con uv.")
         with tempfile.TemporaryDirectory() as tmp:
             repo = copia(Path(tmp))
             self.assertEqual(divergencias(repo), [])
@@ -80,6 +81,7 @@ class PublicadaA17(unittest.TestCase):
                      "La 0.1.0a17 corrige el candidato anterior de la guía.", "Preparación de la revisión de la 0.1.0a17.",
                      "La 0.1.0a17 está publicada. El estado de preparación de un cambio se consulta con estado.",
                      "Los cambios se integran cuando se publique un cambio de la rama.", "En preparación: la revisión del cambio, no una versión.",
+                     "La versión candidata anterior era la 0.1.0a16 y hoy está publicada, igual que la 0.1.0a17.", "El candidato de la versión 0.1.0a17 que se revisó fue el ca6a267.",
                      "La 0.1.0a17 trae muchas cosas nuevas del tablero, del idioma y de los bloqueos, y también cambia el estado de preparación de cada cambio.")
         with tempfile.TemporaryDirectory() as tmp:
             repo = copia(Path(tmp))

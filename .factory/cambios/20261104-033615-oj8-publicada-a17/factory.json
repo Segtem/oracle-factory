@@ -110,6 +110,84 @@
         "factory_publicada_a17.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17",
         "factory_publicada_a17.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T03:46:31.244409+00:00",
+      "revisor": "codex",
+      "candidato": "f4a711e",
+      "lanzamiento": "c32d85120ffb"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T03:46:31.274156+00:00",
+      "revisor": "agy",
+      "candidato": "f4a711e",
+      "lanzamiento": "b6a9681df6b1"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T03:46:31.305006+00:00",
+      "revisor": "agy2",
+      "candidato": "f4a711e",
+      "lanzamiento": "87ed22b5e10b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T03:46:37.037755+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "f4a711e",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "b6a9681df6b1"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T03:46:46.836294+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "f4a711e",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "87ed22b5e10b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T03:48:07.904916+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "f4a711e",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "c32d85120ffb"
     }
   ],
   "tipos": {
