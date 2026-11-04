@@ -1,6 +1,6 @@
 # Declarar publicada la 0.1.0a17
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-04 11:31:39 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261104-033615-oj8-publicada-a17/oracle-veredicto.txt.
+
+### Nota (2026-11-04 11:37:35 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

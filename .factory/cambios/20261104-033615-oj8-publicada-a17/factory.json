@@ -2,7 +2,7 @@
   "id": "20261104-033615-oj8-publicada-a17",
   "titulo": "Declarar publicada la 0.1.0a17",
   "capacidad": "distribucion",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261104-033615-oj8-publicada-a17/specs/distribucion/spec.md",
   "spec_sha256": "6b51d0d49d0fe7780afe5e2dd04554a83fa674edf6f3af3b4ef036586277d83e",
   "spec_aprobada": {
@@ -411,6 +411,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "cb72b2b0f44f10197c346dcfc93ee2339db20ebf3ec64cbcfd3fab882c4705d7"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-04T11:37:35.569898+00:00",
+      "oracle": ".factory/cambios/20261104-033615-oj8-publicada-a17/oracle-veredicto.txt",
+      "revision": "tareas/20261104-033615-oj8-publicada-a17/revisiones/registro-8k0lkd8m/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-04T11:37:35.628385+00:00",
+      "capacidad": "distribucion",
+      "spec": "openspec/specs/distribucion/spec.md"
     }
   ],
   "tipos": {
@@ -472,5 +492,17 @@
       "fecha": "2026-11-04T11:31:25.665512+00:00",
       "candidato": "deb2c0b"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-04T11:37:35.427272+00:00"
+  },
+  "archivo": {
+    "capacidad": "distribucion",
+    "spec": "openspec/specs/distribucion/spec.md",
+    "cuando": "2026-11-04T11:37:35.628367+00:00"
+  }
 }
