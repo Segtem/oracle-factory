@@ -435,6 +435,16 @@
       "cuando": "2026-11-04T19:46:04.560226+00:00",
       "decision": "aprobar",
       "candidato": "19b9947"
+    },
+    {
+      "accion": "revision_cancelada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "intento",
+      "cuando": "2026-11-04T21:39:17.435341+00:00",
+      "causa": "no se puede aprobar: Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (incompleto) (no_ejecutada); Revisión de codex (gpt-6-luna): 0 hallazgos (incompleto) (no_ejecutada). No registré nada.",
+      "candidato": "19b9947"
     }
   ],
   "tipos": {

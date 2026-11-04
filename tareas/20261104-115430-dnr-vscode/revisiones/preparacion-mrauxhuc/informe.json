@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261104-115430-dnr-vscode",
+  "contexto": {
+    "head": "caa5a9c886fa5361734ea60d9f574c03cc3d1529",
+    "archivos_sha256": "ac245afccfdf5010dec527f845f08125f1ea92097bade6c788c40ceaddf13239"
+  },
+  "documentos": {
+    "openspec/changes/20261104-115430-dnr-vscode/proposal.md": "975c40c046669808463f266eb355d25e02355d752c7365b69edf1604384db763",
+    "openspec/changes/20261104-115430-dnr-vscode/specs/web/spec.md": "22c7930c9ae5915ff657db45a90375045f2b2f0a44dc762fff39164b79603981"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_web_vscode.corrida_completa.oracle",
+    "catalogos/factory_web_vscode.las_guias_muestran_vscode_real.oracle",
+    "catalogos/factory_web_vscode.los_ejemplos_no_filtran_datos_personales.oracle",
+    "catalogos/factory_web_vscode.los_ejemplos_son_salida_real.oracle",
+    "openspec/changes/20261104-115430-dnr-vscode/design.md",
+    "openspec/changes/20261104-115430-dnr-vscode/proposal.md",
+    "openspec/changes/20261104-115430-dnr-vscode/specs/web/spec.md",
+    "openspec/changes/20261104-115430-dnr-vscode/tasks.md",
+    "requisitos/web_c2e4546f9d843453e.las_guias_muestran_vscode_real.requisito",
+    "requisitos/web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales.requisito",
+    "requisitos/web_c2e4546f9d843453e.los_ejemplos_son_salida_real.requisito",
+    "site/colaboracion.html",
+    "site/desde-cero.html",
+    "site/style.css",
+    "tests/datos/ejemplos-demo.json",
+    "tests/datos/guias-texto.json",
+    "tests/test_site.cjs",
+    "tests/test_web.py",
+    "tests/test_web_vscode.py",
+    "tools/capturas_vscode.py",
+    "tools/sitio_vscode.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1133 pruebas, 11 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/19b9947/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (incompleto)",
+      "resultado": "no_ejecutada",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/19b9947/revision/agy2-flash-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (incompleto)",
+      "resultado": "no_ejecutada",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/19b9947/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 2524474: agy (gemini-3.8-flash-high), 4 hallazgos: WV-1 (media), WV-2 (media), WV-3 (media), WV-4 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/2524474/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 2524474: codex (gpt-6-luna), 1 hallazgo: WV-1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/2524474/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 420f74f: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/420f74f/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 420f74f: codex (gpt-6-luna), 1 hallazgo: png-structure-not-validated (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/420f74f/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "agy (gemini-3.8-flash-high): Se ejecutó la suite completa de pruebas unitarias (.venv/bin/python -m unittest discover -s tests </dev/null): 1133 pruebas ejecutadas, todas aprobadas (10 omitidas).",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias del cambio: tests/test_web_vscode.py (11 pruebas, todas aprobadas en 0.13s) y tests/test_web.py (9 pruebas, todas aprobadas en 0.30s).",
+    "agy (gemini-3.8-flash-high): Se comprobó tools/sitio_vscode.py directamente sobre el repositorio candidato: resultado 'sin problemas' (código de salida 0).",
+    "agy (gemini-3.8-flash-high): Se ejecutó la verificación funcional en navegador Chromium de Playwright (node tests/test_site.cjs): 11 comprobaciones realizadas, resultado OK, 0 errores.",
+    "agy (gemini-3.8-flash-high): Se ejecutó tools/capturas_vscode.py con --sin-capturas en una copia temporal aislada: generó exitosamente el proyecto demo y confirmó coincidencia exacta de los ejemplos con tests/datos/ejemplos-demo.json.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la captura gráfica interactiva completa de VS Code bajo Xvfb de tools/capturas_vscode.py por tratarse de un entorno de revisión de sólo lectura.",
+    "agy (gemini-3.8-flash-high): Se realizó inspección visual, de metadatos, cadenas de texto y OCR con Tesseract sobre las cuatro imágenes site/img/vscode-*.png: dimensiones 1280x800, tamaños individuales entre 122 KB y 134 KB (total 514 KB <= 1536 KB), formato PNG colormap 8 bits, sin filtraciones de datos personales, rutas reales ni correos ajenos (sólo Ana Ejemplo, ana@ejemplo.org y claude-code).",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección de la clase completa del hallazgo medio de la ronda 2: medidas_png en tools/sitio_vscode.py ahora itera por todos los bloques PNG validando longitud y CRC32 (zlib.crc32), exige que IHDR sea el primer bloque con 13 bytes exactos y dimensiones no nulas, exige al menos un bloque IDAT, el cierre IEND al final y la ausencia total de bytes sobrantes al final del archivo. La secuencia de 43 bytes de la ronda 2 y mutaciones con basura, CRC alterado, sin IDAT o con bytes tras IEND devuelven None correctamente.",
+    "agy (gemini-3.8-flash-high): Casos exóticos analizados sin impacto práctico: (1) Si en el HTML se declarara height=\"0\", la guarda int(alto) evita la división por cero y \"0\" no evalúa como falso en la comprobación de presencia; las páginas declaran dimensiones válidas 1280x800 y cualquier proporción distinta es detectada; (2) Un bloque IEND sintético con datos (largo > 0) y CRC calculado es aceptado por el iterador y por ImageMagick pero no ocurre en PNGs reales; (3) La no decodificación de píxeles es un límite de diseño explícitamente documentado con un comentario; (4) Múltiples bloques IHDR sintéticos. Ninguno de estos casos presenta riesgo de impacto práctico en el producto.",
+    "agy (gemini-3.8-flash-high): Modificaciones en tests preexistentes revisadas y justificadas: (1) tests/test_site.cjs: el incremento de 10 a 11 en el conteo de secciones de desde-cero.html responde a la nueva sección #vscode; (2) tests/test_web.py: comandos_nombrados quita puntuación final (\").,;:\") del subcomando, necesario por apariciones como \"(oracle-factory hooks).\" en la salida CLI de las guías y no debilita la prueba; (3) tests/datos/guias-texto.json: sólo agrega las líneas de texto nuevas.",
+    "agy (gemini-3.8-flash-high): El paquete de Oracle Clue declara omisiones para los cuatro archivos PNG por ser binarios no UTF-8; fueron inspeccionados directamente en el checkout, lo que requiere marcar review_status como 'incompleto' según las reglas de validación de Oracle Clue.",
+    "codex (gpt-6-luna): Leí la spec, el diff y el contexto del paquete; contrasté las promesas con el código, las pruebas y las dos rondas previas. No revisé los archivos excluidos indicados por el paquete.",
+    "codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_web_vscode tests.test_web -v </dev/null`: 20 pruebas aprobadas. Ejecuté `python tools/sitio_vscode.py`: sin problemas.",
+    "codex (gpt-6-luna): Decodifiqué y verifiqué los cuatro PNG publicados con Pillow: todos son PNG válidos de 1280×800. No ejecuté la suite completa ni el generador gráfico con VS Code bajo Xvfb.",
+    "codex (gpt-6-luna): La validación PNG comprueba bloques, CRC, IHDR, IDAT e IEND, pero declara que no decodifica los píxeles; eso deja fuera archivos con bloques/CRC válidos y flujo de píxeles inválido. Es un caso exótico y no encontré un riesgo práctico en los artefactos actuales.",
+    "codex (gpt-6-luna): Hallazgos previos: la verificación de correos en HTML, la limpieza de VS Code ante fallos y la validación estructural de PNG están cubiertas/corregidas en este candidato; las mutaciones previas de PNG (CRC alterado, sin IDAT, sin cierre exacto y bytes tras IEND) son rechazadas por las pruebas nuevas.",
+    "codex (gpt-6-luna): Ediciones de tests existentes revisadas: `tests/test_site.cjs` sube de 10 a 11 secciones por la nueva sección de guía; `tests/test_web.py` recorta puntuación final al extraer subcomandos y tiene una prueba para el caso `hooks).`. Ambas son pertinentes y no observé pérdida material de cobertura. `tests/datos/guias-texto.json` sólo agrega textos de la guía.",
+    "codex (gpt-6-luna): El paquete Clue declara omisiones de archivos binarios PNG; aunque verifiqué los cuatro PNG directamente en el checkout de sólo lectura, la omisión obliga a marcar el informe incompleto para que el validador lo acepte."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
