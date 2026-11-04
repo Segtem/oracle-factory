@@ -21,6 +21,8 @@ Entregable: un informe JSON en $informe con este formato (schema oracle-clue.rev
   location {file, start_line, end_line, side: "head"} DENTRO de los rangos del diff del paquete, trigger, evidence, related_requirement,
   status "pendiente" y verification;
 - review_status ("completo" o "incompleto") y limitations (qué corriste y qué no).
+Si el paquete omite un archivo porque no es texto (una imagen, por ejemplo), abrilo vos en el checkout y nombrá su ruta completa en
+limitations; Clue te obliga a marcar review_status "incompleto" por esa omisión, y Factory la acepta sólo si cada binario omitido está nombrado ahí.
 Sin hallazgos: findings vacía, explicado en limitations. Validalo antes de terminar con:
   oracle-clue validar $informe --paquete $paquete --repo $checkout
 y terminá con un resumen corto en español.
