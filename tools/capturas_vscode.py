@@ -131,10 +131,12 @@ VENTANA = "1600x1000x24"
 GUION = r'''
 set -e
 D="$1"; P="$2"; OUT="$3"; X="$4"
+trap 'pkill -f "$P/user" 2>/dev/null || true' EXIT INT TERM   # VS Code se cierra aunque un paso falle
 env -u WAYLAND_DISPLAY XDG_SESSION_TYPE=x11 code --ozone-platform=x11 --no-sandbox --disable-gpu --user-data-dir "$P/user" --extensions-dir "$P/ext" \
   --disable-workspace-trust --skip-welcome --skip-release-notes "$D" "$D/lista.py" >"$P/code.log" 2>&1 &
 sleep 35
 W=$(xdotool search --onlyvisible --name "lista-de-tareas" | tail -1)
+[ -n "$W" ] || { echo "no apareció la ventana de VS Code" >&2; exit 1; }
 paleta() { xdotool key ctrl+shift+p; sleep 2; xdotool type --delay 50 "$1"; sleep 2; xdotool key Return; sleep "${2:-4}"; }
 xdotool key ctrl+alt+b; sleep 2                                   # cierra el panel de chat
 paleta "View: Focus on Factory View"; sleep 3

@@ -14,7 +14,7 @@ MAX_TOTAL = 1536 * 1024
 MIN_CAPTURAS = 4
 PERSONAL = re.compile(r"/home/\w|/Users/\w|C:\\Users|/tmp/claude|brianhollweg|@gmail\.|Brianholl", re.I)
 CORREO = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
-CORREO_DEL_EJEMPLO = "@ejemplo.org"
+CORREOS_PERMITIDOS = ("@ejemplo.org", "@example.com", "@noreply.github.com")  # el del ejemplo, el reservado para marcadores y el de las firmas de Git
 IMG = re.compile(r"<img\b[^>]*>", re.I)
 EJEMPLO = re.compile(r'<pre\b[^>]*\bdata-ejemplo="([^"]+)"[^>]*>(.*?)</pre>', re.S)
 
@@ -22,6 +22,18 @@ EJEMPLO = re.compile(r'<pre\b[^>]*\bdata-ejemplo="([^"]+)"[^>]*>(.*?)</pre>', re
 def _attr(etiqueta: str, nombre: str) -> str | None:
     m = re.search(rf'\b{nombre}="([^"]*)"', etiqueta)
     return m[1] if m else None
+
+
+PNG_FIRMA, PNG_CIERRE = b"\x89PNG\r\n\x1a\n", b"\x00\x00\x00\x00IEND\xaeB`\x82"
+
+
+def medidas_png(ruta: Path) -> tuple[int, int] | None:
+    """(ancho, alto) de un PNG íntegro (firma, cabecera IHDR y cierre IEND), o None si está corrupto o truncado."""
+    d = ruta.read_bytes()
+    if len(d) < 33 or not d.startswith(PNG_FIRMA) or d[12:16] != b"IHDR" or not d.endswith(PNG_CIERRE):
+        return None
+    ancho, alto = int.from_bytes(d[16:20], "big"), int.from_bytes(d[20:24], "big")
+    return (ancho, alto) if ancho and alto else None
 
 
 def problemas(raiz: Path) -> list[str]:
@@ -38,6 +50,12 @@ def problemas(raiz: Path) -> list[str]:
             vistas.add(src)
             if not ruta.is_file():
                 salida.append(f"{p.name}: la imagen {src} no existe")
+            elif (real := medidas_png(ruta)) is None:
+                salida.append(f"{p.name}: la imagen {src} no es un PNG válido")
+            else:
+                ancho, alto = _attr(etiqueta, "width"), _attr(etiqueta, "height")
+                if ancho and alto and ancho.isdigit() and alto.isdigit() and int(alto) and abs(int(ancho) / int(alto) - real[0] / real[1]) > 0.01:
+                    salida.append(f"{p.name}: la imagen {src} no declara las medidas de la imagen ({ancho}x{alto}, es {real[0]}x{real[1]})")
             if not (_attr(etiqueta, "alt") or "").strip():
                 salida.append(f"{p.name}: la imagen {src} no tiene texto alternativo")
             if not (_attr(etiqueta, "width") and _attr(etiqueta, "height")):
@@ -61,6 +79,10 @@ def problemas(raiz: Path) -> list[str]:
             elif texto != registro[ident].strip("\n"):
                 salida.append(f"{p.name}: el ejemplo {ident} no coincide con lo que contestó la CLI")
 
+    for p in paginas:  # toda salida de comando de una guía debe estar registrada: sin data-ejemplo no habría con qué compararla
+        for figura in re.findall(r'<figure class="salida">.*?</figure>', p.read_text(encoding="utf-8"), re.S):
+            if "data-ejemplo=" not in figura:
+                salida.append(f"{p.name}: hay una salida de comando sin data-ejemplo")
     textos = [(p.name, p.read_text(encoding="utf-8")) for p in paginas]
     textos += [("tests/datos/ejemplos-demo.json", json.dumps(registro, ensure_ascii=False))] if registro else []
     script = raiz / "tools" / "capturas_vscode.py"
@@ -72,7 +94,7 @@ def problemas(raiz: Path) -> list[str]:
         if m := PERSONAL.search(t):
             salida.append(f"{nombre}: contiene un dato personal ({m[0]})")
         for c in CORREO.findall(t):
-            if not c.endswith(CORREO_DEL_EJEMPLO) and not c.endswith("@noreply.github.com") and nombre.endswith((".json", ".py")):
+            if not c.endswith(CORREOS_PERMITIDOS):
                 salida.append(f"{nombre}: contiene un correo ajeno al ejemplo ({c})")
     return salida
 

@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 from tests.test_web import comandos_nombrados
-from tools import sitio_vscode
+from tools import capturas_vscode, sitio_vscode
 
 ROOT = Path(__file__).resolve().parents[1]
 PNG = b"\x89PNG\r\n\x1a\n" + b"0" * 100
@@ -59,6 +59,21 @@ class WebVscode(unittest.TestCase):
             h.write_text(__import__("re").sub(r"<img\b[^>]*vscode-[^>]*>", "", h.read_text(encoding="utf-8")), encoding="utf-8")
         self.assertTrue(any("la spec pide al menos 4" in p for p in sitio_vscode.problemas(dest)))
 
+    def test_wv1_un_png_corrupto_truncado_o_de_otra_proporcion_se_detecta(self):
+        dest = copia(self.tmp)
+        img = dest / "site" / "img" / "vscode-explorador.png"
+        bueno = img.read_bytes()
+        casos = {"bytes que no son un PNG": b"not a png", "un PNG truncado": bueno[: len(bueno) // 2], "un PNG sin cierre": bueno[:-12],
+                 "un PNG con la firma cambiada": b"\x88" + bueno[1:], "un PNG de ancho cero": bueno[:16] + b"\x00\x00\x00\x00" + bueno[20:]}
+        for nombre, datos in casos.items():
+            img.write_bytes(datos)
+            self.assertTrue(any("vscode-explorador.png no es un PNG válido" in p for p in sitio_vscode.problemas(dest)), nombre)
+        img.write_bytes(bueno)
+        self.assertEqual(sitio_vscode.problemas(dest), [])
+        for h in (dest / "site").glob("*.html"):  # la proporción declarada no es la de la imagen
+            h.write_text(h.read_text(encoding="utf-8").replace('width="1280" height="800"', 'width="1280" height="400"'), encoding="utf-8")
+        self.assertTrue(any("no declara las medidas de la imagen" in p for p in sitio_vscode.problemas(dest)))
+
     # --- wv2: ejemplos con salida real ---------------------------------------------------------------------------------------
     def test_wv2_cada_ejemplo_coincide_con_el_registro_y_hay_varios(self):
         registro = json.loads((ROOT / "tests" / "datos" / "ejemplos-demo.json").read_text(encoding="utf-8"))
@@ -80,6 +95,17 @@ class WebVscode(unittest.TestCase):
         self.assertEqual(comandos_nombrados("con el hook de oracle-factory hooks)."), [("hooks", [])])
         self.assertEqual(comandos_nombrados("oracle-factory comando-inexistente)."), [("comando-inexistente", [])])
 
+    def test_wv2_una_salida_sin_su_registro_se_detecta(self):
+        dest = copia(self.tmp)
+        con_pagina(dest, "desde-cero.html", '<figure class="salida"><pre>$ oracle-factory inventado\nsalida</pre></figure>')
+        self.assertIn("desde-cero.html: hay una salida de comando sin data-ejemplo", "\n".join(sitio_vscode.problemas(dest)))
+
+    def test_wv2_el_guion_de_capturas_cierra_vscode_aunque_falle(self):
+        guion = capturas_vscode.GUION
+        self.assertIn("trap ", guion)
+        self.assertLess(guion.index("trap "), guion.index("code --ozone-platform"))
+        self.assertIn('[ -n "$W" ]', guion)  # sin ventana, no se sigue capturando la pantalla vacía
+
     # --- wv3: sin datos personales ---------------------------------------------------------------------------------------
     def test_wv3_ni_el_sitio_ni_el_registro_ni_el_script_traen_datos_personales(self):
         self.assertFalse([p for p in sitio_vscode.problemas(ROOT) if "dato personal" in p or "correo" in p])
@@ -93,6 +119,8 @@ class WebVscode(unittest.TestCase):
         texto = "\n".join(sitio_vscode.problemas(dest))
         self.assertIn("tests/datos/ejemplos-demo.json: contiene un dato personal (/home/a)", texto)
         self.assertIn("contiene un correo ajeno al ejemplo (alguien@correo.com)", texto)
+        con_pagina(dest, "desde-cero.html", "<p>escribinos a contacto@empresa-ajena.com</p>")
+        self.assertIn("desde-cero.html: contiene un correo ajeno al ejemplo (contacto@empresa-ajena.com)", "\n".join(sitio_vscode.problemas(dest)))
         con_pagina(dest, "index.html", "<p>C:\\Users\\yo</p>")
         self.assertIn("index.html: contiene un dato personal", "\n".join(sitio_vscode.problemas(dest)))
 

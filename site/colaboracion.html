@@ -58,18 +58,18 @@ oracle-factory estado ID_DEL_CAMBIO</code></pre></div></section>
 <p>El tablero de VS Code resume el proyecto entero: cuántos cambios hay abiertos, quién está en cuál, la actividad reciente (con personas y agentes distinguidos) y la métrica «Quién decidió». Abajo, el ejemplo de Ana con su agente: un cambio tomado por ella y otro todavía sin responsable.</p>
 <figure class="captura"><a href="./img/vscode-pendientes.png"><img src="./img/vscode-pendientes.png" alt="El final del tablero de Factory en VS Code: el bloque «El proyecto» con 2 cambios abiertos, quién está en qué (Ana Ejemplo en uno, otro sin responsable) y la actividad reciente de Ana Ejemplo y claude-code." width="1280" height="800" loading="lazy"></a><figcaption>Al final del tablero: <strong>quién está en qué</strong> y la actividad reciente, con personas y agentes por separado.</figcaption></figure>
 <p>Un cambio sin responsable muestra que lo siguiente es una decisión de una persona:</p>
-<figure class="salida"><figcaption><code>estado</code> de un cambio al que nadie tomó todavía: la spec espera la aprobación de una persona.</figcaption><pre data-ejemplo="estado-sin-aprobar">$ oracle-factory estado 20261104-133604-tdo-hecha
-20261104-133604-tdo-hecha — Marcar una tarea como hecha
+<figure class="salida"><figcaption><code>estado</code> de un cambio al que nadie tomó todavía: la spec espera la aprobación de una persona.</figcaption><pre data-ejemplo="estado-sin-aprobar">$ oracle-factory estado 20261104-153416-ere-hecha
+20261104-153416-ere-hecha — Marcar una tarea como hecha
 Fase: espera_aprobacion_spec
 Modo de trabajo: confirmacion
 Requisitos Oracle: todavía no importados
 Pendiente: aprobación humana de spec; importación OpenSpec → requisitos Oracle; revisión humana aprobada y sin hallazgos abiertos; veredicto Oracle exitoso con evidencia; primero hay que aceptar la propuesta y la spec (aprobar-spec)
 Commits: ninguno unido todavía (los nuevos llevan «Cambio: ID» con el hook de oracle-factory hooks).
-Responsable: nadie (oracle-factory tomar ID); agentes: claude-code (cambio_creado 2026-11-04 13:36).
+Responsable: nadie (oracle-factory tomar ID); agentes: claude-code (cambio_creado 2026-11-04 15:34).
 Aprobación spec: pendiente
 Revisión: pendiente
 Oracle: pendiente
-Próximo paso: oracle-factory aprobar-spec 20261104-133604-tdo-hecha</pre></figure>
+Próximo paso: oracle-factory aprobar-spec 20261104-153416-ere-hecha</pre></figure>
 </section>
 
 <section id="revision"><p class="step-kicker">PASO 05</p><h2>Revisar el trabajo del otro.</h2>

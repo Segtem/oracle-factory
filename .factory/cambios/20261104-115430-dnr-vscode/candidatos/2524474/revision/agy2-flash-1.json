@@ -1,0 +1,102 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-vscode/.factory/local/revisiones/2524474-agy2-flash-1",
+  "base": "c3db1edc539fe565485c554df6e2456c0056371e",
+  "head": "2524474d1284668f9f3df2ab4dbd72f8022c844b",
+  "diff_sha256": "9addf99dd17303d7fb0c70ddf12ebe76b4cf8030d6de39d549281d221a940533",
+  "context_sha256": "8a0b6f07b4884918608fb047db72d2f0b29660747ec40c09f6856154f1c1368a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "WV-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "El comprobador omite la verificación de correos ajenos en todas las páginas HTML",
+      "explanation": "En tools/sitio_vscode.py (línea 75), la comprobación de correos ajenos restringe la validación a archivos terminados en (\".json\", \".py\") mediante \"and nombre.endswith((\".json\", \".py\"))\". Las guías y páginas del sitio son archivos con extensión .html (desde-cero.html, colaboracion.html), por lo que la condición evalúa a False y ningún correo ajeno presente en el HTML es detectado. La spec exige explícitamente: «El sistema NO DEBE incluir en las guías, en el registro de ejemplos ni en el script de capturas rutas del directorio personal real, correos ni cuentas que no sean del proyecto de ejemplo...». El filtro se introdujo para evitar que falle con \"tu-correo@example.com\" preexistente en desde-cero.html:33 en vez de incorporar example.com a la lista de dominios permitidos.",
+      "location": {
+        "file": "tools/sitio_vscode.py",
+        "start_line": 74,
+        "end_line": 76,
+        "side": "head"
+      },
+      "trigger": "En una copia temporal del proyecto, se inyectó un correo ajeno (\"contacto@empresa-ajena.com\") en site/desde-cero.html y se ejecutó sitio_vscode.problemas(dest).",
+      "evidence": "sitio_vscode.problemas(dest) devolvió una lista vacía [], ignorando el correo ajeno en la página HTML. En tests/test_web_vscode.py (test_wv3_una_ruta_de_home_o_un_correo_ajeno_se_detectan) sólo se inyecta el correo en ejemplos-demo.json, evitando probar correos en páginas HTML donde la comprobación está omitida.",
+      "related_requirement": "los_ejemplos_no_filtran_datos_personales",
+      "status": "pendiente",
+      "verification": "Comprobado en entorno aislado con copia temporal; el comprobador pasa silenciosamente con correos ajenos en archivos HTML. No se modificó el checkout."
+    },
+    {
+      "id": "WV-2",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "El script de capturas no limpia los procesos de VS Code si ocurre un fallo",
+      "explanation": "En tools/capturas_vscode.py, capturar() ejecuta un guión de shell (GUION) que inicia VS Code en segundo plano con \"code ... &\" bajo \"set -e\". Si cualquier paso intermedio falla (por ejemplo, si xdotool no encuentra la ventana a tiempo dejando W vacío, provocando error de sintaxis en import, o falla la paleta de comandos), \"set -e\" aborta el script de inmediato. La instrucción final de limpieza (\"pkill -f \"/user\"\") nunca se alcanza y no hay un manejador de salida (\"trap ... EXIT INT TERM\"). Como resultado, los procesos de Electron/VS Code quedan huérfanos en background consumiendo recursos y reteniendo bloqueos mientras Python intenta eliminar la carpeta temporal.",
+      "location": {
+        "file": "tools/capturas_vscode.py",
+        "start_line": 132,
+        "end_line": 153,
+        "side": "head"
+      },
+      "trigger": "Análisis del script GUION ejecutado por capturar(); simulación de fallo o salida temprana en un subshell con procesos en background bajo set -e sin trap.",
+      "evidence": "Línea 132 activa \"set -e\", línea 135 lanza \"code ... &\" y la línea 152 \"pkill -f \"/user\"\" sólo se alcanza si ningún comando anterior devuelve un código de salida distinto de cero. Ante un fallo en líneas 137–151 o interrupción por SIGINT, la línea 152 no se ejecuta y los procesos de code no son terminados.",
+      "related_requirement": "los_ejemplos_son_salida_real",
+      "status": "pendiente",
+      "verification": "Verificación por inspección estática del flujo de ejecución y terminación en GUION de tools/capturas_vscode.py."
+    },
+    {
+      "id": "WV-3",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El comprobador acepta archivos de captura corruptos o no válidos como PNG",
+      "explanation": "tools/sitio_vscode.py sólo valida la presencia del archivo con is_file() y que su tamaño sea inferior a 300 KB. No realiza validación de cabecera mágica (bytes PNG) ni decodificación del archivo. Un archivo vacío de 0 bytes o un archivo de texto con extensión .png pasa todas las comprobaciones de sitio_vscode.py sin emitir diagnóstico de error.",
+      "location": {
+        "file": "tools/sitio_vscode.py",
+        "start_line": 39,
+        "end_line": 40,
+        "side": "head"
+      },
+      "trigger": "En una copia temporal, se sobrescribió site/img/vscode-explorador.png con bytes no gráficos b\"archivo corrupto\" y se ejecutó sitio_vscode.problemas(dest).",
+      "evidence": "sitio_vscode.problemas(dest) devolvió [], aceptando como captura válida un archivo con contenido no gráfico.",
+      "related_requirement": "las_guias_muestran_vscode_real",
+      "status": "pendiente",
+      "verification": "Reproducido en copia temporal; el diagnóstico fue vacío con archivos corruptos. No se mutó el checkout."
+    },
+    {
+      "id": "WV-4",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Bloques de ejemplo en las guías sin atributo data-ejemplo evaden la comprobación",
+      "explanation": "La expresión regular EJEMPLO en tools/sitio_vscode.py busca exclusivamente etiquetas \"<pre\\b[^>]*\\bdata-ejemplo=\"([^\"]+)\"[^>]*>\". Si en una guía se agrega un bloque de salida de comandos bajo \"<figure class=\"salida\"><pre>...\" pero se omite el atributo data-ejemplo, el comprobador lo ignora completamente en lugar de advertir sobre un ejemplo de terminal no registrado o sin trazabilidad.",
+      "location": {
+        "file": "tools/sitio_vscode.py",
+        "start_line": 56,
+        "end_line": 62,
+        "side": "head"
+      },
+      "trigger": "En una copia temporal, se agregó \"<figure class=\"salida\"><pre>$ oracle-factory inventado\\nsalida</pre></figure>\" a site/desde-cero.html y se ejecutó sitio_vscode.problemas(dest).",
+      "evidence": "sitio_vscode.problemas(dest) devolvió [], permitiendo bloques de salida no validados en el sitio.",
+      "related_requirement": "los_ejemplos_son_salida_real",
+      "status": "pendiente",
+      "verification": "Reproducido en copia temporal. Diagnóstico vacío ante salidas sin data-ejemplo."
+    }
+  ],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se ejecutó la suite completa de pruebas unitarias (.venv/bin/python -m unittest discover -s tests </dev/null): 1130 pruebas ejecutadas, todas aprobadas (10 omitidas).",
+    "Se ejecutaron las pruebas unitarias del cambio: tests/test_web_vscode.py y tests/test_web.py (17 pruebas en total, tiempo 0.35s, todas aprobadas).",
+    "Se ejecutó la verificación funcional en navegador Chromium de Playwright (node tests/test_site.cjs): 11 comprobaciones realizadas, resultado OK.",
+    "Se comprobó tools/sitio_vscode.py directamente sobre el checkout: resultado sin problemas.",
+    "Se ejecutó tools/capturas_vscode.py con --sin-capturas en copia temporal: generó exitosamente los ejemplos y confirmó coincidencia.",
+    "No se ejecutó la captura gráfica completa con VS Code real bajo Xvfb de tools/capturas_vscode.py por tratarse de un entorno de revisión de sólo lectura sin servidor X interactivo.",
+    "Se realizó inspección visual, de metadatos y OCR con Tesseract sobre las cuatro imágenes site/img/vscode-*.png: dimensiones 1280x800, tamaños individuales entre 121 KB y 130 KB (total ~507 KB <= 1536 KB), sin filtraciones de datos personales, rutas reales ni correos ajenos (sólo Ana Ejemplo y claude-code).",
+    "El paquete de Oracle Clue omite el contenido de los cuatro archivos PNG por ser binarios no UTF-8; fueron inspeccionados directamente en el checkout, lo que requiere marcar review_status como \"incompleto\".",
+    "Modificaciones en tests existentes revisadas: (1) tests/test_site.cjs: el incremento de 10 a 11 en el conteo de secciones de desde-cero.html está plenamente justificado por la nueva sección #vscode; (2) tests/test_web.py: comandos_nombrados quita puntuación final (\").,;:\") del subcomando, lo cual está justificado por apariciones como \"(oracle-factory hooks).\" en la salida CLI de guías y no debilita la comprobación ya que los subcomandos válidos son alfanuméricos."
+  ]
+}
