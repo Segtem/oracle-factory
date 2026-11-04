@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": null,
+  "actor": null,
+  "motivo": null,
+  "decisiones": [
+    {
+      "hallazgo_id": "PA17-004",
+      "estado": null,
+      "motivo": null,
+      "actor": null,
+      "fecha": null
+    },
+    {
+      "hallazgo_id": "PA17-004-2",
+      "estado": null,
+      "motivo": null,
+      "actor": null,
+      "fecha": null
+    }
+  ]
+}

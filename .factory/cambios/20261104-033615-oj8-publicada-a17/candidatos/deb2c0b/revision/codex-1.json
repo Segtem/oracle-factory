@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a17/.factory/local/revisiones/deb2c0b-codex-1",
+  "base": "9ce9f850b76ef77402d53013bd78dfe471245bcc",
+  "head": "deb2c0b9c47aa29b9d1b0bca92c4054f4f22e4a5",
+  "diff_sha256": "084b352de4c67020a05653425d88d3404d9ca8c2aadf780cc1ec02bdd7879326",
+  "context_sha256": "b78539491530de8f173da666002d23c3f43a1ccaf72f34fc5c06d54e246ce68f",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "PA17-004",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "El detector omite «pendiente de publicación» para la a17",
+      "explanation": "El detector actualizado recoge correctamente las formas señaladas en las rondas anteriores, pero no una forma concisa y plausible en los textos de distribución: «La 0.1.0a17 está pendiente de publicación». Con las notas marcadas como publicadas, esa afirmación inequívoca de que la a17 aún espera publicarse no generaría divergencia. No está en README, docs ni site actuales, así que el impacto práctico presente es nulo; es una omisión de cobertura futura dentro del límite declarado de lista acotada.",
+      "location": {"file": "tools/docs_al_dia.py", "start_line": 110, "end_line": 110, "side": "head"},
+      "trigger": "En una copia del checkout, añadir «La 0.1.0a17 está pendiente de publicación» a README.md, docs/colaboracion.md o site/desde-cero.html, manteniendo NOTAS-DE-RELEASE.md con el encabezado publicado, y ejecutar `python tools/docs_al_dia.py`.",
+      "evidence": "Reproducción del patrón: `patron_preparacion('0.1.0a17').search('La 0.1.0a17 está pendiente de publicación.')` devuelve None. La sonda de `docs_al_dia.problemas()` sobre los archivos actuales reporta `La documentación está al día con la CLI.`. La búsqueda textual del checkout tampoco encontró la frase omitida.",
+      "related_requirement": "se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17 / Scenario: un texto que quedó con la a17 como candidata",
+      "status": "pendiente",
+      "verification": "Inspección estática y reproducción en memoria del patrón; ejecución de `python tools/docs_al_dia.py` sobre el checkout intacto. No se alteró el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí propuesta, spec, diff/contexto del paquete, implementación y pruebas relevantes, más los informes de las rondas previas. Las tres correcciones previas siguen cubiertas: las frases de PA17-001, PA17-002 y PA17-003 aparecen como casos positivos en tests/test_publicada_a17.py y el patrón las reconoce; los ejemplos negativos sobre candidatos de revisión y estados de cambios siguen separados.",
+    "Ejecuté `python tools/docs_al_dia.py`: salida exitosa, sin divergencias en README, docs/ o site/. Contrasté además los textos reales y probé en memoria la frase omitida del hallazgo. No modifiqué el checkout, ni ejecuté la suite unitaria o mutaciones persistentes.",
+    "PA17-004 se clasifica baja porque la omisión no aparece hoy y no cambia ningún hecho de publicación actual. No hallé defecto de impacto práctico presente. No verifiqué PyPI ni GitHub independientemente; se toman como premisa de la solicitud.",
+    "Las ediciones de tests existentes están justificadas por la transición a publicada: tests/datos/guias-texto.json regenera el texto extraído de la guía actualizada; tests/test_docs.py adapta las frases base y mutaciones del README; tests/test_entrega_a17.py elimina el test ea1 que afirmaba que a17 estaba en preparación y sus cuatro aserciones obsoletas. La cobertura del estado publicado y la coherencia de textos se añade en tests/test_publicada_a17.py."
+  ]
+}

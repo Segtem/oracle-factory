@@ -292,6 +292,68 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "f6f7aab25439"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T04:36:00.270417+00:00",
+      "revisor": "codex",
+      "candidato": "deb2c0b",
+      "lanzamiento": "1aa0760c3df3"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T04:36:00.299477+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "deb2c0b",
+      "lanzamiento": "9dc6bf60381c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T04:37:15.928173+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "deb2c0b",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "1aa0760c3df3"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T04:48:10.075839+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "deb2c0b",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "9dc6bf60381c"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-04T04:48:41.648086+00:00",
+      "decision": "aprobar",
+      "candidato": "deb2c0b"
     }
   ],
   "tipos": {
@@ -332,5 +394,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Cuatro rondas sobre la regla que detecta lo que siga llamando candidata a la 0.1.0a17 (las tres primeras trajeron un hallazgo medio de codex cada una: «versión candidata … v», «candidata a …» y «aún no está publicada / será la próxima versión»; los tres se arreglaron con frases positivas y legítimas nuevas y con mutaciones detectadas: 2, 2 y 3). La cuarta ronda no dejó hallazgos medios ni altos; trajo dos bajos (codex: «pendiente de publicación»; agy2-flash: «Aún no está publicada la 0.1.0a17», con la negación antes del verbo) sobre formas que hoy ningún texto contiene. Pido que los aceptes como riesgo: el detector es una lista acotada de construcciones, un control que no bloquea nada, y seguir una forma por ronda no cierra la clase. Textos reales: docs_al_dia.problemas sobre el checkout da vacío. Evidencia del candidato deb2c0b: suite completa, 1122 pruebas y 9 casos de contrato, éxito. Tests existentes modificados, declarados a los revisores: test_docs.py (frases de versión del README) y test_entrega_a17.py (aserción ea1 de estado). agy y agy2 no pudieron revisar: se quedaron sin cuota (429); revisaron codex y agy2-flash.",
+      "candidato": "deb2c0b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-04T04:48:41.648070+00:00"
+    }
+  }
 }
