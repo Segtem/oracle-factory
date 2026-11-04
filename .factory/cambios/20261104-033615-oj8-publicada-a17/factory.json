@@ -2,11 +2,24 @@
   "id": "20261104-033615-oj8-publicada-a17",
   "titulo": "Declarar publicada la 0.1.0a17",
   "capacidad": "distribucion",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261104-033615-oj8-publicada-a17/specs/distribucion/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "6b51d0d49d0fe7780afe5e2dd04554a83fa674edf6f3af3b4ef036586277d83e",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-04T03:36:48.219728+00:00",
+    "documentos": {
+      "openspec/changes/20261104-033615-oj8-publicada-a17/proposal.md": "2698f1a73e494dbde779d0698dd45badaa2dca4973e47cd90e0f987400c6b495",
+      "openspec/changes/20261104-033615-oj8-publicada-a17/specs/distribucion/spec.md": "6b51d0d49d0fe7780afe5e2dd04554a83fa674edf6f3af3b4ef036586277d83e"
+    }
+  },
+  "requisitos": [
+    "distribucion_c0fb4528d614ab5c0.los_textos_declaran_publicada_la_version_a17",
+    "distribucion_c0fb4528d614ab5c0.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +32,36 @@
       "forma": "decidio",
       "cuando": "2026-11-04T03:36:15.157251+00:00",
       "capacidad": "distribucion"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-04T03:36:48.219750+00:00",
+      "documentos": {
+        "openspec/changes/20261104-033615-oj8-publicada-a17/proposal.md": "2698f1a73e494dbde779d0698dd45badaa2dca4973e47cd90e0f987400c6b495",
+        "openspec/changes/20261104-033615-oj8-publicada-a17/specs/distribucion/spec.md": "6b51d0d49d0fe7780afe5e2dd04554a83fa674edf6f3af3b4ef036586277d83e"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-04T03:37:00.654280+00:00",
+      "ids": [
+        "distribucion_c0fb4528d614ab5c0.los_textos_declaran_publicada_la_version_a17",
+        "distribucion_c0fb4528d614ab5c0.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "distribucion_c0fb4528d614ab5c0.los_textos_declaran_publicada_la_version_a17": "funcional",
+    "distribucion_c0fb4528d614ab5c0.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

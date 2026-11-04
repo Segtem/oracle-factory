@@ -102,7 +102,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261103-113909-oen-contratojson]] — Pruebas de contrato entre la CLI y la extensión de VS Code (cerrada)
 - [[cambios/20261103-170557-a0e-skillagente]] — Una skill de agente con el flujo de Factory (cerrada)
 - [[cambios/20261103-232202-jo3-entregaa17]] — Preparar la distribución 0.1.0a17 (cerrada)
-- [[cambios/20261104-033615-oj8-publicada-a17]] — Declarar publicada la 0.1.0a17 (espera_aprobacion_spec)
+- [[cambios/20261104-033615-oj8-publicada-a17]] — Declarar publicada la 0.1.0a17 (requisitos_importados)
 
 ## Requisitos
 
@@ -201,6 +201,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica]]
 - [[requisitos/desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes]]
 - [[requisitos/desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero]]
+- [[requisitos/distribucion_c0fb4528d614ab5c0.los_textos_declaran_publicada_la_version_a17]]
+- [[requisitos/distribucion_c0fb4528d614ab5c0.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17]]
 - [[requisitos/distribucion_c429661c62d96c96b.el_wheel_a16_instalado_ofrece_lo_nuevo]]
 - [[requisitos/distribucion_c429661c62d96c96b.la_entrega_a16_registra_sus_pruebas_y_sus_limites]]
 - [[requisitos/distribucion_c429661c62d96c96b.la_version_a16_es_coherente_y_declara_su_estado]]
