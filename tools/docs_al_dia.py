@@ -107,6 +107,10 @@ def patron_preparacion(version: str) -> re.Pattern:
         rf"{v}\s*\(?en preparaci[oó]n",                                          # 0.1.0a15 (en preparación)
         rf"preparaci[oó]n\s+{v}",                                                # PREPARACIÓN 0.1.0a15
         rf"candidat[oa]\s+(?:en preparaci[oó]n\s+)?(?:de\s+)?(?:factory\s+)?[`']?(?:oracle-factory\s*(?:==)?\s*)?{v}",  # candidato Factory 0.1.0a15
+        rf"{v}{cerca}\b(?:a[uú]n|todav[ií]a)\s+no\s+(?:est[aá]\s+|fue\s+|ha\s+sido\s+|se\s+(?:ha\s+)?)?(?:public|sali)|(?:a[uú]n|todav[ií]a)\s+no\s+(?:sali[oó]|se\s+public[oó])\b{cerca}{v}",  # la 0.1.0a15 aún no está publicada
+        rf"{v}{cerca}\bser[aá]\s+(?:la\s+)?pr[oó]xima\s+versi[oó]n|pr[oó]xima\s+versi[oó]n{cerca}\b(?:es|ser[aá])\s+(?:la\s+)?{v}",  # será la próxima versión
+        rf"candidat[oa]\s+a\s+(?:ser\s+|publicar\s+)?(?:la\s+|el\s+)?(?:versi[oó]n\s+)?{v}",                 # La candidata a versión 0.1.0a15
+        rf"versi[oó]n\s+candidat[oa]\b{cerca}{v}",                                # Esta versión candidata es la 0.1.0a15
         rf"{v}{cerca}\s(?:es|sigue siendo|queda como|como)\s+(?:la\s+|el\s+|una?\s+)?(?:versi[oó]n\s+)?candidat[oa]",  # la 0.1.0a15 es la candidata
         rf"{v}{cerca}\b(?:est[aá]|queda|sigue)\s+en preparaci[oó]n",             # la 0.1.0a15 está en preparación
         rf"{v}{cerca}estado de preparaci[oó]n|estado de preparaci[oó]n{cerca}{v}", # Versión 0.1.0a15 y estado de preparación

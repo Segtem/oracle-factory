@@ -1,0 +1,4 @@
+requisito distribucion_c0fb4528d614ab5c0.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17:
+    texto "Tipo: funcional El sistema DEBE detectar y nombrar el archivo que siga presentando como candidata o en preparación a la 0.1.0a17 una vez que las notas la declaran publicada, y NO DEBE marcar como divergencia el candidato de una revisión ni los estados de preparación de un cambio."
+    fuente "openspec/changes/20261104-033615-oj8-publicada-a17/specs/distribucion/spec.md#se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17"
+    medido_por factory_publicada_a17.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17, factory_publicada_a17.corrida_completa

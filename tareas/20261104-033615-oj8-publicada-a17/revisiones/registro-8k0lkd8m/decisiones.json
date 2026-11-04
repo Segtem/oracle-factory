@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "973852ec7bc98c86383a9ddce2e3b8f84955926dfcb1ca817808b301a36bf563",
+  "actor": "Brian Hollweg",
+  "motivo": "Cuatro rondas sobre la regla que detecta lo que siga llamando candidata a la 0.1.0a17 (las tres primeras trajeron un hallazgo medio de codex cada una: «versión candidata … v», «candidata a …» y «aún no está publicada / será la próxima versión»; los tres se arreglaron con frases positivas y legítimas nuevas y con mutaciones detectadas: 2, 2 y 3). La cuarta ronda no dejó hallazgos medios ni altos; trajo dos bajos (codex: «pendiente de publicación»; agy2-flash: «Aún no está publicada la 0.1.0a17», con la negación antes del verbo) sobre formas que hoy ningún texto contiene. Pido que los aceptes como riesgo: el detector es una lista acotada de construcciones, un control que no bloquea nada, y seguir una forma por ronda no cierra la clase. Textos reales: docs_al_dia.problemas sobre el checkout da vacío. Evidencia del candidato deb2c0b: suite completa, 1122 pruebas y 9 casos de contrato, éxito. Tests existentes modificados, declarados a los revisores: test_docs.py (frases de versión del README) y test_entrega_a17.py (aserción ea1 de estado). agy y agy2 no pudieron revisar: se quedaron sin cuota (429); revisaron codex y agy2-flash.",
+  "decisiones": [
+    {
+      "hallazgo_id": "PA17-004",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: El detector omite la construcción invertida «aún/todavía no está/fue publicada la 0.1.0a17»",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-04T11:31:24.555590+00:00"
+    },
+    {
+      "hallazgo_id": "PA17-004-2",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: El detector omite «pendiente de publicación» para la a17",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-04T11:31:25.665483+00:00"
+    }
+  ]
+}

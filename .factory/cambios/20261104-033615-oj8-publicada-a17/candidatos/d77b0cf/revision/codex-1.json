@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a17/.factory/local/revisiones/d77b0cf-codex-1",
+  "base": "9ce9f850b76ef77402d53013bd78dfe471245bcc",
+  "head": "d77b0cf1d0277128742e4f549c118688db73576f",
+  "diff_sha256": "ffba03fab91e2d967ab0c4df6af814c6d5f253ee85b042b330afcb4866ca1f41",
+  "context_sha256": "fe47e6c4616505282c7ebef2a49a214d81b8f98113643f1b01e5a350bcaa9668",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "PA17-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "El detector omite formas habituales de decir que la a17 aún no salió",
+      "explanation": "La regla cubre las dos formas corregidas en rondas previas, pero sigue basándose en una lista acotada de construcciones. No detecta afirmaciones inequívocas como «La versión 0.1.0a17 aún no está publicada» o «La 0.1.0a17 todavía no fue publicada»; tampoco «La 0.1.0a17 será la próxima versión de Factory». Un README, guía o página de release que conserve cualquiera de estas frases sobre una versión ya publicada pasaría como al día, pese al requisito de detectar lo que aún la presente en preparación/candidata. La forma adjetival «próxima versión candidata» sí se detecta por la regla de candidata; una mención neutra a «pre-lanzamiento» sola no demuestra que no esté publicada y no la cuento como defecto. Las formas omitidas no aparecen hoy en los textos del candidato, así que el impacto actual es nulo; el riesgo es que el control no detecte una regresión de redacción corriente.",
+      "location": {"file": "tools/docs_al_dia.py", "start_line": 114, "end_line": 114, "side": "head"},
+      "trigger": "Con las notas encabezadas «# Oracle Factory 0.1.0a17», añadir a README.md, docs/colaboracion.md o site/desde-cero.html cualquiera de estas frases y correr `python tools/docs_al_dia.py`: «La versión 0.1.0a17 aún no está publicada»; «La 0.1.0a17 todavía no fue publicada»; «La 0.1.0a17 será la próxima versión de Factory». El detector no informa divergencia.",
+      "evidence": "Reproduje las tres variantes directamente con `docs_al_dia.patron_preparacion('0.1.0a17').search(...)`; todas devolvieron None. En la misma exploración, «La próxima versión candidata de Factory es la 0.1.0a17» sí coincidió. `docs_al_dia.problemas()` en el checkout actual devuelve `[]`, y la búsqueda directa del patrón en README.md, docs/colaboracion.md y las cuatro páginas HTML cubiertas por la prueba no encontró coincidencias.",
+      "related_requirement": "se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17 / Scenario: un texto que quedó con la a17 como candidata",
+      "status": "pendiente",
+      "verification": "Análisis estático del patrón y sondas manuales de frases sobre el código del checkout; no edité el candidato ni ejecuté una modificación persistente. Las frases omitidas se pueden escribir en una copia temporal para comprobar el falso silencio end-to-end."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, los 19 archivos del diff incluido en el paquete, las revisiones previas indicadas y los textos/pruebas pertinentes. Las rondas anteriores siguen cerradas: las formas «Esta versión candidata es la 0.1.0a17» y «La candidata a versión 0.1.0a17 está lista» están en los casos positivos y coinciden con el patrón actual.",
+    "Contrasté el estado publicado en notas, README, guía y web; los textos actuales no contienen las variantes obsoletas exploradas. `docs_al_dia.problemas()` devuelve `[]`; las sondas adicionales incluyen frases probables y frases legítimas de candidatos de revisión. No encontré falsos positivos del patrón en los textos actuales ni en los ejemplos legítimos de las pruebas. No comprobé PyPI o GitHub de forma independiente y tomé esos hechos como premisa indicada por quien pidió la revisión.",
+    "Los cambios a tests/datos/guias-texto.json están justificados por actualizar las frases de la guía que dejaron de describir la versión como en preparación. Los cambios a tests/test_docs.py sustituyen los textos de preparación del README usados en las mutaciones por el estado publicado; parecen justificados. En tests/test_entrega_a17.py se quitó el test existente `test_ea1_los_textos_y_la_web_estan_al_dia_y_la_a16_figura_publicada_y_la_a17_en_preparacion` y sus cuatro aserciones del estado anterior; el cambio está explicado por la transición y la cobertura equivalente del estado nuevo está en tests/test_publicada_a17.py. No observé una eliminación injustificada, aunque debe constar que un test existente fue reemplazado/eliminado.",
+    "No ejecuté la suite completa, mutaciones automatizadas ni pruebas de producto: esta revisión se limitó al contraste estático y a ejecutar el patrón/validador documental vigente sobre textos actuales y frases en memoria. No inspeccioné los registros/evidencia excluidos del paquete, según instrucción."
+  ]
+}

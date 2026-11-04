@@ -1,4 +1,4 @@
-# Oracle Factory 0.1.0a17 (en preparación)
+# Oracle Factory 0.1.0a17
 
 - **Una puerta antes de publicar.** `oracle-factory puerta` busca credenciales en las líneas agregadas por todos los commits que se van a publicar y corre `agentes`, `kb` y `resumen` con `--verificar`; `oracle-factory hooks` instala un hook `pre-push` que la llama. Sólo bloquea si encuentra un secreto o si la guía para agentes quedó vieja, y no escribe nada en el proyecto. Ver `docs/puerta.md`.
 - **Avisos y camino ligero.** `estado` avisa de los tests existentes que un cambio modificó o borró, de cuatro rondas de revisión o más y de más de 450 líneas de producto, y dice si el candidato califica para el **camino ligero** (hasta 150 líneas, sin tocar las reglas de decisión): un revisor y una ronda. Son orientaciones, no bloqueos: no cambian ningún paso pendiente ni lo que decide una persona. Las claves nuevas del JSON de `estado` son `bucle_de_revision`, `cambio_grande` y `camino`.
@@ -7,6 +7,7 @@
 - **Un contrato con la extensión de VS Code.** `editores/vscode/contrato.json` declara qué claves de `resumen`, `estado`, `donde` y `tablero` lee la extensión y con qué tipos; una prueba falla si la extensión lee algo no declarado o si la CLI deja de entregar algo declarado.
 - **La skill del flujo.** `oracle-factory skill` muestra el procedimiento para trabajar un cambio de punta a punta (qué mirar antes de abrir uno, el orden de los pasos, la evidencia, las rondas y cuándo parar) y `skill --instalar` lo escribe en `.claude/skills/oracle-factory/SKILL.md` del proyecto, sin pisar nada ajeno.
 - **Textos al día.** La portada ya no dice que Factory no invoca Clue. Las notas declaran publicada la 0.1.0a16, con su tag y su release.
+- **Publicada.** En PyPI como `oracle-factory==0.1.0a17` y en GitHub con su tag `v0.1.0a17` (pre-release); el wheel y el sdist de PyPI tienen los mismos hashes SHA-256 que los que se construyeron desde `main`, se instalaron en un entorno nuevo y pasaron las comprobaciones del probador.
 - Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux. La extensión de VS Code sigue en 0.5.0 y se arma con `python3 editores/vscode/empaquetar.py`.
 
 # Oracle Factory 0.1.0a16
