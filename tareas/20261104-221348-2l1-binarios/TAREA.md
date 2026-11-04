@@ -27,3 +27,15 @@ Medidas de revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando: factory_r
 ### Nota (2026-11-04 22:56:44 UTC)
 
 Medidas de revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios: factory_revision_binarios.el_pedido_indica_como_declarar_binarios, factory_revision_binarios.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-04 22:57:34 UTC)
+
+Medidas de revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-04 22:57:34 UTC)
+
+Medidas de revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-04 22:57:34 UTC)
+
+Medidas de revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean: Brian Hollweg (persona, confirmo, modo confirmacion).
