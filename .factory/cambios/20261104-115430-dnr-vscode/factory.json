@@ -425,6 +425,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "9462909f9918"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-04T19:46:04.560226+00:00",
+      "decision": "aprobar",
+      "candidato": "19b9947"
     }
   ],
   "tipos": {
@@ -482,5 +492,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres rondas con codex y agy2-flash. Ronda 1: un medio de codex (el comprobador aceptaba un PNG corrupto) y tres medios y un bajo de agy2-flash (correos ajenos sin buscar en el HTML, script de capturas sin limpieza si fallaba, el mismo PNG corrupto y una salida sin data-ejemplo); todos arreglados con casos y mutaciones detectadas. Ronda 2: un medio de codex sobre la misma clase (firma, IHDR y IEND con basura en el medio); arreglado recorriendo los bloques con su longitud y su CRC, exigiendo IDAT e IEND al final sin sobrante, con mutaciones detectadas; agy2-flash sin hallazgos. Ronda 3: 0 hallazgos de ambos. Evidencia del candidato 19b9947: 1133 pruebas y 11 casos de contrato, éxito. Límite declarado: el validador no decodifica los píxeles de las imágenes. Tests existentes modificados, declarados a los revisores: tests/test_web.py (comandos_nombrados quita la puntuación pegada al subcomando), tests/test_site.cjs (10 a 11 secciones) y tests/datos/guias-texto.json (sólo líneas agregadas). agy y agy2 no pudieron revisar: el wrapper pasa --effort a un modelo que no lo admite; revisaron codex y agy2-flash.",
+      "candidato": "19b9947",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-04T19:46:04.560211+00:00"
+    }
+  }
 }
