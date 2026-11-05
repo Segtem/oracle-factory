@@ -1,4 +1,4 @@
 requisito web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia:
     texto "Tipo: funcional El sistema DEBE ofrecer cinco escenarios (dos frentes que se unen solos, el mismo archivo editado por dos, dos ramas que decidieron distinto, una revisión que queda vieja, y un agente que intenta cerrar), cada uno con un final explicado en una frase y un registro donde cada decisión figura a nombre de quien la tomó."
     fuente "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md#los_escenarios_cuentan_la_concurrencia"
-    sin_medir "sin medida todavía; escenarios: «recorrer cada escenario hasta el final», «el conflicto lo resuelve una persona»"
+    medido_por factory_web_concurrencia.los_escenarios_cuentan_la_concurrencia, factory_web_concurrencia.corrida_completa
