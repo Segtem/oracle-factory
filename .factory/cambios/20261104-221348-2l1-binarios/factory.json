@@ -269,6 +269,32 @@
         "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
         "factory_revision_binarios.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-05T10:06:31.322666+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando",
+      "medidas": [
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-05T10:06:31.484050+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean",
+      "medidas": [
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean",
+        "factory_revision_binarios.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -292,28 +318,14 @@
         "factory_revision_binarios.el_pedido_indica_como_declarar_binarios": "catalogos/factory_revision_binarios.el_pedido_indica_como_declarar_binarios.oracle",
         "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
       }
-    }
-  },
-  "medidas_pendientes": {
-    "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean": {
-      "sha256": "88f75bb6f894fc0b9a4d0d7e7cb106836957b61b7d6924ac6e6736f5d4144ad8",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-05T10:04:19.544477+00:00",
-      "catalogos": {
-        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "2b64f88b35fada99284fd75973b1ea4f3e8d6aca1945f1d7b9d90dc3d8662544",
-        "factory_revision_binarios.corrida_completa": "b1b91b2ff0f52273bc06ad06049917fca95d45b6428616e64a415012991dd814"
-      },
-      "archivos_catalogo": {
-        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "catalogos/factory_revision_binarios.los_binarios_nombrados_no_bloquean.oracle",
-        "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
-      }
     },
     "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-05T10:06:31.282971+00:00",
       "sha256": "9869ee304883d16503b2ddb52bdc53ea045a3a605cedf8e1a71128e89e19f3ce",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-05T10:04:21.035973+00:00",
       "catalogos": {
         "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando": "1deccc428a63c5d26bc0a0ec2ed1b686909228adf85b17acd2300bf4d452578d",
         "factory_revision_binarios.corrida_completa": "b1b91b2ff0f52273bc06ad06049917fca95d45b6428616e64a415012991dd814"
@@ -322,6 +334,23 @@
         "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando": "catalogos/factory_revision_binarios.lo_no_nombrado_sigue_bloqueando.oracle",
         "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
       }
+    },
+    "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-05T10:06:31.443645+00:00",
+      "sha256": "88f75bb6f894fc0b9a4d0d7e7cb106836957b61b7d6924ac6e6736f5d4144ad8",
+      "catalogos": {
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "2b64f88b35fada99284fd75973b1ea4f3e8d6aca1945f1d7b9d90dc3d8662544",
+        "factory_revision_binarios.corrida_completa": "b1b91b2ff0f52273bc06ad06049917fca95d45b6428616e64a415012991dd814"
+      },
+      "archivos_catalogo": {
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "catalogos/factory_revision_binarios.los_binarios_nombrados_no_bloquean.oracle",
+        "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
