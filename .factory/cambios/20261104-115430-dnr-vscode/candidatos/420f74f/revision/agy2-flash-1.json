@@ -1,0 +1,27 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-vscode/.factory/local/revisiones/420f74f-agy2-flash-1",
+  "base": "c3db1edc539fe565485c554df6e2456c0056371e",
+  "head": "420f74f744f85afafc261b8557b6693a534a9aae",
+  "diff_sha256": "0eb051884d60a25564b6f794d5be40cd709765bf199b4f0fa88bff0205019fd2",
+  "context_sha256": "44966f60002d182b12aedd657d91a7a06b40ed67fceab31c7ce32b3c5551d9d9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se ejecutó la suite completa de pruebas unitarias (.venv/bin/python -m unittest discover -s tests </dev/null): 1133 pruebas ejecutadas, todas aprobadas (10 omitidas).",
+    "Se ejecutaron las pruebas unitarias del cambio: tests/test_web_vscode.py y tests/test_web.py (20 pruebas en total, tiempo 0.41s, todas aprobadas).",
+    "Se comprobó tools/sitio_vscode.py directamente sobre el checkout: resultado 'sin problemas' (código de salida 0).",
+    "Se ejecutó la verificación funcional en navegador Chromium de Playwright (node tests/test_site.cjs): 11 comprobaciones realizadas, resultado OK, 0 errores.",
+    "Se ejecutó tools/capturas_vscode.py con --sin-capturas en copia temporal aislada: generó exitosamente los ejemplos y confirmó coincidencia exacta con lo registrado.",
+    "No se ejecutó la captura gráfica completa con VS Code interactivo bajo Xvfb de tools/capturas_vscode.py por tratarse de un entorno de revisión de sólo lectura sin display gráfico.",
+    "Se realizó inspección visual, de metadatos y OCR con Tesseract sobre las cuatro imágenes site/img/vscode-*.png: dimensiones 1280x800, tamaños individuales entre 122 KB y 134 KB (total ~514 KB <= 1536 KB), formato PNG colormap 8 bits, sin filtraciones de datos personales, rutas reales ni correos ajenos (sólo Ana Ejemplo y claude-code).",
+    "Se comprobó que las correcciones de la ronda 1 cubren la clase completa de problemas: (1) Imagen inválida: medidas_png valida firma mágica PNG, cabecera IHDR, cierre IEND con CRC, ancho y alto no nulos, y consistencia de proporción respecto a los atributos HTML; (2) Dato personal: el escaneo abarca todas las páginas HTML, ejemplos-demo.json y capturas_vscode.py, restringiendo correos a los dominios autorizados (@ejemplo.org, @example.com, @noreply.github.com); (3) Salida no registrada: se exige data-ejemplo en cada <figure class=\"salida\"> y coincidencia palabra por palabra; (4) Proceso suelto: capturas_vscode.py incorpora trap en EXIT, INT y TERM con pkill -f \"$P/user\" y validación de existencia de ventana.",
+    "Caso exótico analizado: si en el HTML se declarara height=\"0\", la guarda int(alto) en la comprobación de proporción evita la división por cero y \"0\" no evalúa como falso en la comprobación de presencia; se clasifica como caso exótico sin impacto práctico ya que las páginas declaran dimensiones válidas (1280x800) y cualquier valor distinto de la proporción real es detectado.",
+    "Modificaciones en tests existentes revisadas y justificadas: (1) tests/test_site.cjs: el incremento de 10 a 11 en el conteo de secciones de desde-cero.html responde a la nueva sección #vscode; (2) tests/test_web.py: comandos_nombrados quita la puntuación pegada al subcomando (\").,;:\"), necesario para separar puntuación sintáctica en el texto de las guías sin debilitar la prueba; (3) tests/datos/guias-texto.json: sólo agrega las líneas de texto nuevas.",
+    "El paquete de Oracle Clue omite el contenido de los cuatro archivos PNG por ser binarios no UTF-8; fueron inspeccionados directamente en el checkout, lo que requiere marcar review_status como 'incompleto' según las reglas de validación de Oracle Clue."
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "web_vscode_caso": [
+    {
+      "requisito": "las_guias_muestran_vscode_real",
+      "caso": "WebVscode.test_wv1_el_repositorio_muestra_cuatro_capturas_con_alt_medidas_y_peso",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_guias_muestran_vscode_real",
+      "caso": "WebVscode.test_wv1_un_png_corrupto_truncado_o_de_otra_proporcion_se_detecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_guias_muestran_vscode_real",
+      "caso": "WebVscode.test_wv1_una_imagen_inexistente_o_sin_alt_o_sin_medidas_se_detecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_guias_muestran_vscode_real",
+      "caso": "WebVscode.test_wv1_una_imagen_pesada_o_pocas_capturas_se_detectan",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_ejemplos_son_salida_real",
+      "caso": "WebVscode.test_wv2_cada_ejemplo_coincide_con_el_registro_y_hay_varios",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_ejemplos_son_salida_real",
+      "caso": "WebVscode.test_wv2_el_guion_de_capturas_cierra_vscode_aunque_falle",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_ejemplos_son_salida_real",
+      "caso": "WebVscode.test_wv2_la_puntuacion_de_la_salida_no_es_parte_del_subcomando",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_ejemplos_son_salida_real",
+      "caso": "WebVscode.test_wv2_un_ejemplo_escrito_a_mano_se_detecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_ejemplos_son_salida_real",
+      "caso": "WebVscode.test_wv2_una_salida_sin_su_registro_se_detecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_ejemplos_no_filtran_datos_personales",
+      "caso": "WebVscode.test_wv3_ni_el_sitio_ni_el_registro_ni_el_script_traen_datos_personales",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_ejemplos_no_filtran_datos_personales",
+      "caso": "WebVscode.test_wv3_una_ruta_de_home_o_un_correo_ajeno_se_detectan",
+      "codigo": 0
+    }
+  ],
+  "web_vscode_corrida": [
+    {
+      "completa": 1,
+      "casos": 11
+    }
+  ]
+}

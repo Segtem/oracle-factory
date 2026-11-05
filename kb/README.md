@@ -103,6 +103,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261103-170557-a0e-skillagente]] — Una skill de agente con el flujo de Factory (cerrada)
 - [[cambios/20261103-232202-jo3-entregaa17]] — Preparar la distribución 0.1.0a17 (cerrada)
 - [[cambios/20261104-033615-oj8-publicada-a17]] — Declarar publicada la 0.1.0a17 (cerrada)
+- [[cambios/20261104-115430-dnr-vscode]] — Web: capturas reales de VS Code y ejemplos en las guías (cerrada)
 - [[cambios/20261104-221348-2l1-binarios]] — Revisión: los archivos binarios del paquete no impiden aprobar (cerrada)
 
 ## Requisitos
@@ -395,6 +396,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes]]
 - [[requisitos/vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto]]
 - [[requisitos/web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue]]
+- [[requisitos/web_c2e4546f9d843453e.las_guias_muestran_vscode_real]]
+- [[requisitos/web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales]]
+- [[requisitos/web_c2e4546f9d843453e.los_ejemplos_son_salida_real]]
 - [[requisitos/web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy]]
 - [[requisitos/web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli]]
 - [[requisitos/web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible]]

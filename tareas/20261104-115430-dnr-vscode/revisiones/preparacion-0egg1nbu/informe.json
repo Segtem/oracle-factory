@@ -1,0 +1,95 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261104-115430-dnr-vscode",
+  "contexto": {
+    "head": "c9ab1bedd71b12ac46a77acc6cef29960145e37f",
+    "archivos_sha256": "3b76dc5af98807a23625af79b8e7e86ada47ab80539047a3de67e2cf0ae02ec9"
+  },
+  "documentos": {
+    "openspec/changes/20261104-115430-dnr-vscode/proposal.md": "975c40c046669808463f266eb355d25e02355d752c7365b69edf1604384db763",
+    "openspec/changes/20261104-115430-dnr-vscode/specs/web/spec.md": "22c7930c9ae5915ff657db45a90375045f2b2f0a44dc762fff39164b79603981"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_web_vscode.corrida_completa.oracle",
+    "catalogos/factory_web_vscode.las_guias_muestran_vscode_real.oracle",
+    "catalogos/factory_web_vscode.los_ejemplos_no_filtran_datos_personales.oracle",
+    "catalogos/factory_web_vscode.los_ejemplos_son_salida_real.oracle",
+    "openspec/changes/20261104-115430-dnr-vscode/design.md",
+    "openspec/changes/20261104-115430-dnr-vscode/proposal.md",
+    "openspec/changes/20261104-115430-dnr-vscode/specs/web/spec.md",
+    "openspec/changes/20261104-115430-dnr-vscode/tasks.md",
+    "requisitos/web_c2e4546f9d843453e.las_guias_muestran_vscode_real.requisito",
+    "requisitos/web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales.requisito",
+    "requisitos/web_c2e4546f9d843453e.los_ejemplos_son_salida_real.requisito",
+    "site/colaboracion.html",
+    "site/desde-cero.html",
+    "site/style.css",
+    "tests/datos/ejemplos-demo.json",
+    "tests/datos/guias-texto.json",
+    "tests/test_site.cjs",
+    "tests/test_web.py",
+    "tests/test_web_vscode.py",
+    "tools/capturas_vscode.py",
+    "tools/sitio_vscode.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1146 pruebas, 11 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/9d492f6/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (incompleto)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/9d492f6/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 2524474: agy (gemini-3.8-flash-high), 4 hallazgos: WV-1 (media), WV-2 (media), WV-3 (media), WV-4 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/2524474/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 2524474: codex (gpt-6-luna), 1 hallazgo: WV-1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/2524474/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 420f74f: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/420f74f/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 420f74f: codex (gpt-6-luna), 1 hallazgo: png-structure-not-validated (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/420f74f/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 19b9947: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/19b9947/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 19b9947: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/19b9947/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): binarios que el paquete no trae y el revisor declara haber abierto en el checkout (Factory no lo comprueba): site/img/vscode-explorador.png, site/img/vscode-pendientes.png, site/img/vscode-por-que.png, site/img/vscode-tablero.png",
+    "codex (gpt-6-luna): Leí la propuesta, la spec, el diff del paquete y las seis revisiones previas indicadas; revisé la implementación, las pruebas y sus cambios. No revisé los archivos de Factory excluidos del paquete.",
+    "codex (gpt-6-luna): Ejecuté `python tools/sitio_vscode.py`: sin problemas. Ejecuté `python -m unittest tests.test_web_vscode tests.test_web </dev/null`: 20 pruebas aprobadas. No ejecuté la suite completa ni `tools/capturas_vscode.py` con o sin capturas.",
+    "codex (gpt-6-luna): Abrí visualmente las cuatro imágenes: muestran la vista Factory del explorador, el tablero, la sección del proyecto y la consulta por qué en VS Code; aparecen Ana Ejemplo y claude-code, sin datos personales observables. El código del comprobador y los ejemplos cumplen las verificaciones locales examinadas.",
+    "codex (gpt-6-luna): Comparé el merge b56310bc con su primer padre: no añadió ni modificó archivos de producto, pruebas o web-vscode; sólo incorporó cambios ajenos a la extensión. En el diff entre d1aaaa1d y HEAD tampoco hay cambios en editores/vscode.",
+    "codex (gpt-6-luna): Las ediciones existentes están justificadas: `tests/test_site.cjs` actualiza el conteo esperado de secciones de 10 a 11 por la sección nueva; `tests/test_web.py` elimina puntuación terminal al extraer el subcomando y evita interpretar `hooks).` como un comando distinto. No observé pérdida material de cobertura.",
+    "codex (gpt-6-luna): No encontré hallazgos en el diff revisado.",
+    "codex (gpt-6-luna): abierto: site/img/vscode-explorador.png",
+    "codex (gpt-6-luna): abierto: site/img/vscode-pendientes.png",
+    "codex (gpt-6-luna): abierto: site/img/vscode-por-que.png",
+    "codex (gpt-6-luna): abierto: site/img/vscode-tablero.png"
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

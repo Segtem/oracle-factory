@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-vscode/.factory/local/revisiones/19b9947-codex-1",
+  "base": "c3db1edc539fe565485c554df6e2456c0056371e",
+  "head": "19b994790f5111bc89a596b250c1ec28a2574e7d",
+  "diff_sha256": "9fa3dd4303bb8ac6528970a034e3b803a48efbdd2ff83833cacc7c3e761a2957",
+  "context_sha256": "b1a28582536fb7b230c7d186032857c07d39202c5d1405a4672f53662e2404b9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "incompleto",
+  "limitations": [
+    "Leí la spec, el diff y el contexto del paquete; contrasté las promesas con el código, las pruebas y las dos rondas previas. No revisé los archivos excluidos indicados por el paquete.",
+    "Ejecuté `python -m unittest tests.test_web_vscode tests.test_web -v </dev/null`: 20 pruebas aprobadas. Ejecuté `python tools/sitio_vscode.py`: sin problemas.",
+    "Decodifiqué y verifiqué los cuatro PNG publicados con Pillow: todos son PNG válidos de 1280×800. No ejecuté la suite completa ni el generador gráfico con VS Code bajo Xvfb.",
+    "La validación PNG comprueba bloques, CRC, IHDR, IDAT e IEND, pero declara que no decodifica los píxeles; eso deja fuera archivos con bloques/CRC válidos y flujo de píxeles inválido. Es un caso exótico y no encontré un riesgo práctico en los artefactos actuales.",
+    "Hallazgos previos: la verificación de correos en HTML, la limpieza de VS Code ante fallos y la validación estructural de PNG están cubiertas/corregidas en este candidato; las mutaciones previas de PNG (CRC alterado, sin IDAT, sin cierre exacto y bytes tras IEND) son rechazadas por las pruebas nuevas.",
+    "Ediciones de tests existentes revisadas: `tests/test_site.cjs` sube de 10 a 11 secciones por la nueva sección de guía; `tests/test_web.py` recorta puntuación final al extraer subcomandos y tiene una prueba para el caso `hooks).`. Ambas son pertinentes y no observé pérdida material de cobertura. `tests/datos/guias-texto.json` sólo agrega textos de la guía.",
+    "El paquete Clue declara omisiones de archivos binarios PNG; aunque verifiqué los cuatro PNG directamente en el checkout de sólo lectura, la omisión obliga a marcar el informe incompleto para que el validador lo acepte."
+  ]
+}

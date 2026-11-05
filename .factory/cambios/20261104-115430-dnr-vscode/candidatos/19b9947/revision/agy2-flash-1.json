@@ -1,0 +1,27 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-vscode/.factory/local/revisiones/19b9947-agy2-flash-1",
+  "base": "c3db1edc539fe565485c554df6e2456c0056371e",
+  "head": "19b994790f5111bc89a596b250c1ec28a2574e7d",
+  "diff_sha256": "9fa3dd4303bb8ac6528970a034e3b803a48efbdd2ff83833cacc7c3e761a2957",
+  "context_sha256": "9cb5c45a4a35dc7b331fda6fc4d23242b69e2af278219cf69cbfa6cd6e5dd174",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se ejecutó la suite completa de pruebas unitarias (.venv/bin/python -m unittest discover -s tests </dev/null): 1133 pruebas ejecutadas, todas aprobadas (10 omitidas).",
+    "Se ejecutaron las pruebas unitarias del cambio: tests/test_web_vscode.py (11 pruebas, todas aprobadas en 0.13s) y tests/test_web.py (9 pruebas, todas aprobadas en 0.30s).",
+    "Se comprobó tools/sitio_vscode.py directamente sobre el repositorio candidato: resultado 'sin problemas' (código de salida 0).",
+    "Se ejecutó la verificación funcional en navegador Chromium de Playwright (node tests/test_site.cjs): 11 comprobaciones realizadas, resultado OK, 0 errores.",
+    "Se ejecutó tools/capturas_vscode.py con --sin-capturas en una copia temporal aislada: generó exitosamente el proyecto demo y confirmó coincidencia exacta de los ejemplos con tests/datos/ejemplos-demo.json.",
+    "No se ejecutó la captura gráfica interactiva completa de VS Code bajo Xvfb de tools/capturas_vscode.py por tratarse de un entorno de revisión de sólo lectura.",
+    "Se realizó inspección visual, de metadatos, cadenas de texto y OCR con Tesseract sobre las cuatro imágenes site/img/vscode-*.png: dimensiones 1280x800, tamaños individuales entre 122 KB y 134 KB (total 514 KB <= 1536 KB), formato PNG colormap 8 bits, sin filtraciones de datos personales, rutas reales ni correos ajenos (sólo Ana Ejemplo, ana@ejemplo.org y claude-code).",
+    "Se verificó la corrección de la clase completa del hallazgo medio de la ronda 2: medidas_png en tools/sitio_vscode.py ahora itera por todos los bloques PNG validando longitud y CRC32 (zlib.crc32), exige que IHDR sea el primer bloque con 13 bytes exactos y dimensiones no nulas, exige al menos un bloque IDAT, el cierre IEND al final y la ausencia total de bytes sobrantes al final del archivo. La secuencia de 43 bytes de la ronda 2 y mutaciones con basura, CRC alterado, sin IDAT o con bytes tras IEND devuelven None correctamente.",
+    "Casos exóticos analizados sin impacto práctico: (1) Si en el HTML se declarara height=\"0\", la guarda int(alto) evita la división por cero y \"0\" no evalúa como falso en la comprobación de presencia; las páginas declaran dimensiones válidas 1280x800 y cualquier proporción distinta es detectada; (2) Un bloque IEND sintético con datos (largo > 0) y CRC calculado es aceptado por el iterador y por ImageMagick pero no ocurre en PNGs reales; (3) La no decodificación de píxeles es un límite de diseño explícitamente documentado con un comentario; (4) Múltiples bloques IHDR sintéticos. Ninguno de estos casos presenta riesgo de impacto práctico en el producto.",
+    "Modificaciones en tests preexistentes revisadas y justificadas: (1) tests/test_site.cjs: el incremento de 10 a 11 en el conteo de secciones de desde-cero.html responde a la nueva sección #vscode; (2) tests/test_web.py: comandos_nombrados quita puntuación final (\").,;:\") del subcomando, necesario por apariciones como \"(oracle-factory hooks).\" en la salida CLI de las guías y no debilita la prueba; (3) tests/datos/guias-texto.json: sólo agrega las líneas de texto nuevas.",
+    "El paquete de Oracle Clue declara omisiones para los cuatro archivos PNG por ser binarios no UTF-8; fueron inspeccionados directamente en el checkout, lo que requiere marcar review_status como 'incompleto' según las reglas de validación de Oracle Clue."
+  ]
+}
