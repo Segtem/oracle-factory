@@ -15,7 +15,7 @@
     Object.keys(archivos).sort().forEach(function (f) {
       if (base && archivos[f] === base[f]) return;
       var mal = resalta === f;
-      s += r(x0 + i * 52, y, 48, 11, mal ? K.r : K.y, ' stroke="' + K.k + '" stroke-width="1"') + t(x0 + i * 52 + 3, y + 8, f, 'sim-t sim-chip') ;
+      s += r(x0 + i * 52, y, 48, 10, mal ? K.r : K.y, ' stroke="' + K.k + '" stroke-width="1"') + t(x0 + i * 52 + 3, y + 7.4, f, 'sim-t sim-chip') ;
       i++;
     });
     return s;
@@ -25,21 +25,23 @@
     var mal = e.espera && e.espera.tipo === 'conflicto' ? e.espera.archivo : null;
     var s = r(0, 0, 320, 160, '#e7f0dc');
     // main: el tronco
-    s += t(6, 18, 'main', 'sim-t sim-rotulo') + r(34, 15, 280, 3, K.k) + fichas(e.tronco.archivos, {'app.py': 'base'}, 40, 21, mal);
+    s += t(6, 18, 'main', 'sim-t sim-rotulo') + r(34, 15, 280, 3, K.k) + fichas(e.tronco.archivos, {'app.py': 'base'}, 64, 21, mal);
     s += P.g('oracle', 296, 4, '');
-    [['ana', 'Ana', 'agente', 'claude-code', 58], ['beto', 'Beto', 'codex', 'codex', 110]].forEach(function (l) {
+    [['ana', 'Ana', 'agente', 'claude-code', 56], ['beto', 'Beto', 'codex', 'codex', 108]].forEach(function (l) {
       var rama = e.ramas[l[0]], y = l[4];
-      s += r(34, y + 14, 280, 2, K.G) + t(6, y + 30, 'rama «' + l[0] + '»', 'sim-t');
+      s += r(40, y + 14, 274, 2, K.G) + t(44, y + 11, 'rama «' + l[0] + '»', 'sim-t');
       s += '<g class="sim-actor' + (activo === l[1] ? ' activo' : '') + '">' + P.g('persona', 4, y - 2, '') + '</g>';
       s += '<g class="sim-actor' + (activo === l[3] ? ' activo' : '') + '">' + P.g(l[2], 20, y - 2, '') + '</g>';
-      s += fichas(rama.archivos, rama.base, 40, y + 17, mal);
-      var x = 40;
+      s += t(4, y + 22, l[1] + ' + ' + l[3], 'sim-t sim-chip');
+      s += fichas(rama.archivos, rama.base, 64, y + 18, mal);
+      var n = 0;
       Object.keys(rama.revisiones).forEach(function (c) {
         var v = rama.revisiones[c];
-        s += r(x + 120, y + 2, 66, 10, v.vigente ? K.g : K.r, ' stroke="' + K.k + '"') + t(x + 123, y + 9.5, 'revisión ' + (v.vigente ? 'vale' : 'vieja'), 'sim-t sim-chip');
+        s += r(200, y + 18 + n * 12, 70, 10, v.vigente ? K.g : K.r, ' stroke="' + K.k + '"') + t(203, y + 25.5 + n * 12, c + ': revisión ' + (v.vigente ? 'vale' : 'vieja'), 'sim-t sim-chip');
+        n++;
       });
     });
-    if (e.espera) s += '<g class="sim-alerta">' + r(150, 78, 20, 20, K.r, ' stroke="' + K.k + '"') + t(156, 92, '!', 'sim-t sim-rotulo') + '</g>';
+    if (e.espera) s += '<g class="sim-alerta">' + r(150, 80, 18, 18, K.r, ' stroke="' + K.k + '"') + t(156, 92.5, '!', 'sim-t sim-rotulo') + '</g>';
     escena.innerHTML = '<svg viewBox="0 0 320 160" shape-rendering="crispEdges" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true">' + s + '</svg>';
     escena.setAttribute('aria-label', 'Paso ' + e.registro.length + ' de la simulación' + (ultimo ? ': ' + ultimo.que : ': todavía no pasó nada'));
   }
@@ -116,7 +118,8 @@
       if (!b) return;
       C.elegir(e, b.getAttribute('data-op'));
       pintar();
-      $('sim-paso').focus();
+      // el foco vuelve a los controles: a «Un paso», o a «Reiniciar» si ya terminó
+      ($('sim-paso').disabled ? $('sim-reiniciar') : $('sim-paso')).focus();
     });
     reglas();
     reiniciar();

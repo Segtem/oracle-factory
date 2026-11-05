@@ -59,7 +59,7 @@ const resultado = e => JSON.stringify({
   }
   assert.equal(paradas, 1);
   assert.equal(m.conflictos.length, 1);
-  assert.match(m.conflictos[0].resuelto_por, /^(Ana|Beto)$/);
+  assert.equal(m.conflictos[0].resuelto_por, 'Beto'); // quien integra es quien resuelve
   // lo decidido distinto por dos ramas no lo elige el motor: decidir-union, de una persona
   const d = C.nuevo('decisiones-distintas', 1);
   while (!d.fin && !d.espera) C.paso(d);
@@ -67,6 +67,17 @@ const resultado = e => JSON.stringify({
   assert(d.espera.comando.startsWith('oracle-factory decidir-union'));
   assert.equal(C.elegir(d, d.espera.opciones[0].id), null);
   assert(d.registro.some(r => r.decision === 'decidir-union' && PERSONAS.has(r.quien)));
+  // lo que elige la persona cambia el resultado: en la unión, nuestro (la rama que integra) o suyo (main)
+  for (const [op, quien] of [['nuestro', 'Beto'], ['suyo', 'Ana']]) {
+    const u = correr('decisiones-distintas', 1, () => op);
+    assert.equal(u.tronco.registro.informe.responsable.por, quien, op);
+  }
+  // y en el conflicto: main, la rama o una mezcla
+  for (const [op, version] of [['main', 'ana#1'], ['rama', 'beto#1'], ['mezclar', 'mezcla']]) {
+    const c = correr('mismo-archivo', 1, () => op);
+    assert.equal(c.tronco.archivos['lista.py'], version, op);
+    assert.equal(c.conflictos[0].como, op);
+  }
   // una revisión pierde su vigencia si el producto cambió después de hacerla
   const v = correr('revision-vieja', 1);
   const vencida = v.registro.find(r => r.regla === 'vencida');
