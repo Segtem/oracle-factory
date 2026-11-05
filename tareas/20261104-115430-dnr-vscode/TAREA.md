@@ -63,3 +63,7 @@ Medidas de web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales: Brian
 ### Nota (2026-11-04 19:06:34 UTC)
 
 Medidas de web_c2e4546f9d843453e.los_ejemplos_son_salida_real: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-05 20:41:12 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Cuatro rondas. Las rondas 1 a 3 (codex y agy2-flash) cerraron con 0 hallazgos en la tercera; la ronda 4 repite la revisión sobre el candidato con main integrado para que el informe declare los cuatro PNG con «abierto: RUTA» (arreglo revision-binarios, ya en main): codex, 0 hallazgos, completa en lo demás. agy2-flash no pudo revisar la ronda 4: cuota agotada (429, se renueva en ~150 h); agy y agy2 siguen fallando por el --effort del wrapper. Evidencia: 1146 pruebas, 11 casos de contrato, éxito. Límite: el validador de imágenes no decodifica los píxeles; Factory no comprueba que el revisor abrió los PNG, queda listado en los límites. Tests existentes editados y declarados: tests/test_site.cjs, tests/test_web.py.); 0 abiertos derivados; commit 0a4bd9cacbec1e6aa80f503268c59e37f8274b4e; informe tareas/20261104-115430-dnr-vscode/revisiones/registro-nk28rkxh/informe.json; decisiones tareas/20261104-115430-dnr-vscode/revisiones/registro-nk28rkxh/decisiones.json.
