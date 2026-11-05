@@ -1,0 +1,4 @@
+requisito web_cc8d4b754936380f4.la_escena_se_controla_y_es_accesible:
+    texto "Tipo: funcional El sistema DEBE mostrar en la página una escena de pixel art con sprites de `pixel.js` y controles para elegir escenario, avanzar un paso, reproducir, pausar, cambiar la velocidad y reiniciar, todos operables con teclado, con un registro anunciado por `aria-live`, con una descripción en texto de cada paso, y sin animación cuando la persona pide movimiento reducido."
+    fuente "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md#la_escena_se_controla_y_es_accesible"
+    sin_medir "sin medida todavía; escenarios: «usar la página con teclado», «movimiento reducido y pantalla chica»"

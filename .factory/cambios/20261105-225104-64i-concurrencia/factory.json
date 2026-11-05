@@ -2,11 +2,26 @@
   "id": "20261105-225104-64i-concurrencia",
   "titulo": "Web: simulación pixel art de personas y agentes trabajando a la vez",
   "capacidad": "web",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "6dfaef56a8c511dacafe74e0818214649e009c19b6033db45339162b2595a518",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-05T22:59:10.949956+00:00",
+    "documentos": {
+      "openspec/changes/20261105-225104-64i-concurrencia/proposal.md": "cb869b2dc99944a03920e254ea6c53930ea0748d034428d6b064ad6e34835508",
+      "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md": "6dfaef56a8c511dacafe74e0818214649e009c19b6033db45339162b2595a518"
+    }
+  },
+  "requisitos": [
+    "web_cc8d4b754936380f4.la_escena_se_controla_y_es_accesible",
+    "web_cc8d4b754936380f4.la_simulacion_dice_que_es_una_simulacion",
+    "web_cc8d4b754936380f4.la_simulacion_sigue_las_reglas",
+    "web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +34,40 @@
       "forma": "decidio",
       "cuando": "2026-11-05T22:51:04.071745+00:00",
       "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T22:59:10.949985+00:00",
+      "documentos": {
+        "openspec/changes/20261105-225104-64i-concurrencia/proposal.md": "cb869b2dc99944a03920e254ea6c53930ea0748d034428d6b064ad6e34835508",
+        "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md": "6dfaef56a8c511dacafe74e0818214649e009c19b6033db45339162b2595a518"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T23:00:07.142155+00:00",
+      "ids": [
+        "web_cc8d4b754936380f4.la_escena_se_controla_y_es_accesible",
+        "web_cc8d4b754936380f4.la_simulacion_dice_que_es_una_simulacion",
+        "web_cc8d4b754936380f4.la_simulacion_sigue_las_reglas",
+        "web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "web_cc8d4b754936380f4.la_escena_se_controla_y_es_accesible": "funcional",
+    "web_cc8d4b754936380f4.la_simulacion_dice_que_es_una_simulacion": "funcional",
+    "web_cc8d4b754936380f4.la_simulacion_sigue_las_reglas": "funcional",
+    "web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
