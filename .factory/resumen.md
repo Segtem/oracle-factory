@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:0b319bf055174afff44c8910aa06c7877b096e645f761cbfbb3e9e22c5a3b764 -->
+<!-- oracle-factory resumen sha256:987d794e14111efa769e35e4da7aa081caaf6f79d22e9e0f5dc1c07c5064bba9 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-29 capacidades · 284 requisitos vigentes · 0 cambios abiertos
+29 capacidades · 284 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -498,7 +498,14 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Ninguno.
+Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
+
+### 20261104-115430-dnr-vscode — Web: capturas reales de VS Code y ejemplos en las guías
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `web` · [propuesta](../openspec/changes/20261104-115430-dnr-vscode/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
 
 ## Cambios abandonados
 
