@@ -1,0 +1,61 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-concurrencia/.factory/local/revisiones/0cc7189-codex-1",
+  "base": "bf4c867d4851f445cd6ef2e3af3f67b4990e6020",
+  "head": "0cc71891301747e9b13187baa46ca45737654703",
+  "diff_sha256": "f116c69f95a0d20dcfe470a037252315889b88ee206f8c6b0593c99d3816a374",
+  "context_sha256": "0920ee63ed4f8bb54df348b1b44ed0a80cbad1f79e7b8bb25f2643ae8c236a62",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CC-3",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Un agente puede integrar una rama directamente",
+      "explanation": "El motor acepta integrar y registra al actor como integrador sin comprobar que sea una persona. La guía que la simulación cita establece que una persona integra las entregas. Por ello el motor permite que un agente ejecute una acción que la regla documentada reserva a una persona; además puede avanzar el escenario y presentar un final normal tras esa integración.",
+      "location": {
+        "file": "site/concurrencia.js",
+        "start_line": 176,
+        "end_line": 178,
+        "side": "head"
+      },
+      "trigger": "Reemplazar temporalmente el guion de un estado creado con C.nuevo por [{a:'integrar', quien:'claude-code', rama:'ana'}] y llamar C.paso(e). El motor registra 'claude-code integra' y termina el guion.",
+      "evidence": "En ejecutar(), la rama p.a === 'traer' || p.a === 'integrar' llama unir(e,p,r) sin validar yo.tipo. La mutación manual produjo un evento de tipo agente que integró ana y estado fin no nulo. docs/colaboracion.md:3 dice 'Una persona integra las entregas en orden'. La regla union también presenta integrar como acción de la persona integradora.",
+      "related_requirement": "la_simulacion_sigue_las_reglas — el motor debe seguir las reglas citadas; los_escenarios_cuentan_la_concurrencia — el actor registrado debe ser quien toma cada decisión",
+      "status": "pendiente",
+      "verification": "Corrí node tests/test_concurrencia.cjs: ok. Mutación manual del guion: C.paso aceptó integrar por claude-code, lo registró y marcó el escenario como terminado."
+    },
+    {
+      "id": "CC-4",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Un agente puede asignarse como responsable del cambio",
+      "explanation": "La acción tomar escribe al actor como responsable sin comprobar su tipo. Eso permite que un agente se nombre responsable del frente, aunque la regla checkout citada establece que cada frente tiene una persona responsable. Los guiones fijos sólo usan personas para tomar; las pruebas no intentan la ruta de agente.",
+      "location": {
+        "file": "site/concurrencia.js",
+        "start_line": 152,
+        "end_line": 156,
+        "side": "head"
+      },
+      "trigger": "Reemplazar temporalmente el guion de un estado creado con C.nuevo por [{a:'tomar', quien:'claude-code', rama:'ana', cambio:'x'}] y llamar C.paso(e). El motor asigna responsable.valor y responsable.por a claude-code.",
+      "evidence": "El bloque p.a === 'tomar' no inspecciona yo.tipo y guarda {valor:p.quien, por:p.quien} como responsable. La mutación manual confirmó esa asignación y registró el evento como tipo agente. docs/colaboracion.md:3 establece que cada frente tiene una persona responsable; REGLAS checkout cita que cada frente tiene una persona responsable.",
+      "related_requirement": "la_simulacion_sigue_las_reglas — las acciones modeladas deben respetar sus reglas citadas",
+      "status": "pendiente",
+      "verification": "Mutación manual del guion como se describe en trigger: C.paso aceptó la toma del cambio por claude-code y almacenó ese actor como responsable."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí `node tests/test_concurrencia.cjs`: pasó (ok).",
+    "Hice mutaciones manuales del guion para probar `tomar` e `integrar` por claude-code; ambas sobreviven y el motor las registra como actor agente.",
+    "No ejecuté pruebas de Chromium: Playwright no está instalado en este checkout.",
+    "No ejecuté unittest discover ni la comprobación completa del sitio.",
+    "Revisé tests/datos/guias-texto.json: la línea quitada formaba parte del texto esperado para la guía y el nuevo esperado incorpora la frase/enlace añadido a colaboracion.html. La actualización del fixture está justificada; no encontré pruebas existentes editadas para ocultar un fallo.",
+    "El paquete no reporta omisiones de archivos no textuales (omissions vacío); no abrí ni declaro archivos binarios."
+  ]
+}

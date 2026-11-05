@@ -142,6 +142,14 @@
   // Ejecuta un paso del guion. Devuelve false si queda esperando a una persona.
   function ejecutar(e, p) {
     var yo = ACTORES[p.quien], r = e.ramas[p.rama || yo.rama];
+    if (yo.tipo === 'agente' && p.a !== 'editar' && p.a !== 'traer') {
+      // un agente edita y trae main a su rama; tomar un cambio, decidir e integrar son de una persona: el agente sólo propone
+      var que = p.decision || p.a;
+      anotar(e, p.quien, p.quien + ' intentó «' + que + '»' + (p.cambio ? ' el cambio «' + p.cambio + '»' : ' la rama «' + p.rama + '»') +
+             ': es una decisión de persona, así que sólo lo propuso.', {regla: 'persona', intento: que, cambio: p.cambio});
+      e.pendientes.push({quien: p.quien, decision: que, cambio: p.cambio || null, rama: p.rama || null, para: yo.de});
+      return true;
+    }
     if (p.a === 'editar') {
       r = e.ramas[yo.rama];
       var veces = r.archivos[p.archivo] && r.archivos[p.archivo].indexOf(yo.rama + '#') === 0 ? +r.archivos[p.archivo].split('#')[1] : 0;
@@ -155,11 +163,7 @@
       evento(r, p.rama, p.cambio, 'tomar', p.quien);
       anotar(e, p.quien, p.quien + ' toma el cambio «' + p.cambio + '» como responsable, en su rama «' + p.rama + '».', {rama: p.rama, cambio: p.cambio});
     } else if (p.a === 'decidir') {
-      if (yo.tipo === 'agente') {
-        anotar(e, p.quien, p.quien + ' intentó «' + p.decision + '» el cambio «' + p.cambio + '»: es una decisión de persona, así que sólo lo propuso.',
-               {regla: 'persona', intento: p.decision, cambio: p.cambio});
-        e.pendientes.push({quien: p.quien, decision: p.decision, cambio: p.cambio, para: ACTORES[p.quien].de});
-      } else if (p.decision === 'cerrar' && !(r.revisiones[p.cambio] && r.revisiones[p.cambio].vigente)) {
+      if (p.decision === 'cerrar' && !(r.revisiones[p.cambio] && r.revisiones[p.cambio].vigente)) {
         // no se cierra sin una revisión que valga sobre el producto actual (regla «vencida»)
         anotar(e, 'Factory', 'No se puede cerrar «' + p.cambio + '»: ' + (r.revisiones[p.cambio]
                ? 'la revisión ya no vale, el producto cambió desde que se hizo. Hay que revisar de nuevo.' : 'no hay una revisión. Falta revisarlo.'),

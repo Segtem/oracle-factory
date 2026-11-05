@@ -110,6 +110,21 @@ const resultado = e => JSON.stringify({
   // un agente que propone cerrar sigue sin cerrar, aunque haya revisión
   e = con(ed('claude-code', 'x.py', 'x'), de('Beto', 'revisar', 'x', 'ana'), de('claude-code', 'cerrar', 'x', 'ana'));
   assert(!cerro(e));
+  // CC-3 y CC-4: un agente sólo edita y trae main; todo lo demás (tomar, decidir, integrar) lo propone, y nada cambia
+  for (const accion of [{a: 'tomar', quien: 'claude-code', rama: 'ana', cambio: 'x'}, {a: 'integrar', quien: 'codex', rama: 'beto'},
+                        {a: 'decidir', quien: 'codex', decision: 'revisar', cambio: 'x', rama: 'beto'}, {a: 'decidir', quien: 'claude-code', decision: 'aprobar-spec', cambio: 'x', rama: 'ana'}]) {
+    const antes = con(ed('claude-code', 'x.py', 'x'));
+    const x = con(ed('claude-code', 'x.py', 'x'), accion);
+    assert.equal(JSON.stringify(x.tronco), JSON.stringify(antes.tronco), JSON.stringify(accion) + ': cambió main');
+    assert.equal(JSON.stringify(x.ramas.ana.registro) + JSON.stringify(x.ramas.beto.registro) + JSON.stringify(x.ramas.ana.revisiones) + JSON.stringify(x.ramas.beto.revisiones),
+                 '{}{}{}{}', JSON.stringify(accion) + ': cambió un registro');
+    assert(x.registro.some(r => r.tipo === 'agente' && r.regla === 'persona' && r.quien === accion.quien && /sólo lo propuso/.test(r.que)), JSON.stringify(accion));
+    assert.equal(x.pendientes.length, 1);
+    assert(!x.registro.some(r => r.decision || /integra «|toma el cambio/.test(r.que)), JSON.stringify(accion) + ': se ejecutó');
+  }
+  // un agente puede traer main a su rama (es trabajo de desarrollo)
+  e = con(ed('codex', 'p.py', 'p'), {a: 'integrar', quien: 'Beto', rama: 'beto'}, {a: 'traer', quien: 'claude-code', rama: 'ana'});
+  assert(e.registro.some(r => r.quien === 'claude-code' && /trae main/.test(r.que)));
   // dos ramas que registran la misma decisión del mismo cambio: los dos eventos llegan a main
   e = con(de('Ana', 'revisar', 'informe', 'ana'), de('Beto', 'revisar', 'informe', 'beto'),
           {a: 'integrar', quien: 'Ana', rama: 'ana'}, {a: 'integrar', quien: 'Beto', rama: 'beto'});
