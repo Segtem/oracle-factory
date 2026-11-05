@@ -5,4 +5,4 @@ medida factory_web_vscode.los_ejemplos_son_salida_real:
     umbral == 5 segun contrato porque "deben pasar los 5 casos enumerados para este requisito en tests/test_web_vscode.py; asociar junto a corrida_completa"
     requiere web_vscode_caso
     ambito universal
-    alcance "guías con capturas reales de VS Code y ejemplos de salida real"
+    alcance "escenarios wv1–wv3 sobre el repositorio y copias con imágenes, ejemplos y datos alterados, Linux"

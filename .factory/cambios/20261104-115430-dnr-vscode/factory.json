@@ -445,6 +445,80 @@
       "cuando": "2026-11-04T21:39:17.435341+00:00",
       "causa": "no se puede aprobar: Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (incompleto) (no_ejecutada); Revisión de codex (gpt-6-luna): 0 hallazgos (incompleto) (no_ejecutada). No registré nada.",
       "candidato": "19b9947"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T16:38:43.140757+00:00",
+      "revisor": "agy",
+      "candidato": "ce1630f",
+      "lanzamiento": "d46eadea0c08"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T16:38:43.172143+00:00",
+      "revisor": "codex",
+      "candidato": "ce1630f",
+      "lanzamiento": "a53e83a8a7dd"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T16:38:43.205234+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "ce1630f",
+      "lanzamiento": "e1c9762cfd0a"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T16:38:43.243717+00:00",
+      "revisor": "agy2",
+      "candidato": "ce1630f",
+      "lanzamiento": "631aa364cf5c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T16:38:49.199454+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "ce1630f",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "631aa364cf5c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T16:38:49.445812+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "ce1630f",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "d46eadea0c08"
     }
   ],
   "tipos": {
