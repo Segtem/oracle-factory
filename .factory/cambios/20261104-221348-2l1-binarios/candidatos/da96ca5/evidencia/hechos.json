@@ -1,0 +1,75 @@
+{
+  "revision_binarios_caso": [
+    {
+      "requisito": "los_binarios_nombrados_no_bloquean",
+      "caso": "Binarios.test_rb1_cualquier_ruta_sirve",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_binarios_nombrados_no_bloquean",
+      "caso": "Binarios.test_rb1_los_binarios_declarados_cumplen",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_binarios_nombrados_no_bloquean",
+      "caso": "Binarios.test_rb1_material_del_candidato_pasa_las_omisiones_de_su_paquete",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_binarios_nombrados_no_bloquean",
+      "caso": "Binarios.test_rb1_otras_frases_no_anulan_la_declaracion",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_binarios_nombrados_no_bloquean",
+      "caso": "Binarios.test_rb1_todas_las_razones_de_binario_de_clue",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_binarios_nombrados_no_bloquean",
+      "caso": "Binarios.test_rb1_varios_binarios_todos_declarados",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_completo_sigue_cumpliendo",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_incompleto_sin_omisiones_bloquea",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_las_omisiones_del_paquete_se_separan",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_otra_omision_bloquea",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_un_binario_sin_declarar_bloquea",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_una_frase_que_lo_menciona_no_es_una_declaracion",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_pedido_indica_como_declarar_binarios",
+      "caso": "Binarios.test_rb3_el_pedido_indica_abrir_y_nombrar_binarios",
+      "codigo": 0
+    }
+  ],
+  "revision_binarios_corrida": [
+    {
+      "completa": 1,
+      "casos": 13
+    }
+  ]
+}
