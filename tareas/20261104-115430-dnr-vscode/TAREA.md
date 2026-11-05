@@ -1,6 +1,6 @@
 # Web: capturas reales de VS Code y ejemplos en las guías
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -71,3 +71,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-05 20:41:29 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261104-115430-dnr-vscode/oracle-veredicto.txt.
+
+### Nota (2026-11-05 21:47:01 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:987d794e14111efa769e35e4da7aa081caaf6f79d22e9e0f5dc1c07c5064bba9 -->
+<!-- oracle-factory resumen sha256:11c2481b4b49b85519078c4ae7f4bb1a2eaac5c78823ca207ddd76bf1bd13f83 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-29 capacidades · 284 requisitos vigentes · 1 cambio abierto
+29 capacidades · 287 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -495,17 +495,13 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 | la documentación cuenta lo que Factory hace hoy | funcional | `web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy` | factory_docs.la_documentacion_cuenta_lo_que_factory_hace_hoy, factory_docs.corrida_completa | verde al cerrar el 2026-10-24 | 20261023-005051-ufj-docs |
 | la documentación se comprueba contra la CLI | funcional | `web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli` | factory_docs.la_documentacion_se_comprueba_contra_la_cli, factory_docs.documentacion_al_dia, factory_docs.corrida_completa | verde al cerrar el 2026-10-24 | 20261023-005051-ufj-docs |
 | la portada explica el papel real de Clue | funcional | `web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue` | factory_docs_clue.la_portada_explica_el_papel_real_de_clue, factory_docs_clue.corrida_completa | verde al cerrar el 2026-10-25 | 20261025-201245-erb-docs-clue |
+| las_guias_muestran_vscode_real | funcional | `web_c2e4546f9d843453e.las_guias_muestran_vscode_real` | factory_web_vscode.las_guias_muestran_vscode_real, factory_web_vscode.corrida_completa | verde al cerrar el 2026-11-05 | 20261104-115430-dnr-vscode |
+| los_ejemplos_son_salida_real | funcional | `web_c2e4546f9d843453e.los_ejemplos_son_salida_real` | factory_web_vscode.los_ejemplos_son_salida_real, factory_web_vscode.corrida_completa | verde al cerrar el 2026-11-05 | 20261104-115430-dnr-vscode |
+| los_ejemplos_no_filtran_datos_personales | no funcional | `web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales` | factory_web_vscode.los_ejemplos_no_filtran_datos_personales, factory_web_vscode.corrida_completa | verde al cerrar el 2026-11-05 | 20261104-115430-dnr-vscode |
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261104-115430-dnr-vscode — Web: capturas reales de VS Code y ejemplos en las guías
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `web` · [propuesta](../openspec/changes/20261104-115430-dnr-vscode/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -1577,6 +1573,18 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261104-033615-oj8-publicada-a17) codex (gpt-6-luna): Ejecuté `python tools/docs_al_dia.py`: salida exitosa, sin divergencias en README, docs/ o site/. Contrasté además los textos reales y probé en memoria la frase omitida del hallazgo. No modifiqué el checkout, ni ejecuté la suite unitaria o mutaciones persistentes.
 - (20261104-033615-oj8-publicada-a17) codex (gpt-6-luna): PA17-004 se clasifica baja porque la omisión no aparece hoy y no cambia ningún hecho de publicación actual. No hallé defecto de impacto práctico presente. No verifiqué PyPI ni GitHub independientemente; se toman como premisa de la solicitud.
 - (20261104-033615-oj8-publicada-a17) codex (gpt-6-luna): Las ediciones de tests existentes están justificadas por la transición a publicada: tests/datos/guias-texto.json regenera el texto extraído de la guía actualizada; tests/test_docs.py adapta las frases base y mutaciones del README; tests/test_entrega_a17.py elimina el test ea1 que afirmaba que a17 estaba en preparación y sus cuatro aserciones obsoletas. La cobertura del estado publicado y la coherencia de textos se añade en tests/test_publicada_a17.py.
+- (20261104-115430-dnr-vscode) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): binarios que el paquete no trae y el revisor declara haber abierto en el checkout (Factory no lo comprueba): site/img/vscode-explorador.png, site/img/vscode-pendientes.png, site/img/vscode-por-que.png, site/img/vscode-tablero.png
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): Leí la propuesta, la spec, el diff del paquete y las seis revisiones previas indicadas; revisé la implementación, las pruebas y sus cambios. No revisé los archivos de Factory excluidos del paquete.
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): Ejecuté `python tools/sitio_vscode.py`: sin problemas. Ejecuté `python -m unittest tests.test_web_vscode tests.test_web </dev/null`: 20 pruebas aprobadas. No ejecuté la suite completa ni `tools/capturas_vscode.py` con o sin capturas.
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): Abrí visualmente las cuatro imágenes: muestran la vista Factory del explorador, el tablero, la sección del proyecto y la consulta por qué en VS Code; aparecen Ana Ejemplo y claude-code, sin datos personales observables. El código del comprobador y los ejemplos cumplen las verificaciones locales examinadas.
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): Comparé el merge b56310bc con su primer padre: no añadió ni modificó archivos de producto, pruebas o web-vscode; sólo incorporó cambios ajenos a la extensión. En el diff entre d1aaaa1d y HEAD tampoco hay cambios en editores/vscode.
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): Las ediciones existentes están justificadas: `tests/test_site.cjs` actualiza el conteo esperado de secciones de 10 a 11 por la sección nueva; `tests/test_web.py` elimina puntuación terminal al extraer el subcomando y evita interpretar `hooks).` como un comando distinto. No observé pérdida material de cobertura.
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): No encontré hallazgos en el diff revisado.
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): abierto: site/img/vscode-explorador.png
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): abierto: site/img/vscode-pendientes.png
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): abierto: site/img/vscode-por-que.png
+- (20261104-115430-dnr-vscode) codex (gpt-6-luna): abierto: site/img/vscode-tablero.png
 - (20261104-221348-2l1-binarios) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
 - (20261104-221348-2l1-binarios) agy (gemini-3.8-flash-high): Revisión analítica exhaustiva del diff del candidato da96ca5 frente a proposal.md, spec.md, design.md y tasks.md.
 - (20261104-221348-2l1-binarios) agy (gemini-3.8-flash-high): Verificación del estado de cierre de los hallazgos de rondas anteriores (REV-BIN-01 a REV-BIN-04 de ronda 1; REV-BIN-05 a REV-BIN-08 y REV-BIN-R2-01 de ronda 2), constatando que la clase de defectos quedó definitivamente cerrada con la verificación de coincidencia exacta.
