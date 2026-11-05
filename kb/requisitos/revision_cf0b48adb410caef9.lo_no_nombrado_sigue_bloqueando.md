@@ -11,7 +11,7 @@ vigente: true
 - Id: `revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando`
 - Vigente: sí
 - Cambio: [[cambios/20261104-221348-2l1-binarios]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_revision_binarios.lo_no_nombrado_sigue_bloqueando`, `factory_revision_binarios.corrida_completa`
 - Fuente: openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md#lo_no_nombrado_sigue_bloqueando
 

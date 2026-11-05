@@ -91,3 +91,7 @@ Medidas de revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean: Brian 
 ### Nota (2026-11-05 16:09:30 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres rondas con codex y agy2-flash; la tercera cerró con 0 hallazgos de ambos. La ronda 1 trajo 4 hallazgos (razones de binario de Clue, prefijos, negaciones, cableado) y la 2 mostró que leer frases no se cierra por rondas, así que se reemplazó por la declaración fija «abierto: RUTA» con igualdad exacta (spec reaprobada por Brian). Evidencia: 1135 pruebas, 13 casos de contrato, éxito. Límite declarado: Factory no comprueba que el revisor abrió el binario; queda listado en los límites del informe. Tests existentes: ninguno editado. agy y agy2 no pudieron revisar: el wrapper pasa --effort a un modelo que no lo admite.); 0 abiertos derivados; commit 9c35dd5b4df94959f79b394a81dfa88864dd489b; informe tareas/20261104-221348-2l1-binarios/revisiones/registro-il2p10id/informe.json; decisiones tareas/20261104-221348-2l1-binarios/revisiones/registro-il2p10id/decisiones.json.
+
+### Nota (2026-11-05 16:09:45 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261104-221348-2l1-binarios/oracle-veredicto.txt.

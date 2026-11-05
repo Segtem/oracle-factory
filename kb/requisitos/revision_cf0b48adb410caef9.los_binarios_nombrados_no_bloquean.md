@@ -11,7 +11,7 @@ vigente: true
 - Id: `revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean`
 - Vigente: sí
 - Cambio: [[cambios/20261104-221348-2l1-binarios]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_revision_binarios.los_binarios_nombrados_no_bloquean`, `factory_revision_binarios.corrida_completa`
 - Fuente: openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md#los_binarios_nombrados_no_bloquean
 

@@ -2,7 +2,7 @@
   "id": "20261104-221348-2l1-binarios",
   "titulo": "Revisión: los archivos binarios del paquete no impiden aprobar",
   "capacidad": "revision",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md",
   "spec_sha256": "f394946317489ade9b4da42011d59cbeeaf4c7cf5883faf7e65f0730a573e3f7",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "d9cb0570c28922de3c8a06bf475f800c00111b8dd0fafce1ccf66d75b1323e48"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261104-221348-2l1-binarios/candidatos/da96ca5/evidencia/hechos.json",
+    "hechos_sha256": "d9dcfc33cd039bd40ef3f179e06c2fada493924811dd47a9890cbc8e8d7626de",
+    "informe": ".factory/cambios/20261104-221348-2l1-binarios/oracle-veredicto.txt",
+    "informe_sha256": "c35ad9c938abbd9fb9f67b8316952ce40bdd1a1901dca99f52f9b8985edb2603",
+    "cuando": "2026-11-05T16:09:45.749805+00:00",
+    "contexto": {
+      "head": "683d11f62146275c9355b067570e4bd9885d5ad6",
+      "archivos_sha256": "d9cb0570c28922de3c8a06bf475f800c00111b8dd0fafce1ccf66d75b1323e48"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -653,6 +665,17 @@
       "abiertos": 0,
       "sha256": "6bd587a1cbf6b300379ff98213d3c0370b7ae5baea628743aa28dcd959c78e08",
       "decisiones_sha256": "006729a06115e6835c9081fcd8d9a7ed46acfbb78c18d772c6b8ef7bd510fccf"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T16:09:45.749820+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "d9dcfc33cd039bd40ef3f179e06c2fada493924811dd47a9890cbc8e8d7626de"
     }
   ],
   "tipos": {
