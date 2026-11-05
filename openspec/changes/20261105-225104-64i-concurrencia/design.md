@@ -11,3 +11,8 @@
   registro es una lista `aria-live="polite"`. Con movimiento reducido cada escenario muestra su estado final sin animar.
 - Pruebas: `tests/test_concurrencia.cjs` (motor, con node) y `tests/test_web_concurrencia.cjs` (página, con Chromium) más
   `tests/test_web_concurrencia.py` que las corre y comprueba citas y comandos contra `docs/colaboracion.md` y la CLI.
+
+Rondas de revisión: el motor valida cada paso del guion, no sólo los guiones fijos. Un agente sólo edita y trae main; tomar,
+decidir e integrar los propone y no cambian nada. Cada actor trabaja en su propio checkout (sólo se revisa el cambio de otro).
+Cerrar exige una revisión vigente. Los eventos del registro llevan su rama y su número de orden. Una acción, un actor o una
+decisión que la simulación no modela es un error del guion (se lanza), no algo que se acepte en silencio.

@@ -8,6 +8,7 @@
 })(this, function () {
   'use strict';
 
+  var ACCIONES = ['editar', 'tomar', 'decidir', 'traer', 'integrar'];
   var ACTORES = {
     Ana: {tipo: 'persona', rama: 'ana'}, 'claude-code': {tipo: 'agente', de: 'Ana', rama: 'ana'},
     Beto: {tipo: 'persona', rama: 'beto'}, codex: {tipo: 'agente', de: 'Beto', rama: 'beto'}
@@ -141,7 +142,10 @@
 
   // Ejecuta un paso del guion. Devuelve false si queda esperando a una persona.
   function ejecutar(e, p) {
-    var yo = ACTORES[p.quien], r = e.ramas[p.rama || yo.rama];
+    var yo = ACTORES[p.quien];
+    if (!yo) throw new Error('actor desconocido: ' + p.quien);
+    if (ACCIONES.indexOf(p.a) < 0) throw new Error('acción desconocida: ' + p.a);
+    var r = e.ramas[p.rama || yo.rama];
     if (yo.tipo === 'agente' && p.a !== 'editar' && p.a !== 'traer') {
       // un agente edita y trae main a su rama; tomar un cambio, decidir e integrar son de una persona: el agente sólo propone
       var que = p.decision || p.a;
@@ -150,6 +154,14 @@
       e.pendientes.push({quien: p.quien, decision: que, cambio: p.cambio || null, rama: p.rama || null, para: yo.de});
       return true;
     }
+    var revisaAjeno = p.a === 'decidir' && p.decision === 'revisar';
+    if (p.rama && p.rama !== yo.rama && !revisaAjeno) {
+      // cada frente tiene su checkout: sólo se revisa el cambio de otro; editar, traer, tomar, cerrar o integrar es en el propio
+      anotar(e, 'Factory', p.quien + ' no puede ' + (p.decision || p.a) + ' en la rama «' + p.rama + '»: es el checkout de ' + e.ramas[p.rama].actor +
+             '. Cada frente tiene su propio checkout.', {regla: 'checkout', rama: p.rama});
+      return true;
+    }
+    if (p.a === 'decidir' && !(p.decision === 'revisar' || p.decision === 'cerrar')) throw new Error('la simulación no modela la decisión «' + p.decision + '»');
     if (p.a === 'editar') {
       r = e.ramas[yo.rama];
       var veces = r.archivos[p.archivo] && r.archivos[p.archivo].indexOf(yo.rama + '#') === 0 ? +r.archivos[p.archivo].split('#')[1] : 0;

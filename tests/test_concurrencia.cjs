@@ -122,6 +122,24 @@ const resultado = e => JSON.stringify({
     assert.equal(x.pendientes.length, 1);
     assert(!x.registro.some(r => r.decision || /integra «|toma el cambio/.test(r.que)), JSON.stringify(accion) + ': se ejecutó');
   }
+  // CC-5, CC-6 y CC-8: cada uno trabaja en su propio checkout; revisar el cambio de otro sí se puede, lo demás no
+  const base = con(ed('claude-code', 'x.py', 'x'), ed('codex', 'y.py', 'y'));
+  for (const accion of [{a: 'traer', quien: 'claude-code', rama: 'beto'}, {a: 'integrar', quien: 'Beto', rama: 'ana'},
+                        {a: 'editar', quien: 'Beto', archivo: 'z.py', cambio: 'z', rama: 'ana'}, {a: 'tomar', quien: 'Ana', cambio: 'z', rama: 'beto'},
+                        {a: 'decidir', quien: 'Ana', decision: 'cerrar', cambio: 'y', rama: 'beto'}]) {
+    const x = con(ed('claude-code', 'x.py', 'x'), ed('codex', 'y.py', 'y'), de('Beto', 'revisar', 'x', 'ana'), de('Ana', 'revisar', 'y', 'beto'), accion);
+    const sin = con(ed('claude-code', 'x.py', 'x'), ed('codex', 'y.py', 'y'), de('Beto', 'revisar', 'x', 'ana'), de('Ana', 'revisar', 'y', 'beto'));
+    assert.equal(JSON.stringify([x.tronco, x.ramas]), JSON.stringify([sin.tronco, sin.ramas]), JSON.stringify(accion) + ': cambió algo');
+    const r = x.registro[x.registro.length - 1];
+    assert(r.regla === 'checkout' && r.tipo === 'oracle' && /es el checkout de/.test(r.que), JSON.stringify([accion, r]));
+    assert(!x.registro.some(q => q.decision === 'cerrar'), JSON.stringify(accion) + ': cerró');
+  }
+  // revisar el cambio de otro sigue valiendo
+  assert(con(ed('claude-code', 'x.py', 'x'), de('Beto', 'revisar', 'x', 'ana')).ramas.ana.revisiones.x.vigente);
+  // una decisión o una acción que la simulación no modela es un error del guion, no algo que se acepte
+  for (const mal of [{a: 'decidir', quien: 'Ana', decision: 'aprobar-spec', cambio: 'x', rama: 'ana'}, {a: 'decidir', quien: 'Ana', decision: 'medir --confirmar', cambio: 'x', rama: 'ana'},
+                     {a: 'abandonar', quien: 'Ana', rama: 'ana'}, {a: 'editar', quien: 'Nadie', archivo: 'x.py', cambio: 'x'}])
+    assert.throws(() => con(mal), /no modela|desconocid/, JSON.stringify(mal));
   // un agente puede traer main a su rama (es trabajo de desarrollo)
   e = con(ed('codex', 'p.py', 'p'), {a: 'integrar', quien: 'Beto', rama: 'beto'}, {a: 'traer', quien: 'claude-code', rama: 'ana'});
   assert(e.registro.some(r => r.quien === 'claude-code' && /trae main/.test(r.que)));
