@@ -1,0 +1,17 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revision-binarios/.factory/local/revisiones/edecf96-codex-1",
+  "base": "c3db1edc539fe565485c554df6e2456c0056371e",
+  "head": "edecf964904c57d1e3beacea2b1c25960876f926",
+  "diff_sha256": "7e648da86d973233d2fb5c9f17a24ce60023ac391f1e20457a52a6160ea4b3f5",
+  "context_sha256": "c7f873b81984573b417cabcaabd3e9b51bba60dbdf081d7ea5d4c4b84d18f294",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "No encontré defectos que reportar tras contrastar los tres requisitos con el diff y las pruebas específicas; el paquete registra omissions=[] y no omite binarios.",
+    "Ejecuté PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s tests -p 'test_revision_binarios.py' </dev/null: 9 pruebas, todas pasaron. El .venv/bin/python indicado por las instrucciones no existe en este checkout.",
+    "Inspeccioné la separación entre omisiones binarias y otras, el emparejamiento del informe con el paquete por diff_sha256/context_sha256, el filtro de rutas en limitations y la plantilla del pedido. Las rutas con prefijo/sufijo contiguo no satisfacen el patrón; las rutas exactas entre comillas sí.",
+    "No hice mutaciones: la lógica revisada es una función pura y las pruebas dirigidas ya cubren los casos positivos y negativos solicitados."
+  ]
+}

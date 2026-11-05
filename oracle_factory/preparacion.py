@@ -9,6 +9,9 @@ from __future__ import annotations
 import re
 import unicodedata
 
+# Las tres razones con que Oracle Clue omite un binario (oracle_clue/cli.py).
+RAZONES_BINARIO = ('contenido no UTF-8', 'contenido binario', 'Git lo clasifica como binario')
+NEGACION = re.compile(r'\b(?:no|sin|ni)\b|\bnunca\b|\bfalt', re.IGNORECASE)
 ESQUEMA_CLUE = 'oracle-clue.review/v1'
 
 
@@ -25,10 +28,10 @@ def _proveedor(informe: dict) -> str:
 
 
 def omisiones(paquete: dict) -> tuple[list[str], list[str]]:
-    """(binarios, otras) archivos que el paquete de Clue omitió: «contenido no UTF-8» es un binario; el resto, otra omisión."""
+    """(binarios, otras) archivos que el paquete de Clue omitió: las razones de `RAZONES_BINARIO` son binarios; el resto, otra omisión."""
     binarias, otras = [], []
     for o in paquete.get('omissions') or []:
-        if isinstance(o, dict) and o.get('reason') == 'contenido no UTF-8' and o.get('file'):
+        if isinstance(o, dict) and o.get('reason') in RAZONES_BINARIO and o.get('file'):
             binarias.append(str(o['file']))
         else:
             otras.append(str(o.get('file') or '?') if isinstance(o, dict) else '?')
@@ -40,8 +43,11 @@ def _binarios_nombrados(rev: dict) -> list[str]:
     binarias = rev.get('omisiones_binarias') or []
     if rev['datos'].get('review_status') != 'incompleto' or not binarias or rev.get('otras_omisiones'):
         return []
-    limites = ' '.join(l for l in rev['datos'].get('limitations') or [] if isinstance(l, str))
-    nombrado = lambda r: re.search(r'(?<![\w/.-])' + re.escape(r) + r'(?![\w/-]|\.\w)', limites)
+    # Una frase de un límite que nombra la ruta y niega («no abrí», «sin revisar») declara lo contrario: no cuenta. Es una heurística de
+    # palabras: Factory no entiende la frase, y la persona ve los límites del informe.
+    frases = [f for l in rev['datos'].get('limitations') or [] if isinstance(l, str) for f in re.split(r'(?<=[.;])\s+|;', l)]
+    limites = [f for f in frases if not NEGACION.search(f)]
+    nombrado = lambda r: any(re.search(r'(?<![\w.-])' + re.escape(r) + r'(?![\w/-]|\.\w)', l) for l in limites)
     return binarias if all(nombrado(r) for r in binarias) else []
 
 
