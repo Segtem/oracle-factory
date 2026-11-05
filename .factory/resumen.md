@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:ef38074722ab8c8713dc32e5c6aa2d1d76f9348b06cb10135e6f5c54d24fd17b -->
+<!-- oracle-factory resumen sha256:0b319bf055174afff44c8910aa06c7877b096e645f761cbfbb3e9e22c5a3b764 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-28 capacidades · 281 requisitos vigentes · 0 cambios abiertos
+29 capacidades · 284 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -402,6 +402,16 @@ Spec completa: [openspec/specs/revision-guiada/spec.md](../openspec/specs/revisi
 | mantener formato libre con declaracion explicita | funcional | `revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita` | factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
 | explicar y verificar los limites del recorrido | funcional | `revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido` | factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
 | un intento de revisión que no se registró queda a la vista | funcional | `revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista` | factory_cancelada.un_intento_de_revision_que_no_se_registro_queda_a_la_vista, factory_cancelada.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-143020-revisar-cancelada |
+
+### revision
+
+Spec completa: [openspec/specs/revision/spec.md](../openspec/specs/revision/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| los_binarios_nombrados_no_bloquean | funcional | `revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean` | factory_revision_binarios.los_binarios_nombrados_no_bloquean, factory_revision_binarios.corrida_completa | verde al cerrar el 2026-11-05 | 20261104-221348-2l1-binarios |
+| lo_no_nombrado_sigue_bloqueando | funcional | `revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando` | factory_revision_binarios.lo_no_nombrado_sigue_bloqueando, factory_revision_binarios.corrida_completa | verde al cerrar el 2026-11-05 | 20261104-221348-2l1-binarios |
+| el_pedido_indica_como_declarar_binarios | funcional | `revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios` | factory_revision_binarios.el_pedido_indica_como_declarar_binarios, factory_revision_binarios.corrida_completa | verde al cerrar el 2026-11-05 | 20261104-221348-2l1-binarios |
 
 ### revisores
 
@@ -1560,6 +1570,16 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261104-033615-oj8-publicada-a17) codex (gpt-6-luna): Ejecuté `python tools/docs_al_dia.py`: salida exitosa, sin divergencias en README, docs/ o site/. Contrasté además los textos reales y probé en memoria la frase omitida del hallazgo. No modifiqué el checkout, ni ejecuté la suite unitaria o mutaciones persistentes.
 - (20261104-033615-oj8-publicada-a17) codex (gpt-6-luna): PA17-004 se clasifica baja porque la omisión no aparece hoy y no cambia ningún hecho de publicación actual. No hallé defecto de impacto práctico presente. No verifiqué PyPI ni GitHub independientemente; se toman como premisa de la solicitud.
 - (20261104-033615-oj8-publicada-a17) codex (gpt-6-luna): Las ediciones de tests existentes están justificadas por la transición a publicada: tests/datos/guias-texto.json regenera el texto extraído de la guía actualizada; tests/test_docs.py adapta las frases base y mutaciones del README; tests/test_entrega_a17.py elimina el test ea1 que afirmaba que a17 estaba en preparación y sus cuatro aserciones obsoletas. La cobertura del estado publicado y la coherencia de textos se añade en tests/test_publicada_a17.py.
+- (20261104-221348-2l1-binarios) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261104-221348-2l1-binarios) agy (gemini-3.8-flash-high): Revisión analítica exhaustiva del diff del candidato da96ca5 frente a proposal.md, spec.md, design.md y tasks.md.
+- (20261104-221348-2l1-binarios) agy (gemini-3.8-flash-high): Verificación del estado de cierre de los hallazgos de rondas anteriores (REV-BIN-01 a REV-BIN-04 de ronda 1; REV-BIN-05 a REV-BIN-08 y REV-BIN-R2-01 de ronda 2), constatando que la clase de defectos quedó definitivamente cerrada con la verificación de coincidencia exacta.
+- (20261104-221348-2l1-binarios) agy (gemini-3.8-flash-high): Ejecución de la suite completa de pruebas unitarias del repositorio bajo Python 3.13: 1135 pruebas ejecutadas exitosamente (10 omitidas).
+- (20261104-221348-2l1-binarios) agy (gemini-3.8-flash-high): Ejecución de la suite específica tests/test_revision_binarios.py (13 pruebas exitosas).
+- (20261104-221348-2l1-binarios) agy (gemini-3.8-flash-high): Pruebas de mutación manual en preparacion.py: las mutaciones en prefijo DECLARA, razones binarias de Clue, operadores lógicos (all/any) y manejo de omisiones adicionales mueren ante los tests.
+- (20261104-221348-2l1-binarios) agy (gemini-3.8-flash-high): Inspección de omissions del paquete de Oracle Clue: paquete sin omisiones (omissions=[]).
+- (20261104-221348-2l1-binarios) codex (gpt-6-luna): Leí la spec, propuesta, diff/contexto del paquete, pruebas relevantes y las cuatro revisiones previas; no ejecuté pruebas.
+- (20261104-221348-2l1-binarios) codex (gpt-6-luna): No hay omisiones de archivos no textuales en el paquete vigente; por eso no hay archivos binarios omitidos que declarar.
+- (20261104-221348-2l1-binarios) codex (gpt-6-luna): Sin hallazgos: las declaraciones fijas se comparan por ruta completa y sólo cuentan si cada omisión binaria del paquete está cubierta; las omisiones ajenas a las tres razones conocidas y los informes incompletos sin omisiones siguen bloqueando. Los casos previos de negación, prefijos/sufijos de ruta y puntuación quedan rechazados por igualdad exacta.
 
 ### Históricos
 
