@@ -40,6 +40,7 @@
       {a: 'integrar', quien: 'Beto', rama: 'beto'}],
     'mismo-archivo': [
       e_('claude-code', 'lista.py', 'consulta', 'g1'), e_('codex', 'lista.py', 'pantalla', 'g1'),
+      d_('Beto', 'revisar', 'consulta', 'ana', 'g2'), d_('Ana', 'revisar', 'pantalla', 'beto', 'g2'),
       d_('Ana', 'cerrar', 'consulta', 'ana'), {a: 'integrar', quien: 'Ana', rama: 'ana'},
       d_('Beto', 'cerrar', 'pantalla', 'beto'), {a: 'integrar', quien: 'Beto', rama: 'beto'}],
     'decisiones-distintas': [
@@ -47,7 +48,8 @@
       {a: 'integrar', quien: 'Ana', rama: 'ana'}, {a: 'integrar', quien: 'Beto', rama: 'beto'}],
     'revision-vieja': [
       e_('claude-code', 'consulta.py', 'consulta'), d_('Beto', 'revisar', 'consulta', 'ana'),
-      e_('codex', 'pantalla.py', 'pantalla'), d_('Beto', 'cerrar', 'pantalla', 'beto'), {a: 'integrar', quien: 'Beto', rama: 'beto'},
+      e_('codex', 'pantalla.py', 'pantalla'), d_('Ana', 'revisar', 'pantalla', 'beto'), d_('Beto', 'cerrar', 'pantalla', 'beto'),
+      {a: 'integrar', quien: 'Beto', rama: 'beto'},
       {a: 'traer', quien: 'Ana', rama: 'ana'}, d_('Beto', 'revisar', 'consulta', 'ana'),
       d_('Ana', 'cerrar', 'consulta', 'ana'), {a: 'integrar', quien: 'Ana', rama: 'ana'}],
     'agente-cierra': [
@@ -60,7 +62,7 @@
     {id: 'paralelo', titulo: 'Dos frentes en paralelo', resumen: 'Ana y Beto trabajan a la vez en frentes distintos, cada uno en su rama.',
      final: 'Cada frente se revisó y se cerró por separado, los registros se unieron solos y main tiene el trabajo de los dos.'},
     {id: 'mismo-archivo', titulo: 'El mismo archivo, dos manos', resumen: 'Los dos agentes editan lista.py sin saberlo.',
-     final: 'Git no puede elegir entre dos versiones de lista.py: el conflicto lo resolvió una persona y Oracle volvió a juzgar.'},
+     final: 'Git no puede elegir entre dos versiones de lista.py: el conflicto lo resolvió una persona, Oracle volvió a juzgar y la revisión de la rama quedó vieja.'},
     {id: 'decisiones-distintas', titulo: 'Dos ramas, dos decisiones', resumen: 'Las dos personas tomaron el mismo cambio como responsables.',
      final: 'Factory no elige quién es el responsable: lo decidió una persona con decidir-union y quedó en el registro.'},
     {id: 'revision-vieja', titulo: 'Una revisión que queda vieja', resumen: 'Beto revisó el cambio de Ana, y después Beto integró el suyo.',
@@ -129,6 +131,11 @@
       }
     });
   }
+  // Un evento del registro de una rama. El id lleva la rama y el número de orden dentro de ella: dos ramas que registran la misma
+  // decisión del mismo cambio dejan dos eventos, y un evento ya integrado no se duplica si la rama se une otra vez.
+  function evento(r, rama, cambio, que, quien) {
+    r.eventos.push({id: rama + '-' + (r.eventos.length + 1), rama: rama, cambio: cambio, que: que, quien: quien});
+  }
   function cambiados(r) { return Object.keys(r.archivos).filter(function (f) { return r.archivos[f] !== r.base[f]; }); }
   function choca(e, r, f) { return e.tronco.archivos[f] !== r.base[f] && e.tronco.archivos[f] !== r.archivos[f]; }
 
@@ -139,23 +146,28 @@
       r = e.ramas[yo.rama];
       var veces = r.archivos[p.archivo] && r.archivos[p.archivo].indexOf(yo.rama + '#') === 0 ? +r.archivos[p.archivo].split('#')[1] : 0;
       r.archivos[p.archivo] = yo.rama + '#' + (veces + 1); // la versión sale de la rama, no del orden en que ocurren las cosas
-      r.eventos.push({id: 'e-' + yo.rama + '-' + p.archivo, rama: yo.rama, cambio: p.cambio});
+      evento(r, yo.rama, p.cambio, 'editar', p.quien);
       anotar(e, p.quien, p.quien + ' edita ' + p.archivo + ' en su rama «' + yo.rama + '», en su propio checkout.', {regla: 'checkout', rama: yo.rama});
       vigencias(e, yo.rama);
     } else if (p.a === 'tomar') {
       r.registro[p.cambio] = r.registro[p.cambio] || {};
       r.registro[p.cambio].responsable = {valor: p.quien, por: p.quien};
-      r.eventos.push({id: 't-' + p.quien + '-' + p.cambio, rama: p.rama, cambio: p.cambio});
+      evento(r, p.rama, p.cambio, 'tomar', p.quien);
       anotar(e, p.quien, p.quien + ' toma el cambio «' + p.cambio + '» como responsable, en su rama «' + p.rama + '».', {rama: p.rama, cambio: p.cambio});
     } else if (p.a === 'decidir') {
       if (yo.tipo === 'agente') {
         anotar(e, p.quien, p.quien + ' intentó «' + p.decision + '» el cambio «' + p.cambio + '»: es una decisión de persona, así que sólo lo propuso.',
                {regla: 'persona', intento: p.decision, cambio: p.cambio});
         e.pendientes.push({quien: p.quien, decision: p.decision, cambio: p.cambio, para: ACTORES[p.quien].de});
+      } else if (p.decision === 'cerrar' && !(r.revisiones[p.cambio] && r.revisiones[p.cambio].vigente)) {
+        // no se cierra sin una revisión que valga sobre el producto actual (regla «vencida»)
+        anotar(e, 'Factory', 'No se puede cerrar «' + p.cambio + '»: ' + (r.revisiones[p.cambio]
+               ? 'la revisión ya no vale, el producto cambió desde que se hizo. Hay que revisar de nuevo.' : 'no hay una revisión. Falta revisarlo.'),
+               {regla: 'vencida', cambio: p.cambio, rama: p.rama});
       } else {
         r.registro[p.cambio] = r.registro[p.cambio] || {};
         r.registro[p.cambio][p.decision] = {valor: p.decision, por: p.quien};
-        r.eventos.push({id: p.decision + '-' + p.cambio, rama: p.rama, cambio: p.cambio});
+        evento(r, p.rama, p.cambio, p.decision, p.quien);
         if (p.decision === 'revisar') r.revisiones[p.cambio] = {candidato: huella(r.archivos), por: p.quien, vigente: true};
         e.pendientes.forEach(function (x) { if (x.decision === p.decision && x.cambio === p.cambio && !x.resuelta_por) x.resuelta_por = p.quien; });
         anotar(e, p.quien, p.quien + ' decide «' + p.decision + '» del cambio «' + p.cambio + '»' +

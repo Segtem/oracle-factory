@@ -88,6 +88,40 @@ const resultado = e => JSON.stringify({
   assert(!v.registro.slice(idx + 1).some(r => r.decision === 'cerrar' && v.registro.indexOf(r) < v.registro.lastIndexOf(v.registro.filter(x => x.decision === 'revisar').pop())), 'se cerró con la revisión vencida');
 }
 
+// cc1 (ronda 1, CC-1 y CC-2): cerrar exige una revisión vigente; los eventos de dos ramas no se pisan por tener el mismo nombre.
+{
+  const con = (...guion) => { const e = C.nuevo('paralelo', 1); e.guion = guion; e.idx = 0; e.fin = null;
+    while (!e.fin) { if (e.espera) C.elegir(e, e.espera.opciones[0].id); else C.paso(e); } return e; };
+  const ed = (quien, archivo, cambio) => ({a: 'editar', quien, archivo, cambio});
+  const de = (quien, decision, cambio, rama) => ({a: 'decidir', quien, decision, cambio, rama});
+  const cerro = e => e.registro.some(r => r.decision === 'cerrar');
+  // nunca revisado: no se cierra, y el registro lo dice
+  let e = con(ed('claude-code', 'x.py', 'x'), de('Ana', 'cerrar', 'x', 'ana'));
+  assert(!cerro(e));
+  assert(e.registro.some(r => r.regla === 'vencida' && r.tipo === 'oracle' && /No se puede cerrar «x»/.test(r.que)), JSON.stringify(e.registro));
+  assert.equal(e.tronco.registro.x, undefined);
+  // revisado, pero el producto cambió después: la revisión venció y tampoco se cierra
+  e = con(ed('claude-code', 'x.py', 'x'), de('Beto', 'revisar', 'x', 'ana'), ed('claude-code', 'y.py', 'x'), de('Ana', 'cerrar', 'x', 'ana'));
+  assert(!cerro(e));
+  assert(e.registro.some(r => /No se puede cerrar «x»/.test(r.que) && /vieja|venció|ya no vale/.test(r.que)));
+  // revisado de nuevo después del cambio: se cierra
+  e = con(ed('claude-code', 'x.py', 'x'), de('Beto', 'revisar', 'x', 'ana'), ed('claude-code', 'y.py', 'x'), de('Beto', 'revisar', 'x', 'ana'), de('Ana', 'cerrar', 'x', 'ana'));
+  assert(cerro(e));
+  // un agente que propone cerrar sigue sin cerrar, aunque haya revisión
+  e = con(ed('claude-code', 'x.py', 'x'), de('Beto', 'revisar', 'x', 'ana'), de('claude-code', 'cerrar', 'x', 'ana'));
+  assert(!cerro(e));
+  // dos ramas que registran la misma decisión del mismo cambio: los dos eventos llegan a main
+  e = con(de('Ana', 'revisar', 'informe', 'ana'), de('Beto', 'revisar', 'informe', 'beto'),
+          {a: 'integrar', quien: 'Ana', rama: 'ana'}, {a: 'integrar', quien: 'Beto', rama: 'beto'});
+  const revisares = e.tronco.eventos.filter(x => x.cambio === 'informe' && x.que === 'revisar');
+  assert.deepEqual(revisares.map(x => x.rama).sort(), ['ana', 'beto'], JSON.stringify(e.tronco.eventos));
+  assert.equal(new Set(e.tronco.eventos.map(x => x.id)).size, e.tronco.eventos.length, 'ids repetidos');
+  // la misma decisión dos veces en una rama: los dos eventos
+  e = con(ed('claude-code', 'x.py', 'x'), de('Beto', 'revisar', 'x', 'ana'), ed('claude-code', 'y.py', 'x'), de('Beto', 'revisar', 'x', 'ana'), {a: 'integrar', quien: 'Ana', rama: 'ana'});
+  assert.equal(e.tronco.eventos.filter(x => x.que === 'revisar').length, 2);
+  assert.equal(new Set(e.tronco.eventos.map(x => x.id)).size, e.tronco.eventos.length, 'ids repetidos en una misma rama');
+}
+
 // cc2: los escenarios.
 {
   assert.deepEqual(C.ESCENARIOS.map(x => x.id), IDS);

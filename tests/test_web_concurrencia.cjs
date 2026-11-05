@@ -79,7 +79,7 @@ const ESCENARIOS = {
     for (const id of ['sim-escenario', 'sim-semilla', 'sim-vel', 'sim-paso', 'sim-play', 'sim-reiniciar']) assert(alcanzados.has(id), `Tab no llega a ${id}: ${[...alcanzados]}`);
     await page.focus('#sim-paso');
     const etiquetas = new Set([await page.getAttribute('#sim-escena', 'aria-label')]);
-    for (let i = 0; i < 6; i++) { await page.keyboard.press('Enter'); etiquetas.add(await page.getAttribute('#sim-escena', 'aria-label')); }
+    for (let i = 0; i < 14 && !(await page.locator('#sim-espera').isVisible()); i++) { await page.keyboard.press('Enter'); etiquetas.add(await page.getAttribute('#sim-escena', 'aria-label')); }
     assert(etiquetas.size >= 4, [...etiquetas].join(' | '));
     assert(await page.locator('#sim-espera').isVisible(), 'no apareció el conflicto');
     await page.locator('#sim-espera-opciones button').first().focus();
