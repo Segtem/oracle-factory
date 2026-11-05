@@ -4,22 +4,22 @@
   "capacidad": "revision",
   "fase": "requisitos_importados",
   "spec": "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md",
-  "spec_sha256": "db1a54930aecb61e77a2bfeece7a2196b3db27bddbdd08cd46c063bf7ac46ed5",
+  "spec_sha256": "f394946317489ade9b4da42011d59cbeeaf4c7cf5883faf7e65f0730a573e3f7",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-11-04T22:55:36.437735+00:00",
+    "cuando": "2026-11-05T13:51:23.344252+00:00",
     "documentos": {
-      "openspec/changes/20261104-221348-2l1-binarios/proposal.md": "e58d5b2b75d35a928e406c6124a43b2d60023d22663c12f69b98167aef15acd2",
-      "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md": "db1a54930aecb61e77a2bfeece7a2196b3db27bddbdd08cd46c063bf7ac46ed5"
+      "openspec/changes/20261104-221348-2l1-binarios/proposal.md": "05bf529855aef8f1c3600acd332fd9013450b86b3603dec8105008c7af18fc4d",
+      "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md": "f394946317489ade9b4da42011d59cbeeaf4c7cf5883faf7e65f0730a573e3f7"
     }
   },
   "requisitos": [
-    "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios",
-    "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando",
-    "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean"
+    "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios",
+    "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando",
+    "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean"
   ],
   "revision": null,
   "oracle": null,
@@ -399,62 +399,123 @@
       "resultado": "ok",
       "hallazgos": 4,
       "lanzamiento": "ad3b755e001e"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T13:51:23.344282+00:00",
+      "documentos": {
+        "openspec/changes/20261104-221348-2l1-binarios/proposal.md": "05bf529855aef8f1c3600acd332fd9013450b86b3603dec8105008c7af18fc4d",
+        "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md": "f394946317489ade9b4da42011d59cbeeaf4c7cf5883faf7e65f0730a573e3f7"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T14:05:30.400085+00:00",
+      "ids": [
+        "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios",
+        "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando",
+        "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T14:05:46.302865+00:00",
+      "requisito": "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean",
+      "medidas": [
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T14:05:47.757717+00:00",
+      "requisito": "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando",
+      "medidas": [
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T14:05:49.196827+00:00",
+      "requisito": "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios",
+      "medidas": [
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
-    "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios": "funcional",
-    "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando": "funcional",
-    "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean": "funcional"
+    "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios": "funcional",
+    "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando": "funcional",
+    "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean": "funcional"
   },
-  "medidas": {
-    "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-04T22:57:34.192653+00:00",
-      "sha256": "5372f4c5b12959fc93bd436b547eb86e167e2bc3ec60a9770e0d0d555bee6f11",
+  "medidas": {},
+  "medidas_pendientes": {
+    "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean": {
+      "sha256": "e742e063dadf506be21f7b935587e6d3dfd60a2d5e949cf9f6b4633efc91d1a0",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-05T14:05:46.262638+00:00",
       "catalogos": {
-        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios": "dbbeb7e13ed566abe1afa8986bb94c0d0393477b3b9867f661c05251d2221e08",
-        "factory_revision_binarios.corrida_completa": "391ee8931b6be37bfc2a2bd0a2d972e6f9b045ca05c486c58a4752a1def62272"
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "2b64f88b35fada99284fd75973b1ea4f3e8d6aca1945f1d7b9d90dc3d8662544",
+        "factory_revision_binarios.corrida_completa": "44553208ab0d0204ea259a845db39868866b7132568f71a36d8c2c2df981edd9"
       },
       "archivos_catalogo": {
-        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios": "catalogos/factory_revision_binarios.el_pedido_indica_como_declarar_binarios.oracle",
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "catalogos/factory_revision_binarios.los_binarios_nombrados_no_bloquean.oracle",
         "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
       }
     },
-    "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-05T10:06:31.282971+00:00",
-      "sha256": "9869ee304883d16503b2ddb52bdc53ea045a3a605cedf8e1a71128e89e19f3ce",
+    "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando": {
+      "sha256": "bcba7e00b4c36ef8b221a535acfbdfdd9f528df8cb297bdeb5b57821c779e6f3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-05T14:05:47.717214+00:00",
       "catalogos": {
-        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando": "1deccc428a63c5d26bc0a0ec2ed1b686909228adf85b17acd2300bf4d452578d",
-        "factory_revision_binarios.corrida_completa": "b1b91b2ff0f52273bc06ad06049917fca95d45b6428616e64a415012991dd814"
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando": "e3484b483bf179e906cf4e8dd9a98d3fe176cd06d7e0e71a1417c471344a0397",
+        "factory_revision_binarios.corrida_completa": "44553208ab0d0204ea259a845db39868866b7132568f71a36d8c2c2df981edd9"
       },
       "archivos_catalogo": {
         "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando": "catalogos/factory_revision_binarios.lo_no_nombrado_sigue_bloqueando.oracle",
         "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
       }
     },
-    "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-05T10:06:31.443645+00:00",
-      "sha256": "88f75bb6f894fc0b9a4d0d7e7cb106836957b61b7d6924ac6e6736f5d4144ad8",
+    "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios": {
+      "sha256": "e9cae7ede59f1e930ba854ae06c5635f02e6aab83145b7f2054fb7bb5cbf6a7b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-05T14:05:49.156097+00:00",
       "catalogos": {
-        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "2b64f88b35fada99284fd75973b1ea4f3e8d6aca1945f1d7b9d90dc3d8662544",
-        "factory_revision_binarios.corrida_completa": "b1b91b2ff0f52273bc06ad06049917fca95d45b6428616e64a415012991dd814"
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios": "dbbeb7e13ed566abe1afa8986bb94c0d0393477b3b9867f661c05251d2221e08",
+        "factory_revision_binarios.corrida_completa": "44553208ab0d0204ea259a845db39868866b7132568f71a36d8c2c2df981edd9"
       },
       "archivos_catalogo": {
-        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "catalogos/factory_revision_binarios.los_binarios_nombrados_no_bloquean.oracle",
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios": "catalogos/factory_revision_binarios.el_pedido_indica_como_declarar_binarios.oracle",
         "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
       }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }

@@ -1,6 +1,6 @@
 ---
 generado: oracle-factory kb
-id: "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios"
+id: "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios"
 vigente: true
 ---
 
@@ -8,11 +8,11 @@ vigente: true
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Id: `revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios`
+- Id: `revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios`
 - Vigente: sí
 - Cambio: [[cambios/20261104-221348-2l1-binarios]]
 - Veredicto: sin juicio
 - Medidas: `factory_revision_binarios.el_pedido_indica_como_declarar_binarios`, `factory_revision_binarios.corrida_completa`
 - Fuente: openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md#el_pedido_indica_como_declarar_binarios
 
-Tipo: funcional El sistema DEBE indicar al revisor, en el pedido, que abra en el checkout cada archivo que el paquete omita por no ser texto y lo nombre en sus límites.
+Tipo: funcional El sistema DEBE indicar al revisor, en el pedido, que abra en el checkout cada archivo que el paquete omita por no ser texto y lo declare en sus límites con la línea `abierto: RUTA`.
