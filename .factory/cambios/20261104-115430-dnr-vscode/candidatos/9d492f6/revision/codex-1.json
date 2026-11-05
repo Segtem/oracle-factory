@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-vscode/.factory/local/revisiones/9d492f6-codex-1",
+  "base": "d1aaaa1df22c45d84ca156e96427103c67708b3c",
+  "head": "9d492f679b507e9335f08ad9790bb339552e875f",
+  "diff_sha256": "297eb7b5f48bbfe205df70155c2f49a7a89bb350e6505117e3a6fd0acd875e0a",
+  "context_sha256": "6b6195c6f19aaf25a9ae58546b6e82e4bb99affc9bf2f399a283c1e7aa21af85",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [],
+  "review_status": "incompleto",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff del paquete y las seis revisiones previas indicadas; revisé la implementación, las pruebas y sus cambios. No revisé los archivos de Factory excluidos del paquete.",
+    "Ejecuté `python tools/sitio_vscode.py`: sin problemas. Ejecuté `python -m unittest tests.test_web_vscode tests.test_web </dev/null`: 20 pruebas aprobadas. No ejecuté la suite completa ni `tools/capturas_vscode.py` con o sin capturas.",
+    "Abrí visualmente las cuatro imágenes: muestran la vista Factory del explorador, el tablero, la sección del proyecto y la consulta por qué en VS Code; aparecen Ana Ejemplo y claude-code, sin datos personales observables. El código del comprobador y los ejemplos cumplen las verificaciones locales examinadas.",
+    "Comparé el merge b56310bc con su primer padre: no añadió ni modificó archivos de producto, pruebas o web-vscode; sólo incorporó cambios ajenos a la extensión. En el diff entre d1aaaa1d y HEAD tampoco hay cambios en editores/vscode.",
+    "Las ediciones existentes están justificadas: `tests/test_site.cjs` actualiza el conteo esperado de secciones de 10 a 11 por la sección nueva; `tests/test_web.py` elimina puntuación terminal al extraer el subcomando y evita interpretar `hooks).` como un comando distinto. No observé pérdida material de cobertura.",
+    "No encontré hallazgos en el diff revisado.",
+    "abierto: site/img/vscode-explorador.png",
+    "abierto: site/img/vscode-pendientes.png",
+    "abierto: site/img/vscode-por-que.png",
+    "abierto: site/img/vscode-tablero.png"
+  ]
+}
