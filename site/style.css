@@ -2035,3 +2035,154 @@ body[data-fiesta=si] [data-estado=final] .ventana { fill:#e0705f }
   font:12px/1.7 var(--mono);
   white-space:pre-wrap
 }
+.sim-aviso {
+  margin:16px 0 0;
+  padding:12px 16px;
+  background:#fff6d8;
+  border:1px solid #c99a3e;
+  font-size:14px;
+  line-height:1.6
+}
+.sim {
+  margin-top:32px
+}
+.sim-controles {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 14px;
+  align-items:center;
+  margin:16px 0
+}
+.sim-controles label {
+  font:12px var(--mono);
+  text-transform:uppercase;
+  letter-spacing:.06em
+}
+.sim-controles select, .sim-controles input, .sim-controles button, .sim-opciones button {
+  min-height:40px;
+  padding:6px 12px;
+  border:2px solid var(--ink);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:0
+}
+.sim-controles input {
+  width:78px
+}
+.sim-controles button, .sim-opciones button {
+  background:var(--green);
+  font-weight:700
+}
+.sim-controles button:focus-visible, .sim-controles select:focus-visible, .sim-controles input:focus-visible, .sim-opciones button:focus-visible {
+  outline:3px solid var(--ink);
+  outline-offset:2px
+}
+.sim-resumen {
+  margin:0 0 12px;
+  font-size:15px
+}
+.sim-escena {
+  max-width:100%;
+  border:2px solid var(--ink);
+  background:#e7f0dc
+}
+.sim-escena svg {
+  display:block;
+  width:100%;
+  height:auto
+}
+.sim-t {
+  font:5px var(--mono);
+  fill:var(--ink)
+}
+.sim-rotulo {
+  font-weight:700;
+  font-size:7px
+}
+.sim-chip {
+  font-size:4.6px
+}
+.sim-actor.activo {
+  animation:sim-salto .9s steps(2) infinite
+}
+.sim-alerta {
+  animation:sim-parpadeo 1s steps(2) infinite
+}
+@keyframes sim-salto {
+  50% {
+    transform:translateY(-2px)
+  }
+}
+@keyframes sim-parpadeo {
+  50% {
+    opacity:.4
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .sim-actor.activo, .sim-alerta {
+    animation:none
+  }
+}
+.sim-espera {
+  margin:14px 0;
+  padding:14px 16px;
+  border:2px solid #a8473b;
+  background:#fdebe6
+}
+.sim-espera p {
+  margin:0 0 8px
+}
+.sim-opciones {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px
+}
+.sim-fin {
+  margin:14px 0;
+  padding:12px 16px;
+  border:2px solid var(--ink);
+  background:var(--green);
+  font-weight:700
+}
+.sim-nota {
+  font-size:14px;
+  color:var(--muted)
+}
+.sim-registro {
+  margin:0;
+  padding:0 0 0 26px;
+  max-height:340px;
+  overflow:auto;
+  font-size:14px;
+  line-height:1.6
+}
+.sim-registro li {
+  padding:3px 0
+}
+.sim-quien {
+  font:12px var(--mono);
+  font-weight:700
+}
+.sim-agente .sim-quien {
+  color:#3f6f9e
+}
+.sim-persona .sim-quien {
+  color:#3d6b45
+}
+.sim-git .sim-quien, .sim-oracle .sim-quien {
+  color:#a8473b
+}
+.sim-reglas dt {
+  margin-top:16px;
+  font-weight:700
+}
+.sim-reglas dd {
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:14px
+}
+@media(max-width:560px) {
+  .sim-controles input {
+    width:64px
+  }
+}

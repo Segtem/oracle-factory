@@ -1,0 +1,111 @@
+/* El motor de la simulación de concurrencia (site/concurrencia.js), con node y sin navegador. Escenarios cc1–cc3. */
+'use strict';
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const C = require('../site/concurrencia.js');
+
+const IDS = ['paralelo', 'mismo-archivo', 'decisiones-distintas', 'revision-vieja', 'agente-cierra'];
+const PERSONAS = new Set(['Ana', 'Beto']);
+
+// Corre un escenario hasta el final; ante una espera elige la opción dada (o la primera) como lo haría una persona.
+function correr(id, semilla, elegir) {
+  const e = C.nuevo(id, semilla);
+  let guardia = 0;
+  while (!e.fin && guardia++ < 200) {
+    if (e.espera) { assert.equal(C.elegir(e, (elegir || (o => o[0]))(e.espera.opciones.map(o => o.id), e)), null); continue; }
+    C.paso(e);
+  }
+  assert(e.fin, `${id} no terminó`);
+  return e;
+}
+const resultado = e => JSON.stringify({
+  tronco: e.tronco.archivos, registro: e.tronco.registro, vencidas: e.registro.filter(r => r.regla === 'vencida').length,
+  decisiones: e.registro.filter(r => r.decision).map(r => `${r.quien}:${r.decision}`).sort()});
+
+// cc1: las reglas.
+{
+  assert.deepEqual(C.nuevo('paralelo', 1).registro, []);
+  for (const id of IDS) {
+    const e = correr(id, 1);
+    for (const r of e.registro) {
+      // toda decisión de persona la toma una persona; un agente sólo propone
+      if (r.decision) assert(PERSONAS.has(r.quien), `${id}: «${r.decision}» decidida por ${r.quien}`);
+      assert(r.tipo === 'persona' || r.tipo === 'agente' || r.tipo === 'git' || r.tipo === 'oracle', r.tipo);
+      if (r.regla) assert(C.REGLAS.some(x => x.id === r.regla), `regla desconocida ${r.regla}`);
+    }
+  }
+  // un agente intenta cerrar: no se ejecuta, queda como propuesta y el registro lo dice con su nombre
+  const e = correr('agente-cierra', 1);
+  const intento = e.registro.find(r => r.tipo === 'agente' && r.regla === 'persona');
+  assert(intento && intento.quien === 'claude-code' && /propuso|propone/.test(intento.que), JSON.stringify(intento));
+  assert(!e.registro.some(r => r.tipo === 'agente' && r.decision), 'un agente decidió');
+  assert.equal(e.pendientes.length, 1);
+  assert.equal(e.pendientes[0].quien, 'claude-code');
+  assert(e.registro.some(r => r.decision === 'cerrar' && r.quien === 'Ana' && r.tipo === 'persona'));
+  // dos ramas con los mismos archivos sin pisarse: los eventos de las dos quedan
+  const p = correr('paralelo', 1);
+  assert.equal(p.conflictos.length, 0);
+  assert(p.tronco.eventos.some(x => x.rama === 'ana') && p.tronco.eventos.some(x => x.rama === 'beto'));
+  // el mismo archivo editado por dos es un conflicto, y no se resuelve solo
+  const m = C.nuevo('mismo-archivo', 1);
+  let paradas = 0;
+  while (!m.fin) {
+    if (m.espera) { paradas++; assert.equal(m.espera.tipo, 'conflicto'); assert.equal(m.espera.quien, 'persona'); const n = m.registro.length;
+      C.paso(m); assert.equal(m.registro.length, n, 'el avance siguió sin que una persona eligiera');
+      assert.equal(C.elegir(m, 'agente-elige'), 'Esa opción no existe en este paso.'); assert(m.espera);
+      assert.equal(C.elegir(m, m.espera.opciones[0].id), null); continue; }
+    C.paso(m);
+  }
+  assert.equal(paradas, 1);
+  assert.equal(m.conflictos.length, 1);
+  assert.match(m.conflictos[0].resuelto_por, /^(Ana|Beto)$/);
+  // lo decidido distinto por dos ramas no lo elige el motor: decidir-union, de una persona
+  const d = C.nuevo('decisiones-distintas', 1);
+  while (!d.fin && !d.espera) C.paso(d);
+  assert.equal(d.espera.tipo, 'union');
+  assert(d.espera.comando.startsWith('oracle-factory decidir-union'));
+  assert.equal(C.elegir(d, d.espera.opciones[0].id), null);
+  assert(d.registro.some(r => r.decision === 'decidir-union' && PERSONAS.has(r.quien)));
+  // una revisión pierde su vigencia si el producto cambió después de hacerla
+  const v = correr('revision-vieja', 1);
+  const vencida = v.registro.find(r => r.regla === 'vencida');
+  assert(vencida, 'la revisión no quedó vieja');
+  const idx = v.registro.indexOf(vencida);
+  assert(v.registro.slice(0, idx).some(r => r.decision === 'revisar'), 'se venció sin haber sido hecha');
+  assert(v.registro.slice(idx + 1).some(r => r.decision === 'revisar'), 'no se pidió la revisión de nuevo');
+  assert(!v.registro.slice(idx + 1).some(r => r.decision === 'cerrar' && v.registro.indexOf(r) < v.registro.lastIndexOf(v.registro.filter(x => x.decision === 'revisar').pop())), 'se cerró con la revisión vencida');
+}
+
+// cc2: los escenarios.
+{
+  assert.deepEqual(C.ESCENARIOS.map(x => x.id), IDS);
+  for (const x of C.ESCENARIOS) assert(x.titulo && x.resumen && x.final && x.final.length < 220, x.id);
+  for (const id of IDS) {
+    const e = correr(id, 3);
+    assert.equal(e.fin.explicacion, C.ESCENARIOS.find(x => x.id === id).final);
+    assert(e.registro.length >= 4);
+    assert(e.registro.every((r, i) => r.n === i + 1 && r.quien && r.que));
+  }
+  assert.throws(() => C.nuevo('no-existe', 1), /escenario/);
+}
+
+// cc3: determinismo.
+{
+  for (const id of IDS) {
+    assert.equal(JSON.stringify(correr(id, 7).registro), JSON.stringify(correr(id, 7).registro), `${id} no es determinista`);
+    const base = resultado(correr(id, 1));
+    for (let s = 2; s <= 30; s++) assert.equal(resultado(correr(id, s)), base, `${id}: el resultado cambia con la semilla ${s}`);
+  }
+  const ordenes = new Set();
+  for (let s = 1; s <= 30; s++) ordenes.add(JSON.stringify(correr('paralelo', s).registro.map(r => r.que)));
+  assert(ordenes.size > 1, 'la semilla no cambia el orden de lo simultáneo');
+}
+
+// citas: cada regla cita un texto que está en docs/colaboracion.md
+{
+  const doc = fs.readFileSync(path.join(__dirname, '../docs/colaboracion.md'), 'utf8');
+  assert(C.REGLAS.length >= 6);
+  for (const r of C.REGLAS) assert(r.id && r.texto && r.cita && doc.includes(r.cita), `la cita de «${r.id}» no está en docs/colaboracion.md`);
+}
+console.log('ok');
