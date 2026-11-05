@@ -6,12 +6,11 @@ Lo que es de la persona (revisor, si la revisión está completa y el estado de 
 """
 from __future__ import annotations
 
-import re
 import unicodedata
 
 # Las tres razones con que Oracle Clue omite un binario (oracle_clue/cli.py).
 RAZONES_BINARIO = ('contenido no UTF-8', 'contenido binario', 'Git lo clasifica como binario')
-NEGACION = re.compile(r'\b(?:no|sin|ni)\b|\bnunca\b|\bfalt', re.IGNORECASE)
+DECLARA = 'abierto: '  # la línea de `limitations` con que un revisor declara que abrió un binario omitido
 ESQUEMA_CLUE = 'oracle-clue.review/v1'
 
 
@@ -39,16 +38,13 @@ def omisiones(paquete: dict) -> tuple[list[str], list[str]]:
 
 
 def _binarios_nombrados(rev: dict) -> list[str]:
-    """Los binarios omitidos, si el informe es incompleto sólo por ellos y los nombra todos en sus límites; si no, []."""
+    """Los binarios omitidos, si el informe es incompleto sólo por ellos y declara cada uno en sus límites; si no, []."""
     binarias = rev.get('omisiones_binarias') or []
     if rev['datos'].get('review_status') != 'incompleto' or not binarias or rev.get('otras_omisiones'):
         return []
-    # Una frase de un límite que nombra la ruta y niega («no abrí», «sin revisar») declara lo contrario: no cuenta. Es una heurística de
-    # palabras: Factory no entiende la frase, y la persona ve los límites del informe.
-    frases = [f for l in rev['datos'].get('limitations') or [] if isinstance(l, str) for f in re.split(r'(?<=[.;])\s+|;', l)]
-    limites = [f for f in frases if not NEGACION.search(f)]
-    nombrado = lambda r: any(re.search(r'(?<![\w.-])' + re.escape(r) + r'(?![\w/-]|\.\w)', l) for l in limites)
-    return binarias if all(nombrado(r) for r in binarias) else []
+    # Declaración fija «abierto: RUTA», una línea por binario: igualdad exacta, sin interpretar lenguaje (ver el diseño del cambio).
+    abiertos = {l[len(DECLARA):] for l in rev['datos'].get('limitations') or [] if isinstance(l, str) and l.startswith(DECLARA)}
+    return binarias if all(r in abiertos for r in binarias) else []
 
 
 def completar(informe: dict, decisiones: dict, revisores: list[dict], evidencia: dict | None,
@@ -74,7 +70,7 @@ def completar(informe: dict, decisiones: dict, revisores: list[dict], evidencia:
         n = len(datos.get('findings') or [])
         binarios = _binarios_nombrados(rev)
         if binarios:
-            limites.append(f"{_proveedor(datos)}: binarios que el paquete no trae y el revisor dice haber abierto en el checkout "
+            limites.append(f"{_proveedor(datos)}: binarios que el paquete no trae y el revisor declara haber abierto en el checkout "
                            f"(Factory no lo comprueba): {', '.join(binarios)}")
         comprobaciones.append({'descripcion': f"Revisión de {_proveedor(datos)}: {n} hallazgo{'s' if n != 1 else ''}"
                                               f" ({datos.get('review_status', 'estado sin declarar')})",

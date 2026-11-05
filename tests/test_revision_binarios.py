@@ -20,25 +20,35 @@ def comprobacion(rev):
 
 
 class Binarios(unittest.TestCase):
-    def test_rb1_los_binarios_nombrados_cumplen(self):
-        informe, resultado = comprobacion(revisor([f'Abrí {PNG} en el checkout con Pillow.']))
+    def test_rb1_los_binarios_declarados_cumplen(self):
+        informe, resultado = comprobacion(revisor([f'abierto: {PNG}']))
         self.assertEqual(resultado, 'cumple')
         self.assertTrue(any('binarios que el paquete no trae' in l and PNG in l for l in informe['limites']), informe['limites'])
 
-    def test_rb1_varios_binarios_todos_nombrados(self):
-        _, resultado = comprobacion(revisor([f'Abrí {PNG}.', f'Abrí {PNG2}.'], binarias=(PNG, PNG2)))
+    def test_rb1_varios_binarios_todos_declarados(self):
+        _, resultado = comprobacion(revisor([f'abierto: {PNG}', f'abierto: {PNG2}'], binarias=(PNG, PNG2)))
         self.assertEqual(resultado, 'cumple')
 
-    def test_rb2_un_binario_sin_nombrar_bloquea(self):
-        _, resultado = comprobacion(revisor([f'Abrí {PNG}.'], binarias=(PNG, PNG2)))
+    def test_rb1_cualquier_ruta_sirve(self):
+        for ruta in ('docs/fig. 1.png', 'a;b.png', 'img/icon.png@2x', 'icons/no.png', 'img/sin-fondo.png', 'ñandú/ícono.png', 'a(1).png'):
+            self.assertEqual(comprobacion(revisor([f'abierto: {ruta}'], binarias=(ruta,)))[1], 'cumple', ruta)
+
+    def test_rb1_otras_frases_no_anulan_la_declaracion(self):
+        _, resultado = comprobacion(revisor(['No ejecuté la suite completa.', f'abierto: {PNG}']))
+        self.assertEqual(resultado, 'cumple')
+
+    def test_rb2_un_binario_sin_declarar_bloquea(self):
+        _, resultado = comprobacion(revisor([f'abierto: {PNG}'], binarias=(PNG, PNG2)))
         self.assertEqual(resultado, 'no_ejecutada')
 
-    def test_rb2_una_ruta_parecida_no_cuenta(self):
-        _, resultado = comprobacion(revisor(['Abrí site/img/a.png.bak y otros.']))
-        self.assertEqual(resultado, 'no_ejecutada')
+    def test_rb2_una_frase_que_lo_menciona_no_es_una_declaracion(self):
+        for texto in (f'Abrí {PNG} con Pillow.', f'No abrí {PNG}.', f'Omití abrir {PNG}.', f'Did not open {PNG}.',
+                      f'abierto:{PNG}', f'Abierto: {PNG}', f'abierto: {PNG} (no se pudo)', f'abierto: x{PNG}', f'abierto: /tmp/co/{PNG}',
+                      f'abierto: {PNG}.bak', f'abierto:  {PNG}', f' abierto: {PNG}'):
+            self.assertEqual(comprobacion(revisor([texto]))[1], 'no_ejecutada', texto)
 
     def test_rb2_otra_omision_bloquea(self):
-        _, resultado = comprobacion(revisor([f'Abrí {PNG}.'], otras=['x.py']))
+        _, resultado = comprobacion(revisor([f'abierto: {PNG}'], otras=['x.py']))
         self.assertEqual(resultado, 'no_ejecutada')
 
     def test_rb2_incompleto_sin_omisiones_bloquea(self):
@@ -59,19 +69,6 @@ class Binarios(unittest.TestCase):
         for razon in ('contenido no UTF-8', 'contenido binario', 'Git lo clasifica como binario'):
             self.assertEqual(preparacion.omisiones({'omissions': [{'file': PNG, 'reason': razon}]}), ([PNG], []), razon)
         self.assertEqual(preparacion.omisiones({'omissions': [{'file': 'k', 'reason': 'ruta de credenciales conocida'}]}), ([], ['k']))
-
-    def test_rb1_la_ruta_puede_llevar_prefijo_o_comillas(self):
-        for texto in (f'Abrí /tmp/co/{PNG} con Pillow.', f'Abrí ./{PNG}.', f'Abrí "{PNG}"', f'({PNG}): abierto', f'Abrí `{PNG}`.'):
-            self.assertEqual(comprobacion(revisor([texto]))[1], 'cumple', texto)
-
-    def test_rb1_otra_frase_negativa_no_anula_la_que_nombra(self):
-        _, resultado = comprobacion(revisor([f'Abrí {PNG} con Pillow. No ejecuté la suite completa.']))
-        self.assertEqual(resultado, 'cumple')
-
-    def test_rb2_decir_que_no_se_abrio_no_cuenta(self):
-        for texto in (f'No abrí {PNG} por falta de visor.', f'{PNG}: no pude abrirlo.', f'Sin abrir {PNG}.',
-                      f'No revisé {PNG}', f'Nunca abrí {PNG}.', f'Faltó abrir {PNG}.', f'Abrí x{PNG}.', f'No inspeccioné {PNG}.', f'{PNG} quedó sin revisar.'):
-            self.assertEqual(comprobacion(revisor([texto]))[1], 'no_ejecutada', texto)
 
     def test_rb1_material_del_candidato_pasa_las_omisiones_de_su_paquete(self):
         import json, tempfile
@@ -103,7 +100,7 @@ class Binarios(unittest.TestCase):
         texto = revisores.plantilla(Path(__file__).resolve().parent.parent / 'sin-plantilla-propia')
         self.assertIn('no es texto', texto)
         self.assertIn('limitations', texto.split('no es texto')[1])
-        self.assertIn('relativa', texto)
+        self.assertIn('abierto: RUTA', texto)
 
 
 if __name__ == '__main__':
