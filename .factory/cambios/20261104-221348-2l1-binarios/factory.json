@@ -609,6 +609,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "a94c32ad8e21"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T16:09:00.650717+00:00",
+      "decision": "aprobar",
+      "candidato": "da96ca5"
     }
   ],
   "tipos": {
@@ -666,5 +676,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres rondas con codex y agy2-flash; la tercera cerró con 0 hallazgos de ambos. La ronda 1 trajo 4 hallazgos (razones de binario de Clue, prefijos, negaciones, cableado) y la 2 mostró que leer frases no se cierra por rondas, así que se reemplazó por la declaración fija «abierto: RUTA» con igualdad exacta (spec reaprobada por Brian). Evidencia: 1135 pruebas, 13 casos de contrato, éxito. Límite declarado: Factory no comprueba que el revisor abrió el binario; queda listado en los límites del informe. Tests existentes: ninguno editado. agy y agy2 no pudieron revisar: el wrapper pasa --effort a un modelo que no lo admite.",
+      "candidato": "da96ca5",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-05T16:09:00.650703+00:00"
+    }
+  }
 }
