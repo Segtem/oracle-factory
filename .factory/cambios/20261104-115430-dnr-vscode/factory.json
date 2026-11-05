@@ -2,7 +2,7 @@
   "id": "20261104-115430-dnr-vscode",
   "titulo": "Web: capturas reales de VS Code y ejemplos en las guías",
   "capacidad": "web",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261104-115430-dnr-vscode/specs/web/spec.md",
   "spec_sha256": "22c7930c9ae5915ff657db45a90375045f2b2f0a44dc762fff39164b79603981",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "3b76dc5af98807a23625af79b8e7e86ada47ab80539047a3de67e2cf0ae02ec9"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261104-115430-dnr-vscode/candidatos/9d492f6/evidencia/hechos.json",
+    "hechos_sha256": "10e5d5d7895908191a576c82a8960093e758dfec3976da3abc9eaafc79b32efc",
+    "informe": ".factory/cambios/20261104-115430-dnr-vscode/oracle-veredicto.txt",
+    "informe_sha256": "422777e558e7666621fe872ca51ba86e7e380552e47b2b7d1e8f954950555378",
+    "cuando": "2026-11-05T20:41:29.148934+00:00",
+    "contexto": {
+      "head": "81df0ff48842e52dbfb13f092ac950e2e9b7b0e6",
+      "archivos_sha256": "3b76dc5af98807a23625af79b8e7e86ada47ab80539047a3de67e2cf0ae02ec9"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -667,6 +679,17 @@
       "abiertos": 0,
       "sha256": "5c09f66251595a455a95a0785150d0f3cd55155fc47d28f1ae5860bfad5baaf5",
       "decisiones_sha256": "85e901925d9e16e13e3031d00595e270585eb2774dfde79f8f2aa4be8533cb9e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T20:41:29.148955+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "10e5d5d7895908191a576c82a8960093e758dfec3976da3abc9eaafc79b32efc"
     }
   ],
   "tipos": {
