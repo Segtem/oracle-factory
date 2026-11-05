@@ -1,0 +1,55 @@
+{
+  "revision_binarios_caso": [
+    {
+      "requisito": "los_binarios_nombrados_no_bloquean",
+      "caso": "Binarios.test_rb1_los_binarios_nombrados_cumplen",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_binarios_nombrados_no_bloquean",
+      "caso": "Binarios.test_rb1_varios_binarios_todos_nombrados",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_completo_sigue_cumpliendo",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_incompleto_sin_omisiones_bloquea",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_las_omisiones_del_paquete_se_separan",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_otra_omision_bloquea",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_un_binario_sin_nombrar_bloquea",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_no_nombrado_sigue_bloqueando",
+      "caso": "Binarios.test_rb2_una_ruta_parecida_no_cuenta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_pedido_indica_como_declarar_binarios",
+      "caso": "Binarios.test_rb3_el_pedido_indica_abrir_y_nombrar_binarios",
+      "codigo": 0
+    }
+  ],
+  "revision_binarios_corrida": [
+    {
+      "completa": 1,
+      "casos": 9
+    }
+  ]
+}

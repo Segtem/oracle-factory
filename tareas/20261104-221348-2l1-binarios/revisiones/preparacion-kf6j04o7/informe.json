@@ -1,0 +1,82 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261104-221348-2l1-binarios",
+  "contexto": {
+    "head": "9c35dd5b4df94959f79b394a81dfa88864dd489b",
+    "archivos_sha256": "d9cb0570c28922de3c8a06bf475f800c00111b8dd0fafce1ccf66d75b1323e48"
+  },
+  "documentos": {
+    "openspec/changes/20261104-221348-2l1-binarios/proposal.md": "05bf529855aef8f1c3600acd332fd9013450b86b3603dec8105008c7af18fc4d",
+    "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md": "f394946317489ade9b4da42011d59cbeeaf4c7cf5883faf7e65f0730a573e3f7"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_revision_binarios.corrida_completa.oracle",
+    "catalogos/factory_revision_binarios.el_pedido_indica_como_declarar_binarios.oracle",
+    "catalogos/factory_revision_binarios.lo_no_nombrado_sigue_bloqueando.oracle",
+    "catalogos/factory_revision_binarios.los_binarios_nombrados_no_bloquean.oracle",
+    "openspec/changes/20261104-221348-2l1-binarios/design.md",
+    "openspec/changes/20261104-221348-2l1-binarios/proposal.md",
+    "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md",
+    "openspec/changes/20261104-221348-2l1-binarios/tasks.md",
+    "oracle_factory/data/pedido_revision.md",
+    "oracle_factory/flujo_revision.py",
+    "oracle_factory/preparacion.py",
+    "requisitos/revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios.requisito",
+    "requisitos/revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando.requisito",
+    "requisitos/revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean.requisito",
+    "tests/test_revision_binarios.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1135 pruebas, 13 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-221348-2l1-binarios/candidatos/da96ca5/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-221348-2l1-binarios/candidatos/da96ca5/revision/agy2-flash-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-221348-2l1-binarios/candidatos/da96ca5/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato edecf96: agy (gemini-3.8-flash-high), 4 hallazgos: REV-BIN-01 (alta), REV-BIN-02 (alta), REV-BIN-03 (media), REV-BIN-04 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-221348-2l1-binarios/candidatos/edecf96/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato edecf96: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-221348-2l1-binarios/candidatos/edecf96/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato c04cf57: agy (gemini-3.8-flash-high), 4 hallazgos: REV-BIN-05 (alta), REV-BIN-06 (alta), REV-BIN-07 (media), REV-BIN-08 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-221348-2l1-binarios/candidatos/c04cf57/revision/agy2-flash-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato c04cf57: codex (gpt-6-luna), 1 hallazgo: REV-BIN-R2-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261104-221348-2l1-binarios/candidatos/c04cf57/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "agy (gemini-3.8-flash-high): Revisión analítica exhaustiva del diff del candidato da96ca5 frente a proposal.md, spec.md, design.md y tasks.md.",
+    "agy (gemini-3.8-flash-high): Verificación del estado de cierre de los hallazgos de rondas anteriores (REV-BIN-01 a REV-BIN-04 de ronda 1; REV-BIN-05 a REV-BIN-08 y REV-BIN-R2-01 de ronda 2), constatando que la clase de defectos quedó definitivamente cerrada con la verificación de coincidencia exacta.",
+    "agy (gemini-3.8-flash-high): Ejecución de la suite completa de pruebas unitarias del repositorio bajo Python 3.13: 1135 pruebas ejecutadas exitosamente (10 omitidas).",
+    "agy (gemini-3.8-flash-high): Ejecución de la suite específica tests/test_revision_binarios.py (13 pruebas exitosas).",
+    "agy (gemini-3.8-flash-high): Pruebas de mutación manual en preparacion.py: las mutaciones en prefijo DECLARA, razones binarias de Clue, operadores lógicos (all/any) y manejo de omisiones adicionales mueren ante los tests.",
+    "agy (gemini-3.8-flash-high): Inspección de omissions del paquete de Oracle Clue: paquete sin omisiones (omissions=[]).",
+    "codex (gpt-6-luna): Leí la spec, propuesta, diff/contexto del paquete, pruebas relevantes y las cuatro revisiones previas; no ejecuté pruebas.",
+    "codex (gpt-6-luna): No hay omisiones de archivos no textuales en el paquete vigente; por eso no hay archivos binarios omitidos que declarar.",
+    "codex (gpt-6-luna): Sin hallazgos: las declaraciones fijas se comparan por ruta completa y sólo cuentan si cada omisión binaria del paquete está cubierta; las omisiones ajenas a las tres razones conocidas y los informes incompletos sin omisiones siguen bloqueando. Los casos previos de negación, prefijos/sufijos de ruta y puntuación quedan rechazados por igualdad exacta."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

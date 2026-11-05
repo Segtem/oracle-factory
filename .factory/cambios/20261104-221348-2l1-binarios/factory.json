@@ -1,0 +1,770 @@
+{
+  "id": "20261104-221348-2l1-binarios",
+  "titulo": "Revisión: los archivos binarios del paquete no impiden aprobar",
+  "capacidad": "revision",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md",
+  "spec_sha256": "f394946317489ade9b4da42011d59cbeeaf4c7cf5883faf7e65f0730a573e3f7",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-05T13:51:23.344252+00:00",
+    "documentos": {
+      "openspec/changes/20261104-221348-2l1-binarios/proposal.md": "05bf529855aef8f1c3600acd332fd9013450b86b3603dec8105008c7af18fc4d",
+      "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md": "f394946317489ade9b4da42011d59cbeeaf4c7cf5883faf7e65f0730a573e3f7"
+    }
+  },
+  "requisitos": [
+    "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios",
+    "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando",
+    "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261104-221348-2l1-binarios/revisiones/registro-il2p10id/informe.json",
+    "sha256": "6bd587a1cbf6b300379ff98213d3c0370b7ae5baea628743aa28dcd959c78e08",
+    "decisiones": "tareas/20261104-221348-2l1-binarios/revisiones/registro-il2p10id/decisiones.json",
+    "decisiones_sha256": "006729a06115e6835c9081fcd8d9a7ed46acfbb78c18d772c6b8ef7bd510fccf",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-05T16:09:30.577564+00:00",
+    "motivo": "Tres rondas con codex y agy2-flash; la tercera cerró con 0 hallazgos de ambos. La ronda 1 trajo 4 hallazgos (razones de binario de Clue, prefijos, negaciones, cableado) y la 2 mostró que leer frases no se cierra por rondas, así que se reemplazó por la declaración fija «abierto: RUTA» con igualdad exacta (spec reaprobada por Brian). Evidencia: 1135 pruebas, 13 casos de contrato, éxito. Límite declarado: Factory no comprueba que el revisor abrió el binario; queda listado en los límites del informe. Tests existentes: ninguno editado. agy y agy2 no pudieron revisar: el wrapper pasa --effort a un modelo que no lo admite.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "9c35dd5b4df94959f79b394a81dfa88864dd489b",
+      "archivos_sha256": "d9cb0570c28922de3c8a06bf475f800c00111b8dd0fafce1ccf66d75b1323e48"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261104-221348-2l1-binarios/candidatos/da96ca5/evidencia/hechos.json",
+    "hechos_sha256": "d9dcfc33cd039bd40ef3f179e06c2fada493924811dd47a9890cbc8e8d7626de",
+    "informe": ".factory/cambios/20261104-221348-2l1-binarios/oracle-veredicto.txt",
+    "informe_sha256": "c35ad9c938abbd9fb9f67b8316952ce40bdd1a1901dca99f52f9b8985edb2603",
+    "cuando": "2026-11-05T16:09:45.749805+00:00",
+    "contexto": {
+      "head": "683d11f62146275c9355b067570e4bd9885d5ad6",
+      "archivos_sha256": "d9cb0570c28922de3c8a06bf475f800c00111b8dd0fafce1ccf66d75b1323e48"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-04T22:13:48.176716+00:00",
+      "capacidad": "revision"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-04T22:55:36.437764+00:00",
+      "documentos": {
+        "openspec/changes/20261104-221348-2l1-binarios/proposal.md": "e58d5b2b75d35a928e406c6124a43b2d60023d22663c12f69b98167aef15acd2",
+        "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md": "db1a54930aecb61e77a2bfeece7a2196b3db27bddbdd08cd46c063bf7ac46ed5"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-04T22:56:07.115162+00:00",
+      "ids": [
+        "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios",
+        "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando",
+        "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-04T22:56:41.811375+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean",
+      "medidas": [
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-04T22:56:43.257846+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando",
+      "medidas": [
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-04T22:56:44.710678+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios",
+      "medidas": [
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-04T22:57:34.232299+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios",
+      "medidas": [
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-04T22:57:34.391397+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando",
+      "medidas": [
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-04T22:57:34.553472+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean",
+      "medidas": [
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T23:05:32.316201+00:00",
+      "revisor": "codex",
+      "candidato": "edecf96",
+      "lanzamiento": "c357b4ed85e2"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T23:05:32.345836+00:00",
+      "revisor": "agy",
+      "candidato": "edecf96",
+      "lanzamiento": "0062e4be4ece"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T23:05:32.376801+00:00",
+      "revisor": "agy2",
+      "candidato": "edecf96",
+      "lanzamiento": "0cd2997a53fa"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T23:05:37.830031+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "edecf96",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "0cd2997a53fa"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T23:05:38.152940+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "edecf96",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "0062e4be4ece"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T23:05:54.266875+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "edecf96",
+      "lanzamiento": "b4ff8b48217c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T23:06:51.119817+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "edecf96",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "c357b4ed85e2"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-04T23:17:02.439869+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "edecf96",
+      "resultado": "ok",
+      "hallazgos": 4,
+      "lanzamiento": "b4ff8b48217c"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T10:04:19.584452+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean",
+      "medidas": [
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T10:04:21.076250+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando",
+      "medidas": [
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-05T10:06:31.322666+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando",
+      "medidas": [
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-05T10:06:31.484050+00:00",
+      "requisito": "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean",
+      "medidas": [
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T10:14:29.278518+00:00",
+      "revisor": "agy2",
+      "candidato": "c04cf57",
+      "lanzamiento": "066da2203737"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T10:14:29.309595+00:00",
+      "revisor": "codex",
+      "candidato": "c04cf57",
+      "lanzamiento": "5400d17c9262"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T10:14:29.336967+00:00",
+      "revisor": "agy",
+      "candidato": "c04cf57",
+      "lanzamiento": "b3f8b532e773"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T10:14:29.368140+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "c04cf57",
+      "lanzamiento": "ad3b755e001e"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T10:14:34.438826+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "c04cf57",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "b3f8b532e773"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T10:14:34.679462+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "c04cf57",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "066da2203737"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T10:15:46.276624+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "c04cf57",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "5400d17c9262"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T10:27:20.663404+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "c04cf57",
+      "resultado": "ok",
+      "hallazgos": 4,
+      "lanzamiento": "ad3b755e001e"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T13:51:23.344282+00:00",
+      "documentos": {
+        "openspec/changes/20261104-221348-2l1-binarios/proposal.md": "05bf529855aef8f1c3600acd332fd9013450b86b3603dec8105008c7af18fc4d",
+        "openspec/changes/20261104-221348-2l1-binarios/specs/revision/spec.md": "f394946317489ade9b4da42011d59cbeeaf4c7cf5883faf7e65f0730a573e3f7"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T14:05:30.400085+00:00",
+      "ids": [
+        "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios",
+        "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando",
+        "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T14:05:46.302865+00:00",
+      "requisito": "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean",
+      "medidas": [
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T14:05:47.757717+00:00",
+      "requisito": "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando",
+      "medidas": [
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T14:05:49.196827+00:00",
+      "requisito": "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios",
+      "medidas": [
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios",
+        "factory_revision_binarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-05T14:06:07.918110+00:00",
+      "requisito": "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios",
+      "medidas": [
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-05T14:06:08.077129+00:00",
+      "requisito": "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando",
+      "medidas": [
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-05T14:06:08.234343+00:00",
+      "requisito": "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean",
+      "medidas": [
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean",
+        "factory_revision_binarios.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T14:13:57.640935+00:00",
+      "revisor": "agy2",
+      "candidato": "da96ca5",
+      "lanzamiento": "746dbded2295"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T14:13:57.781953+00:00",
+      "revisor": "agy2-flash",
+      "candidato": "da96ca5",
+      "lanzamiento": "a94c32ad8e21"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T14:13:57.809960+00:00",
+      "revisor": "codex",
+      "candidato": "da96ca5",
+      "lanzamiento": "7bd835d6301c"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T14:13:57.839985+00:00",
+      "revisor": "agy",
+      "candidato": "da96ca5",
+      "lanzamiento": "537edd6b1b84"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T14:14:02.295216+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "da96ca5",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "537edd6b1b84"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T14:14:02.353399+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "da96ca5",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "746dbded2295"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T14:14:55.453518+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "da96ca5",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "7bd835d6301c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-05T14:23:06.747668+00:00",
+      "revisor": "agy2-flash",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "da96ca5",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "a94c32ad8e21"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-05T16:09:00.650717+00:00",
+      "decision": "aprobar",
+      "candidato": "da96ca5"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-05T16:09:30.577589+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "6bd587a1cbf6b300379ff98213d3c0370b7ae5baea628743aa28dcd959c78e08",
+      "decisiones_sha256": "006729a06115e6835c9081fcd8d9a7ed46acfbb78c18d772c6b8ef7bd510fccf"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T16:09:45.749820+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "d9dcfc33cd039bd40ef3f179e06c2fada493924811dd47a9890cbc8e8d7626de"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T16:13:19.821440+00:00",
+      "oracle": ".factory/cambios/20261104-221348-2l1-binarios/oracle-veredicto.txt",
+      "revision": "tareas/20261104-221348-2l1-binarios/revisiones/registro-il2p10id/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-05T16:13:19.858133+00:00",
+      "capacidad": "revision",
+      "spec": "openspec/specs/revision/spec.md"
+    }
+  ],
+  "tipos": {
+    "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios": "funcional",
+    "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando": "funcional",
+    "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean": "funcional"
+  },
+  "medidas": {
+    "revision_cf0b48adb410caef9.el_pedido_indica_como_declarar_binarios": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-05T14:06:07.875363+00:00",
+      "sha256": "e9cae7ede59f1e930ba854ae06c5635f02e6aab83145b7f2054fb7bb5cbf6a7b",
+      "catalogos": {
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios": "dbbeb7e13ed566abe1afa8986bb94c0d0393477b3b9867f661c05251d2221e08",
+        "factory_revision_binarios.corrida_completa": "44553208ab0d0204ea259a845db39868866b7132568f71a36d8c2c2df981edd9"
+      },
+      "archivos_catalogo": {
+        "factory_revision_binarios.el_pedido_indica_como_declarar_binarios": "catalogos/factory_revision_binarios.el_pedido_indica_como_declarar_binarios.oracle",
+        "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
+      }
+    },
+    "revision_cf0b48adb410caef9.lo_no_nombrado_sigue_bloqueando": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-05T14:06:08.035348+00:00",
+      "sha256": "bcba7e00b4c36ef8b221a535acfbdfdd9f528df8cb297bdeb5b57821c779e6f3",
+      "catalogos": {
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando": "e3484b483bf179e906cf4e8dd9a98d3fe176cd06d7e0e71a1417c471344a0397",
+        "factory_revision_binarios.corrida_completa": "44553208ab0d0204ea259a845db39868866b7132568f71a36d8c2c2df981edd9"
+      },
+      "archivos_catalogo": {
+        "factory_revision_binarios.lo_no_nombrado_sigue_bloqueando": "catalogos/factory_revision_binarios.lo_no_nombrado_sigue_bloqueando.oracle",
+        "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
+      }
+    },
+    "revision_cf0b48adb410caef9.los_binarios_nombrados_no_bloquean": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-05T14:06:08.191886+00:00",
+      "sha256": "e742e063dadf506be21f7b935587e6d3dfd60a2d5e949cf9f6b4633efc91d1a0",
+      "catalogos": {
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "2b64f88b35fada99284fd75973b1ea4f3e8d6aca1945f1d7b9d90dc3d8662544",
+        "factory_revision_binarios.corrida_completa": "44553208ab0d0204ea259a845db39868866b7132568f71a36d8c2c2df981edd9"
+      },
+      "archivos_catalogo": {
+        "factory_revision_binarios.los_binarios_nombrados_no_bloquean": "catalogos/factory_revision_binarios.los_binarios_nombrados_no_bloquean.oracle",
+        "factory_revision_binarios.corrida_completa": "catalogos/factory_revision_binarios.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-05T16:13:19.763171+00:00"
+  },
+  "archivo": {
+    "capacidad": "revision",
+    "spec": "openspec/specs/revision/spec.md",
+    "cuando": "2026-11-05T16:13:19.858124+00:00"
+  }
+}

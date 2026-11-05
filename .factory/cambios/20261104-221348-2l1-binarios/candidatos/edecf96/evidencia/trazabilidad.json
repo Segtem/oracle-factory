@@ -1,0 +1,440 @@
+{
+  "esquema": "oracle-factory.trazabilidad-casos/1",
+  "requisitos": {
+    "revision_cc9d1034ecccab8cb.el_pedido_indica_como_declarar_binarios": [
+      "test_revision_binarios.Binarios.test_rb3_el_pedido_indica_abrir_y_nombrar_binarios"
+    ],
+    "revision_cc9d1034ecccab8cb.lo_no_nombrado_sigue_bloqueando": [
+      "test_revision_binarios.Binarios.test_rb2_completo_sigue_cumpliendo",
+      "test_revision_binarios.Binarios.test_rb2_incompleto_sin_omisiones_bloquea",
+      "test_revision_binarios.Binarios.test_rb2_las_omisiones_del_paquete_se_separan",
+      "test_revision_binarios.Binarios.test_rb2_otra_omision_bloquea",
+      "test_revision_binarios.Binarios.test_rb2_un_binario_sin_nombrar_bloquea",
+      "test_revision_binarios.Binarios.test_rb2_una_ruta_parecida_no_cuenta"
+    ],
+    "revision_cc9d1034ecccab8cb.los_binarios_nombrados_no_bloquean": [
+      "test_revision_binarios.Binarios.test_rb1_los_binarios_nombrados_cumplen",
+      "test_revision_binarios.Binarios.test_rb1_varios_binarios_todos_nombrados"
+    ]
+  },
+  "casos": {
+    "test_revision_binarios.Binarios.test_rb1_los_binarios_nombrados_cumplen": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/preparacion.py": [
+          21,
+          22,
+          23,
+          24,
+          38,
+          40,
+          41,
+          43,
+          44,
+          45,
+          48,
+          54,
+          55,
+          56,
+          57,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_revision_binarios.py": [
+          12,
+          13,
+          14,
+          17,
+          18,
+          19,
+          23,
+          24,
+          25,
+          26
+        ]
+      }
+    },
+    "test_revision_binarios.Binarios.test_rb1_varios_binarios_todos_nombrados": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/preparacion.py": [
+          21,
+          22,
+          23,
+          24,
+          38,
+          40,
+          41,
+          43,
+          44,
+          45,
+          48,
+          54,
+          55,
+          56,
+          57,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_revision_binarios.py": [
+          12,
+          13,
+          14,
+          17,
+          18,
+          19,
+          28,
+          29,
+          30
+        ]
+      }
+    },
+    "test_revision_binarios.Binarios.test_rb2_completo_sigue_cumpliendo": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/preparacion.py": [
+          21,
+          22,
+          23,
+          24,
+          38,
+          40,
+          41,
+          42,
+          48,
+          54,
+          55,
+          56,
+          57,
+          68,
+          69,
+          70,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_revision_binarios.py": [
+          12,
+          13,
+          14,
+          17,
+          18,
+          19,
+          48,
+          49,
+          50
+        ]
+      }
+    },
+    "test_revision_binarios.Binarios.test_rb2_incompleto_sin_omisiones_bloquea": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/preparacion.py": [
+          21,
+          22,
+          23,
+          24,
+          38,
+          40,
+          41,
+          42,
+          48,
+          54,
+          55,
+          56,
+          57,
+          68,
+          69,
+          70,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_revision_binarios.py": [
+          12,
+          13,
+          14,
+          17,
+          18,
+          19,
+          44,
+          45,
+          46
+        ]
+      }
+    },
+    "test_revision_binarios.Binarios.test_rb2_las_omisiones_del_paquete_se_separan": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/preparacion.py": [
+          27,
+          29,
+          30,
+          31,
+          32,
+          34,
+          35
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_revision_binarios.py": [
+          52,
+          53,
+          54,
+          55,
+          56
+        ]
+      }
+    },
+    "test_revision_binarios.Binarios.test_rb2_otra_omision_bloquea": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/preparacion.py": [
+          21,
+          22,
+          23,
+          24,
+          38,
+          40,
+          41,
+          42,
+          48,
+          54,
+          55,
+          56,
+          57,
+          68,
+          69,
+          70,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_revision_binarios.py": [
+          12,
+          13,
+          14,
+          17,
+          18,
+          19,
+          40,
+          41,
+          42
+        ]
+      }
+    },
+    "test_revision_binarios.Binarios.test_rb2_un_binario_sin_nombrar_bloquea": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/preparacion.py": [
+          21,
+          22,
+          23,
+          24,
+          38,
+          40,
+          41,
+          43,
+          44,
+          45,
+          48,
+          54,
+          55,
+          56,
+          57,
+          68,
+          69,
+          70,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_revision_binarios.py": [
+          12,
+          13,
+          14,
+          17,
+          18,
+          19,
+          32,
+          33,
+          34
+        ]
+      }
+    },
+    "test_revision_binarios.Binarios.test_rb2_una_ruta_parecida_no_cuenta": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/preparacion.py": [
+          21,
+          22,
+          23,
+          24,
+          38,
+          40,
+          41,
+          43,
+          44,
+          45,
+          48,
+          54,
+          55,
+          56,
+          57,
+          68,
+          69,
+          70,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_revision_binarios.py": [
+          12,
+          13,
+          14,
+          17,
+          18,
+          19,
+          36,
+          37,
+          38
+        ]
+      }
+    },
+    "test_revision_binarios.Binarios.test_rb3_el_pedido_indica_abrir_y_nombrar_binarios": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/revisores.py": [
+          49,
+          50,
+          51,
+          53
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_revision_binarios.py": [
+          58,
+          59,
+          60,
+          61
+        ]
+      }
+    }
+  }
+}

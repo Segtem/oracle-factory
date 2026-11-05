@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revision-binarios/.factory/local/revisiones/c04cf57-codex-1",
+  "base": "c3db1edc539fe565485c554df6e2456c0056371e",
+  "head": "c04cf573b7a066d139caa5169167e2950f90b2ac",
+  "diff_sha256": "a5a9ead0adc50d8212e9ebd94f87d24f194644bd68c7d59bc1b7feb77812c5e1",
+  "context_sha256": "62dbce082662586eb74048d6bb2312e7b607316416519c34d3009466213d1784",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "REV-BIN-R2-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Una negación con «omití» deja pasar una revisión incompleta",
+      "explanation": "El filtro sólo busca no, sin, ni, nunca y el prefijo falt. Una limitación que dice «Omití abrir site/img/a.png» afirma que el binario no se abrió, pero no contiene ninguno de esos patrones. La ruta se toma como nombrada y completar marca la comprobación cumple, permitiendo aprobar pese a la condición de que el revisor haya abierto el archivo.",
+      "location": {"file": "oracle_factory/preparacion.py", "start_line": 49, "end_line": 50, "side": "head"},
+      "trigger": "Paquete con omisión binaria site/img/a.png e informe incompleto cuya limitación dice «Omití abrir site/img/a.png».",
+      "evidence": "Reproducción local sobre _binarios_nombrados y completar: devolvió ['site/img/a.png'] y resultado 'cumple'. NEGACION en la línea 14 no incluye 'omití'.",
+      "related_requirement": "lo_no_nombrado_sigue_bloqueando; los_binarios_nombrados_no_bloquean",
+      "status": "pendiente",
+      "verification": "Reproducido con un informe sintético sin modificar el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, la propuesta, el diff y los cambios de ronda 2 del paquete; el paquete de este candidato declara omissions vacío.",
+    "Corrí python -m unittest tests.test_revision_binarios: 14 tests OK.",
+    "Probé manualmente una limitación negativa con «Omití abrir»; esa mutación sobrevive y la comprobación resulta cumple.",
+    "No corrí la suite completa del repositorio ni modifiqué el checkout."
+  ]
+}

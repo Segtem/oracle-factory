@@ -171,7 +171,9 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
         if p.returncode:
             avisos.append(f"{rel} no pasa la validación de Clue: {(p.stderr or p.stdout).strip()[:300]}; no lo uso")
             continue
-        revisores.append({"ruta": rel, "datos": datos, "validacion": "validado con oracle-clue"})
+        binarias, otras = preparacion.omisiones(paquete)
+        revisores.append({"ruta": rel, "datos": datos, "validacion": "validado con oracle-clue",
+                          "omisiones_binarias": binarias, "otras_omisiones": otras})
     # El informe más nuevo de cada revisor (<revisor>-<n>.json) reemplaza a los anteriores del mismo revisor, aunque no
     # se pueda usar: entonces ese revisor no aporta nada, en vez de volver a su vuelta anterior.
     ultimo: dict[str, tuple[int, str]] = {}
