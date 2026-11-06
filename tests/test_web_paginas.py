@@ -60,6 +60,12 @@ class WebPaginas(unittest.TestCase):
             self.assertEqual(len(marcados), 0 if nombre == 'index.html' else 1, f'{nombre}: {marcados}')
             if nombre != 'index.html':
                 self.assertEqual([normal(re.search(r'href="([^"]*)"', a)[1]) for a, _ in enlaces if 'aria-current="page"' in a], [nombre])
+            logo = re.search(r'<a class="brand"[^>]*>', leer(ROOT, nombre))[0]
+            self.assertEqual('aria-current="page"' in logo, nombre == 'index.html', f'{nombre}: {logo}')
+        dest = copia(self.tmp / 'm')  # la portada sin su marca de página actual
+        portada = dest / 'site' / 'index.html'
+        portada.write_text(portada.read_text(encoding='utf-8').replace(' aria-current="page"', '', 1), encoding='utf-8')
+        self.assertTrue(any('index.html' in x and 'logo' in x for x in sitio_paginas.problemas(dest)))
         self.assertEqual([d for d in esperado if not d.startswith('index.html#')], ORDEN)
         self.assertEqual([d for d in esperado if d.startswith('index.html#')],
                          ['index.html#formas', 'index.html#recorrido', 'index.html#herramientas', 'index.html#jugar', 'index.html#novedades'])

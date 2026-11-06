@@ -171,6 +171,9 @@ def problemas(raiz: Path) -> list[str]:
                 salida.append(f"{nombre}: falta el bloque «{bloque}» con sus marcadores")
             elif actual != html:
                 salida.append(f"{nombre}: el bloque «{bloque}» no coincide con la tabla (python tools/sitio_paginas.py --escribir)")
+        marca = re.search(r'<a class="brand"[^>]*>', texto)  # el logo es la entrada de la portada: la marca sólo ella
+        if not marca or ('aria-current="page"' in marca[0]) != (nombre == "index.html"):
+            salida.append(f"{nombre}: el logo debe llevar aria-current=\"page\" sólo en la portada")
         sobra = "leer" if nombre == "index.html" else "ruta"
         if _actual(texto, sobra) is not None:
             salida.append(f"{nombre}: no debería tener el bloque «{sobra}»")
