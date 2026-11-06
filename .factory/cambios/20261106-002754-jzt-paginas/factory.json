@@ -506,6 +506,42 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "e178c87d97f3"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-06T20:08:07.176546+00:00",
+      "revisor": "codex",
+      "candidato": "6715cbb",
+      "lanzamiento": "d97702fd6c97"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-06T20:09:25.104802+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "6715cbb",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "d97702fd6c97"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-06T20:09:36.387686+00:00",
+      "decision": "aprobar",
+      "candidato": "6715cbb"
     }
   ],
   "tipos": {
@@ -580,5 +616,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Rondas 1 a 5 de codex cerradas: los medios y bajos corregidos con prueba (enlaces, query, ids duplicados, guías por grupo, logo de la portada). Queda WPG-007 (baja): el comprobador ignora una segunda pareja de marcadores duplicada, que exige inyectar HTML a mano; lo dejo como riesgo aceptable para que lo decida la persona. Evidencia: 1167 pruebas, 12 casos de contrato, éxito.",
+      "candidato": "6715cbb",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-06T20:09:36.387671+00:00"
+    }
+  }
 }
