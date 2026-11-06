@@ -1,0 +1,107 @@
+# Capability: despliegue
+
+## ADDED Requirements
+
+### Requirement: los_destinos_los_declara_el_proyecto
+Tipo: funcional
+El sistema DEBE leer los destinos de despliegue de `.factory/destinos.json` —cada uno con nombre, tipo, comandos de construir, desplegar, probar, versión y volver, las dependencias con otros destinos y los nombres de los secretos que necesita—, sin conocer ninguna tecnología concreta, y DEBE rechazar una declaración inválida nombrando el destino y el campo.
+
+#### Scenario: un destino declarado se ve
+- DADO un proyecto con un VPS, una app y un ESP32 declarados
+- CUANDO se lista con `oracle-factory destinos`
+- ENTONCES aparecen los tres con su tipo, sus dependencias y su estado «sin desplegar»
+
+#### Scenario: una declaración que no sirve
+- DADO un destino sin comando de desplegar, una dependencia de un destino que no existe, un ciclo de dependencias o un secreto escrito con valor
+- CUANDO se lee la declaración
+- ENTONCES falla nombrando el destino y qué está mal, y no ejecuta nada
+
+### Requirement: un_despliegue_es_un_plan_que_autoriza_una_persona
+Tipo: funcional
+El sistema DEBE armar el plan de despliegue de un commit de la rama de despliegue —los destinos en el orden de sus dependencias— y mostrarlo antes de ejecutar algo, DEBE negarse si la puerta local no está en verde o si el commit no está en esa rama, y DEBE ejecutarlo sólo cuando una persona lo autoriza: un agente puede armarlo y simularlo, pero no autorizarlo, y ningún despliegue arranca solo.
+
+#### Scenario: simular no ejecuta nada
+- DADO un plan con tres destinos
+- CUANDO un agente corre `desplegar --simular`
+- ENTONCES se imprime el orden y los comandos de cada destino y no se ejecuta ninguno
+
+#### Scenario: un agente no autoriza
+- DADO un plan armado
+- CUANDO un agente intenta `desplegar --autorizar`
+- ENTONCES se niega, no cambia ningún destino y dice que lo autoriza una persona
+
+#### Scenario: la puerta en rojo
+- DADA la puerta local con una falla
+- CUANDO se arma el plan
+- ENTONCES se niega nombrando la falla
+
+### Requirement: se_prueba_cada_destino_y_el_conjunto
+Tipo: funcional
+El sistema DEBE ejecutar, por destino y en orden, comprobar que se alcanza, construir, desplegar, verificar que corre la versión del plan y correr su prueba de humo, y DEBE correr al final la prueba de conjunto declarada; DEBE decir «todo quedó funcionando» sólo cuando cada destino del plan quedó probado con la versión del plan y la prueba de conjunto pasó, y un destino que no se alcanzó DEBE quedar «inalcanzable», nunca verde.
+
+#### Scenario: todo anda
+- DADOS tres destinos que despliegan, corren la versión del plan y pasan su prueba de humo, y una prueba de conjunto que pasa
+- CUANDO una persona autoriza el plan
+- ENTONCES los tres quedan «probado» y el resultado es «todo quedó funcionando»
+
+#### Scenario: un destino apagado
+- DADO un destino cuyo comando de alcanzar falla
+- CUANDO se ejecuta el plan
+- ENTONCES queda «inalcanzable», no se despliega y el resultado no es «todo quedó funcionando»
+
+#### Scenario: desplegó pero corre otra versión
+- DADO un destino cuyo comando de versión devuelve otro commit que el del plan
+- CUANDO se ejecuta
+- ENTONCES queda «fallido» y no se corre su prueba de humo como si estuviera bien
+
+#### Scenario: el conjunto falla
+- DADOS todos los destinos probados y una prueba de conjunto que falla
+- CUANDO termina la corrida
+- ENTONCES el resultado es «fallido», dice que fue la prueba de conjunto, y los destinos conservan su estado «probado»
+
+### Requirement: un_fallo_deja_cada_destino_en_un_estado_dicho
+Tipo: funcional
+El sistema DEBE, ante el fallo de un destino, cortar la corrida (o seguir con los destinos que no dependen del caído, si el proyecto lo declara), volver atrás con su comando los destinos desplegados en esa corrida, y dejar cada uno en un estado dicho —sin desplegar, desplegado, probado, fallido, revertido o inalcanzable—, avisando de los que quedaron desplegados sin poder volverse atrás; DEBE calcular «desactualizado» comparando la versión que el destino dice que corre con la punta de la rama, mostrándolo «desconocido» si no se alcanza.
+
+#### Scenario: falla el segundo destino
+- DADO un plan de api, app y nodo donde la app falla su prueba de humo
+- CUANDO termina la corrida con la política de cortar
+- ENTONCES el nodo no se toca, la api se vuelve atrás y queda «revertido», la app queda «fallido» y el resultado lo dice
+
+#### Scenario: un destino que no se puede volver atrás
+- DADO un destino sin comando de volver que se desplegó antes de un fallo
+- CUANDO termina la corrida
+- ENTONCES queda «desplegado» con el aviso «sin poder volver atrás»
+
+#### Scenario: desactualizado
+- DADO un destino que corre un commit anterior a la punta de la rama
+- CUANDO se consulta
+- ENTONCES figura desactualizado, y si no se alcanza figura «desconocido»
+
+### Requirement: cada_ejecucion_deja_evidencia_sin_secretos
+Tipo: funcional
+El sistema DEBE guardar en `.factory/despliegues/` un registro de cada corrida con el commit, quién planeó y quién autorizó, y por destino los estados, las versiones antes y después, los comandos, su salida y los tiempos, DEBE tapar en cualquier salida registrada el valor de los secretos declarados, y DEBE exponer el estado de todos los destinos como `oracle-factory destinos --json` para el tablero.
+
+#### Scenario: la salida con un secreto
+- DADO un comando que imprime el valor de un secreto declarado
+- CUANDO se registra la corrida
+- ENTONCES el registro no contiene ese valor y marca dónde estaba
+
+#### Scenario: el estado para el tablero
+- DADA una corrida terminada
+- CUANDO se corre `destinos --json`
+- ENTONCES cada destino trae su estado, su versión desplegada, la esperada, su última prueba y si está desactualizado
+
+### Requirement: sirve_para_cualquier_proyecto
+Tipo: funcional
+El sistema DEBE funcionar para cualquier mezcla de destinos sin código propio de ninguno, y DEBE traer plantillas de ejemplo copiables (servidor por SSH, contenedor, firmware de microcontrolador, app) que una prueba ejecuta contra destinos simulados con scripts locales, sin red ni dispositivos reales.
+
+#### Scenario: una mezcla que nadie previó
+- DADO un proyecto con un destino declarado de un tipo que Factory nunca vio
+- CUANDO se despliega
+- ENTONCES se trata igual que cualquier otro: sus comandos, sus estados y su registro
+
+#### Scenario: las plantillas funcionan
+- DADAS las plantillas copiadas a un proyecto de prueba con destinos simulados
+- CUANDO se despliega
+- ENTONCES el resultado es «todo quedó funcionando»
