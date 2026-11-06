@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-concurrencia/.factory/local/revisiones/3723db9-codex-1",
+  "base": "bf4c867d4851f445cd6ef2e3af3f67b4990e6020",
+  "head": "3723db92ecc4364cf41cacf0e4f4bccf42ed3252",
+  "diff_sha256": "8d7d52c417f67c7900aa2a6a5a12c4235fcec7b5ee15241cf52c9a78116e5449",
+  "context_sha256": "ec6dfe55e63a996b1f18b179204c36d4b489bd7cc5e8085fd94dfb850a30cbab",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos: contrasté los cuatro requisitos y escenarios con el motor, los cinco guiones fijos, la UI, la página y las pruebas disponibles; no vi defectos que alcance alguno de los escenarios declarados.",
+    "Corrí `node tests/test_concurrencia.cjs`: pasó (ok). Corrí los cinco guiones con semilla 2 hasta el final, resolviendo las esperas con la primera opción; todos terminaron con actor y explicación final en el registro.",
+    "No ejecuté `python tools/sitio_concurrencia.py`: falla al importar `oracle_factory` porque no está instalado en este checkout. No ejecuté pruebas Chromium ni unittest discover; `node_modules/playwright` no está disponible.",
+    "Inspeccioné las correcciones contra CC-1 a CC-8: cierre comprueba revisión vigente; eventos usan rama y secuencia; las acciones de ramas ajenas están bloqueadas salvo revisar; decisiones y actores no modelados lanzan error. No vi regresiones en esas rutas.",
+    "tests/datos/guias-texto.json quitó la continuación anterior y la reemplazó por el texto de la nueva frase/enlace añadidos a colaboracion.html; la actualización del fixture está justificada. No se modificó una prueba existente.",
+    "El paquete informa omissions vacío; no abrí ni declaro archivos binarios."
+  ]
+}
