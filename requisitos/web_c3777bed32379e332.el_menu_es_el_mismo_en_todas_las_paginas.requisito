@@ -1,0 +1,4 @@
+requisito web_c3777bed32379e332.el_menu_es_el_mismo_en_todas_las_paginas:
+    texto "Tipo: funcional El sistema DEBE mostrar en todas las páginas del sitio el mismo menú —los enlaces de la portada de siempre más Desde cero, Modos, En equipo, Simulación y Documentación—, con la página actual marcada con `aria-current=\"page\"` y sólo ella, y DEBE generar el menú, el pie y los enlaces de lectura desde una sola tabla de páginas que un comprobador verifica contra los HTML."
+    fuente "openspec/changes/20261106-002754-jzt-paginas/specs/web/spec.md#el_menu_es_el_mismo_en_todas_las_paginas"
+    sin_medir "sin medida todavía; escenarios: «recorrer el menú desde cualquier página», «una página que se salió de la tabla»"

@@ -106,7 +106,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261104-115430-dnr-vscode]] — Web: capturas reales de VS Code y ejemplos en las guías (cerrada)
 - [[cambios/20261104-221348-2l1-binarios]] — Revisión: los archivos binarios del paquete no impiden aprobar (cerrada)
 - [[cambios/20261105-225104-64i-concurrencia]] — Web: simulación pixel art de personas y agentes trabajando a la vez (cerrada)
-- [[cambios/20261106-002754-jzt-paginas]] — Web: un menú, un orden de lectura y toda la documentación (espera_aprobacion_spec)
+- [[cambios/20261106-002754-jzt-paginas]] — Web: un menú, un orden de lectura y toda la documentación (requisitos_importados)
 
 ## Requisitos
 
@@ -403,6 +403,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/web_c2e4546f9d843453e.los_ejemplos_son_salida_real]]
 - [[requisitos/web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy]]
 - [[requisitos/web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli]]
+- [[requisitos/web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente]]
+- [[requisitos/web_c3777bed32379e332.el_menu_es_el_mismo_en_todas_las_paginas]]
+- [[requisitos/web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica]]
+- [[requisitos/web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web]]
 - [[requisitos/web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible]]
 - [[requisitos/web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada]]
 - [[requisitos/web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto]]

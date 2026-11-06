@@ -2,11 +2,26 @@
   "id": "20261106-002754-jzt-paginas",
   "titulo": "Web: un menú, un orden de lectura y toda la documentación",
   "capacidad": "web",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261106-002754-jzt-paginas/specs/web/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "0742f7531b8c1855fbe52e1d95b2d943861a5c35e9bf406d19b2f221ebb13090",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-06T00:48:29.719055+00:00",
+    "documentos": {
+      "openspec/changes/20261106-002754-jzt-paginas/proposal.md": "94bd7cfa2037fb23291a81f607c5d7d4123a29ddbd44c98f83ea3834bc6c139f",
+      "openspec/changes/20261106-002754-jzt-paginas/specs/web/spec.md": "0742f7531b8c1855fbe52e1d95b2d943861a5c35e9bf406d19b2f221ebb13090"
+    }
+  },
+  "requisitos": [
+    "web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente",
+    "web_c3777bed32379e332.el_menu_es_el_mismo_en_todas_las_paginas",
+    "web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica",
+    "web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +34,40 @@
       "forma": "decidio",
       "cuando": "2026-11-06T00:27:54.508328+00:00",
       "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-06T00:48:29.719090+00:00",
+      "documentos": {
+        "openspec/changes/20261106-002754-jzt-paginas/proposal.md": "94bd7cfa2037fb23291a81f607c5d7d4123a29ddbd44c98f83ea3834bc6c139f",
+        "openspec/changes/20261106-002754-jzt-paginas/specs/web/spec.md": "0742f7531b8c1855fbe52e1d95b2d943861a5c35e9bf406d19b2f221ebb13090"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-06T00:48:40.335931+00:00",
+      "ids": [
+        "web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente",
+        "web_c3777bed32379e332.el_menu_es_el_mismo_en_todas_las_paginas",
+        "web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica",
+        "web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente": "funcional",
+    "web_c3777bed32379e332.el_menu_es_el_mismo_en_todas_las_paginas": "funcional",
+    "web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica": "funcional",
+    "web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
