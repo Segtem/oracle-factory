@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261105-225104-64i-concurrencia",
+  "contexto": {
+    "head": "8ab59b40276d1f3033d9d930a0b1f5f1c112585c",
+    "archivos_sha256": "3248049571074714d207d32b424492a9c766f6804c0b6b5b2d937c1f98737b5e"
+  },
+  "documentos": {
+    "openspec/changes/20261105-225104-64i-concurrencia/proposal.md": "cb869b2dc99944a03920e254ea6c53930ea0748d034428d6b064ad6e34835508",
+    "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md": "6dfaef56a8c511dacafe74e0818214649e009c19b6033db45339162b2595a518"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_web_concurrencia.corrida_completa.oracle",
+    "catalogos/factory_web_concurrencia.la_escena_se_controla_y_es_accesible.oracle",
+    "catalogos/factory_web_concurrencia.la_simulacion_dice_que_es_una_simulacion.oracle",
+    "catalogos/factory_web_concurrencia.la_simulacion_sigue_las_reglas.oracle",
+    "catalogos/factory_web_concurrencia.los_escenarios_cuentan_la_concurrencia.oracle",
+    "openspec/changes/20261105-225104-64i-concurrencia/design.md",
+    "openspec/changes/20261105-225104-64i-concurrencia/proposal.md",
+    "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md",
+    "openspec/changes/20261105-225104-64i-concurrencia/tasks.md",
+    "requisitos/web_cc8d4b754936380f4.la_escena_se_controla_y_es_accesible.requisito",
+    "requisitos/web_cc8d4b754936380f4.la_simulacion_dice_que_es_una_simulacion.requisito",
+    "requisitos/web_cc8d4b754936380f4.la_simulacion_sigue_las_reglas.requisito",
+    "requisitos/web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia.requisito",
+    "site/colaboracion.html",
+    "site/concurrencia-ui.js",
+    "site/concurrencia.html",
+    "site/concurrencia.js",
+    "site/index.html",
+    "site/style.css",
+    "tests/datos/guias-texto.json",
+    "tests/test_concurrencia.cjs",
+    "tests/test_web_concurrencia.cjs",
+    "tests/test_web_concurrencia.py",
+    "tools/sitio_concurrencia.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1155 pruebas, 9 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261105-225104-64i-concurrencia/candidatos/3723db9/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261105-225104-64i-concurrencia/candidatos/3723db9/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato c329d53: codex (gpt-6-luna), 2 hallazgos: CC-1 (media), CC-2 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261105-225104-64i-concurrencia/candidatos/c329d53/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 0cc7189: codex (gpt-6-luna), 2 hallazgos: CC-3 (media), CC-4 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261105-225104-64i-concurrencia/candidatos/0cc7189/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 89ed535: codex (gpt-6-luna), 4 hallazgos: CC-5 (media), CC-6 (media), CC-7 (media), CC-8 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261105-225104-64i-concurrencia/candidatos/89ed535/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Sin hallazgos: contrasté los cuatro requisitos y escenarios con el motor, los cinco guiones fijos, la UI, la página y las pruebas disponibles; no vi defectos que alcance alguno de los escenarios declarados.",
+    "codex (gpt-6-luna): Corrí `node tests/test_concurrencia.cjs`: pasó (ok). Corrí los cinco guiones con semilla 2 hasta el final, resolviendo las esperas con la primera opción; todos terminaron con actor y explicación final en el registro.",
+    "codex (gpt-6-luna): No ejecuté `python tools/sitio_concurrencia.py`: falla al importar `oracle_factory` porque no está instalado en este checkout. No ejecuté pruebas Chromium ni unittest discover; `node_modules/playwright` no está disponible.",
+    "codex (gpt-6-luna): Inspeccioné las correcciones contra CC-1 a CC-8: cierre comprueba revisión vigente; eventos usan rama y secuencia; las acciones de ramas ajenas están bloqueadas salvo revisar; decisiones y actores no modelados lanzan error. No vi regresiones en esas rutas.",
+    "codex (gpt-6-luna): tests/datos/guias-texto.json quitó la continuación anterior y la reemplazó por el texto de la nueva frase/enlace añadidos a colaboracion.html; la actualización del fixture está justificada. No se modificó una prueba existente.",
+    "codex (gpt-6-luna): El paquete informa omissions vacío; no abrí ni declaro archivos binarios."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

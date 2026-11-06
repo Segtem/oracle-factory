@@ -105,6 +105,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261104-033615-oj8-publicada-a17]] — Declarar publicada la 0.1.0a17 (cerrada)
 - [[cambios/20261104-115430-dnr-vscode]] — Web: capturas reales de VS Code y ejemplos en las guías (cerrada)
 - [[cambios/20261104-221348-2l1-binarios]] — Revisión: los archivos binarios del paquete no impiden aprobar (cerrada)
+- [[cambios/20261105-225104-64i-concurrencia]] — Web: simulación pixel art de personas y agentes trabajando a la vez (cerrada)
 
 ## Requisitos
 
@@ -412,5 +413,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad]]
 - [[requisitos/web_c8800172a340333d8.la_portada_es_una_fabrica_viva]]
 - [[requisitos/web_c8800172a340333d8.los_easter_eggs_no_tapan_nada]]
+- [[requisitos/web_cc8d4b754936380f4.la_escena_se_controla_y_es_accesible]]
+- [[requisitos/web_cc8d4b754936380f4.la_simulacion_dice_que_es_una_simulacion]]
+- [[requisitos/web_cc8d4b754936380f4.la_simulacion_sigue_las_reglas]]
+- [[requisitos/web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia]]
 - [[requisitos/web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo]]
 - [[requisitos/web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados]]

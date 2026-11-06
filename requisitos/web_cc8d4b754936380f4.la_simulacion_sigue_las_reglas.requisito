@@ -1,0 +1,4 @@
+requisito web_cc8d4b754936380f4.la_simulacion_sigue_las_reglas:
+    texto "Tipo: funcional El sistema DEBE modelar la concurrencia con un motor determinista en el que ninguna decisión de persona (`aprobar-spec`, `medir --confirmar`, `revisar`, `cerrar`, `decidir-union`) la tome un agente, en el que los registros de dos ramas se unan conservando los eventos de ambas, en el que lo decidido distinto por dos ramas quede sin elegir hasta que decida una persona, en el que un archivo de producto editado por dos ramas sea un conflicto, y en el que una revisión pierda su vigencia si el producto cambió después de hacerla."
+    fuente "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md#la_simulacion_sigue_las_reglas"
+    medido_por factory_web_concurrencia.la_simulacion_sigue_las_reglas, factory_web_concurrencia.corrida_completa

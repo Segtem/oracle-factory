@@ -1,0 +1,33 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Una simulación en pixel art de dos personas y sus agentes trabajando a la vez con Oracle Factory: ramas, conflictos, uniones y revisiones que quedan viejas. Simula las reglas; no ejecuta Factory."><title>Simulación de equipo — Oracle Factory</title><link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css"><script src="./pixel.js" defer></script><script src="./concurrencia.js" defer></script><script src="./concurrencia-ui.js" defer></script></head><body><a class="skip" href="#guia">Saltar al contenido</a><header class="topbar wrap">
+  <a class="brand" href="./index.html" aria-label="Oracle Factory, inicio"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 27V15h7v-5l8 5V9l10 6v12H3Z"/><path d="M5 13V4h5v9M8 20h3v3H8m7-3h3v3h-3m7-3h3v3h-3" class="cut"/></svg><span>ORACLE<span class="brand-detail">FACTORY</span></span></a>
+  <nav aria-label="Navegación principal"><a href="./index.html#formas">Cuatro caminos</a><a href="./index.html#recorrido">El recorrido</a><a href="./index.html#herramientas">El kit</a><a href="./index.html#jugar">Jugá</a><a href="./desde-cero.html">Desde cero</a><a href="./colaboracion.html" aria-current="page">En equipo</a></nav>
+  <a class="repo-link" href="https://github.com/Segtem/oracle-factory" target="_blank" rel="noreferrer">Código abierto <span aria-hidden="true">↗</span></a>
+</header>
+<main class="wrap guide-page" id="guia"><div class="guide-heading"><p class="eyebrow">DOS PERSONAS / DOS AGENTES / UN PRODUCTO</p><h1>Todos a la vez,<br><em>sin pisarse.</em></h1><p>Ana y Beto trabajan cada uno con su agente, cada uno en su rama y su carpeta. Acá podés mirar qué pasa cuando trabajan a la vez: qué se une solo, qué choca, quién decide y por qué una revisión puede quedar vieja.</p>
+<p class="sim-aviso" role="note"><strong>Es una simulación.</strong> Dibuja las reglas de la <a href="https://github.com/Segtem/oracle-factory/blob/main/docs/colaboracion.md">guía de colaboración</a>; no ejecuta Factory ni Git. Lo real se prueba con el banco de concurrencia de esa guía.</p></div>
+
+<section id="simulacion" class="sim" aria-labelledby="sim-titulo"><p class="eyebrow">LA SIMULACIÓN</p><h2 id="sim-titulo">Elegí un escenario y mirá.</h2>
+<div class="sim-controles" role="group" aria-label="Escenario y controles">
+  <label for="sim-escenario">Escenario</label><select id="sim-escenario"></select>
+  <label for="sim-semilla">Semilla</label><input id="sim-semilla" type="number" min="1" max="999" value="1" inputmode="numeric">
+  <label for="sim-vel">Velocidad</label><select id="sim-vel"><option value="1600">Lenta</option><option value="900" selected>Normal</option><option value="400">Rápida</option></select>
+  <button type="button" id="sim-paso">Un paso</button>
+  <button type="button" id="sim-play" aria-pressed="false">Reproducir</button>
+  <button type="button" id="sim-reiniciar">Reiniciar</button>
+</div>
+<p id="sim-resumen" class="sim-resumen"></p>
+<div class="sim-escena" id="sim-escena" role="img" aria-label="Escena de la simulación"></div>
+<div id="sim-espera" class="sim-espera" role="group" aria-labelledby="sim-espera-texto" hidden><p id="sim-espera-texto"></p><p><code id="sim-espera-comando"></code></p><div id="sim-espera-opciones" class="sim-opciones"></div></div>
+<p id="sim-fin" class="sim-fin" hidden></p>
+<h3 id="sim-registro-titulo">Lo que pasó, paso a paso</h3>
+<ol id="sim-registro" class="sim-registro" aria-labelledby="sim-registro-titulo" aria-live="polite"></ol>
+<p id="sim-nota" class="sim-nota" hidden></p>
+</section>
+
+<section id="reglas" aria-labelledby="reglas-titulo"><p class="eyebrow">LAS REGLAS</p><h2 id="reglas-titulo">Qué reglas dibuja cada escena.</h2>
+<p>Cada regla cita el texto de la guía de colaboración que la respalda. Si la herramienta cambia y la guía también, la simulación tiene que cambiar con ella.</p>
+<dl class="sim-reglas" id="sim-reglas"></dl></section>
+
+<section id="limites" aria-labelledby="limites-titulo"><p class="eyebrow">LO QUE NO ES</p><h2 id="limites-titulo">Una simulación no es una prueba.</h2>
+<p>Los cinco escenarios son recortes de lo que mide el banco de concurrencia, simplificados para poder mirarlos. No muestran tiempos, ni redes caídas, ni más de dos personas. Para probarlo de verdad, seguí la <a href="./colaboracion.html">guía en equipo</a>.</p></section>
+</main></body></html>

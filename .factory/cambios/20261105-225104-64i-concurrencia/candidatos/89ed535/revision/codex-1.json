@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-concurrencia/.factory/local/revisiones/89ed535-codex-1",
+  "base": "bf4c867d4851f445cd6ef2e3af3f67b4990e6020",
+  "head": "89ed53539e4877beb1edc5df630da1a13780b847",
+  "diff_sha256": "0410a4b423501d55d9a9d5e296b2cab14eabf7c3282d2dca76011cda8aaa667f",
+  "context_sha256": "1323213cd7f5487e6240fa796076ea85fc0453be525f765763963233ce428074",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "CC-5",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Un agente puede traer main a una rama ajena",
+      "explanation": "El filtro nuevo permite a cualquier agente ejecutar traer. Sin embargo, el alcance de la regla citada permite que el agente traiga main a su propio checkout; el motor usa p.rama sin comprobar que corresponda a yo.rama. Así, claude-code puede mutar la rama de Beto y el registro lo presenta como una acción terminada, no como propuesta. Esta ruta es distinta de integrar o tomar y permanece abierta tras CC-3 y CC-4.",
+      "location": {"file": "site/concurrencia.js", "start_line": 145, "end_line": 146, "side": "head"},
+      "trigger": "Con un estado nuevo, sustituir el guion por [{a:'traer', quien:'claude-code', rama:'beto'}] y llamar C.paso(e). El motor avanza y registra que claude-code trajo main a beto.",
+      "evidence": "La condición deja pasar agentes cuando p.a === 'traer'. La mutación ejecutada terminó el guion con fin no nulo y agregó un registro tipo agente que dice que claude-code trae main a «beto»; no creó pendiente. El comentario de la línea 146 y docs/colaboracion.md limitan el traer del agente a su propio checkout.",
+      "related_requirement": "la_simulacion_sigue_las_reglas — el agente puede editar y traer main a su propia rama; debe respetar las reglas modeladas y citadas",
+      "status": "pendiente",
+      "verification": "Mutación manual en Node contra site/concurrencia.js: el paso de traer de claude-code a la rama beto se aceptó y finalizó, sin espera ni pendiente. node tests/test_concurrencia.cjs pasa, pero sus guiones sólo hacen que los agentes editen y no prueban traer a una rama ajena."
+    },
+    {
+      "id": "CC-6",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Una integración por otra persona puede decidir por la rama ajena",
+      "explanation": "El motor comprueba que el actor sea persona, pero no que integre su propia rama. Una persona puede ejecutar integrar sobre la rama de la otra, mutando main y marcando el escenario como terminado. La regla checkout asigna una persona responsable a cada frente y el diseño dice que integrar es decisión de la persona responsable; los escenarios existentes sólo integran cada persona su propia rama.",
+      "location": {"file": "site/concurrencia.js", "start_line": 180, "end_line": 181, "side": "head"},
+      "trigger": "En un estado nuevo, sustituir el guion por [{a:'integrar', quien:'Beto', rama:'ana'}] y llamar C.paso(e).",
+      "evidence": "La condición de agente no aplica a Beto y la rama de integrar llama unir(e,p,r) sin validar que ACTORES[p.quien].rama sea p.rama. La mutación terminó el guion y registró «Beto integra ana en main» sin espera ni autorización asociada a Ana.",
+      "related_requirement": "la_simulacion_sigue_las_reglas — checkout con persona responsable y reglas de integración; los_escenarios_cuentan_la_concurrencia — cada decisión debe figurar a nombre de quien la toma",
+      "status": "pendiente",
+      "verification": "Mutación manual en Node: Beto integró la rama ana y el motor avanzó. La cobertura fija prueba sólo integración por el actor de la propia rama."
+    },
+    {
+      "id": "CC-7",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Aprobar-spec y medir --confirmar no tienen semántica de decisión humana",
+      "explanation": "La salvaguarda de agentes deja estos intentos como propuesta pendiente, pero cuando actúa una persona el motor acepta cualquier cadena como decisión, la anota como si hubiera ocurrido y avanza el guion. No representa aprobar-spec ni medir --confirmar como decisiones pendientes de una persona que requiere interacción; por lo tanto, esos comandos pueden aparecer ejecutados sin mecanismo de confirmación y sus supuestos estados no se distinguen del cierre o la revisión modelados.",
+      "location": {"file": "site/concurrencia.js", "start_line": 165, "end_line": 178, "side": "head"},
+      "trigger": "Con estado nuevo, fijar e.guion=[{a:'decidir',quien:'Ana',decision:'aprobar-spec',cambio:'x',rama:'ana'}] o usar decision:'medir --confirmar'; llamar C.paso(e).",
+      "evidence": "La mutación anotó «Ana decide aprobar-spec» (o «medir --confirmar»), guardó la clave en el registro de la rama y terminó el escenario sin pausa. No hay espera, opción de aprobación/confirmación ni restricción del conjunto de decisiones; sólo cerrar y revisar reciben tratamiento específico. La spec enumera expresamente aprobar-spec y medir --confirmar entre las decisiones humanas.",
+      "related_requirement": "la_simulacion_sigue_las_reglas — ninguna decisión de persona (aprobar-spec, medir --confirmar, revisar, cerrar, decidir-union) la toma un agente; las decisiones humanas deben representarse como tales",
+      "status": "pendiente",
+      "verification": "Mutación manual con las dos cadenas en Node: ambas fueron aceptadas como decision y acabaron en el registro con fin no nulo; no hay comprobación en tests/test_concurrencia.cjs para aprobar-spec ni medir --confirmar."
+    },
+    {
+      "id": "CC-8",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "La edición puede asignarse a una persona que no posee esa rama",
+      "explanation": "La ruta de editar fuerza el almacenamiento en la rama asociada al actor, pero etiqueta el registro y el cambio con el actor del paso sin verificar que quien edita sea el escritor permitido. Al mutar un guion, un actor puede editar en el checkout de otra persona sin propuesta ni bloqueo. La regla citada de checkout requiere un escritor activo por frente y las reglas de colaboración atribuyen el trabajo del checkout a su persona responsable/agente.",
+      "location": {"file": "site/concurrencia.js", "start_line": 153, "end_line": 158, "side": "head"},
+      "trigger": "Fijar e.guion=[{a:'editar',quien:'Beto',archivo:'x.py',cambio:'x',rama:'ana'}] y llamar C.paso(e); comparar la rama mutada con el actor y el checkout mostrados en el registro.",
+      "evidence": "La rama de editar establece r=e.ramas[yo.rama], ignorando p.rama, y acepta personas además de agentes. La mutación coloca x.py en beto aunque el paso declara rama ana, y registra que Beto edita en su propio checkout; no valida un escritor activo ni coherencia entre el guion y la rama asociada al cambio.",
+      "related_requirement": "la_simulacion_sigue_las_reglas — un escritor activo y checkout propio por frente",
+      "status": "pendiente",
+      "verification": "Mutación manual del guion ejecutada con Node. El estado resultante modifica beto y el paso no espera. El guion fijo sólo usa agentes en pasos de edición."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí `node tests/test_concurrencia.cjs`: pasó (ok).",
+    "Muté guiones en memoria (sin editar checkout) y confirmé que claude-code puede traer main a la rama beto, Beto puede integrar ana y Ana puede registrar aprobar-spec y medir --confirmar como decisiones terminadas; véase trigger/evidence de CC-5 a CC-7.",
+    "Muté en memoria un paso de edición de Beto con rama ana: el motor guardó el archivo en beto sin bloquearlo (CC-8).",
+    "No pude ejecutar `python tools/sitio_concurrencia.py`: falla antes de comprobar el sitio porque este checkout no tiene oracle_factory instalado (`ModuleNotFoundError`).",
+    "No ejecuté pruebas de Chromium (no comprobé la presencia de Playwright ni instalé dependencias), ni unittest discover.",
+    "Revisé tests/datos/guias-texto.json: el texto anterior se ajustó para incorporar la nueva frase y enlace a la simulación en colaboracion.html; la edición está justificada por ese contenido. No hay pruebas existentes modificadas.",
+    "Revisé las revisiones previas: CC-3 y CC-4 están cerradas en el filtro general para integrar y tomar, pero persisten rutas adyacentes de autoridad sobre ramas ajenas descritas en CC-5 y CC-6.",
+    "El paquete reporta omissions vacío; no omitió archivos no textuales."
+  ]
+}
