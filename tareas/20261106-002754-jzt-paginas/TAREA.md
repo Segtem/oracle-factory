@@ -111,3 +111,11 @@ Medidas de web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica: Brian Hollwe
 ### Nota (2026-11-06 09:55:32 UTC)
 
 Medidas de web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-06 20:18:22 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Rondas 1 a 5 de codex cerradas: los medios y bajos corregidos con prueba (enlaces, query, ids duplicados, guías por grupo, logo de la portada). Queda WPG-007 (baja): el comprobador ignora una segunda pareja de marcadores duplicada, que exige inyectar HTML a mano; lo dejo como riesgo aceptable para que lo decida la persona. Evidencia: 1167 pruebas, 12 casos de contrato, éxito.); 0 abiertos derivados; commit 01a01fcc07e63d7437d22fb54db66d0f3f04197d; informe tareas/20261106-002754-jzt-paginas/revisiones/registro-gi8xj6kb/informe.json; decisiones tareas/20261106-002754-jzt-paginas/revisiones/registro-gi8xj6kb/decisiones.json.
+
+### Nota (2026-11-06 20:18:34 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261106-002754-jzt-paginas/oracle-veredicto.txt.

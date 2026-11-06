@@ -2,7 +2,7 @@
   "id": "20261106-002754-jzt-paginas",
   "titulo": "Web: un menú, un orden de lectura y toda la documentación",
   "capacidad": "web",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261106-002754-jzt-paginas/specs/web/spec.md",
   "spec_sha256": "0742f7531b8c1855fbe52e1d95b2d943861a5c35e9bf406d19b2f221ebb13090",
   "spec_aprobada": {
@@ -22,8 +22,40 @@
     "web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica",
     "web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261106-002754-jzt-paginas/revisiones/registro-gi8xj6kb/informe.json",
+    "sha256": "fcd1d7035f813e5ed98dfebbe6088a7b37aaa340aa4507e3aa1b409b0990a7a5",
+    "decisiones": "tareas/20261106-002754-jzt-paginas/revisiones/registro-gi8xj6kb/decisiones.json",
+    "decisiones_sha256": "fddee1cf84fa0b3afbde99db37a13930c6716a853ea03ffb7d5c50d534dbded0",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-06T20:18:22.440862+00:00",
+    "motivo": "Rondas 1 a 5 de codex cerradas: los medios y bajos corregidos con prueba (enlaces, query, ids duplicados, guías por grupo, logo de la portada). Queda WPG-007 (baja): el comprobador ignora una segunda pareja de marcadores duplicada, que exige inyectar HTML a mano; lo dejo como riesgo aceptable para que lo decida la persona. Evidencia: 1167 pruebas, 12 casos de contrato, éxito.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "01a01fcc07e63d7437d22fb54db66d0f3f04197d",
+      "archivos_sha256": "a40f2df9e0012450b71cbe214d9235691a983a1708fbcead87730b512b2a0584"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261106-002754-jzt-paginas/candidatos/6715cbb/evidencia/hechos.json",
+    "hechos_sha256": "17c47decc4803eabbc2c51f033db56785b7320376a995128ef75401c5b7d75d7",
+    "informe": ".factory/cambios/20261106-002754-jzt-paginas/oracle-veredicto.txt",
+    "informe_sha256": "22f9be1454cc7fabaa20d3fac7a581c433c6ba38e5d2d6128ce47cfd855a2861",
+    "cuando": "2026-11-06T20:18:34.604059+00:00",
+    "contexto": {
+      "head": "01a01fcc07e63d7437d22fb54db66d0f3f04197d",
+      "archivos_sha256": "a40f2df9e0012450b71cbe214d9235691a983a1708fbcead87730b512b2a0584"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -542,6 +574,31 @@
       "cuando": "2026-11-06T20:09:36.387686+00:00",
       "decision": "aprobar",
       "candidato": "6715cbb"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-06T20:18:22.440901+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "fcd1d7035f813e5ed98dfebbe6088a7b37aaa340aa4507e3aa1b409b0990a7a5",
+      "decisiones_sha256": "fddee1cf84fa0b3afbde99db37a13930c6716a853ea03ffb7d5c50d534dbded0"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-06T20:18:34.604075+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "17c47decc4803eabbc2c51f033db56785b7320376a995128ef75401c5b7d75d7"
     }
   ],
   "tipos": {
@@ -617,14 +674,16 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Rondas 1 a 5 de codex cerradas: los medios y bajos corregidos con prueba (enlaces, query, ids duplicados, guías por grupo, logo de la portada). Queda WPG-007 (baja): el comprobador ignora una segunda pareja de marcadores duplicada, que exige inyectar HTML a mano; lo dejo como riesgo aceptable para que lo decida la persona. Evidencia: 1167 pruebas, 12 casos de contrato, éxito.",
-      "candidato": "6715cbb",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-06T20:09:36.387671+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tools/sitio_paginas.py",
+      "titulo": "El comprobador ignora bloques marcados duplicados",
+      "firma": "tools/sitio_paginas.py|el comprobador ignora bloques marcados duplicados",
+      "motivo": "Acepto el riesgo: El comprobador ignora bloques marcados duplicados",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-06T20:18:21.058507+00:00",
+      "candidato": "6715cbb"
     }
-  }
+  ]
 }
