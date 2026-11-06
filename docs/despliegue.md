@@ -22,7 +22,7 @@ el conjunto, y deja un registro. Nada se despliega solo: ni por CI, ni por un ag
 }
 ```
 
-Son obligatorios `desplegar` y `version` (sin saber qué versión corre, no se puede comprobar que el destino quedó como el plan). Cada comando corre desde la raíz del proyecto con `FACTORY_COMMIT` (el commit del plan),
+Son obligatorios `desplegar` y `version` de cada destino, y el `conjunto` del proyecto (sin saber qué versión corre, no se puede comprobar que el destino quedó como el plan). Cada comando corre desde la raíz del proyecto con `FACTORY_COMMIT` (el commit del plan),
 `FACTORY_DESTINO` y `FACTORY_RAMA` en el entorno. `secretos` lleva **nombres** de variables de entorno, nunca el valor: Factory
 comprueba que existan y tapa su valor en lo que registra.
 
@@ -34,14 +34,14 @@ comprueba que existan y tapa su valor en lo que registra.
 | `probar` | prueba de humo; sin ella el destino queda «desplegado», no «probado» |
 | `volver` | cómo volver atrás si otro destino falla |
 | `depende_de` | destinos que tienen que estar probados antes |
-| `conjunto.probar` | prueba de que todo anda junto; corre al final, sólo si cada destino quedó probado |
+| `conjunto.probar` (obligatorio) | prueba de que todo anda junto; corre al final, sólo si cada destino quedó probado |
 
 ## El flujo
 
 ```bash
 oracle-factory destinos                  # estado de cada destino y de la última corrida (--json para el tablero)
 oracle-factory desplegar                 # arma el plan y lo muestra; no ejecuta nada (también --simular, y lo puede hacer un agente)
-oracle-factory desplegar --autorizar     # una persona, desde su terminal: ejecuta el plan
+oracle-factory desplegar --autorizar     # una persona, desde su terminal: ejecuta el plan (--destino NOMBRE elige uno y arrastra lo que necesita)
 ```
 
 El plan se niega si la puerta local no está en verde o si el commit no está en la rama de despliegue. Con `cortar` (por defecto) el

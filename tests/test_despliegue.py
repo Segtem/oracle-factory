@@ -43,7 +43,8 @@ def proyecto(tmp, destinos, **extra):
     raiz.mkdir()
     git(raiz, 'init', '-q', '-b', 'main')
     (raiz / '.factory').mkdir()
-    (raiz / '.factory' / 'destinos.json').write_text(json.dumps({'destinos': destinos, **extra}), encoding='utf-8')
+    extra = {'conjunto': {'probar': 'true'}, **extra}  # el conjunto es obligatorio; conjunto=None lo omite
+    (raiz / '.factory' / 'destinos.json').write_text(json.dumps({'destinos': destinos, **{k: v for k, v in extra.items() if v is not None}}), encoding='utf-8')
     git(raiz, 'add', '-A')
     git(raiz, 'commit', '-qm', 'inicio')
     return raiz
@@ -93,11 +94,12 @@ class DeclaracionDd1(Base):
             'sin version': ({'api': {k: v for k, v in destino('api').items() if k != 'version'}}, ('api', 'version')),
             'comando que no es texto': ({'api': destino('api', probar=['test'])}, ('api', 'probar')),
         }
+        casos['sin conjunto'] = ({'api': destino('api')}, ('conjunto',))
         for i, (nombre, (destinos, palabras)) in enumerate(casos.items()):
             with self.subTest(nombre):
                 sub = Path(self.tmp) / str(i)
                 sub.mkdir()
-                raiz = proyecto(sub, destinos)
+                raiz = proyecto(sub, destinos, conjunto=None if nombre == 'sin conjunto' else {'probar': 'true'})
                 with self.assertRaises(despliegue.DeclaracionInvalida) as c:
                     despliegue.cargar(raiz)
                 for p in palabras:
@@ -131,6 +133,10 @@ class PlanDd2(Base):
         self.assertIn('printf', salida.stdout)  # los comandos de cada destino
         self.assertFalse((raiz / 'srv').exists())
         self.assertEqual(list((raiz / '.factory').glob('despliegues/*')), [])
+        solo = correr(raiz, 'desplegar', '--simular', '--destino', 'app')  # elegir un consumidor arrastra su dependencia, antes
+        self.assertEqual(solo.returncode, 0, solo.stderr)
+        self.assertLess(solo.stdout.index('1. api'), solo.stdout.index('2. app'))
+        self.assertNotIn('nodo [', solo.stdout)
 
     def test_dd2_un_agente_no_autoriza_y_no_cambia_nada(self):
         raiz = proyecto(self.tmp, {'api': destino('api')})

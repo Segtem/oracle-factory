@@ -65,12 +65,14 @@ def cargar(raiz: Path) -> dict:
         destinos[nombre] = _destino(nombre, d, crudos)
     _sin_ciclos(destinos)
     conjunto = datos.get("conjunto")
-    if conjunto is not None:
-        if not isinstance(conjunto, dict) or set(conjunto) - {"probar", "tope_segundos"} or not isinstance(conjunto.get("probar"), str) or not conjunto["probar"].strip():
-            raise DeclaracionInvalida("conjunto: se espera {\"probar\": \"comando\"}")
-        tope = conjunto.get("tope_segundos", TOPE)
-        if not isinstance(tope, int) or isinstance(tope, bool) or tope <= 0:
-            raise DeclaracionInvalida("conjunto: «tope_segundos» es un número entero positivo")
+    if conjunto is None:
+        raise DeclaracionInvalida("falta «conjunto»: la prueba de que todo anda junto ({\"probar\": \"comando\"}); sin ella no se puede decir "
+                                  "«todo quedó funcionando» (con un solo destino puede ser la misma prueba de humo)")
+    if not isinstance(conjunto, dict) or set(conjunto) - {"probar", "tope_segundos"} or not isinstance(conjunto.get("probar"), str) or not conjunto["probar"].strip():
+        raise DeclaracionInvalida("conjunto: se espera {\"probar\": \"comando\"}")
+    tope = conjunto.get("tope_segundos", TOPE)
+    if not isinstance(tope, int) or isinstance(tope, bool) or tope <= 0:
+        raise DeclaracionInvalida("conjunto: «tope_segundos» es un número entero positivo")
     return {"rama": rama, "politica": politica, "destinos": destinos, "conjunto": conjunto}
 
 
@@ -125,7 +127,14 @@ def _sin_ciclos(destinos: dict) -> None:
 
 def orden(destinos: dict, elegidos: list[str] | None = None) -> list[str]:
     """Los destinos en el orden de sus dependencias; entre los que no dependen uno de otro, el de la declaración."""
-    queda = [n for n in destinos if elegidos is None or n in elegidos]
+    incluidos = set(elegidos or destinos)
+    pendientes = list(incluidos)
+    while pendientes:  # lo que se elige arrastra, de forma transitiva, lo que necesita: no se despliega un consumidor sin su dependencia
+        for dep in destinos[pendientes.pop()]["depende_de"]:
+            if dep not in incluidos:
+                incluidos.add(dep)
+                pendientes.append(dep)
+    queda = [n for n in destinos if n in incluidos]
     hecho: list[str] = []
     while queda:
         siguiente = next(n for n in queda if all(dep in hecho or dep not in queda for dep in destinos[n]["depende_de"]))
@@ -347,9 +356,6 @@ def _cerrar(registro: dict, decl: dict, raiz: Path, plan: dict, correr: Callable
         registro["motivo"] = "no quedaron probados: " + ", ".join(sin_probar)
     else:
         registro["resultado"], registro["motivo"] = "todo_funciona", "todo quedó funcionando"
-        if registro["conjunto"]["resultado"] == "no_corrio":
-            registro["conjunto"]["resultado"] = "no_declarada"
-            registro["aviso"] = (registro["aviso"] + "; " if registro["aviso"] else "") + "el proyecto no declara una prueba de conjunto: sólo se probó cada destino"
 
 
 def _guardar(raiz: Path, registro: dict) -> None:
