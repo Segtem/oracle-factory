@@ -173,7 +173,7 @@ class WebPaginas(unittest.TestCase):
     # --- wp3: la documentación -----------------------------------------------------------------------------------------------
     def test_wp3_la_pagina_lista_las_guias_de_docs_con_su_titulo(self):
         guias = sorted(p.stem for p in (ROOT / 'docs').glob('*.md'))
-        self.assertEqual(len(guias), 12)
+        self.assertEqual(len(guias), 13)
         pagina = leer(ROOT, 'documentacion.html')
         listadas = re.findall(r'data-doc="([^"]+)"', pagina)
         self.assertEqual(sorted(listadas), guias)

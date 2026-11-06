@@ -107,7 +107,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261104-221348-2l1-binarios]] — Revisión: los archivos binarios del paquete no impiden aprobar (cerrada)
 - [[cambios/20261105-225104-64i-concurrencia]] — Web: simulación pixel art de personas y agentes trabajando a la vez (cerrada)
 - [[cambios/20261106-002754-jzt-paginas]] — Web: un menú, un orden de lectura y toda la documentación (cerrada)
-- [[cambios/20261106-205202-8od-destinos]] — Despliegue a varios destinos con prueba de que todo quedó funcionando (spec_aprobada)
+- [[cambios/20261106-205202-8od-destinos]] — Despliegue a varios destinos con prueba de que todo quedó funcionando (requisitos_importados)
 
 ## Requisitos
 
@@ -206,6 +206,12 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica]]
 - [[requisitos/desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes]]
 - [[requisitos/desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero]]
+- [[requisitos/despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secretos]]
+- [[requisitos/despliegue_c1f413032a7a55aa1.los_destinos_los_declara_el_proyecto]]
+- [[requisitos/despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto]]
+- [[requisitos/despliegue_c1f413032a7a55aa1.sirve_para_cualquier_proyecto]]
+- [[requisitos/despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_una_persona]]
+- [[requisitos/despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho]]
 - [[requisitos/distribucion_c0fb4528d614ab5c0.los_textos_declaran_publicada_la_version_a17]]
 - [[requisitos/distribucion_c0fb4528d614ab5c0.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17]]
 - [[requisitos/distribucion_c429661c62d96c96b.el_wheel_a16_instalado_ofrece_lo_nuevo]]

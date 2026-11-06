@@ -1,0 +1,43 @@
+{
+  "rama": "main",
+  "politica_ante_fallo": "cortar",
+  "destinos": {
+    "vps": {
+      "tipo": "vps",
+      "desplegar": "ssh \"$VPS\" \"cd /srv/app && git fetch -q && git checkout -q $FACTORY_COMMIT && ./reiniciar.sh\"",
+      "version": "ssh \"$VPS\" \"git -C /srv/app rev-parse HEAD\"",
+      "probar": "curl -fsS \"https://$VPS_DOMINIO/salud\"",
+      "volver": "ssh \"$VPS\" \"cd /srv/app && git checkout -q @{-1} && ./reiniciar.sh\"",
+      "secretos": ["VPS"]
+    },
+    "contenedor": {
+      "tipo": "contenedor",
+      "depende_de": ["vps"],
+      "construir": "docker compose build",
+      "desplegar": "COMMIT=$FACTORY_COMMIT docker compose up -d",
+      "version": "docker inspect -f '{{index .Config.Labels \"commit\"}}' app",
+      "probar": "curl -fsS \"https://$VPS_DOMINIO/salud\"",
+      "volver": "docker compose down"
+    },
+    "nodo": {
+      "tipo": "esp32",
+      "depende_de": ["vps"],
+      "alcanzable": "ping -c1 -W2 \"$NODO\"",
+      "construir": "pio run",
+      "desplegar": "pio run -t upload --upload-port \"$NODO\"",
+      "version": "curl -fsS \"http://$NODO/version\"",
+      "probar": "curl -fsS \"http://$NODO/salud\""
+    },
+    "app": {
+      "tipo": "app",
+      "depende_de": ["vps"],
+      "desplegar": "rsync -a dist/ \"$APP_DESTINO\"",
+      "version": "curl -fsS \"https://$APP_URL/version.txt\"",
+      "probar": "curl -fsS \"https://$APP_URL/salud\"",
+      "volver": "rsync -a --delete anterior/ \"$APP_DESTINO\""
+    }
+  },
+  "conjunto": {
+    "probar": "tools/prueba_de_conjunto.sh"
+  }
+}

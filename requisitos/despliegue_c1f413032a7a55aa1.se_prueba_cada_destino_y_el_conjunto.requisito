@@ -1,0 +1,4 @@
+requisito despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto:
+    texto "Tipo: funcional El sistema DEBE ejecutar, por destino y en orden, comprobar que se alcanza, construir, desplegar, verificar que corre la versión del plan y correr su prueba de humo, y DEBE correr al final la prueba de conjunto declarada; DEBE decir «todo quedó funcionando» sólo cuando cada destino del plan quedó probado con la versión del plan y la prueba de conjunto pasó, y un destino que no se alcanzó DEBE quedar «inalcanzable», nunca verde."
+    fuente "openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md#se_prueba_cada_destino_y_el_conjunto"
+    sin_medir "sin medida todavía; escenarios: «todo anda», «un destino apagado», «desplegó pero corre otra versión», «el conjunto falla»"
