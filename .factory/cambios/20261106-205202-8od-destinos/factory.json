@@ -2,10 +2,20 @@
   "id": "20261106-205202-8od-destinos",
   "titulo": "Despliegue a varios destinos con prueba de que todo quedó funcionando",
   "capacidad": "despliegue",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "c40573585e12d76fe2a2b56bf287ce02a01cce529b42c40e0d84041529a639e2",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-06T20:57:52.766999+00:00",
+    "documentos": {
+      "openspec/changes/20261106-205202-8od-destinos/proposal.md": "211619a282ee4e30dc1e6c2eb8a2d78a48da05dd5f6654c3cc67e0524e0fe18e",
+      "openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md": "c40573585e12d76fe2a2b56bf287ce02a01cce529b42c40e0d84041529a639e2"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-06T20:52:02.783680+00:00",
       "capacidad": "despliegue"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-06T20:57:52.767029+00:00",
+      "documentos": {
+        "openspec/changes/20261106-205202-8od-destinos/proposal.md": "211619a282ee4e30dc1e6c2eb8a2d78a48da05dd5f6654c3cc67e0524e0fe18e",
+        "openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md": "c40573585e12d76fe2a2b56bf287ce02a01cce529b42c40e0d84041529a639e2"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
