@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "7d4987c5636f5ab5bfe8b3fec6806ff87a96cf42f3ae723220c6224d91bff5c3",
+  "actor": "Brian Hollweg",
+  "motivo": "Cinco rondas con codex (agy2-flash sin cuota, agy y agy2 fallan por el --effort del wrapper): la última cerró con 0 hallazgos. Hallazgos corregidos con prueba y mutaciones: CC-1 (cerrar exige revisión vigente), CC-2 (ids de evento por rama y secuencia), CC-3 y CC-4 (un agente sólo edita y trae main), CC-5 a CC-8 (cada actor en su checkout; acciones, actores y decisiones no modeladas lanzan error). Evidencia: 1155 pruebas, 9 casos de contrato, éxito. Límites declarados: es una simulación de las reglas con cinco guiones fijos, no ejecuta Factory ni Git; sólo un revisor independiente revisó (codex); con movimiento reducido la simulación elige por la persona la primera opción y lo dice. Test existente: ninguno editado; tests/datos/guias-texto.json se regeneró por una frase nueva con enlace en colaboracion.html.",
+  "decisiones": []
+}

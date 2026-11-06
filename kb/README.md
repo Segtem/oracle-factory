@@ -105,7 +105,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261104-033615-oj8-publicada-a17]] — Declarar publicada la 0.1.0a17 (cerrada)
 - [[cambios/20261104-115430-dnr-vscode]] — Web: capturas reales de VS Code y ejemplos en las guías (cerrada)
 - [[cambios/20261104-221348-2l1-binarios]] — Revisión: los archivos binarios del paquete no impiden aprobar (cerrada)
-- [[cambios/20261105-225104-64i-concurrencia]] — Web: simulación pixel art de personas y agentes trabajando a la vez (requisitos_importados)
+- [[cambios/20261105-225104-64i-concurrencia]] — Web: simulación pixel art de personas y agentes trabajando a la vez (revision_aprobada)
 
 ## Requisitos
 

@@ -2,7 +2,7 @@
   "id": "20261105-225104-64i-concurrencia",
   "titulo": "Web: simulación pixel art de personas y agentes trabajando a la vez",
   "capacidad": "web",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md",
   "spec_sha256": "6dfaef56a8c511dacafe74e0818214649e009c19b6033db45339162b2595a518",
   "spec_aprobada": {
@@ -22,7 +22,27 @@
     "web_cc8d4b754936380f4.la_simulacion_sigue_las_reglas",
     "web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261105-225104-64i-concurrencia/revisiones/registro-rf6sf402/informe.json",
+    "sha256": "7d4987c5636f5ab5bfe8b3fec6806ff87a96cf42f3ae723220c6224d91bff5c3",
+    "decisiones": "tareas/20261105-225104-64i-concurrencia/revisiones/registro-rf6sf402/decisiones.json",
+    "decisiones_sha256": "52a87a55f3215bd33ae1244f02b99ace0f03cb6ef1f47caa41be3fe2ab1cd38c",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-06T00:13:00.832517+00:00",
+    "motivo": "Cinco rondas con codex (agy2-flash sin cuota, agy y agy2 fallan por el --effort del wrapper): la última cerró con 0 hallazgos. Hallazgos corregidos con prueba y mutaciones: CC-1 (cerrar exige revisión vigente), CC-2 (ids de evento por rama y secuencia), CC-3 y CC-4 (un agente sólo edita y trae main), CC-5 a CC-8 (cada actor en su checkout; acciones, actores y decisiones no modeladas lanzan error). Evidencia: 1155 pruebas, 9 casos de contrato, éxito. Límites declarados: es una simulación de las reglas con cinco guiones fijos, no ejecuta Factory ni Git; sólo un revisor independiente revisó (codex); con movimiento reducido la simulación elige por la persona la primera opción y lo dice. Test existente: ninguno editado; tests/datos/guias-texto.json se regeneró por una frase nueva con enlace en colaboracion.html.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "8ab59b40276d1f3033d9d930a0b1f5f1c112585c",
+      "archivos_sha256": "3248049571074714d207d32b424492a9c766f6804c0b6b5b2d937c1f98737b5e"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -438,6 +458,20 @@
       "cuando": "2026-11-06T00:08:28.828943+00:00",
       "decision": "aprobar",
       "candidato": "3723db9"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-06T00:13:00.832549+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "7d4987c5636f5ab5bfe8b3fec6806ff87a96cf42f3ae723220c6224d91bff5c3",
+      "decisiones_sha256": "52a87a55f3215bd33ae1244f02b99ace0f03cb6ef1f47caa41be3fe2ab1cd38c"
     }
   ],
   "tipos": {
@@ -513,14 +547,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Cinco rondas con codex (agy2-flash sin cuota, agy y agy2 fallan por el --effort del wrapper): la última cerró con 0 hallazgos. Hallazgos corregidos con prueba y mutaciones: CC-1 (cerrar exige revisión vigente), CC-2 (ids de evento por rama y secuencia), CC-3 y CC-4 (un agente sólo edita y trae main), CC-5 a CC-8 (cada actor en su checkout; acciones, actores y decisiones no modeladas lanzan error). Evidencia: 1155 pruebas, 9 casos de contrato, éxito. Límites declarados: es una simulación de las reglas con cinco guiones fijos, no ejecuta Factory ni Git; sólo un revisor independiente revisó (codex); con movimiento reducido la simulación elige por la persona la primera opción y lo dice. Test existente: ninguno editado; tests/datos/guias-texto.json se regeneró por una frase nueva con enlace en colaboracion.html.",
-      "candidato": "3723db9",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-06T00:08:28.828927+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
