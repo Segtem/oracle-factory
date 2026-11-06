@@ -39,3 +39,27 @@ Medidas de despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secret
 ### Nota (2026-11-06 21:12:14 UTC)
 
 Medidas de despliegue_c1f413032a7a55aa1.sirve_para_cualquier_proyecto: factory_despliegue.sirve_para_cualquier_proyecto, factory_despliegue.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-06 21:13:08 UTC)
+
+Medidas de despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secretos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-06 21:13:08 UTC)
+
+Medidas de despliegue_c1f413032a7a55aa1.los_destinos_los_declara_el_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-06 21:13:08 UTC)
+
+Medidas de despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-06 21:13:08 UTC)
+
+Medidas de despliegue_c1f413032a7a55aa1.sirve_para_cualquier_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-06 21:13:08 UTC)
+
+Medidas de despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_una_persona: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-06 21:13:08 UTC)
+
+Medidas de despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho: Brian Hollweg (persona, confirmo, modo confirmacion).

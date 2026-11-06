@@ -148,6 +148,84 @@
         "factory_despliegue.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-06T21:13:07.990090+00:00",
+      "requisito": "despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secretos",
+      "medidas": [
+        "factory_despliegue.cada_ejecucion_deja_evidencia_sin_secretos",
+        "factory_despliegue.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-06T21:13:08.156379+00:00",
+      "requisito": "despliegue_c1f413032a7a55aa1.los_destinos_los_declara_el_proyecto",
+      "medidas": [
+        "factory_despliegue.los_destinos_los_declara_el_proyecto",
+        "factory_despliegue.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-06T21:13:08.322604+00:00",
+      "requisito": "despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto",
+      "medidas": [
+        "factory_despliegue.se_prueba_cada_destino_y_el_conjunto",
+        "factory_despliegue.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-06T21:13:08.488878+00:00",
+      "requisito": "despliegue_c1f413032a7a55aa1.sirve_para_cualquier_proyecto",
+      "medidas": [
+        "factory_despliegue.sirve_para_cualquier_proyecto",
+        "factory_despliegue.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-06T21:13:08.655238+00:00",
+      "requisito": "despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_una_persona",
+      "medidas": [
+        "factory_despliegue.un_despliegue_es_un_plan_que_autoriza_una_persona",
+        "factory_despliegue.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-06T21:13:08.823497+00:00",
+      "requisito": "despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho",
+      "medidas": [
+        "factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho",
+        "factory_despliegue.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -158,69 +236,14 @@
     "despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_una_persona": "funcional",
     "despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "despliegue_c1f413032a7a55aa1.los_destinos_los_declara_el_proyecto": {
-      "sha256": "00c873abd9a6780985e26a52afb32fecdf092ec65aadc07677f6c1d80899d04e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-06T21:12:06.349975+00:00",
-      "catalogos": {
-        "factory_despliegue.los_destinos_los_declara_el_proyecto": "b740083b8ecdeba29e80217737ea58c6e84690927bb3b35055fd243e47835a7d",
-        "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
-      },
-      "archivos_catalogo": {
-        "factory_despliegue.los_destinos_los_declara_el_proyecto": "catalogos/factory_despliegue.los_destinos_los_declara_el_proyecto.oracle",
-        "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
-      }
-    },
-    "despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_una_persona": {
-      "sha256": "87352f1621fe206301efc77195013e4ad6e4019c9d37e5989dbf18880b10bfab",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-06T21:12:08.024298+00:00",
-      "catalogos": {
-        "factory_despliegue.un_despliegue_es_un_plan_que_autoriza_una_persona": "45db6f6208a4ca669c9011c67874499c9ed1a837f97e7d57be2d77fb726fa526",
-        "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
-      },
-      "archivos_catalogo": {
-        "factory_despliegue.un_despliegue_es_un_plan_que_autoriza_una_persona": "catalogos/factory_despliegue.un_despliegue_es_un_plan_que_autoriza_una_persona.oracle",
-        "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
-      }
-    },
-    "despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto": {
-      "sha256": "c981e9154c04c6472ef7e9e526e04e67c350b4afdaf76b3f9ae9d857bc5c12d7",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-06T21:12:09.689649+00:00",
-      "catalogos": {
-        "factory_despliegue.se_prueba_cada_destino_y_el_conjunto": "1c87f2975fcf290da0ce1157234e26abd73b2054f1e435f26847f5357e809820",
-        "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
-      },
-      "archivos_catalogo": {
-        "factory_despliegue.se_prueba_cada_destino_y_el_conjunto": "catalogos/factory_despliegue.se_prueba_cada_destino_y_el_conjunto.oracle",
-        "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
-      }
-    },
-    "despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho": {
-      "sha256": "1103c3e49b511c041c216be7011f837d5f6de426cceece8d4a2f8d65a1e2192a",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-06T21:12:11.334367+00:00",
-      "catalogos": {
-        "factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho": "74ea0366ceb7cf41f63a3258ada1845f072571f441ed752f51941e0563bc1a93",
-        "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
-      },
-      "archivos_catalogo": {
-        "factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho": "catalogos/factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho.oracle",
-        "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secretos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-06T21:13:07.947136+00:00",
       "sha256": "35b2488d8a69c7223b6cfcbed74cf7451ef4e3afd1a5bed66f065630be6128c6",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-06T21:12:12.982812+00:00",
       "catalogos": {
         "factory_despliegue.cada_ejecucion_deja_evidencia_sin_secretos": "0f5db94d3640b1d01cc8bef4c7cfde6e2942c0230e8c078088c7aa31f5102abe",
         "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
@@ -230,11 +253,45 @@
         "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
       }
     },
+    "despliegue_c1f413032a7a55aa1.los_destinos_los_declara_el_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-06T21:13:08.113567+00:00",
+      "sha256": "00c873abd9a6780985e26a52afb32fecdf092ec65aadc07677f6c1d80899d04e",
+      "catalogos": {
+        "factory_despliegue.los_destinos_los_declara_el_proyecto": "b740083b8ecdeba29e80217737ea58c6e84690927bb3b35055fd243e47835a7d",
+        "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
+      },
+      "archivos_catalogo": {
+        "factory_despliegue.los_destinos_los_declara_el_proyecto": "catalogos/factory_despliegue.los_destinos_los_declara_el_proyecto.oracle",
+        "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
+      }
+    },
+    "despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-06T21:13:08.279469+00:00",
+      "sha256": "c981e9154c04c6472ef7e9e526e04e67c350b4afdaf76b3f9ae9d857bc5c12d7",
+      "catalogos": {
+        "factory_despliegue.se_prueba_cada_destino_y_el_conjunto": "1c87f2975fcf290da0ce1157234e26abd73b2054f1e435f26847f5357e809820",
+        "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
+      },
+      "archivos_catalogo": {
+        "factory_despliegue.se_prueba_cada_destino_y_el_conjunto": "catalogos/factory_despliegue.se_prueba_cada_destino_y_el_conjunto.oracle",
+        "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
+      }
+    },
     "despliegue_c1f413032a7a55aa1.sirve_para_cualquier_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-06T21:13:08.446445+00:00",
       "sha256": "90342231b0205a3dfd21c5f80462f76a3127778aa7cae878157c0c0305fa9b5e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-06T21:12:14.615125+00:00",
       "catalogos": {
         "factory_despliegue.sirve_para_cualquier_proyecto": "72754e52048302894b264f9f3af0ebeff9edd8237b0b55346a0262ef360603d3",
         "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
@@ -243,6 +300,39 @@
         "factory_despliegue.sirve_para_cualquier_proyecto": "catalogos/factory_despliegue.sirve_para_cualquier_proyecto.oracle",
         "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
       }
+    },
+    "despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_una_persona": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-06T21:13:08.612208+00:00",
+      "sha256": "87352f1621fe206301efc77195013e4ad6e4019c9d37e5989dbf18880b10bfab",
+      "catalogos": {
+        "factory_despliegue.un_despliegue_es_un_plan_que_autoriza_una_persona": "45db6f6208a4ca669c9011c67874499c9ed1a837f97e7d57be2d77fb726fa526",
+        "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
+      },
+      "archivos_catalogo": {
+        "factory_despliegue.un_despliegue_es_un_plan_que_autoriza_una_persona": "catalogos/factory_despliegue.un_despliegue_es_un_plan_que_autoriza_una_persona.oracle",
+        "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
+      }
+    },
+    "despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-06T21:13:08.780274+00:00",
+      "sha256": "1103c3e49b511c041c216be7011f837d5f6de426cceece8d4a2f8d65a1e2192a",
+      "catalogos": {
+        "factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho": "74ea0366ceb7cf41f63a3258ada1845f072571f441ed752f51941e0563bc1a93",
+        "factory_despliegue.corrida_completa": "f7cde16a3c1909a29fcc2165c16082bbeca4e19131e37c1a0a64b784900b542f"
+      },
+      "archivos_catalogo": {
+        "factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho": "catalogos/factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho.oracle",
+        "factory_despliegue.corrida_completa": "catalogos/factory_despliegue.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
