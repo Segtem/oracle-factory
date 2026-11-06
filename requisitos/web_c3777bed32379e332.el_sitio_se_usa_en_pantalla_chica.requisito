@@ -1,4 +1,4 @@
 requisito web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica:
     texto "Tipo: funcional El sistema DEBE poder usarse a 360 px de ancho en las seis páginas, sin desplazamiento horizontal de la página, con todos los enlaces del menú alcanzables con el teclado, y sin errores de consola ni pedidos a otros dominios."
     fuente "openspec/changes/20261106-002754-jzt-paginas/specs/web/spec.md#el_sitio_se_usa_en_pantalla_chica"
-    sin_medir "sin medida todavía; escenarios: «recorrer las seis páginas en un teléfono»"
+    medido_por factory_web_paginas.el_sitio_se_usa_en_pantalla_chica, factory_web_paginas.corrida_completa
