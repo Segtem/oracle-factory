@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:11c2481b4b49b85519078c4ae7f4bb1a2eaac5c78823ca207ddd76bf1bd13f83 -->
+<!-- oracle-factory resumen sha256:209f0274ead644ec695800759f9a5f18ef06bc6a7c1d6be25004977032bb37f4 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-29 capacidades · 287 requisitos vigentes · 0 cambios abiertos
+29 capacidades · 291 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -498,6 +498,10 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 | las_guias_muestran_vscode_real | funcional | `web_c2e4546f9d843453e.las_guias_muestran_vscode_real` | factory_web_vscode.las_guias_muestran_vscode_real, factory_web_vscode.corrida_completa | verde al cerrar el 2026-11-05 | 20261104-115430-dnr-vscode |
 | los_ejemplos_son_salida_real | funcional | `web_c2e4546f9d843453e.los_ejemplos_son_salida_real` | factory_web_vscode.los_ejemplos_son_salida_real, factory_web_vscode.corrida_completa | verde al cerrar el 2026-11-05 | 20261104-115430-dnr-vscode |
 | los_ejemplos_no_filtran_datos_personales | no funcional | `web_c2e4546f9d843453e.los_ejemplos_no_filtran_datos_personales` | factory_web_vscode.los_ejemplos_no_filtran_datos_personales, factory_web_vscode.corrida_completa | verde al cerrar el 2026-11-05 | 20261104-115430-dnr-vscode |
+| la_simulacion_sigue_las_reglas | funcional | `web_cc8d4b754936380f4.la_simulacion_sigue_las_reglas` | factory_web_concurrencia.la_simulacion_sigue_las_reglas, factory_web_concurrencia.corrida_completa | verde al cerrar el 2026-11-06 | 20261105-225104-64i-concurrencia |
+| los_escenarios_cuentan_la_concurrencia | funcional | `web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia` | factory_web_concurrencia.los_escenarios_cuentan_la_concurrencia, factory_web_concurrencia.corrida_completa | verde al cerrar el 2026-11-06 | 20261105-225104-64i-concurrencia |
+| la_escena_se_controla_y_es_accesible | funcional | `web_cc8d4b754936380f4.la_escena_se_controla_y_es_accesible` | factory_web_concurrencia.la_escena_se_controla_y_es_accesible, factory_web_concurrencia.corrida_completa | verde al cerrar el 2026-11-06 | 20261105-225104-64i-concurrencia |
+| la_simulacion_dice_que_es_una_simulacion | funcional | `web_cc8d4b754936380f4.la_simulacion_dice_que_es_una_simulacion` | factory_web_concurrencia.la_simulacion_dice_que_es_una_simulacion, factory_web_concurrencia.corrida_completa | verde al cerrar el 2026-11-06 | 20261105-225104-64i-concurrencia |
 
 ## Cambios abiertos
 
@@ -1595,6 +1599,13 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261104-221348-2l1-binarios) codex (gpt-6-luna): Leí la spec, propuesta, diff/contexto del paquete, pruebas relevantes y las cuatro revisiones previas; no ejecuté pruebas.
 - (20261104-221348-2l1-binarios) codex (gpt-6-luna): No hay omisiones de archivos no textuales en el paquete vigente; por eso no hay archivos binarios omitidos que declarar.
 - (20261104-221348-2l1-binarios) codex (gpt-6-luna): Sin hallazgos: las declaraciones fijas se comparan por ruta completa y sólo cuentan si cada omisión binaria del paquete está cubierta; las omisiones ajenas a las tres razones conocidas y los informes incompletos sin omisiones siguen bloqueando. Los casos previos de negación, prefijos/sufijos de ruta y puntuación quedan rechazados por igualdad exacta.
+- (20261105-225104-64i-concurrencia) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261105-225104-64i-concurrencia) codex (gpt-6-luna): Sin hallazgos: contrasté los cuatro requisitos y escenarios con el motor, los cinco guiones fijos, la UI, la página y las pruebas disponibles; no vi defectos que alcance alguno de los escenarios declarados.
+- (20261105-225104-64i-concurrencia) codex (gpt-6-luna): Corrí `node tests/test_concurrencia.cjs`: pasó (ok). Corrí los cinco guiones con semilla 2 hasta el final, resolviendo las esperas con la primera opción; todos terminaron con actor y explicación final en el registro.
+- (20261105-225104-64i-concurrencia) codex (gpt-6-luna): No ejecuté `python tools/sitio_concurrencia.py`: falla al importar `oracle_factory` porque no está instalado en este checkout. No ejecuté pruebas Chromium ni unittest discover; `node_modules/playwright` no está disponible.
+- (20261105-225104-64i-concurrencia) codex (gpt-6-luna): Inspeccioné las correcciones contra CC-1 a CC-8: cierre comprueba revisión vigente; eventos usan rama y secuencia; las acciones de ramas ajenas están bloqueadas salvo revisar; decisiones y actores no modelados lanzan error. No vi regresiones en esas rutas.
+- (20261105-225104-64i-concurrencia) codex (gpt-6-luna): tests/datos/guias-texto.json quitó la continuación anterior y la reemplazó por el texto de la nueva frase/enlace añadidos a colaboracion.html; la actualización del fixture está justificada. No se modificó una prueba existente.
+- (20261105-225104-64i-concurrencia) codex (gpt-6-luna): El paquete informa omissions vacío; no abrí ni declaro archivos binarios.
 
 ### Históricos
 
