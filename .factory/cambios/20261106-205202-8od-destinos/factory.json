@@ -278,6 +278,42 @@
       "resultado": "ok",
       "hallazgos": 2,
       "lanzamiento": "093c2ca5e1a1"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-06T22:45:50.136485+00:00",
+      "revisor": "codex",
+      "candidato": "ecf2443",
+      "lanzamiento": "d52692048c71"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-06T22:47:08.125760+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "ecf2443",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "d52692048c71"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-06T22:47:17.532038+00:00",
+      "decision": "aprobar",
+      "candidato": "ecf2443"
     }
   ],
   "tipos": {
@@ -386,5 +422,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres rondas de codex: la última sin hallazgos. Cerrados DPL-01 a DPL-06 con prueba y mutaciones: versión obligatoria, tope del conjunto validado, rollback también con seguir, el tope mata el grupo de procesos, --destino arrastra sus dependencias y el conjunto es obligatorio. Evidencia: 1190 pruebas, 23 casos de contrato, éxito. Declarado: tests/datos/ayuda-cli.json (entradas nuevas) y el conteo de guías de test_web_paginas.py (12 a 13). Fuera: 'alcance' del diseño no se implementó.",
+      "candidato": "ecf2443",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-06T22:47:17.532016+00:00"
+    }
+  }
 }

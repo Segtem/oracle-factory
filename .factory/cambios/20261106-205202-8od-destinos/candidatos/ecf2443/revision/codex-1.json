@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-despliegue/.factory/local/revisiones/ecf2443-codex-1",
+  "base": "e817b180ea9b56bb096b4b14f314d46655db2477",
+  "head": "ecf2443465a8a8671d13ac8e276f5a6dce4d9986",
+  "diff_sha256": "f117be3f4ffd436086325ab4bbaaa7a074c62380ba37a6ace170476a721d5633",
+  "context_sha256": "1d319febf10bdf774ff02d2bf2524c88eff43b5d234da46ea9ebc2059912e337",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé propuesta, spec, diseño, diff del paquete, oracle_factory/despliegue.py, CLI, parser y tests/test_despliegue.py; ejecuté `python -m unittest tests.test_despliegue </dev/null`: 23 tests, OK. No ejecuté la suite completa ni mutaciones manuales sobre copias.",
+    "DPL-05 sigue cerrado: orden() ahora incorpora transitivamente las dependencias del destino seleccionado. DPL-06 sigue cerrado: cargar() rechaza la ausencia de conjunto y exige su comando de prueba.",
+    "DPL-01 a DPL-04 de la ronda inicial siguen corregidos: version es obligatoria, se valida tope_segundos del conjunto, seguir también revierte lo desplegado tras fallos, y el timeout mata el grupo de procesos.",
+    "tests/datos/ayuda-cli.json: la línea retirada reemplaza la ayuda/lista de comandos por una versión que incorpora destinos y desplegar; el cambio corresponde a los comandos nuevos. tests/test_web_paginas.py: el conteo cambia de 12 a 13 para incluir docs/despliegue.md; la aserción ajustada corresponde a esa guía nueva. Ambas ediciones están justificadas por este cambio.",
+    "El diseño describe alcance por rutas, pero la indicación de revisión declara que no se implementó; no es requisito de la spec entregada y no lo traté como hallazgo.",
+    "El paquete no omite archivos binarios."
+  ]
+}
