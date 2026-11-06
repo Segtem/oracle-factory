@@ -2,7 +2,7 @@
   "id": "20261105-225104-64i-concurrencia",
   "titulo": "Web: simulación pixel art de personas y agentes trabajando a la vez",
   "capacidad": "web",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261105-225104-64i-concurrencia/specs/web/spec.md",
   "spec_sha256": "6dfaef56a8c511dacafe74e0818214649e009c19b6033db45339162b2595a518",
   "spec_aprobada": {
@@ -43,7 +43,19 @@
       "archivos_sha256": "3248049571074714d207d32b424492a9c766f6804c0b6b5b2d937c1f98737b5e"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261105-225104-64i-concurrencia/candidatos/3723db9/evidencia/hechos.json",
+    "hechos_sha256": "775661a3f3c686aae5334c6f279cddbd0427685bdc19a61c27496eb754890407",
+    "informe": ".factory/cambios/20261105-225104-64i-concurrencia/oracle-veredicto.txt",
+    "informe_sha256": "6c0aa8f80c24f1e5337741fa3db0e4792a81f7cecbab31f7e3950c17b25da4c2",
+    "cuando": "2026-11-06T00:13:34.631107+00:00",
+    "contexto": {
+      "head": "c901ac49ea76e99550f82a9517320a6b32e554a4",
+      "archivos_sha256": "3248049571074714d207d32b424492a9c766f6804c0b6b5b2d937c1f98737b5e"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -472,6 +484,17 @@
       "abiertos": 0,
       "sha256": "7d4987c5636f5ab5bfe8b3fec6806ff87a96cf42f3ae723220c6224d91bff5c3",
       "decisiones_sha256": "52a87a55f3215bd33ae1244f02b99ace0f03cb6ef1f47caa41be3fe2ab1cd38c"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-06T00:13:34.631125+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "775661a3f3c686aae5334c6f279cddbd0427685bdc19a61c27496eb754890407"
     }
   ],
   "tipos": {

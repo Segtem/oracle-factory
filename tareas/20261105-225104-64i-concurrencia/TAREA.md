@@ -51,3 +51,7 @@ Medidas de web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia: Brian H
 ### Nota (2026-11-06 00:13:00 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Cinco rondas con codex (agy2-flash sin cuota, agy y agy2 fallan por el --effort del wrapper): la última cerró con 0 hallazgos. Hallazgos corregidos con prueba y mutaciones: CC-1 (cerrar exige revisión vigente), CC-2 (ids de evento por rama y secuencia), CC-3 y CC-4 (un agente sólo edita y trae main), CC-5 a CC-8 (cada actor en su checkout; acciones, actores y decisiones no modeladas lanzan error). Evidencia: 1155 pruebas, 9 casos de contrato, éxito. Límites declarados: es una simulación de las reglas con cinco guiones fijos, no ejecuta Factory ni Git; sólo un revisor independiente revisó (codex); con movimiento reducido la simulación elige por la persona la primera opción y lo dice. Test existente: ninguno editado; tests/datos/guias-texto.json se regeneró por una frase nueva con enlace en colaboracion.html.); 0 abiertos derivados; commit 8ab59b40276d1f3033d9d930a0b1f5f1c112585c; informe tareas/20261105-225104-64i-concurrencia/revisiones/registro-rf6sf402/informe.json; decisiones tareas/20261105-225104-64i-concurrencia/revisiones/registro-rf6sf402/decisiones.json.
+
+### Nota (2026-11-06 00:13:34 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261105-225104-64i-concurrencia/oracle-veredicto.txt.
