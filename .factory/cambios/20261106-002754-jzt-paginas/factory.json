@@ -220,6 +220,58 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "08841b7c2707"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-06T01:09:56.798091+00:00",
+      "requisito": "web_c3777bed32379e332.el_menu_es_el_mismo_en_todas_las_paginas",
+      "medidas": [
+        "factory_web_paginas.el_menu_es_el_mismo_en_todas_las_paginas",
+        "factory_web_paginas.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-06T01:09:58.309191+00:00",
+      "requisito": "web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente",
+      "medidas": [
+        "factory_web_paginas.cada_pagina_lleva_a_la_siguiente",
+        "factory_web_paginas.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-06T01:09:59.825201+00:00",
+      "requisito": "web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web",
+      "medidas": [
+        "factory_web_paginas.toda_la_documentacion_esta_en_la_web",
+        "factory_web_paginas.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-06T01:10:01.326926+00:00",
+      "requisito": "web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica",
+      "medidas": [
+        "factory_web_paginas.el_sitio_se_usa_en_pantalla_chica",
+        "factory_web_paginas.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -228,71 +280,63 @@
     "web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica": "funcional",
     "web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web": "funcional"
   },
-  "medidas": {
-    "web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-06T00:58:32.689828+00:00",
-      "sha256": "dc63703665ede2ac425fb13cb068807dfba8c58c17ef1f050db9254776dce64a",
-      "catalogos": {
-        "factory_web_paginas.cada_pagina_lleva_a_la_siguiente": "aa73a9f22c258602457bf64204ef21523b70e361bef95bb22b67344ed0cc4515",
-        "factory_web_paginas.corrida_completa": "95cf7c47edffcc63ab8f2e584eeaaa2add1ff320e6d376569b8703c23623a2a2"
-      },
-      "archivos_catalogo": {
-        "factory_web_paginas.cada_pagina_lleva_a_la_siguiente": "catalogos/factory_web_paginas.cada_pagina_lleva_a_la_siguiente.oracle",
-        "factory_web_paginas.corrida_completa": "catalogos/factory_web_paginas.corrida_completa.oracle"
-      }
-    },
+  "medidas": {},
+  "medidas_pendientes": {
     "web_c3777bed32379e332.el_menu_es_el_mismo_en_todas_las_paginas": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-06T00:58:32.852929+00:00",
       "sha256": "89d70ea74e99c9b13d85c16895baed28cebe4f05455cb58f1b1b96a6af0b59f7",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-06T01:09:56.756091+00:00",
       "catalogos": {
-        "factory_web_paginas.el_menu_es_el_mismo_en_todas_las_paginas": "690f5e12578b005eb015798a8625803f16e8a65003d9ec59ba75eab9bbb768da",
-        "factory_web_paginas.corrida_completa": "95cf7c47edffcc63ab8f2e584eeaaa2add1ff320e6d376569b8703c23623a2a2"
+        "factory_web_paginas.el_menu_es_el_mismo_en_todas_las_paginas": "e30ec179772b96bf34407360cd516c387706d52fc7552e5b88bb18e294e753b7",
+        "factory_web_paginas.corrida_completa": "e7f482e8035736018b1226aa749cb4ad42cc47c96a059be69a5461299ec9c8f5"
       },
       "archivos_catalogo": {
         "factory_web_paginas.el_menu_es_el_mismo_en_todas_las_paginas": "catalogos/factory_web_paginas.el_menu_es_el_mismo_en_todas_las_paginas.oracle",
         "factory_web_paginas.corrida_completa": "catalogos/factory_web_paginas.corrida_completa.oracle"
       }
     },
-    "web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-06T00:58:33.019369+00:00",
-      "sha256": "103c3fb5e97cf0143990f40815c44c0bde9f0ceaa841e27afe02167a3f8321a1",
+    "web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente": {
+      "sha256": "dc63703665ede2ac425fb13cb068807dfba8c58c17ef1f050db9254776dce64a",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-06T01:09:58.267923+00:00",
       "catalogos": {
-        "factory_web_paginas.el_sitio_se_usa_en_pantalla_chica": "c902eda722740d3246395f115df36955f27267d41304479f0def5ce3ccd46fb3",
-        "factory_web_paginas.corrida_completa": "95cf7c47edffcc63ab8f2e584eeaaa2add1ff320e6d376569b8703c23623a2a2"
+        "factory_web_paginas.cada_pagina_lleva_a_la_siguiente": "aa73a9f22c258602457bf64204ef21523b70e361bef95bb22b67344ed0cc4515",
+        "factory_web_paginas.corrida_completa": "e7f482e8035736018b1226aa749cb4ad42cc47c96a059be69a5461299ec9c8f5"
       },
       "archivos_catalogo": {
-        "factory_web_paginas.el_sitio_se_usa_en_pantalla_chica": "catalogos/factory_web_paginas.el_sitio_se_usa_en_pantalla_chica.oracle",
+        "factory_web_paginas.cada_pagina_lleva_a_la_siguiente": "catalogos/factory_web_paginas.cada_pagina_lleva_a_la_siguiente.oracle",
         "factory_web_paginas.corrida_completa": "catalogos/factory_web_paginas.corrida_completa.oracle"
       }
     },
     "web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-06T00:58:33.183180+00:00",
       "sha256": "99d7bc117a068ad04afd24c132132d377e703ee4428db5466cd1e4066422c267",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-06T01:09:59.783542+00:00",
       "catalogos": {
         "factory_web_paginas.toda_la_documentacion_esta_en_la_web": "a5f8075caf667fbd127a4119b09f2947a943fb6b56a805396d0e107db4225658",
-        "factory_web_paginas.corrida_completa": "95cf7c47edffcc63ab8f2e584eeaaa2add1ff320e6d376569b8703c23623a2a2"
+        "factory_web_paginas.corrida_completa": "e7f482e8035736018b1226aa749cb4ad42cc47c96a059be69a5461299ec9c8f5"
       },
       "archivos_catalogo": {
         "factory_web_paginas.toda_la_documentacion_esta_en_la_web": "catalogos/factory_web_paginas.toda_la_documentacion_esta_en_la_web.oracle",
         "factory_web_paginas.corrida_completa": "catalogos/factory_web_paginas.corrida_completa.oracle"
       }
+    },
+    "web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica": {
+      "sha256": "103c3fb5e97cf0143990f40815c44c0bde9f0ceaa841e27afe02167a3f8321a1",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-06T01:10:01.285287+00:00",
+      "catalogos": {
+        "factory_web_paginas.el_sitio_se_usa_en_pantalla_chica": "c902eda722740d3246395f115df36955f27267d41304479f0def5ce3ccd46fb3",
+        "factory_web_paginas.corrida_completa": "e7f482e8035736018b1226aa749cb4ad42cc47c96a059be69a5461299ec9c8f5"
+      },
+      "archivos_catalogo": {
+        "factory_web_paginas.el_sitio_se_usa_en_pantalla_chica": "catalogos/factory_web_paginas.el_sitio_se_usa_en_pantalla_chica.oracle",
+        "factory_web_paginas.corrida_completa": "catalogos/factory_web_paginas.corrida_completa.oracle"
+      }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }
