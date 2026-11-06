@@ -1,0 +1,4 @@
+requisito web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web:
+    texto "Tipo: funcional El sistema DEBE tener una página `documentacion.html` que liste cada guía de `docs/` con su título tal como figura en la guía, una frase y su enlace, agrupadas en cuatro grupos, y DEBE fallar el comprobador si falta una guía, si sobra un enlace a una guía que no existe o si un título no coincide."
+    fuente "openspec/changes/20261106-002754-jzt-paginas/specs/web/spec.md#toda_la_documentacion_esta_en_la_web"
+    medido_por factory_web_paginas.toda_la_documentacion_esta_en_la_web, factory_web_paginas.corrida_completa

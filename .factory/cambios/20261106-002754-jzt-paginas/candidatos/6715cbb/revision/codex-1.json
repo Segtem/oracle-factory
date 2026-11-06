@@ -1,0 +1,33 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-paginas/.factory/local/revisiones/6715cbb-codex-1",
+  "base": "8e8f7ee10031262e855a5b7eae5dab7ff689ab97",
+  "head": "6715cbb719718cd56068681c9dde0f51d380b7a9",
+  "diff_sha256": "d42881b7446416cf1f2002bc6a3066d5b7bc805f577e93a3a8e7f13148f23c2b",
+  "context_sha256": "48cf6fe8b968039e881b0bc3f3841236b85bbccfb75d79e02bc20e68a7ae925d",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "WPG-007",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "El comprobador ignora bloques marcados duplicados",
+      "explanation": "`_actual()` sólo extrae la primera pareja de marcadores de cada bloque. `problemas()` compara esa primera pareja con la tabla, pero no rechaza parejas adicionales. Así puede quedar un segundo menú editado manualmente (o un pie o bloque de lectura duplicado) en el HTML y el comprobador informa que no hay problemas. El requisito promete detectar un menú, pie o bloque de lectura editado a mano y mantener una única salida desde la tabla. El defecto requiere inyectar HTML a mano, por eso lo clasifico bajo.",
+      "location": {"file": "tools/sitio_paginas.py", "start_line": 72, "end_line": 74, "side": "head"},
+      "trigger": "En una copia de site/modos.html, duplicar el bloque `<!-- menu -->…<!-- /menu -->` después del original y cambiar el texto «Modos» por «MODOS MAL» sólo en la copia duplicada; ejecutar `sitio_paginas.problemas(copia)`.",
+      "evidence": "La mutación se reprodujo en un directorio temporal: `problemas()` devolvió `[]`. `re.search` en `_actual` sólo devuelve la primera coincidencia; la comparación en `problemas` (tools/sitio_paginas.py:168–173) valida únicamente ese contenido. Los enlaces del duplicado siguen siendo válidos, así que `problemas_de_enlaces` tampoco lo detecta.",
+      "related_requirement": "el_menu_es_el_mismo_en_todas_las_paginas; la página que se salió de la tabla / bloque editado a mano",
+      "status": "pendiente",
+      "verification": "Mutación manual reproducida en copia temporal; el checkout candidato permaneció sin cambios."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff y el contexto del paquete; `omissions` está vacío, sin archivos binarios omitidos.",
+    "Corrí `python -m unittest tests.test_web_paginas -v`: 11 pruebas pasaron y el escenario Chromium a 360 px se omitió porque falta Node, Chromium y Playwright como conjunto. No ejecuté la suite completa.",
+    "Corrí `python tools/sitio_paginas.py`: informó `sin problemas`.",
+    "La mutación WPG-007 (bloque menu marcado duplicado y alterado) sobrevive al comprobador. WPG-001 a WPG-006 de rondas anteriores no reaparecen: están las verificaciones y pruebas para enlaces/frases de documentación, query strings, IDs duplicados, grupos exactos, anterior/siguiente y logo de portada.",
+    "`tests/datos/guias-texto.json` fue modificado y lo declaro: las tres líneas quitadas corresponden a reacomodos de JSON al agregar el texto extraído de los nuevos bloques de lectura en tres fixtures; la edición está justificada por el cambio. No encontré tests existentes editados."
+  ]
+}

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:209f0274ead644ec695800759f9a5f18ef06bc6a7c1d6be25004977032bb37f4 -->
+<!-- oracle-factory resumen sha256:f51d13d42b01f0f87698bc16b5ce5ae47ba49983720a14cca7ae54cdc4a751d7 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-29 capacidades · 291 requisitos vigentes · 0 cambios abiertos
+29 capacidades · 295 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -502,6 +502,10 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 | los_escenarios_cuentan_la_concurrencia | funcional | `web_cc8d4b754936380f4.los_escenarios_cuentan_la_concurrencia` | factory_web_concurrencia.los_escenarios_cuentan_la_concurrencia, factory_web_concurrencia.corrida_completa | verde al cerrar el 2026-11-06 | 20261105-225104-64i-concurrencia |
 | la_escena_se_controla_y_es_accesible | funcional | `web_cc8d4b754936380f4.la_escena_se_controla_y_es_accesible` | factory_web_concurrencia.la_escena_se_controla_y_es_accesible, factory_web_concurrencia.corrida_completa | verde al cerrar el 2026-11-06 | 20261105-225104-64i-concurrencia |
 | la_simulacion_dice_que_es_una_simulacion | funcional | `web_cc8d4b754936380f4.la_simulacion_dice_que_es_una_simulacion` | factory_web_concurrencia.la_simulacion_dice_que_es_una_simulacion, factory_web_concurrencia.corrida_completa | verde al cerrar el 2026-11-06 | 20261105-225104-64i-concurrencia |
+| el_menu_es_el_mismo_en_todas_las_paginas | funcional | `web_c3777bed32379e332.el_menu_es_el_mismo_en_todas_las_paginas` | factory_web_paginas.el_menu_es_el_mismo_en_todas_las_paginas, factory_web_paginas.corrida_completa | verde al cerrar el 2026-11-06 | 20261106-002754-jzt-paginas |
+| cada_pagina_lleva_a_la_siguiente | funcional | `web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente` | factory_web_paginas.cada_pagina_lleva_a_la_siguiente, factory_web_paginas.corrida_completa | verde al cerrar el 2026-11-06 | 20261106-002754-jzt-paginas |
+| toda_la_documentacion_esta_en_la_web | funcional | `web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web` | factory_web_paginas.toda_la_documentacion_esta_en_la_web, factory_web_paginas.corrida_completa | verde al cerrar el 2026-11-06 | 20261106-002754-jzt-paginas |
+| el_sitio_se_usa_en_pantalla_chica | funcional | `web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica` | factory_web_paginas.el_sitio_se_usa_en_pantalla_chica, factory_web_paginas.corrida_completa | verde al cerrar el 2026-11-06 | 20261106-002754-jzt-paginas |
 
 ## Cambios abiertos
 
@@ -560,6 +564,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **assertions-counts-non-assertion-text** (20261101-012816-1qf-testseditados): El contador suma texto que solo contiene “assert”. Aceptado por Brian Hollweg: Acepto el riesgo: El contador suma texto que solo contiene “assert”
 - **PA17-004** (20261104-033615-oj8-publicada-a17): El detector omite la construcción invertida «aún/todavía no está/fue publicada la 0.1.0a17». Aceptado por Brian Hollweg: Acepto el riesgo: El detector omite la construcción invertida «aún/todavía no está/fue publicada la 0.1.0a17»
 - **PA17-004-2** (20261104-033615-oj8-publicada-a17): El detector omite «pendiente de publicación» para la a17. Aceptado por Brian Hollweg: Acepto el riesgo: El detector omite «pendiente de publicación» para la a17
+- **WPG-007** (20261106-002754-jzt-paginas): El comprobador ignora bloques marcados duplicados. Aceptado por Brian Hollweg: Acepto el riesgo: El comprobador ignora bloques marcados duplicados
 
 ### Históricos
 
@@ -1606,6 +1611,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261105-225104-64i-concurrencia) codex (gpt-6-luna): Inspeccioné las correcciones contra CC-1 a CC-8: cierre comprueba revisión vigente; eventos usan rama y secuencia; las acciones de ramas ajenas están bloqueadas salvo revisar; decisiones y actores no modelados lanzan error. No vi regresiones en esas rutas.
 - (20261105-225104-64i-concurrencia) codex (gpt-6-luna): tests/datos/guias-texto.json quitó la continuación anterior y la reemplazó por el texto de la nueva frase/enlace añadidos a colaboracion.html; la actualización del fixture está justificada. No se modificó una prueba existente.
 - (20261105-225104-64i-concurrencia) codex (gpt-6-luna): El paquete informa omissions vacío; no abrí ni declaro archivos binarios.
+- (20261106-002754-jzt-paginas) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261106-002754-jzt-paginas) codex (gpt-6-luna): Leí la propuesta, la spec, el diff y el contexto del paquete; `omissions` está vacío, sin archivos binarios omitidos.
+- (20261106-002754-jzt-paginas) codex (gpt-6-luna): Corrí `python -m unittest tests.test_web_paginas -v`: 11 pruebas pasaron y el escenario Chromium a 360 px se omitió porque falta Node, Chromium y Playwright como conjunto. No ejecuté la suite completa.
+- (20261106-002754-jzt-paginas) codex (gpt-6-luna): Corrí `python tools/sitio_paginas.py`: informó `sin problemas`.
+- (20261106-002754-jzt-paginas) codex (gpt-6-luna): La mutación WPG-007 (bloque menu marcado duplicado y alterado) sobrevive al comprobador. WPG-001 a WPG-006 de rondas anteriores no reaparecen: están las verificaciones y pruebas para enlaces/frases de documentación, query strings, IDs duplicados, grupos exactos, anterior/siguiente y logo de portada.
+- (20261106-002754-jzt-paginas) codex (gpt-6-luna): `tests/datos/guias-texto.json` fue modificado y lo declaro: las tres líneas quitadas corresponden a reacomodos de JSON al agregar el texto extraído de los nuevos bloques de lectura en tres fixtures; la edición está justificada por el cambio. No encontré tests existentes editados.
 
 ### Históricos
 

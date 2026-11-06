@@ -473,7 +473,11 @@
   "Quiero usar Factory en otro proyecto",
   "La herramienta se instala una vez. Entrá en la carpeta del proyecto o usá",
   "oracle-factory --proyecto ./mi-proyecto init",
-  ". Escribí allí su acuerdo, medidas y sensor propios; el ejemplo de notas no demuestra propiedades de otro programa. Conservá las tareas y artefactos de cada proyecto en su carpeta."
+  ". Escribí allí su acuerdo, medidas y sensor propios; el ejemplo de notas no demuestra propiedades de otro programa. Conservá las tareas y artefactos de cada proyecto en su carpeta.",
+  "← Anterior",
+  "Portada",
+  "Siguiente →",
+  "Modos"
  ],
  "modos.html": [
   "PERSONAS / AGENTES / DECISIONES",
@@ -634,7 +638,11 @@
   "docs/modos.md",
   ".",
   "Volver a la portada",
-  "↗"
+  "↗",
+  "← Anterior",
+  "Desde cero",
+  "Siguiente →",
+  "En equipo"
  ],
  "colaboracion.html": [
   "VARIAS PERSONAS / SUS AGENTES / UN PRODUCTO",
@@ -804,6 +812,10 @@
   "Una corrida con agentes de verdad (Claude Code y Codex), uno por persona: dos frentes que chocan al integrar y un relevo entre los dos agentes.",
   "Lo que falta medir: cuánto esperan las personas, dónde se confunden y si el reparto escrito alcanza en la práctica. Windows y macOS no se probaron. Factory tampoco autentica a las personas: el nombre registrado es el de la configuración de Git de quien tiene la terminal.",
   "Volver a la portada",
-  "↗"
+  "↗",
+  "← Anterior",
+  "Modos",
+  "Siguiente →",
+  "Simulación"
  ]
 }

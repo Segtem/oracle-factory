@@ -1,0 +1,30 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-paginas/.factory/local/revisiones/72e0999-codex-1",
+  "base": "8e8f7ee10031262e855a5b7eae5dab7ff689ab97",
+  "head": "72e0999374ba62edefaac32d27c23d461ede63dd",
+  "diff_sha256": "cfdeed46ed4e0493bcc0d7a5aed840c1e7cc6b5d0e48718e70ea14d6ab532f41",
+  "context_sha256": "31e7dc8e038c542da7d899de5c6ad2307320455cd008781669adc6375b4d7c9a",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [{
+    "id": "WPG-005",
+    "kind": "discrepancia_con_spec",
+    "severity": "media",
+    "confidence": 0.99,
+    "title": "El comprobador no valida que las guías estén repartidas entre los cuatro grupos",
+    "explanation": "La spec exige que las doce guías estén agrupadas en cuatro grupos y que cada guía figure en un solo grupo. El comprobador cuenta cuatro elementos `<section class=\"docs-grupo\">` y valida las guías globalmente, pero no asocia cada enlace con un grupo ni verifica que los grupos tengan contenido o las categorías previstas. Por tanto, las doce guías pueden quedar bajo un solo grupo y los otros tres vacíos mientras `problemas()` sigue aceptando la página.",
+    "location": {"file": "tools/sitio_paginas.py", "start_line": 112, "end_line": 119, "side": "head"},
+    "trigger": "En una copia temporal, moví las doce entradas `<li>` de los grupos segundo a cuarto al primero, dejando las cuatro secciones presentes. `sitio_paginas.problemas(copia)` devolvió `[]`.",
+    "evidence": "El bucle de guías compara nombres únicos, existencia y títulos globalmente (líneas 99–115); al final sólo se verifica que haya cuatro secciones (línea 123). No se comprueba el número de guías por sección ni que cada grupo tenga sus entradas. La mutación de distribución descrita pasó con `[]`.",
+    "related_requirement": "toda_la_documentacion_esta_en_la_web",
+    "status": "pendiente",
+    "verification": "Reproducido sobre copia temporal; el checkout candidato no fue modificado."
+  }],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff y el contexto textual del paquete; `omissions` está vacío y no hay archivos binarios omitidos.",
+    "Ejecuté `python tools/sitio_paginas.py`: informó `sin problemas`. Reproduje en copia temporal que mover todas las entradas a un grupo y dejar los otros tres vacíos también produce `[]`.",
+    "No corrí la suite de unittest ni Chromium; revisé estáticamente las pruebas nuevas. Las correcciones de las vueltas anteriores para query strings e IDs duplicados están en el comprobador y tienen pruebas nuevas específicas.",
+    "`tests/datos/guias-texto.json` sí se modificó: los textos agregados son las etiquetas y destinos de los bloques «Seguí leyendo» en los fixtures existentes. Las líneas retiradas corresponden a comas/cierres reubicados al añadir esos textos; el cambio está justificado."
+  ]
+}
