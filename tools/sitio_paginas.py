@@ -19,6 +19,8 @@ PAGINAS = [
 ]
 ANCLAS = [("formas", "Cuatro caminos"), ("recorrido", "El recorrido"), ("herramientas", "El kit"), ("jugar", "Jugá"), ("novedades", "Qué trae")]
 DOCS = "https://github.com/Segtem/oracle-factory/blob/main/docs/"
+GRUPOS = {"empezar": ["estructura", "agentes", "modos"], "varios": ["colaboracion", "tablero", "revision-guiada"],
+          "calidad": ["tests", "lista-previa", "puerta", "procedencia"], "consultar": ["conocimiento", "trazabilidad"]}
 TABLA = ["index.html"] + [f for f, _, _ in PAGINAS]
 
 
@@ -120,8 +122,12 @@ def problemas_de_documentacion(raiz: Path) -> list[str]:
             real = guias[n].read_text(encoding="utf-8").splitlines()[0].removeprefix("# ").strip()
             if titulo.strip() != real:
                 salida.append(f"documentacion.html: el título de docs/{n}.md es «{real}», no «{titulo.strip()}»")
-    if len(re.findall(r'<section class="docs-grupo"', texto)) != 4:
-        salida.append("documentacion.html no tiene cuatro grupos")
+    secciones = re.findall(r'<section class="docs-grupo" id="([^"]+)".*?</section>', texto, re.S)
+    if sorted(secciones) != sorted(GRUPOS) or len(re.findall(r'<section class="docs-grupo"', texto)) != 4:
+        salida.append("documentacion.html no tiene los cuatro grupos " + ", ".join(GRUPOS))
+    for m in re.finditer(r'<section class="docs-grupo" id="([^"]+)".*?</section>', texto, re.S):
+        if m[1] in GRUPOS and re.findall(r'data-doc="([^"]+)"', m[0]) != GRUPOS[m[1]]:
+            salida.append(f"documentacion.html: el grupo «{m[1]}» debe tener las guías {', '.join(GRUPOS[m[1]])}")
     return salida
 
 

@@ -454,6 +454,32 @@
         "factory_web_paginas.toda_la_documentacion_esta_en_la_web",
         "factory_web_paginas.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-06T13:54:51.946743+00:00",
+      "revisor": "codex",
+      "candidato": "72e0999",
+      "lanzamiento": "6de68022fbfb"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-06T13:56:58.140216+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "72e0999",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "6de68022fbfb"
     }
   ],
   "tipos": {

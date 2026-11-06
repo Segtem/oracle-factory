@@ -197,6 +197,17 @@ class WebPaginas(unittest.TestCase):
         pagina = dest / 'site' / 'documentacion.html'
         pagina.write_text(re.sub(r'(data-doc="agentes"[^>]*>[^<]*</a>)<p>[^<]*</p>', r'\1<p></p>', pagina.read_text(encoding='utf-8'), count=1), encoding='utf-8')
         self.assertTrue(any('falta la frase' in x and 'agentes' in x for x in sitio_paginas.problemas(dest)))
+        dest = copia(self.tmp / 'k')  # las doce guías en un solo grupo y los otros tres vacíos
+        pagina = dest / 'site' / 'documentacion.html'
+        texto = pagina.read_text(encoding='utf-8')
+        lis = re.findall(r'<li>.*?</li>', texto, re.S)
+        resto = texto
+        for li in lis[3:]:
+            resto = resto.replace(li, '', 1)
+        primero = resto.replace('</ul></section>', ''.join(lis[3:]) + '</ul></section>', 1)
+        pagina.write_text(primero, encoding='utf-8')
+        malos = sitio_paginas.problemas(dest)
+        self.assertTrue(any('grupo' in x and 'varios' in x for x in malos), malos)
         dest = copia(self.tmp / 'c')
         (dest / 'docs' / 'tests.md').unlink()
         self.assertTrue(any('tests' in x and 'no existe' in x for x in sitio_paginas.problemas(dest)))
