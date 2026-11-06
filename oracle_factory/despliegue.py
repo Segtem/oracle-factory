@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import re
+import signal
 import subprocess
 import tempfile
 import time
@@ -67,6 +68,9 @@ def cargar(raiz: Path) -> dict:
     if conjunto is not None:
         if not isinstance(conjunto, dict) or set(conjunto) - {"probar", "tope_segundos"} or not isinstance(conjunto.get("probar"), str) or not conjunto["probar"].strip():
             raise DeclaracionInvalida("conjunto: se espera {\"probar\": \"comando\"}")
+        tope = conjunto.get("tope_segundos", TOPE)
+        if not isinstance(tope, int) or isinstance(tope, bool) or tope <= 0:
+            raise DeclaracionInvalida("conjunto: «tope_segundos» es un número entero positivo")
     return {"rama": rama, "politica": politica, "destinos": destinos, "conjunto": conjunto}
 
 
@@ -82,6 +86,9 @@ def _destino(nombre: str, d: object, todos: dict) -> dict:
             raise DeclaracionInvalida(f"destino «{nombre}»: «{campo}» tiene que ser un comando (texto)")
     if "desplegar" not in d:
         raise DeclaracionInvalida(f"destino «{nombre}»: falta el campo «desplegar» (el comando que lo despliega)")
+    if "version" not in d:
+        raise DeclaracionInvalida(f"destino «{nombre}»: falta el campo «version» (el comando que imprime el commit que corre): sin él no se puede "
+                                  "comprobar que el destino quedó con la versión del plan")
     tipo = d.get("tipo", "otro")
     if not isinstance(tipo, str) or not tipo.strip():
         raise DeclaracionInvalida(f"destino «{nombre}»: «tipo» es una etiqueta de texto")
@@ -178,13 +185,21 @@ def _correr(comando: str, raiz: Path, env: dict, tope: int) -> tuple[int, str, f
     """(código, salida, segundos). Un comando que se pasa del tope o no arranca es un fallo, no un cuelgue."""
     inicio = time.monotonic()
     try:
-        r = subprocess.run(["sh", "-c", comando], cwd=raiz, env=env, capture_output=True, text=True, timeout=tope, stdin=subprocess.DEVNULL)
-        return r.returncode, (r.stdout or "") + (r.stderr or ""), time.monotonic() - inicio
-    except subprocess.TimeoutExpired as e:
-        parcial = (e.stdout or b"").decode("utf-8", "replace") if isinstance(e.stdout, bytes) else (e.stdout or "")
-        return 124, parcial + f"\n[se pasó del tope de {tope} s]", time.monotonic() - inicio
+        # Su propia sesión: si se pasa del tope se mata todo el grupo, no sólo el shell (un hijo en segundo plano seguiría tocando el destino).
+        p = subprocess.Popen(["sh", "-c", comando], cwd=raiz, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+                             stdin=subprocess.DEVNULL, start_new_session=True)
     except OSError as e:
         return 127, f"no se pudo ejecutar: {e}", time.monotonic() - inicio
+    try:
+        salida, _ = p.communicate(timeout=tope)
+        return p.returncode, salida or "", time.monotonic() - inicio
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(p.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        salida, _ = p.communicate()
+        return 124, (salida or "") + f"\n[se pasó del tope de {tope} s y se mató el grupo de procesos]", time.monotonic() - inicio
 
 
 def _tapar(texto: str, secretos: dict[str, str]) -> str:
@@ -302,7 +317,7 @@ def _cerrar(registro: dict, decl: dict, raiz: Path, plan: dict, correr: Callable
     destinos = registro["destinos"]
     fallo = any(destinos[n]["estado"] in ("fallido", "inalcanzable") for n in plan["orden"])
     avisos = []
-    if fallo and corte:
+    if fallo:  # con «cortar» o con «seguir»: la corrida no se queda a medias, se vuelve atrás lo desplegado
         for n in reversed(plan["orden"]):  # lo ya desplegado en esta corrida (menos lo que falló), del último al primero
             r, d = destinos[n], decl["destinos"][n]
             if r["estado"] not in ("probado", "desplegado"):

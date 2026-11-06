@@ -226,6 +226,32 @@
         "factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho",
         "factory_despliegue.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-06T21:21:03.929744+00:00",
+      "revisor": "codex",
+      "candidato": "1915e91",
+      "lanzamiento": "7bf42ad9312f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-06T21:23:13.754737+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "1915e91",
+      "resultado": "ok",
+      "hallazgos": 4,
+      "lanzamiento": "7bf42ad9312f"
     }
   ],
   "tipos": {

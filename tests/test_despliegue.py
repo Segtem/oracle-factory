@@ -10,6 +10,7 @@ import stat
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from unittest import mock
 
@@ -89,6 +90,7 @@ class DeclaracionDd1(Base):
             'ciclo': ({'a': destino('a', depende_de=['b']), 'b': destino('b', depende_de=['a'])}, ('ciclo',)),
             'secreto con valor': ({'api': destino('api', secretos=['TOKEN=' + AWS])}, ('api', 'secretos')),
             'campo desconocido': ({'api': destino('api', desplgar='x')}, ('api', 'desplgar')),
+            'sin version': ({'api': {k: v for k, v in destino('api').items() if k != 'version'}}, ('api', 'version')),
             'comando que no es texto': ({'api': destino('api', probar=['test'])}, ('api', 'probar')),
         }
         for i, (nombre, (destinos, palabras)) in enumerate(casos.items()):
@@ -104,6 +106,14 @@ class DeclaracionDd1(Base):
                 salida = correr(raiz, 'desplegar', '--simular')
                 self.assertNotEqual(salida.returncode, 0)
                 self.assertIn(palabras[0], salida.stderr + salida.stdout)
+
+        for i, tope in enumerate((0, -1, 'diez', True)):  # el tope de la prueba de conjunto también se valida al leer
+            sub = Path(self.tmp) / f'tope{i}'
+            sub.mkdir()
+            raiz = proyecto(sub, {'api': destino('api')}, conjunto={'probar': 'true', 'tope_segundos': tope})
+            with self.assertRaises(despliegue.DeclaracionInvalida, msg=repr(tope)) as c:
+                despliegue.cargar(raiz)
+            self.assertIn('tope_segundos', str(c.exception))
 
     def test_dd1_sin_declaracion_lo_dice(self):
         raiz = proyecto(self.tmp, {'api': destino('api')})
@@ -224,7 +234,8 @@ class FalloDd4(Base):
         raiz = proyecto(self.tmp, {'a': destino('a', probar='false'), 'b': destino('b', depende_de=['a']), 'c': destino('c')}, politica_ante_fallo='seguir')
         r = desplegar(raiz)
         estados = {n: d['estado'] for n, d in r['destinos'].items()}
-        self.assertEqual(estados['c'], 'probado')
+        self.assertEqual(estados['c'], 'revertido')  # siguió con el independiente, pero la corrida no queda a medias
+        self.assertFalse((raiz / 'srv' / 'c').exists())
         self.assertEqual(estados['b'], 'sin_desplegar')
         self.assertEqual(estados['a'], 'fallido')
 
@@ -240,6 +251,27 @@ class FalloDd4(Base):
         raiz = proyecto(self.tmp, {'api': destino('api', volver='false'), 'app': destino('app', depende_de=['api'], probar='false')})
         r = desplegar(raiz)
         self.assertEqual(r['destinos']['api']['estado'], 'fallido')
+        # un comando que se cuelga y deja un hijo vivo: se mata todo el grupo, no sólo el shell, y la corrida queda registrada
+        sub = Path(self.tmp) / 'cuelga'
+        sub.mkdir()
+        colgado = proyecto(sub, {'api': destino('api', desplegar='sleep 60 & echo $! > hijo.pid; wait', tope_segundos=1)})
+        inicio = time.monotonic()
+        r = desplegar(colgado)
+        self.assertLess(time.monotonic() - inicio, 20)  # no esperó al hijo de 60 s
+        self.assertEqual(r['destinos']['api']['estado'], 'fallido')
+        self.assertEqual(r['destinos']['api']['pasos']['desplegar']['codigo'], 124)
+        self.assertIn('tope', r['destinos']['api']['pasos']['desplegar']['salida'])
+        pid = int((colgado / 'hijo.pid').read_text())
+        for _ in range(40):
+            try:
+                os.kill(pid, 0)
+            except ProcessLookupError:
+                break
+            time.sleep(0.1)
+        else:
+            os.kill(pid, 9)
+            self.fail('el hijo del comando siguió vivo tras el tope')
+        self.assertTrue(list((colgado / '.factory' / 'despliegues').glob('*/registro.json')))
 
     def test_dd4_desactualizado_se_calcula_contra_la_punta_y_desconocido_si_no_se_alcanza(self):
         raiz = proyecto(self.tmp, {'api': destino('api')})

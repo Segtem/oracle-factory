@@ -22,7 +22,7 @@ el conjunto, y deja un registro. Nada se despliega solo: ni por CI, ni por un ag
 }
 ```
 
-Sólo `desplegar` es obligatorio. Cada comando corre desde la raíz del proyecto con `FACTORY_COMMIT` (el commit del plan),
+Son obligatorios `desplegar` y `version` (sin saber qué versión corre, no se puede comprobar que el destino quedó como el plan). Cada comando corre desde la raíz del proyecto con `FACTORY_COMMIT` (el commit del plan),
 `FACTORY_DESTINO` y `FACTORY_RAMA` en el entorno. `secretos` lleva **nombres** de variables de entorno, nunca el valor: Factory
 comprueba que existan y tapa su valor en lo que registra.
 
@@ -30,7 +30,7 @@ comprueba que existan y tapa su valor en lo que registra.
 | --- | --- |
 | `alcanzable` | antes de tocar nada: si falla, el destino queda «inalcanzable» (nunca verde) |
 | `construir`, `desplegar` | lo que hace el despliegue |
-| `version` | imprime el commit que corre; si no es el del plan, el destino queda «fallido» |
+| `version` (obligatorio) | imprime el commit que corre; si no es el del plan, el destino queda «fallido» |
 | `probar` | prueba de humo; sin ella el destino queda «desplegado», no «probado» |
 | `volver` | cómo volver atrás si otro destino falla |
 | `depende_de` | destinos que tienen que estar probados antes |
@@ -46,7 +46,7 @@ oracle-factory desplegar --autorizar     # una persona, desde su terminal: ejecu
 
 El plan se niega si la puerta local no está en verde o si el commit no está en la rama de despliegue. Con `cortar` (por defecto) el
 primer fallo detiene la corrida y vuelve atrás, del último al primero, lo que ya se desplegó; con `seguir` se continúa con los
-destinos que no dependen del caído. Lo que no tiene `volver` queda «desplegado» con un aviso.
+destinos que no dependen del caído, para ver todo lo que falla, y al final se vuelve atrás igual lo que se desplegó. Lo que no tiene `volver` queda «desplegado» con un aviso.
 
 Estados: `sin_desplegar`, `desplegado`, `probado`, `fallido`, `revertido`, `inalcanzable`. «Desactualizado» se calcula comparando
 la versión que el destino dice que corre con la punta de la rama; si no responde, es «desconocido».
