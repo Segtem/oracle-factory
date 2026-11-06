@@ -11,7 +11,7 @@ vigente: true
 - Id: `despliegue_c1f413032a7a55aa1.sirve_para_cualquier_proyecto`
 - Vigente: sí
 - Cambio: [[cambios/20261106-205202-8od-destinos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_despliegue.sirve_para_cualquier_proyecto`, `factory_despliegue.corrida_completa`
 - Fuente: openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md#sirve_para_cualquier_proyecto
 

@@ -63,3 +63,11 @@ Medidas de despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_un
 ### Nota (2026-11-06 21:13:08 UTC)
 
 Medidas de despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-06 22:59:02 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres rondas de codex: la última sin hallazgos. Cerrados DPL-01 a DPL-06 con prueba y mutaciones: versión obligatoria, tope del conjunto validado, rollback también con seguir, el tope mata el grupo de procesos, --destino arrastra sus dependencias y el conjunto es obligatorio. Evidencia: 1190 pruebas, 23 casos de contrato, éxito. Declarado: tests/datos/ayuda-cli.json (entradas nuevas) y el conteo de guías de test_web_paginas.py (12 a 13). Fuera: 'alcance' del diseño no se implementó.); 0 abiertos derivados; commit 8b057d021e43dc65938720411025636f4d73ba12; informe tareas/20261106-205202-8od-destinos/revisiones/registro-m_7rqyuk/informe.json; decisiones tareas/20261106-205202-8od-destinos/revisiones/registro-m_7rqyuk/decisiones.json.
+
+### Nota (2026-11-06 22:59:19 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261106-205202-8od-destinos/oracle-veredicto.txt.

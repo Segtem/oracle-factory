@@ -2,7 +2,7 @@
   "id": "20261106-205202-8od-destinos",
   "titulo": "Despliegue a varios destinos con prueba de que todo quedó funcionando",
   "capacidad": "despliegue",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md",
   "spec_sha256": "c40573585e12d76fe2a2b56bf287ce02a01cce529b42c40e0d84041529a639e2",
   "spec_aprobada": {
@@ -24,8 +24,40 @@
     "despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_una_persona",
     "despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261106-205202-8od-destinos/revisiones/registro-m_7rqyuk/informe.json",
+    "sha256": "243cc92e748ae7fa2f030611443eb34bc055112b224760d341f0c89afcc9e062",
+    "decisiones": "tareas/20261106-205202-8od-destinos/revisiones/registro-m_7rqyuk/decisiones.json",
+    "decisiones_sha256": "645b5921650d600ac2c3a56825d4e90c8b258c9ef1d909de0e971119a56cc8cf",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-06T22:59:02.558938+00:00",
+    "motivo": "Tres rondas de codex: la última sin hallazgos. Cerrados DPL-01 a DPL-06 con prueba y mutaciones: versión obligatoria, tope del conjunto validado, rollback también con seguir, el tope mata el grupo de procesos, --destino arrastra sus dependencias y el conjunto es obligatorio. Evidencia: 1190 pruebas, 23 casos de contrato, éxito. Declarado: tests/datos/ayuda-cli.json (entradas nuevas) y el conteo de guías de test_web_paginas.py (12 a 13). Fuera: 'alcance' del diseño no se implementó.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "8b057d021e43dc65938720411025636f4d73ba12",
+      "archivos_sha256": "59890eab52c9a12f46101f642edf946d0ce8dc82dc2ba482fa34edc89944ca38"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261106-205202-8od-destinos/candidatos/ecf2443/evidencia/hechos.json",
+    "hechos_sha256": "f1005dceb67690930582205335e84ba8c94bc370361bbc2d2ff483cbf6063299",
+    "informe": ".factory/cambios/20261106-205202-8od-destinos/oracle-veredicto.txt",
+    "informe_sha256": "a84732739ced73bad41dd29f6ab9ba2625c9780f8758d26261e3042e2872bc8d",
+    "cuando": "2026-11-06T22:59:19.515104+00:00",
+    "contexto": {
+      "head": "8b057d021e43dc65938720411025636f4d73ba12",
+      "archivos_sha256": "59890eab52c9a12f46101f642edf946d0ce8dc82dc2ba482fa34edc89944ca38"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -314,6 +346,31 @@
       "cuando": "2026-11-06T22:47:17.532038+00:00",
       "decision": "aprobar",
       "candidato": "ecf2443"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-06T22:59:02.558977+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "243cc92e748ae7fa2f030611443eb34bc055112b224760d341f0c89afcc9e062",
+      "decisiones_sha256": "645b5921650d600ac2c3a56825d4e90c8b258c9ef1d909de0e971119a56cc8cf"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-06T22:59:19.515126+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "f1005dceb67690930582205335e84ba8c94bc370361bbc2d2ff483cbf6063299"
     }
   ],
   "tipos": {
@@ -423,14 +480,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Tres rondas de codex: la última sin hallazgos. Cerrados DPL-01 a DPL-06 con prueba y mutaciones: versión obligatoria, tope del conjunto validado, rollback también con seguir, el tope mata el grupo de procesos, --destino arrastra sus dependencias y el conjunto es obligatorio. Evidencia: 1190 pruebas, 23 casos de contrato, éxito. Declarado: tests/datos/ayuda-cli.json (entradas nuevas) y el conteo de guías de test_web_paginas.py (12 a 13). Fuera: 'alcance' del diseño no se implementó.",
-      "candidato": "ecf2443",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-06T22:47:17.532016+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

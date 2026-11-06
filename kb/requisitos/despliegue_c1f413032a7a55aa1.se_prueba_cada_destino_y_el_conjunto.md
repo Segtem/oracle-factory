@@ -11,7 +11,7 @@ vigente: true
 - Id: `despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto`
 - Vigente: sí
 - Cambio: [[cambios/20261106-205202-8od-destinos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_despliegue.se_prueba_cada_destino_y_el_conjunto`, `factory_despliegue.corrida_completa`
 - Fuente: openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md#se_prueba_cada_destino_y_el_conjunto
 

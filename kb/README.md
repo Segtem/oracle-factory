@@ -107,7 +107,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261104-221348-2l1-binarios]] — Revisión: los archivos binarios del paquete no impiden aprobar (cerrada)
 - [[cambios/20261105-225104-64i-concurrencia]] — Web: simulación pixel art de personas y agentes trabajando a la vez (cerrada)
 - [[cambios/20261106-002754-jzt-paginas]] — Web: un menú, un orden de lectura y toda la documentación (cerrada)
-- [[cambios/20261106-205202-8od-destinos]] — Despliegue a varios destinos con prueba de que todo quedó funcionando (requisitos_importados)
+- [[cambios/20261106-205202-8od-destinos]] — Despliegue a varios destinos con prueba de que todo quedó funcionando (oracle_verde)
 
 ## Requisitos
 

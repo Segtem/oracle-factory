@@ -11,7 +11,7 @@ vigente: true
 - Id: `despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho`
 - Vigente: sí
 - Cambio: [[cambios/20261106-205202-8od-destinos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho`, `factory_despliegue.corrida_completa`
 - Fuente: openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md#un_fallo_deja_cada_destino_en_un_estado_dicho
 

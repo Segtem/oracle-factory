@@ -11,7 +11,7 @@ vigente: true
 - Id: `despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secretos`
 - Vigente: sí
 - Cambio: [[cambios/20261106-205202-8od-destinos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_despliegue.cada_ejecucion_deja_evidencia_sin_secretos`, `factory_despliegue.corrida_completa`
 - Fuente: openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md#cada_ejecucion_deja_evidencia_sin_secretos
 
