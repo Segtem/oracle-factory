@@ -91,6 +91,19 @@ class WebPaginas(unittest.TestCase):
         (dest / 'site' / 'suelta.html').write_text('<!doctype html><html lang="es"><body><main></main></body></html>', encoding='utf-8')
         self.assertTrue(any('suelta.html' in x and 'tabla' in x for x in sitio_paginas.problemas(dest)))
 
+    def test_wp1_un_enlace_roto_o_un_ancla_que_no_existe_falla_nombrando_la_pagina(self):
+        dest = copia(self.tmp)
+        for nombre, antes, despues in (('modos.html', 'href="./colaboracion.html"', 'href="./colaboracionn.html"'),
+                                       ('desde-cero.html', 'href="./index.html#formas"', 'href="./index.html#no-existe"'),
+                                       ('colaboracion.html', 'href="./concurrencia.html', 'href="./concurrenciaa.html')):
+            p = dest / 'site' / nombre
+            texto = p.read_text(encoding='utf-8')
+            self.assertIn(antes, texto, nombre)
+            p.write_text(texto.replace(antes, despues, 1), encoding='utf-8')
+        ps = sitio_paginas.problemas(dest)
+        for nombre, parte in (('modos.html', 'ninguna página'), ('desde-cero.html', 'ancla que no existe'), ('colaboracion.html', 'ninguna página')):
+            self.assertTrue(any(x.startswith(nombre) and parte in x for x in ps), (nombre, ps))
+
     def test_wp1_escribir_rehace_los_bloques_y_es_idempotente(self):
         dest = copia(self.tmp)
         for nombre in PAGINAS:
@@ -155,6 +168,14 @@ class WebPaginas(unittest.TestCase):
         texto = pagina.read_text(encoding='utf-8')
         pagina.write_text(texto.replace('</ul></section>', '<li><a href="x" data-doc="puerta">La puerta local de salida</a></li></ul></section>', 1), encoding='utf-8')
         self.assertTrue(any('dos veces' in x and 'puerta' in x for x in sitio_paginas.problemas(dest)))
+        dest = copia(self.tmp / 'g')
+        pagina = dest / 'site' / 'documentacion.html'
+        pagina.write_text(pagina.read_text(encoding='utf-8').replace('/blob/main/docs/estructura.md', '/blob/main/docs/otra.md', 1), encoding='utf-8')
+        self.assertTrue(any('estructura' in x and 'debe ser' in x for x in sitio_paginas.problemas(dest)))
+        dest = copia(self.tmp / 'h')
+        pagina = dest / 'site' / 'documentacion.html'
+        pagina.write_text(re.sub(r'(data-doc="agentes"[^>]*>[^<]*</a>)<p>[^<]*</p>', r'\1<p></p>', pagina.read_text(encoding='utf-8'), count=1), encoding='utf-8')
+        self.assertTrue(any('falta la frase' in x and 'agentes' in x for x in sitio_paginas.problemas(dest)))
         dest = copia(self.tmp / 'c')
         (dest / 'docs' / 'tests.md').unlink()
         self.assertTrue(any('tests' in x and 'no existe' in x for x in sitio_paginas.problemas(dest)))

@@ -18,6 +18,7 @@ PAGINAS = [
     ("documentacion.html", "Documentación", "Todas las guías del repositorio, ordenadas por tema."),
 ]
 ANCLAS = [("formas", "Cuatro caminos"), ("recorrido", "El recorrido"), ("herramientas", "El kit"), ("jugar", "Jugá"), ("novedades", "Qué trae")]
+DOCS = "https://github.com/Segtem/oracle-factory/blob/main/docs/"
 TABLA = ["index.html"] + [f for f, _, _ in PAGINAS]
 
 
@@ -91,13 +92,22 @@ def escribir(raiz: Path) -> None:
 
 
 def problemas_de_documentacion(raiz: Path) -> list[str]:
+    salida_href: list[str] = []
     pagina = raiz / "site" / "documentacion.html"
     if not pagina.is_file():
         return ["falta site/documentacion.html"]
     texto = pagina.read_text(encoding="utf-8")
     listadas = re.findall(r'<a [^>]*data-doc="([^"]+)"[^>]*>([^<]*)</a>', texto)
+    for entrada in re.findall(r'<li>(<a [^>]*data-doc="[^"]+"[^>]*>[^<]*</a>.*?)</li>', texto, re.S):
+        nombre = re.search(r'data-doc="([^"]+)"', entrada)[1]
+        href = re.search(r'href="([^"]*)"', entrada)
+        if not href or href[1] != f"{DOCS}{nombre}.md":
+            salida_href.append(f"documentacion.html: el enlace de docs/{nombre}.md debe ser {DOCS}{nombre}.md, no {href[1] if href else 'ninguno'}")
+        frase = re.sub(r"<[^>]+>", "", entrada.split("</a>", 1)[1]).strip()
+        if len(frase) < 30:
+            salida_href.append(f"documentacion.html: falta la frase de docs/{nombre}.md (al menos 30 caracteres)")
     nombres = [n for n, _ in listadas]
-    salida = []
+    salida = salida_href
     guias = {p.stem: p for p in (raiz / "docs").glob("*.md")}
     for g in sorted(set(guias) - set(nombres)):
         salida.append(f"documentacion.html no lista la guía docs/{g}.md")
@@ -112,6 +122,26 @@ def problemas_de_documentacion(raiz: Path) -> list[str]:
                 salida.append(f"documentacion.html: el título de docs/{n}.md es «{real}», no «{titulo.strip()}»")
     if len(re.findall(r'<section class="docs-grupo"', texto)) != 4:
         salida.append("documentacion.html no tiene cuatro grupos")
+    return salida
+
+
+def problemas_de_enlaces(raiz: Path) -> list[str]:
+    """Los enlaces internos de cada página (a otra página, o a un ancla) llevan a algo que existe."""
+    sitio, salida, ids = raiz / "site", [], {}
+    paginas = sorted(sitio.glob("*.html"))
+    for p in paginas:
+        ids[p.name] = set(re.findall(r'\bid="([^"]+)"', p.read_text(encoding="utf-8")))
+    for p in paginas:
+        for href in re.findall(r'<a [^>]*href="([^"]*)"', p.read_text(encoding="utf-8")):
+            if re.match(r"^(https?:|mailto:)", href) or href == "":
+                continue
+            destino, _, ancla = href.partition("#")
+            destino = destino.removeprefix("./") or p.name
+            if destino not in ids:
+                if not (sitio / destino).is_file():  # una imagen o cualquier otro archivo del sitio también vale
+                    salida.append(f"{p.name}: el enlace «{href}» no lleva a ninguna página ni archivo")
+            elif ancla and ancla not in ids[destino]:
+                salida.append(f"{p.name}: el enlace «{href}» apunta a un ancla que no existe en {destino}")
     return salida
 
 
@@ -135,7 +165,7 @@ def problemas(raiz: Path) -> list[str]:
         sobra = "leer" if nombre == "index.html" else "ruta"
         if _actual(texto, sobra) is not None:
             salida.append(f"{nombre}: no debería tener el bloque «{sobra}»")
-    return salida + problemas_de_documentacion(raiz)
+    return salida + problemas_de_documentacion(raiz) + problemas_de_enlaces(raiz)
 
 
 if __name__ == "__main__":
