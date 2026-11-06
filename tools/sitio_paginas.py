@@ -130,13 +130,16 @@ def problemas_de_enlaces(raiz: Path) -> list[str]:
     sitio, salida, ids = raiz / "site", [], {}
     paginas = sorted(sitio.glob("*.html"))
     for p in paginas:
-        ids[p.name] = set(re.findall(r'\bid="([^"]+)"', p.read_text(encoding="utf-8")))
+        todos = re.findall(r'\bid="([^"]+)"', p.read_text(encoding="utf-8"))
+        ids[p.name] = set(todos)
+        for repetido in sorted({x for x in todos if todos.count(x) > 1}):  # un id repetido vuelve ambiguo cualquier enlace a su ancla
+            salida.append(f"{p.name}: el id «{repetido}» aparece dos veces")
     for p in paginas:
         for href in re.findall(r'<a [^>]*href="([^"]*)"', p.read_text(encoding="utf-8")):
             if re.match(r"^(https?:|mailto:)", href) or href == "":
                 continue
-            destino, _, ancla = href.partition("#")
-            destino = destino.removeprefix("./") or p.name
+            sin_ancla, _, ancla = href.partition("#")
+            destino = sin_ancla.partition("?")[0].removeprefix("./") or p.name  # la query no cambia el archivo al que se llega
             if destino not in ids:
                 if not (sitio / destino).is_file():  # una imagen o cualquier otro archivo del sitio también vale
                     salida.append(f"{p.name}: el enlace «{href}» no lleva a ninguna página ni archivo")

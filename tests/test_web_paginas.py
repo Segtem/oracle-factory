@@ -104,6 +104,19 @@ class WebPaginas(unittest.TestCase):
         for nombre, parte in (('modos.html', 'ninguna página'), ('desde-cero.html', 'ancla que no existe'), ('colaboracion.html', 'ninguna página')):
             self.assertTrue(any(x.startswith(nombre) and parte in x for x in ps), (nombre, ps))
 
+    def test_wp1_una_query_no_hace_roto_un_enlace_y_un_id_duplicado_falla(self):
+        dest = copia(self.tmp)
+        p = dest / 'site' / 'modos.html'
+        texto = p.read_text(encoding='utf-8')
+        p.write_text(texto.replace('href="./colaboracion.html"', 'href="./colaboracion.html?ref=menu"', 1).replace('href="./desde-cero.html"', 'href="./desde-cero.html?x=1#instalar"', 1), encoding='utf-8')
+        self.assertEqual([x for x in sitio_paginas.problemas_de_enlaces(dest) if x.startswith('modos.html')], [])
+        p.write_text(texto.replace('href="./desde-cero.html"', 'href="./desde-cero.html?x=1#no-existe"', 1), encoding='utf-8')
+        self.assertTrue(any('modos.html' in x and 'ancla' in x for x in sitio_paginas.problemas_de_enlaces(dest)))
+        dest = copia(self.tmp / 'b')
+        p = dest / 'site' / 'index.html'
+        p.write_text(p.read_text(encoding='utf-8').replace('<main', '<p id="formas">x</p><main', 1), encoding='utf-8')
+        self.assertTrue(any('index.html' in x and 'id' in x and 'formas' in x and 'dos veces' in x for x in sitio_paginas.problemas_de_enlaces(dest)))
+
     def test_wp1_escribir_rehace_los_bloques_y_es_idempotente(self):
         dest = copia(self.tmp)
         for nombre in PAGINAS:
@@ -126,12 +139,20 @@ class WebPaginas(unittest.TestCase):
         while actual != 'index.html':
             camino.append(actual)
             self.assertLess(len(camino), 10)
-            siguiente = vecino(actual, 'next')
-            self.assertEqual(vecino(siguiente, 'prev') if siguiente != 'index.html' else 'index.html', actual if siguiente != 'index.html' else 'index.html')
-            actual = siguiente
+            actual = vecino(actual, 'next')
         self.assertEqual(camino, ORDEN)
-        self.assertEqual(vecino('desde-cero.html', 'prev'), 'index.html')
+        # cada anterior y cada siguiente, uno por uno, contra el orden (el primero y el último vuelven a la portada)
+        for i, nombre in enumerate(ORDEN):
+            self.assertEqual(vecino(nombre, 'prev'), ORDEN[i - 1] if i else 'index.html', nombre)
+            self.assertEqual(vecino(nombre, 'next'), ORDEN[i + 1] if i + 1 < len(ORDEN) else 'index.html', nombre)
         self.assertNotIn('<nav class="leer"', leer(ROOT, 'index.html'))
+
+    def test_wp2_un_anterior_que_no_corresponde_falla(self):
+        dest = copia(self.tmp)
+        p = dest / 'site' / 'documentacion.html'
+        p.write_text(p.read_text(encoding='utf-8').replace('<a rel="prev" href="./concurrencia.html"', '<a rel="prev" href="./modos.html"', 1), encoding='utf-8')
+        self.assertIn('href="./modos.html"><span>← Anterior', p.read_text(encoding='utf-8'))
+        self.assertTrue(any('documentacion.html' in x and 'leer' in x for x in sitio_paginas.problemas(dest)))
 
     def test_wp2_la_portada_dice_por_donde_seguir_y_el_pie_enlaza_todo(self):
         m = re.search(r'<nav class="ruta[^"]*"[^>]*>(.*?)</nav>', leer(ROOT, 'index.html'), re.S)
