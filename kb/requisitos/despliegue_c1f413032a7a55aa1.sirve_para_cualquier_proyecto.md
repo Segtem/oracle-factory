@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261106-205202-8od-destinos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «una mezcla que nadie previó», «las plantillas funcionan»
+- Medidas: `factory_despliegue.sirve_para_cualquier_proyecto`, `factory_despliegue.corrida_completa`
 - Fuente: openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md#sirve_para_cualquier_proyecto
 
 Tipo: funcional El sistema DEBE funcionar para cualquier mezcla de destinos sin código propio de ninguno, y DEBE traer plantillas de ejemplo copiables (servidor por SSH, contenedor, firmware de microcontrolador, app) que una prueba ejecuta contra destinos simulados con scripts locales, sin red ni dispositivos reales.

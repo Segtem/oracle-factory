@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261106-205202-8od-destinos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «todo anda», «un destino apagado», «desplegó pero corre otra versión», «el conjunto falla»
+- Medidas: `factory_despliegue.se_prueba_cada_destino_y_el_conjunto`, `factory_despliegue.corrida_completa`
 - Fuente: openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md#se_prueba_cada_destino_y_el_conjunto
 
 Tipo: funcional El sistema DEBE ejecutar, por destino y en orden, comprobar que se alcanza, construir, desplegar, verificar que corre la versión del plan y correr su prueba de humo, y DEBE correr al final la prueba de conjunto declarada; DEBE decir «todo quedó funcionando» sólo cuando cada destino del plan quedó probado con la versión del plan y la prueba de conjunto pasó, y un destino que no se alcanzó DEBE quedar «inalcanzable», nunca verde.

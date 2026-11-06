@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261106-205202-8od-destinos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «la salida con un secreto», «el estado para el tablero»
+- Medidas: `factory_despliegue.cada_ejecucion_deja_evidencia_sin_secretos`, `factory_despliegue.corrida_completa`
 - Fuente: openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md#cada_ejecucion_deja_evidencia_sin_secretos
 
 Tipo: funcional El sistema DEBE guardar en `.factory/despliegues/` un registro de cada corrida con el commit, quién planeó y quién autorizó, y por destino los estados, las versiones antes y después, los comandos, su salida y los tiempos, DEBE tapar en cualquier salida registrada el valor de los secretos declarados, y DEBE exponer el estado de todos los destinos como `oracle-factory destinos --json` para el tablero.

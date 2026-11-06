@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261106-205202-8od-destinos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «simular no ejecuta nada», «un agente no autoriza», «la puerta en rojo»
+- Medidas: `factory_despliegue.un_despliegue_es_un_plan_que_autoriza_una_persona`, `factory_despliegue.corrida_completa`
 - Fuente: openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md#un_despliegue_es_un_plan_que_autoriza_una_persona
 
 Tipo: funcional El sistema DEBE armar el plan de despliegue de un commit de la rama de despliegue —los destinos en el orden de sus dependencias— y mostrarlo antes de ejecutar algo, DEBE negarse si la puerta local no está en verde o si el commit no está en esa rama, y DEBE ejecutarlo sólo cuando una persona lo autoriza: un agente puede armarlo y simularlo, pero no autorizarlo, y ningún despliegue arranca solo.
