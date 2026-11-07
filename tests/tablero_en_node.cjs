@@ -1,14 +1,14 @@
 /* El tablero de la extensión en node, con un `vscode` falso: lo abre, le manda los clics que haría una persona
    y avisa que cambió un registro.
    node tests/tablero_en_node.cjs <carpeta de la extensión> <carpeta del proyecto> <mensajes JSON> [factory.comando]
-   Imprime JSON: {html, htmlDespues, abiertos, diffs, documentos (su texto entero), errores, terminal, pintadas}. */
+   Imprime JSON: {html, htmlDespues, abiertos, diffs, documentos (su texto entero), errores, terminal, pintadas, historia (cada html que se puso), vigilados (el glob de cada vigía y cuántos avisos de cambio escucha)}. */
 'use strict';
 const Module = require('module');
 const path = require('path');
 const [extension, proyecto, mensajesJson, comando] = process.argv.slice(2);
 const mensajes = JSON.parse(mensajesJson || '[]');
 
-const terminal = [], abiertos = [], diffs = [], documentos = [], errores = [], comandos = {}, vigias = [];
+const terminal = [], historia = [], abiertos = [], diffs = [], documentos = [], errores = [], comandos = {}, vigias = [];
 let panel = null, pintadas = 0;
 const nada = () => ({dispose() {}});
 const vscode = {
@@ -20,8 +20,8 @@ const vscode = {
     workspace: {
         workspaceFolders: [{uri: {fsPath: proyecto}}],
         getConfiguration: () => ({get: clave => (clave === 'comando' ? comando || '' : clave === 'esperaTerminalMs' ? 0 : undefined)}),
-        createFileSystemWatcher: () => {
-            const v = {cambios: [], onDidChange: f => { v.cambios.push(f); return nada(); }, onDidCreate: nada, onDidDelete: nada, dispose() {}};
+        createFileSystemWatcher: glob => {
+            const v = {glob, cambios: [], onDidChange: f => { v.cambios.push(f); return nada(); }, onDidCreate: nada, onDidDelete: nada, dispose() {}};
             vigias.push(v);
             return v;
         },
@@ -46,7 +46,7 @@ const vscode = {
             let html = '', recibir = null;
             panel = {
                 webview: {cspSource: 'vscode-resource:', onDidReceiveMessage: f => { recibir = f; return nada(); },
-                          get html() { return html; }, set html(h) { html = h; pintadas++; }},
+                          get html() { return html; }, set html(h) { html = h; pintadas++; historia.push(h); }},
                 onDidDispose: nada, reveal() {},
                 recibir: m => recibir(m),
             };
@@ -63,7 +63,17 @@ Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vsco
     await comandos['factory.tablero']();
     if (process.env.COMANDO) await comandos[process.env.COMANDO]();  // un comando de la paleta, además del tablero
     const html = panel.webview.html;
-    for (const m of mensajes) await panel.recibir(m);
+    // CONCURRENTE=escalonado: como mensajes, pero cada uno sale cuando existe ESPERAR_ARCHIVO; CONCURRENTE=mensajes: los mensajes se atienden a la vez; CONCURRENTE=registro: además un registro cambia (los vigías avisan) mientras tanto.
+    if (process.env.CONCURRENTE === 'escalonado') {
+        // Los mensajes salen a la vez, pero cada uno espera a que exista ESPERAR_ARCHIVO (lo escribe lo que dispara el anterior): el orden no depende de la carga.
+        const pendientes = [];
+        for (const [i, m] of mensajes.entries()) {
+            for (let k = 0; i > 0 && !require('fs').existsSync(process.env.ESPERAR_ARCHIVO) && k < 400; k++) await new Promise(r => setTimeout(r, 50));
+            pendientes.push(panel.recibir(m));
+        }
+        await Promise.all(pendientes);
+    } else if (process.env.CONCURRENTE) await Promise.all([...mensajes.map(m => panel.recibir(m)), ...(process.env.CONCURRENTE === 'registro' ? vigias.flatMap(v => v.cambios.map(f => f())) : [])]);
+    else for (const m of mensajes) await panel.recibir(m);
     // Un registro que cambia (TABLERO_CAMBIO: ruta y contenido nuevo): el vigía avisa y el tablero se vuelve a armar.
     if (process.env.TABLERO_CAMBIO) {
         const {ruta, contenido} = JSON.parse(process.env.TABLERO_CAMBIO);
@@ -72,5 +82,5 @@ Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vsco
     const antes = pintadas;
     for (const v of vigias) for (const f of v.cambios) f();
     for (let i = 0; i < 100 && pintadas === antes; i++) await new Promise(r => setTimeout(r, 50));
-    process.stdout.write(JSON.stringify({html, htmlDespues: panel.webview.html, abiertos, diffs, documentos, errores, terminal, pintadas}));
+    process.stdout.write(JSON.stringify({html, htmlDespues: panel.webview.html, abiertos, diffs, documentos, errores, terminal, pintadas, historia, vigilados: vigias.map(v => ({glob: v.glob, avisan: v.cambios.length}))}));
 })().catch(e => { console.error(e); process.exit(1); });

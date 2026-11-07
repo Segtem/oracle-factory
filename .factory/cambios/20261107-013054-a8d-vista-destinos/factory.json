@@ -1,0 +1,496 @@
+{
+  "id": "20261107-013054-a8d-vista-destinos",
+  "titulo": "Vista Destinos en el tablero de VS Code",
+  "capacidad": "tablero",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md",
+  "spec_sha256": "77fd82e433ca03bc883910b34baa26443efd0a0e9a34ec98da2e6cf404a77fd6",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T01:39:35.660988+00:00",
+    "documentos": {
+      "openspec/changes/20261107-013054-a8d-vista-destinos/proposal.md": "cf8f7c3ed30db7cf8a8f239f61c70eab28b92922f3b753b967024f31ee6e2a13",
+      "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md": "77fd82e433ca03bc883910b34baa26443efd0a0e9a34ec98da2e6cf404a77fd6"
+    }
+  },
+  "requisitos": [
+    "tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos",
+    "tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado",
+    "tablero_c67ccc28106a13a74.el_tablero_no_consulta_los_destinos_sin_que_se_pida",
+    "tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza",
+    "tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261107-013054-a8d-vista-destinos/revisiones/registro-i_xlp3yg/informe.json",
+    "sha256": "e81f505c2302594be31ba25e6cbb4ba88e727814f7fb14dfb4415b32f794e9ef",
+    "decisiones": "tareas/20261107-013054-a8d-vista-destinos/revisiones/registro-i_xlp3yg/decisiones.json",
+    "decisiones_sha256": "5eca7313837293b541f2f927acd55c1156ed50289c8f01fd978be1def195a65a",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T05:00:09.313708+00:00",
+    "motivo": "Tres rondas de codex: la última sin hallazgos. Cerrados la pintura concurrente que descartaba la consulta, la caché compartida entre proyectos y las consultas simultáneas fuera de orden: la consulta se hace en su propio manejador, guarda {raiz, datos} y una generación invalida las anteriores. Evidencia: 1200 pruebas, 10 casos de contrato, éxito. Declarado: tres pruebas existentes editadas de forma aditiva (tests/contrato_en_node.cjs, tests/tablero_en_node.cjs, tests/test_contrato_vscode.py). Límites: el cambio de raíz con el panel abierto y la guarda de consultar-destinos para invitados no tienen prueba propia. agy no pudo revisar: su wrapper pide un modelo que ya no existe.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "46c2bc519bb667cd4030b6700d0af983e962dfc5",
+      "archivos_sha256": "3bd7922f291a4bc20b325ac1e39e298c08bf06a3b5d244d70498edea6cf48a82"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261107-013054-a8d-vista-destinos/candidatos/291250f/evidencia/hechos.json",
+    "hechos_sha256": "e9a374a5d3309e9b71eb31426d07d2c8d3763a03b9f90ef77aa9089b40552279",
+    "informe": ".factory/cambios/20261107-013054-a8d-vista-destinos/oracle-veredicto.txt",
+    "informe_sha256": "85d0781133802efd23522a23cd703b735372974bab95062fabd2a68c013ddc7f",
+    "cuando": "2026-11-07T05:00:43.204699+00:00",
+    "contexto": {
+      "head": "2d29d8711dd0b68961f34576f2a70bf426523e9f",
+      "archivos_sha256": "3bd7922f291a4bc20b325ac1e39e298c08bf06a3b5d244d70498edea6cf48a82"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T01:30:54.182309+00:00",
+      "capacidad": "tablero"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T01:39:35.661011+00:00",
+      "documentos": {
+        "openspec/changes/20261107-013054-a8d-vista-destinos/proposal.md": "cf8f7c3ed30db7cf8a8f239f61c70eab28b92922f3b753b967024f31ee6e2a13",
+        "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md": "77fd82e433ca03bc883910b34baa26443efd0a0e9a34ec98da2e6cf404a77fd6"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T01:39:47.741162+00:00",
+      "ids": [
+        "tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos",
+        "tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado",
+        "tablero_c67ccc28106a13a74.el_tablero_no_consulta_los_destinos_sin_que_se_pida",
+        "tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza",
+        "tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T01:51:03.299413+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado",
+      "medidas": [
+        "factory_tablero_destinos.el_tablero_muestra_cada_destino_con_su_estado",
+        "factory_tablero_destinos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T01:51:04.860500+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.el_tablero_no_consulta_los_destinos_sin_que_se_pida",
+      "medidas": [
+        "factory_tablero_destinos.el_tablero_no_consulta_los_destinos_sin_que_se_pida",
+        "factory_tablero_destinos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T01:51:06.430483+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza",
+      "medidas": [
+        "factory_tablero_destinos.el_tablero_no_despliega_ni_autoriza",
+        "factory_tablero_destinos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T01:51:07.999746+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue",
+      "medidas": [
+        "factory_tablero_destinos.sin_destinos_o_con_error_el_tablero_sigue",
+        "factory_tablero_destinos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T01:51:09.545574+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos",
+      "medidas": [
+        "factory_tablero_destinos.el_contrato_de_la_extension_cubre_destinos",
+        "factory_tablero_destinos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T02:25:13.711757+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos",
+      "medidas": [
+        "factory_tablero_destinos.el_contrato_de_la_extension_cubre_destinos",
+        "factory_tablero_destinos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T02:25:13.884260+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado",
+      "medidas": [
+        "factory_tablero_destinos.el_tablero_muestra_cada_destino_con_su_estado",
+        "factory_tablero_destinos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T02:25:14.056729+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.el_tablero_no_consulta_los_destinos_sin_que_se_pida",
+      "medidas": [
+        "factory_tablero_destinos.el_tablero_no_consulta_los_destinos_sin_que_se_pida",
+        "factory_tablero_destinos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T02:25:14.225474+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza",
+      "medidas": [
+        "factory_tablero_destinos.el_tablero_no_despliega_ni_autoriza",
+        "factory_tablero_destinos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T02:25:14.395429+00:00",
+      "requisito": "tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue",
+      "medidas": [
+        "factory_tablero_destinos.sin_destinos_o_con_error_el_tablero_sigue",
+        "factory_tablero_destinos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T02:40:49.105287+00:00",
+      "revisor": "codex",
+      "candidato": "87a6bfc",
+      "lanzamiento": "b173d642b581"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T02:40:49.142464+00:00",
+      "revisor": "agy",
+      "candidato": "87a6bfc",
+      "lanzamiento": "02d82a8e7bc8"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T02:40:54.756327+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "87a6bfc",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "02d82a8e7bc8"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T02:42:22.429628+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "87a6bfc",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "b173d642b581"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T03:00:18.252252+00:00",
+      "revisor": "codex",
+      "candidato": "e11a8b3",
+      "lanzamiento": "81d6ca8cd91b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T03:01:25.846433+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "e11a8b3",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "81d6ca8cd91b"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T03:32:24.221060+00:00",
+      "revisor": "codex",
+      "candidato": "291250f",
+      "lanzamiento": "a59920587c52"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T03:34:25.534026+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "291250f",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "a59920587c52"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T03:34:35.640406+00:00",
+      "decision": "aprobar",
+      "candidato": "291250f"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T05:00:09.313737+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "e81f505c2302594be31ba25e6cbb4ba88e727814f7fb14dfb4415b32f794e9ef",
+      "decisiones_sha256": "5eca7313837293b541f2f927acd55c1156ed50289c8f01fd978be1def195a65a"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T05:00:43.204713+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "e9a374a5d3309e9b71eb31426d07d2c8d3763a03b9f90ef77aa9089b40552279"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T05:04:09.169080+00:00",
+      "oracle": ".factory/cambios/20261107-013054-a8d-vista-destinos/oracle-veredicto.txt",
+      "revision": "tareas/20261107-013054-a8d-vista-destinos/revisiones/registro-i_xlp3yg/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T05:04:09.211330+00:00",
+      "capacidad": "tablero",
+      "spec": "openspec/specs/tablero/spec.md"
+    }
+  ],
+  "tipos": {
+    "tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos": "funcional",
+    "tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado": "funcional",
+    "tablero_c67ccc28106a13a74.el_tablero_no_consulta_los_destinos_sin_que_se_pida": "funcional",
+    "tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza": "funcional",
+    "tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue": "funcional"
+  },
+  "medidas": {
+    "tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-07T02:25:13.667504+00:00",
+      "sha256": "575e9d3b8629533611fac791613395bc62e68427cacee34ee49f3ad283e02a67",
+      "catalogos": {
+        "factory_tablero_destinos.el_contrato_de_la_extension_cubre_destinos": "892e95877013064b9f6ea83c4e44563e189cb971d130f690e6a4b0f065ebc66a",
+        "factory_tablero_destinos.corrida_completa": "3d2ae2e7d8f6028d6a2de31e91d2358d345985a83a721bdbf5ae9a92f317d985"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_destinos.el_contrato_de_la_extension_cubre_destinos": "catalogos/factory_tablero_destinos.el_contrato_de_la_extension_cubre_destinos.oracle",
+        "factory_tablero_destinos.corrida_completa": "catalogos/factory_tablero_destinos.corrida_completa.oracle"
+      }
+    },
+    "tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-07T02:25:13.840676+00:00",
+      "sha256": "d5fdd645e5415ded6eaf07ff2b8bc0d4eb4d238418b460ab4ab044b503e20c32",
+      "catalogos": {
+        "factory_tablero_destinos.el_tablero_muestra_cada_destino_con_su_estado": "4e7f0ff804469142c10de3fa2a2c995d455eda79822ea934bd53e18c89616fe2",
+        "factory_tablero_destinos.corrida_completa": "3d2ae2e7d8f6028d6a2de31e91d2358d345985a83a721bdbf5ae9a92f317d985"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_destinos.el_tablero_muestra_cada_destino_con_su_estado": "catalogos/factory_tablero_destinos.el_tablero_muestra_cada_destino_con_su_estado.oracle",
+        "factory_tablero_destinos.corrida_completa": "catalogos/factory_tablero_destinos.corrida_completa.oracle"
+      }
+    },
+    "tablero_c67ccc28106a13a74.el_tablero_no_consulta_los_destinos_sin_que_se_pida": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-07T02:25:14.013316+00:00",
+      "sha256": "d4c08036d6826d4bae276265a317eface3ba1f7ff4404df7904dd12b6909d9a8",
+      "catalogos": {
+        "factory_tablero_destinos.el_tablero_no_consulta_los_destinos_sin_que_se_pida": "a17925d806287b3079c9cba12be139e47758cf5c3c9514f175d8bb26432d4685",
+        "factory_tablero_destinos.corrida_completa": "3d2ae2e7d8f6028d6a2de31e91d2358d345985a83a721bdbf5ae9a92f317d985"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_destinos.el_tablero_no_consulta_los_destinos_sin_que_se_pida": "catalogos/factory_tablero_destinos.el_tablero_no_consulta_los_destinos_sin_que_se_pida.oracle",
+        "factory_tablero_destinos.corrida_completa": "catalogos/factory_tablero_destinos.corrida_completa.oracle"
+      }
+    },
+    "tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-07T02:25:14.182229+00:00",
+      "sha256": "d6227d098c36372907dff3bb8c12af1ad55be60ec9efabacb1662de105dbb090",
+      "catalogos": {
+        "factory_tablero_destinos.el_tablero_no_despliega_ni_autoriza": "f57178da39d6baa1c05366e6f86f0e90733579753171b3641b3d55cfbf70b810",
+        "factory_tablero_destinos.corrida_completa": "3d2ae2e7d8f6028d6a2de31e91d2358d345985a83a721bdbf5ae9a92f317d985"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_destinos.el_tablero_no_despliega_ni_autoriza": "catalogos/factory_tablero_destinos.el_tablero_no_despliega_ni_autoriza.oracle",
+        "factory_tablero_destinos.corrida_completa": "catalogos/factory_tablero_destinos.corrida_completa.oracle"
+      }
+    },
+    "tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-07T02:25:14.351219+00:00",
+      "sha256": "cc505494f3c7032363b9c74092ba0522ed5bd35893c947ec08556a2130d80a46",
+      "catalogos": {
+        "factory_tablero_destinos.sin_destinos_o_con_error_el_tablero_sigue": "cfb65453da450ccdf4de55fd8339196af5df6b317cc0548b3cab88fcb6384967",
+        "factory_tablero_destinos.corrida_completa": "3d2ae2e7d8f6028d6a2de31e91d2358d345985a83a721bdbf5ae9a92f317d985"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_destinos.sin_destinos_o_con_error_el_tablero_sigue": "catalogos/factory_tablero_destinos.sin_destinos_o_con_error_el_tablero_sigue.oracle",
+        "factory_tablero_destinos.corrida_completa": "catalogos/factory_tablero_destinos.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T05:04:09.106932+00:00"
+  },
+  "archivo": {
+    "capacidad": "tablero",
+    "spec": "openspec/specs/tablero/spec.md",
+    "cuando": "2026-11-07T05:04:09.211319+00:00"
+  }
+}
