@@ -108,7 +108,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261105-225104-64i-concurrencia]] — Web: simulación pixel art de personas y agentes trabajando a la vez (cerrada)
 - [[cambios/20261106-002754-jzt-paginas]] — Web: un menú, un orden de lectura y toda la documentación (cerrada)
 - [[cambios/20261106-205202-8od-destinos]] — Despliegue a varios destinos con prueba de que todo quedó funcionando (cerrada)
-- [[cambios/20261107-013054-a8d-vista-destinos]] — Vista Destinos en el tablero de VS Code (espera_aprobacion_spec)
+- [[cambios/20261107-013054-a8d-vista-destinos]] — Vista Destinos en el tablero de VS Code (spec_aprobada)
 
 ## Requisitos
 

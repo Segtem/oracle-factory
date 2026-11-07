@@ -2,10 +2,20 @@
   "id": "20261107-013054-a8d-vista-destinos",
   "titulo": "Vista Destinos en el tablero de VS Code",
   "capacidad": "tablero",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "77fd82e433ca03bc883910b34baa26443efd0a0e9a34ec98da2e6cf404a77fd6",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T01:39:35.660988+00:00",
+    "documentos": {
+      "openspec/changes/20261107-013054-a8d-vista-destinos/proposal.md": "cf8f7c3ed30db7cf8a8f239f61c70eab28b92922f3b753b967024f31ee6e2a13",
+      "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md": "77fd82e433ca03bc883910b34baa26443efd0a0e9a34ec98da2e6cf404a77fd6"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-07T01:30:54.182309+00:00",
       "capacidad": "tablero"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T01:39:35.661011+00:00",
+      "documentos": {
+        "openspec/changes/20261107-013054-a8d-vista-destinos/proposal.md": "cf8f7c3ed30db7cf8a8f239f61c70eab28b92922f3b753b967024f31ee6e2a13",
+        "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md": "77fd82e433ca03bc883910b34baa26443efd0a0e9a34ec98da2e6cf404a77fd6"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
