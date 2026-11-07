@@ -116,6 +116,58 @@
         "factory_puerta_verificar.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T20:49:28.657770+00:00",
+      "requisito": "puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real",
+      "medidas": [
+        "factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real",
+        "factory_puerta_verificar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T20:49:28.828977+00:00",
+      "requisito": "puerta_c9332ef39d32011d7.la_puerta_corre_verificar_y_lo_nombra",
+      "medidas": [
+        "factory_puerta_verificar.la_puerta_corre_verificar_y_lo_nombra",
+        "factory_puerta_verificar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T20:49:29.000403+00:00",
+      "requisito": "puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite",
+      "medidas": [
+        "factory_puerta_verificar.sin_registro_de_factory_verificar_se_omite",
+        "factory_puerta_verificar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T20:49:29.171671+00:00",
+      "requisito": "puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea",
+      "medidas": [
+        "factory_puerta_verificar.verificar_en_la_puerta_avisa_y_no_bloquea",
+        "factory_puerta_verificar.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -124,13 +176,30 @@
     "puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite": "funcional",
     "puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
+    "puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-07T20:49:28.613229+00:00",
+      "sha256": "41d8d72e32555e07139fcdd22da8a5addf34ca6381e775d51c59e1ba4a10975d",
+      "catalogos": {
+        "factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real": "9d2dae47633390fdc021907ed9aaa726236e039507ad756f99afacf4af43fe78",
+        "factory_puerta_verificar.corrida_completa": "acd4ca9edde0316d3d812f1e43b13b49b866c2766a5a2e67586176758b226e12"
+      },
+      "archivos_catalogo": {
+        "factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real": "catalogos/factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real.oracle",
+        "factory_puerta_verificar.corrida_completa": "catalogos/factory_puerta_verificar.corrida_completa.oracle"
+      }
+    },
     "puerta_c9332ef39d32011d7.la_puerta_corre_verificar_y_lo_nombra": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-07T20:49:28.784314+00:00",
       "sha256": "62a1f4ee9e37a50c550d1a4e1f268e743a5b7670192ccdad533a0d6f3b193b18",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-07T20:42:39.602699+00:00",
       "catalogos": {
         "factory_puerta_verificar.la_puerta_corre_verificar_y_lo_nombra": "919d4bf52d07f5ea57cec7113a8a625fde95aef30b1b0857051616dbeb913f47",
         "factory_puerta_verificar.corrida_completa": "acd4ca9edde0316d3d812f1e43b13b49b866c2766a5a2e67586176758b226e12"
@@ -140,25 +209,13 @@
         "factory_puerta_verificar.corrida_completa": "catalogos/factory_puerta_verificar.corrida_completa.oracle"
       }
     },
-    "puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea": {
-      "sha256": "5846c78457a48e3ccb977c5cd1911e85faef8fdf7edeb878f6c564015f70aed7",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-07T20:42:41.301205+00:00",
-      "catalogos": {
-        "factory_puerta_verificar.verificar_en_la_puerta_avisa_y_no_bloquea": "373c171b4572fb432dcb2e88c11ab307cdbf298862f7dc4f9004b5cabb2da5db",
-        "factory_puerta_verificar.corrida_completa": "acd4ca9edde0316d3d812f1e43b13b49b866c2766a5a2e67586176758b226e12"
-      },
-      "archivos_catalogo": {
-        "factory_puerta_verificar.verificar_en_la_puerta_avisa_y_no_bloquea": "catalogos/factory_puerta_verificar.verificar_en_la_puerta_avisa_y_no_bloquea.oracle",
-        "factory_puerta_verificar.corrida_completa": "catalogos/factory_puerta_verificar.corrida_completa.oracle"
-      }
-    },
     "puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-07T20:49:28.956211+00:00",
       "sha256": "ab6c751c09a2e3fcceeeacad2c9bec3568d77426476e920ea9d805406e95e1e5",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-07T20:42:42.983883+00:00",
       "catalogos": {
         "factory_puerta_verificar.sin_registro_de_factory_verificar_se_omite": "035830ad678611ee836f7a7209f57ab603bfb45f961a78ce81547e5e95091f42",
         "factory_puerta_verificar.corrida_completa": "acd4ca9edde0316d3d812f1e43b13b49b866c2766a5a2e67586176758b226e12"
@@ -168,19 +225,22 @@
         "factory_puerta_verificar.corrida_completa": "catalogos/factory_puerta_verificar.corrida_completa.oracle"
       }
     },
-    "puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real": {
-      "sha256": "41d8d72e32555e07139fcdd22da8a5addf34ca6381e775d51c59e1ba4a10975d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-07T20:42:44.666455+00:00",
+    "puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-07T20:49:29.127229+00:00",
+      "sha256": "5846c78457a48e3ccb977c5cd1911e85faef8fdf7edeb878f6c564015f70aed7",
       "catalogos": {
-        "factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real": "9d2dae47633390fdc021907ed9aaa726236e039507ad756f99afacf4af43fe78",
+        "factory_puerta_verificar.verificar_en_la_puerta_avisa_y_no_bloquea": "373c171b4572fb432dcb2e88c11ab307cdbf298862f7dc4f9004b5cabb2da5db",
         "factory_puerta_verificar.corrida_completa": "acd4ca9edde0316d3d812f1e43b13b49b866c2766a5a2e67586176758b226e12"
       },
       "archivos_catalogo": {
-        "factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real": "catalogos/factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real.oracle",
+        "factory_puerta_verificar.verificar_en_la_puerta_avisa_y_no_bloquea": "catalogos/factory_puerta_verificar.verificar_en_la_puerta_avisa_y_no_bloquea.oracle",
         "factory_puerta_verificar.corrida_completa": "catalogos/factory_puerta_verificar.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

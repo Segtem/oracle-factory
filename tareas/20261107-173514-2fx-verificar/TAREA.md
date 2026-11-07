@@ -31,3 +31,19 @@ Medidas de puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite: 
 ### Nota (2026-11-07 20:42:44 UTC)
 
 Medidas de puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real: factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real, factory_puerta_verificar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-07 20:49:28 UTC)
+
+Medidas de puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-07 20:49:28 UTC)
+
+Medidas de puerta_c9332ef39d32011d7.la_puerta_corre_verificar_y_lo_nombra: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-07 20:49:29 UTC)
+
+Medidas de puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-07 20:49:29 UTC)
+
+Medidas de puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea: Brian Hollweg (persona, confirmo, modo confirmacion).
