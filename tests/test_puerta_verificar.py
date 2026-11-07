@@ -45,7 +45,12 @@ class PuertaVerificar(unittest.TestCase):
         self.assertIn('agentes, kb, resumen, verificar al día', texto)
 
     def test_pv1_el_verificar_de_verdad_acepta_el_argumento_que_le_pasa_la_puerta(self):
-        codigo, salida = cli.verificar_en_proceso(['verificar'])
+        guardado = cli.ROOT, cli.CHANGES  # otras pruebas de la suite dejan su carpeta temporal en el módulo: se apunta a este proyecto
+        cli.ROOT, cli.CHANGES = SOURCE, SOURCE / 'openspec' / 'changes'
+        try:
+            codigo, salida = cli.verificar_en_proceso(['verificar'])
+        finally:
+            cli.ROOT, cli.CHANGES = guardado
         self.assertIn(codigo, (0, 1))
         self.assertIn('Miré ', salida)
 
