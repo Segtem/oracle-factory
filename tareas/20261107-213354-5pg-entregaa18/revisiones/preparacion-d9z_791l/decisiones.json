@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "27f8807529af2c483861b8e8f16ce569b054270a61e2930ce4c237a3cf136dad",
+  "actor": "Brian Hollweg",
+  "motivo": "Ronda 1 de codex: 1 hallazgo medio (el probador no ejercitaba destinos ni desplegar en el wheel instalado), corregido y repetidas evidencia y ronda. Ronda 2: 1 hallazgo bajo (el validador del registro acepta un hash de 64 caracteres no hexadecimal); es código heredado de la a17 y no afecta la entrega, propongo aceptarlo como riesgo. Evidencia 1213 pruebas OK; mutaciones propias sobre el probador detectadas (sin verificar, sin destinos, sin desplegar, sin chequeo de publicada).",
+  "decisiones": [
+    {
+      "hallazgo_id": "a18-registro-acepta-hashes-no-hexadecimales",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: La validación del registro acepta valores que no son hashes SHA-256",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-07T23:25:21.984140+00:00"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "id": "20261107-213354-5pg-entregaa18",
   "titulo": "Preparar la distribución 0.1.0a18",
   "capacidad": "distribucion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261107-213354-5pg-entregaa18/specs/distribucion/spec.md",
   "spec_sha256": "9aaf21d347df64dbade23961e04c73edf3e28989ca3e1daf16aed0a77f9e84c2",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "distribucion_c0803bc5aff1b2bf1.la_entrega_a18_registra_sus_hashes_y_sus_limites",
     "distribucion_c0803bc5aff1b2bf1.la_version_a18_es_coherente_y_declara_su_estado"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261107-213354-5pg-entregaa18/revisiones/registro-l_8dp51p/informe.json",
+    "sha256": "27f8807529af2c483861b8e8f16ce569b054270a61e2930ce4c237a3cf136dad",
+    "decisiones": "tareas/20261107-213354-5pg-entregaa18/revisiones/registro-l_8dp51p/decisiones.json",
+    "decisiones_sha256": "da37cac64425a8632e554633320c70a7aa92ef02aabaa1310e44b0c3eb902c7e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T23:25:23.323951+00:00",
+    "motivo": "Ronda 1 de codex: 1 hallazgo medio (el probador no ejercitaba destinos ni desplegar en el wheel instalado), corregido y repetidas evidencia y ronda. Ronda 2: 1 hallazgo bajo (el validador del registro acepta un hash de 64 caracteres no hexadecimal); es código heredado de la a17 y no afecta la entrega, propongo aceptarlo como riesgo. Evidencia 1213 pruebas OK; mutaciones propias sobre el probador detectadas (sin verificar, sin destinos, sin desplegar, sin chequeo de publicada).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "94ccd14a8c7af13b71633352b0fca308935a2836",
+      "archivos_sha256": "c4e350fc0ec4b3f44be2ba4f2c6379d0ae9f1bd3b661a6a070910455d6f249da"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -201,6 +221,20 @@
       "cuando": "2026-11-07T22:50:37.247083+00:00",
       "decision": "aprobar",
       "candidato": "9f51311"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T23:25:23.323977+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "27f8807529af2c483861b8e8f16ce569b054270a61e2930ce4c237a3cf136dad",
+      "decisiones_sha256": "da37cac64425a8632e554633320c70a7aa92ef02aabaa1310e44b0c3eb902c7e"
     }
   ],
   "tipos": {
@@ -259,14 +293,16 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Ronda 1 de codex: 1 hallazgo medio (el probador no ejercitaba destinos ni desplegar en el wheel instalado), corregido y repetidas evidencia y ronda. Ronda 2: 1 hallazgo bajo (el validador del registro acepta un hash de 64 caracteres no hexadecimal); es código heredado de la a17 y no afecta la entrega, propongo aceptarlo como riesgo. Evidencia 1213 pruebas OK; mutaciones propias sobre el probador detectadas (sin verificar, sin destinos, sin desplegar, sin chequeo de publicada).",
-      "candidato": "9f51311",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-07T22:50:37.247066+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tools/probar_entrega_a18.py",
+      "titulo": "La validación del registro acepta valores que no son hashes SHA-256",
+      "firma": "tools/probar_entrega_a18.py|la validación del registro acepta valores que no son hashes sha256",
+      "motivo": "Acepto el riesgo: La validación del registro acepta valores que no son hashes SHA-256",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-07T23:25:21.984173+00:00",
+      "candidato": "9f51311"
     }
-  }
+  ]
 }
