@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261107-013054-a8d-vista-destinos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «proyecto sin destinos», «declaración inválida»
+- Medidas: `factory_tablero_destinos.sin_destinos_o_con_error_el_tablero_sigue`, `factory_tablero_destinos.corrida_completa`
 - Fuente: openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md#sin_destinos_o_con_error_el_tablero_sigue
 
 Tipo: funcional El tablero DEBE seguir mostrando los cambios, y no fallar, cuando el proyecto no tiene destinos declarados (y decir cómo declararlos) o cuando la declaración es inválida (y decir el motivo).

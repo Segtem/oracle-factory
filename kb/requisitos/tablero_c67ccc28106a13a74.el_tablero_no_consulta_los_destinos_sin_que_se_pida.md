@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261107-013054-a8d-vista-destinos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «repintar no toca los destinos», «consultar a pedido»
+- Medidas: `factory_tablero_destinos.el_tablero_no_consulta_los_destinos_sin_que_se_pida`, `factory_tablero_destinos.corrida_completa`
 - Fuente: openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md#el_tablero_no_consulta_los_destinos_sin_que_se_pida
 
 Tipo: funcional El tablero DEBE armar la sección con lo registrado, sin correr los comandos `version` de los destinos, y DEBE consultarlos sólo cuando la persona aprieta «Consultar ahora».
