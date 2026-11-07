@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:ded8b3f689dd4d53f45ee5d7480acc068a7f03ea72badf711a09a5b0730b2341 -->
+<!-- oracle-factory resumen sha256:7e364198dcee26e140fb4862075ed75d8f9a373340d53ea47501e3f9e9c09d25 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-31 capacidades · 311 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 315 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -398,6 +398,17 @@ Spec completa: [openspec/specs/procedencia/spec.md](../openspec/specs/procedenci
 | sin_autorizacion_de_red_no_se_consulta_osv | funcional | `procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv` | factory_avisos_osv.sin_autorizacion_de_red_no_se_consulta_osv, factory_avisos_osv.corrida_completa | verde al cerrar el 2026-10-30 | 20261029-164101-xux-avisososv |
 | la_consulta_a_osv_guarda_avisos_validos_y_audita | funcional | `procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita` | factory_avisos_osv.la_consulta_a_osv_guarda_avisos_validos_y_audita, factory_avisos_osv.corrida_completa | verde al cerrar el 2026-10-30 | 20261029-164101-xux-avisososv |
 | un_fallo_de_consulta_no_se_lee_como_sin_afectados | funcional | `procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados` | factory_avisos_osv.un_fallo_de_consulta_no_se_lee_como_sin_afectados, factory_avisos_osv.corrida_completa | verde al cerrar el 2026-10-30 | 20261029-164101-xux-avisososv |
+
+### puerta
+
+Spec completa: [openspec/specs/puerta/spec.md](../openspec/specs/puerta/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| la_puerta_corre_verificar_y_lo_nombra | funcional | `puerta_c9332ef39d32011d7.la_puerta_corre_verificar_y_lo_nombra` | factory_puerta_verificar.la_puerta_corre_verificar_y_lo_nombra, factory_puerta_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-173514-2fx-verificar |
+| verificar_en_la_puerta_avisa_y_no_bloquea | funcional | `puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea` | factory_puerta_verificar.verificar_en_la_puerta_avisa_y_no_bloquea, factory_puerta_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-173514-2fx-verificar |
+| sin_registro_de_factory_verificar_se_omite | funcional | `puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite` | factory_puerta_verificar.sin_registro_de_factory_verificar_se_omite, factory_puerta_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-173514-2fx-verificar |
+| la_guia_y_el_hook_cuentan_la_politica_real | funcional | `puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real` | factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real, factory_puerta_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-173514-2fx-verificar |
 
 ### resumen
 
@@ -1667,6 +1678,10 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261107-130317-2vv-verificar) codex (gpt-6-luna): Los tres límites: los registros ilegibles se convierten en problema en del_cambio; fases abandonadas se excluyen intencionalmente como no activas; sin commits, contexto_producto produce FactoryError y pendientes_actuales lo reporta para cambios con revisión u Oracle que necesitan comparación. No encontré fallo en esos caminos.
 - (20261107-130317-2vv-verificar) codex (gpt-6-luna): No ejecuté tests ni mutaciones manuales; revisé el código y las pruebas existentes estáticamente. No abrí archivos omitidos binarios; el paquete no declara omisiones.
 - (20261107-130317-2vv-verificar) codex (gpt-6-luna): tests/datos/ayuda-cli.json elimina la salida previa de ayuda y agrega la entrada de verificar. tests/test_web_paginas.py actualiza el conteo de 13 a 14 guías tras agregar docs/ci.md. Ambas ediciones existentes están justificadas por el nuevo subcomando y la documentación.
+- (20261107-173514-2fx-verificar) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261107-173514-2fx-verificar) codex (gpt-6-luna): Inspeccioné la spec, el diff textual del paquete y el código de la puerta, el comando verificar y las pruebas afectadas; no ejecuté la suite ni mutaciones propias.
+- (20261107-173514-2fx-verificar) codex (gpt-6-luna): Las siete aserciones retiradas de tests/test_puerta.py se adaptan a la nueva verificación: las expectativas correspondientes ahora incluyen la llamada verificar, su omisión por falta de configuración, su estado al día y el texto actualizado del hook. No observé debilitamiento ajeno al cambio.
+- (20261107-173514-2fx-verificar) codex (gpt-6-luna): No encontré defectos reproducibles ni promesas incumplidas en los escenarios revisados; el paquete no omite archivos binarios. Las mutaciones indicadas por quien pidió la revisión (bloquear=True, SIN_FLAG vacío, sin pista, otro archivo y verificación ausente) se consideraron como información aportada, no como ejecuciones independientes.
 
 ### Históricos
 

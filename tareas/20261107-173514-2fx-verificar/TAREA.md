@@ -1,6 +1,6 @@
 # Sumar verificar a la puerta local de salida
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -55,3 +55,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-07 21:22:58 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261107-173514-2fx-verificar/oracle-veredicto.txt.
+
+### Nota (2026-11-07 21:23:50 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

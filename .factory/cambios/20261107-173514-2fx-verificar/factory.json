@@ -2,7 +2,7 @@
   "id": "20261107-173514-2fx-verificar",
   "titulo": "Sumar verificar a la puerta local de salida",
   "capacidad": "puerta",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261107-173514-2fx-verificar/specs/puerta/spec.md",
   "spec_sha256": "b69d483f02f6c2e06c509654bb77bfca6e99503fa42e2db57d8f49164629c039",
   "spec_aprobada": {
@@ -261,6 +261,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "d8e35bd93370db2554e126b7edc951f321b0d0dd1cf74065fe1e16f76fbce34c"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T21:23:50.915178+00:00",
+      "oracle": ".factory/cambios/20261107-173514-2fx-verificar/oracle-veredicto.txt",
+      "revision": "tareas/20261107-173514-2fx-verificar/revisiones/registro-jnznv_r_/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T21:23:50.952348+00:00",
+      "capacidad": "puerta",
+      "spec": "openspec/specs/puerta/spec.md"
     }
   ],
   "tipos": {
@@ -336,5 +356,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T21:23:50.847100+00:00"
+  },
+  "archivo": {
+    "capacidad": "puerta",
+    "spec": "openspec/specs/puerta/spec.md",
+    "cuando": "2026-11-07T21:23:50.952336+00:00"
+  }
 }
