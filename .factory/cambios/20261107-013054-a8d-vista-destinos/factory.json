@@ -2,7 +2,7 @@
   "id": "20261107-013054-a8d-vista-destinos",
   "titulo": "Vista Destinos en el tablero de VS Code",
   "capacidad": "tablero",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md",
   "spec_sha256": "77fd82e433ca03bc883910b34baa26443efd0a0e9a34ec98da2e6cf404a77fd6",
   "spec_aprobada": {
@@ -368,6 +368,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "e9a374a5d3309e9b71eb31426d07d2c8d3763a03b9f90ef77aa9089b40552279"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T05:04:09.169080+00:00",
+      "oracle": ".factory/cambios/20261107-013054-a8d-vista-destinos/oracle-veredicto.txt",
+      "revision": "tareas/20261107-013054-a8d-vista-destinos/revisiones/registro-i_xlp3yg/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T05:04:09.211330+00:00",
+      "capacidad": "tablero",
+      "spec": "openspec/specs/tablero/spec.md"
     }
   ],
   "tipos": {
@@ -460,5 +480,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T05:04:09.106932+00:00"
+  },
+  "archivo": {
+    "capacidad": "tablero",
+    "spec": "openspec/specs/tablero/spec.md",
+    "cuando": "2026-11-07T05:04:09.211319+00:00"
+  }
 }

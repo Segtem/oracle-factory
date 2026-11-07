@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:d3a89347f3f07dc2994cd40b7e30de8148a9f2030093191526016528bf1d2f20 -->
+<!-- oracle-factory resumen sha256:9e91273d75c1b7b6a779d5bd0806d15d45684ba79aaedaf6e239e8715e5a3b42 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-30 capacidades · 301 requisitos vigentes · 0 cambios abiertos
+30 capacidades · 306 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -462,6 +462,11 @@ Spec completa: [openspec/specs/tablero/spec.md](../openspec/specs/tablero/spec.m
 | actividad_reciente_del_proyecto | funcional | `tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto` | factory_tablero_equipo.actividad_reciente_del_proyecto, factory_tablero_equipo.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-160716-arb-equipo |
 | cada_pendiente_dice_quien_lo_hace | funcional | `tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace` | factory_tablero_quien_hace.cada_pendiente_dice_quien_lo_hace, factory_tablero_quien_hace.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-200012-41p-quienhace |
 | ahora_no_te_toca_nada | funcional | `tablero_c36d16c32608f4c53.ahora_no_te_toca_nada` | factory_tablero_quien_hace.ahora_no_te_toca_nada, factory_tablero_quien_hace.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-200012-41p-quienhace |
+| el_tablero_muestra_cada_destino_con_su_estado | funcional | `tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado` | factory_tablero_destinos.el_tablero_muestra_cada_destino_con_su_estado, factory_tablero_destinos.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-013054-a8d-vista-destinos |
+| el_tablero_no_consulta_los_destinos_sin_que_se_pida | funcional | `tablero_c67ccc28106a13a74.el_tablero_no_consulta_los_destinos_sin_que_se_pida` | factory_tablero_destinos.el_tablero_no_consulta_los_destinos_sin_que_se_pida, factory_tablero_destinos.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-013054-a8d-vista-destinos |
+| el_tablero_no_despliega_ni_autoriza | funcional | `tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza` | factory_tablero_destinos.el_tablero_no_despliega_ni_autoriza, factory_tablero_destinos.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-013054-a8d-vista-destinos |
+| sin_destinos_o_con_error_el_tablero_sigue | funcional | `tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue` | factory_tablero_destinos.sin_destinos_o_con_error_el_tablero_sigue, factory_tablero_destinos.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-013054-a8d-vista-destinos |
+| el_contrato_de_la_extension_cubre_destinos | funcional | `tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos` | factory_tablero_destinos.el_contrato_de_la_extension_cubre_destinos, factory_tablero_destinos.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-013054-a8d-vista-destinos |
 
 ### trazabilidad
 
@@ -1637,6 +1642,14 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261106-205202-8od-destinos) codex (gpt-6-luna): tests/datos/ayuda-cli.json: la línea retirada reemplaza la ayuda/lista de comandos por una versión que incorpora destinos y desplegar; el cambio corresponde a los comandos nuevos. tests/test_web_paginas.py: el conteo cambia de 12 a 13 para incluir docs/despliegue.md; la aserción ajustada corresponde a esa guía nueva. Ambas ediciones están justificadas por este cambio.
 - (20261106-205202-8od-destinos) codex (gpt-6-luna): El diseño describe alcance por rutas, pero la indicación de revisión declara que no se implementó; no es requisito de la spec entregada y no lo traté como hallazgo.
 - (20261106-205202-8od-destinos) codex (gpt-6-luna): El paquete no omite archivos binarios.
+- (20261107-013054-a8d-vista-destinos) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): Revisé la spec, la propuesta, el diff del paquete, extension.js, tablero.js, liveshare.js, el contrato y las pruebas relevantes; el paquete declara omissions vacío, así que no hubo binarios omitidos que abrir.
+- (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): Corrí `python -m unittest tests.test_tablero_destinos tests.test_contrato_vscode`: 25 pruebas pasaron y 5 fallaron en setup por `ModuleNotFoundError: No module named 'oracle_metalenguaje'`, antes de sus aserciones; corresponden a los dos casos SinDestinos y tres casos Real del contrato.
+- (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): No corrí la suite completa ni hice mutaciones en copias. El checkout del candidato permaneció sin modificar.
+- (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): Las observaciones previas siguen cerradas: `consultarLosDestinos` usa `const desde = ++generacion` y sólo guarda si la generación no cambió; al terminar llama a `pintarTablero`. La caché consultada incluye la raíz y sólo se reutiliza si coincide con la raíz actual. El cierre del panel y los registros de despliegue la invalidan.
+- (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): Busqué todos los usos de `consultarLosDestinos` y `destinos --json`: el único disparador de consulta es el mensaje `consultar-destinos` del botón. Su handler rechaza la consulta en rol invitado; el servicio Live Share sólo ofrece `tablero`, `terminal`, `mensaje` y `diff`, y `tablero` usa `destinos --sin-consultar`. No encontré camino automático que corra comandos de versión o despliegue.
+- (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): El cambio de raíz con el panel abierto no tiene prueba propia, como declara el pedido. La caché se comprueba contra la raíz actual al leerla, por lo que no observé contaminación de destinos entre raíces; tampoco se invalidan explícitamente al cambiar la raíz.
+- (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): Las ediciones de `tests/contrato_en_node.cjs`, `tests/tablero_en_node.cjs` y `tests/test_contrato_vscode.py` están justificadas por agregar datos de `destinos` al contrato, registrar historial/avisos para comprobar repintados y simular consultas concurrentes. Las líneas retiradas son el código anterior reemplazado por esa cobertura; no observé que debiliten aserciones existentes.
 
 ### Históricos
 

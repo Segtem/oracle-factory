@@ -1,6 +1,6 @@
 # Vista Destinos en el tablero de VS Code
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -63,3 +63,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-07 05:00:43 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261107-013054-a8d-vista-destinos/oracle-veredicto.txt.
+
+### Nota (2026-11-07 05:04:09 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
