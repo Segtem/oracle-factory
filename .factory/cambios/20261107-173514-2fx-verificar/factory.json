@@ -2,7 +2,7 @@
   "id": "20261107-173514-2fx-verificar",
   "titulo": "Sumar verificar a la puerta local de salida",
   "capacidad": "puerta",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261107-173514-2fx-verificar/specs/puerta/spec.md",
   "spec_sha256": "b69d483f02f6c2e06c509654bb77bfca6e99503fa42e2db57d8f49164629c039",
   "spec_aprobada": {
@@ -43,7 +43,19 @@
       "archivos_sha256": "137c278748310bed6dc06f9c46f5834aa87b61dc2d233025205aebd9988345bd"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261107-173514-2fx-verificar/candidatos/881da6e/evidencia/hechos.json",
+    "hechos_sha256": "d8e35bd93370db2554e126b7edc951f321b0d0dd1cf74065fe1e16f76fbce34c",
+    "informe": ".factory/cambios/20261107-173514-2fx-verificar/oracle-veredicto.txt",
+    "informe_sha256": "2fa32901c3a82487cf7f13306097ca223b3c0b23bfbc274107a68056d4422a79",
+    "cuando": "2026-11-07T21:22:58.169474+00:00",
+    "contexto": {
+      "head": "d332038779db499fdf203fb1a42e4bd0524bfe75",
+      "archivos_sha256": "137c278748310bed6dc06f9c46f5834aa87b61dc2d233025205aebd9988345bd"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -238,6 +250,17 @@
       "abiertos": 0,
       "sha256": "6221fe6e2d277d23956a45718a91885988ca4a30939ddb4861e805e9b7899451",
       "decisiones_sha256": "068612f96275c666cf0ac97791f9c443079a483374a12d13d741fcdad7ecd392"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T21:22:58.169489+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "d8e35bd93370db2554e126b7edc951f321b0d0dd1cf74065fe1e16f76fbce34c"
     }
   ],
   "tipos": {

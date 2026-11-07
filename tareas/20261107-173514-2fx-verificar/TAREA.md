@@ -51,3 +51,7 @@ Medidas de puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea: B
 ### Nota (2026-11-07 21:22:49 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Codex sin hallazgos (el informe declara si pudo correr pruebas; lo cubrí con 5 mutaciones propias sobre puerta.py, todas rojas). Evidencia 1222 pruebas OK. Cambio de reglas de decisión (puerta.py): avisa y no bloquea, como declara la spec. Ediciones a tests/test_puerta.py: sólo adaptaciones por la nueva verificación.); 0 abiertos derivados; commit deb336f8ae3bfe4d655f030221f0f7745ffef705; informe tareas/20261107-173514-2fx-verificar/revisiones/registro-jnznv_r_/informe.json; decisiones tareas/20261107-173514-2fx-verificar/revisiones/registro-jnznv_r_/decisiones.json.
+
+### Nota (2026-11-07 21:22:58 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261107-173514-2fx-verificar/oracle-veredicto.txt.
