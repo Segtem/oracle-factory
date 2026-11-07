@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:7e364198dcee26e140fb4862075ed75d8f9a373340d53ea47501e3f9e9c09d25 -->
+<!-- oracle-factory resumen sha256:78b04e8b5a2c6787837ef951e6836c64b5e2a2365615d6a29d06a5f2a740586f -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 315 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 318 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -213,6 +213,9 @@ Spec completa: [openspec/specs/distribucion/spec.md](../openspec/specs/distribuc
 | la_entrega_a17_registra_sus_hashes_y_sus_limites | funcional | `distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites` | factory_entrega_a17.la_entrega_a17_registra_sus_hashes_y_sus_limites, factory_entrega_a17.corrida_completa | verde al cerrar el 2026-11-04 | 20261103-232202-jo3-entregaa17 |
 | los_textos_declaran_publicada_la_version_a17 | funcional | `distribucion_c0fb4528d614ab5c0.los_textos_declaran_publicada_la_version_a17` | factory_publicada_a17.los_textos_declaran_publicada_la_version_a17, factory_publicada_a17.corrida_completa | verde al cerrar el 2026-11-04 | 20261104-033615-oj8-publicada-a17 |
 | se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17 | funcional | `distribucion_c0fb4528d614ab5c0.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17` | factory_publicada_a17.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17, factory_publicada_a17.corrida_completa | verde al cerrar el 2026-11-04 | 20261104-033615-oj8-publicada-a17 |
+| la_version_a18_es_coherente_y_declara_su_estado | funcional | `distribucion_c0803bc5aff1b2bf1.la_version_a18_es_coherente_y_declara_su_estado` | factory_entrega_a18.la_version_a18_es_coherente_y_declara_su_estado, factory_entrega_a18.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-213354-5pg-entregaa18 |
+| el_wheel_a18_instalado_ofrece_lo_nuevo | funcional | `distribucion_c0803bc5aff1b2bf1.el_wheel_a18_instalado_ofrece_lo_nuevo` | factory_entrega_a18.el_wheel_a18_instalado_ofrece_lo_nuevo, factory_entrega_a18.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-213354-5pg-entregaa18 |
+| la_entrega_a18_registra_sus_hashes_y_sus_limites | funcional | `distribucion_c0803bc5aff1b2bf1.la_entrega_a18_registra_sus_hashes_y_sus_limites` | factory_entrega_a18.la_entrega_a18_registra_sus_hashes_y_sus_limites, factory_entrega_a18.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-213354-5pg-entregaa18 |
 
 ### estructura
 
@@ -606,6 +609,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **PA17-004** (20261104-033615-oj8-publicada-a17): El detector omite la construcción invertida «aún/todavía no está/fue publicada la 0.1.0a17». Aceptado por Brian Hollweg: Acepto el riesgo: El detector omite la construcción invertida «aún/todavía no está/fue publicada la 0.1.0a17»
 - **PA17-004-2** (20261104-033615-oj8-publicada-a17): El detector omite «pendiente de publicación» para la a17. Aceptado por Brian Hollweg: Acepto el riesgo: El detector omite «pendiente de publicación» para la a17
 - **WPG-007** (20261106-002754-jzt-paginas): El comprobador ignora bloques marcados duplicados. Aceptado por Brian Hollweg: Acepto el riesgo: El comprobador ignora bloques marcados duplicados
+- **a18-registro-acepta-hashes-no-hexadecimales** (20261107-213354-5pg-entregaa18): La validación del registro acepta valores que no son hashes SHA-256. Aceptado por Brian Hollweg: Acepto el riesgo: La validación del registro acepta valores que no son hashes SHA-256
 
 ### Históricos
 
@@ -1682,6 +1686,13 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261107-173514-2fx-verificar) codex (gpt-6-luna): Inspeccioné la spec, el diff textual del paquete y el código de la puerta, el comando verificar y las pruebas afectadas; no ejecuté la suite ni mutaciones propias.
 - (20261107-173514-2fx-verificar) codex (gpt-6-luna): Las siete aserciones retiradas de tests/test_puerta.py se adaptan a la nueva verificación: las expectativas correspondientes ahora incluyen la llamada verificar, su omisión por falta de configuración, su estado al día y el texto actualizado del hook. No observé debilitamiento ajeno al cambio.
 - (20261107-173514-2fx-verificar) codex (gpt-6-luna): No encontré defectos reproducibles ni promesas incumplidas en los escenarios revisados; el paquete no omite archivos binarios. Las mutaciones indicadas por quien pidió la revisión (bloquear=True, SIN_FLAG vacío, sin pista, otro archivo y verificación ausente) se consideraron como información aportada, no como ejecuciones independientes.
+- (20261107-213354-5pg-entregaa18) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261107-213354-5pg-entregaa18) codex (gpt-6-luna): Leí propuesta, spec, diff del paquete y las fuentes de todos los archivos incluidos; el paquete declara omissions vacío y no contiene binarios omitidos.
+- (20261107-213354-5pg-entregaa18) codex (gpt-6-luna): No ejecuté la suite, no construí ni instalé el wheel, y no ejecuté mutaciones propias; el informe de la ronda anterior y el diff confirman que ahora observar invoca destinos --sin-consultar --json y desplegar --simular, y validar comprueba sus resultados.
+- (20261107-213354-5pg-entregaa18) codex (gpt-6-luna): El límite indicado por quien pidió la revisión permanece: un desplegar --simular que siempre muestre el plan con salida cero no se distingue de una simulación real correcta; el fixture sólo usa comandos true y no hay caso negativo real.
+- (20261107-213354-5pg-entregaa18) codex (gpt-6-luna): Las modificaciones de tests/datos/guias-texto.json y tests/test_docs.py actualizan las versiones candidatas en los fixtures y expectativas para probar discrepancias respecto de la nueva versión; parecen justificadas y no eliminan el tipo de escenario.
+- (20261107-213354-5pg-entregaa18) codex (gpt-6-luna): tests/test_entrega_a17.py pasa a tests/test_entrega_a18.py y actualiza versión/comandos; tests/test_publicada_a17.py y el test renombrado de publicación se quitan como pruebas específicas del ciclo a17. El reemplazo comprueba que a17 figure publicada y a18 preparada, pero omite las aserciones independientes de tag/release y de detección de divergencias candidatas/publicadas de pa1–pa2; su eliminación se entiende por el avance de versión, aunque reduce esa cobertura de regresión.
+- (20261107-213354-5pg-entregaa18) codex (gpt-6-luna): Hallazgo adicional: la validación de hashes acepta cualquier cadena de 64 caracteres; la creación habitual del registro sí calcula SHA-256.
 
 ### Históricos
 
