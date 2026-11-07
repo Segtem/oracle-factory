@@ -112,6 +112,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261107-130317-2vv-verificar]] — Verificar para CI: comprobar de solo lectura que los cambios están consistentes (cerrada)
 - [[cambios/20261107-173514-2fx-verificar]] — Sumar verificar a la puerta local de salida (cerrada)
 - [[cambios/20261107-213354-5pg-entregaa18]] — Preparar la distribución 0.1.0a18 (cerrada)
+- [[cambios/20261107-235004-sb1-publicadaa18]] — Declarar publicada la 0.1.0a18 (espera_aprobacion_spec)
 
 ## Requisitos
 
