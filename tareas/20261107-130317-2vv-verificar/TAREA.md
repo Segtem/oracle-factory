@@ -67,3 +67,7 @@ Medidas de ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie: Brian 
 ### Nota (2026-11-07 13:56:39 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos rondas de codex, ambas sin hallazgos (la segunda, tras reforzar una prueba). Codex revisó de forma estática: no pudo correr las pruebas en su entorno. Las corrí yo: evidencia de 1211 pruebas y 11 casos de contrato en éxito, y 14 mutaciones de verificar.py y de la plantilla, las 14 muertas (para matar la de contexto_producto reforcé test_ci2). Declarado: dos pruebas existentes editadas de forma aditiva (tests/datos/ayuda-cli.json suma el subcomando verificar; tests/test_web_paginas.py pasa de 13 a 14 guías por docs/ci.md), más tools/sitio_paginas.py y site/documentacion.html. Límites: sin prueba propia para un registro ilegible, un cambio abandonado ni un proyecto sin commits con cambios que necesitan compararse; verificar no está en la puerta local ni activado como workflow en este repo (decisiones de Brian). agy no revisó: su modelo configurado ya no existe.); 0 abiertos derivados; commit 38c0e8fea4baec8337c7374e788480f0cf687325; informe tareas/20261107-130317-2vv-verificar/revisiones/registro-fhco7oqd/informe.json; decisiones tareas/20261107-130317-2vv-verificar/revisiones/registro-fhco7oqd/decisiones.json.
+
+### Nota (2026-11-07 13:56:52 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261107-130317-2vv-verificar/oracle-veredicto.txt.

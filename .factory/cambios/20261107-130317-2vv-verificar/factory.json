@@ -2,7 +2,7 @@
   "id": "20261107-130317-2vv-verificar",
   "titulo": "Verificar para CI: comprobar de solo lectura que los cambios están consistentes",
   "capacidad": "ci",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md",
   "spec_sha256": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe",
   "spec_aprobada": {
@@ -44,7 +44,19 @@
       "archivos_sha256": "656e10e7001107a5580d16b733cd7a094bfddbfc3d8ea363f6275337ed36aafb"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261107-130317-2vv-verificar/candidatos/a362e60/evidencia/hechos.json",
+    "hechos_sha256": "b90e01d12740135e94e9a8c8f095f5acc02d9b9127887b63e4f9dc01897f62ad",
+    "informe": ".factory/cambios/20261107-130317-2vv-verificar/oracle-veredicto.txt",
+    "informe_sha256": "a26bd672e902195d247912643740486ce2b2a0c1efd6c16c4b489d6b2fd2e4eb",
+    "cuando": "2026-11-07T13:56:52.823460+00:00",
+    "contexto": {
+      "head": "ee60f6164faef10c3b752c1ae9108eb2c6a69db5",
+      "archivos_sha256": "656e10e7001107a5580d16b733cd7a094bfddbfc3d8ea363f6275337ed36aafb"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -320,6 +332,17 @@
       "abiertos": 0,
       "sha256": "7ed2007e20417384cdbfc492af63d5657f42e2c5d7645ecc2cea38ec9a1f14bb",
       "decisiones_sha256": "a81e50033e0545ea331be7974eaf592796cff2fba177594a1cc39e2e0460b874"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T13:56:52.823477+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b90e01d12740135e94e9a8c8f095f5acc02d9b9127887b63e4f9dc01897f62ad"
     }
   ],
   "tipos": {

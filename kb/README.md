@@ -109,7 +109,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261106-002754-jzt-paginas]] — Web: un menú, un orden de lectura y toda la documentación (cerrada)
 - [[cambios/20261106-205202-8od-destinos]] — Despliegue a varios destinos con prueba de que todo quedó funcionando (cerrada)
 - [[cambios/20261107-013054-a8d-vista-destinos]] — Vista Destinos en el tablero de VS Code (cerrada)
-- [[cambios/20261107-130317-2vv-verificar]] — Verificar para CI: comprobar de solo lectura que los cambios están consistentes (revision_aprobada)
+- [[cambios/20261107-130317-2vv-verificar]] — Verificar para CI: comprobar de solo lectura que los cambios están consistentes (oracle_verde)
 
 ## Requisitos
 
