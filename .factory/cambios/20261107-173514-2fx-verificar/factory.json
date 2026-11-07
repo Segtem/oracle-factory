@@ -2,7 +2,7 @@
   "id": "20261107-173514-2fx-verificar",
   "titulo": "Sumar verificar a la puerta local de salida",
   "capacidad": "puerta",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261107-173514-2fx-verificar/specs/puerta/spec.md",
   "spec_sha256": "b69d483f02f6c2e06c509654bb77bfca6e99503fa42e2db57d8f49164629c039",
   "spec_aprobada": {
@@ -22,7 +22,27 @@
     "puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite",
     "puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261107-173514-2fx-verificar/revisiones/registro-jnznv_r_/informe.json",
+    "sha256": "6221fe6e2d277d23956a45718a91885988ca4a30939ddb4861e805e9b7899451",
+    "decisiones": "tareas/20261107-173514-2fx-verificar/revisiones/registro-jnznv_r_/decisiones.json",
+    "decisiones_sha256": "068612f96275c666cf0ac97791f9c443079a483374a12d13d741fcdad7ecd392",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T21:22:49.277463+00:00",
+    "motivo": "Codex sin hallazgos (el informe declara si pudo correr pruebas; lo cubrí con 5 mutaciones propias sobre puerta.py, todas rojas). Evidencia 1222 pruebas OK. Cambio de reglas de decisión (puerta.py): avisa y no bloquea, como declara la spec. Ediciones a tests/test_puerta.py: sólo adaptaciones por la nueva verificación.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "deb336f8ae3bfe4d655f030221f0f7745ffef705",
+      "archivos_sha256": "137c278748310bed6dc06f9c46f5834aa87b61dc2d233025205aebd9988345bd"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -204,6 +224,20 @@
       "cuando": "2026-11-07T21:09:04.264401+00:00",
       "decision": "aprobar",
       "candidato": "881da6e"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T21:22:49.277485+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "6221fe6e2d277d23956a45718a91885988ca4a30939ddb4861e805e9b7899451",
+      "decisiones_sha256": "068612f96275c666cf0ac97791f9c443079a483374a12d13d741fcdad7ecd392"
     }
   ],
   "tipos": {
@@ -279,14 +313,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Codex sin hallazgos (el informe declara si pudo correr pruebas; lo cubrí con 5 mutaciones propias sobre puerta.py, todas rojas). Evidencia 1222 pruebas OK. Cambio de reglas de decisión (puerta.py): avisa y no bloquea, como declara la spec. Ediciones a tests/test_puerta.py: sólo adaptaciones por la nueva verificación.",
-      "candidato": "881da6e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-07T21:09:04.264386+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
