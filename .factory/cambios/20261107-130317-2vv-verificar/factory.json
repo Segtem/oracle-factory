@@ -2,7 +2,7 @@
   "id": "20261107-130317-2vv-verificar",
   "titulo": "Verificar para CI: comprobar de solo lectura que los cambios están consistentes",
   "capacidad": "ci",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md",
   "spec_sha256": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe",
   "spec_aprobada": {
@@ -16,7 +16,13 @@
       "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook",
+    "ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona",
+    "ci_c65ac59b63e44085b.verificar_dice_si_los_cambios_estan_consistentes",
+    "ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene",
+    "ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -68,9 +74,30 @@
         "openspec/changes/20261107-130317-2vv-verificar/proposal.md": "04b2c24cccf5471d595d22e0dff9a50372f08ce00658db61ce659f264daa391d",
         "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T13:13:29.349143+00:00",
+      "ids": [
+        "ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook",
+        "ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona",
+        "ci_c65ac59b63e44085b.verificar_dice_si_los_cambios_estan_consistentes",
+        "ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene",
+        "ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie"
+      ]
     }
   ],
-  "tipos": {},
+  "tipos": {
+    "ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook": "funcional",
+    "ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona": "funcional",
+    "ci_c65ac59b63e44085b.verificar_dice_si_los_cambios_estan_consistentes": "funcional",
+    "ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene": "funcional",
+    "ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie": "funcional"
+  },
   "medidas": {},
   "medidas_pendientes": {}
 }
