@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a18/.factory/local/revisiones/d76cd31-codex-1",
+  "base": "4929fdd317416f4aba013057c0ed61805a5b2ce9",
+  "head": "d76cd3118c484da3097982ffd27d7ca46fc52e71",
+  "diff_sha256": "de2c2cb3e59fb5fdca956c633a6803c3bf1c9e0235d9d0b24242631fd91f3df6",
+  "context_sha256": "09d05fea0d84afa762523f56e9232e78eae052c6bd639aa3a4786c7557399452",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "a18-wheel-destinos-no-ejercitado",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El probador del wheel sólo comprueba la ayuda de destinos y desplegar",
+      "explanation": "La spec exige comprobar desde la instalación del wheel que funcionan `destinos` (y el pedido de revisión también pide cobertura de `desplegar`). `observar` recorre los subcomandos con `--help`, pero luego ejecuta sólo skill, skill --instalar, puerta, init/agentes y verificar. No ejercita `destinos` ni un despliegue. Por tanto el juicio puede dar por válida una distribución donde el parser anuncia esos comandos, pero sus operaciones fallan.",
+      "location": {"file": "tools/probar_entrega_a18.py", "start_line": 87, "end_line": 89, "side": "head"},
+      "trigger": "Introducir en el wheel un fallo en la ejecución normal de `oracle-factory destinos` o `oracle-factory desplegar`, manteniendo sus opciones `--help` funcionales, y correr `observar`/`validar`.",
+      "evidence": "En las líneas 87–89 se invoca cada subcomando exclusivamente con `--help`; el resto de `observar` no contiene una invocación de `destinos` ni `desplegar`. `validar` sólo comprueba esas entradas `ayuda_*`, mientras que sí valida resultado funcional para otros comandos.",
+      "related_requirement": "el_wheel_a18_instalado_ofrece_lo_nuevo",
+      "status": "pendiente",
+      "verification": "Inspección estática del probador y de tests/test_entrega_a18.py; no ejecuté mutación sobre una copia."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec, el diff y el código del probador; no ejecuté la suite ni construí/instalé el wheel durante esta revisión.",
+    "Mutaciones propias: no ejecutadas. El caso que sobreviviría por inspección es romper la ejecución funcional de destinos/desplegar dejando intacta su ayuda.",
+    "tests/datos/guias-texto.json y tests/test_docs.py actualizan referencias de la versión candidata y conservan los escenarios de detección de versiones discrepantes; las ediciones parecen justificadas por el cambio.",
+    "tests/test_entrega_a17.py y tests/test_publicada_a17.py se borran y se reemplazan por tests/test_entrega_a18.py. La sustitución cubre la versión a18 y el estado publicado previo de a17; la eliminación corresponde al ciclo de versión solicitado, aunque se reduce el foco independiente de los escenarios pa1–pa2 sobre publicaciones anteriores."
+  ]
+}

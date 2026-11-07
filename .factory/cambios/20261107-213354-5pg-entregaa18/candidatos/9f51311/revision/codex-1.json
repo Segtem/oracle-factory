@@ -1,0 +1,42 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a18/.factory/local/revisiones/9f51311-codex-1",
+  "base": "4929fdd317416f4aba013057c0ed61805a5b2ce9",
+  "head": "9f5131154778e58abb81e13a43df083d54f21efd",
+  "diff_sha256": "9571bdf759534309f78b0ec309783ad7e918c34c02243d567bc90d43839d59ee",
+  "context_sha256": "478710157d6d61a9f78a70246d78d48bb246821a7f538dd272b6be3a31895348",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "a18-registro-acepta-hashes-no-hexadecimales",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "La validación del registro acepta valores que no son hashes SHA-256",
+      "explanation": "problemas_del_registro sólo comprueba que cada valor de hashes sea una cadena de 64 caracteres. Una cadena como z repetida 64 veces pasa la validación aunque no sea una representación hexadecimal de SHA-256, por lo que un registro alterado puede considerarse completo y válido sin contener el hash del wheel o del sdist. La ruta de generación usa sha256, pero el validador no detecta esta corrupción.",
+      "location": {
+        "file": "tools/probar_entrega_a18.py",
+        "start_line": 181,
+        "end_line": 183,
+        "side": "head"
+      },
+      "trigger": "Cambiar hashes.wheel o hashes.sdist a una cadena de 64 caracteres no hexadecimales y llamar problemas_del_registro(reg).",
+      "evidence": "En las líneas 181–183 la condición exige tipo str y longitud 64, sin validar el alfabeto hexadecimal ni recalcular el hash contra los artefactos. Por inspección, un valor de 64 caracteres z no agrega problemas.",
+      "related_requirement": "la_entrega_a18_registra_sus_hashes_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Inspección estática de problemas_del_registro; no ejecuté una mutación ni la suite."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí propuesta, spec, diff del paquete y las fuentes de todos los archivos incluidos; el paquete declara omissions vacío y no contiene binarios omitidos.",
+    "No ejecuté la suite, no construí ni instalé el wheel, y no ejecuté mutaciones propias; el informe de la ronda anterior y el diff confirman que ahora observar invoca destinos --sin-consultar --json y desplegar --simular, y validar comprueba sus resultados.",
+    "El límite indicado por quien pidió la revisión permanece: un desplegar --simular que siempre muestre el plan con salida cero no se distingue de una simulación real correcta; el fixture sólo usa comandos true y no hay caso negativo real.",
+    "Las modificaciones de tests/datos/guias-texto.json y tests/test_docs.py actualizan las versiones candidatas en los fixtures y expectativas para probar discrepancias respecto de la nueva versión; parecen justificadas y no eliminan el tipo de escenario.",
+    "tests/test_entrega_a17.py pasa a tests/test_entrega_a18.py y actualiza versión/comandos; tests/test_publicada_a17.py y el test renombrado de publicación se quitan como pruebas específicas del ciclo a17. El reemplazo comprueba que a17 figure publicada y a18 preparada, pero omite las aserciones independientes de tag/release y de detección de divergencias candidatas/publicadas de pa1–pa2; su eliminación se entiende por el avance de versión, aunque reduce esa cobertura de regresión.",
+    "Hallazgo adicional: la validación de hashes acepta cualquier cadena de 64 caracteres; la creación habitual del registro sí calcula SHA-256."
+  ]
+}
