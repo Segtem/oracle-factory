@@ -52,14 +52,14 @@ class Base(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         return json.loads(r.stdout)
 
-    def tres_destinos(self, marca=None):
+    def tres_destinos(self, marca=None, carpeta='proy'):
         """api probado, app que falló en su despliegue, nodo (esp32) sin desplegar. `marca`: archivo donde cada consulta de versión deja una línea."""
         def destino(nombre, **mas):
             d = _dd.destino(nombre, **mas)
             if marca:
                 d['version'] = f'echo {nombre} >> {marca}; {d["version"]}'
             return d
-        sub = Path(self.tmp) / 'proy'
+        sub = Path(self.tmp) / carpeta
         sub.mkdir()
         raiz = _dd.proyecto(sub, {'api': destino('api'), 'app': destino('app', tipo='app', depende_de=['api'], desplegar='false'),
                                   'nodo': destino('nodo', tipo='esp32', depende_de=['api'])})
@@ -115,6 +115,18 @@ class Muestra(Base):
         consultada = next(h for h in salida['historia'] if 'desactualizado' in seccion(h))
         self.assertIn('desactualizado', seccion(consultada))
         self.assertIn('versión desconocida', seccion(salida['html']))  # antes de apretar el botón no se sabía
+        # Una consulta que empezó antes de que se registrara un despliegue no deja su respuesta (ya es vieja): se vuelve a «desconocida».
+        marca2 = Path(self.tmp) / 'consultas2'
+        otra = self.tres_destinos(marca=str(marca2), carpeta='otro')
+        _dd.git(otra, 'commit', '-q', '--allow-empty', '-m', 'algo nuevo')
+        decl = json.loads((otra / '.factory/destinos.json').read_text())
+        for d in decl['destinos'].values():
+            d['version'] = 'sleep 1; ' + d['version']  # la consulta tarda: un registro cambia mientras corre
+        (otra / '.factory/destinos.json').write_text(json.dumps(decl))
+        salida = self.tablero(otra, [{'tipo': 'consultar-destinos'}], CONCURRENTE='1')
+        self.assertTrue(marca2.exists())  # la consulta corrió
+        self.assertFalse(any('desactualizado' in seccion(h) for h in salida['historia']))  # ninguna pintura mostró la respuesta vieja
+        self.assertIn('versión desconocida', seccion(salida['historia'][-1]))
 
     # --- td3: sólo escribe, nunca despliega ------------------------------------------------------------------------------
     def test_td3_los_botones_escriben_en_la_terminal_sin_ejecutar_ni_autorizar(self):

@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero-destinos/.factory/local/revisiones/87a6bfc-codex-1",
+  "base": "194507f3eb2d9768b1e9f160c3e9beb820af052e",
+  "head": "87a6bfc4c75eabcc67deca30f02914edc7bcbe74",
+  "diff_sha256": "00b1b46a74f871d45b00a8c1dccfe9e1c5765956778a3fd82eab9a621f988178",
+  "context_sha256": "a8d4df84c1eb2eb12d75d80febc07a2d69c2392b051056944b26504a9734edfc",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "destinos-cache-pintura-concurrente",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "Una pintura concurrente puede dejar la consulta fuera del panel",
+      "explanation": "La respuesta de destinos se guarda al terminar la consulta, pero pintarTablero sólo escribe HTML si su número sigue siendo el más nuevo. Si una pintura más reciente termina mientras destinos --json está pendiente, la pintura de la consulta se descarta; la pintura reciente pudo haber leído la caché anterior. La caché ya contiene la respuesta nueva, pero no se programa otra pintura, así que el panel queda mostrando el estado previo hasta otro evento o repintado.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 163,
+        "end_line": 165,
+        "side": "head"
+      },
+      "trigger": "Con destinosConsultados nulo, presionar «Consultar ahora» y provocar una segunda pintura antes de que termine destinos --json (por ejemplo, un cambio de registro); la segunda pintura completa antes que la consulta.",
+      "evidence": "pintarTablero asigna un contador creciente a cada pedido y sólo acepta el HTML de la llamada más reciente (líneas 178–182 y 201). destinosLocales asigna destinosConsultados al completar la consulta (línea 163), pero no fuerza una nueva pintura si esa llamada pierde la carrera. En tal intercalación la página termina con el HTML de la pintura más nueva, formado antes de que la consulta rellenara la caché.",
+      "related_requirement": "el_tablero_no_consulta_los_destinos_sin_que_se_pida",
+      "status": "pendiente",
+      "verification": "Inferido de las rutas asíncronas y la protección por contador; no se pudo ejecutar una mutación temporal del checkout porque la revisión es de sólo lectura."
+    },
+    {
+      "id": "destinos-cache-compartida-entre-proyectos",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.88,
+      "title": "La respuesta consultada se reutiliza al cambiar de proyecto",
+      "explanation": "destinosConsultados es una variable global de la extensión y se reutiliza sin comprobar a qué raíz corresponde. Si se conserva el panel y cambia la carpeta de trabajo, un repintado en la nueva raíz puede mostrar destinos, rama y versiones consultados en el proyecto anterior en vez de ejecutar --sin-consultar para el nuevo proyecto.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 154,
+        "end_line": 165,
+        "side": "head"
+      },
+      "trigger": "Abrir el tablero en un proyecto A, pulsar «Consultar ahora», cambiar la carpeta raíz de VS Code al proyecto B sin cerrar el panel y provocar un repintado.",
+      "evidence": "La caché se declara como destinosConsultados sin clave de raíz (líneas 154–155); destinosLocales(raiz) recibe la raíz actual pero al resolver usa destinosConsultados directamente (línea 165). Sólo se invalida al cerrar el panel o al notificarse un registro de despliegue (líneas 315 y 357); cambiar de raíz no compara ni actualiza la clave de la caché.",
+      "related_requirement": "el_tablero_muestra_cada_destino_con_su_estado",
+      "status": "pendiente",
+      "verification": "Inferido del flujo de caché; el checkout no fue modificado para reproducirlo."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el paquete y revisé las rutas modificadas de extensión, renderizador, contrato y pruebas. No hay omisiones binarias en el paquete.",
+    "Corrí python -m unittest tests.test_tablero_destinos: 10 casos; 8 pasaron y 2 fallaron durante setup porque falta oracle_metalenguaje (ModuleNotFoundError), antes de sus aserciones.",
+    "No ejecuté la suite completa ni hice mutaciones en copias. La revisión de las carreras de caché es estática.",
+    "Las modificaciones de tests/contrato_en_node.cjs, tests/tablero_en_node.cjs y tests/test_contrato_vscode.py son aditivas y están justificadas por el nuevo JSON de destinos, el glob del vigía/historial de HTML y la inclusión de destinos en el contrato; las líneas retiradas fueron reemplazadas por el nuevo caso correspondiente, no se observa que se haya debilitado una aserción previa.",
+    "La guarda de consultar-destinos para invitados sólo se verifica indirectamente por ausencia del botón; no hay prueba propia de que un mensaje inyectado no dispare consultarDestinos. El guard está presente en extension.js (línea 261)."
+  ]
+}

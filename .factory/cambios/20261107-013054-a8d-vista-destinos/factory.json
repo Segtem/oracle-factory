@@ -197,6 +197,58 @@
         "factory_tablero_destinos.sin_destinos_o_con_error_el_tablero_sigue",
         "factory_tablero_destinos.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T02:40:49.105287+00:00",
+      "revisor": "codex",
+      "candidato": "87a6bfc",
+      "lanzamiento": "b173d642b581"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T02:40:49.142464+00:00",
+      "revisor": "agy",
+      "candidato": "87a6bfc",
+      "lanzamiento": "02d82a8e7bc8"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T02:40:54.756327+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "87a6bfc",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "02d82a8e7bc8"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T02:42:22.429628+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "87a6bfc",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "b173d642b581"
     }
   ],
   "tipos": {

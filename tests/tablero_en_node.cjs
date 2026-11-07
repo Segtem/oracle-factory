@@ -63,7 +63,9 @@ Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vsco
     await comandos['factory.tablero']();
     if (process.env.COMANDO) await comandos[process.env.COMANDO]();  // un comando de la paleta, además del tablero
     const html = panel.webview.html;
-    for (const m of mensajes) await panel.recibir(m);
+    // CONCURRENTE=1: un registro cambia (los vigías avisan) mientras los mensajes todavía se están atendiendo.
+    if (process.env.CONCURRENTE) await Promise.all([...mensajes.map(m => panel.recibir(m)), ...vigias.flatMap(v => v.cambios.map(f => f()))]);
+    else for (const m of mensajes) await panel.recibir(m);
     // Un registro que cambia (TABLERO_CAMBIO: ruta y contenido nuevo): el vigía avisa y el tablero se vuelve a armar.
     if (process.env.TABLERO_CAMBIO) {
         const {ruta, contenido} = JSON.parse(process.env.TABLERO_CAMBIO);
