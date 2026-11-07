@@ -112,7 +112,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261107-130317-2vv-verificar]] — Verificar para CI: comprobar de solo lectura que los cambios están consistentes (cerrada)
 - [[cambios/20261107-173514-2fx-verificar]] — Sumar verificar a la puerta local de salida (cerrada)
 - [[cambios/20261107-213354-5pg-entregaa18]] — Preparar la distribución 0.1.0a18 (cerrada)
-- [[cambios/20261107-235004-sb1-publicadaa18]] — Declarar publicada la 0.1.0a18 (spec_aprobada)
+- [[cambios/20261107-235004-sb1-publicadaa18]] — Declarar publicada la 0.1.0a18 (requisitos_importados)
 
 ## Requisitos
 
@@ -243,6 +243,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta]]
 - [[requisitos/distribucion_ca0259b11065d4ec5.los_textos_declaran_publicada_la_version_a16_publicada]]
 - [[requisitos/distribucion_ca0259b11065d4ec5.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta]]
+- [[requisitos/distribucion_ce1b0aba1db172723.los_textos_declaran_publicada_la_version_a18]]
+- [[requisitos/distribucion_ce1b0aba1db172723.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18]]
 - [[requisitos/distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado]] (ya no vigente)
 - [[requisitos/distribution_c01af4be8811ed3bb.entregar_artefactos_verificables]] (ya no vigente)
 - [[requisitos/distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto]] (ya no vigente)

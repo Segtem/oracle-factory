@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261107-235004-sb1-publicadaa18. Modo de trabajo: co
 ### Nota (2026-11-07 23:59:26 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261107-235004-sb1-publicadaa18/specs/distribucion/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-07 23:59:38 UTC)
+
+Requisitos importados: distribucion_ce1b0aba1db172723.los_textos_declaran_publicada_la_version_a18 (funcional), distribucion_ce1b0aba1db172723.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18 (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
