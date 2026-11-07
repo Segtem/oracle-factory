@@ -1,0 +1,67 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261107-130317-2vv-verificar",
+  "contexto": {
+    "head": "597f5c7cad57c3c4bd092e33591240c021e5c175",
+    "archivos_sha256": "656e10e7001107a5580d16b733cd7a094bfddbfc3d8ea363f6275337ed36aafb"
+  },
+  "documentos": {
+    "openspec/changes/20261107-130317-2vv-verificar/proposal.md": "04b2c24cccf5471d595d22e0dff9a50372f08ce00658db61ce659f264daa391d",
+    "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_verificar.corrida_completa.oracle",
+    "catalogos/factory_verificar.hay_un_ejemplo_de_ci_y_de_hook.oracle",
+    "catalogos/factory_verificar.un_cambio_cerrado_tiene_la_decision_de_una_persona.oracle",
+    "catalogos/factory_verificar.verificar_dice_si_los_cambios_estan_consistentes.oracle",
+    "catalogos/factory_verificar.verificar_no_exige_lo_que_otra_maquina_no_tiene.oracle",
+    "catalogos/factory_verificar.verificar_solo_lee_y_no_necesita_a_nadie.oracle",
+    "docs/ci.md",
+    "docs/plantillas/verificar.yml",
+    "openspec/changes/20261107-130317-2vv-verificar/design.md",
+    "openspec/changes/20261107-130317-2vv-verificar/proposal.md",
+    "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md",
+    "openspec/changes/20261107-130317-2vv-verificar/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/parser.py",
+    "oracle_factory/verificar.py",
+    "requisitos/ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook.requisito",
+    "requisitos/ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona.requisito",
+    "requisitos/ci_c65ac59b63e44085b.verificar_dice_si_los_cambios_estan_consistentes.requisito",
+    "requisitos/ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene.requisito",
+    "requisitos/ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie.requisito",
+    "site/documentacion.html",
+    "tests/datos/ayuda-cli.json",
+    "tests/test_verificar.py",
+    "tests/test_web_paginas.py",
+    "tools/sitio_paginas.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1211 pruebas, 11 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261107-130317-2vv-verificar/candidatos/a362e60/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261107-130317-2vv-verificar/candidatos/a362e60/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a2fcbb3: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261107-130317-2vv-verificar/candidatos/a2fcbb3/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Sin hallazgos. Contrasté los requisitos y escenarios de la spec con oracle_factory/verificar.py, sus funciones llamadas, el parser/CLI, la plantilla, la guía y tests/test_verificar.py.",
+    "codex (gpt-6-luna): Los tres límites: los registros ilegibles se convierten en problema en del_cambio; fases abandonadas se excluyen intencionalmente como no activas; sin commits, contexto_producto produce FactoryError y pendientes_actuales lo reporta para cambios con revisión u Oracle que necesitan comparación. No encontré fallo en esos caminos.",
+    "codex (gpt-6-luna): No ejecuté tests ni mutaciones manuales; revisé el código y las pruebas existentes estáticamente. No abrí archivos omitidos binarios; el paquete no declara omisiones.",
+    "codex (gpt-6-luna): tests/datos/ayuda-cli.json elimina la salida previa de ayuda y agrega la entrada de verificar. tests/test_web_paginas.py actualiza el conteo de 13 a 14 guías tras agregar docs/ci.md. Ambas ediciones existentes están justificadas por el nuevo subcomando y la documentación."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

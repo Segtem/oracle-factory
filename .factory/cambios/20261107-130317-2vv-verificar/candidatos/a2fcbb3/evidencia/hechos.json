@@ -1,0 +1,65 @@
+{
+  "verificar_caso": [
+    {
+      "requisito": "verificar_dice_si_los_cambios_estan_consistentes",
+      "caso": "Verificar.test_ci1_todo_consistente_sale_en_cero",
+      "codigo": 0
+    },
+    {
+      "requisito": "verificar_dice_si_los_cambios_estan_consistentes",
+      "caso": "Verificar.test_ci1_un_cambio_recien_creado_no_es_una_inconsistencia",
+      "codigo": 0
+    },
+    {
+      "requisito": "verificar_dice_si_los_cambios_estan_consistentes",
+      "caso": "Verificar.test_ci1_un_informe_tocado_despues_de_aprobarse",
+      "codigo": 0
+    },
+    {
+      "requisito": "verificar_dice_si_los_cambios_estan_consistentes",
+      "caso": "Verificar.test_ci1_una_revision_que_ya_no_corresponde",
+      "codigo": 0
+    },
+    {
+      "requisito": "verificar_solo_lee_y_no_necesita_a_nadie",
+      "caso": "Verificar.test_ci2_el_arbol_queda_igual",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_cambio_cerrado_tiene_la_decision_de_una_persona",
+      "caso": "Verificar.test_ci3_un_agente_cerro_en_modo_autonomo",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_cambio_cerrado_tiene_la_decision_de_una_persona",
+      "caso": "Verificar.test_ci3_un_cambio_integrado_hace_tiempo",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_cambio_cerrado_tiene_la_decision_de_una_persona",
+      "caso": "Verificar.test_ci3_un_cierre_sin_persona",
+      "codigo": 0
+    },
+    {
+      "requisito": "verificar_no_exige_lo_que_otra_maquina_no_tiene",
+      "caso": "Verificar.test_ci4_hechos_ausentes_en_un_clon_limpio",
+      "codigo": 0
+    },
+    {
+      "requisito": "verificar_no_exige_lo_que_otra_maquina_no_tiene",
+      "caso": "Verificar.test_ci4_hechos_presentes_pero_cambiados",
+      "codigo": 0
+    },
+    {
+      "requisito": "hay_un_ejemplo_de_ci_y_de_hook",
+      "caso": "Verificar.test_ci5_la_plantilla_solo_lee_y_la_guia_la_explica",
+      "codigo": 0
+    }
+  ],
+  "verificar_corrida": [
+    {
+      "completa": 1,
+      "casos": 11
+    }
+  ]
+}

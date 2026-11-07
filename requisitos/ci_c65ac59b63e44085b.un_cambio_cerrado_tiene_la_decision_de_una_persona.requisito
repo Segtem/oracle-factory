@@ -1,0 +1,4 @@
+requisito ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona:
+    texto "Tipo: funcional El sistema DEBE marcar como inconsistente un cambio cerrado cuyo cierre no lo decidió una persona —salvo en modo autónomo, donde el cierre de un agente es legítimo—, y NO DEBE comparar un cambio cerrado con el producto actual, porque integrarlo lo deja distinto por diseño."
+    fuente "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md#un_cambio_cerrado_tiene_la_decision_de_una_persona"
+    medido_por factory_verificar.un_cambio_cerrado_tiene_la_decision_de_una_persona, factory_verificar.corrida_completa

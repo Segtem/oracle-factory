@@ -39,6 +39,7 @@ from . import pruebas as pruebas_mod
 from . import procedencia as procedencia_mod
 from . import puerta as puerta_mod
 from . import despliegue as despliegue_mod
+from . import verificar as verificar_mod
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
 from . import kb as kb_mod
@@ -1475,6 +1476,9 @@ def problemas_de_revision(estado: dict) -> list[str]:
     return faltan
 
 
+DESACTUALIZADO = " desactualizado respecto del producto"
+
+
 def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
     faltan = pendientes(estado)
     faltan += [f"medidas de {rid}: {motivo}" for rid, motivo in medidas_sin_decision(estado)]
@@ -1488,7 +1492,7 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
             for nombre in ("revision", "oracle"):
                 registro = estado.get(nombre)
                 if registro and not mismo_producto(registro.get("contexto"), contexto):
-                    faltan.append(nombre + " desactualizado respecto del producto")
+                    faltan.append(nombre + DESACTUALIZADO)
         except (FactoryError, OSError) as e:
             faltan.append(str(e))
     faltan += problemas_de_revision(estado)
@@ -1583,7 +1587,7 @@ def marcar_archivado(estado: dict, capacidad: str, spec: str, forma: str) -> Non
 
 SOLO_LECTURA = {"estado", "donde", "log", "tablero", "por-que", "kb", "resumen", "listar", "ruta", "buscar", "trazabilidad",
                "trailer", "hooks", "init", "ejemplo", "preguntar", "unir-registro", "unir-generado", "rehacer-generado",
-               "agentes", "puerta", "skill", "destinos", "desplegar"}  # agentes escribe AGENTS.md y skill --instalar un archivo del proyecto, no el registro: no hay kb que refrescar
+               "agentes", "puerta", "skill", "destinos", "desplegar", "verificar"}  # agentes escribe AGENTS.md y skill --instalar un archivo del proyecto, no el registro: no hay kb que refrescar
 
 
 def archivar() -> None:
@@ -2436,6 +2440,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "mensaje": mensaje(args.id, args.texto, args.de)
         elif args.comando == "hooks": print(instalar_hook()); print(instalar_union())
         elif args.comando == "puerta": return comando_puerta(args.hook, args.rango)
+        elif args.comando == "verificar": return verificar_mod.comando(sys.modules[__name__], args.json)
         elif args.comando == "destinos": comando_destinos(args.json, args.sin_consultar)
         elif args.comando == "desplegar": return comando_desplegar(args.simular, args.autorizar, args.commit, args.destino)
         elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)

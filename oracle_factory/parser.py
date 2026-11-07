@@ -66,6 +66,8 @@ def construir_parser() -> argparse.ArgumentParser:
     q = sub.add_parser('puerta', help='la puerta local de salida: secretos en lo que se publica y las verificaciones del proyecto (la llama el hook pre-push)')
     q.add_argument('--hook', action='store_true', help='leer de la entrada estándar lo que Git está por empujar (así la llama el hook pre-push)')
     q.add_argument('rango', nargs='*', help='revisiones de git log a mirar (por defecto, lo que el remoto todavía no tiene)')
+    q = sub.add_parser('verificar', help='de sólo lectura: dice si los cambios están consistentes y sale con 1 si no (para un CI o un hook pre-push)')
+    q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado')
     q = sub.add_parser('destinos', help='los destinos de despliegue del proyecto (.factory/destinos.json) con su estado y su versión (sólo lectura)')
     q.add_argument('--json', action='store_true', help='imprimir JSON con los destinos y la última corrida (lo lee el tablero)')
     q.add_argument('--sin-consultar', action='store_true', help='no ejecutar el comando «version» de cada destino: la versión y «desactualizado» salen del último registro')

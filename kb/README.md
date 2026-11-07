@@ -109,6 +109,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261106-002754-jzt-paginas]] — Web: un menú, un orden de lectura y toda la documentación (cerrada)
 - [[cambios/20261106-205202-8od-destinos]] — Despliegue a varios destinos con prueba de que todo quedó funcionando (cerrada)
 - [[cambios/20261107-013054-a8d-vista-destinos]] — Vista Destinos en el tablero de VS Code (cerrada)
+- [[cambios/20261107-130317-2vv-verificar]] — Verificar para CI: comprobar de solo lectura que los cambios están consistentes (cerrada)
 
 ## Requisitos
 
@@ -144,6 +145,11 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto]]
 - [[requisitos/calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican]]
 - [[requisitos/calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo]]
+- [[requisitos/ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook]]
+- [[requisitos/ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona]]
+- [[requisitos/ci_c65ac59b63e44085b.verificar_dice_si_los_cambios_estan_consistentes]]
+- [[requisitos/ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene]]
+- [[requisitos/ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie]]
 - [[requisitos/cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec]]
 - [[requisitos/cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza]]
 - [[requisitos/cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base]]
