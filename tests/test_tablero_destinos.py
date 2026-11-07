@@ -123,10 +123,20 @@ class Muestra(Base):
         for d in decl['destinos'].values():
             d['version'] = 'sleep 1; ' + d['version']  # la consulta tarda: un registro cambia mientras corre
         (otra / '.factory/destinos.json').write_text(json.dumps(decl))
-        salida = self.tablero(otra, [{'tipo': 'consultar-destinos'}], CONCURRENTE='1')
+        salida = self.tablero(otra, [{'tipo': 'consultar-destinos'}], CONCURRENTE='registro')
         self.assertTrue(marca2.exists())  # la consulta corrió
         self.assertFalse(any('desactualizado' in seccion(h) for h in salida['historia']))  # ninguna pintura mostró la respuesta vieja
         self.assertIn('versión desconocida', seccion(salida['historia'][-1]))
+        # Dos «Consultar ahora» seguidos: la primera tarda más y termina última, pero su respuesta (más vieja) no pisa la de la segunda.
+        solo = Path(self.tmp) / 'solo'
+        solo.mkdir()
+        cuenta = Path(self.tmp) / 'cuenta'
+        raiz3 = _dd.proyecto(solo, {'api': _dd.destino('api', version=f'n=$(cat {cuenta} 2>/dev/null || echo 0); echo $((n+1)) > {cuenta}; '
+                                                                       'if [ "$n" = 0 ]; then sleep 2; echo VIEJA000; else echo NUEVA000; fi')})
+        salida = self.tablero(raiz3, [{'tipo': 'consultar-destinos'}, {'tipo': 'consultar-destinos'}], CONCURRENTE='mensajes')
+        pintadas = [seccion(h) for h in salida['historia']]
+        self.assertTrue(any('NUEVA000' in h for h in pintadas))
+        self.assertFalse(any('VIEJA000' in h for h in pintadas))
 
     # --- td3: sólo escribe, nunca despliega ------------------------------------------------------------------------------
     def test_td3_los_botones_escriben_en_la_terminal_sin_ejecutar_ni_autorizar(self):

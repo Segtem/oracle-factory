@@ -152,7 +152,7 @@ function anotar(texto) {
 }
 
 // «Consultar ahora»: lo que respondió la consulta de versiones, de ESTE proyecto, hasta que se escriba un registro de despliegue o se cierre el
-// panel. `generacion` sube cada vez que se invalida: una consulta que empezó antes no deja su respuesta.
+// panel. `generacion` sube cada vez que se invalida o empieza una consulta: una que empezó antes no deja su respuesta.
 let destinosConsultados = null;  // {raiz, datos}
 let generacion = 0;
 
@@ -163,7 +163,7 @@ function olvidarConsulta() { generacion++; destinosConsultados = null; }
 async function consultarLosDestinos() {
     const raiz = carpeta();
     if (!raiz || !fs.existsSync(path.join(raiz, '.factory', 'destinos.json'))) return;
-    const desde = generacion;
+    const desde = ++generacion;  // una consulta más nueva (o una invalidación) deja vieja a ésta: sólo la última guarda su respuesta
     try {
         const datos = await correr(raiz, ['destinos', '--json']);
         if (desde === generacion) destinosConsultados = {raiz, datos};
