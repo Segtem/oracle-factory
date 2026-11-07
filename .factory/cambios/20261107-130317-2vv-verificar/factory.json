@@ -2,7 +2,7 @@
   "id": "20261107-130317-2vv-verificar",
   "titulo": "Verificar para CI: comprobar de solo lectura que los cambios están consistentes",
   "capacidad": "ci",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md",
   "spec_sha256": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe",
   "spec_aprobada": {
@@ -23,7 +23,27 @@
     "ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene",
     "ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261107-130317-2vv-verificar/revisiones/registro-fhco7oqd/informe.json",
+    "sha256": "7ed2007e20417384cdbfc492af63d5657f42e2c5d7645ecc2cea38ec9a1f14bb",
+    "decisiones": "tareas/20261107-130317-2vv-verificar/revisiones/registro-fhco7oqd/decisiones.json",
+    "decisiones_sha256": "a81e50033e0545ea331be7974eaf592796cff2fba177594a1cc39e2e0460b874",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T13:56:39.596153+00:00",
+    "motivo": "Dos rondas de codex, ambas sin hallazgos (la segunda, tras reforzar una prueba). Codex revisó de forma estática: no pudo correr las pruebas en su entorno. Las corrí yo: evidencia de 1211 pruebas y 11 casos de contrato en éxito, y 14 mutaciones de verificar.py y de la plantilla, las 14 muertas (para matar la de contexto_producto reforcé test_ci2). Declarado: dos pruebas existentes editadas de forma aditiva (tests/datos/ayuda-cli.json suma el subcomando verificar; tests/test_web_paginas.py pasa de 13 a 14 guías por docs/ci.md), más tools/sitio_paginas.py y site/documentacion.html. Límites: sin prueba propia para un registro ilegible, un cambio abandonado ni un proyecto sin commits con cambios que necesitan compararse; verificar no está en la puerta local ni activado como workflow en este repo (decisiones de Brian). agy no revisó: su modelo configurado ya no existe.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "38c0e8fea4baec8337c7374e788480f0cf687325",
+      "archivos_sha256": "656e10e7001107a5580d16b733cd7a094bfddbfc3d8ea363f6275337ed36aafb"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -286,6 +306,20 @@
       "cuando": "2026-11-07T13:46:54.632224+00:00",
       "decision": "aprobar",
       "candidato": "a362e60"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T13:56:39.596185+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "7ed2007e20417384cdbfc492af63d5657f42e2c5d7645ecc2cea38ec9a1f14bb",
+      "decisiones_sha256": "a81e50033e0545ea331be7974eaf592796cff2fba177594a1cc39e2e0460b874"
     }
   ],
   "tipos": {
@@ -378,14 +412,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Dos rondas de codex, ambas sin hallazgos (la segunda, tras reforzar una prueba). Codex revisó de forma estática: no pudo correr las pruebas en su entorno. Las corrí yo: evidencia de 1211 pruebas y 11 casos de contrato en éxito, y 14 mutaciones de verificar.py y de la plantilla, las 14 muertas (para matar la de contexto_producto reforcé test_ci2). Declarado: dos pruebas existentes editadas de forma aditiva (tests/datos/ayuda-cli.json suma el subcomando verificar; tests/test_web_paginas.py pasa de 13 a 14 guías por docs/ci.md), más tools/sitio_paginas.py y site/documentacion.html. Límites: sin prueba propia para un registro ilegible, un cambio abandonado ni un proyecto sin commits con cambios que necesitan compararse; verificar no está en la puerta local ni activado como workflow en este repo (decisiones de Brian). agy no revisó: su modelo configurado ya no existe.",
-      "candidato": "a362e60",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-07T13:46:54.632209+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
