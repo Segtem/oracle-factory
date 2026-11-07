@@ -2,7 +2,7 @@
   "id": "20261107-013054-a8d-vista-destinos",
   "titulo": "Vista Destinos en el tablero de VS Code",
   "capacidad": "tablero",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md",
   "spec_sha256": "77fd82e433ca03bc883910b34baa26443efd0a0e9a34ec98da2e6cf404a77fd6",
   "spec_aprobada": {
@@ -23,7 +23,27 @@
     "tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza",
     "tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261107-013054-a8d-vista-destinos/revisiones/registro-i_xlp3yg/informe.json",
+    "sha256": "e81f505c2302594be31ba25e6cbb4ba88e727814f7fb14dfb4415b32f794e9ef",
+    "decisiones": "tareas/20261107-013054-a8d-vista-destinos/revisiones/registro-i_xlp3yg/decisiones.json",
+    "decisiones_sha256": "5eca7313837293b541f2f927acd55c1156ed50289c8f01fd978be1def195a65a",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T05:00:09.313708+00:00",
+    "motivo": "Tres rondas de codex: la última sin hallazgos. Cerrados la pintura concurrente que descartaba la consulta, la caché compartida entre proyectos y las consultas simultáneas fuera de orden: la consulta se hace en su propio manejador, guarda {raiz, datos} y una generación invalida las anteriores. Evidencia: 1200 pruebas, 10 casos de contrato, éxito. Declarado: tres pruebas existentes editadas de forma aditiva (tests/contrato_en_node.cjs, tests/tablero_en_node.cjs, tests/test_contrato_vscode.py). Límites: el cambio de raíz con el panel abierto y la guarda de consultar-destinos para invitados no tienen prueba propia. agy no pudo revisar: su wrapper pide un modelo que ya no existe.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "46c2bc519bb667cd4030b6700d0af983e962dfc5",
+      "archivos_sha256": "3bd7922f291a4bc20b325ac1e39e298c08bf06a3b5d244d70498edea6cf48a82"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -311,6 +331,20 @@
       "cuando": "2026-11-07T03:34:35.640406+00:00",
       "decision": "aprobar",
       "candidato": "291250f"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-07T05:00:09.313737+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "e81f505c2302594be31ba25e6cbb4ba88e727814f7fb14dfb4415b32f794e9ef",
+      "decisiones_sha256": "5eca7313837293b541f2f927acd55c1156ed50289c8f01fd978be1def195a65a"
     }
   ],
   "tipos": {
@@ -403,14 +437,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Tres rondas de codex: la última sin hallazgos. Cerrados la pintura concurrente que descartaba la consulta, la caché compartida entre proyectos y las consultas simultáneas fuera de orden: la consulta se hace en su propio manejador, guarda {raiz, datos} y una generación invalida las anteriores. Evidencia: 1200 pruebas, 10 casos de contrato, éxito. Declarado: tres pruebas existentes editadas de forma aditiva (tests/contrato_en_node.cjs, tests/tablero_en_node.cjs, tests/test_contrato_vscode.py). Límites: el cambio de raíz con el panel abierto y la guarda de consultar-destinos para invitados no tienen prueba propia. agy no pudo revisar: su wrapper pide un modelo que ya no existe.",
-      "candidato": "291250f",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-07T03:34:35.640382+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
