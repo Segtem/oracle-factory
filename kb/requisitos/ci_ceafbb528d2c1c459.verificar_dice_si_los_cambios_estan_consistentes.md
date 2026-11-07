@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `ci_ceafbb528d2c1c459.verificar_dice_si_los_cambios_estan_consistentes`
 - Vigente: sí
-- Cambio: [[cambios/20261107-130317-2vv-verificar]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: ninguna
 - Sin medir: sin medida todavía; escenarios: «todo consistente», «una revisión que ya no corresponde», «un informe tocado después de aprobarse»

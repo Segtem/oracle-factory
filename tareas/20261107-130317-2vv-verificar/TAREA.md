@@ -15,3 +15,7 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-07 13:11:58 UTC)
 
 Requisitos importados: ci_ceafbb528d2c1c459.hay_un_ejemplo_de_ci_y_de_hook (funcional), ci_ceafbb528d2c1c459.un_cambio_cerrado_tiene_la_decision_de_una_persona (funcional), ci_ceafbb528d2c1c459.verificar_dice_si_los_cambios_estan_consistentes (funcional), ci_ceafbb528d2c1c459.verificar_no_exige_lo_que_otra_maquina_no_tiene (funcional), ci_ceafbb528d2c1c459.verificar_solo_lee_y_no_necesita_a_nadie (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-07 13:13:20 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md; se reiniciaron las validaciones dependientes.

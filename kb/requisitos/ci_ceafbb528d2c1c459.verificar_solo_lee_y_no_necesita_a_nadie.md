@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `ci_ceafbb528d2c1c459.verificar_solo_lee_y_no_necesita_a_nadie`
 - Vigente: sí
-- Cambio: [[cambios/20261107-130317-2vv-verificar]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: ninguna
 - Sin medir: sin medida todavía; escenarios: «el árbol queda igual»

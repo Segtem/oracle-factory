@@ -2,27 +2,21 @@
   "id": "20261107-130317-2vv-verificar",
   "titulo": "Verificar para CI: comprobar de solo lectura que los cambios están consistentes",
   "capacidad": "ci",
-  "fase": "requisitos_importados",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md",
-  "spec_sha256": "8ee5caf6559efbe47e478cbb5dd6bfaba234c02943e1e6a8eeacbf68a3b4754b",
+  "spec_sha256": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-11-07T13:11:37.666189+00:00",
+    "cuando": "2026-11-07T13:13:20.820922+00:00",
     "documentos": {
-      "openspec/changes/20261107-130317-2vv-verificar/proposal.md": "f94ed150be4f0dbc72627f6ae05c26097bd440b483bd460b3ecfb7dd319aa975",
-      "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md": "8ee5caf6559efbe47e478cbb5dd6bfaba234c02943e1e6a8eeacbf68a3b4754b"
+      "openspec/changes/20261107-130317-2vv-verificar/proposal.md": "04b2c24cccf5471d595d22e0dff9a50372f08ce00658db61ce659f264daa391d",
+      "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe"
     }
   },
-  "requisitos": [
-    "ci_ceafbb528d2c1c459.hay_un_ejemplo_de_ci_y_de_hook",
-    "ci_ceafbb528d2c1c459.un_cambio_cerrado_tiene_la_decision_de_una_persona",
-    "ci_ceafbb528d2c1c459.verificar_dice_si_los_cambios_estan_consistentes",
-    "ci_ceafbb528d2c1c459.verificar_no_exige_lo_que_otra_maquina_no_tiene",
-    "ci_ceafbb528d2c1c459.verificar_solo_lee_y_no_necesita_a_nadie"
-  ],
+  "requisitos": [],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -62,15 +56,21 @@
         "ci_ceafbb528d2c1c459.verificar_no_exige_lo_que_otra_maquina_no_tiene",
         "ci_ceafbb528d2c1c459.verificar_solo_lee_y_no_necesita_a_nadie"
       ]
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T13:13:20.820948+00:00",
+      "documentos": {
+        "openspec/changes/20261107-130317-2vv-verificar/proposal.md": "04b2c24cccf5471d595d22e0dff9a50372f08ce00658db61ce659f264daa391d",
+        "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe"
+      }
     }
   ],
-  "tipos": {
-    "ci_ceafbb528d2c1c459.hay_un_ejemplo_de_ci_y_de_hook": "funcional",
-    "ci_ceafbb528d2c1c459.un_cambio_cerrado_tiene_la_decision_de_una_persona": "funcional",
-    "ci_ceafbb528d2c1c459.verificar_dice_si_los_cambios_estan_consistentes": "funcional",
-    "ci_ceafbb528d2c1c459.verificar_no_exige_lo_que_otra_maquina_no_tiene": "funcional",
-    "ci_ceafbb528d2c1c459.verificar_solo_lee_y_no_necesita_a_nadie": "funcional"
-  },
+  "tipos": {},
   "medidas": {},
   "medidas_pendientes": {}
 }

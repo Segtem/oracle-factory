@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `ci_ceafbb528d2c1c459.verificar_no_exige_lo_que_otra_maquina_no_tiene`
 - Vigente: sí
-- Cambio: [[cambios/20261107-130317-2vv-verificar]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: ninguna
 - Sin medir: sin medida todavía; escenarios: «hechos ausentes en un clon limpio», «hechos presentes pero cambiados»

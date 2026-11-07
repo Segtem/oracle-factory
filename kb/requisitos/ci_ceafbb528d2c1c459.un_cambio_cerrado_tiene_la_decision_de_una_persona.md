@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `ci_ceafbb528d2c1c459.un_cambio_cerrado_tiene_la_decision_de_una_persona`
 - Vigente: sí
-- Cambio: [[cambios/20261107-130317-2vv-verificar]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: ninguna
 - Sin medir: sin medida todavía; escenarios: «un cierre sin persona», «un cambio integrado hace tiempo»

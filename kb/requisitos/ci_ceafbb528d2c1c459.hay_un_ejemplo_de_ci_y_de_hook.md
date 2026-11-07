@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `ci_ceafbb528d2c1c459.hay_un_ejemplo_de_ci_y_de_hook`
 - Vigente: sí
-- Cambio: [[cambios/20261107-130317-2vv-verificar]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: ninguna
 - Sin medir: sin medida todavía; escenarios: «la plantilla sólo lee», «la guía enseña lo que hay»
