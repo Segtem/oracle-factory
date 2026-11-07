@@ -32,12 +32,17 @@ El sistema DEBE correr `verificar` sin terminal, sin identidad de agente y sin r
 
 ### Requirement: un_cambio_cerrado_tiene_la_decision_de_una_persona
 Tipo: funcional
-El sistema DEBE marcar como inconsistente un cambio cerrado cuyo cierre no lo decidió una persona, y NO DEBE comparar un cambio cerrado con el producto actual, porque integrarlo lo deja distinto por diseño.
+El sistema DEBE marcar como inconsistente un cambio cerrado cuyo cierre no lo decidió una persona —salvo en modo autónomo, donde el cierre de un agente es legítimo—, y NO DEBE comparar un cambio cerrado con el producto actual, porque integrarlo lo deja distinto por diseño.
 
 #### Scenario: un cierre sin persona
 - DADO un cambio cerrado cuyo registro tiene un cierre de un agente
 - CUANDO se corre `oracle-factory verificar`
 - ENTONCES sale con 1 y nombra el cambio y que su cierre no lo decidió una persona
+
+#### Scenario: un agente cerró en modo autónomo
+- DADO un cambio en modo autónomo cuyo cierre lo decidió un agente
+- CUANDO se corre `oracle-factory verificar`
+- ENTONCES no lo marca por ese cierre
 
 #### Scenario: un cambio integrado hace tiempo
 - DADO un cambio cerrado por una persona e integrado, con el producto cambiado después

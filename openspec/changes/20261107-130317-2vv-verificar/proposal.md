@@ -8,7 +8,7 @@ Hoy la consistencia de los cambios sólo la comprueba quien corre `estado` a man
 
 - Un comando nuevo, `oracle-factory verificar [--json]`, de sólo lectura, sin terminal ni agente. Recorre los cambios del proyecto y, de cada uno, comprueba lo que ya sabe comprobar `estado`:
   - en un cambio abierto, que la spec, las medidas, la revisión y el juicio sigan vigentes sobre el producto actual y que las huellas de los informes coincidan;
-  - en un cambio cerrado, que sus informes y decisiones conserven su huella y que el cierre lo haya decidido una persona (una propuesta de agente sin confirmar no cuenta).
+  - en un cambio cerrado, que sus informes y decisiones conserven su huella y que el cierre lo haya decidido una persona (una propuesta de agente sin confirmar no cuenta; en modo autónomo, el cierre de un agente sí vale).
 - Sale con 0 si todo está consistente y con 1 si algo no lo está, nombrando el cambio y qué falta. Con `--json` imprime lo mismo en un objeto con esquema versionado.
 - Los hechos de la evidencia que no están en esta máquina (carpeta ignorada o clon limpio) se avisan, no fallan: otra máquina no los tiene.
 - Una plantilla de workflow de GitHub Actions y una guía `docs/ci.md` que explica cómo usarlo en CI y en un hook `pre-push`.
