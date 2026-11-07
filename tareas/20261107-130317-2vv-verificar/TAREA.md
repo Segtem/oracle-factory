@@ -23,3 +23,23 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-07 13:13:29 UTC)
 
 Requisitos importados: ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook (funcional), ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona (funcional), ci_c65ac59b63e44085b.verificar_dice_si_los_cambios_estan_consistentes (funcional), ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene (funcional), ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-07 13:17:22 UTC)
+
+Medidas de ci_c65ac59b63e44085b.verificar_dice_si_los_cambios_estan_consistentes: factory_verificar.verificar_dice_si_los_cambios_estan_consistentes, factory_verificar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-07 13:17:24 UTC)
+
+Medidas de ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie: factory_verificar.verificar_solo_lee_y_no_necesita_a_nadie, factory_verificar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-07 13:17:25 UTC)
+
+Medidas de ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona: factory_verificar.un_cambio_cerrado_tiene_la_decision_de_una_persona, factory_verificar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-07 13:17:27 UTC)
+
+Medidas de ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene: factory_verificar.verificar_no_exige_lo_que_otra_maquina_no_tiene, factory_verificar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-07 13:17:29 UTC)
+
+Medidas de ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook: factory_verificar.hay_un_ejemplo_de_ci_y_de_hook, factory_verificar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

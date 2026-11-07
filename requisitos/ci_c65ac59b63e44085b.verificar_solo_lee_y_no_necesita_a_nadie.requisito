@@ -1,4 +1,4 @@
 requisito ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie:
     texto "Tipo: funcional El sistema DEBE correr `verificar` sin terminal, sin identidad de agente y sin red, y NO DEBE escribir ningún archivo del proyecto ni registrar ninguna acción."
     fuente "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md#verificar_solo_lee_y_no_necesita_a_nadie"
-    sin_medir "sin medida todavía; escenarios: «el árbol queda igual»"
+    medido_por factory_verificar.verificar_solo_lee_y_no_necesita_a_nadie, factory_verificar.corrida_completa

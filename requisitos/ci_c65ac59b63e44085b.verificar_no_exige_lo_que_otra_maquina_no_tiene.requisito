@@ -1,4 +1,4 @@
 requisito ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene:
     texto "Tipo: funcional El sistema DEBE avisar, sin fallar, de los hechos de evidencia que no están en esta máquina, porque un clon limpio o un CI no los tienen, y DEBE seguir fallando por una huella que no coincide."
     fuente "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md#verificar_no_exige_lo_que_otra_maquina_no_tiene"
-    sin_medir "sin medida todavía; escenarios: «hechos ausentes en un clon limpio», «hechos presentes pero cambiados»"
+    medido_por factory_verificar.verificar_no_exige_lo_que_otra_maquina_no_tiene, factory_verificar.corrida_completa
