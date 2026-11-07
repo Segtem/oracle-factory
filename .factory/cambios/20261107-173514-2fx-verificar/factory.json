@@ -168,6 +168,32 @@
         "factory_puerta_verificar.verificar_en_la_puerta_avisa_y_no_bloquea",
         "factory_puerta_verificar.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T21:07:58.202520+00:00",
+      "revisor": "codex",
+      "candidato": "881da6e",
+      "lanzamiento": "9cdef70e9cb9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T21:08:48.419123+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "881da6e",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "9cdef70e9cb9"
     }
   ],
   "tipos": {

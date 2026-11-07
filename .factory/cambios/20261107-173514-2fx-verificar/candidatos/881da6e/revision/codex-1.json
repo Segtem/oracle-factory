@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-puerta-verificar/.factory/local/revisiones/881da6e-codex-1",
+  "base": "28bea88fa78bbc15bf3277912a5ed1e2a437c7b2",
+  "head": "881da6e76eb35b8a1f6b6d96ecabf5977cbf9ba7",
+  "diff_sha256": "67de6d84355ceb543e9de9c3549d351f0712212d46ea83401530028c26050e6c",
+  "context_sha256": "5f2d32165b4a3d131a5b66f4d063a4359f43c79d05d29859e7cb478fd88c6495",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Inspeccioné la spec, el diff textual del paquete y el código de la puerta, el comando verificar y las pruebas afectadas; no ejecuté la suite ni mutaciones propias.",
+    "Las siete aserciones retiradas de tests/test_puerta.py se adaptan a la nueva verificación: las expectativas correspondientes ahora incluyen la llamada verificar, su omisión por falta de configuración, su estado al día y el texto actualizado del hook. No observé debilitamiento ajeno al cambio.",
+    "No encontré defectos reproducibles ni promesas incumplidas en los escenarios revisados; el paquete no omite archivos binarios. Las mutaciones indicadas por quien pidió la revisión (bloquear=True, SIN_FLAG vacío, sin pista, otro archivo y verificación ausente) se consideraron como información aportada, no como ejecuciones independientes."
+  ]
+}
