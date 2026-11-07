@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261107-213354-5pg-entregaa18]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el registro», «un registro sin límites»
+- Medidas: `factory_entrega_a18.la_entrega_a18_registra_sus_hashes_y_sus_limites`, `factory_entrega_a18.corrida_completa`
 - Fuente: openspec/changes/20261107-213354-5pg-entregaa18/specs/distribucion/spec.md#la_entrega_a18_registra_sus_hashes_y_sus_limites
 
 Tipo: funcional El sistema DEBE dejar un registro de la entrega con los hashes del wheel y del sdist, las versiones de las herramientas y lo observado, y DEBE declarar sus límites: que no publica nada, que la construcción no es reproducible bit a bit y qué no se comprobó.

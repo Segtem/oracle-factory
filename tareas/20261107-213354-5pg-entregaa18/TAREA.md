@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-07 22:05:58 UTC)
 
 Requisitos importados: distribucion_c0803bc5aff1b2bf1.el_wheel_a18_instalado_ofrece_lo_nuevo (funcional), distribucion_c0803bc5aff1b2bf1.la_entrega_a18_registra_sus_hashes_y_sus_limites (funcional), distribucion_c0803bc5aff1b2bf1.la_version_a18_es_coherente_y_declara_su_estado (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-07 22:08:01 UTC)
+
+Medidas de distribucion_c0803bc5aff1b2bf1.la_version_a18_es_coherente_y_declara_su_estado: factory_entrega_a18.la_version_a18_es_coherente_y_declara_su_estado, factory_entrega_a18.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-07 22:08:03 UTC)
+
+Medidas de distribucion_c0803bc5aff1b2bf1.el_wheel_a18_instalado_ofrece_lo_nuevo: factory_entrega_a18.el_wheel_a18_instalado_ofrece_lo_nuevo, factory_entrega_a18.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-07 22:08:05 UTC)
+
+Medidas de distribucion_c0803bc5aff1b2bf1.la_entrega_a18_registra_sus_hashes_y_sus_limites: factory_entrega_a18.la_entrega_a18_registra_sus_hashes_y_sus_limites, factory_entrega_a18.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

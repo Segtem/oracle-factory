@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261107-213354-5pg-entregaa18]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el wheel instalado en un entorno nuevo», «el wheel sin la skill», «un comando instalado que falla»
+- Medidas: `factory_entrega_a18.el_wheel_a18_instalado_ofrece_lo_nuevo`, `factory_entrega_a18.corrida_completa`
 - Fuente: openspec/changes/20261107-213354-5pg-entregaa18/specs/distribucion/spec.md#el_wheel_a18_instalado_ofrece_lo_nuevo
 
 Tipo: funcional El sistema DEBE construir el wheel y el sdist de la 0.1.0a18, instalar el wheel en un entorno nuevo y comprobar, desde fuera del checkout, la versión y el origen de la importación, que el wheel trae `oracle_factory/data/skill/SKILL.md` y que instalado funcionan `skill`, `skill --instalar`, `puerta`, `agentes`, `verificar` y `destinos` y la ayuda de los subcomandos nuevos.
