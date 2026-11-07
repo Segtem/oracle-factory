@@ -110,6 +110,20 @@ def observar(wheel: Path, factory: Path, python: Path, trabajo: Path, raiz: Path
     obs["agentes"] = {"rc": r.returncode, "nombra_la_skill": "oracle-factory skill --instalar" in texto, "nombra_el_camino_ligero": "camino ligero" in texto}
     r = correr([str(factory), "verificar", "--json"], cwd=proyecto, env=env_git)
     obs["verificar"] = {"rc": r.returncode, "esquema": "oracle-factory.verificar/1" in r.stdout}
+    # destinos y desplegar de verdad (no sólo su ayuda): con la declaración de ejemplo del paquete, sin consultar ni ejecutar nada de nadie
+    (proyecto / ".factory").mkdir(exist_ok=True)
+    (proyecto / ".factory/destinos.json").write_text(json.dumps({"rama": "main", "politica_ante_fallo": "cortar", "destinos": {
+        "app": {"tipo": "app", "desplegar": "true", "version": "true", "probar": "true"}}, "conjunto": {"probar": "true"}}), encoding="utf-8")
+    correr(["git", "add", "-A"], cwd=proyecto, env=env_git)
+    correr(["git", "commit", "-qm", "destinos"], cwd=proyecto, env=env_git)
+    r = correr([str(factory), "destinos", "--sin-consultar", "--json"], cwd=proyecto, env=env_git)
+    try:
+        nombres = [d["nombre"] for d in json.loads(r.stdout)["destinos"]]
+    except (ValueError, KeyError, TypeError):
+        nombres = []
+    obs["destinos"] = {"rc": r.returncode, "nombres": nombres}
+    r = correr([str(factory), "desplegar", "--simular"], cwd=proyecto, env=env_git)
+    obs["desplegar_simulado"] = {"rc": r.returncode, "muestra_el_plan": "Plan de despliegue" in r.stdout}
     return obs
 
 
@@ -140,6 +154,12 @@ def validar(obs: dict, version: str = VERSION) -> list[str]:
     v = obs.get("verificar", {})
     if v.get("rc") != 0 or not v.get("esquema"):
         p.append("verificar no sale limpio ni entrega su esquema en un proyecto recién iniciado")
+    d = obs.get("destinos", {})
+    if d.get("rc") != 0 or d.get("nombres") != ["app"]:
+        p.append("destinos no lista el destino declarado en un proyecto instalado")
+    s = obs.get("desplegar_simulado", {})
+    if s.get("rc") != 0 or not s.get("muestra_el_plan"):
+        p.append("desplegar --simular no muestra el plan en un proyecto instalado")
     g = obs.get("agentes", {})
     if g.get("rc") != 0 or not g.get("nombra_la_skill") or not g.get("nombra_el_camino_ligero"):
         p.append("agentes no escribe una guía que nombre la skill y el camino ligero")

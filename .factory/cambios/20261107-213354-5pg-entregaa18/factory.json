@@ -139,6 +139,32 @@
         "factory_entrega_a18.la_version_a18_es_coherente_y_declara_su_estado",
         "factory_entrega_a18.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T22:37:04.926938+00:00",
+      "revisor": "codex",
+      "candidato": "d76cd31",
+      "lanzamiento": "c748e1a89efa"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T22:38:17.039535+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "d76cd31",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "c748e1a89efa"
     }
   ],
   "tipos": {

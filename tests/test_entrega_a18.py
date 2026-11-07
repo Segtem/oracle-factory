@@ -28,6 +28,8 @@ BUENA = {
     "puerta": {"rc": 0, "salida": "Puerta local de salida"},
     "agentes": {"rc": 0, "nombra_la_skill": True, "nombra_el_camino_ligero": True},
     "verificar": {"rc": 0, "esquema": True},
+    "destinos": {"rc": 0, "nombres": ["app"]},
+    "desplegar_simulado": {"rc": 0, "muestra_el_plan": True},
 }
 ARTEFACTOS = {"wheel": Path("oracle_factory-0.1.0a18-py3-none-any.whl"), "sdist": Path("oracle_factory-0.1.0a18.tar.gz"),
               "wheel_sha256": "a" * 64, "sdist_sha256": "b" * 64}
@@ -94,7 +96,7 @@ class Juicio(unittest.TestCase):
         for camino, dicen in ((("skill_instalar", "rc"), "skill --instalar"), (("skill_instalar", "archivo_existe"), "skill --instalar"),
                               (("skill_instalar", "igual_a_la_del_comando"), "skill --instalar"), (("skill", "empieza_bien"), "oracle-factory skill"),
                               (("puerta", "rc"), "puerta"), (("agentes", "nombra_la_skill"), "agentes"), (("agentes", "nombra_el_camino_ligero"), "agentes"),
-                              (("verificar", "rc"), "verificar"), (("verificar", "esquema"), "verificar"), (("ayuda_destinos", "rc"), "destinos"), (("ayuda_skill", "rc"), "skill"), (("ayuda_puerta", "usage"), "puerta"), (("ayuda_hooks", "rc"), "hooks")):
+                              (("destinos", "rc"), "destinos"), (("destinos", "nombres"), "destinos"), (("desplegar_simulado", "rc"), "desplegar"), (("desplegar_simulado", "muestra_el_plan"), "desplegar"), (("verificar", "rc"), "verificar"), (("verificar", "esquema"), "verificar"), (("ayuda_destinos", "rc"), "destinos"), (("ayuda_skill", "rc"), "skill"), (("ayuda_puerta", "usage"), "puerta"), (("ayuda_hooks", "rc"), "hooks")):
             with self.subTest(camino=camino):
                 [p] = self.roto(*camino, valor=1 if camino[-1] == "rc" else False if camino[-1] != "usage" else "")
                 self.assertIn(dicen, p)
