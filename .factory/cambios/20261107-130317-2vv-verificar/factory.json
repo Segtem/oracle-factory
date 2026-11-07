@@ -250,6 +250,42 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "abb705d78132"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T13:45:44.251319+00:00",
+      "revisor": "codex",
+      "candidato": "a362e60",
+      "lanzamiento": "78d636aaae5c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T13:46:38.866339+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "a362e60",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "78d636aaae5c"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T13:46:54.632224+00:00",
+      "decision": "aprobar",
+      "candidato": "a362e60"
     }
   ],
   "tipos": {
@@ -341,5 +377,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Dos rondas de codex, ambas sin hallazgos (la segunda, tras reforzar una prueba). Codex revisó de forma estática: no pudo correr las pruebas en su entorno. Las corrí yo: evidencia de 1211 pruebas y 11 casos de contrato en éxito, y 14 mutaciones de verificar.py y de la plantilla, las 14 muertas (para matar la de contexto_producto reforcé test_ci2). Declarado: dos pruebas existentes editadas de forma aditiva (tests/datos/ayuda-cli.json suma el subcomando verificar; tests/test_web_paginas.py pasa de 13 a 14 guías por docs/ci.md), más tools/sitio_paginas.py y site/documentacion.html. Límites: sin prueba propia para un registro ilegible, un cambio abandonado ni un proyecto sin commits con cambios que necesitan compararse; verificar no está en la puerta local ni activado como workflow en este repo (decisiones de Brian). agy no revisó: su modelo configurado ya no existe.",
+      "candidato": "a362e60",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-07T13:46:54.632209+00:00"
+    }
+  }
 }
