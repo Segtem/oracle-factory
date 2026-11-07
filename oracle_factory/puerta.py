@@ -2,7 +2,7 @@
 
 Hoy son dos comprobaciones: **secretos** (credenciales con forma de credencial en las líneas agregadas por *todos* los commits que se
 van a publicar, no sólo en el resultado: un secreto agregado y quitado después igual viaja en la historia) y las **verificaciones**
-del proyecto (`agentes`, `kb` y `resumen` con `--verificar`). Es una lista: los analizadores estáticos y `verificar` de CI se suman acá.
+del proyecto (`agentes`, `kb` y `resumen` con `--verificar`, y `verificar`, la consistencia de los cambios). Es una lista: los analizadores estáticos se suman acá.
 
 El hook `pre-push` (ver `cli.instalar_hook`) la llama con lo que Git está por empujar. Sólo bloquea con `CODIGO_BLOQUEO`: cualquier otra
 salida (un intérprete que falta, un proyecto mal configurado, un error interno) avisa y deja pasar, porque una herramienta rota no
@@ -18,7 +18,11 @@ EXENCION = "factory:secreto-ok"
 # Cada verificación y el archivo que la hace aplicable: si el proyecto todavía no lo generó, no hay nada que verificar (se omite).
 # El tercer valor: si vencida bloquea. La guía no se arregla sola y desorienta a los agentes; kb y resumen se rehacen al integrar (post-merge),
 # así que vencidos son cotidianos (p. ej. tras agregar un mensaje a un cambio): se avisan.
-VERIFICACIONES = (("agentes", "AGENTS.md", True), ("kb", "kb/README.md", False), ("resumen", ".factory/resumen.md", False))
+VERIFICACIONES = (("agentes", "AGENTS.md", True), ("kb", "kb/README.md", False), ("resumen", ".factory/resumen.md", False),
+                  ("verificar", ".factory/config.json", False))
+# `verificar` ya es la verificación (no tiene --verificar) y avisa: un cambio con la revisión vieja es normal en una rama de trabajo.
+SIN_FLAG = {"verificar"}
+PISTAS = {"verificar": "detalle: oracle-factory verificar"}
 
 # Valores con forma de credencial, no palabras. Cada patrón captura el valor en el grupo 1 (o el 0 si no hay grupo).
 PATRONES: tuple[tuple[str, re.Pattern], ...] = (
@@ -126,7 +130,7 @@ def secretos(ejecutar: Callable, rango: list[str]) -> list[dict]:
 
 
 def verificaciones(verificar: Callable, existe: Callable[[str], bool] | None = None) -> tuple[list[str], list[str], list[str]]:
-    """(problemas, avisos, omitidas): corre agentes, kb y resumen con --verificar (todas, aunque una falle).
+    """(problemas, avisos, omitidas): corre agentes, kb, resumen y verificar (todas, aunque una falle).
 
     Una guía vieja es un problema (bloquea); un kb o un resumen vencidos son un aviso; una verificación cuyo archivo todavía no existe se
     omite: no hay nada vencido que corregir, y bloquear el primer push de un proyecto nuevo sería hostil."""
@@ -135,10 +139,10 @@ def verificaciones(verificar: Callable, existe: Callable[[str], bool] | None = N
         if existe is not None and not existe(archivo):
             omitidas.append(nombre)
             continue
-        codigo, salida = verificar([nombre, "--verificar"])
+        codigo, salida = verificar([nombre] if nombre in SIN_FLAG else [nombre, "--verificar"])
         if codigo:
             primera = next((l.strip() for l in (salida or "").splitlines() if l.strip()), "falló sin mensaje")
-            (problemas if bloquea else avisos).append(f"{nombre}: {primera[:200]}")
+            (problemas if bloquea else avisos).append(f"{nombre}: {primera[:200]}" + (f" ({PISTAS[nombre]})" if nombre in PISTAS else ""))
     return problemas, avisos, omitidas
 
 

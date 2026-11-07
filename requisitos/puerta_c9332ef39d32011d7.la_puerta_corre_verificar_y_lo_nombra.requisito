@@ -1,0 +1,4 @@
+requisito puerta_c9332ef39d32011d7.la_puerta_corre_verificar_y_lo_nombra:
+    texto "Tipo: funcional El sistema DEBE correr `verificar` entre las verificaciones de la puerta local, junto a `agentes`, `kb` y `resumen`, todas aunque una falle, y DEBE nombrarlo en el resultado con su primera línea y el comando para ver el detalle cuando encuentra algo."
+    fuente "openspec/changes/20261107-173514-2fx-verificar/specs/puerta/spec.md#la_puerta_corre_verificar_y_lo_nombra"
+    sin_medir "sin medida todavía; escenarios: «un cambio inconsistente se nombra», «todo consistente»"

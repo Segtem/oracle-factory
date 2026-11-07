@@ -2,11 +2,26 @@
   "id": "20261107-173514-2fx-verificar",
   "titulo": "Sumar verificar a la puerta local de salida",
   "capacidad": "puerta",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261107-173514-2fx-verificar/specs/puerta/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "b69d483f02f6c2e06c509654bb77bfca6e99503fa42e2db57d8f49164629c039",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T20:39:58.578755+00:00",
+    "documentos": {
+      "openspec/changes/20261107-173514-2fx-verificar/proposal.md": "01ca8d9765a4af4320824a80efc907dee048f9bca101a0084a1c6f9a15a3893b",
+      "openspec/changes/20261107-173514-2fx-verificar/specs/puerta/spec.md": "b69d483f02f6c2e06c509654bb77bfca6e99503fa42e2db57d8f49164629c039"
+    }
+  },
+  "requisitos": [
+    "puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real",
+    "puerta_c9332ef39d32011d7.la_puerta_corre_verificar_y_lo_nombra",
+    "puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite",
+    "puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +34,40 @@
       "forma": "decidio",
       "cuando": "2026-11-07T17:35:14.608518+00:00",
       "capacidad": "puerta"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T20:39:58.578779+00:00",
+      "documentos": {
+        "openspec/changes/20261107-173514-2fx-verificar/proposal.md": "01ca8d9765a4af4320824a80efc907dee048f9bca101a0084a1c6f9a15a3893b",
+        "openspec/changes/20261107-173514-2fx-verificar/specs/puerta/spec.md": "b69d483f02f6c2e06c509654bb77bfca6e99503fa42e2db57d8f49164629c039"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T20:40:07.903129+00:00",
+      "ids": [
+        "puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real",
+        "puerta_c9332ef39d32011d7.la_puerta_corre_verificar_y_lo_nombra",
+        "puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite",
+        "puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real": "funcional",
+    "puerta_c9332ef39d32011d7.la_puerta_corre_verificar_y_lo_nombra": "funcional",
+    "puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite": "funcional",
+    "puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

@@ -169,7 +169,7 @@ class Detectar(unittest.TestCase):
         self.assertIn('--no-verify', documento)
         self.assertIn('Sólo lectura', documento)
         for nombre, *_ in puerta.VERIFICACIONES:
-            self.assertIn(f'`{nombre} --verificar`', documento)
+            self.assertIn(f'`{nombre} --verificar`' if nombre not in puerta.SIN_FLAG else f'`{nombre}`', documento)  # verificar no tiene el flag
 
     def test_pu1_el_contrato_del_verificador_nombra_exactamente_los_casos_que_existen(self):
         """Un nombre de caso mal escrito en tools/verify_puerta_local.py deja la evidencia en rojo sin que el producto falle."""
@@ -212,7 +212,7 @@ class Verificaciones(unittest.TestCase):
     def test_pu2_las_tres_verificaciones_pasan(self):
         v = self.verificar()
         self.assertEqual(puerta.verificaciones(v), ([], [], []))
-        self.assertEqual(v.llamadas, ['agentes', 'kb', 'resumen'])
+        self.assertEqual(v.llamadas, ['agentes', 'kb', 'resumen', 'verificar'])
 
     def test_pu2_una_que_falla_se_nombra_y_las_demas_se_corren_igual(self):
         v = self.verificar(falla=('agentes',))
@@ -221,7 +221,7 @@ class Verificaciones(unittest.TestCase):
         self.assertEqual(len(problemas), 1)
         self.assertIn('agentes', problemas[0])
         self.assertIn('vieja', problemas[0])
-        self.assertEqual(v.llamadas, ['agentes', 'kb', 'resumen'])
+        self.assertEqual(v.llamadas, ['agentes', 'kb', 'resumen', 'verificar'])
 
     def test_pu2_un_kb_o_un_resumen_vencidos_avisan_y_no_bloquean(self):
         problemas, avisos, omitidas = puerta.verificaciones(self.verificar(falla=('kb', 'resumen')))
@@ -237,12 +237,12 @@ class Verificaciones(unittest.TestCase):
     def test_pu2_la_verificacion_pide_siempre_verificar_y_no_escribe(self):
         argumentos = []
         puerta.verificaciones(lambda argv: (argumentos.append(argv) or (0, '')))  # noqa: E501
-        self.assertEqual(argumentos, [['agentes', '--verificar'], ['kb', '--verificar'], ['resumen', '--verificar']])
+        self.assertEqual(argumentos, [['agentes', '--verificar'], ['kb', '--verificar'], ['resumen', '--verificar'], ['verificar']])
 
     def test_pu2_una_verificacion_cuyo_archivo_no_existe_se_omite_y_no_bloquea(self):
         v = self.verificar(falla=('kb', 'resumen', 'agentes'))
         problemas, avisos, omitidas = puerta.verificaciones(v, existe=lambda archivo: archivo == 'AGENTS.md')
-        self.assertEqual((omitidas, avisos), (['kb', 'resumen'], []))
+        self.assertEqual((omitidas, avisos), (['kb', 'resumen', 'verificar'], []))
         self.assertEqual([p.split(':')[0] for p in problemas], ['agentes'])  # la que existe y está vieja, sí
         self.assertEqual(v.llamadas, ['agentes'])  # y las omitidas ni se corren
 
@@ -252,7 +252,7 @@ class Verificaciones(unittest.TestCase):
         self.assertEqual(codigo, 0)
         self.assertIn('! vencidos, no bloquean', texto)
         self.assertIn('kb: kb está vieja', texto)
-        self.assertIn('✓ verificaciones: agentes, resumen al día', texto)  # kb no figura entre las que están al día
+        self.assertIn('✓ verificaciones: agentes, resumen, verificar al día', texto)  # kb no figura entre las que están al día
         self.assertNotIn('--no-verify', texto)
         codigo, texto = puerta.correr(limpio, [['HEAD']], self.verificar(falla=('agentes', 'kb')))
         self.assertEqual(codigo, puerta.CODIGO_BLOQUEO)
@@ -377,7 +377,7 @@ class HookReal(unittest.TestCase):
         self.assertTrue(self.hook().is_file())
         self.assertTrue(os.access(self.hook(), os.X_OK))
         self.assertIn('pre-push', self.salida)
-        self.assertIn('kb o un resumen vencidos sólo avisan', self.salida)  # el mensaje dice la política real
+        self.assertIn('kb o un resumen vencidos, o un cambio inconsistente (`verificar`), sólo avisan', self.salida)  # el mensaje dice la política real
         self.assertNotIn('verificaciones vencidas se bloquea', self.salida)
         self.assertIn('puerta', self.hook().read_text())
 
