@@ -1,0 +1,4 @@
+requisito distribucion_c0803bc5aff1b2bf1.la_version_a18_es_coherente_y_declara_su_estado:
+    texto "Tipo: funcional El sistema DEBE declarar la misma versión 0.1.0a18 en los metadatos del paquete, en la CLI, en el uv.lock y en los textos de instalación, notas y web, DEBE presentar la 0.1.0a17 como publicada y la 0.1.0a18 como preparada sin afirmar que ya esté publicada, y NO DEBE dejar la versión anterior como actual en ningún texto."
+    fuente "openspec/changes/20261107-213354-5pg-entregaa18/specs/distribucion/spec.md#la_version_a18_es_coherente_y_declara_su_estado"
+    sin_medir "sin medida todavía; escenarios: «preparar la entrega nueva», «un texto que quedó con la versión vieja»"

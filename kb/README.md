@@ -111,7 +111,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261107-013054-a8d-vista-destinos]] — Vista Destinos en el tablero de VS Code (cerrada)
 - [[cambios/20261107-130317-2vv-verificar]] — Verificar para CI: comprobar de solo lectura que los cambios están consistentes (cerrada)
 - [[cambios/20261107-173514-2fx-verificar]] — Sumar verificar a la puerta local de salida (cerrada)
-- [[cambios/20261107-213354-5pg-entregaa18]] — Preparar la distribución 0.1.0a18 (espera_aprobacion_spec)
+- [[cambios/20261107-213354-5pg-entregaa18]] — Preparar la distribución 0.1.0a18 (requisitos_importados)
 
 ## Requisitos
 
@@ -221,6 +221,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/despliegue_c1f413032a7a55aa1.sirve_para_cualquier_proyecto]]
 - [[requisitos/despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_una_persona]]
 - [[requisitos/despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho]]
+- [[requisitos/distribucion_c0803bc5aff1b2bf1.el_wheel_a18_instalado_ofrece_lo_nuevo]]
+- [[requisitos/distribucion_c0803bc5aff1b2bf1.la_entrega_a18_registra_sus_hashes_y_sus_limites]]
+- [[requisitos/distribucion_c0803bc5aff1b2bf1.la_version_a18_es_coherente_y_declara_su_estado]]
 - [[requisitos/distribucion_c0fb4528d614ab5c0.los_textos_declaran_publicada_la_version_a17]]
 - [[requisitos/distribucion_c0fb4528d614ab5c0.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a17]]
 - [[requisitos/distribucion_c429661c62d96c96b.el_wheel_a16_instalado_ofrece_lo_nuevo]]
