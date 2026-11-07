@@ -1,0 +1,19 @@
+---
+generado: oracle-factory kb
+id: "ci_ceafbb528d2c1c459.hay_un_ejemplo_de_ci_y_de_hook"
+vigente: true
+---
+
+# hay un ejemplo de ci y de hook
+
+> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
+
+- Id: `ci_ceafbb528d2c1c459.hay_un_ejemplo_de_ci_y_de_hook`
+- Vigente: sí
+- Cambio: [[cambios/20261107-130317-2vv-verificar]]
+- Veredicto: sin juicio
+- Medidas: ninguna
+- Sin medir: sin medida todavía; escenarios: «la plantilla sólo lee», «la guía enseña lo que hay»
+- Fuente: openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md#hay_un_ejemplo_de_ci_y_de_hook
+
+Tipo: funcional El sistema DEBE traer una plantilla de workflow de GitHub Actions que corre `oracle-factory verificar` con permisos de sólo lectura y sin secretos, y una guía `docs/ci.md` que explica ese workflow y el uso de `verificar` en un hook `pre-push`.
