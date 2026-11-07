@@ -59,3 +59,7 @@ Medidas de tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue: 
 ### Nota (2026-11-07 05:00:09 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres rondas de codex: la última sin hallazgos. Cerrados la pintura concurrente que descartaba la consulta, la caché compartida entre proyectos y las consultas simultáneas fuera de orden: la consulta se hace en su propio manejador, guarda {raiz, datos} y una generación invalida las anteriores. Evidencia: 1200 pruebas, 10 casos de contrato, éxito. Declarado: tres pruebas existentes editadas de forma aditiva (tests/contrato_en_node.cjs, tests/tablero_en_node.cjs, tests/test_contrato_vscode.py). Límites: el cambio de raíz con el panel abierto y la guarda de consultar-destinos para invitados no tienen prueba propia. agy no pudo revisar: su wrapper pide un modelo que ya no existe.); 0 abiertos derivados; commit 46c2bc519bb667cd4030b6700d0af983e962dfc5; informe tareas/20261107-013054-a8d-vista-destinos/revisiones/registro-i_xlp3yg/informe.json; decisiones tareas/20261107-013054-a8d-vista-destinos/revisiones/registro-i_xlp3yg/decisiones.json.
+
+### Nota (2026-11-07 05:00:43 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261107-013054-a8d-vista-destinos/oracle-veredicto.txt.

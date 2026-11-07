@@ -2,7 +2,7 @@
   "id": "20261107-013054-a8d-vista-destinos",
   "titulo": "Vista Destinos en el tablero de VS Code",
   "capacidad": "tablero",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md",
   "spec_sha256": "77fd82e433ca03bc883910b34baa26443efd0a0e9a34ec98da2e6cf404a77fd6",
   "spec_aprobada": {
@@ -44,7 +44,19 @@
       "archivos_sha256": "3bd7922f291a4bc20b325ac1e39e298c08bf06a3b5d244d70498edea6cf48a82"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261107-013054-a8d-vista-destinos/candidatos/291250f/evidencia/hechos.json",
+    "hechos_sha256": "e9a374a5d3309e9b71eb31426d07d2c8d3763a03b9f90ef77aa9089b40552279",
+    "informe": ".factory/cambios/20261107-013054-a8d-vista-destinos/oracle-veredicto.txt",
+    "informe_sha256": "85d0781133802efd23522a23cd703b735372974bab95062fabd2a68c013ddc7f",
+    "cuando": "2026-11-07T05:00:43.204699+00:00",
+    "contexto": {
+      "head": "2d29d8711dd0b68961f34576f2a70bf426523e9f",
+      "archivos_sha256": "3bd7922f291a4bc20b325ac1e39e298c08bf06a3b5d244d70498edea6cf48a82"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -345,6 +357,17 @@
       "abiertos": 0,
       "sha256": "e81f505c2302594be31ba25e6cbb4ba88e727814f7fb14dfb4415b32f794e9ef",
       "decisiones_sha256": "5eca7313837293b541f2f927acd55c1156ed50289c8f01fd978be1def195a65a"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T05:00:43.204713+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "e9a374a5d3309e9b71eb31426d07d2c8d3763a03b9f90ef77aa9089b40552279"
     }
   ],
   "tipos": {

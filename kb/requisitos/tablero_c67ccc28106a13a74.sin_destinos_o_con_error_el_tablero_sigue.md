@@ -11,7 +11,7 @@ vigente: true
 - Id: `tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue`
 - Vigente: sí
 - Cambio: [[cambios/20261107-013054-a8d-vista-destinos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_tablero_destinos.sin_destinos_o_con_error_el_tablero_sigue`, `factory_tablero_destinos.corrida_completa`
 - Fuente: openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md#sin_destinos_o_con_error_el_tablero_sigue
 
