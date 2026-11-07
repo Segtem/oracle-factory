@@ -110,6 +110,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261106-205202-8od-destinos]] — Despliegue a varios destinos con prueba de que todo quedó funcionando (cerrada)
 - [[cambios/20261107-013054-a8d-vista-destinos]] — Vista Destinos en el tablero de VS Code (cerrada)
 - [[cambios/20261107-130317-2vv-verificar]] — Verificar para CI: comprobar de solo lectura que los cambios están consistentes (cerrada)
+- [[cambios/20261107-173514-2fx-verificar]] — Sumar verificar a la puerta local de salida (cerrada)
 
 ## Requisitos
 
@@ -360,6 +361,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject]]
 - [[requisitos/procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio]]
 - [[requisitos/procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario]]
+- [[requisitos/puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real]]
+- [[requisitos/puerta_c9332ef39d32011d7.la_puerta_corre_verificar_y_lo_nombra]]
+- [[requisitos/puerta_c9332ef39d32011d7.sin_registro_de_factory_verificar_se_omite]]
+- [[requisitos/puerta_c9332ef39d32011d7.verificar_en_la_puerta_avisa_y_no_bloquea]]
 - [[requisitos/resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas]]
 - [[requisitos/resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente]]
 - [[requisitos/resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice]]

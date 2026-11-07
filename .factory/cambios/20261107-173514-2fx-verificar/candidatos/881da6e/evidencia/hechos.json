@@ -1,0 +1,65 @@
+{
+  "puerta_verificar_caso": [
+    {
+      "requisito": "la_puerta_corre_verificar_y_lo_nombra",
+      "caso": "PuertaVerificar.test_pv1_el_verificar_de_verdad_acepta_el_argumento_que_le_pasa_la_puerta",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_puerta_corre_verificar_y_lo_nombra",
+      "caso": "PuertaVerificar.test_pv1_todo_consistente_figura_al_dia",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_puerta_corre_verificar_y_lo_nombra",
+      "caso": "PuertaVerificar.test_pv1_un_cambio_inconsistente_se_nombra_con_su_primera_linea_y_el_comando",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_puerta_corre_verificar_y_lo_nombra",
+      "caso": "PuertaVerificar.test_pv1_verificar_se_corre_junto_a_las_otras_aunque_una_falle_y_sin_el_flag_verificar",
+      "codigo": 0
+    },
+    {
+      "requisito": "verificar_en_la_puerta_avisa_y_no_bloquea",
+      "caso": "PuertaVerificar.test_pv2_un_cambio_inconsistente_pasa_y_no_sugiere_no_verify",
+      "codigo": 0
+    },
+    {
+      "requisito": "verificar_en_la_puerta_avisa_y_no_bloquea",
+      "caso": "PuertaVerificar.test_pv2_un_secreto_sigue_bloqueando_y_el_aviso_se_muestra",
+      "codigo": 0
+    },
+    {
+      "requisito": "verificar_en_la_puerta_avisa_y_no_bloquea",
+      "caso": "PuertaVerificar.test_pv2_verificar_no_es_de_los_que_bloquean",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_registro_de_factory_verificar_se_omite",
+      "caso": "PuertaVerificar.test_pv3_la_puerta_de_verdad_decide_por_config_json",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_registro_de_factory_verificar_se_omite",
+      "caso": "PuertaVerificar.test_pv3_sin_config_json_se_omite_se_dice_y_no_se_corre",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_y_el_hook_cuentan_la_politica_real",
+      "caso": "PuertaVerificar.test_pv4_el_hook_dice_que_un_cambio_inconsistente_solo_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_y_el_hook_cuentan_la_politica_real",
+      "caso": "PuertaVerificar.test_pv4_la_guia_nombra_verificar_dice_que_avisa_y_remite_a_ci",
+      "codigo": 0
+    }
+  ],
+  "puerta_verificar_corrida": [
+    {
+      "completa": 1,
+      "casos": 11
+    }
+  ]
+}

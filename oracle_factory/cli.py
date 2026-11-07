@@ -815,7 +815,7 @@ def instalar_pre_push(carpeta: Path) -> str:
     hook.parent.mkdir(parents=True, exist_ok=True)
     hook.write_text(hook_pre_push(), encoding="utf-8")
     hook.chmod(0o755)
-    return f"Puerta local de salida en {hook}: un push con un secreto o con la guía para agentes vencida se bloquea; un kb o un resumen vencidos sólo avisan (git push --no-verify la saltea)."
+    return f"Puerta local de salida en {hook}: un push con un secreto o con la guía para agentes vencida se bloquea; un kb o un resumen vencidos, o un cambio inconsistente (`verificar`), sólo avisan (git push --no-verify la saltea)."
 
 
 def instalar_hook() -> str:
