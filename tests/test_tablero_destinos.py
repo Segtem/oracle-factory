@@ -130,10 +130,9 @@ class Muestra(Base):
         # Dos «Consultar ahora» seguidos: la primera tarda más y termina última, pero su respuesta (más vieja) no pisa la de la segunda.
         solo = Path(self.tmp) / 'solo'
         solo.mkdir()
-        cuenta = Path(self.tmp) / 'cuenta'
-        raiz3 = _dd.proyecto(solo, {'api': _dd.destino('api', version=f'n=$(cat {cuenta} 2>/dev/null || echo 0); echo $((n+1)) > {cuenta}; '
-                                                                       'if [ "$n" = 0 ]; then sleep 2; echo VIEJA000; else echo NUEVA000; fi')})
-        salida = self.tablero(raiz3, [{'tipo': 'consultar-destinos'}, {'tipo': 'consultar-destinos'}], CONCURRENTE='mensajes')
+        empezo = Path(self.tmp) / 'empezo'  # lo escribe la primera consulta al arrancar: la segunda sale después, pase lo que pase con la carga
+        raiz3 = _dd.proyecto(solo, {'api': _dd.destino('api', version=f'if [ -e {empezo} ]; then echo NUEVA000; else touch {empezo}; sleep 3; echo VIEJA000; fi')})
+        salida = self.tablero(raiz3, [{'tipo': 'consultar-destinos'}, {'tipo': 'consultar-destinos'}], CONCURRENTE='escalonado', ESPERAR_ARCHIVO=str(empezo))
         pintadas = [seccion(h) for h in salida['historia']]
         self.assertTrue(any('NUEVA000' in h for h in pintadas))
         self.assertFalse(any('VIEJA000' in h for h in pintadas))

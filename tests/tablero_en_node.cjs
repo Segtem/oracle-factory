@@ -63,8 +63,16 @@ Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vsco
     await comandos['factory.tablero']();
     if (process.env.COMANDO) await comandos[process.env.COMANDO]();  // un comando de la paleta, además del tablero
     const html = panel.webview.html;
-    // CONCURRENTE=mensajes: los mensajes se atienden a la vez; CONCURRENTE=registro: además un registro cambia (los vigías avisan) mientras tanto.
-    if (process.env.CONCURRENTE) await Promise.all([...mensajes.map(m => panel.recibir(m)), ...(process.env.CONCURRENTE === 'registro' ? vigias.flatMap(v => v.cambios.map(f => f())) : [])]);
+    // CONCURRENTE=escalonado: como mensajes, pero cada uno sale cuando existe ESPERAR_ARCHIVO; CONCURRENTE=mensajes: los mensajes se atienden a la vez; CONCURRENTE=registro: además un registro cambia (los vigías avisan) mientras tanto.
+    if (process.env.CONCURRENTE === 'escalonado') {
+        // Los mensajes salen a la vez, pero cada uno espera a que exista ESPERAR_ARCHIVO (lo escribe lo que dispara el anterior): el orden no depende de la carga.
+        const pendientes = [];
+        for (const [i, m] of mensajes.entries()) {
+            for (let k = 0; i > 0 && !require('fs').existsSync(process.env.ESPERAR_ARCHIVO) && k < 400; k++) await new Promise(r => setTimeout(r, 50));
+            pendientes.push(panel.recibir(m));
+        }
+        await Promise.all(pendientes);
+    } else if (process.env.CONCURRENTE) await Promise.all([...mensajes.map(m => panel.recibir(m)), ...(process.env.CONCURRENTE === 'registro' ? vigias.flatMap(v => v.cambios.map(f => f())) : [])]);
     else for (const m of mensajes) await panel.recibir(m);
     // Un registro que cambia (TABLERO_CAMBIO: ruta y contenido nuevo): el vigía avisa y el tablero se vuelve a armar.
     if (process.env.TABLERO_CAMBIO) {
