@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:f51d13d42b01f0f87698bc16b5ce5ae47ba49983720a14cca7ae54cdc4a751d7 -->
+<!-- oracle-factory resumen sha256:d3a89347f3f07dc2994cd40b7e30de8148a9f2030093191526016528bf1d2f20 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-29 capacidades · 295 requisitos vigentes · 0 cambios abiertos
+30 capacidades · 301 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -163,6 +163,19 @@ Spec completa: [openspec/specs/desarrollo/spec.md](../openspec/specs/desarrollo/
 | paso_de_tests_primero | funcional | `desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero` | factory_tests_unitarios.paso_de_tests_primero, factory_tests_unitarios.corrida_completa | verde al cerrar el 2026-10-31 | 20261030-185728-0w1-tests |
 | guia_de_tests_para_agentes | funcional | `desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes` | factory_tests_unitarios.guia_de_tests_para_agentes, factory_tests_unitarios.corrida_completa | verde al cerrar el 2026-10-31 | 20261030-185728-0w1-tests |
 | documento_de_la_practica | funcional | `desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica` | factory_tests_unitarios.documento_de_la_practica, factory_tests_unitarios.corrida_completa | verde al cerrar el 2026-10-31 | 20261030-185728-0w1-tests |
+
+### despliegue
+
+Spec completa: [openspec/specs/despliegue/spec.md](../openspec/specs/despliegue/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| los_destinos_los_declara_el_proyecto | funcional | `despliegue_c1f413032a7a55aa1.los_destinos_los_declara_el_proyecto` | factory_despliegue.los_destinos_los_declara_el_proyecto, factory_despliegue.corrida_completa | verde al cerrar el 2026-11-07 | 20261106-205202-8od-destinos |
+| un_despliegue_es_un_plan_que_autoriza_una_persona | funcional | `despliegue_c1f413032a7a55aa1.un_despliegue_es_un_plan_que_autoriza_una_persona` | factory_despliegue.un_despliegue_es_un_plan_que_autoriza_una_persona, factory_despliegue.corrida_completa | verde al cerrar el 2026-11-07 | 20261106-205202-8od-destinos |
+| se_prueba_cada_destino_y_el_conjunto | funcional | `despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto` | factory_despliegue.se_prueba_cada_destino_y_el_conjunto, factory_despliegue.corrida_completa | verde al cerrar el 2026-11-07 | 20261106-205202-8od-destinos |
+| un_fallo_deja_cada_destino_en_un_estado_dicho | funcional | `despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho` | factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho, factory_despliegue.corrida_completa | verde al cerrar el 2026-11-07 | 20261106-205202-8od-destinos |
+| cada_ejecucion_deja_evidencia_sin_secretos | funcional | `despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secretos` | factory_despliegue.cada_ejecucion_deja_evidencia_sin_secretos, factory_despliegue.corrida_completa | verde al cerrar el 2026-11-07 | 20261106-205202-8od-destinos |
+| sirve_para_cualquier_proyecto | funcional | `despliegue_c1f413032a7a55aa1.sirve_para_cualquier_proyecto` | factory_despliegue.sirve_para_cualquier_proyecto, factory_despliegue.corrida_completa | verde al cerrar el 2026-11-07 | 20261106-205202-8od-destinos |
 
 ### distribucion
 
@@ -1617,6 +1630,13 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261106-002754-jzt-paginas) codex (gpt-6-luna): Corrí `python tools/sitio_paginas.py`: informó `sin problemas`.
 - (20261106-002754-jzt-paginas) codex (gpt-6-luna): La mutación WPG-007 (bloque menu marcado duplicado y alterado) sobrevive al comprobador. WPG-001 a WPG-006 de rondas anteriores no reaparecen: están las verificaciones y pruebas para enlaces/frases de documentación, query strings, IDs duplicados, grupos exactos, anterior/siguiente y logo de portada.
 - (20261106-002754-jzt-paginas) codex (gpt-6-luna): `tests/datos/guias-texto.json` fue modificado y lo declaro: las tres líneas quitadas corresponden a reacomodos de JSON al agregar el texto extraído de los nuevos bloques de lectura en tres fixtures; la edición está justificada por el cambio. No encontré tests existentes editados.
+- (20261106-205202-8od-destinos) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261106-205202-8od-destinos) codex (gpt-6-luna): Revisé propuesta, spec, diseño, diff del paquete, oracle_factory/despliegue.py, CLI, parser y tests/test_despliegue.py; ejecuté `python -m unittest tests.test_despliegue </dev/null`: 23 tests, OK. No ejecuté la suite completa ni mutaciones manuales sobre copias.
+- (20261106-205202-8od-destinos) codex (gpt-6-luna): DPL-05 sigue cerrado: orden() ahora incorpora transitivamente las dependencias del destino seleccionado. DPL-06 sigue cerrado: cargar() rechaza la ausencia de conjunto y exige su comando de prueba.
+- (20261106-205202-8od-destinos) codex (gpt-6-luna): DPL-01 a DPL-04 de la ronda inicial siguen corregidos: version es obligatoria, se valida tope_segundos del conjunto, seguir también revierte lo desplegado tras fallos, y el timeout mata el grupo de procesos.
+- (20261106-205202-8od-destinos) codex (gpt-6-luna): tests/datos/ayuda-cli.json: la línea retirada reemplaza la ayuda/lista de comandos por una versión que incorpora destinos y desplegar; el cambio corresponde a los comandos nuevos. tests/test_web_paginas.py: el conteo cambia de 12 a 13 para incluir docs/despliegue.md; la aserción ajustada corresponde a esa guía nueva. Ambas ediciones están justificadas por este cambio.
+- (20261106-205202-8od-destinos) codex (gpt-6-luna): El diseño describe alcance por rutas, pero la indicación de revisión declara que no se implementó; no es requisito de la spec entregada y no lo traté como hallazgo.
+- (20261106-205202-8od-destinos) codex (gpt-6-luna): El paquete no omite archivos binarios.
 
 ### Históricos
 

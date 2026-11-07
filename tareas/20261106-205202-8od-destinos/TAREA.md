@@ -1,6 +1,6 @@
 # Despliegue a varios destinos con prueba de que todo quedó funcionando
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -71,3 +71,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-06 22:59:19 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261106-205202-8od-destinos/oracle-veredicto.txt.
+
+### Nota (2026-11-07 01:01:30 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

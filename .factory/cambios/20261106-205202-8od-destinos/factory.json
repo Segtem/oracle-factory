@@ -2,7 +2,7 @@
   "id": "20261106-205202-8od-destinos",
   "titulo": "Despliegue a varios destinos con prueba de que todo quedó funcionando",
   "capacidad": "despliegue",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261106-205202-8od-destinos/specs/despliegue/spec.md",
   "spec_sha256": "c40573585e12d76fe2a2b56bf287ce02a01cce529b42c40e0d84041529a639e2",
   "spec_aprobada": {
@@ -371,6 +371,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "f1005dceb67690930582205335e84ba8c94bc370361bbc2d2ff483cbf6063299"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T01:01:30.888427+00:00",
+      "oracle": ".factory/cambios/20261106-205202-8od-destinos/oracle-veredicto.txt",
+      "revision": "tareas/20261106-205202-8od-destinos/revisiones/registro-m_7rqyuk/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T01:01:30.959356+00:00",
+      "capacidad": "despliegue",
+      "spec": "openspec/specs/despliegue/spec.md"
     }
   ],
   "tipos": {
@@ -480,5 +500,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T01:01:30.822899+00:00"
+  },
+  "archivo": {
+    "capacidad": "despliegue",
+    "spec": "openspec/specs/despliegue/spec.md",
+    "cuando": "2026-11-07T01:01:30.959341+00:00"
+  }
 }
