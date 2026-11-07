@@ -2,7 +2,7 @@
   "id": "20261107-213354-5pg-entregaa18",
   "titulo": "Preparar la distribución 0.1.0a18",
   "capacidad": "distribucion",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261107-213354-5pg-entregaa18/specs/distribucion/spec.md",
   "spec_sha256": "9aaf21d347df64dbade23961e04c73edf3e28989ca3e1daf16aed0a77f9e84c2",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "c4e350fc0ec4b3f44be2ba4f2c6379d0ae9f1bd3b661a6a070910455d6f249da"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261107-213354-5pg-entregaa18/candidatos/9f51311/evidencia/hechos.json",
+    "hechos_sha256": "45b97414c5236a2d7ff6e0793dfa6428bdead415dfb8589b70522b69c8a77b86",
+    "informe": ".factory/cambios/20261107-213354-5pg-entregaa18/oracle-veredicto.txt",
+    "informe_sha256": "ae6bb5c09e79835dc6092b02c998e7792fbca5d8a6f44dc29b27ac76a50553be",
+    "cuando": "2026-11-07T23:25:34.997435+00:00",
+    "contexto": {
+      "head": "62c3ddf2443cb2b3104ac72c1dd35390bf718a1f",
+      "archivos_sha256": "c4e350fc0ec4b3f44be2ba4f2c6379d0ae9f1bd3b661a6a070910455d6f249da"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -235,6 +247,17 @@
       "abiertos": 0,
       "sha256": "27f8807529af2c483861b8e8f16ce569b054270a61e2930ce4c237a3cf136dad",
       "decisiones_sha256": "da37cac64425a8632e554633320c70a7aa92ef02aabaa1310e44b0c3eb902c7e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T23:25:34.997450+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "45b97414c5236a2d7ff6e0793dfa6428bdead415dfb8589b70522b69c8a77b86"
     }
   ],
   "tipos": {

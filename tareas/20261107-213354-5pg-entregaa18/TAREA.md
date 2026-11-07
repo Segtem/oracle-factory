@@ -43,3 +43,7 @@ Medidas de distribucion_c0803bc5aff1b2bf1.la_version_a18_es_coherente_y_declara_
 ### Nota (2026-11-07 23:25:23 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Ronda 1 de codex: 1 hallazgo medio (el probador no ejercitaba destinos ni desplegar en el wheel instalado), corregido y repetidas evidencia y ronda. Ronda 2: 1 hallazgo bajo (el validador del registro acepta un hash de 64 caracteres no hexadecimal); es código heredado de la a17 y no afecta la entrega, propongo aceptarlo como riesgo. Evidencia 1213 pruebas OK; mutaciones propias sobre el probador detectadas (sin verificar, sin destinos, sin desplegar, sin chequeo de publicada).); 0 abiertos derivados; commit 94ccd14a8c7af13b71633352b0fca308935a2836; informe tareas/20261107-213354-5pg-entregaa18/revisiones/registro-l_8dp51p/informe.json; decisiones tareas/20261107-213354-5pg-entregaa18/revisiones/registro-l_8dp51p/decisiones.json.
+
+### Nota (2026-11-07 23:25:35 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261107-213354-5pg-entregaa18/oracle-veredicto.txt.

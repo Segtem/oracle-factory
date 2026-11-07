@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c0803bc5aff1b2bf1.la_entrega_a18_registra_sus_hashes_y_sus_limites`
 - Vigente: sí
 - Cambio: [[cambios/20261107-213354-5pg-entregaa18]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a18.la_entrega_a18_registra_sus_hashes_y_sus_limites`, `factory_entrega_a18.corrida_completa`
 - Fuente: openspec/changes/20261107-213354-5pg-entregaa18/specs/distribucion/spec.md#la_entrega_a18_registra_sus_hashes_y_sus_limites
 

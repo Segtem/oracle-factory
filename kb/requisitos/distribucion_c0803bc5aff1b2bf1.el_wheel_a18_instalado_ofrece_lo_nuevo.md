@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c0803bc5aff1b2bf1.el_wheel_a18_instalado_ofrece_lo_nuevo`
 - Vigente: sí
 - Cambio: [[cambios/20261107-213354-5pg-entregaa18]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a18.el_wheel_a18_instalado_ofrece_lo_nuevo`, `factory_entrega_a18.corrida_completa`
 - Fuente: openspec/changes/20261107-213354-5pg-entregaa18/specs/distribucion/spec.md#el_wheel_a18_instalado_ofrece_lo_nuevo
 

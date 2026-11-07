@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c0803bc5aff1b2bf1.la_version_a18_es_coherente_y_declara_su_estado`
 - Vigente: sí
 - Cambio: [[cambios/20261107-213354-5pg-entregaa18]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a18.la_version_a18_es_coherente_y_declara_su_estado`, `factory_entrega_a18.corrida_completa`
 - Fuente: openspec/changes/20261107-213354-5pg-entregaa18/specs/distribucion/spec.md#la_version_a18_es_coherente_y_declara_su_estado
 
