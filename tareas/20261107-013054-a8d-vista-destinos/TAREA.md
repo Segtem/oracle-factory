@@ -35,3 +35,23 @@ Medidas de tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue: 
 ### Nota (2026-11-07 01:51:09 UTC)
 
 Medidas de tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos: factory_tablero_destinos.el_contrato_de_la_extension_cubre_destinos, factory_tablero_destinos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-07 02:25:13 UTC)
+
+Medidas de tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-07 02:25:13 UTC)
+
+Medidas de tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-07 02:25:14 UTC)
+
+Medidas de tablero_c67ccc28106a13a74.el_tablero_no_consulta_los_destinos_sin_que_se_pida: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-07 02:25:14 UTC)
+
+Medidas de tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-07 02:25:14 UTC)
+
+Medidas de tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue: Brian Hollweg (persona, confirmo, modo confirmacion).
