@@ -191,6 +191,16 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "aff046ce3fa6"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T22:50:37.247083+00:00",
+      "decision": "aprobar",
+      "candidato": "9f51311"
     }
   ],
   "tipos": {
@@ -248,5 +258,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Ronda 1 de codex: 1 hallazgo medio (el probador no ejercitaba destinos ni desplegar en el wheel instalado), corregido y repetidas evidencia y ronda. Ronda 2: 1 hallazgo bajo (el validador del registro acepta un hash de 64 caracteres no hexadecimal); es código heredado de la a17 y no afecta la entrega, propongo aceptarlo como riesgo. Evidencia 1213 pruebas OK; mutaciones propias sobre el probador detectadas (sin verificar, sin destinos, sin desplegar, sin chequeo de publicada).",
+      "candidato": "9f51311",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-07T22:50:37.247066+00:00"
+    }
+  }
 }
