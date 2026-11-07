@@ -301,6 +301,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "a59920587c52"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T03:34:35.640406+00:00",
+      "decision": "aprobar",
+      "candidato": "291250f"
     }
   ],
   "tipos": {
@@ -392,5 +402,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres rondas de codex: la última sin hallazgos. Cerrados la pintura concurrente que descartaba la consulta, la caché compartida entre proyectos y las consultas simultáneas fuera de orden: la consulta se hace en su propio manejador, guarda {raiz, datos} y una generación invalida las anteriores. Evidencia: 1200 pruebas, 10 casos de contrato, éxito. Declarado: tres pruebas existentes editadas de forma aditiva (tests/contrato_en_node.cjs, tests/tablero_en_node.cjs, tests/test_contrato_vscode.py). Límites: el cambio de raíz con el panel abierto y la guarda de consultar-destinos para invitados no tienen prueba propia. agy no pudo revisar: su wrapper pide un modelo que ya no existe.",
+      "candidato": "291250f",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-07T03:34:35.640382+00:00"
+    }
+  }
 }
