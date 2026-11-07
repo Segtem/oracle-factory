@@ -194,6 +194,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "9cdef70e9cb9"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-07T21:09:04.264401+00:00",
+      "decision": "aprobar",
+      "candidato": "881da6e"
     }
   ],
   "tipos": {
@@ -268,5 +278,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Codex sin hallazgos (el informe declara si pudo correr pruebas; lo cubrí con 5 mutaciones propias sobre puerta.py, todas rojas). Evidencia 1222 pruebas OK. Cambio de reglas de decisión (puerta.py): avisa y no bloquea, como declara la spec. Ediciones a tests/test_puerta.py: sólo adaptaciones por la nueva verificación.",
+      "candidato": "881da6e",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-07T21:09:04.264386+00:00"
+    }
+  }
 }
