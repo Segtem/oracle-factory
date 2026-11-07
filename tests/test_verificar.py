@@ -84,12 +84,13 @@ class Verificar(unittest.TestCase):
     # --- ci2: sólo lee y no necesita a nadie -------------------------------------------------------------------------
     def test_ci2_el_arbol_queda_igual(self):
         ident = self.cambio_juzgado()
-        antes, eventos = self.huellas(), self.estado(ident)['eventos']
+        antes, eventos, contexto = self.huellas(), self.estado(ident)['eventos'], f.contexto_producto
         with patch.object(f, 'terminal_interactiva', return_value=False), patch('builtins.input', side_effect=AssertionError('no pregunta')):
             self.verificar()
             self.verificar('--json')
         self.assertEqual(self.huellas(), antes)
         self.assertEqual(self.estado(ident)['eventos'], eventos)
+        self.assertIs(f.contexto_producto, contexto)  # el reemplazo temporal se deshace siempre
         self.assertIn('verificar', f.SOLO_LECTURA)
 
     # --- ci3: el cierre lo decidió una persona -------------------------------------------------------------------------

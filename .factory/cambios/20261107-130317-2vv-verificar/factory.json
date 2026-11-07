@@ -224,6 +224,32 @@
         "factory_verificar.verificar_solo_lee_y_no_necesita_a_nadie",
         "factory_verificar.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T13:34:58.982365+00:00",
+      "revisor": "codex",
+      "candidato": "a2fcbb3",
+      "lanzamiento": "abb705d78132"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-07T13:36:13.051884+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "a2fcbb3",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "abb705d78132"
     }
   ],
   "tipos": {
