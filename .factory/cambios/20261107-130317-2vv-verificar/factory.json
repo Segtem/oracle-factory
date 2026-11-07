@@ -2,7 +2,7 @@
   "id": "20261107-130317-2vv-verificar",
   "titulo": "Verificar para CI: comprobar de solo lectura que los cambios están consistentes",
   "capacidad": "ci",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261107-130317-2vv-verificar/specs/ci/spec.md",
   "spec_sha256": "fe25748d848162d951236b32aae3374ec3f5dbd8ffe4abff4da1b9a231e6fbfe",
   "spec_aprobada": {
@@ -343,6 +343,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "b90e01d12740135e94e9a8c8f095f5acc02d9b9127887b63e4f9dc01897f62ad"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T17:22:06.181940+00:00",
+      "oracle": ".factory/cambios/20261107-130317-2vv-verificar/oracle-veredicto.txt",
+      "revision": "tareas/20261107-130317-2vv-verificar/revisiones/registro-fhco7oqd/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-07T17:22:06.319069+00:00",
+      "capacidad": "ci",
+      "spec": "openspec/specs/ci/spec.md"
     }
   ],
   "tipos": {
@@ -435,5 +455,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-07T17:22:06.120936+00:00"
+  },
+  "archivo": {
+    "capacidad": "ci",
+    "spec": "openspec/specs/ci/spec.md",
+    "cuando": "2026-11-07T17:22:06.319059+00:00"
+  }
 }

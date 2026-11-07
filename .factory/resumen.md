@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:9e91273d75c1b7b6a779d5bd0806d15d45684ba79aaedaf6e239e8715e5a3b42 -->
+<!-- oracle-factory resumen sha256:ded8b3f689dd4d53f45ee5d7480acc068a7f03ea72badf711a09a5b0730b2341 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-30 capacidades · 306 requisitos vigentes · 0 cambios abiertos
+31 capacidades · 311 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -67,6 +67,18 @@ Spec completa: [openspec/specs/calidad/spec.md](../openspec/specs/calidad/spec.m
 | la_puerta_corre_las_verificaciones_del_proyecto | funcional | `calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto` | factory_puerta_local.la_puerta_corre_las_verificaciones_del_proyecto, factory_puerta_local.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-121356-ih8-puertalocal |
 | el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja | funcional | `calidad_cdbf33d35727ca9d7.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja` | factory_puerta_local.el_hook_pre_push_llama_a_la_puerta_con_lo_que_se_empuja, factory_puerta_local.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-121356-ih8-puertalocal |
 | la_puerta_no_modifica_el_arbol_de_trabajo | funcional | `calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo` | factory_puerta_local.la_puerta_no_modifica_el_arbol_de_trabajo, factory_puerta_local.corrida_completa | verde al cerrar el 2026-11-01 | 20261101-121356-ih8-puertalocal |
+
+### ci
+
+Spec completa: [openspec/specs/ci/spec.md](../openspec/specs/ci/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| verificar_dice_si_los_cambios_estan_consistentes | funcional | `ci_c65ac59b63e44085b.verificar_dice_si_los_cambios_estan_consistentes` | factory_verificar.verificar_dice_si_los_cambios_estan_consistentes, factory_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-130317-2vv-verificar |
+| verificar_solo_lee_y_no_necesita_a_nadie | funcional | `ci_c65ac59b63e44085b.verificar_solo_lee_y_no_necesita_a_nadie` | factory_verificar.verificar_solo_lee_y_no_necesita_a_nadie, factory_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-130317-2vv-verificar |
+| un_cambio_cerrado_tiene_la_decision_de_una_persona | funcional | `ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona` | factory_verificar.un_cambio_cerrado_tiene_la_decision_de_una_persona, factory_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-130317-2vv-verificar |
+| verificar_no_exige_lo_que_otra_maquina_no_tiene | funcional | `ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene` | factory_verificar.verificar_no_exige_lo_que_otra_maquina_no_tiene, factory_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-130317-2vv-verificar |
+| hay_un_ejemplo_de_ci_y_de_hook | funcional | `ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook` | factory_verificar.hay_un_ejemplo_de_ci_y_de_hook, factory_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-130317-2vv-verificar |
 
 ### cli
 
@@ -1650,6 +1662,11 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): Busqué todos los usos de `consultarLosDestinos` y `destinos --json`: el único disparador de consulta es el mensaje `consultar-destinos` del botón. Su handler rechaza la consulta en rol invitado; el servicio Live Share sólo ofrece `tablero`, `terminal`, `mensaje` y `diff`, y `tablero` usa `destinos --sin-consultar`. No encontré camino automático que corra comandos de versión o despliegue.
 - (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): El cambio de raíz con el panel abierto no tiene prueba propia, como declara el pedido. La caché se comprueba contra la raíz actual al leerla, por lo que no observé contaminación de destinos entre raíces; tampoco se invalidan explícitamente al cambiar la raíz.
 - (20261107-013054-a8d-vista-destinos) codex (gpt-6-luna): Las ediciones de `tests/contrato_en_node.cjs`, `tests/tablero_en_node.cjs` y `tests/test_contrato_vscode.py` están justificadas por agregar datos de `destinos` al contrato, registrar historial/avisos para comprobar repintados y simular consultas concurrentes. Las líneas retiradas son el código anterior reemplazado por esa cobertura; no observé que debiliten aserciones existentes.
+- (20261107-130317-2vv-verificar) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261107-130317-2vv-verificar) codex (gpt-6-luna): Sin hallazgos. Contrasté los requisitos y escenarios de la spec con oracle_factory/verificar.py, sus funciones llamadas, el parser/CLI, la plantilla, la guía y tests/test_verificar.py.
+- (20261107-130317-2vv-verificar) codex (gpt-6-luna): Los tres límites: los registros ilegibles se convierten en problema en del_cambio; fases abandonadas se excluyen intencionalmente como no activas; sin commits, contexto_producto produce FactoryError y pendientes_actuales lo reporta para cambios con revisión u Oracle que necesitan comparación. No encontré fallo en esos caminos.
+- (20261107-130317-2vv-verificar) codex (gpt-6-luna): No ejecuté tests ni mutaciones manuales; revisé el código y las pruebas existentes estáticamente. No abrí archivos omitidos binarios; el paquete no declara omisiones.
+- (20261107-130317-2vv-verificar) codex (gpt-6-luna): tests/datos/ayuda-cli.json elimina la salida previa de ayuda y agrega la entrada de verificar. tests/test_web_paginas.py actualiza el conteo de 13 a 14 guías tras agregar docs/ci.md. Ambas ediciones existentes están justificadas por el nuevo subcomando y la documentación.
 
 ### Históricos
 
