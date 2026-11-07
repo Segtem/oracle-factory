@@ -38,6 +38,7 @@ from . import osv as osv_mod
 from . import pruebas as pruebas_mod
 from . import procedencia as procedencia_mod
 from . import puerta as puerta_mod
+from . import despliegue as despliegue_mod
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
 from . import kb as kb_mod
@@ -884,6 +885,59 @@ def comando_puerta(en_hook: bool, rango: list[str]) -> int:
         return 2
 
 
+def comando_destinos(como_json: bool, sin_consultar: bool) -> None:
+    """Los destinos del proyecto con su estado; --json es el contrato que lee el tablero."""
+    try:
+        decl = despliegue_mod.cargar(ROOT)
+    except despliegue_mod.DeclaracionInvalida as e:
+        raise FactoryError(str(e)) from e
+    lista = despliegue_mod.estados(ROOT, decl, consultar=not sin_consultar)
+    historia = despliegue_mod.registros(ROOT)
+    ultima = despliegue_mod.resumen_corrida(historia[-1] if historia else None)
+    if como_json:
+        print(json.dumps({"version": 1, "rama": decl["rama"], "destinos": lista, "ultima_corrida": ultima}, ensure_ascii=False, indent=1))
+        return
+    print(f"Destinos de despliegue (rama {decl['rama']}, política ante un fallo: {decl['politica']}):")
+    for d in lista:
+        deps = f"  depende de {', '.join(d['depende_de'])}" if d["depende_de"] else ""
+        marca = {True: "desactualizado", False: "al día", "desconocido": "versión desconocida"}[d["desactualizado"]]
+        print(f"  {d['nombre']} [{d['tipo']}]  {d['estado']}  ({marca}){deps}")
+    print("Última corrida: " + (f"{ultima['id']} — {ultima['resultado']}: {ultima['motivo']} (autorizó {ultima['autorizo']})" if ultima else "ninguna todavía"))
+
+
+def comando_desplegar(simular: bool, autorizar: bool, commit: str | None, destinos: list[str]) -> int:
+    """El plan de despliegue; sólo una persona desde su terminal lo ejecuta."""
+    quien = actor()
+    if autorizar and quien["tipo_actor"] != "persona":
+        raise FactoryError("autorizar un despliegue lo hace una persona desde su terminal: un agente puede armar y simular el plan "
+                           "(oracle-factory desplegar --simular), no ejecutarlo")
+    try:
+        decl = despliegue_mod.cargar(ROOT)
+        codigo_puerta, texto_puerta = verificar_en_proceso(["puerta"])
+        plan = despliegue_mod.armar_plan(ROOT, decl, commit, destinos or None, puerta=lambda: (codigo_puerta == 0, texto_puerta))
+    except (despliegue_mod.DeclaracionInvalida, despliegue_mod.DespliegueNegado) as e:
+        raise FactoryError(str(e)) from e
+    print(despliegue_mod.texto_plan(decl, plan))
+    faltan = despliegue_mod.faltan_secretos(decl, plan)
+    if faltan:
+        print("Faltan en el entorno estos secretos (sólo los nombres): " + ", ".join(faltan))
+    if not autorizar or simular:
+        print("No se ejecutó nada. Para ejecutarlo, una persona: oracle-factory desplegar --autorizar" + (f" --commit {commit}" if commit else ""))
+        return 0
+    try:
+        registro = despliegue_mod.ejecutar(ROOT, decl, plan, autorizo=quien["actor"], planeo=quien["actor"])
+    except despliegue_mod.DespliegueNegado as e:
+        raise FactoryError(str(e)) from e
+    for n in registro["orden"]:
+        r = registro["destinos"][n]
+        print(f"  {n}: {r['estado']}" + (f" — {r['motivo']}" if r["motivo"] else ""))
+    print(f"Conjunto: {registro['conjunto']['resultado']}")
+    if registro["aviso"]:
+        print("Aviso: " + registro["aviso"])
+    print(f"Resultado: {registro['motivo']} (registro: .factory/despliegues/{registro['id']}/registro.json)")
+    return 0 if registro["resultado"] == "todo_funciona" else 1
+
+
 @reintentar_si_cambia
 def tomar(identificador: str, con: list[str] | None = None, relevo: bool = False) -> None:
     """Una persona se registra como responsable del cambio (con sus agentes); un agente se suma al cambio."""
@@ -1529,7 +1583,7 @@ def marcar_archivado(estado: dict, capacidad: str, spec: str, forma: str) -> Non
 
 SOLO_LECTURA = {"estado", "donde", "log", "tablero", "por-que", "kb", "resumen", "listar", "ruta", "buscar", "trazabilidad",
                "trailer", "hooks", "init", "ejemplo", "preguntar", "unir-registro", "unir-generado", "rehacer-generado",
-               "agentes", "puerta", "skill"}  # agentes escribe AGENTS.md y skill --instalar un archivo del proyecto, no el registro: no hay kb que refrescar
+               "agentes", "puerta", "skill", "destinos", "desplegar"}  # agentes escribe AGENTS.md y skill --instalar un archivo del proyecto, no el registro: no hay kb que refrescar
 
 
 def archivar() -> None:
@@ -2382,6 +2436,8 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "mensaje": mensaje(args.id, args.texto, args.de)
         elif args.comando == "hooks": print(instalar_hook()); print(instalar_union())
         elif args.comando == "puerta": return comando_puerta(args.hook, args.rango)
+        elif args.comando == "destinos": comando_destinos(args.json, args.sin_consultar)
+        elif args.comando == "desplegar": return comando_desplegar(args.simular, args.autorizar, args.commit, args.destino)
         elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)
         elif args.comando == "unir-generado": return 0  # lo generado se queda como está y se rehace en el post-merge
         elif args.comando == "rehacer-generado": rehacer_generado()

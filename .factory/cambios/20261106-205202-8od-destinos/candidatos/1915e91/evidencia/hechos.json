@@ -1,0 +1,125 @@
+{
+  "despliegue_caso": [
+    {
+      "requisito": "los_destinos_los_declara_el_proyecto",
+      "caso": "DeclaracionDd1.test_dd1_los_destinos_declarados_se_ven_con_su_tipo_sus_dependencias_y_sin_desplegar",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_destinos_los_declara_el_proyecto",
+      "caso": "DeclaracionDd1.test_dd1_sin_declaracion_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_destinos_los_declara_el_proyecto",
+      "caso": "DeclaracionDd1.test_dd1_una_declaracion_que_no_sirve_falla_nombrando_el_destino_y_no_ejecuta_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_despliegue_es_un_plan_que_autoriza_una_persona",
+      "caso": "PlanDd2.test_dd2_la_puerta_en_rojo_o_un_commit_fuera_de_la_rama_niegan_el_plan",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_despliegue_es_un_plan_que_autoriza_una_persona",
+      "caso": "PlanDd2.test_dd2_simular_muestra_el_orden_por_dependencias_y_no_ejecuta_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_despliegue_es_un_plan_que_autoriza_una_persona",
+      "caso": "PlanDd2.test_dd2_un_agente_no_autoriza_y_no_cambia_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_despliegue_es_un_plan_que_autoriza_una_persona",
+      "caso": "PlanDd2.test_dd2_una_persona_en_su_terminal_autoriza_y_queda_quien",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_prueba_cada_destino_y_el_conjunto",
+      "caso": "PruebasDd3.test_dd3_desplego_pero_corre_otra_version_queda_fallido_sin_probarlo",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_prueba_cada_destino_y_el_conjunto",
+      "caso": "PruebasDd3.test_dd3_si_el_conjunto_falla_los_destinos_siguen_probados_y_el_resultado_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_prueba_cada_destino_y_el_conjunto",
+      "caso": "PruebasDd3.test_dd3_sin_prueba_de_humo_un_destino_no_queda_probado",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_prueba_cada_destino_y_el_conjunto",
+      "caso": "PruebasDd3.test_dd3_todo_anda_y_el_resultado_es_todo_quedo_funcionando",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_prueba_cada_destino_y_el_conjunto",
+      "caso": "PruebasDd3.test_dd3_un_destino_apagado_queda_inalcanzable_y_no_se_despliega",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_deja_cada_destino_en_un_estado_dicho",
+      "caso": "FalloDd4.test_dd4_desactualizado_se_calcula_contra_la_punta_y_desconocido_si_no_se_alcanza",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_deja_cada_destino_en_un_estado_dicho",
+      "caso": "FalloDd4.test_dd4_falla_el_segundo_se_corta_el_tercero_no_se_toca_y_el_primero_se_vuelve_atras",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_deja_cada_destino_en_un_estado_dicho",
+      "caso": "FalloDd4.test_dd4_seguir_continua_solo_con_los_que_no_dependen_del_caido",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_deja_cada_destino_en_un_estado_dicho",
+      "caso": "FalloDd4.test_dd4_sin_comando_de_volver_queda_desplegado_con_el_aviso",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_deja_cada_destino_en_un_estado_dicho",
+      "caso": "FalloDd4.test_dd4_un_volver_que_falla_deja_el_destino_fallido",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_ejecucion_deja_evidencia_sin_secretos",
+      "caso": "EvidenciaDd5.test_dd5_destinos_json_trae_lo_que_el_tablero_necesita",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_ejecucion_deja_evidencia_sin_secretos",
+      "caso": "EvidenciaDd5.test_dd5_el_registro_dice_commit_quien_planeo_y_quien_autorizo_y_por_destino_lo_hecho",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_ejecucion_deja_evidencia_sin_secretos",
+      "caso": "EvidenciaDd5.test_dd5_la_salida_con_un_secreto_se_tapa_y_el_registro_marca_donde_estaba",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_ejecucion_deja_evidencia_sin_secretos",
+      "caso": "EvidenciaDd5.test_dd5_un_secreto_que_falta_se_dice_antes_de_ejecutar_algo",
+      "codigo": 0
+    },
+    {
+      "requisito": "sirve_para_cualquier_proyecto",
+      "caso": "GeneralDd6.test_dd6_las_plantillas_copiadas_a_un_proyecto_de_prueba_dan_todo_quedo_funcionando",
+      "codigo": 0
+    },
+    {
+      "requisito": "sirve_para_cualquier_proyecto",
+      "caso": "GeneralDd6.test_dd6_un_tipo_que_nadie_previo_se_trata_igual_que_cualquier_otro",
+      "codigo": 0
+    }
+  ],
+  "despliegue_corrida": [
+    {
+      "completa": 1,
+      "casos": 23
+    }
+  ]
+}

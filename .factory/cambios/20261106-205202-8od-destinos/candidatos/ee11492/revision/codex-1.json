@@ -1,0 +1,47 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-despliegue/.factory/local/revisiones/ee11492-codex-1",
+  "base": "e817b180ea9b56bb096b4b14f314d46655db2477",
+  "head": "ee11492787fd284e87831171db93b01477372842",
+  "diff_sha256": "ce3214373bcd1bd47d0be71bc1195d38e8aa8f302b49d2bf10281a3eaa6af6ab",
+  "context_sha256": "4ef15402c5be41640341bd634f2c4835692f66c004b1017ef8492e0e1f99f6c2",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "DPL-05",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.99,
+      "title": "--destino permite desplegar un consumidor sin desplegar su dependencia",
+      "explanation": "La CLI permite limitar el plan a uno o más destinos. Al construir ese plan, `orden` excluye cualquier dependencia que no esté en la selección; durante la ejecución, la comprobación de dependencias sólo bloquea si la dependencia está incluida en el registro y no quedó probada. Por eso, al seleccionar sólo `app` aunque dependa de `api`, `app` se despliega y puede quedar probado sin que `api` esté probado en esa corrida. Esto contradice el plan en orden de dependencias y la regla de que las dependencias deben quedar probadas antes.",
+      "location": {"file": "oracle_factory/despliegue.py", "start_line": 241, "end_line": 243, "side": "head"},
+      "trigger": "Declarar `app.depende_de=[\"api\"]`, invocar `desplegar --autorizar --destino app` con comandos de `app` exitosos y observar que el plan y el registro sólo incluyen `app`.",
+      "evidence": "`armar_plan` retorna `orden(decl[\"destinos\"], destinos)` y `orden` conserva únicamente los nombres seleccionados (líneas 171–173 del archivo nuevo); la CLI entrega los repetidos `--destino` a esa función. En ejecución, `caidos` filtra con `dep in registro[\"destinos\"]`, así que una dependencia declarada pero excluida no impide ejecutar al consumidor. `tests/test_despliegue.py` prueba orden por dependencias con todos los destinos y no cubre selección parcial.",
+      "related_requirement": "un_despliegue_es_un_plan_que_autoriza_una_persona; un_fallo_deja_cada_destino_en_un_estado_dicho",
+      "status": "pendiente",
+      "verification": "Inspección estática del armado del plan, CLI y control de dependencias; no ejecuté la suite ni una mutación de la copia."
+    },
+    {
+      "id": "DPL-06",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Se informa éxito aunque no exista prueba de conjunto",
+      "explanation": "La declaración `conjunto` es opcional y, si falta, el cierre cambia el resultado a `todo_funciona` y el motivo a «todo quedó funcionando», agregando sólo un aviso. La spec exige ejecutar la prueba de conjunto declarada y reserva esa afirmación para cuando pase; el cambio no valida que la prueba exista. Así, un proyecto con varios destinos probados pero sin prueba integrada anuncia el éxito que la promesa condiciona a esa prueba.",
+      "location": {"file": "oracle_factory/despliegue.py", "start_line": 349, "end_line": 351, "side": "head"},
+      "trigger": "Declarar uno o más destinos válidos sin campo raíz `conjunto`, hacer que cada destino pase versión y humo, y autorizar la corrida.",
+      "evidence": "`cargar` asigna `conjunto = datos.get(\"conjunto\")` y sólo lo valida si no es `None`; `ejecutar` corre `_conjunto` sólo cuando está declarado. En `_cerrar`, si no hay destinos sin probar, se asigna `todo_funciona` / «todo quedó funcionando» aunque el resultado del conjunto sea `no_corrio`, y sólo después se agrega el aviso «el proyecto no declara una prueba de conjunto». La prueba `test_dd3_todo_anda...` cubre un conjunto que pasa, pero no la ausencia del conjunto.",
+      "related_requirement": "se_prueba_cada_destino_y_el_conjunto",
+      "status": "pendiente",
+      "verification": "Inspección estática de validación, ejecución y cierre, contrastada con el escenario de éxito; no ejecuté la suite ni una mutación de la copia."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta, spec, diseño, diff del paquete, flujo de CLI, módulo de despliegue y tests/test_despliegue.py; no ejecuté la suite ni mutaciones sobre copias.",
+    "DPL-01 a DPL-04 de la revisión anterior continúan corregidos: versión obligatoria, validación del tope de conjunto, rollback también con política seguir y terminación del grupo de procesos al vencer el tope.",
+    "tests/datos/ayuda-cli.json agrega las ayudas de `desplegar` y `destinos` y actualiza la lista de comandos; su línea retirada por la nueva ayuda está justificada. tests/test_web_paginas.py sólo sube el conteo esperado de guías de 12 a 13 por docs/despliegue.md; la aserción modificada está justificada por el nuevo documento.",
+    "El diseño describe `alcance` por rutas, pero el propio pedido declara que no se implementó; no lo reporté como defecto de la spec aprobada, que no lo requiere.",
+    "El paquete no omite archivos binarios."
+  ]
+}

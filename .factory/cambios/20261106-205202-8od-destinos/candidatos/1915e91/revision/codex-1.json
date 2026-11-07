@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-despliegue/.factory/local/revisiones/1915e91-codex-1",
+  "base": "e817b180ea9b56bb096b4b14f314d46655db2477",
+  "head": "1915e91f22b644a2cfcc80a5010f15a1edbaf4c1",
+  "diff_sha256": "67889ec46be0c176dc3c7c9fbd9cc1666515ade5a49602f7eeca48b689d63f95",
+  "context_sha256": "c5363fe492a8d83de71e6dcc6a4a6d90a5eeca79fca8f4447a3adb9b8b5e5c63",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "DPL-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.99,
+      "title": "Se puede declarar éxito sin verificar la versión desplegada",
+      "explanation": "La validación sólo exige `desplegar`; `version` es opcional. `_destino_en_marcha` salta tanto la lectura previa como la comprobación posterior cuando falta ese comando, y luego permite ejecutar la prueba de humo y marcar el destino `probado`. Un destino que despliegue otra revisión (o cuyo comando ignore FACTORY_COMMIT) puede terminar con «todo quedó funcionando» aunque nunca se comprobó la versión del plan. Esto contradice el requisito de verificar que corre la versión del plan y el escenario que impide probar humo tras una versión distinta.",
+      "location": {
+        "file": "oracle_factory/despliegue.py",
+        "start_line": 83,
+        "end_line": 84,
+        "side": "head"
+      },
+      "trigger": "Declarar un destino con `desplegar` y `probar` que siempre salgan 0, sin campo `version`, y autorizarlo.",
+      "evidence": "`_destino` sólo rechaza la falta de `desplegar` (líneas 83–84); `_destino_en_marcha` condiciona la verificación completa a `if \"version\" in d` (262–264 y 273–280) y termina marcando `probado` tras el humo. La prueba de éxito usa destinos con `version`; no hay escenario para configuración sin ella.",
+      "related_requirement": "se_prueba_cada_destino_y_el_conjunto; los_destinos_los_declara_el_proyecto",
+      "status": "pendiente",
+      "verification": "Inspección de validación, flujo y tests; no se ejecutó mutación."
+    },
+    {
+      "id": "DPL-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El tope de la prueba de conjunto acepta valores inválidos",
+      "explanation": "`conjunto.tope_segundos` se admite sin comprobar que sea un entero positivo. Con `0`, `-1`, texto o booleano, la declaración pasa `cargar()` y la ejecución alcanza `subprocess.run(timeout=...)`, que falla con `ValueError`/`TypeError` en vez de registrar un fallo controlado; la corrida queda sin registro final aunque los destinos ya se desplegaron.",
+      "location": {
+        "file": "oracle_factory/despliegue.py",
+        "start_line": 66,
+        "end_line": 69,
+        "side": "head"
+      },
+      "trigger": "Usar `\"conjunto\":{\"probar\":\"...\",\"tope_segundos\":0}` y autorizar una corrida en que todos los destinos pasen.",
+      "evidence": "La validación del objeto conjunto sólo limita claves y comprueba `probar` (líneas 66–69), pero `_conjunto` pasa `tope_segundos` directamente a `correr` (295). `_correr` entrega ese valor a `subprocess.run(timeout=tope)` sin capturar errores de tipo/valor (línea 183 y siguientes).",
+      "related_requirement": "los_destinos_los_declara_el_proyecto; cada_ejecucion_deja_evidencia_sin_secretos",
+      "status": "pendiente",
+      "verification": "Inspección estática; no se ejecutó mutación."
+    },
+    {
+      "id": "DPL-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "La política seguir evita revertir destinos desplegados tras un fallo",
+      "explanation": "El cierre sólo intenta rollback cuando `fallo and corte`. Con `politica_ante_fallo: seguir`, un destino independiente puede quedar desplegado y probado, luego otro destino falla, y el primero permanece en producción sin reversión ni aviso, aunque su comando `volver` exista. La promesa de fallo manda volver atrás los destinos desplegados en esa corrida; la opción seguir describe qué otros destinos continuar, no declara que se abandone la reversión.",
+      "location": {
+        "file": "oracle_factory/despliegue.py",
+        "start_line": 305,
+        "end_line": 306,
+        "side": "head"
+      },
+      "trigger": "Declarar política `seguir`, destino A independiente que pasa con `volver`, y destino B que falla; autorizar.",
+      "evidence": "`_cerrar` guarda todo el bucle de rollback bajo `if fallo and corte` (líneas 303–306). La prueba `test_dd4_seguir_continua_solo_con_los_que_no_dependen_del_caido` verifica continuación y dependencia, pero no verifica reversión del destino independiente que ya se desplegó.",
+      "related_requirement": "un_fallo_deja_cada_destino_en_un_estado_dicho",
+      "status": "pendiente",
+      "verification": "Inspección de código y cobertura de escenario; no se ejecutó mutación."
+    },
+    {
+      "id": "DPL-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "El timeout puede dejar procesos de despliegue hijos ejecutándose",
+      "explanation": "El timeout se aplica a `sh -c`; `subprocess.run` mata al proceso shell que venció, pero no inicia una sesión/grupo propio ni mata el grupo de procesos. Si el comando lanza un hijo en segundo plano o una herramienta que no termina al perder su shell padre, esa operación puede seguir modificando el destino después de que Factory anote el paso como código 124 y empiece el rollback o reporte fallo.",
+      "location": {
+        "file": "oracle_factory/despliegue.py",
+        "start_line": 175,
+        "end_line": 189,
+        "side": "head"
+      },
+      "trigger": "Configurar un comando de despliegue que arranque un proceso hijo persistente y luego quede esperando hasta exceder `tope_segundos`; comprobar el hijo después del timeout.",
+      "evidence": "`_correr` usa `subprocess.run([\"sh\", \"-c\", comando], ..., timeout=tope)` (líneas 175–183); no crea ni termina un process group. El manejo de `TimeoutExpired` sólo devuelve código 124 y salida parcial.",
+      "related_requirement": "se_prueba_cada_destino_y_el_conjunto; un_fallo_deja_cada_destino_en_un_estado_dicho",
+      "status": "pendiente",
+      "verification": "Inspección del manejo del timeout; no se ejecutó proceso de prueba."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé proposal, spec, design, docs y diff del paquete, en especial oracle_factory/despliegue.py, comandos de CLI y tests/test_despliegue.py; no ejecuté la suite ni mutaciones.",
+    "La modificación de tests/datos/ayuda-cli.json y tests/test_web_paginas.py fue declarada y corresponde a incorporar los comandos/guía y actualizar el conteo de páginas (12 a 13); la línea y aserción quitadas en test_web_paginas.py quedan así justificadas por el cambio declarado.",
+    "No se omitieron archivos binarios en el paquete.",
+    "No encontré defectos adicionales probados en autorización o en el tapado de los valores de secretos declarados; la comprobación de actor requiere terminal interactiva y rechaza agentes y entrada no interactiva."
+  ]
+}
