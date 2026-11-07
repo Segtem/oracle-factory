@@ -1,3 +1,13 @@
+# Oracle Factory 0.1.0a18 (en preparación)
+
+- **`oracle-factory verificar` para CI.** De sólo lectura: sale con 0 si los cambios del proyecto están consistentes y con 1 si no, y con `--json` entrega el contrato `oracle-factory.verificar/1`. Una plantilla de workflow está en `docs/plantillas/verificar.yml` (ver `docs/ci.md`).
+- **La puerta local corre `verificar`.** Junto a `agentes`, `kb` y `resumen`; un cambio inconsistente avisa sin bloquear el push (sólo bloquean un secreto y la guía para agentes vieja), y se omite si el proyecto no tiene `.factory/config.json`. Ver `docs/puerta.md`.
+- **Destinos y despliegue.** `oracle-factory destinos` y `desplegar` declaran y ejercitan varios destinos con prueba de que todo quedó funcionando, y el tablero de VS Code los muestra en una sección Destinos.
+- **Una web más grande.** Menú, orden de lectura y toda la documentación en la web; capturas reales de VS Code y ejemplos de salida real en las guías; una simulación pixel art de personas y agentes trabajando a la vez.
+- **Los binarios del paquete no impiden aprobar.**
+- **Textos al día.** Las notas declaran publicada la 0.1.0a17, con su tag y su release.
+- Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux. La extensión de VS Code sigue en 0.5.0 y se arma con `python3 editores/vscode/empaquetar.py`.
+
 # Oracle Factory 0.1.0a17
 
 - **Una puerta antes de publicar.** `oracle-factory puerta` busca credenciales en las líneas agregadas por todos los commits que se van a publicar y corre `agentes`, `kb` y `resumen` con `--verificar`; `oracle-factory hooks` instala un hook `pre-push` que la llama. Sólo bloquea si encuentra un secreto o si la guía para agentes quedó vieja, y no escribe nada en el proyecto. Ver `docs/puerta.md`.
