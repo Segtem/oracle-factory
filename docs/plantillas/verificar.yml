@@ -1,0 +1,16 @@
+# Plantilla de GitHub Actions para un proyecto con Oracle Factory: copiala a .github/workflows/verificar.yml.
+# Corre `oracle-factory verificar` (de sólo lectura): sale con 1 si algún cambio está inconsistente. No usa secretos ni escribe nada.
+name: Verificar los cambios de Factory
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v6
+      - run: uv tool install oracle-factory
+      - run: oracle-factory verificar
