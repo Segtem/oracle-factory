@@ -108,7 +108,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261105-225104-64i-concurrencia]] — Web: simulación pixel art de personas y agentes trabajando a la vez (cerrada)
 - [[cambios/20261106-002754-jzt-paginas]] — Web: un menú, un orden de lectura y toda la documentación (cerrada)
 - [[cambios/20261106-205202-8od-destinos]] — Despliegue a varios destinos con prueba de que todo quedó funcionando (cerrada)
-- [[cambios/20261107-013054-a8d-vista-destinos]] — Vista Destinos en el tablero de VS Code (spec_aprobada)
+- [[cambios/20261107-013054-a8d-vista-destinos]] — Vista Destinos en el tablero de VS Code (requisitos_importados)
 
 ## Requisitos
 
@@ -391,6 +391,11 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios]]
 - [[requisitos/tablero_c36d16c32608f4c53.ahora_no_te_toca_nada]]
 - [[requisitos/tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace]]
+- [[requisitos/tablero_c67ccc28106a13a74.el_contrato_de_la_extension_cubre_destinos]]
+- [[requisitos/tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado]]
+- [[requisitos/tablero_c67ccc28106a13a74.el_tablero_no_consulta_los_destinos_sin_que_se_pida]]
+- [[requisitos/tablero_c67ccc28106a13a74.el_tablero_no_despliega_ni_autoriza]]
+- [[requisitos/tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue]]
 - [[requisitos/tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto]]
 - [[requisitos/tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita]]
 - [[requisitos/tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa]]

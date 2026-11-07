@@ -21,7 +21,7 @@ f = _archivo.f
 SOURCE = Path(__file__).resolve().parents[1]
 EXTENSION = SOURCE / 'editores/vscode'
 NODE = shutil.which('node')
-COMANDOS = ('resumen', 'estado', 'donde', 'tablero')
+COMANDOS = ('resumen', 'estado', 'donde', 'tablero', 'destinos')
 
 
 class Pura(unittest.TestCase):
@@ -162,13 +162,16 @@ class Real(unittest.TestCase):
         return _tablero.cli_json(self.root, *args, '--json')
 
     def instantanea(self, cambios):
-        return {'resumen': self.json('resumen'), 'tablero': self.json('tablero'),
+        return {'resumen': self.json('resumen'), 'tablero': self.json('tablero'), 'destinos': self.json('destinos', '--sin-consultar'),
                 'estado': [self.json('estado', i) for i in cambios], 'donde': [self.json('donde', i) for i in cambios]}
 
     def estados(self):
         """{comando: [JSON de cada instantánea]}: la primera con el cambio abierto con candidato vigente y hallazgos de codex y agy (sólo lo ve
         el tablero antes de que otros cambios muevan el producto), la segunda con todos los demás estados."""
         self.con_dos_revisores()  # self.cerrado y self.ident (el abierto, con candidato y hallazgos de codex y agy)
+        (self.root / '.factory/destinos.json').write_text(json.dumps({'destinos': {'api': {'tipo': 'vps', 'desplegar': 'true', 'version': 'true'},
+                                                                                  'app': {'tipo': 'app', 'desplegar': 'true', 'version': 'true', 'depende_de': ['api']}},
+                                                                      'conjunto': {'probar': 'true'}}))
         primera = self.instantanea([self.ident, self.cerrado])
         con_propuesta = self.cambio_importado('Con propuesta', 'otra', SPEC_AGENTE)
         with patch.object(f, 'AGENTE', 'claude-code'):
@@ -182,7 +185,7 @@ class Real(unittest.TestCase):
         with self.escribe('1'):
             f.abandonar(abandonado)
         segunda = self.instantanea([self.ident, self.cerrado, con_propuesta, sin_avanzar, con_dueno, abandonado])
-        return {c: [primera[c], segunda[c]] if c in ('resumen', 'tablero') else primera[c] + segunda[c] for c in COMANDOS}
+        return {c: [primera[c], segunda[c]] if c in ('resumen', 'tablero', 'destinos') else primera[c] + segunda[c] for c in COMANDOS}
 
     def leidas(self, salidas):
         carpeta = Path(self.tmp.name) / 'json'
@@ -191,6 +194,8 @@ class Real(unittest.TestCase):
             (carpeta / f'resumen-{i}.json').write_text(json.dumps(dato))
         for i, dato in enumerate(salidas['tablero']):
             (carpeta / f'tablero-{i}.json').write_text(json.dumps(dato))
+        for i, dato in enumerate(salidas['destinos']):
+            (carpeta / f'destinos-{i}.json').write_text(json.dumps(dato))
         for i, (e, d) in enumerate(zip(salidas['estado'], salidas['donde'])):
             (carpeta / f'estado-{i}.json').write_text(json.dumps(e))
             (carpeta / f'donde-{i}.json').write_text(json.dumps(d))

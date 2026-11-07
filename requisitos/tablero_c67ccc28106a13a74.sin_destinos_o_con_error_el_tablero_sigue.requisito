@@ -1,0 +1,4 @@
+requisito tablero_c67ccc28106a13a74.sin_destinos_o_con_error_el_tablero_sigue:
+    texto "Tipo: funcional El tablero DEBE seguir mostrando los cambios, y no fallar, cuando el proyecto no tiene destinos declarados (y decir cómo declararlos) o cuando la declaración es inválida (y decir el motivo)."
+    fuente "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md#sin_destinos_o_con_error_el_tablero_sigue"
+    sin_medir "sin medida todavía; escenarios: «proyecto sin destinos», «declaración inválida»"

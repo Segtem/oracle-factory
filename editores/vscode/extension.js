@@ -151,11 +151,28 @@ function anotar(texto) {
     if (salida) salida.appendLine(`${new Date().toISOString()} ${texto}`);
 }
 
-function datosLocales() {
+let consultarDestinos = false;  // «Consultar ahora»: la próxima vez se corre el comando de versión de cada destino
+let destinosConsultados = null;  // lo que respondió esa consulta, hasta que se escriba un registro de despliegue
+
+// Los destinos del proyecto, sin correr nada de ellos (salvo que se pidió): {destinos} o {destinos: null, destinos_error}.
+async function destinosLocales(raiz) {
+    if (!fs.existsSync(path.join(raiz, '.factory', 'destinos.json'))) return {destinos: null, destinos_error: null};
+    try {
+        if (consultarDestinos) {
+            consultarDestinos = false;
+            destinosConsultados = await correr(raiz, ['destinos', '--json']);
+        }
+        return {destinos: destinosConsultados || await correr(raiz, ['destinos', '--json', '--sin-consultar']), destinos_error: null};
+    } catch (e) {
+        return {destinos: null, destinos_error: e.message.trim().split('\n').pop()};
+    }
+}
+
+async function datosLocales() {
     const raiz = carpeta();
     if (!raiz || !fs.existsSync(path.join(raiz, '.factory')))
-        return Promise.reject(new Error('Esta carpeta no es un proyecto de Factory (no tiene .factory/).'));
-    return correr(raiz, ['tablero', '--json']);
+        throw new Error('Esta carpeta no es un proyecto de Factory (no tiene .factory/).');
+    return {...await correr(raiz, ['tablero', '--json']), ...await destinosLocales(raiz)};
 }
 
 let pintura = 0;  // cada pedido de repintar tiene su número: si llega uno más nuevo, el viejo no escribe
@@ -240,6 +257,10 @@ async function mensajeDelTablero(m) {
         }
         return;
     }
+    if (m.tipo === 'consultar-destinos') {  // sólo quien tiene el proyecto: un invitado no corre comandos de despliegue
+        if (!(sesion && sesion.esInvitado())) { consultarDestinos = true; await pintarTablero(); }
+        return;
+    }
     if (m.tipo === 'preguntar') {  // sólo en el propio proyecto: un invitado de Live Share no pregunta (fuera de alcance)
         if (!(sesion && sesion.esInvitado())) await preguntar();
         return;
@@ -291,7 +312,7 @@ function abrirTablero() {
     panel = vscode.window.createWebviewPanel('factory.tablero', 'Tablero de Factory', vscode.ViewColumn.One,
                                             {enableScripts: true, retainContextWhenHidden: true});
     panel.webview.onDidReceiveMessage(mensajeDelTablero);
-    panel.onDidDispose(() => { panel = null; });
+    panel.onDidDispose(() => { panel = null; destinosConsultados = null; });
     return pintarTablero();
 }
 
@@ -332,6 +353,8 @@ function activate(context) {
     });
     sesion.iniciar(context.extension ? context.extension.id : 'cs50-taller.oracle-factory');
     const vigia = vscode.workspace.createFileSystemWatcher('**/.factory/cambios/**/factory.json');
+    const vigiaDespliegues = vscode.workspace.createFileSystemWatcher('**/.factory/despliegues/**/registro.json');
+    const despliegue = () => { destinosConsultados = null; refrescar(); };  // un despliegue nuevo vuelve viejas las versiones consultadas
     context.subscriptions.push(
         vscode.window.registerTreeDataProvider('factory.cambios', vista),
         vscode.commands.registerCommand('factory.refrescar', () => vista.refrescar()),
@@ -339,6 +362,7 @@ function activate(context) {
         vscode.commands.registerCommand('factory.tablero', abrirTablero),
         vscode.commands.registerCommand('factory.porQue', porQue),
         vscode.commands.registerCommand('factory.preguntar', preguntar),
+        vigiaDespliegues, vigiaDespliegues.onDidChange(despliegue), vigiaDespliegues.onDidCreate(despliegue),
         vigia, vigia.onDidChange(() => refrescar()), vigia.onDidCreate(() => refrescar()),
         vigia.onDidDelete(() => refrescar()));
 

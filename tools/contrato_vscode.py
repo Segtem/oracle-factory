@@ -104,13 +104,13 @@ def comprobar_la_extension(contrato: dict, leidas: dict[str, list[str]]) -> list
 NOMBRES_PROPIOS = frozenset({
     "length", "dataset", "target", "value", "elements", "exports",  # JavaScript y el DOM
     "abrir", "mostrar", "escribir", "terminal", "enlace", "alternativa", "tuya", "hecha", "sev",  # clases y claves de los nodos y del panel
-    "commit", "preguntar",  # claves del `dataset` de los botones del panel
-    "sesion", "esperando", "invitado", "otros", "rol",  # la sesión de Live Share y el estado del panel: los arma la extensión, no la CLI
+    "commit", "preguntar", "consultar",  # claves del `dataset` de los botones del panel
+    "sesion", "esperando", "invitado", "otros", "rol", "destinos_error", "json",  # la sesión de Live Share y el estado del panel: los arma la extensión, no la CLI
 })
 
 
-# Qué JSON lee cada archivo de la extensión: modelo.js arma la vista de árbol con `resumen`, `estado` y `donde`; tablero.js, el panel, con `tablero`.
-JSON_DE_CADA_ARCHIVO = {"modelo.js": ("resumen", "estado", "donde"), "tablero.js": ("tablero",)}
+# Qué JSON lee cada archivo de la extensión: modelo.js arma la vista de árbol con `resumen`, `estado` y `donde`; tablero.js, el panel, con `tablero` y `destinos`.
+JSON_DE_CADA_ARCHIVO = {"modelo.js": ("resumen", "estado", "donde"), "tablero.js": ("tablero", "destinos")}
 
 
 def nombres_en_el_codigo(texto_js: str) -> set[str]:

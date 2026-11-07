@@ -1177,5 +1177,147 @@
    ],
    "nota": "tablero.armar: «yo»: el nombre de Git de quien mira, o None si no hay"
   }
+ ],
+ "destinos": [
+  {
+   "ruta": "destinos",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "destinos[]",
+   "tipos": [
+    "object"
+   ]
+  },
+  {
+   "ruta": "destinos[].depende_de",
+   "tipos": [
+    "array"
+   ]
+  },
+  {
+   "ruta": "destinos[].depende_de[]",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "destinos[].desactualizado",
+   "tipos": [
+    "boolean",
+    "string"
+   ],
+   "nota": "despliegue.estados: True, False o «desconocido» (sin consultar o sin respuesta)"
+  },
+  {
+   "ruta": "destinos[].estado",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "destinos[].nombre",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "destinos[].tipo",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "destinos[].ultima_prueba",
+   "tipos": [
+    "object",
+    "null"
+   ],
+   "nota": "despliegue.estados: None si el destino nunca se probó"
+  },
+  {
+   "ruta": "destinos[].ultima_prueba.cuando",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true,
+   "nota": "sólo si hay última prueba"
+  },
+  {
+   "ruta": "destinos[].ultima_prueba.resultado",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true,
+   "nota": "sólo si hay última prueba"
+  },
+  {
+   "ruta": "destinos[].version_desplegada",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "nota": "despliegue.estados: None si nunca se desplegó y no se consultó"
+  },
+  {
+   "ruta": "destinos[].version_esperada",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "nota": "despliegue.estados: None si la rama no tiene commits"
+  },
+  {
+   "ruta": "rama",
+   "tipos": [
+    "string"
+   ]
+  },
+  {
+   "ruta": "ultima_corrida",
+   "tipos": [
+    "object",
+    "null"
+   ],
+   "nota": "despliegue.resumen_corrida: None si nunca se desplegó"
+  },
+  {
+   "ruta": "ultima_corrida.autorizo",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "ultima_corrida.commit",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "ultima_corrida.cuando",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "ultima_corrida.motivo",
+   "tipos": [
+    "string",
+    "null"
+   ],
+   "opcional": true
+  },
+  {
+   "ruta": "ultima_corrida.resultado",
+   "tipos": [
+    "string"
+   ],
+   "opcional": true
+  }
  ]
 }

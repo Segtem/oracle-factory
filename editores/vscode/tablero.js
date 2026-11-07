@@ -136,6 +136,44 @@ function metricas(m) {
 </div>`;
 }
 
+const ESTADOS_DESTINO = {sin_desplegar: 'sin desplegar', desplegado: 'desplegado', probado: 'probado', fallido: 'fallido', revertido: 'revertido', inalcanzable: 'inalcanzable'};
+const MALOS = new Set(['fallido', 'revertido', 'inalcanzable']);
+
+// Un destino está al día, atrás de la rama o no se sabe: sin consultar, `desactualizado` es «desconocido» y no se pinta como «al día».
+function frescura(d) {
+    return d.desactualizado === true ? '<span class="aviso-texto">desactualizado</span>'
+        : d.desactualizado === false ? 'al día' : 'versión desconocida';
+}
+
+function corto(sha) { return sha ? esc(String(sha).slice(0, 8)) : '—'; }
+
+// La sección Destinos: lo que Factory registró de cada destino de despliegue. Nunca despliega: los botones escriben el comando en
+// la terminal, y «Consultar ahora» (sólo de quien tiene el proyecto) vuelve a leer la versión de cada destino.
+function destinos(d, error, s) {
+    const cabeza = '<section class="destinos" aria-label="Destinos"><h2>Destinos</h2>';
+    if (!d) {
+        return error ? `${cabeza}<p class="aviso-texto">⚠ ${esc(error)}</p></section>`
+            : `${cabeza}<p class="vacio">Este proyecto no declara destinos de despliegue. Para declararlos: <code>.factory/destinos.json</code>
+(hay una plantilla y la guía «Desplegar a varios destinos» en la documentación de Factory).</p></section>`;
+    }
+    const invitado = Boolean(s && s.invitado);
+    const filas = d.destinos.map(x => `<tr class="destino-${esc(x.estado)}"><td><b>${esc(x.nombre)}</b></td><td>${esc(x.tipo)}</td>
+<td><span class="${MALOS.has(x.estado) ? 'aviso-texto' : ''}">${esc(ESTADOS_DESTINO[x.estado] || x.estado)}</span></td>
+<td>${corto(x.version_desplegada)} / ${corto(x.version_esperada)} · ${frescura(x)}</td>
+<td>${x.depende_de.length ? 'depende de ' + x.depende_de.map(esc).join(', ') : '—'}</td>
+<td>${x.ultima_prueba ? `${esc(x.ultima_prueba.resultado)} ${hora(x.ultima_prueba.cuando)}` : '—'}</td></tr>`).join('');
+    const c = d.ultima_corrida;
+    const corrida = c ? `<p>Última corrida: <b>${esc(c.resultado)}</b>${c.motivo ? ` — ${esc(c.motivo)}` : ''} · autorizó <b>${esc(c.autorizo)}</b> · ${hora(c.cuando)} · commit ${corto(c.commit)}</p>`
+        : '<p class="vacio">Todavía no se desplegó nada.</p>';
+    const botones = invitado ? '<p class="vacio">Los comandos se escriben en la terminal de quien comparte.</p>' : '';
+    const pasos = [['Simular el despliegue', 'oracle-factory desplegar --simular'], ['Desplegar (lo autoriza una persona)', 'oracle-factory desplegar --autorizar']]
+        .map(([texto, comando]) => `<button type="button" class="terminal" data-comando="${esc(comando)}">${esc(texto)}</button>`).join(' ');
+    const consultar = invitado ? '' : ' <button type="button" class="terminal" data-consultar="1">Consultar ahora</button>';
+    return `${cabeza}<p class="vacio">Rama ${esc(d.rama)}. Las versiones son las registradas${invitado ? '.' : ': «Consultar ahora» corre el comando de versión de cada destino.'}</p>
+<table><thead><tr><th>Destino</th><th>Tipo</th><th>Estado</th><th>Versión (desplegada / esperada)</th><th>Dependencias</th><th>Última prueba</th></tr></thead><tbody>${filas}</tbody></table>
+${corrida}${botones}<p>${pasos}${consultar}</p></section>`;
+}
+
 // La sesión de Live Share: quién está y con qué rol. Sin Live Share o sin sesión, una línea.
 function sesion(s) {
     const boton = (accion, texto) => `<button type="button" class="terminal" data-sesion="${accion}">${texto}</button>`;
@@ -205,7 +243,7 @@ function proyecto(p) {
 function estilo() {
     return `body{font-family:var(--vscode-font-family);color:var(--vscode-foreground);background:var(--vscode-editor-background);padding:0 18px 40px;max-width:1100px}
 h1{font-size:20px;display:flex;gap:10px;align-items:center}h2{font-size:17px;margin:0}h3{font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin:22px 0 8px;opacity:.85}h4{margin:0 0 4px;font-size:12px;opacity:.8}
-.cambio,.proyecto{border:2px solid var(--vscode-panel-border,#555);padding:14px 16px;margin:16px 0;box-shadow:4px 4px 0 var(--vscode-panel-border,#555)}
+.cambio,.proyecto,.destinos{border:2px solid var(--vscode-panel-border,#555);padding:14px 16px;margin:16px 0;box-shadow:4px 4px 0 var(--vscode-panel-border,#555)}
 .id{font-family:var(--vscode-editor-font-family);font-size:12px;opacity:.8;margin:4px 0 10px}
 .etapas{display:flex;gap:4px;list-style:none;padding:0;margin:0}.etapas li{padding:3px 8px;border:1px solid var(--vscode-panel-border,#555);font-size:11px;opacity:.6}.etapas li.hecha{opacity:1;background:var(--vscode-testing-iconPassed,#2e7d32);color:var(--vscode-editor-background)}
 .paso{border-left:4px solid var(--vscode-panel-border,#888);padding:6px 12px;margin:12px 0}.paso.tuya{border-left-color:var(--vscode-charts-yellow,#e0b000);background:color-mix(in srgb,var(--vscode-charts-yellow,#e0b000) 12%,transparent)}.paso.alternativa{opacity:.85}
@@ -245,6 +283,7 @@ function html(datos, {nonce, cspSource}) {
 <h1>${marca()} Tablero de Factory</h1>
 ${datos.esperando ? '' : '<p><button class="terminal" data-preguntar="1">Preguntar al proyecto</button></p>'}
 ${sesion(datos.sesion)}
+${datos.esperando ? '' : destinos(datos.destinos, datos.destinos_error, datos.sesion)}
 ${cuerpo}
 ${datos.proyecto ? proyecto(datos.proyecto) : ''}
 <script nonce="${nonce}">
@@ -257,6 +296,7 @@ document.addEventListener('click', ev => {
   if (b.dataset.commit) vscode.postMessage({tipo: 'commit', sha: b.dataset.commit});
   if (b.dataset.sesion) vscode.postMessage({tipo: 'sesion', accion: b.dataset.sesion});
   if (b.dataset.preguntar) vscode.postMessage({tipo: 'preguntar'});
+  if (b.dataset.consultar) vscode.postMessage({tipo: 'consultar-destinos'});
 });
 document.addEventListener('submit', ev => {
   const f = ev.target.closest('form.escribir');
