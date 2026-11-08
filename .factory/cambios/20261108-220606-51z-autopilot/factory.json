@@ -100,6 +100,45 @@
         "factory_autopilot.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T22:11:37.153292+00:00",
+      "requisito": "flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra",
+      "medidas": [
+        "factory_autopilot.autopilot_solo_lee_y_lo_muestra",
+        "factory_autopilot.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T22:11:37.342510+00:00",
+      "requisito": "flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas",
+      "medidas": [
+        "factory_autopilot.el_conductor_decide_el_siguiente_paso_por_reglas",
+        "factory_autopilot.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T22:11:37.526840+00:00",
+      "requisito": "flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce",
+      "medidas": [
+        "factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce",
+        "factory_autopilot.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -107,13 +146,14 @@
     "flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas": "funcional",
     "flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T22:11:37.104210+00:00",
       "sha256": "2bda5016938a8958675632e7f7802d8d6b5b6e7b8a0eba2b5dcfcc9c71aa6f8f",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T22:10:09.338880+00:00",
       "catalogos": {
         "factory_autopilot.autopilot_solo_lee_y_lo_muestra": "fef8a8e230e635284744742748c7bdc0f042391a86f2a06546dcc2b2bd68925f",
         "factory_autopilot.corrida_completa": "7d7e447b74e0e683ef4a6ece0c7cb86a6adb79353330aacfdd594bb0fe23c649"
@@ -124,10 +164,12 @@
       }
     },
     "flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T22:11:37.293110+00:00",
       "sha256": "0106b73f1fb704f7a61dd4a3ea9aec52b6695fdabd2378c16b09c9a958c121a1",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T22:10:11.197364+00:00",
       "catalogos": {
         "factory_autopilot.el_conductor_decide_el_siguiente_paso_por_reglas": "db388bb091048b64bd677a280aa8206b4b49f3723fcb9308bebc311bb605e2c7",
         "factory_autopilot.corrida_completa": "7d7e447b74e0e683ef4a6ece0c7cb86a6adb79353330aacfdd594bb0fe23c649"
@@ -138,10 +180,12 @@
       }
     },
     "flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T22:11:37.478281+00:00",
       "sha256": "352668429bd4fe80b124bfa4865444701a98b5e1947d26baabc93c080743045d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T22:10:13.066001+00:00",
       "catalogos": {
         "factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce": "af818f0de200eaf8583bc10daf499281ed34f14281726d8c8b65253a8628844e",
         "factory_autopilot.corrida_completa": "7d7e447b74e0e683ef4a6ece0c7cb86a6adb79353330aacfdd594bb0fe23c649"
@@ -151,5 +195,6 @@
         "factory_autopilot.corrida_completa": "catalogos/factory_autopilot.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
