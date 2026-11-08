@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-203356-puy-frenos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «con frenos», «sin frenos», «un freno no decide nada»
+- Medidas: `factory_frenos.estado_muestra_los_frenos`, `factory_frenos.corrida_completa`
 - Fuente: openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md#estado_muestra_los_frenos
 
 Tipo: funcional El sistema DEBE mostrar los frenos en `estado --json` como la clave `frenos` (lista de objetos con `id` y `motivo`, vacía si no hay) y en `estado` como avisos que empiezan con «FRENO:», sin cambiar el próximo paso, los pendientes ni ningún otro dato del estado.

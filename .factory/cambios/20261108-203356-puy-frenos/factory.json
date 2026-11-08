@@ -68,6 +68,34 @@
         "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos",
         "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T20:39:02.506556+00:00",
+      "requisito": "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio",
+      "medidas": [
+        "factory_frenos.los_frenos_salen_de_los_datos_del_cambio",
+        "factory_frenos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T20:39:04.315014+00:00",
+      "requisito": "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos",
+      "medidas": [
+        "factory_frenos.estado_muestra_los_frenos",
+        "factory_frenos.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -75,5 +103,34 @@
     "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio": {
+      "sha256": "c736797e76dd62c4bd31876a1e244fcd2c68583a0b5da164f231f0948002a2b8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T20:39:02.457950+00:00",
+      "catalogos": {
+        "factory_frenos.los_frenos_salen_de_los_datos_del_cambio": "006cf38a8577c8a94f09eaaf7ce21a961e758e0fd3304c429db87ec75c74de43",
+        "factory_frenos.corrida_completa": "92117e21564c496b7cf3facbc2bf85292ce55be6ebb17cc37668fd804fe6845c"
+      },
+      "archivos_catalogo": {
+        "factory_frenos.los_frenos_salen_de_los_datos_del_cambio": "catalogos/factory_frenos.los_frenos_salen_de_los_datos_del_cambio.oracle",
+        "factory_frenos.corrida_completa": "catalogos/factory_frenos.corrida_completa.oracle"
+      }
+    },
+    "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos": {
+      "sha256": "43270258bd6544ce4256ae4bdbecb9642ce84d576887233a0e1da01563f04461",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T20:39:04.266559+00:00",
+      "catalogos": {
+        "factory_frenos.estado_muestra_los_frenos": "a1de34a001f7fbbbb91b748c27120cb974f995ad76d17efb6938e88b4639f60a",
+        "factory_frenos.corrida_completa": "92117e21564c496b7cf3facbc2bf85292ce55be6ebb17cc37668fd804fe6845c"
+      },
+      "archivos_catalogo": {
+        "factory_frenos.estado_muestra_los_frenos": "catalogos/factory_frenos.estado_muestra_los_frenos.oracle",
+        "factory_frenos.corrida_completa": "catalogos/factory_frenos.corrida_completa.oracle"
+      }
+    }
+  }
 }

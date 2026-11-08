@@ -19,3 +19,11 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-08 20:37:08 UTC)
 
 Requisitos importados: flujo_cf63459721e7fb9ac.estado_muestra_los_frenos (funcional), flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-08 20:39:02 UTC)
+
+Medidas de flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio: factory_frenos.los_frenos_salen_de_los_datos_del_cambio, factory_frenos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 20:39:04 UTC)
+
+Medidas de flujo_cf63459721e7fb9ac.estado_muestra_los_frenos: factory_frenos.estado_muestra_los_frenos, factory_frenos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
