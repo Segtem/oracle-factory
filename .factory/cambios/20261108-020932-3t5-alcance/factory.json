@@ -313,6 +313,58 @@
         "factory_destinos_alcance.un_destino_declara_su_alcance_opcional",
         "factory_destinos_alcance.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T04:33:54.041373+00:00",
+      "requisito": "despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados",
+      "medidas": [
+        "factory_destinos_alcance.cambios_elige_los_destinos_afectados",
+        "factory_destinos_alcance.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T04:33:54.251165+00:00",
+      "requisito": "despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada",
+      "medidas": [
+        "factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada",
+        "factory_destinos_alcance.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T04:33:54.461943+00:00",
+      "requisito": "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
+      "medidas": [
+        "factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
+        "factory_destinos_alcance.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T04:33:54.666950+00:00",
+      "requisito": "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional",
+      "medidas": [
+        "factory_destinos_alcance.un_destino_declara_su_alcance_opcional",
+        "factory_destinos_alcance.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -321,13 +373,14 @@
     "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance": "funcional",
     "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T04:33:53.989301+00:00",
       "sha256": "59b58d277d0194774673ad616dfbcd152333ca67cd122b3935fca7fb966553a3",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T04:25:41.516483+00:00",
       "catalogos": {
         "factory_destinos_alcance.cambios_elige_los_destinos_afectados": "60b52afa6577a3a725298782a39ba8e358e391e2a8a2870384bab93676d4ce2f",
         "factory_destinos_alcance.corrida_completa": "43aba60d3d1525a5cd4c2f4251be76bc88dabea713e74890892b9cf12ee30bdf"
@@ -338,10 +391,12 @@
       }
     },
     "despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T04:33:54.197747+00:00",
       "sha256": "2bb45eb4dcd342c07ffee488071f035845347f62320d4a5b30124ddb42893d99",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T04:25:44.360693+00:00",
       "catalogos": {
         "factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada": "830c8f9f7c832bcce5dddf846902629c4701cb406f4e7dc8e9f804143032da37",
         "factory_destinos_alcance.corrida_completa": "43aba60d3d1525a5cd4c2f4251be76bc88dabea713e74890892b9cf12ee30bdf"
@@ -352,10 +407,12 @@
       }
     },
     "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T04:33:54.407797+00:00",
       "sha256": "bacc67780a8b081114fef501395294f555ad5047f926911b59335172b9262e79",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T04:25:47.200125+00:00",
       "catalogos": {
         "factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance": "54e15d3ea7490b4ef2c5e0ba859fd617df373a662e2cba16ead8299afdbad335",
         "factory_destinos_alcance.corrida_completa": "43aba60d3d1525a5cd4c2f4251be76bc88dabea713e74890892b9cf12ee30bdf"
@@ -366,10 +423,12 @@
       }
     },
     "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T04:33:54.614484+00:00",
       "sha256": "672dc0de10e312f7a62cb3e0cc90dde672ab2873156d132cc5ca6242b08ac2a5",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T04:25:50.040976+00:00",
       "catalogos": {
         "factory_destinos_alcance.un_destino_declara_su_alcance_opcional": "c2012cc5a86add06a9374587a0f53a6d2915f87a3e1773acae00c62585e3ebea",
         "factory_destinos_alcance.corrida_completa": "43aba60d3d1525a5cd4c2f4251be76bc88dabea713e74890892b9cf12ee30bdf"
@@ -380,5 +439,6 @@
       }
     }
   },
+  "medidas_pendientes": {},
   "motivos_propuestos": {}
 }

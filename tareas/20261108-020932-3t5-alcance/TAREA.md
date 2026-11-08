@@ -71,3 +71,19 @@ Medidas de despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta
 ### Nota (2026-11-08 04:25:50 UTC)
 
 Medidas de despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-08 04:33:54 UTC)
+
+Medidas de despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 04:33:54 UTC)
+
+Medidas de despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 04:33:54 UTC)
+
+Medidas de despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 04:33:54 UTC)
+
+Medidas de despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional: Brian Hollweg (persona, confirmo, modo confirmacion).
