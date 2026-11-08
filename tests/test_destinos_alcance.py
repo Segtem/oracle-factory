@@ -74,6 +74,18 @@ class Eleccion(Base):
         desplegar(raiz, destinos=['a'])  # a quedó al día; b sigue en la versión vieja
         self.assertEqual(plan(raiz, cambios=True)['orden'], ['b'])
 
+    def test_da2_dos_corridas_del_mismo_segundo_se_ordenan_por_cuando_se_escribieron(self):
+        import os
+        raiz = proyecto(self.tmp, {'a': destino('a')})
+        carpeta = raiz / '.factory' / 'despliegues'
+        for i, (id_, version) in enumerate((('zzz', 'v-vieja'), ('aaa', 'v-nueva'))):  # el ID de la más nueva ordena antes
+            (carpeta / id_).mkdir(parents=True)
+            archivo = carpeta / id_ / 'registro.json'
+            archivo.write_text(json.dumps({'id': id_, 'cuando': '2026-11-08T00:00:00Z', 'destinos': {'a': {'estado': 'probado', 'version_despues': version}}}), encoding='utf-8')
+            os.utime(archivo, ns=(1_000_000_000 + i, 1_000_000_000 + i))
+        self.assertEqual([r['id'] for r in despliegue.registros(raiz)], ['zzz', 'aaa'])
+        self.assertEqual(despliegue._version_previa(raiz, 'a'), 'v-nueva')
+
     def test_da2_lo_que_no_se_puede_descartar_entra_con_su_motivo(self):
         raiz = proyecto(self.tmp, {'sin': destino('sin'), 'nuevo': destino('nuevo', alcance=['nuevo/']),
                                    'viejo': destino('viejo', alcance=['viejo/']), 'quieto': destino('quieto', alcance=['quieto/'])})
@@ -87,6 +99,9 @@ class Eleccion(Base):
         self.assertEqual(sorted(p['orden']), ['nuevo', 'sin', 'viejo'])
         self.assertEqual(sorted(p['omitidos']), ['quieto'])
         self.assertEqual(len({p['motivos'][n] for n in ('sin', 'nuevo', 'viejo')}), 3)  # tres motivos distintos
+        self.assertIn('no se conoce', p['motivos']['viejo'])
+        self.assertIn('nunca se desplegó', p['motivos']['nuevo'])
+        self.assertIn('sin alcance', p['motivos']['sin'])
 
     def test_da2_un_elegido_arrastra_lo_que_necesita_antes_que_el_(self):
         raiz = proyecto(self.tmp, {'y': destino('y', alcance=['y/']), 'x': destino('x', alcance=['x/'], depende_de=['y'])})
