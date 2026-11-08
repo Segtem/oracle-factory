@@ -68,18 +68,32 @@
         "factory_marcas.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:43:22.987102+00:00",
+      "requisito": "web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado",
+      "medidas": [
+        "factory_marcas.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado",
+        "factory_marcas.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T12:43:22.936096+00:00",
       "sha256": "208db79a01cdbd11d4db2060c28917ad12f95744c2112a89b05b71b4367d97f8",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T12:42:58.028889+00:00",
       "catalogos": {
         "factory_marcas.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado": "b343f6409f4dacff7cca2323ba8f54dc6ff258937f99621d281855ac217ce344",
         "factory_marcas.corrida_completa": "a794753711b7bcf5e39e71256e3ab57c5b63a196cd7f2a1f9fee1d5ea8682076"
@@ -89,5 +103,6 @@
         "factory_marcas.corrida_completa": "catalogos/factory_marcas.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
