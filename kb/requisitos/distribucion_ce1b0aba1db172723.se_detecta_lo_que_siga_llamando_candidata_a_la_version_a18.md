@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_ce1b0aba1db172723.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18`
 - Vigente: sí
 - Cambio: [[cambios/20261107-235004-sb1-publicadaa18]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_publicada_a18.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18`, `factory_publicada_a18.corrida_completa`
 - Fuente: openspec/changes/20261107-235004-sb1-publicadaa18/specs/distribucion/spec.md#se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18
 

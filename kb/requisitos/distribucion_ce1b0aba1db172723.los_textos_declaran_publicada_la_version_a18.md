@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_ce1b0aba1db172723.los_textos_declaran_publicada_la_version_a18`
 - Vigente: sí
 - Cambio: [[cambios/20261107-235004-sb1-publicadaa18]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_publicada_a18.los_textos_declaran_publicada_la_version_a18`, `factory_publicada_a18.corrida_completa`
 - Fuente: openspec/changes/20261107-235004-sb1-publicadaa18/specs/distribucion/spec.md#los_textos_declaran_publicada_la_version_a18
 
