@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -54,6 +55,10 @@ class Calculo(unittest.TestCase):
         editados = [{'archivo': 'tests/test_a.py', 'estado': 'modificado', 'origen': None, 'lineas_quitadas': 2, 'tests_quitados': [], 'asserts_quitados': 1}]
         self.assertEqual(ids(calcular(editados=editados)), ['prueba_existente_editada'])
         self.assertEqual(ids(calcular(flujo=GRANDE)), ['cambio_grande', 'bucle_de_revision'])
+        solo_tamano = {'bucle_de_revision': {'rondas': 1, 'avisa': False}, 'cambio_grande': GRANDE['cambio_grande']}
+        solo_rondas = {'bucle_de_revision': GRANDE['bucle_de_revision'], 'cambio_grande': {'lineas': 1, 'avisa': False}}
+        self.assertEqual(ids(calcular(flujo=solo_tamano)), ['cambio_grande'])
+        self.assertEqual(ids(calcular(flujo=solo_rondas)), ['bucle_de_revision'])
         self.assertEqual(calcular(editados=[]), [])
         todo = calcular([juicio(1), juicio(1)], [informe('alta')], editados=editados, flujo=GRANDE)
         self.assertEqual(ids(todo), ['juicios_rojos', 'hallazgo_alto_abierto', 'prueba_existente_editada', 'cambio_grande', 'bucle_de_revision'])
@@ -64,6 +69,7 @@ class Calculo(unittest.TestCase):
             with self.subTest(estado=estado):
                 self.assertEqual(frenos.calcular(estado, [], 'abc1234', False, None, SIN), [])
         self.assertEqual(calcular([juicio(None), juicio('x'), juicio(True)]), [])  # un código que no es un entero no cuenta
+        self.assertEqual(calcular([juicio(True), juicio(True)]), [])  # y un booleano tampoco es un entero
         raros = [None, 3, {'hallazgos': None}, {'candidato': 'abc1234', 'hallazgos': 'x'}, {'candidato': 'abc1234', 'hallazgos': [None, 3, {'severity': None}]},
                  {'candidato': None, 'hallazgos': [{'severity': 'alta'}]}]
         self.assertEqual(calcular(informes=raros), [])
@@ -98,6 +104,19 @@ class EstadoReal(_te.Base):
             self.assertIn(f"FRENO: {freno['motivo']}", texto)
         self.assertEqual((datos['pendientes'], datos['proximo_paso'], datos['alternativas']),
                          (antes['pendientes'], antes['proximo_paso'], antes['alternativas']))  # un freno no decide nada
+        # la revisión aprobada y vigente levanta el freno del hallazgo; otra decisión, otro producto o una revisión con problemas, no
+        _, estado = f.leer(self.ident)
+        actual = f.contexto_producto()
+
+        def alto(decision, contexto, problemas):
+            estado['revision'] = {'decision': decision, 'contexto': contexto}
+            with patch.object(f, 'problemas_de_revision', return_value=problemas):
+                return [i for i in ids(f.frenos_del_cambio(self.ident, estado, sha, actual, None, {})) if i == 'hallazgo_alto_abierto']
+        self.assertEqual(alto('aprobar', actual, []), [])
+        self.assertEqual(alto('cambios', actual, []), ['hallazgo_alto_abierto'])
+        self.assertEqual(alto('aprobar', actual, ['algo']), ['hallazgo_alto_abierto'])
+        self.assertEqual(alto('aprobar', {'archivos_sha256': 'otro'}, []), ['hallazgo_alto_abierto'])
+        self.assertEqual(alto('aprobar', None, []), ['hallazgo_alto_abierto'])
 
     def test_fr2_sin_frenos_la_lista_esta_vacia_y_no_hay_avisos(self):
         self.preparar()
