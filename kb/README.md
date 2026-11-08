@@ -120,6 +120,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-133915-l4v-origen]] — Medir si los hallazgos de la primera ronda se atrapan leyendo la spec (cerrada)
 - [[cambios/20261108-134533-o0q-etapas]] — Autonomía por etapa: construcción, integración, publicación y producción (cerrada)
 - [[cambios/20261108-203356-puy-frenos]] — Frenos de construcción: avisos de estado que mandan parar (cerrada)
+- [[cambios/20261108-220606-51z-autopilot]] — Conductor autopilot: decide el siguiente paso por reglas (sin actuar) (cerrada)
 
 ## Requisitos
 
@@ -297,6 +298,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza]]
+- [[requisitos/flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra]]
+- [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas]]
+- [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce]]
 - [[requisitos/flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa]]
 - [[requisitos/flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan]]
 - [[requisitos/flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista]]

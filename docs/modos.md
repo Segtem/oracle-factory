@@ -54,6 +54,18 @@ Cada etapa posterior a la construcción está en `confirmacion` (decide una pers
 - Con `produccion` en `autonomo`, un agente puede correr `desplegar --autorizar`. El plan, la puerta, la simulación, la prueba de cada destino y la del conjunto se exigen igual, y el rollback sigue vigente. La corrida queda registrada con el agente como quien autorizó.
 - Subir un paquete a PyPI no es una etapa de Factory y sigue siendo de una persona.
 
+### El conductor `autopilot`
+
+`oracle-factory autopilot ID [--json]` dice qué haría ahora el conductor con un cambio. Es de solo lectura: observa `estado`, razona por reglas fijas (sin modelo de lenguaje) y no corre nada. Siempre dice el porqué, y su respuesta es una de cinco acciones:
+
+- `terminado`: el cambio está cerrado o abandonado y no tiene frenos.
+- `frenar`: hay un freno de `estado` (o no se pueden leer los frenos), el próximo paso es uno que no reconoce o está incompleto, o faltan archivos del cambio. Nunca trae comando y la decisión vuelve a una persona.
+- `pedir_a_persona`: el próximo paso es una decisión que solo toma una persona (`aprobar-spec`, `medir --confirmar`, `revisar`, `cerrar`, `abandonar`, `modo`, `autonomia`, `soltar`, `decidir-union`), con su comando listo para pegar. Lo es aunque una etapa esté en `autonomo`.
+- `delegar_al_agente`: trabajo creativo, como construir (si no hay candidato), corregir lo que pidió la revisión o elegir las medidas.
+- `actuar`: un comando mecánico de Factory (`importar`, `juzgar`, `pedir-revision`, `revision-preparar`, `tomar`, `mensaje`) que un agente corre con `--agente NOMBRE`.
+
+Todavía no actúa: ejecutar los comandos, lanzar al agente y repetir el bucle son el cambio siguiente.
+
 ## Requisitos funcionales y no funcionales
 
 Cada requisito de la spec declara su tipo en la línea que sigue al título:

@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-autopilot/.factory/local/revisiones/0ecb92e-codex-1",
+  "base": "742c19e486c0322fce8ab7d6b3e182aa9053c644",
+  "head": "0ecb92e0fe6d02c4673cbb6ee581adec631c7b8a",
+  "diff_sha256": "10e8642ca18da35fef8ec23b0893b4c49732bb46ed737a6a53c4b15412b9da2f",
+  "context_sha256": "1fce7f77fec1e9f99db3eafd8aad7ba15f832496b87e9533c0bdcbf89c679066",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec, los parches de texto del paquete y el código/pruebas incluidos; no ejecuté la suite ni mutaciones manuales.",
+    "No encontré defectos verificables en los rangos revisados.",
+    "La edición de tests/datos/ayuda-cli.json quita una línea vieja del índice de subcomandos y actualiza el golden para incluir autopilot; está justificada por el subcomando nuevo."
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-autopilot/.factory/local/revisiones/bbd6b80-codex-1",
+  "base": "742c19e486c0322fce8ab7d6b3e182aa9053c644",
+  "head": "bbd6b80759aa8f72758147a5aa1b214f6994df54",
+  "diff_sha256": "cf51b051332a619a5be1c47cb4e12199fb0e1a47d352c9da38729ed44ff0d1d5",
+  "context_sha256": "05ed6e6f4bcf467d7e5f2820e74bd4459372c8dc7e644383d348ef2c3c5e4f13",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "AP-2",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Un cambio cerrado omite frenos y errores de lectura de frenos",
+      "explanation": "decidir() devuelve terminado antes de leer y validar datos[\"frenos\"]. Si estado informa fase cerrada/abandonada sin próximo paso, pero trae un freno, la acción deja de ser frenar; si frenos falta o tiene un tipo inválido, también se declara terminado en vez de frenar por datos ilegibles. Esto contradice la prioridad requerida para los frenos y el manejo de datos ilegibles. La prueba ap2_un_cambio_cerrado_o_abandonado_esta_terminado fija expresamente el caso cerrado con freno como terminado, por lo que esa prueba codifica la discrepancia.",
+      "location": {
+        "file": "oracle_factory/autopilot.py",
+        "start_line": 48,
+        "end_line": 49,
+        "side": "head"
+      },
+      "trigger": "Llamar decidir({\"fase\":\"cerrada\", \"proximo_paso\":null, \"frenos\":[{\"id\":\"bloqueo\"}]}) o con frenos ausente/malformado.",
+      "evidence": "La condición de terminado aparece en las líneas 48–49 antes de la lectura y validación de frenos en las líneas 50–54. El requisito exige frenar antes que cualquier otra regla cuando existe freno; además, la función trata los datos de frenos ilegibles como freno sólo después de esa rama.",
+      "related_requirement": "el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce",
+      "status": "pendiente",
+      "verification": "Inspección estática del flujo y de la prueba de regresión incluida en tests/test_autopilot.py; no ejecuté la suite."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé el diff textual y contexto incluido en el paquete; omissions está vacío.",
+    "No corrí la suite de 1310 pruebas ni repetí las 28 mutaciones declaradas; no ejecuté pruebas en este checkout.",
+    "La modificación de tests/datos/ayuda-cli.json (se quitó una línea y se agregó otra) es legítima: actualiza el snapshot de ayuda global porque el cambio agrega el subcomando autopilot."
+  ]
+}
