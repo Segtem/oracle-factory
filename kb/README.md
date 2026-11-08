@@ -117,7 +117,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-020932-3t5-alcance]] — Alcance opcional de los destinos: desplegar sólo lo que cambió (cerrada)
 - [[cambios/20261108-115714-ohv-noaplica]] — El verificador respeta «Pruebas: no aplica» (cerrada)
 - [[cambios/20261108-124048-rv2-marcas]] — El comprobador del sitio detecta bloques marcados duplicados (cerrada)
-- [[cambios/20261108-134533-o0q-etapas]] — Autonomía por etapa: construcción, integración, publicación y producción (espera_aprobacion_spec)
+- [[cambios/20261108-134533-o0q-etapas]] — Autonomía por etapa: construcción, integración, publicación y producción (spec_aprobada)
 
 ## Requisitos
 

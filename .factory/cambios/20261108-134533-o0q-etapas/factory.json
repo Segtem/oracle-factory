@@ -2,10 +2,20 @@
   "id": "20261108-134533-o0q-etapas",
   "titulo": "Autonomía por etapa: construcción, integración, publicación y producción",
   "capacidad": "modos",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "3865ceb987cccda96d376d58ab8d44b7f171dcccbd62df78ba8c2b7ad2652cf8",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T13:54:25.737632+00:00",
+    "documentos": {
+      "openspec/changes/20261108-134533-o0q-etapas/proposal.md": "97af40c820a32bf8f0ec6bb6b5819d0b3dca84890061a2f9b2d040994cde06a9",
+      "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md": "3865ceb987cccda96d376d58ab8d44b7f171dcccbd62df78ba8c2b7ad2652cf8"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-08T13:45:33.569789+00:00",
       "capacidad": "modos"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T13:54:25.737656+00:00",
+      "documentos": {
+        "openspec/changes/20261108-134533-o0q-etapas/proposal.md": "97af40c820a32bf8f0ec6bb6b5819d0b3dca84890061a2f9b2d040994cde06a9",
+        "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md": "3865ceb987cccda96d376d58ab8d44b7f171dcccbd62df78ba8c2b7ad2652cf8"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
