@@ -27,3 +27,15 @@ Medidas de practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo
 ### Nota (2026-11-08 12:01:30 UTC)
 
 Medidas de practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora: factory_noaplica.una_excepcion_mal_escrita_no_se_ignora, factory_noaplica.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 12:01:45 UTC)
+
+Medidas de practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 12:01:45 UTC)
+
+Medidas de practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 12:01:45 UTC)
+
+Medidas de practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora: Brian Hollweg (persona, confirmo, modo confirmacion).
