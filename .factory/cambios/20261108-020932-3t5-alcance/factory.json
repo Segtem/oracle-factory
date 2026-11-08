@@ -2,7 +2,7 @@
   "id": "20261108-020932-3t5-alcance",
   "titulo": "Alcance opcional de los destinos: desplegar sólo lo que cambió",
   "capacidad": "despliegue",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md",
   "spec_sha256": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf",
   "spec_aprobada": {
@@ -16,7 +16,12 @@
       "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados",
+    "despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada",
+    "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
+    "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +46,28 @@
         "openspec/changes/20261108-020932-3t5-alcance/proposal.md": "69cf9f61bb103878b7a6e8bf3e3383b446459d37d094ac53b909a097ed8cb5a3",
         "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T02:16:20.072639+00:00",
+      "ids": [
+        "despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados",
+        "despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada",
+        "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
+        "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados": "funcional",
+    "despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada": "funcional",
+    "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance": "funcional",
+    "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

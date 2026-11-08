@@ -1,0 +1,4 @@
+requisito despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada:
+    texto "Tipo: funcional El sistema DEBE mostrar en el plan por qué entra cada destino y cuáles se omiten, y cuando ningún destino resulta afectado DEBE decir que no hay nada que desplegar y NO DEBE ejecutar nada, ni siquiera con `--autorizar`."
+    fuente "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada"
+    sin_medir "sin medida todavía; escenarios: «el plan con motivos», «nada que desplegar»"

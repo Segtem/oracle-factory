@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261108-020932-3t5-alcance. Modo de trabajo: confirm
 ### Nota (2026-11-08 02:16:10 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-08 02:16:20 UTC)
+
+Requisitos importados: despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados (funcional), despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada (funcional), despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance (funcional), despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

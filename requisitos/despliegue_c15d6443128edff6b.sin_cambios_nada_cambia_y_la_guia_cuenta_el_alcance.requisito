@@ -1,0 +1,4 @@
+requisito despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance:
+    texto "Tipo: funcional El sistema NO DEBE cambiar lo que hace `desplegar` sin `--cambios`, DEBE negar `--cambios` junto con `--destino`, y DEBE contar el campo `alcance`, la opción y sus límites en `docs/despliegue.md` y en la plantilla `docs/plantillas/destinos.json`."
+    fuente "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance"
+    sin_medir "sin medida todavía; escenarios: «sin la opción», «las dos opciones juntas», «la guía y la plantilla»"
