@@ -2,7 +2,7 @@
   "id": "20261108-020932-3t5-alcance",
   "titulo": "Alcance opcional de los destinos: desplegar sólo lo que cambió",
   "capacidad": "despliegue",
-  "fase": "oracle_rojo",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md",
   "spec_sha256": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf",
   "spec_aprobada": {
@@ -27,35 +27,23 @@
     "revisor": "Brian Hollweg",
     "decision": "aprobar",
     "hallazgos_abiertos": 0,
-    "informe": "tareas/20261108-020932-3t5-alcance/revisiones/registro-_xyfh2af/informe.json",
-    "sha256": "62b6e9f629ff92bfc8c3579dc6eaab9af19cb9b1628b9ff5f259f3cf93c0385e",
-    "decisiones": "tareas/20261108-020932-3t5-alcance/revisiones/registro-_xyfh2af/decisiones.json",
-    "decisiones_sha256": "470b167174ec5e5a6403fc08f525bfc57ca5de2680ad2f916cfefff82160ca0d",
+    "informe": "tareas/20261108-020932-3t5-alcance/revisiones/registro-_w9v6yr3/informe.json",
+    "sha256": "26c8cead8df8a0e6db0f4826946cdb9b18edef2f531ff0c7bbf6e32e2ca38d11",
+    "decisiones": "tareas/20261108-020932-3t5-alcance/revisiones/registro-_w9v6yr3/decisiones.json",
+    "decisiones_sha256": "abbb6a43591087e07b2cf21483f28c8fa9a6055e5603d7494ff8f92305938ba0",
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
-    "forma": "confirmo",
+    "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-11-08T04:24:51.054351+00:00",
-    "motivo": "Codex sin hallazgos. Evidencia 1245 pruebas OK. 8 mutaciones propias sobre despliegue.py y cli.py detectadas; una sobrevive y es equivalente (invertir el rango del diff: --name-only es simétrico). Incluye un arreglo no pedido por la spec: despliegue.registros desempata por el momento en que se escribió el registro (dos corridas del mismo segundo quedaban en orden arbitrario), con prueba determinista; también corrige estados. Sin ediciones a pruebas existentes salvo el golden de la ayuda (sólo desplegar). Toca cli.py: camino completo.",
-    "origen_motivo": "agente",
+    "cuando": "2026-11-08T05:00:07.015263+00:00",
+    "motivo": "Apruebo el candidato d1b6a74; 0 hallazgos de los revisores; evidencia del candidato: 1245 pruebas, 14 casos de contrato; 1 vuelta anterior registrada.",
+    "origen_motivo": "armado",
     "contexto": {
-      "head": "69a95185532763fd98ac976ee90a0fcb6adab036",
-      "archivos_sha256": "e8a2cc4f9e558edae1aa516e46b2572ac131afb38ed4a21176a69a73c50cdc44"
+      "head": "1f18689dac07063ffb7dfae1cc3cec3c66c0a30a",
+      "archivos_sha256": "aeafcb312abf07341680323bf867883a16669edec4d26ed60c559cb8a7546b45"
     }
   },
-  "oracle": {
-    "codigo": 1,
-    "codigo_oracle": 1,
-    "hechos": ".factory/cambios/20261108-020932-3t5-alcance/candidatos/ec5d3f5/evidencia/hechos.json",
-    "hechos_sha256": "4f570a0a110d0bfa305e92057f1a9ac7320ba66b0c05a50230287047b6fe56be",
-    "informe": ".factory/cambios/20261108-020932-3t5-alcance/oracle-veredicto.txt",
-    "informe_sha256": "6af53800bd0c234590def741a026140deda2cb55e584c4aa319195974504404a",
-    "cuando": "2026-11-08T04:25:02.637604+00:00",
-    "contexto": {
-      "head": "69a95185532763fd98ac976ee90a0fcb6adab036",
-      "archivos_sha256": "e8a2cc4f9e558edae1aa516e46b2572ac131afb38ed4a21176a69a73c50cdc44"
-    }
-  },
+  "oracle": null,
   "modo": "confirmacion",
   "eventos": [
     {
@@ -401,6 +389,34 @@
       "cuando": "2026-11-08T04:46:06.741942+00:00",
       "decision": "aprobar",
       "candidato": "d1b6a74"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T04:51:21.638022+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "26c8cead8df8a0e6db0f4826946cdb9b18edef2f531ff0c7bbf6e32e2ca38d11",
+      "decisiones_sha256": "05d9ef670fe2f5ea178f44a505fd86542dcf3e987cf9ed3f2d3b6691af76f344"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T05:00:07.015302+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "26c8cead8df8a0e6db0f4826946cdb9b18edef2f531ff0c7bbf6e32e2ca38d11",
+      "decisiones_sha256": "abbb6a43591087e07b2cf21483f28c8fa9a6055e5603d7494ff8f92305938ba0"
     }
   ],
   "tipos": {
@@ -476,14 +492,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Segunda ronda tras corregir los catálogos (14 casos; cambios_elige 6). Codex sin hallazgos sobre d1b6a74. Evidencia 1245 pruebas OK, 14 casos. Código y pruebas sin cambios desde la primera ronda: 8 mutaciones detectadas, una equivalente (invertir el rango del diff). Incluye el arreglo de despliegue.registros (desempate por momento de escritura) con prueba determinista. Toca cli.py: camino completo.",
-      "candidato": "d1b6a74",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T04:46:06.741918+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

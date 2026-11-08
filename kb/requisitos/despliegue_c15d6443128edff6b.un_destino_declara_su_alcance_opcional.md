@@ -11,7 +11,7 @@ vigente: true
 - Id: `despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional`
 - Vigente: sí
 - Cambio: [[cambios/20261108-020932-3t5-alcance]]
-- Veredicto: no cumple
+- Veredicto: sin juicio
 - Medidas: `factory_destinos_alcance.un_destino_declara_su_alcance_opcional`, `factory_destinos_alcance.corrida_completa`
 - Fuente: openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#un_destino_declara_su_alcance_opcional
 

@@ -87,3 +87,11 @@ Medidas de despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta
 ### Nota (2026-11-08 04:33:54 UTC)
 
 Medidas de despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 04:51:21 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Segunda ronda tras corregir los catálogos (14 casos; cambios_elige 6). Codex sin hallazgos sobre d1b6a74. Evidencia 1245 pruebas OK, 14 casos. Código y pruebas sin cambios desde la primera ronda: 8 mutaciones detectadas, una equivalente (invertir el rango del diff). Incluye el arreglo de despliegue.registros (desempate por momento de escritura) con prueba determinista. Toca cli.py: camino completo.); 0 abiertos derivados; commit 1f18689dac07063ffb7dfae1cc3cec3c66c0a30a; informe tareas/20261108-020932-3t5-alcance/revisiones/registro-a4koy_cu/informe.json; decisiones tareas/20261108-020932-3t5-alcance/revisiones/registro-a4koy_cu/decisiones.json.
+
+### Nota (2026-11-08 05:00:07 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion; motivo: Apruebo el candidato d1b6a74; 0 hallazgos de los revisores; evidencia del candidato: 1245 pruebas, 14 casos de contrato; 1 vuelta anterior registrada.); 0 abiertos derivados; commit 1f18689dac07063ffb7dfae1cc3cec3c66c0a30a; informe tareas/20261108-020932-3t5-alcance/revisiones/registro-_w9v6yr3/informe.json; decisiones tareas/20261108-020932-3t5-alcance/revisiones/registro-_w9v6yr3/decisiones.json.
