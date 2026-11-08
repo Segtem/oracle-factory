@@ -1,6 +1,6 @@
 # Conductor autopilot: decide el siguiente paso por reglas (sin actuar)
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-08 23:19:22 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261108-220606-51z-autopilot/oracle-veredicto.txt.
+
+### Nota (2026-11-08 23:21:49 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

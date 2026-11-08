@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:ebf61da3fd769cca49f168e746b0d7bd88122e4adda2eb66b782f1a9f99bb104 -->
+<!-- oracle-factory resumen sha256:a215de49b92e8db9ea893932d8e71c4c0ca7f0b8ff0e11ebae7236725da4a333 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 341 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 344 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -274,6 +274,9 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | la guía dice lo que hace la CLI | funcional | `flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli` | factory_agentes.la_guia_dice_lo_que_hace_la_cli, factory_agentes.corrida_completa | verde al cerrar el 2026-10-22 | 20261022-215347-y70-agentes |
 | los_frenos_salen_de_los_datos_del_cambio | funcional | `flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio` | factory_frenos.los_frenos_salen_de_los_datos_del_cambio, factory_frenos.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-203356-puy-frenos |
 | estado_muestra_los_frenos | funcional | `flujo_cf63459721e7fb9ac.estado_muestra_los_frenos` | factory_frenos.estado_muestra_los_frenos, factory_frenos.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-203356-puy-frenos |
+| el_conductor_decide_el_siguiente_paso_por_reglas | funcional | `flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas` | factory_autopilot.el_conductor_decide_el_siguiente_paso_por_reglas, factory_autopilot.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-220606-51z-autopilot |
+| el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce | funcional | `flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce` | factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce, factory_autopilot.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-220606-51z-autopilot |
+| autopilot_solo_lee_y_lo_muestra | funcional | `flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra` | factory_autopilot.autopilot_solo_lee_y_lo_muestra, factory_autopilot.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-220606-51z-autopilot |
 
 ### ide
 
@@ -1763,6 +1766,10 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261108-203356-puy-frenos) codex (gpt-6-luna): Leí la spec y el diff del paquete; las rutas de producto relevantes son texto y no hay omisiones binarias.
 - (20261108-203356-puy-frenos) codex (gpt-6-luna): Corrí `python -m unittest tests.test_frenos </dev/null`: 4 pruebas de cálculo pasaron y 3 pruebas de estado fallaron antes de ejercitar el cambio porque falta el módulo `oracle_metalenguaje` en el entorno; `.venv/bin/python` no existe.
 - (20261108-203356-puy-frenos) codex (gpt-6-luna): No corrí la suite completa ni mutaciones manuales. No encontré defectos confirmables en los escenarios revisados.
+- (20261108-220606-51z-autopilot) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261108-220606-51z-autopilot) codex (gpt-6-luna): Revisé la spec, los parches de texto del paquete y el código/pruebas incluidos; no ejecuté la suite ni mutaciones manuales.
+- (20261108-220606-51z-autopilot) codex (gpt-6-luna): No encontré defectos verificables en los rangos revisados.
+- (20261108-220606-51z-autopilot) codex (gpt-6-luna): La edición de tests/datos/ayuda-cli.json quita una línea vieja del índice de subcomandos y actualiza el golden para incluir autopilot; está justificada por el subcomando nuevo.
 
 ### Históricos
 
