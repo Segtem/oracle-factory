@@ -27,3 +27,15 @@ Medidas de ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas: fa
 ### Nota (2026-11-08 00:39:04 UTC)
 
 Medidas de ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica: factory_ci_activar.la_plantilla_y_la_guia_cuentan_la_politica, factory_ci_activar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 00:39:27 UTC)
+
+Medidas de ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 00:39:27 UTC)
+
+Medidas de ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 00:39:28 UTC)
+
+Medidas de ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas: Brian Hollweg (persona, confirmo, modo confirmacion).
