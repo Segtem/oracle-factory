@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-origen-hallazgos/.factory/local/revisiones/8891ee0-codex-1",
+  "base": "9b02fcc567ea924cfe021e9e8724d0c131bdc0cd",
+  "head": "8891ee078b7b89c148c6e545a0fddddef67e2d0f",
+  "diff_sha256": "0f37a079af85a546869a6b77950923cc2627b3b050efb7817f8e17d33ab2c320",
+  "context_sha256": "5552f8d008be2a33cbae7bb95eaaa1f85ad667cb57d354475be7d6f27ae787e6",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "origen-7",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Varios informes del mismo candidato duplican hallazgos en el reparto",
+      "explanation": "El recorrido suma todos los JSON de revisión que encuentra bajo el directorio del candidato. No deduplica informes ni hallazgos entre ellos: si una misma revisión/candidato tiene copias o informes repetidos con el mismo hallazgo, cada copia incrementa el grupo y el total. Esto contradice contar cada hallazgo una sola vez y puede inflar el reparto aunque la cobertura muestre un solo candidato. El set `leidos` sólo evita duplicar el conteo de candidatos de cobertura, no el de sus hallazgos. La misma agregación por carpeta también permite que una copia del mismo candidato presente en dos registros de cambio contribuya otra vez al total.",
+      "location": {
+        "file": "tools/medir_rondas.py",
+        "start_line": 109,
+        "end_line": 124,
+        "side": "head"
+      },
+      "trigger": "En un cambio cerrado, crear un candidato de primera ronda con dos archivos JSON de revisión que contengan el mismo hallazgo (por ejemplo, copias del mismo informe con nombres de revisores distintos); ejecutar `--origen`.",
+      "evidence": "Reproducción con registro temporal: un candidato con un hallazgo medio cuyo título es `symlink issue` y dos informes (`codex-1.json` y `agy-1.json`) idénticos produce `atrapable al leer la spec: 2`, aunque hay un único hallazgo lógico y `candidatos_primera_ronda` es 1. El bucle de líneas 109–128 procesa ambos archivos y agrega cada hallazgo sin clave de deduplicación.",
+      "related_requirement": "la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+      "status": "pendiente",
+      "verification": "Reproducido con una copia temporal del script extraída de `head_text` del paquete y fixture temporal; el checkout no se modificó. No ejecuté pruebas unitarias."
+    },
+    {
+      "id": "origen-8",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.97,
+      "title": "La cobertura cuenta registros ilegibles anteriores al filtro de fecha",
+      "explanation": "La validación estricta del registro y el incremento de `registros_ilegibles` ocurren antes de comprobar si el cambio está cerrado y si su fecha de creación cae dentro de `--desde`. Por ello un registro cerrado, con fecha de creación legible anterior al filtro y con un evento de revisión malformado, se informa como registro ilegible y provoca el aviso de medición incompleta, aunque ese cambio está fuera del universo que se está midiendo. La cobertura deja de corresponder al filtro temporal y puede dar un aviso ajeno a los datos incluidos.",
+      "location": {
+        "file": "tools/medir_rondas.py",
+        "start_line": 92,
+        "end_line": 97,
+        "side": "head"
+      },
+      "trigger": "Crear un registro JSON válido de un cambio cerrado con `cambio_creado.cuando` anterior a `--desde`, pero con `accion` no textual en otro evento; ejecutar `--origen --desde 2026-10-24`.",
+      "evidence": "Reproducción temporal con fecha de creación `2026-10-01`, evento `revision_pedida` con `accion: 7` y evento de cierre: `analizar(..., desde=\"2026-10-24\", origen=True)` devuelve `registros_ilegibles: 1`, pese a que el registro está fuera del filtro. Las líneas 92–94 incrementan cobertura antes de las condiciones de fecha/cierre de 97.",
+      "related_requirement": "la_salida_dice_la_regla_y_su_limite",
+      "status": "pendiente",
+      "verification": "Reproducido con una copia temporal del script extraída de `head_text` del paquete y fixture temporal; el checkout no se modificó. No ejecuté pruebas unitarias."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyó la propuesta, la spec, el diff completo del paquete y el código candidato incluido en el paquete; `omissions` está vacío.",
+    "Se revisaron las cuatro revisiones previas: los casos señalados allí están validados/cubiertos por la implementación y pruebas nuevas; no observé regresión de esos defectos.",
+    "Se reprodujeron dos mutaciones de datos en fixtures temporales: dos informes idénticos de un candidato y un registro ilegible anterior al filtro de fecha. Ambos defectos persisten.",
+    "No ejecuté la suite unitaria ni pruebas del producto; inspeccioné las pruebas nuevas respecto de escenarios y límites relevantes.",
+    "No se modificó el checkout. No se omitieron archivos binarios. Sin hallazgos adicionales tras revisar duplicación de candidatos entre cambios y atribución por carpeta."
+  ]
+}

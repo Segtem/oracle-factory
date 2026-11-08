@@ -89,12 +89,17 @@ def analizar(proyecto: Path, desde: str = "2026-10-24", origen: bool = False) ->
     cobertura = {"candidatos_primera_ronda": 0, "sin_informe_legible": 0, "informes_ilegibles": 0, "registros_ilegibles": 0}  # qué tan completa es la primera ronda leída
     for registro in sorted((proyecto / ".factory" / "cambios").glob("*/factory.json")):
         datos = leer_json(registro)
-        if not registro_legible(datos):
-            cobertura["registros_ilegibles"] += 1  # no se sabe si era un cambio cerrado ni cuántas rondas tuvo: que no desaparezca
+        if not (isinstance(datos, dict) and isinstance(datos.get("eventos"), list) and all(isinstance(e, dict) for e in datos["eventos"])):
+            cobertura["registros_ilegibles"] += 1  # ni se sabe si era un cambio cerrado ni cuándo se creó: que no desaparezca
             continue
         eventos = datos["eventos"]
-        creado = [e for e in eventos if e.get("accion") == "cambio_creado"]
-        if not creado or creado[0].get("cuando", "") < desde or not any(e.get("accion") == "cierre" for e in eventos):
+        creado = [e for e in eventos if e.get("accion") == "cambio_creado"] or eventos[:1]  # los más viejos no registraron la creación: vale su primer evento
+        if creado and isinstance(creado[0].get("cuando"), str) and creado[0]["cuando"] < desde:
+            continue  # creado antes del filtro: fuera del universo medido, esté como esté
+        if not registro_legible(datos):
+            cobertura["registros_ilegibles"] += 1  # dentro del universo pero sin poder leerse: no se sabe si cerró ni cuántas rondas tuvo
+            continue
+        if not any(e["accion"] == "cierre" for e in eventos):
             continue
         try:
             if not eventos_de_revision_legibles(eventos):
@@ -166,7 +171,8 @@ def texto_origen(resultado: dict, muestra: int = 0) -> str:
     lineas += ["regla: «atrapable al leer la spec» = " + "; ".join(ATRAPABLE),
                "       «solo con el código» = " + "; ".join(SOLO_CODIGO),
                "       «mixto» = clases de los dos grupos; «sin clase» = ninguna.",
-               "límite: es una aproximación por el texto del hallazgo (los mismos patrones de las clases), no un juicio humano; con --muestra N se comprueba."]
+               "límite: es una aproximación por el texto del hallazgo (los mismos patrones de las clases), no un juicio humano; con --muestra N se comprueba.",
+               "       la unidad es lo que reporta cada informe (cada revisor): si dos revisores señalan lo mismo, cuenta dos, y la clase se busca en el título y los primeros 600 caracteres de la explicación."]
     return "\n".join(lineas) + "\n"
 
 

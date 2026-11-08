@@ -91,6 +91,7 @@ class Origen(unittest.TestCase):
             self.assertIn(clase, salida)
         self.assertIn('aproximación por el texto', salida)
         self.assertIn('no un juicio humano', salida)
+        self.assertIn('cada informe', salida)  # la unidad es lo que reporta cada revisor: dos que señalan lo mismo cuentan dos
 
     def test_or2_un_candidato_de_primera_ronda_sin_informe_se_dice_y_la_medicion_no_pasa_por_completa(self):
         self.registro('a', [[hallazgo('media', RUTAS)]], informes=False)
@@ -146,7 +147,8 @@ class Origen(unittest.TestCase):
                  {'eventos': [{**creado, 'cuando': 7}, revision, cierre]},  # un evento cualquiera con el momento que no es texto
                  {'eventos': [creado, {**revision, 'candidato': ''}, cierre]},
                  {'eventos': [creado, {k: v for k, v in revision.items() if k != 'cuando'}, cierre]},
-                 {'eventos': [creado, {**revision, 'accion': 'revision_lanzada', 'candidato': 5}, cierre]})
+                 {'eventos': [creado, {**revision, 'accion': 'revision_lanzada', 'candidato': 5}, cierre]},
+                 {'eventos': [creado, revision, {'accion': 7}]})  # el cierre con la acción mal escrita: el cambio parecería abierto
         for malo in malos:
             with self.subTest(registro=malo):
                 self.setUp()
@@ -166,7 +168,7 @@ class Origen(unittest.TestCase):
         self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura']['informes_ilegibles'], 0)
         self.assertNotIn('incompleta', self.correr('--origen'))
 
-    def test_or2_con_todos_los_informes_legibles_la_cobertura_es_completa_y_no_avisa(self):
+    def test_or2_con_todos_los_informes_legibles_la_cobertura_es_completa_y_no_avisa_ni_por_un_registro_fuera_del_filtro(self):
         self.registro('a', [[hallazgo('media', RUTAS)], [hallazgo('media', NADA)]])  # la segunda ronda no cuenta para la cobertura
         salida = self.correr('--origen')
         self.assertIn('0 sin informe legible', salida)
@@ -174,6 +176,15 @@ class Origen(unittest.TestCase):
         self.assertNotIn('incompleta', salida)
         self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura'],
                          {'candidatos_primera_ronda': 1, 'sin_informe_legible': 0, 'informes_ilegibles': 0, 'registros_ilegibles': 0})
+        # un cambio anterior al filtro de fecha queda fuera del universo medido, aunque tenga un evento mal formado
+        viejo = self.raiz / '.factory/cambios/viejo'
+        viejo.mkdir(parents=True)
+        (viejo / 'factory.json').write_text(json.dumps({'eventos': [{'accion': 'cambio_creado', 'cuando': '2026-10-01T00:00:00+00:00'}, {'accion': 7}, {'accion': 'cierre'}]}))
+        sin_creacion = self.raiz / '.factory/cambios/sin-creacion'  # los más viejos no registraron la creación: vale su primer evento
+        sin_creacion.mkdir(parents=True)
+        (sin_creacion / 'factory.json').write_text(json.dumps({'eventos': [{'accion': 'abierto', 'cuando': '2026-10-02T00:00:00+00:00'}, {'accion': 7}]}))
+        self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura']['registros_ilegibles'], 0)
+        self.assertNotIn('incompleta', self.correr('--origen'))
 
     def test_or2_los_informes_rotos_de_otra_ronda_no_ensucian_la_cobertura_de_la_primera(self):
         self.registro('a', [[hallazgo('media', RUTAS)]])
