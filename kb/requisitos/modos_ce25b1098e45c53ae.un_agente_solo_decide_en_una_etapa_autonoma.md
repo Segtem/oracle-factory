@@ -11,7 +11,7 @@ vigente: true
 - Id: `modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma`
 - Vigente: sí
 - Cambio: [[cambios/20261108-134533-o0q-etapas]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_etapas.un_agente_solo_decide_en_una_etapa_autonoma`, `factory_etapas.corrida_completa`
 - Fuente: openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md#un_agente_solo_decide_en_una_etapa_autonoma
 

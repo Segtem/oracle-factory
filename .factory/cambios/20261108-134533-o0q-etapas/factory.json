@@ -2,7 +2,7 @@
   "id": "20261108-134533-o0q-etapas",
   "titulo": "Autonomía por etapa: construcción, integración, publicación y producción",
   "capacidad": "modos",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md",
   "spec_sha256": "3865ceb987cccda96d376d58ab8d44b7f171dcccbd62df78ba8c2b7ad2652cf8",
   "spec_aprobada": {
@@ -44,7 +44,19 @@
       "archivos_sha256": "c88868686bece19d7ef482a44ed671d4c42087a67539438b3e2fdfdbc0b68c2e"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261108-134533-o0q-etapas/candidatos/d2f0ec3/evidencia/hechos.json",
+    "hechos_sha256": "2ff7a02c886aaddc383659dfdc036934dd94a84208c2e97dc50733dd8ed99ad3",
+    "informe": ".factory/cambios/20261108-134533-o0q-etapas/oracle-veredicto.txt",
+    "informe_sha256": "09d447af1e3683fe504f7edfeb88c6fa0209454f19fe6b01aa2232577278cc15",
+    "cuando": "2026-11-08T15:00:56.252303+00:00",
+    "contexto": {
+      "head": "1df9c22142e215c0a3fa7392aeb073b54236922e",
+      "archivos_sha256": "c88868686bece19d7ef482a44ed671d4c42087a67539438b3e2fdfdbc0b68c2e"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -267,6 +279,17 @@
       "abiertos": 0,
       "sha256": "f64537adda2d4540619843c922fa00bbd2280c318d9db1ef756a8e85e8233246",
       "decisiones_sha256": "cf2b1b20a78786d48d3084a16c5f15c6c948bc6505167228766043afa6beb1fc"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T15:00:56.252316+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "2ff7a02c886aaddc383659dfdc036934dd94a84208c2e97dc50733dd8ed99ad3"
     }
   ],
   "tipos": {

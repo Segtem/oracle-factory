@@ -11,7 +11,7 @@ vigente: true
 - Id: `modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa`
 - Vigente: sí
 - Cambio: [[cambios/20261108-134533-o0q-etapas]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_etapas.solo_una_persona_cambia_la_autonomia_de_una_etapa`, `factory_etapas.corrida_completa`
 - Fuente: openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md#solo_una_persona_cambia_la_autonomia_de_una_etapa
 

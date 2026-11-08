@@ -11,7 +11,7 @@ vigente: true
 - Id: `modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona`
 - Vigente: sí
 - Cambio: [[cambios/20261108-134533-o0q-etapas]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_etapas.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona`, `factory_etapas.corrida_completa`
 - Fuente: openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md#la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona
 

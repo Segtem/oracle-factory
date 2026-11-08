@@ -11,7 +11,7 @@ vigente: true
 - Id: `modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una`
 - Vigente: sí
 - Cambio: [[cambios/20261108-134533-o0q-etapas]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_etapas.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una`, `factory_etapas.corrida_completa`
 - Fuente: openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md#autonomia_muestra_las_etapas_y_quien_decide_en_cada_una
 

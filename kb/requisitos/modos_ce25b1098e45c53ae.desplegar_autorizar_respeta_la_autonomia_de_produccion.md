@@ -11,7 +11,7 @@ vigente: true
 - Id: `modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion`
 - Vigente: sí
 - Cambio: [[cambios/20261108-134533-o0q-etapas]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_etapas.desplegar_autorizar_respeta_la_autonomia_de_produccion`, `factory_etapas.corrida_completa`
 - Fuente: openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md#desplegar_autorizar_respeta_la_autonomia_de_produccion
 
