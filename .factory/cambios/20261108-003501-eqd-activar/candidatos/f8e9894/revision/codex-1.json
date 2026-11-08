@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ci-activar/.factory/local/revisiones/f8e9894-codex-1",
+  "base": "9e7940b244567e456cbf6a344e68069c27853109",
+  "head": "f8e98948041dc341df1544e83db7c9da25ddeb93",
+  "diff_sha256": "38accda38205f394511be7ffc006d21495d5516454c7bc54caa8823bd38f4e54",
+  "context_sha256": "64ac1b4328daf5c8421b31557c87a7dd4be9d9d2d2625053e1dc831c7943a378",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec incluida en el paquete y los diffs del workflow, la plantilla, la guía y tests/test_ci_activar.py; el paquete no tiene omisiones.",
+    "No ejecuté las pruebas ni GitHub Actions; contrasté el flujo con el shell bash -e -o pipefail y la semántica esperada de GITHUB_REF.",
+    "El workflow también se dispara en push de tags y en esos casos emite warning al no ser refs/heads/main. La spec define expresamente el comportamiento para main, otras ramas y pull requests, pero no define una política específica para tags."
+  ]
+}

@@ -139,6 +139,32 @@
         "factory_ci_activar.verificar_falla_en_main_y_avisa_en_las_demas",
         "factory_ci_activar.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T00:48:24.026787+00:00",
+      "revisor": "codex",
+      "candidato": "f8e9894",
+      "lanzamiento": "c5fe1014c001"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T00:49:15.948848+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "f8e9894",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "c5fe1014c001"
     }
   ],
   "tipos": {
