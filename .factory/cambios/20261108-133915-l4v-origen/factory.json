@@ -529,6 +529,16 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "4c80e111e704"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T15:57:56.233829+00:00",
+      "decision": "aprobar",
+      "candidato": "86b9543"
     }
   ],
   "tipos": {
@@ -586,5 +596,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Seis rondas de codex sobre candidatos 8 a 86b9543; evidencia 1278 pruebas OK, 18 casos; 27 mutaciones propias detectadas; sin ediciones a pruebas existentes. Las rondas 1 a 5 fueron de una misma clase (parseo tolerante que daba un falso cero) y se cerraron con validación estricta y una cobertura a la vista (informes, registros y eventos de revisión); la ronda 5 además aclaró la unidad de conteo (lo que reporta cada informe), que codex dio por coherente en la ronda 6. La ronda 6 trae un hallazgo medio SEMÁNTICO, no de tipos: una acción de revisión mal escrita (por ejemplo revision_pedid) con candidato y fecha no se reconoce y esa ronda no cuenta. Propongo aceptarlo como riesgo declarado: reconocer variantes tipográficas de nombres de acción es heurístico y no tiene fin (cualquier acción podría estar mal escrita), los registros los escribe Factory con nombres fijos y en los datos reales hay 0 registros o informes ilegibles de cualquier tipo. Límites que quedan: (1) una acción de revisión mal escrita no se reconoce; (2) la clase se busca en el título y los primeros 600 caracteres de la explicación (heredado de las siete clases originales, bajo, ronda 4); (3) el reparto es una aproximación por texto, no un juicio humano. Resultado con datos reales: 148 hallazgos altos y medios de la ronda 1 en 45 candidatos: 32 % atrapable al leer la spec, 18 % solo con código, 13 % mixto, 38 % sin clase.",
+      "candidato": "86b9543",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T15:57:56.233816+00:00"
+    }
+  }
 }
