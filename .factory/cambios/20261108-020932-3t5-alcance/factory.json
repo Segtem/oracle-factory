@@ -391,6 +391,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "066f68766543"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T04:46:06.741942+00:00",
+      "decision": "aprobar",
+      "candidato": "d1b6a74"
     }
   ],
   "tipos": {
@@ -466,5 +476,14 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Segunda ronda tras corregir los catálogos (14 casos; cambios_elige 6). Codex sin hallazgos sobre d1b6a74. Evidencia 1245 pruebas OK, 14 casos. Código y pruebas sin cambios desde la primera ronda: 8 mutaciones detectadas, una equivalente (invertir el rango del diff). Incluye el arreglo de despliegue.registros (desempate por momento de escritura) con prueba determinista. Toca cli.py: camino completo.",
+      "candidato": "d1b6a74",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T04:46:06.741918+00:00"
+    }
+  }
 }
