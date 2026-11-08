@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -55,6 +56,8 @@ class Reglas(unittest.TestCase):
         self.assertEqual((d['accion'], d['quien'], d['comando']), ('delegar_al_agente', 'agente', None))
         self.assertIn('constru', d['instruccion'])
         self.assertEqual(decidir(f'oracle-factory pedir-revision {ID} --a agy', candidato='abc1234')['accion'], 'actuar')
+        d = decidir(f'oracle-factory revision-preparar {ID}', candidato=None)
+        self.assertEqual((d['accion'], d['comando']), ('delegar_al_agente', None))
 
     # --- ap2: el conductor frena -------------------------------------------------------------------------------------------
     def test_ap2_un_freno_gana_a_cualquier_otra_regla_y_no_trae_comando(self):
@@ -70,7 +73,7 @@ class Reglas(unittest.TestCase):
                      f'oracle-factory medir {ID} --otra', f'oracle-factory juzgar {ID} --con RUTA_DE_HECHOS',
                      f'oracle-factory juzgar {ID} --con RUTA_DE_LOS_HECHOS', "oracle-factory juzgar 'sin cerrar",
                      f'faltan archivos del cambio (a.json): recuperalos desde Git; después: oracle-factory estado {ID}',
-                     f'faltan archivos del cambio (a.json): corregí algo; después: oracle-factory juzgar {ID}'):
+                     f'faltan archivos del cambio (a.json): corregí algo; después: oracle-factory juzgar {ID}', f'otra-herramienta cerrar {ID}'):
             with self.subTest(paso=paso):
                 d = decidir(paso)
                 self.assertEqual((d['accion'], d['quien'], d['comando'], d['instruccion']), ('frenar', 'persona', None, None))
@@ -83,6 +86,8 @@ class Reglas(unittest.TestCase):
                 d = decidir(None, fase=fase)
                 self.assertEqual((d['accion'], d['quien'], d['comando']), ('terminado', None, None))
         self.assertEqual(decidir(None, fase='cerrada', frenos=[FRENO])['accion'], 'terminado')  # un cambio ya cerrado no se frena
+        self.assertEqual(decidir(f'oracle-factory juzgar {ID}', fase='cerrada')['accion'], 'actuar')  # terminado es sin paso: con paso, las reglas de siempre
+        self.assertIn('faltan archivos', decidir(f'faltan archivos del cambio (a.json): corregí algo; después: oracle-factory juzgar {ID}')['motivo'])
         self.assertEqual(decidir(None, fase='requisitos_importados')['accion'], 'frenar')  # sin paso y sin terminar: algo no se entiende
 
     def test_ap2_un_dato_ilegible_frena_y_no_rompe(self):
@@ -114,6 +119,15 @@ class Comando(_te.Base):
         self.assertIn(datos['motivo'], texto)
         if datos['comando']:
             self.assertIn(datos['comando'], texto)
+        # con datos controlados: el candidato llega a la regla, y el texto muestra el comando, la instrucción y los frenos
+        paso = f'oracle-factory pedir-revision {ID} --a agy'
+        with patch.object(f, 'datos_estado', return_value={'fase': 'x', 'proximo_paso': paso, 'frenos': [], 'candidato': 'abc1234'}):
+            self.assertEqual(json.loads(self.decision(True))['accion'], 'actuar')
+            self.assertIn(f'Comando: {paso}  (con --agente NOMBRE)', self.decision(False))
+        with patch.object(f, 'datos_estado', return_value={'fase': 'x', 'proximo_paso': 'corregí algo', 'frenos': [FRENO], 'candidato': 'abc1234'}):
+            self.assertIn(f"FRENO cambio_grande: {FRENO['motivo']}", self.decision(False))
+        with patch.object(f, 'datos_estado', return_value={'fase': 'x', 'proximo_paso': 'corregí algo', 'frenos': [], 'candidato': 'abc1234'}):
+            self.assertIn('Instrucción: corregí algo', self.decision(False))
         self.assertEqual(f.ruta_registro(carpeta).read_bytes(), registro)  # ni el registro del cambio
         self.assertEqual(self.git('status', '--porcelain'), arbol)  # ni el árbol de trabajo
 
