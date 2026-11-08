@@ -178,6 +178,45 @@
         "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora",
         "factory_noaplica.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:12:08.122799+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+      "medidas": [
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:12:08.304766+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+      "medidas": [
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:12:08.480419+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora",
+      "medidas": [
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora",
+        "factory_noaplica.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -185,13 +224,14 @@
     "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": "funcional",
     "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T12:12:08.075714+00:00",
       "sha256": "2f799abc07269e322647c1d3c9fbe0e655e1823ef82c7771259133661398bd81",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T12:11:14.980500+00:00",
       "catalogos": {
         "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado": "45c893314f1d61a114db9b10d3ea497f38b28f85a969ac446b73f65470a65acc",
         "factory_noaplica.corrida_completa": "18bc0e274d60cbdb242eb1e2db355c573e613b5f7e189eeb678f1924d5661513"
@@ -202,10 +242,12 @@
       }
     },
     "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T12:12:08.258139+00:00",
       "sha256": "195a988c2e04c4a03e626e8502ff47b09ac19949226ad9be33181c8a0734ae3b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T12:11:16.751694+00:00",
       "catalogos": {
         "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": "33da87fc8beefeaf8ebe8e88e5457bf39493c256d87db5d781301556d992f33d",
         "factory_noaplica.corrida_completa": "18bc0e274d60cbdb242eb1e2db355c573e613b5f7e189eeb678f1924d5661513"
@@ -216,10 +258,12 @@
       }
     },
     "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T12:12:08.433936+00:00",
       "sha256": "d1be73952086b4151702585ec550815bee467a210f43db128f9e5c64b3cc15fd",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T12:11:18.529535+00:00",
       "catalogos": {
         "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora": "0cf602ef223c0089f5454e5e352116275e9d5d1d5d6c5057f90480f845ac48b7",
         "factory_noaplica.corrida_completa": "18bc0e274d60cbdb242eb1e2db355c573e613b5f7e189eeb678f1924d5661513"
@@ -229,5 +273,6 @@
         "factory_noaplica.corrida_completa": "catalogos/factory_noaplica.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
