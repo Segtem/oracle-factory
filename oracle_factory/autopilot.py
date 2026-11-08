@@ -45,13 +45,13 @@ def decidir(datos) -> dict:
     if not isinstance(datos, dict):
         return _frena("no se pudieron leer los datos del cambio")
     paso, fase, candidato = datos.get("proximo_paso"), datos.get("fase"), datos.get("candidato")
-    if fase in ("cerrada", "abandonada") and not paso:
-        return _decision("terminado", motivo=f"el cambio está {fase}")
     frenos = datos.get("frenos")
     if not isinstance(frenos, list) or not all(isinstance(x, dict) for x in frenos):
         return _frena("no se pudieron leer los frenos del cambio")
     if frenos:
         return _frena("hay frenos: " + "; ".join(f"{x.get('id')}" for x in frenos), frenos)
+    if fase in ("cerrada", "abandonada") and not paso:
+        return _decision("terminado", motivo=f"el cambio está {fase}")
     if not isinstance(paso, str) or not paso.strip():
         return _frena("el cambio no terminó y estado no dice cuál es el próximo paso")
     if "faltan archivos" in paso:

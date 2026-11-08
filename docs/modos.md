@@ -58,8 +58,8 @@ Cada etapa posterior a la construcción está en `confirmacion` (decide una pers
 
 `oracle-factory autopilot ID [--json]` dice qué haría ahora el conductor con un cambio. Es de solo lectura: observa `estado`, razona por reglas fijas (sin modelo de lenguaje) y no corre nada. Siempre dice el porqué, y su respuesta es una de cinco acciones:
 
-- `terminado`: el cambio está cerrado o abandonado.
-- `frenar`: hay un freno de `estado`, el próximo paso es uno que no reconoce o está incompleto, o faltan archivos del cambio. Nunca trae comando y la decisión vuelve a una persona.
+- `terminado`: el cambio está cerrado o abandonado y no tiene frenos.
+- `frenar`: hay un freno de `estado` (o no se pueden leer los frenos), el próximo paso es uno que no reconoce o está incompleto, o faltan archivos del cambio. Nunca trae comando y la decisión vuelve a una persona.
 - `pedir_a_persona`: el próximo paso es una decisión que solo toma una persona (`aprobar-spec`, `medir --confirmar`, `revisar`, `cerrar`, `abandonar`, `modo`, `autonomia`, `soltar`, `decidir-union`), con su comando listo para pegar. Lo es aunque una etapa esté en `autonomo`.
 - `delegar_al_agente`: trabajo creativo, como construir (si no hay candidato), corregir lo que pidió la revisión o elegir las medidas.
 - `actuar`: un comando mecánico de Factory (`importar`, `juzgar`, `pedir-revision`, `revision-preparar`, `tomar`, `mensaje`) que un agente corre con `--agente NOMBRE`.

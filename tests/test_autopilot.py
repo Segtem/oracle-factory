@@ -87,7 +87,11 @@ class Reglas(unittest.TestCase):
             with self.subTest(fase=fase):
                 d = decidir(None, fase=fase)
                 self.assertEqual((d['accion'], d['quien'], d['comando']), ('terminado', None, None))
-        self.assertEqual(decidir(None, fase='cerrada', frenos=[FRENO])['accion'], 'terminado')  # un cambio ya cerrado no se frena
+        for fase in ('cerrada', 'abandonada'):  # los frenos y los datos ilegibles van antes que cualquier otra regla, también en un cambio terminado
+            self.assertEqual(decidir(None, fase=fase, frenos=[FRENO])['accion'], 'frenar')
+            for ilegibles in ('x', [None], 3):
+                self.assertEqual(autopilot.decidir({'fase': fase, 'proximo_paso': None, 'frenos': ilegibles})['accion'], 'frenar')
+            self.assertEqual(autopilot.decidir({'fase': fase, 'proximo_paso': None})['accion'], 'frenar')  # sin la clave frenos
         self.assertEqual(decidir(f'oracle-factory juzgar {ID}', fase='cerrada')['accion'], 'actuar')  # terminado es sin paso: con paso, las reglas de siempre
         self.assertIn('faltan archivos', decidir(f'faltan archivos del cambio (a.json): corregí algo; después: oracle-factory juzgar {ID}')['motivo'])
         self.assertEqual(decidir(None, fase='requisitos_importados')['accion'], 'frenar')  # sin paso y sin terminar: algo no se entiende
