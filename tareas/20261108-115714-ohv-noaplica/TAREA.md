@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-08 12:00:22 UTC)
 
 Requisitos importados: practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado (funcional), practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos (funcional), practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-08 12:01:27 UTC)
+
+Medidas de practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado: factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado, factory_noaplica.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 12:01:28 UTC)
+
+Medidas de practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos: factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos, factory_noaplica.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 12:01:30 UTC)
+
+Medidas de practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora: factory_noaplica.una_excepcion_mal_escrita_no_se_ignora, factory_noaplica.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

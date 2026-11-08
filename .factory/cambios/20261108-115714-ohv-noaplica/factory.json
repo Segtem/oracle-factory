@@ -58,6 +58,48 @@
         "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
         "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:01:27.007172+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+      "medidas": [
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+        "factory_noaplica.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:01:28.810726+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+      "medidas": [
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+        "factory_noaplica.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:01:30.627747+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora",
+      "medidas": [
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora",
+        "factory_noaplica.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado": {
+      "sha256": "2f799abc07269e322647c1d3c9fbe0e655e1823ef82c7771259133661398bd81",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T12:01:26.960501+00:00",
+      "catalogos": {
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado": "14d8694aa391386184d9ba1e891b1e86569ee0be18e06b22e2b535e6da16bc76",
+        "factory_noaplica.corrida_completa": "18bc0e274d60cbdb242eb1e2db355c573e613b5f7e189eeb678f1924d5661513"
+      },
+      "archivos_catalogo": {
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado": "catalogos/factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado.oracle",
+        "factory_noaplica.corrida_completa": "catalogos/factory_noaplica.corrida_completa.oracle"
+      }
+    },
+    "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": {
+      "sha256": "195a988c2e04c4a03e626e8502ff47b09ac19949226ad9be33181c8a0734ae3b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T12:01:28.763631+00:00",
+      "catalogos": {
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": "32c69ba43c068d98402f1a7ffa8086d61dddd2e6b725165ea971f9c85b6d4854",
+        "factory_noaplica.corrida_completa": "18bc0e274d60cbdb242eb1e2db355c573e613b5f7e189eeb678f1924d5661513"
+      },
+      "archivos_catalogo": {
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": "catalogos/factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos.oracle",
+        "factory_noaplica.corrida_completa": "catalogos/factory_noaplica.corrida_completa.oracle"
+      }
+    },
+    "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora": {
+      "sha256": "d1be73952086b4151702585ec550815bee467a210f43db128f9e5c64b3cc15fd",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T12:01:30.581042+00:00",
+      "catalogos": {
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora": "0b4997a671049b6b183c0674d5cec85b11e8acfff33e2ee098379b8664634c9f",
+        "factory_noaplica.corrida_completa": "18bc0e274d60cbdb242eb1e2db355c573e613b5f7e189eeb678f1924d5661513"
+      },
+      "archivos_catalogo": {
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora": "catalogos/factory_noaplica.una_excepcion_mal_escrita_no_se_ignora.oracle",
+        "factory_noaplica.corrida_completa": "catalogos/factory_noaplica.corrida_completa.oracle"
+      }
+    }
+  }
 }
