@@ -1,0 +1,232 @@
+{
+  "esquema": "oracle-factory.trazabilidad-casos/1",
+  "requisitos": {
+    "ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci": [
+      "test_ci_activar.Workflow.test_ca1_el_workflow_se_dispara_con_push_y_pull_request_y_corre_verificar",
+      "test_ci_activar.Workflow.test_ca1_instala_factory_desde_el_checkout_y_no_desde_pypi",
+      "test_ci_activar.Workflow.test_ca1_solo_lee_y_no_usa_secretos"
+    ],
+    "ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica": [
+      "test_ci_activar.Workflow.test_ca3_la_guia_explica_la_politica_y_nombra_el_workflow_del_repositorio",
+      "test_ci_activar.Workflow.test_ca3_la_plantilla_aplica_la_misma_politica"
+    ],
+    "ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas": [
+      "test_ci_activar.Workflow.test_ca2_el_aviso_trae_el_detalle_de_verificar",
+      "test_ci_activar.Workflow.test_ca2_en_otra_rama_o_en_un_pull_request_avisa_y_no_falla",
+      "test_ci_activar.Workflow.test_ca2_todo_consistente_no_falla_ni_avisa_en_ninguna_referencia",
+      "test_ci_activar.Workflow.test_ca2_un_cambio_inconsistente_en_main_falla"
+    ]
+  },
+  "casos": {
+    "test_ci_activar.Workflow.test_ca1_el_workflow_se_dispara_con_push_y_pull_request_y_corre_verificar": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_ci_activar.py": [
+          34,
+          35,
+          36,
+          37
+        ]
+      }
+    },
+    "test_ci_activar.Workflow.test_ca1_instala_factory_desde_el_checkout_y_no_desde_pypi": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_ci_activar.py": [
+          45,
+          46,
+          47,
+          48,
+          49
+        ]
+      }
+    },
+    "test_ci_activar.Workflow.test_ca1_solo_lee_y_no_usa_secretos": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_ci_activar.py": [
+          39,
+          40,
+          41,
+          42,
+          43
+        ]
+      }
+    },
+    "test_ci_activar.Workflow.test_ca2_el_aviso_trae_el_detalle_de_verificar": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_ci_activar.py": [
+          16,
+          18,
+          19,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          73,
+          74,
+          75
+        ]
+      }
+    },
+    "test_ci_activar.Workflow.test_ca2_en_otra_rama_o_en_un_pull_request_avisa_y_no_falla": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_ci_activar.py": [
+          16,
+          18,
+          19,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63
+        ]
+      }
+    },
+    "test_ci_activar.Workflow.test_ca2_todo_consistente_no_falla_ni_avisa_en_ninguna_referencia": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_ci_activar.py": [
+          16,
+          18,
+          19,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71
+        ]
+      }
+    },
+    "test_ci_activar.Workflow.test_ca2_un_cambio_inconsistente_en_main_falla": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_ci_activar.py": [
+          16,
+          18,
+          19,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          52,
+          53,
+          54,
+          55
+        ]
+      }
+    },
+    "test_ci_activar.Workflow.test_ca3_la_guia_explica_la_politica_y_nombra_el_workflow_del_repositorio": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_ci_activar.py": [
+          86,
+          87,
+          88,
+          89,
+          90
+        ]
+      }
+    },
+    "test_ci_activar.Workflow.test_ca3_la_plantilla_aplica_la_misma_politica": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_ci_activar.py": [
+          16,
+          18,
+          19,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84
+        ]
+      }
+    }
+  }
+}

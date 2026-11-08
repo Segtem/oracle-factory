@@ -1,0 +1,22 @@
+# Corre `oracle-factory verificar` (de sólo lectura) con el código de este checkout. Sin secretos, sin escribir nada.
+# Política: si algún cambio está inconsistente, falla en main y avisa (sin fallar) en las demás ramas y pull requests.
+name: Verificar los cambios de Factory
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v6
+      - run: uv tool install .
+      - name: Verificar los cambios (falla en main, avisa en las demás ramas)
+        run: |
+          rc=0
+          oracle-factory verificar || rc=$?
+          if [ "$rc" -eq 0 ]; then exit 0; fi
+          if [ "$GITHUB_REF" = refs/heads/main ]; then exit "$rc"; fi
+          echo "::warning title=verificar::Hay cambios inconsistentes (el detalle está arriba). En main esto falla; en una rama de trabajo es esperable hasta que se renueve la revisión."

@@ -113,6 +113,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261107-173514-2fx-verificar]] — Sumar verificar a la puerta local de salida (cerrada)
 - [[cambios/20261107-213354-5pg-entregaa18]] — Preparar la distribución 0.1.0a18 (cerrada)
 - [[cambios/20261107-235004-sb1-publicadaa18]] — Declarar publicada la 0.1.0a18 (cerrada)
+- [[cambios/20261108-003501-eqd-activar]] — Activar el workflow verificar en este repositorio (cerrada)
 
 ## Requisitos
 
@@ -148,6 +149,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/calidad_cdbf33d35727ca9d7.la_puerta_corre_las_verificaciones_del_proyecto]]
 - [[requisitos/calidad_cdbf33d35727ca9d7.la_puerta_detecta_secretos_en_todos_los_commits_que_se_publican]]
 - [[requisitos/calidad_cdbf33d35727ca9d7.la_puerta_no_modifica_el_arbol_de_trabajo]]
+- [[requisitos/ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci]]
+- [[requisitos/ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica]]
+- [[requisitos/ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas]]
 - [[requisitos/ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook]]
 - [[requisitos/ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona]]
 - [[requisitos/ci_c65ac59b63e44085b.verificar_dice_si_los_cambios_estan_consistentes]]

@@ -22,6 +22,10 @@ oracle-factory verificar --json   # el mismo resultado en un objeto con esquema 
 
 La plantilla `docs/plantillas/verificar.yml` corre `oracle-factory verificar` en cada push y pull request, con permisos de sólo lectura y sin secretos. Copiala a `.github/workflows/verificar.yml`.
 
+**La política: falla en `main`, avisa en las demás.** Si `verificar` encuentra un cambio inconsistente, el workflow falla cuando corre en `main` y, en cualquier otra rama o pull request, avisa con una anotación `::warning::` y sale con 0: una revisión desactualizada es normal en una rama de trabajo mientras se sigue editando. El detalle de qué cambio falla queda en el registro del job (`oracle-factory verificar` lo imprime). Para que un fallo en `main` impida integrar, marcá el check como obligatorio en las reglas de ramas de GitHub (eso es configuración del repositorio, no del workflow).
+
+Este repositorio usa el mismo workflow en `.github/workflows/verificar.yml`, con una diferencia: instala Factory desde el checkout (`uv tool install .`) en vez de PyPI, para probar el código que se está integrando.
+
 ## En un hook pre-push
 
 Para correrlo antes de empujar, agregá `oracle-factory verificar || exit 1` al hook `pre-push` de tu proyecto (el de la puerta local, `oracle-factory hooks`, no lo incluye). Como cualquier hook, se saltea con `git push --no-verify`: revisá antes lo que publicás.
