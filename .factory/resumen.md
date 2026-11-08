@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:f954f426aac7cc12dfac4c08910613bdd3b40966d243ecc38952435a9a0ef1d8 -->
+<!-- oracle-factory resumen sha256:5df52714198be97193894411fef6174231fb8ece42abd0cd549f842065febd90 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 320 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 323 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -79,6 +79,9 @@ Spec completa: [openspec/specs/ci/spec.md](../openspec/specs/ci/spec.md)
 | un_cambio_cerrado_tiene_la_decision_de_una_persona | funcional | `ci_c65ac59b63e44085b.un_cambio_cerrado_tiene_la_decision_de_una_persona` | factory_verificar.un_cambio_cerrado_tiene_la_decision_de_una_persona, factory_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-130317-2vv-verificar |
 | verificar_no_exige_lo_que_otra_maquina_no_tiene | funcional | `ci_c65ac59b63e44085b.verificar_no_exige_lo_que_otra_maquina_no_tiene` | factory_verificar.verificar_no_exige_lo_que_otra_maquina_no_tiene, factory_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-130317-2vv-verificar |
 | hay_un_ejemplo_de_ci_y_de_hook | funcional | `ci_c65ac59b63e44085b.hay_un_ejemplo_de_ci_y_de_hook` | factory_verificar.hay_un_ejemplo_de_ci_y_de_hook, factory_verificar.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-130317-2vv-verificar |
+| el_repositorio_corre_verificar_en_su_ci | funcional | `ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci` | factory_ci_activar.el_repositorio_corre_verificar_en_su_ci, factory_ci_activar.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-003501-eqd-activar |
+| verificar_falla_en_main_y_avisa_en_las_demas | funcional | `ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas` | factory_ci_activar.verificar_falla_en_main_y_avisa_en_las_demas, factory_ci_activar.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-003501-eqd-activar |
+| la_plantilla_y_la_guia_cuentan_la_politica | funcional | `ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica` | factory_ci_activar.la_plantilla_y_la_guia_cuentan_la_politica, factory_ci_activar.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-003501-eqd-activar |
 
 ### cli
 
@@ -1702,6 +1705,10 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261107-235004-sb1-publicadaa18) codex (gpt-6-luna): tests/datos/guias-texto.json: las tres líneas quitadas sustituyen el estado de preparación por la descripción publicada correspondiente; justificado por el cambio.
 - (20261107-235004-sb1-publicadaa18) codex (gpt-6-luna): tests/test_docs.py: las tres líneas quitadas actualizan los textos de entrada de las pruebas de desajuste de versión al nuevo texto del README; justificado y conserva las comprobaciones.
 - (20261107-235004-sb1-publicadaa18) codex (gpt-6-luna): tests/test_entrega_a18.py: el test existente se renombra y actualiza expectativas de a18 preparada a publicada; se reemplazan cinco líneas y se quitan cuatro aserciones viejas que contradecían el cambio. La comprobación de textos generales queda complementada por test_publicada_a18.py; no vi pérdida de cobertura relevante.
+- (20261108-003501-eqd-activar) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261108-003501-eqd-activar) codex (gpt-6-luna): Leí la spec incluida en el paquete y los diffs del workflow, la plantilla, la guía y tests/test_ci_activar.py; el paquete no tiene omisiones.
+- (20261108-003501-eqd-activar) codex (gpt-6-luna): No ejecuté las pruebas ni GitHub Actions; contrasté el flujo con el shell bash -e -o pipefail y la semántica esperada de GITHUB_REF.
+- (20261108-003501-eqd-activar) codex (gpt-6-luna): El workflow también se dispara en push de tags y en esos casos emite warning al no ser refs/heads/main. La spec define expresamente el comportamiento para main, otras ramas y pull requests, pero no define una política específica para tags.
 
 ### Históricos
 

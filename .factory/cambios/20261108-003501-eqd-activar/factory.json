@@ -2,7 +2,7 @@
   "id": "20261108-003501-eqd-activar",
   "titulo": "Activar el workflow verificar en este repositorio",
   "capacidad": "ci",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md",
   "spec_sha256": "7c21040c7849f036b14a3a0e0d40dc5379aa4de708cc6e09016861aa0b0dde7f",
   "spec_aprobada": {
@@ -232,6 +232,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "20154a073fc863b5aced11aba74d6099e06d1dc2de438eae9fb9404111e9684c"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T00:53:04.955369+00:00",
+      "oracle": ".factory/cambios/20261108-003501-eqd-activar/oracle-veredicto.txt",
+      "revision": "tareas/20261108-003501-eqd-activar/revisiones/registro-w6pd_5pw/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T00:53:04.992796+00:00",
+      "capacidad": "ci",
+      "spec": "openspec/specs/ci/spec.md"
     }
   ],
   "tipos": {
@@ -290,5 +310,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T00:53:04.891642+00:00"
+  },
+  "archivo": {
+    "capacidad": "ci",
+    "spec": "openspec/specs/ci/spec.md",
+    "cuando": "2026-11-08T00:53:04.992784+00:00"
+  }
 }
