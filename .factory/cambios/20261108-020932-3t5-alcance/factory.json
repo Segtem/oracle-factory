@@ -194,6 +194,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "3556248a5515"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T02:38:02.033455+00:00",
+      "decision": "aprobar",
+      "candidato": "ec5d3f5"
     }
   ],
   "tipos": {
@@ -268,5 +278,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Codex sin hallazgos. Evidencia 1245 pruebas OK. 8 mutaciones propias sobre despliegue.py y cli.py detectadas; una sobrevive y es equivalente (invertir el rango del diff: --name-only es simétrico). Incluye un arreglo no pedido por la spec: despliegue.registros desempata por el momento en que se escribió el registro (dos corridas del mismo segundo quedaban en orden arbitrario), con prueba determinista; también corrige estados. Sin ediciones a pruebas existentes salvo el golden de la ayuda (sólo desplegar). Toca cli.py: camino completo.",
+      "candidato": "ec5d3f5",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T02:38:02.033438+00:00"
+    }
+  }
 }
