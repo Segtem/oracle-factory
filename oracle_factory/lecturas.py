@@ -373,7 +373,7 @@ def datos_estado(identificador: str) -> dict:
     editados = alarmas.del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto) if candidato else None
     flujo = {"bucle_de_revision": None, "cambio_grande": None} if abandonado else alarmas.del_flujo(cli.ejecutar, estado, candidato, es_producto=cli.es_producto)
     prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, candidato, cli.documentos_o_nada(carpeta, estado))
-    frenos_ = [] if abandonado else frenos_del_cambio(identificador, estado, candidato, actual, editados, flujo)
+    frenos_ = [] if abandonado else cli.frenos_del_cambio(identificador, estado, candidato, actual, editados, flujo)
     return {
         "esquema": cli.ESQUEMA_ESTADO, "id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase"),
         "modo": cli.modo_de(estado), "capacidad": estado.get("capacidad"),
