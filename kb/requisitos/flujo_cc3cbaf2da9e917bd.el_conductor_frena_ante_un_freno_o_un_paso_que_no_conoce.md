@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce`
 - Vigente: sí
 - Cambio: [[cambios/20261108-220606-51z-autopilot]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce`, `factory_autopilot.corrida_completa`
 - Fuente: openspec/changes/20261108-220606-51z-autopilot/specs/flujo/spec.md#el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce
 
