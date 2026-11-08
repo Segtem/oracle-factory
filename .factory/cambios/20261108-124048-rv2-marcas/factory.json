@@ -107,6 +107,16 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "329799c0fa0e"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T13:09:10.682707+00:00",
+      "decision": "aprobar",
+      "candidato": "e898903"
     }
   ],
   "tipos": {
@@ -130,5 +140,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Camino ligero: un revisor, una ronda, sin hallazgos medios ni altos. Codex: un hallazgo bajo (heurístico): el control cuenta sólo los marcadores exactos que escribe la herramienta (<!-- bloque --> y <!-- /bloque -->), así que una segunda pareja con espacios extra o mayúsculas pasa inadvertida. Propongo aceptarlo como límite declarado: el escritor sólo genera la forma canónica, y detectar variantes de un comentario HTML es heurístico y no se cierra por rondas. Evidencia 1260 pruebas OK, 5 casos. 6 mutaciones propias, las 6 detectadas. Sin ediciones a pruebas existentes. 83 líneas de producto en tools/sitio_paginas.py.",
+      "candidato": "e898903",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T13:09:10.682693+00:00"
+    }
+  }
 }

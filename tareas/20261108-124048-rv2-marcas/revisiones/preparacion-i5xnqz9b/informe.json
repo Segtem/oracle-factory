@@ -1,0 +1,52 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261108-124048-rv2-marcas",
+  "contexto": {
+    "head": "b4bea393f4590695f5f658f3fc77fd5f32d979e2",
+    "archivos_sha256": "7bd36cdd5d907786708509b49381485e156e36043774f853299eaa88c62cefc8"
+  },
+  "documentos": {
+    "openspec/changes/20261108-124048-rv2-marcas/proposal.md": "b10e5e3efa9afc09d12aad94ce0dddfb2924b498f9b00566e8adb443d0e1daa6",
+    "openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md": "1f0fe8b915635ab1d9f5b566568e14056775572de86b47094e683592cae91ee8"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_marcas.corrida_completa.oracle",
+    "catalogos/factory_marcas.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado.oracle",
+    "openspec/changes/20261108-124048-rv2-marcas/design.md",
+    "openspec/changes/20261108-124048-rv2-marcas/proposal.md",
+    "openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md",
+    "openspec/changes/20261108-124048-rv2-marcas/tasks.md",
+    "requisitos/web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado.requisito",
+    "tests/test_marcas.py",
+    "tools/sitio_paginas.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1260 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-124048-rv2-marcas/candidatos/e898903/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-124048-rv2-marcas/candidatos/e898903/revision/codex-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Corrí `python -m unittest tests.test_marcas </dev/null` (5 pruebas); no ejecuté la suite completa.",
+    "codex (gpt-6-luna): Realicé dos mutaciones temporales para marcadores duplicados con variación de espacios y mayúsculas; no modifiqué el checkout.",
+    "codex (gpt-6-luna): El paquete no omite archivos binarios."
+  ],
+  "hallazgos": [
+    {
+      "id": "C1",
+      "descripcion": "Una pareja duplicada con marcadores no canónicos pasa inadvertida",
+      "ubicacion": "tools/sitio_paginas.py:177",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261108-124048-rv2-marcas/candidatos/e898903/revision/codex-1.json, validado con oracle-clue; severidad baja. En ambas mutaciones temporales `problemas(dest)` devolvió `[]`. La línea 178 sólo cuenta dos literales exactos; `_actual` en el código sin cambios usa regex literal para encontrar la primera pareja canónica. En cambio, las cinco pruebas `tests.test_marcas` pasan porque insertan marcadores canónicos exactos."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
