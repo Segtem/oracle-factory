@@ -2,7 +2,7 @@
   "id": "20261108-124048-rv2-marcas",
   "titulo": "El comprobador del sitio detecta bloques marcados duplicados",
   "capacidad": "web",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md",
   "spec_sha256": "1f0fe8b915635ab1d9f5b566568e14056775572de86b47094e683592cae91ee8",
   "spec_aprobada": {
@@ -16,7 +16,9 @@
       "openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md": "1f0fe8b915635ab1d9f5b566568e14056775572de86b47094e683592cae91ee8"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +43,22 @@
         "openspec/changes/20261108-124048-rv2-marcas/proposal.md": "b10e5e3efa9afc09d12aad94ce0dddfb2924b498f9b00566e8adb443d0e1daa6",
         "openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md": "1f0fe8b915635ab1d9f5b566568e14056775572de86b47094e683592cae91ee8"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T12:42:19.991406+00:00",
+      "ids": [
+        "web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

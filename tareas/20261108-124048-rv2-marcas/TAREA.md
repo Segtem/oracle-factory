@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261108-124048-rv2-marcas. Modo de trabajo: confirma
 ### Nota (2026-11-08 12:41:57 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-08 12:42:20 UTC)
+
+Requisitos importados: web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
