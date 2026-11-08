@@ -1,0 +1,50 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261108-203356-puy-frenos",
+  "contexto": {
+    "head": "fa1b7ee5be16f65956a42a273837565902e21d43",
+    "archivos_sha256": "e9cbe55e0b22ecc3159aeb42cb4b4e57960468f8bbd2715282ecb6c9a1d1a46c"
+  },
+  "documentos": {
+    "openspec/changes/20261108-203356-puy-frenos/proposal.md": "e3903c3ab2fdb6d64ad7c57684a587319f28d453e247e04227abf7c22dcbd19a",
+    "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_frenos.corrida_completa.oracle",
+    "catalogos/factory_frenos.estado_muestra_los_frenos.oracle",
+    "catalogos/factory_frenos.los_frenos_salen_de_los_datos_del_cambio.oracle",
+    "docs/tests.md",
+    "openspec/changes/20261108-203356-puy-frenos/design.md",
+    "openspec/changes/20261108-203356-puy-frenos/proposal.md",
+    "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md",
+    "openspec/changes/20261108-203356-puy-frenos/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/frenos.py",
+    "oracle_factory/lecturas.py",
+    "requisitos/flujo_cf63459721e7fb9ac.estado_muestra_los_frenos.requisito",
+    "requisitos/flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio.requisito",
+    "tests/test_frenos.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1301 pruebas, 7 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-203356-puy-frenos/candidatos/bbd1646/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-203356-puy-frenos/candidatos/bbd1646/revision/codex-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Leí la spec y el diff del paquete; las rutas de producto relevantes son texto y no hay omisiones binarias.",
+    "codex (gpt-6-luna): Corrí `python -m unittest tests.test_frenos </dev/null`: 4 pruebas de cálculo pasaron y 3 pruebas de estado fallaron antes de ejercitar el cambio porque falta el módulo `oracle_metalenguaje` en el entorno; `.venv/bin/python` no existe.",
+    "codex (gpt-6-luna): No corrí la suite completa ni mutaciones manuales. No encontré defectos confirmables en los escenarios revisados."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

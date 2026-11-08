@@ -122,6 +122,42 @@
         "factory_frenos.los_frenos_salen_de_los_datos_del_cambio",
         "factory_frenos.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T21:16:57.594584+00:00",
+      "revisor": "codex",
+      "candidato": "bbd1646",
+      "lanzamiento": "5d5d1617c49b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T21:18:11.827318+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "bbd1646",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "5d5d1617c49b"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T21:18:19.666125+00:00",
+      "decision": "aprobar",
+      "candidato": "bbd1646"
     }
   ],
   "tipos": {
@@ -162,5 +198,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Codex sin hallazgos sobre bbd1646 (una ronda). Evidencia 1301 pruebas OK, 7 casos de contrato. 18 mutaciones propias, las 18 detectadas (5 sobrevivían y se cerraron con casos dentro de métodos existentes). Toca reglas de decisión (cli.py): camino completo. Los frenos son información: no cambian pendientes ni próximo paso, se calculan en cada consulta y un dato ilegible no produce un freno. Sin pruebas existentes editadas. Límites: los umbrales de cambio_grande y bucle_de_revision son los de estado y los dos juicios rojos seguidos son nuevos; estado ya fallaba con eventos que no son objetos (aviso_revision, preexistente, seguimiento aparte). La evidencia falló una vez por test_cm2 (lecturas debe llamar a cli.frenos_del_cambio) y se corrigió con una línea. Es el cambio 2 del autopilot: el conductor que obedece los frenos es el cambio 3.",
+      "candidato": "bbd1646",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T21:18:19.666110+00:00"
+    }
+  }
 }

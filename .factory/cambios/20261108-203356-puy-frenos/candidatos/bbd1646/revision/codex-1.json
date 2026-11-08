@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-frenos/.factory/local/revisiones/bbd1646-codex-1",
+  "base": "7a59113f1b017bbd6cc1466c15d772881b2fb631",
+  "head": "bbd1646b1616d3aaa20ed2813e50b599a322cda6",
+  "diff_sha256": "1ef5869868904d3733136750a5e9edd28d2a5a52d046ded636a781edfadf8e0d",
+  "context_sha256": "f22c217b0ff8f4b6260da5c52201d7d83d0cdb37710061c645fb31e85515895d",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec y el diff del paquete; las rutas de producto relevantes son texto y no hay omisiones binarias.",
+    "Corrí `python -m unittest tests.test_frenos </dev/null`: 4 pruebas de cálculo pasaron y 3 pruebas de estado fallaron antes de ejercitar el cambio porque falta el módulo `oracle_metalenguaje` en el entorno; `.venv/bin/python` no existe.",
+    "No corrí la suite completa ni mutaciones manuales. No encontré defectos confirmables en los escenarios revisados."
+  ]
+}
