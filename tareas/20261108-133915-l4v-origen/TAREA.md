@@ -27,3 +27,15 @@ Medidas de practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite: fact
 ### Nota (2026-11-08 13:41:46 UTC)
 
 Medidas de practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla: factory_origen.una_muestra_permite_comprobar_la_regla, factory_origen.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 13:42:50 UTC)
+
+Medidas de practicas_c10f87e544968d526.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 13:42:50 UTC)
+
+Medidas de practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 13:42:50 UTC)
+
+Medidas de practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla: Brian Hollweg (persona, confirmo, modo confirmacion).
