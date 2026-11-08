@@ -197,6 +197,32 @@
         "factory_etapas.un_agente_solo_decide_en_una_etapa_autonoma",
         "factory_etapas.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T14:13:49.366386+00:00",
+      "revisor": "codex",
+      "candidato": "d2f0ec3",
+      "lanzamiento": "b47ad9e1345c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T14:14:57.505877+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "d2f0ec3",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "b47ad9e1345c"
     }
   ],
   "tipos": {
