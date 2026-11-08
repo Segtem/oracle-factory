@@ -6,7 +6,8 @@
     "20261017-023151-hechos-varios",
     "20261017-135953-higiene",
     "20261020-173143-avisos",
-    "20261022-215347-y70-agentes"
+    "20261022-215347-y70-agentes",
+    "20261108-203356-puy-frenos"
   ],
   "requisitos": {
     "un valor del registro que no es una ruta se informa sin caerse": {
@@ -193,6 +194,57 @@
         "- GIVEN un cambio en modo confirmación",
         "- WHEN un agente corre con --agente cada comando que la guía marca como de una persona",
         "- THEN cada uno se niega o deja sólo una propuesta, y el registro no tiene ninguna decisión a nombre del agente"
+      ]
+    },
+    "los_frenos_salen_de_los_datos_del_cambio": {
+      "cambio": "20261108-203356-puy-frenos",
+      "requisito": "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El sistema DEBE calcular, solo con los registros del cambio, su candidato vigente y Git, los frenos del cambio, cada uno con un identificador y un motivo: `juicios_rojos` (los dos últimos juicios de Oracle son rojos), `hallazgo_alto_abierto` (un informe del candidato vigente trae un hallazgo de severidad alta y no hay una revisión aprobada vigente), `prueba_existente_editada`, `cambio_grande` y `bucle_de_revision` (los dos últimos con los umbrales que ya usa `estado`). Un dato que no se puede leer NO DEBE producir un freno ni romper `estado`.",
+        "",
+        "#### Scenario: dos juicios rojos seguidos",
+        "- DADO un cambio cuyos dos últimos juicios de Oracle terminaron con código distinto de cero",
+        "- CUANDO se calculan los frenos",
+        "- ENTONCES figura `juicios_rojos` con su motivo",
+        "",
+        "#### Scenario: un juicio rojo y uno verde",
+        "- DADO un cambio con un juicio rojo y después uno verde, o con un solo juicio rojo",
+        "- CUANDO se calculan los frenos",
+        "- ENTONCES no figura `juicios_rojos`",
+        "",
+        "#### Scenario: hallazgo alto sin revisión aprobada",
+        "- DADO un informe del candidato vigente con un hallazgo de severidad alta y sin revisión aprobada vigente",
+        "- CUANDO se calculan los frenos",
+        "- ENTONCES figura `hallazgo_alto_abierto`; con una revisión aprobada vigente, no",
+        "",
+        "#### Scenario: datos ilegibles",
+        "- DADO un registro con eventos que no se pueden leer, o un informe sin hallazgos legibles",
+        "- CUANDO se calculan los frenos",
+        "- ENTONCES no se inventa ningún freno y `estado` sigue funcionando"
+      ]
+    },
+    "estado_muestra_los_frenos": {
+      "cambio": "20261108-203356-puy-frenos",
+      "requisito": "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El sistema DEBE mostrar los frenos en `estado --json` como la clave `frenos` (lista de objetos con `id` y `motivo`, vacía si no hay) y en `estado` como avisos que empiezan con «FRENO:», sin cambiar el próximo paso, los pendientes ni ningún otro dato del estado.",
+        "",
+        "#### Scenario: con frenos",
+        "- DADO un cambio con un freno",
+        "- CUANDO se pide `estado --json` y `estado`",
+        "- ENTONCES el JSON lo lista en `frenos` y el texto trae un aviso «FRENO:» con el mismo motivo",
+        "",
+        "#### Scenario: sin frenos",
+        "- DADO un cambio sin frenos",
+        "- CUANDO se pide `estado --json`",
+        "- ENTONCES `frenos` es una lista vacía y no hay avisos «FRENO:»",
+        "",
+        "#### Scenario: un freno no decide nada",
+        "- DADO un cambio con un freno",
+        "- CUANDO se pide su estado",
+        "- ENTONCES el próximo paso y los pendientes son los mismos que sin el freno"
       ]
     }
   },

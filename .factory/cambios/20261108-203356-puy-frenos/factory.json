@@ -2,7 +2,7 @@
   "id": "20261108-203356-puy-frenos",
   "titulo": "Frenos de construcción: avisos de estado que mandan parar",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md",
   "spec_sha256": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e",
   "spec_aprobada": {
@@ -215,6 +215,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "bdbaf3d1771fae3ae86dc2c92a5210f35edd75a2ea41c49b909bbbb276706dd3"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T21:19:33.131292+00:00",
+      "oracle": ".factory/cambios/20261108-203356-puy-frenos/oracle-veredicto.txt",
+      "revision": "tareas/20261108-203356-puy-frenos/revisiones/registro-aqngyyje/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T21:19:33.170832+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -256,5 +276,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T21:19:33.067203+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-08T21:19:33.170822+00:00"
+  }
 }
