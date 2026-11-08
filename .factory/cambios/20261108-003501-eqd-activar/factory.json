@@ -2,7 +2,7 @@
   "id": "20261108-003501-eqd-activar",
   "titulo": "Activar el workflow verificar en este repositorio",
   "capacidad": "ci",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md",
   "spec_sha256": "7c21040c7849f036b14a3a0e0d40dc5379aa4de708cc6e09016861aa0b0dde7f",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica",
     "ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261108-003501-eqd-activar/revisiones/registro-w6pd_5pw/informe.json",
+    "sha256": "d78565da50ddec1d38f66f5f2b4fb323da97415f4aaa36611e7a6a6a1319375f",
+    "decisiones": "tareas/20261108-003501-eqd-activar/revisiones/registro-w6pd_5pw/decisiones.json",
+    "decisiones_sha256": "8f7bb7cbb1858bcd160b0fdaa0e00173fe84cfe794f37aa2788afe858a5dc5d5",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T00:51:12.884691+00:00",
+    "motivo": "Codex sin hallazgos. Evidencia 1231 pruebas OK. Las pruebas ejecutan de verdad el paso de verificación (bash -e -o pipefail) con distintas GITHUB_REF; 6 mutaciones propias sobre el workflow detectadas (ref distinta de main, main no falla, sin warning, ignora el fallo, instala de PyPI, permiso de escritura). Sin ediciones a pruebas existentes. Límite: no se corrió en GitHub Actions real; se verá en el primer push.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "466c7b4e22a8cdfa1837a0078d08ff9615e78772",
+      "archivos_sha256": "0575f06d6f5c6e4b87821862bdbe19e00da2a28d9a60c2ccbffa0a0bfd87a78d"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -175,6 +195,20 @@
       "cuando": "2026-11-08T00:49:29.851189+00:00",
       "decision": "aprobar",
       "candidato": "f8e9894"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T00:51:12.884723+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "d78565da50ddec1d38f66f5f2b4fb323da97415f4aaa36611e7a6a6a1319375f",
+      "decisiones_sha256": "8f7bb7cbb1858bcd160b0fdaa0e00173fe84cfe794f37aa2788afe858a5dc5d5"
     }
   ],
   "tipos": {
@@ -233,14 +267,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Codex sin hallazgos. Evidencia 1231 pruebas OK. Las pruebas ejecutan de verdad el paso de verificación (bash -e -o pipefail) con distintas GITHUB_REF; 6 mutaciones propias sobre el workflow detectadas (ref distinta de main, main no falla, sin warning, ignora el fallo, instala de PyPI, permiso de escritura). Sin ediciones a pruebas existentes. Límite: no se corrió en GitHub Actions real; se verá en el primer push.",
-      "candidato": "f8e9894",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T00:49:29.851175+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

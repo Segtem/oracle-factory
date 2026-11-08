@@ -39,3 +39,7 @@ Medidas de ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica: Bria
 ### Nota (2026-11-08 00:39:28 UTC)
 
 Medidas de ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 00:51:12 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Codex sin hallazgos. Evidencia 1231 pruebas OK. Las pruebas ejecutan de verdad el paso de verificación (bash -e -o pipefail) con distintas GITHUB_REF; 6 mutaciones propias sobre el workflow detectadas (ref distinta de main, main no falla, sin warning, ignora el fallo, instala de PyPI, permiso de escritura). Sin ediciones a pruebas existentes. Límite: no se corrió en GitHub Actions real; se verá en el primer push.); 0 abiertos derivados; commit 466c7b4e22a8cdfa1837a0078d08ff9615e78772; informe tareas/20261108-003501-eqd-activar/revisiones/registro-w6pd_5pw/informe.json; decisiones tareas/20261108-003501-eqd-activar/revisiones/registro-w6pd_5pw/decisiones.json.

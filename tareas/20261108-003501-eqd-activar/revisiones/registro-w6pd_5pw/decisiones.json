@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "d78565da50ddec1d38f66f5f2b4fb323da97415f4aaa36611e7a6a6a1319375f",
+  "actor": "Brian Hollweg",
+  "motivo": "Codex sin hallazgos. Evidencia 1231 pruebas OK. Las pruebas ejecutan de verdad el paso de verificación (bash -e -o pipefail) con distintas GITHUB_REF; 6 mutaciones propias sobre el workflow detectadas (ref distinta de main, main no falla, sin warning, ignora el fallo, instala de PyPI, permiso de escritura). Sin ediciones a pruebas existentes. Límite: no se corrió en GitHub Actions real; se verá en el primer push.",
+  "decisiones": []
+}
