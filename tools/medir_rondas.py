@@ -41,9 +41,19 @@ def leer_json(ruta: Path):
         return None
 
 
+def hallazgo_legible(h) -> bool:
+    return isinstance(h, dict) and isinstance(h.get("title"), str) and h.get("severity") in SEVERIDADES
+
+
 def informe_legible(contenido) -> bool:
-    """Un informe con su forma: un objeto cuyo `findings` es una lista de objetos (vacía vale). Otra cosa no se lee ni se cuenta como cero."""
-    return isinstance(contenido, dict) and isinstance(contenido.get("findings"), list) and all(isinstance(h, dict) for h in contenido["findings"])
+    """Un informe con su forma: un objeto cuyo `findings` es una lista de hallazgos con título de texto y una severidad conocida (vacía vale).
+    Otra cosa no se lee ni se cuenta como cero: se cuenta como ilegible."""
+    return isinstance(contenido, dict) and isinstance(contenido.get("findings"), list) and all(hallazgo_legible(h) for h in contenido["findings"])
+
+
+def registro_legible(datos) -> bool:
+    """Un registro con su forma: un objeto con `eventos`, una lista de objetos."""
+    return isinstance(datos, dict) and isinstance(datos.get("eventos"), list) and all(isinstance(e, dict) for e in datos["eventos"])
 
 
 def rondas_de(eventos: list[dict]) -> dict[str, int]:
@@ -68,16 +78,21 @@ def analizar(proyecto: Path, desde: str = "2026-10-24", origen: bool = False) ->
     reparto: dict[str, list[tuple[str, str]]] = {g: [] for g in GRUPOS}  # grupo -> [(cambio, título)] de la primera ronda
     clases: dict[str, Counter] = defaultdict(Counter)
     rondas_por_cambio: list[int] = []
-    cobertura = {"candidatos_primera_ronda": 0, "sin_informe_legible": 0, "informes_ilegibles": 0}  # qué tan completa es la primera ronda leída
+    cobertura = {"candidatos_primera_ronda": 0, "sin_informe_legible": 0, "informes_ilegibles": 0, "registros_ilegibles": 0}  # qué tan completa es la primera ronda leída
     for registro in sorted((proyecto / ".factory" / "cambios").glob("*/factory.json")):
         datos = leer_json(registro)
-        if not isinstance(datos, dict):
+        if not registro_legible(datos):
+            cobertura["registros_ilegibles"] += 1  # no se sabe si era un cambio cerrado ni cuántas rondas tuvo: que no desaparezca
             continue
-        eventos = [e for e in datos.get("eventos") or [] if isinstance(e, dict)]
+        eventos = datos["eventos"]
         creado = [e for e in eventos if e.get("accion") == "cambio_creado"]
         if not creado or creado[0].get("cuando", "") < desde or not any(e.get("accion") == "cierre" for e in eventos):
             continue
-        rondas = rondas_de(eventos)
+        try:
+            rondas = rondas_de(eventos)
+        except (ValueError, TypeError):  # una fecha que no es una fecha
+            cobertura["registros_ilegibles"] += 1
+            continue
         rondas_por_cambio.append(len(rondas))
         primera = {c for c, n in rondas.items() if n == 1}
         leidos: set[str] = set()
@@ -130,9 +145,9 @@ def texto_origen(resultado: dict, muestra: int = 0) -> str:
     total = sum(resultado["origen"].values())
     c = resultado["cobertura"]
     lineas = [f"hallazgos altos y medios de la primera ronda: {total}",
-              f"cobertura: {c['candidatos_primera_ronda']} candidatos de primera ronda; {c['sin_informe_legible']} sin informe legible; {c['informes_ilegibles']} informes ilegibles"]
-    if c["sin_informe_legible"] or c["informes_ilegibles"]:
-        lineas.append("AVISO: la medición está incompleta: faltan informes o no se pueden leer, así que los números de abajo son un piso, no el total.")
+              f"cobertura: {c['candidatos_primera_ronda']} candidatos de primera ronda; {c['sin_informe_legible']} sin informe legible; {c['informes_ilegibles']} informes ilegibles; {c['registros_ilegibles']} registros ilegibles"]
+    if c["sin_informe_legible"] or c["informes_ilegibles"] or c["registros_ilegibles"]:
+        lineas.append("AVISO: la medición está incompleta: faltan informes o registros, o no se pueden leer, así que los números de abajo son un piso, no el total.")
     for g in GRUPOS:
         n = resultado["origen"][g]
         lineas.append(f"  {n:4}  {g}" + (f"  ({round(100 * n / total)} %)" if total else ""))

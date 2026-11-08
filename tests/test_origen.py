@@ -99,7 +99,7 @@ class Origen(unittest.TestCase):
         self.assertIn('1 sin informe legible', salida)
         self.assertIn('incompleta', salida)
         self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura'],
-                         {'candidatos_primera_ronda': 1, 'sin_informe_legible': 1, 'informes_ilegibles': 0})
+                         {'candidatos_primera_ronda': 1, 'sin_informe_legible': 1, 'informes_ilegibles': 0, 'registros_ilegibles': 0})
 
     def test_or2_un_informe_con_json_roto_se_cuenta_como_ilegible_y_tambien_avisa(self):
         self.registro('a', [[hallazgo('media', RUTAS)]], informes='roto')
@@ -114,10 +114,41 @@ class Origen(unittest.TestCase):
                 self.setUp()
                 self.registro('a', [[hallazgo('media', RUTAS)]], informes=contenido)
                 resultado = medir_rondas.analizar(self.raiz, origen=True)
-                self.assertEqual(resultado['cobertura'], {'candidatos_primera_ronda': 1, 'sin_informe_legible': 1, 'informes_ilegibles': 1})
+                self.assertEqual(resultado['cobertura'], {'candidatos_primera_ronda': 1, 'sin_informe_legible': 1, 'informes_ilegibles': 1, 'registros_ilegibles': 0})
                 self.assertEqual(sum(resultado['origen'].values()), 0)
                 self.assertIn('incompleta', self.correr('--origen'))
                 self.assertIn('1', self.correr())  # sin --origen tampoco se rompe
+
+    def test_or2_un_hallazgo_con_severidad_o_titulo_que_no_son_texto_o_con_severidad_desconocida_hace_ilegible_el_informe(self):
+        malos = ({'severity': ['media'], 'title': RUTAS}, {'severity': 7, 'title': RUTAS}, {'severity': None, 'title': RUTAS},
+                 {'severity': 'critica', 'title': RUTAS}, {'title': RUTAS}, {'severity': 'media', 'title': 3}, {'severity': 'media'})
+        for malo in malos:
+            with self.subTest(hallazgo=malo):
+                self.setUp()
+                self.registro('a', [[]], informes={'findings': [malo]})
+                resultado = medir_rondas.analizar(self.raiz, origen=True)
+                self.assertEqual(resultado['cobertura']['informes_ilegibles'], 1)
+                self.assertEqual(sum(resultado['origen'].values()), 0)
+                self.assertIn('incompleta', self.correr('--origen'))
+                self.correr()  # sin --origen tampoco se rompe
+
+    def test_or2_un_registro_ilegible_o_con_eventos_malformados_se_cuenta_y_avisa_en_vez_de_desaparecer(self):
+        evento = {'accion': 'revision_pedida', 'candidato': 'x', 'cuando': 'ayer'}
+        malos = ({'eventos': {'accion': 'cierre'}}, {'eventos': [{'accion': 'cierre'}, 'no es un evento']}, {'eventos': None}, {},
+                 [], 'texto', {'eventos': [{'accion': 'cambio_creado', 'cuando': '2026-10-25T00:00:00+00:00'}, evento, {'accion': 'cierre'}]})
+        for malo in malos:
+            with self.subTest(registro=malo):
+                self.setUp()
+                self.registro('a', [[hallazgo('media', RUTAS)]])
+                (self.raiz / '.factory/cambios/a/factory.json').write_text(json.dumps(malo))
+                resultado = medir_rondas.analizar(self.raiz, origen=True)
+                self.assertEqual(resultado['cobertura']['registros_ilegibles'], 1)
+                self.assertIn('1 registros ilegibles', self.correr('--origen'))
+                self.assertIn('incompleta', self.correr('--origen'))
+        self.setUp()
+        (self.raiz / '.factory/cambios/b').mkdir(parents=True)
+        (self.raiz / '.factory/cambios/b/factory.json').write_text('{ roto')
+        self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura']['registros_ilegibles'], 1)
 
     def test_or2_un_informe_sin_hallazgos_es_legible(self):
         self.registro('a', [[]], informes={'findings': []})
@@ -131,7 +162,7 @@ class Origen(unittest.TestCase):
         self.assertIn('0 informes ilegibles', salida)
         self.assertNotIn('incompleta', salida)
         self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura'],
-                         {'candidatos_primera_ronda': 1, 'sin_informe_legible': 0, 'informes_ilegibles': 0})
+                         {'candidatos_primera_ronda': 1, 'sin_informe_legible': 0, 'informes_ilegibles': 0, 'registros_ilegibles': 0})
 
     def test_or2_los_informes_rotos_de_otra_ronda_no_ensucian_la_cobertura_de_la_primera(self):
         self.registro('a', [[hallazgo('media', RUTAS)]])

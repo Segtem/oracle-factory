@@ -347,6 +347,71 @@
         "factory_origen.una_muestra_permite_comprobar_la_regla",
         "factory_origen.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T15:11:09.012928+00:00",
+      "revisor": "codex",
+      "candidato": "065fd88",
+      "lanzamiento": "8750e692f174"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T15:13:42.558795+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "065fd88",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "8750e692f174"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T15:14:43.876725+00:00",
+      "requisito": "practicas_c10f87e544968d526.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+      "medidas": [
+        "factory_origen.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+        "factory_origen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T15:14:45.695855+00:00",
+      "requisito": "practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite",
+      "medidas": [
+        "factory_origen.la_salida_dice_la_regla_y_su_limite",
+        "factory_origen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T15:14:47.489245+00:00",
+      "requisito": "practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla",
+      "medidas": [
+        "factory_origen.una_muestra_permite_comprobar_la_regla",
+        "factory_origen.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -354,17 +419,16 @@
     "practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite": "funcional",
     "practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla": "funcional"
   },
-  "medidas": {
+  "medidas": {},
+  "medidas_pendientes": {
     "practicas_c10f87e544968d526.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-08T15:00:39.013650+00:00",
       "sha256": "ffbf59b74d25e938fc40ab760268f4f3e900df9ba1085b0e3a673c70a62edb2c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T15:14:43.829578+00:00",
       "catalogos": {
         "factory_origen.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec": "478f0e6d6812e09747ac48625ca0f06c8327aeefc918e7fc9f421a52b7695685",
-        "factory_origen.corrida_completa": "bc2ac5430507fb1526161428408f6dd52e1efee29749c7dbf91cec815f5547a1"
+        "factory_origen.corrida_completa": "29e2f4af7b858f1e37987572355cb6fd76a722c633e791ee3fb9c62cae2e224d"
       },
       "archivos_catalogo": {
         "factory_origen.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec": "catalogos/factory_origen.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec.oracle",
@@ -372,15 +436,13 @@
       }
     },
     "practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-08T15:00:39.192817+00:00",
       "sha256": "99a9ad4db2b66b2109ee7a231748646b49c4ab0ccdfa14e988ab837133ea34fd",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T15:14:45.647134+00:00",
       "catalogos": {
-        "factory_origen.la_salida_dice_la_regla_y_su_limite": "a582aa9466af9195c101a9f3ca9048fd33edc46afb4d05baf76f51c2ad265f53",
-        "factory_origen.corrida_completa": "bc2ac5430507fb1526161428408f6dd52e1efee29749c7dbf91cec815f5547a1"
+        "factory_origen.la_salida_dice_la_regla_y_su_limite": "a949deb58fcba9783f7806cb0856c66ffa3649bbefc12835916e28bbbd2da2c7",
+        "factory_origen.corrida_completa": "29e2f4af7b858f1e37987572355cb6fd76a722c633e791ee3fb9c62cae2e224d"
       },
       "archivos_catalogo": {
         "factory_origen.la_salida_dice_la_regla_y_su_limite": "catalogos/factory_origen.la_salida_dice_la_regla_y_su_limite.oracle",
@@ -388,21 +450,18 @@
       }
     },
     "practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-08T15:00:39.374109+00:00",
       "sha256": "04f0da9d2c92347ba7470ad000099eee4a7366c75091e9e3ccb6ff9d33b2bf12",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T15:14:47.441289+00:00",
       "catalogos": {
         "factory_origen.una_muestra_permite_comprobar_la_regla": "385ebdf1b151a32dfb1a9fc9ba24de3448a6c8c2e8e705d28d4d326a687018cc",
-        "factory_origen.corrida_completa": "bc2ac5430507fb1526161428408f6dd52e1efee29749c7dbf91cec815f5547a1"
+        "factory_origen.corrida_completa": "29e2f4af7b858f1e37987572355cb6fd76a722c633e791ee3fb9c62cae2e224d"
       },
       "archivos_catalogo": {
         "factory_origen.una_muestra_permite_comprobar_la_regla": "catalogos/factory_origen.una_muestra_permite_comprobar_la_regla.oracle",
         "factory_origen.corrida_completa": "catalogos/factory_origen.corrida_completa.oracle"
       }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }
