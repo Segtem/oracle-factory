@@ -11,7 +11,7 @@ vigente: true
 - Id: `despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada`
 - Vigente: sí
 - Cambio: [[cambios/20261108-020932-3t5-alcance]]
-- Veredicto: sin juicio
+- Veredicto: no cumple
 - Medidas: `factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada`, `factory_destinos_alcance.corrida_completa`
 - Fuente: openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada
 

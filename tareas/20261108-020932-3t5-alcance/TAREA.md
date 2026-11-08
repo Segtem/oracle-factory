@@ -47,3 +47,27 @@ Medidas de despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta
 ### Nota (2026-11-08 02:18:39 UTC)
 
 Medidas de despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 04:24:51 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Codex sin hallazgos. Evidencia 1245 pruebas OK. 8 mutaciones propias sobre despliegue.py y cli.py detectadas; una sobrevive y es equivalente (invertir el rango del diff: --name-only es simétrico). Incluye un arreglo no pedido por la spec: despliegue.registros desempata por el momento en que se escribió el registro (dos corridas del mismo segundo quedaban en orden arbitrario), con prueba determinista; también corrige estados. Sin ediciones a pruebas existentes salvo el golden de la ayuda (sólo desplegar). Toca cli.py: camino completo.); 0 abiertos derivados; commit 69a95185532763fd98ac976ee90a0fcb6adab036; informe tareas/20261108-020932-3t5-alcance/revisiones/registro-_xyfh2af/informe.json; decisiones tareas/20261108-020932-3t5-alcance/revisiones/registro-_xyfh2af/decisiones.json.
+
+### Nota (2026-11-08 04:25:02 UTC)
+
+Juicio Factory: incompleto/rojo; salida Oracle 1; informe .factory/cambios/20261108-020932-3t5-alcance/oracle-veredicto.txt.
+
+### Nota (2026-11-08 04:25:41 UTC)
+
+Medidas de despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-08 04:25:44 UTC)
+
+Medidas de despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-08 04:25:47 UTC)
+
+Medidas de despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-08 04:25:50 UTC)
+
+Medidas de despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.

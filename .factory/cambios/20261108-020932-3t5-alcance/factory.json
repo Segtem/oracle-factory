@@ -2,7 +2,7 @@
   "id": "20261108-020932-3t5-alcance",
   "titulo": "Alcance opcional de los destinos: desplegar sólo lo que cambió",
   "capacidad": "despliegue",
-  "fase": "requisitos_importados",
+  "fase": "oracle_rojo",
   "spec": "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md",
   "spec_sha256": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf",
   "spec_aprobada": {
@@ -22,8 +22,40 @@
     "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
     "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261108-020932-3t5-alcance/revisiones/registro-_xyfh2af/informe.json",
+    "sha256": "62b6e9f629ff92bfc8c3579dc6eaab9af19cb9b1628b9ff5f259f3cf93c0385e",
+    "decisiones": "tareas/20261108-020932-3t5-alcance/revisiones/registro-_xyfh2af/decisiones.json",
+    "decisiones_sha256": "470b167174ec5e5a6403fc08f525bfc57ca5de2680ad2f916cfefff82160ca0d",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T04:24:51.054351+00:00",
+    "motivo": "Codex sin hallazgos. Evidencia 1245 pruebas OK. 8 mutaciones propias sobre despliegue.py y cli.py detectadas; una sobrevive y es equivalente (invertir el rango del diff: --name-only es simétrico). Incluye un arreglo no pedido por la spec: despliegue.registros desempata por el momento en que se escribió el registro (dos corridas del mismo segundo quedaban en orden arbitrario), con prueba determinista; también corrige estados. Sin ediciones a pruebas existentes salvo el golden de la ayuda (sólo desplegar). Toca cli.py: camino completo.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "69a95185532763fd98ac976ee90a0fcb6adab036",
+      "archivos_sha256": "e8a2cc4f9e558edae1aa516e46b2572ac131afb38ed4a21176a69a73c50cdc44"
+    }
+  },
+  "oracle": {
+    "codigo": 1,
+    "codigo_oracle": 1,
+    "hechos": ".factory/cambios/20261108-020932-3t5-alcance/candidatos/ec5d3f5/evidencia/hechos.json",
+    "hechos_sha256": "4f570a0a110d0bfa305e92057f1a9ac7320ba66b0c05a50230287047b6fe56be",
+    "informe": ".factory/cambios/20261108-020932-3t5-alcance/oracle-veredicto.txt",
+    "informe_sha256": "6af53800bd0c234590def741a026140deda2cb55e584c4aa319195974504404a",
+    "cuando": "2026-11-08T04:25:02.637604+00:00",
+    "contexto": {
+      "head": "69a95185532763fd98ac976ee90a0fcb6adab036",
+      "archivos_sha256": "e8a2cc4f9e558edae1aa516e46b2572ac131afb38ed4a21176a69a73c50cdc44"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -204,6 +236,83 @@
       "cuando": "2026-11-08T02:38:02.033455+00:00",
       "decision": "aprobar",
       "candidato": "ec5d3f5"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T04:24:51.054381+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "62b6e9f629ff92bfc8c3579dc6eaab9af19cb9b1628b9ff5f259f3cf93c0385e",
+      "decisiones_sha256": "470b167174ec5e5a6403fc08f525bfc57ca5de2680ad2f916cfefff82160ca0d"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T04:25:02.637636+00:00",
+      "codigo": 1,
+      "codigo_oracle": 1,
+      "hechos_sha256": "4f570a0a110d0bfa305e92057f1a9ac7320ba66b0c05a50230287047b6fe56be"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T04:25:41.573976+00:00",
+      "requisito": "despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados",
+      "medidas": [
+        "factory_destinos_alcance.cambios_elige_los_destinos_afectados",
+        "factory_destinos_alcance.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T04:25:44.422079+00:00",
+      "requisito": "despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada",
+      "medidas": [
+        "factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada",
+        "factory_destinos_alcance.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T04:25:47.257576+00:00",
+      "requisito": "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
+      "medidas": [
+        "factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
+        "factory_destinos_alcance.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T04:25:50.103339+00:00",
+      "requisito": "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional",
+      "medidas": [
+        "factory_destinos_alcance.un_destino_declara_su_alcance_opcional",
+        "factory_destinos_alcance.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -212,17 +321,16 @@
     "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance": "funcional",
     "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional": "funcional"
   },
-  "medidas": {
+  "medidas": {},
+  "medidas_pendientes": {
     "despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-08T02:18:38.801735+00:00",
       "sha256": "59b58d277d0194774673ad616dfbcd152333ca67cd122b3935fca7fb966553a3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T04:25:41.516483+00:00",
       "catalogos": {
-        "factory_destinos_alcance.cambios_elige_los_destinos_afectados": "e777087762f62199eeb4b202d9513b74bdc0c8775cc3d2a858c1a77fad8bb951",
-        "factory_destinos_alcance.corrida_completa": "0a0edde8c23011d110995051486a1de35a5167b9c941a9a5ea425cae113d53f7"
+        "factory_destinos_alcance.cambios_elige_los_destinos_afectados": "60b52afa6577a3a725298782a39ba8e358e391e2a8a2870384bab93676d4ce2f",
+        "factory_destinos_alcance.corrida_completa": "43aba60d3d1525a5cd4c2f4251be76bc88dabea713e74890892b9cf12ee30bdf"
       },
       "archivos_catalogo": {
         "factory_destinos_alcance.cambios_elige_los_destinos_afectados": "catalogos/factory_destinos_alcance.cambios_elige_los_destinos_afectados.oracle",
@@ -230,15 +338,13 @@
       }
     },
     "despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-08T02:18:38.983367+00:00",
       "sha256": "2bb45eb4dcd342c07ffee488071f035845347f62320d4a5b30124ddb42893d99",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T04:25:44.360693+00:00",
       "catalogos": {
         "factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada": "830c8f9f7c832bcce5dddf846902629c4701cb406f4e7dc8e9f804143032da37",
-        "factory_destinos_alcance.corrida_completa": "0a0edde8c23011d110995051486a1de35a5167b9c941a9a5ea425cae113d53f7"
+        "factory_destinos_alcance.corrida_completa": "43aba60d3d1525a5cd4c2f4251be76bc88dabea713e74890892b9cf12ee30bdf"
       },
       "archivos_catalogo": {
         "factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada": "catalogos/factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada.oracle",
@@ -246,15 +352,13 @@
       }
     },
     "despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-08T02:18:39.158913+00:00",
       "sha256": "bacc67780a8b081114fef501395294f555ad5047f926911b59335172b9262e79",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T04:25:47.200125+00:00",
       "catalogos": {
         "factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance": "54e15d3ea7490b4ef2c5e0ba859fd617df373a662e2cba16ead8299afdbad335",
-        "factory_destinos_alcance.corrida_completa": "0a0edde8c23011d110995051486a1de35a5167b9c941a9a5ea425cae113d53f7"
+        "factory_destinos_alcance.corrida_completa": "43aba60d3d1525a5cd4c2f4251be76bc88dabea713e74890892b9cf12ee30bdf"
       },
       "archivos_catalogo": {
         "factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance": "catalogos/factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance.oracle",
@@ -262,15 +366,13 @@
       }
     },
     "despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-08T02:18:39.336914+00:00",
       "sha256": "672dc0de10e312f7a62cb3e0cc90dde672ab2873156d132cc5ca6242b08ac2a5",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T04:25:50.040976+00:00",
       "catalogos": {
         "factory_destinos_alcance.un_destino_declara_su_alcance_opcional": "c2012cc5a86add06a9374587a0f53a6d2915f87a3e1773acae00c62585e3ebea",
-        "factory_destinos_alcance.corrida_completa": "0a0edde8c23011d110995051486a1de35a5167b9c941a9a5ea425cae113d53f7"
+        "factory_destinos_alcance.corrida_completa": "43aba60d3d1525a5cd4c2f4251be76bc88dabea713e74890892b9cf12ee30bdf"
       },
       "archivos_catalogo": {
         "factory_destinos_alcance.un_destino_declara_su_alcance_opcional": "catalogos/factory_destinos_alcance.un_destino_declara_su_alcance_opcional.oracle",
@@ -278,15 +380,5 @@
       }
     }
   },
-  "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Codex sin hallazgos. Evidencia 1245 pruebas OK. 8 mutaciones propias sobre despliegue.py y cli.py detectadas; una sobrevive y es equivalente (invertir el rango del diff: --name-only es simétrico). Incluye un arreglo no pedido por la spec: despliegue.registros desempata por el momento en que se escribió el registro (dos corridas del mismo segundo quedaban en orden arbitrario), con prueba determinista; también corrige estados. Sin ediciones a pruebas existentes salvo el golden de la ayuda (sólo desplegar). Toca cli.py: camino completo.",
-      "candidato": "ec5d3f5",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T02:38:02.033438+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

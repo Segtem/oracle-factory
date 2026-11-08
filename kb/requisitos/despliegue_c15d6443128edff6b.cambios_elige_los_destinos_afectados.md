@@ -11,7 +11,7 @@ vigente: true
 - Id: `despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados`
 - Vigente: sí
 - Cambio: [[cambios/20261108-020932-3t5-alcance]]
-- Veredicto: sin juicio
+- Veredicto: no cumple
 - Medidas: `factory_destinos_alcance.cambios_elige_los_destinos_afectados`, `factory_destinos_alcance.corrida_completa`
 - Fuente: openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#cambios_elige_los_destinos_afectados
 
