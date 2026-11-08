@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "26c8cead8df8a0e6db0f4826946cdb9b18edef2f531ff0c7bbf6e32e2ca38d11",
+  "actor": "Brian Hollweg",
+  "motivo": "Apruebo el candidato d1b6a74; 0 hallazgos de los revisores; evidencia del candidato: 1245 pruebas, 14 casos de contrato; 1 vuelta anterior registrada.",
+  "decisiones": []
+}

@@ -20,7 +20,7 @@ from typing import Callable
 
 ARCHIVO = Path(".factory") / "destinos.json"
 DIR_REGISTROS = Path(".factory") / "despliegues"
-CAMPOS_DESTINO = {"tipo", "construir", "desplegar", "probar", "version", "volver", "alcanzable", "depende_de", "secretos", "tope_segundos"}
+CAMPOS_DESTINO = {"tipo", "construir", "desplegar", "probar", "version", "volver", "alcanzable", "depende_de", "secretos", "tope_segundos", "alcance"}
 CAMPOS_COMANDO = ("construir", "desplegar", "probar", "version", "volver", "alcanzable")
 CAMPOS_RAIZ = {"rama", "politica_ante_fallo", "destinos", "conjunto"}
 POLITICAS = ("cortar", "seguir")
@@ -109,8 +109,14 @@ def _destino(nombre: str, d: object, todos: dict) -> dict:
     tope = d.get("tope_segundos", TOPE)
     if not isinstance(tope, int) or isinstance(tope, bool) or tope <= 0:
         raise DeclaracionInvalida(f"destino «{nombre}»: «tope_segundos» es un número entero positivo")
+    extra = {}
+    if "alcance" in d:
+        alcance = d["alcance"]
+        if not isinstance(alcance, list) or not alcance or not all(isinstance(x, str) and x.strip() for x in alcance):
+            raise DeclaracionInvalida(f"destino «{nombre}»: «alcance» es una lista no vacía de rutas de Git (carpetas o patrones)")
+        extra["alcance"] = list(alcance)
     return {"nombre": nombre, "tipo": tipo, "depende_de": list(deps), "secretos": list(secretos), "tope_segundos": tope,
-            **{c: d[c] for c in CAMPOS_COMANDO if c in d}}
+            **{c: d[c] for c in CAMPOS_COMANDO if c in d}, **extra}
 
 
 def _sin_ciclos(destinos: dict) -> None:
@@ -147,8 +153,43 @@ def _git(raiz: Path, *args: str) -> subprocess.CompletedProcess:
     return subprocess.run(["git", *args], cwd=raiz, capture_output=True, text=True)
 
 
+def _version_previa(raiz: Path, nombre: str) -> str | None:
+    """La versión que la última corrida dejó `desplegado` o `probado` en ese destino, o None si nunca se desplegó."""
+    for r in reversed(registros(raiz)):
+        d = r.get("destinos", {}).get(nombre)
+        if d and d.get("estado") in ("desplegado", "probado") and d.get("version_despues"):
+            return d["version_despues"]
+    return None
+
+
+def elegir_por_cambios(raiz: Path, decl: dict, commit: str) -> tuple[list[str], dict[str, str], dict[str, str]]:
+    """(elegidos, motivos, omitidos): los destinos con archivos cambiados dentro de su alcance desde su última versión desplegada.
+    Entran siempre los que no tienen alcance, los que nunca se desplegaron y los que no se pueden comparar. Sólo se miran las rutas declaradas."""
+    elegidos, motivos, omitidos = [], {}, {}
+    for n, d in decl["destinos"].items():
+        previa = _version_previa(raiz, n)
+        if "alcance" not in d:
+            motivos[n] = "sin alcance declarado: entra siempre"
+        elif previa is None:
+            motivos[n] = "nunca se desplegó"
+        elif _git(raiz, "cat-file", "-e", f"{previa}^{{commit}}").returncode != 0:
+            motivos[n] = f"su versión anterior ({previa[:12]}) no se conoce en este repositorio: no se puede comparar"
+        else:
+            r = _git(raiz, "diff", "--name-only", f"{previa}..{commit}", "--", *d["alcance"])
+            archivos = [a for a in r.stdout.splitlines() if a]
+            if r.returncode != 0:
+                motivos[n] = f"no se pudo comparar con {previa[:12]}: {r.stderr.strip()[:120]}"
+            elif archivos:
+                motivos[n] = f"cambió {archivos[0]}" + (f" y {len(archivos) - 1} más" if len(archivos) > 1 else "") + f" desde {previa[:12]}"
+            else:
+                omitidos[n] = f"sin cambios en su alcance desde {previa[:12]}"
+                continue
+        elegidos.append(n)
+    return elegidos, motivos, omitidos
+
+
 def armar_plan(raiz: Path, decl: dict, commit: str | None = None, destinos: list[str] | None = None,
-               puerta: Callable[[], tuple[bool, str]] | None = None) -> dict:
+               puerta: Callable[[], tuple[bool, str]] | None = None, cambios: bool = False) -> dict:
     """El plan de un commit de la rama de despliegue. Se niega si el commit no está en la rama o si la puerta local no está en verde."""
     rama = decl["rama"]
     punta = _git(raiz, "rev-parse", "--verify", "--quiet", f"{rama}^{{commit}}")
@@ -169,6 +210,14 @@ def armar_plan(raiz: Path, decl: dict, commit: str | None = None, destinos: list
         ok, texto = puerta()
         if not ok:
             raise DespliegueNegado("la puerta local de salida no está en verde, así que no se arma el plan:\n" + texto.strip())
+    if cambios:
+        if destinos:
+            raise DespliegueNegado("--cambios y --destino no se combinan: elegí los destinos por sus cambios o por su nombre")
+        elegidos, motivos, omitidos = elegir_por_cambios(raiz, decl, elegido)
+        ordenados = orden(decl["destinos"], elegidos) if elegidos else []
+        for n in ordenados:
+            motivos.setdefault(n, "lo necesita un destino elegido (depende_de)")
+        return {"commit": elegido, "rama": rama, "orden": ordenados, "motivos": {n: motivos[n] for n in ordenados}, "omitidos": omitidos}
     return {"commit": elegido, "rama": rama, "orden": orden(decl["destinos"], destinos)}
 
 
@@ -178,10 +227,16 @@ def texto_plan(decl: dict, plan: dict) -> str:
         d = decl["destinos"][n]
         deps = f" (después de {', '.join(d['depende_de'])})" if d["depende_de"] else ""
         lineas.append(f"{i}. {n} [{d['tipo']}]{deps}")
+        if n in plan.get("motivos", {}):
+            lineas.append(f"     por qué: {plan['motivos'][n]}")
         for paso in ("alcanzable", "construir", "desplegar", "version", "probar", "volver"):
             if paso in d:
                 lineas.append(f"     {paso}: {d[paso]}")
-    if decl["conjunto"]:
+    for n, motivo in plan.get("omitidos", {}).items():
+        lineas.append(f"Se omite {n}: {motivo}")
+    if "motivos" in plan and not plan["orden"]:
+        lineas.append("No hay nada que desplegar: ningún destino tiene cambios en su alcance.")
+    elif decl["conjunto"]:
         lineas.append(f"Al final, la prueba de conjunto: {decl['conjunto']['probar']}")
     return "\n".join(lineas)
 
@@ -373,10 +428,11 @@ def registros(raiz: Path) -> list[dict]:
     salida = []
     for archivo in sorted((raiz / DIR_REGISTROS).glob("*/registro.json")) if (raiz / DIR_REGISTROS).is_dir() else []:
         try:
-            salida.append(json.loads(archivo.read_text(encoding="utf-8")))
-        except ValueError:
+            salida.append((json.loads(archivo.read_text(encoding="utf-8")), archivo.stat().st_mtime_ns))
+        except (ValueError, OSError):
             continue
-    return sorted(salida, key=lambda r: (r.get("cuando", ""), r.get("id", "")))
+    # «cuando» tiene precisión de segundos y el ID lleva el commit: dos corridas del mismo segundo se ordenan por cuándo se escribió su registro.
+    return [r for r, _ in sorted(salida, key=lambda x: (x[0].get("cuando", ""), x[1], x[0].get("id", "")))]
 
 
 def estados(raiz: Path, decl: dict, consultar: bool = True, correr: Callable | None = None) -> list[dict]:

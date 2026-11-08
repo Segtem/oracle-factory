@@ -114,6 +114,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261107-213354-5pg-entregaa18]] — Preparar la distribución 0.1.0a18 (cerrada)
 - [[cambios/20261107-235004-sb1-publicadaa18]] — Declarar publicada la 0.1.0a18 (cerrada)
 - [[cambios/20261108-003501-eqd-activar]] — Activar el workflow verificar en este repositorio (cerrada)
+- [[cambios/20261108-020932-3t5-alcance]] — Alcance opcional de los destinos: desplegar sólo lo que cambió (cerrada)
 
 ## Requisitos
 
@@ -220,6 +221,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica]]
 - [[requisitos/desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes]]
 - [[requisitos/desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero]]
+- [[requisitos/despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados]]
+- [[requisitos/despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada]]
+- [[requisitos/despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance]]
+- [[requisitos/despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional]]
 - [[requisitos/despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secretos]]
 - [[requisitos/despliegue_c1f413032a7a55aa1.los_destinos_los_declara_el_proyecto]]
 - [[requisitos/despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto]]

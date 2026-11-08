@@ -23,6 +23,7 @@
       "tipo": "esp32",
       "depende_de": ["vps"],
       "alcanzable": "ping -c1 -W2 \"$NODO\"",
+      "alcance": ["firmware/"],
       "construir": "pio run",
       "desplegar": "pio run -t upload --upload-port \"$NODO\"",
       "version": "curl -fsS \"http://$NODO/version\"",

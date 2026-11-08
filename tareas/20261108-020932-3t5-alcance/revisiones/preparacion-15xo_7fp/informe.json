@@ -1,0 +1,63 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261108-020932-3t5-alcance",
+  "contexto": {
+    "head": "1f18689dac07063ffb7dfae1cc3cec3c66c0a30a",
+    "archivos_sha256": "aeafcb312abf07341680323bf867883a16669edec4d26ed60c559cb8a7546b45"
+  },
+  "documentos": {
+    "openspec/changes/20261108-020932-3t5-alcance/proposal.md": "69cf9f61bb103878b7a6e8bf3e3383b446459d37d094ac53b909a097ed8cb5a3",
+    "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_destinos_alcance.cambios_elige_los_destinos_afectados.oracle",
+    "catalogos/factory_destinos_alcance.corrida_completa.oracle",
+    "catalogos/factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada.oracle",
+    "catalogos/factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance.oracle",
+    "catalogos/factory_destinos_alcance.un_destino_declara_su_alcance_opcional.oracle",
+    "docs/despliegue.md",
+    "docs/plantillas/destinos.json",
+    "openspec/changes/20261108-020932-3t5-alcance/design.md",
+    "openspec/changes/20261108-020932-3t5-alcance/proposal.md",
+    "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md",
+    "openspec/changes/20261108-020932-3t5-alcance/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/despliegue.py",
+    "oracle_factory/parser.py",
+    "requisitos/despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados.requisito",
+    "requisitos/despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada.requisito",
+    "requisitos/despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance.requisito",
+    "requisitos/despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional.requisito",
+    "tests/datos/ayuda-cli.json",
+    "tests/test_destinos_alcance.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1245 pruebas, 14 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-020932-3t5-alcance/candidatos/d1b6a74/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-020932-3t5-alcance/candidatos/d1b6a74/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ec5d3f5: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-020932-3t5-alcance/candidatos/ec5d3f5/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Contrasté la spec, el diff y el contexto del paquete, y comprobé que no hay omisiones de archivos.",
+    "codex (gpt-6-luna): Los catálogos coinciden con los casos enumerados en tests/test_destinos_alcance.py: 14 en corrida_completa y 6 para cambios_elige_los_destinos_afectados; los demás requisitos declaran 3, 2 y 3 casos respectivamente.",
+    "codex (gpt-6-luna): La edición de tests/datos/ayuda-cli.json es legítima: actualiza el golden de ayuda de desplegar para reflejar --cambios; no altera el comportamiento probado.",
+    "codex (gpt-6-luna): La vuelta anterior codex-1.json tiene findings vacío y permanece cerrada; no encontré regresiones en esta ronda.",
+    "codex (gpt-6-luna): No ejecuté las pruebas ni mutaciones: la indicación de esta ronda limita los cambios nuevos a los catálogos y su conteo se verificó contra el paquete."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

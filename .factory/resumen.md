@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:5df52714198be97193894411fef6174231fb8ece42abd0cd549f842065febd90 -->
+<!-- oracle-factory resumen sha256:27a08107bd0d3a7a5b0bf9b4c332a53d350b81c0e66cfe109f83080448637759 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 323 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 327 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -191,6 +191,10 @@ Spec completa: [openspec/specs/despliegue/spec.md](../openspec/specs/despliegue/
 | un_fallo_deja_cada_destino_en_un_estado_dicho | funcional | `despliegue_c1f413032a7a55aa1.un_fallo_deja_cada_destino_en_un_estado_dicho` | factory_despliegue.un_fallo_deja_cada_destino_en_un_estado_dicho, factory_despliegue.corrida_completa | verde al cerrar el 2026-11-07 | 20261106-205202-8od-destinos |
 | cada_ejecucion_deja_evidencia_sin_secretos | funcional | `despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secretos` | factory_despliegue.cada_ejecucion_deja_evidencia_sin_secretos, factory_despliegue.corrida_completa | verde al cerrar el 2026-11-07 | 20261106-205202-8od-destinos |
 | sirve_para_cualquier_proyecto | funcional | `despliegue_c1f413032a7a55aa1.sirve_para_cualquier_proyecto` | factory_despliegue.sirve_para_cualquier_proyecto, factory_despliegue.corrida_completa | verde al cerrar el 2026-11-07 | 20261106-205202-8od-destinos |
+| un_destino_declara_su_alcance_opcional | funcional | `despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional` | factory_destinos_alcance.un_destino_declara_su_alcance_opcional, factory_destinos_alcance.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-020932-3t5-alcance |
+| cambios_elige_los_destinos_afectados | funcional | `despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados` | factory_destinos_alcance.cambios_elige_los_destinos_afectados, factory_destinos_alcance.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-020932-3t5-alcance |
+| el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada | funcional | `despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada` | factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada, factory_destinos_alcance.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-020932-3t5-alcance |
+| sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance | funcional | `despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance` | factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance, factory_destinos_alcance.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-020932-3t5-alcance |
 
 ### distribucion
 
@@ -1709,6 +1713,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261108-003501-eqd-activar) codex (gpt-6-luna): Leí la spec incluida en el paquete y los diffs del workflow, la plantilla, la guía y tests/test_ci_activar.py; el paquete no tiene omisiones.
 - (20261108-003501-eqd-activar) codex (gpt-6-luna): No ejecuté las pruebas ni GitHub Actions; contrasté el flujo con el shell bash -e -o pipefail y la semántica esperada de GITHUB_REF.
 - (20261108-003501-eqd-activar) codex (gpt-6-luna): El workflow también se dispara en push de tags y en esos casos emite warning al no ser refs/heads/main. La spec define expresamente el comportamiento para main, otras ramas y pull requests, pero no define una política específica para tags.
+- (20261108-020932-3t5-alcance) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261108-020932-3t5-alcance) codex (gpt-6-luna): Contrasté la spec, el diff y el contexto del paquete, y comprobé que no hay omisiones de archivos.
+- (20261108-020932-3t5-alcance) codex (gpt-6-luna): Los catálogos coinciden con los casos enumerados en tests/test_destinos_alcance.py: 14 en corrida_completa y 6 para cambios_elige_los_destinos_afectados; los demás requisitos declaran 3, 2 y 3 casos respectivamente.
+- (20261108-020932-3t5-alcance) codex (gpt-6-luna): La edición de tests/datos/ayuda-cli.json es legítima: actualiza el golden de ayuda de desplegar para reflejar --cambios; no altera el comportamiento probado.
+- (20261108-020932-3t5-alcance) codex (gpt-6-luna): La vuelta anterior codex-1.json tiene findings vacío y permanece cerrada; no encontré regresiones en esta ronda.
+- (20261108-020932-3t5-alcance) codex (gpt-6-luna): No ejecuté las pruebas ni mutaciones: la indicación de esta ronda limita los cambios nuevos a los catálogos y su conteo se verificó contra el paquete.
 
 ### Históricos
 

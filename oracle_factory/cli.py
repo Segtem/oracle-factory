@@ -906,7 +906,7 @@ def comando_destinos(como_json: bool, sin_consultar: bool) -> None:
     print("Última corrida: " + (f"{ultima['id']} — {ultima['resultado']}: {ultima['motivo']} (autorizó {ultima['autorizo']})" if ultima else "ninguna todavía"))
 
 
-def comando_desplegar(simular: bool, autorizar: bool, commit: str | None, destinos: list[str]) -> int:
+def comando_desplegar(simular: bool, autorizar: bool, commit: str | None, destinos: list[str], cambios: bool = False) -> int:
     """El plan de despliegue; sólo una persona desde su terminal lo ejecuta."""
     quien = actor()
     if autorizar and quien["tipo_actor"] != "persona":
@@ -915,10 +915,12 @@ def comando_desplegar(simular: bool, autorizar: bool, commit: str | None, destin
     try:
         decl = despliegue_mod.cargar(ROOT)
         codigo_puerta, texto_puerta = verificar_en_proceso(["puerta"])
-        plan = despliegue_mod.armar_plan(ROOT, decl, commit, destinos or None, puerta=lambda: (codigo_puerta == 0, texto_puerta))
+        plan = despliegue_mod.armar_plan(ROOT, decl, commit, destinos or None, puerta=lambda: (codigo_puerta == 0, texto_puerta), cambios=cambios)
     except (despliegue_mod.DeclaracionInvalida, despliegue_mod.DespliegueNegado) as e:
         raise FactoryError(str(e)) from e
     print(despliegue_mod.texto_plan(decl, plan))
+    if cambios and not plan["orden"]:
+        return 0
     faltan = despliegue_mod.faltan_secretos(decl, plan)
     if faltan:
         print("Faltan en el entorno estos secretos (sólo los nombres): " + ", ".join(faltan))
@@ -2442,7 +2444,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "puerta": return comando_puerta(args.hook, args.rango)
         elif args.comando == "verificar": return verificar_mod.comando(sys.modules[__name__], args.json)
         elif args.comando == "destinos": comando_destinos(args.json, args.sin_consultar)
-        elif args.comando == "desplegar": return comando_desplegar(args.simular, args.autorizar, args.commit, args.destino)
+        elif args.comando == "desplegar": return comando_desplegar(args.simular, args.autorizar, args.commit, args.destino, args.cambios)
         elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)
         elif args.comando == "unir-generado": return 0  # lo generado se queda como está y se rehace en el post-merge
         elif args.comando == "rehacer-generado": rehacer_generado()

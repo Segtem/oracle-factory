@@ -1,0 +1,75 @@
+{
+  "destinos_alcance_caso": [
+    {
+      "requisito": "un_destino_declara_su_alcance_opcional",
+      "caso": "Declaracion.test_da1_sin_alcance_se_acepta_como_hasta_ahora",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_destino_declara_su_alcance_opcional",
+      "caso": "Declaracion.test_da1_un_alcance_invalido_se_rechaza_nombrando_el_destino_y_el_campo",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_destino_declara_su_alcance_opcional",
+      "caso": "Declaracion.test_da1_un_alcance_valido_se_conserva",
+      "codigo": 0
+    },
+    {
+      "requisito": "cambios_elige_los_destinos_afectados",
+      "caso": "Eleccion.test_da2_el_alcance_se_compara_con_lo_ultimo_que_se_desplego_en_ese_destino",
+      "codigo": 0
+    },
+    {
+      "requisito": "cambios_elige_los_destinos_afectados",
+      "caso": "Eleccion.test_da2_lo_que_no_se_puede_descartar_entra_con_su_motivo",
+      "codigo": 0
+    },
+    {
+      "requisito": "cambios_elige_los_destinos_afectados",
+      "caso": "Eleccion.test_da2_se_cambia_solo_lo_de_un_destino",
+      "codigo": 0
+    },
+    {
+      "requisito": "cambios_elige_los_destinos_afectados",
+      "caso": "Eleccion.test_da2_un_elegido_arrastra_lo_que_necesita_antes_que_el_",
+      "codigo": 0
+    },
+    {
+      "requisito": "cambios_elige_los_destinos_afectados",
+      "caso": "Eleccion.test_da2_un_patron_de_git_cuenta_como_alcance",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada",
+      "caso": "Explicacion.test_da3_el_plan_dice_por_que_entra_cada_destino_y_cuales_se_omiten",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada",
+      "caso": "Explicacion.test_da3_nada_que_desplegar_no_ejecuta_ni_crea_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
+      "caso": "SinCambios.test_da4_cambios_y_destino_juntos_se_niegan",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
+      "caso": "SinCambios.test_da4_la_guia_y_la_plantilla_cuentan_el_alcance_y_sus_limites",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance",
+      "caso": "SinCambios.test_da4_sin_la_opcion_el_plan_incluye_todos_los_destinos",
+      "codigo": 0
+    }
+  ],
+  "destinos_alcance_corrida": [
+    {
+      "completa": 1,
+      "casos": 13
+    }
+  ]
+}
