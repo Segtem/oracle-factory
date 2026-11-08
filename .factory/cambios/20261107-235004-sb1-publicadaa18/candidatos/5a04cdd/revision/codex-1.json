@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a18/.factory/local/revisiones/5a04cdd-codex-1",
+  "base": "0ae87674c63ddbaa6bab06867503e66e953ce239",
+  "head": "5a04cddbe07ffbefaa105b06c037e820b77b0116",
+  "diff_sha256": "11b9f93b8a8c820581fb31ec617171184c7a5680c7ea507b0650bfc09a9b74c4",
+  "context_sha256": "7abd035b05a97fd9d4d07e1d76517c6af32de5dce26dd10e38d4d77d0d58e7c5",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos: las promesas del diff están reflejadas en los textos y las pruebas nuevas cubren la detección y las excepciones indicadas por la spec.",
+    "No ejecuté la suite ni mutaciones; revisé estáticamente los tests y el código relevante.",
+    "No pude verificar de forma independiente PyPI/GitHub, los SHA-256 completos ni la instalación de a18 desde este entorno; la afirmación de publicación se revisó como texto y como aserciones, no como hecho externo.",
+    "tests/datos/guias-texto.json: las tres líneas quitadas sustituyen el estado de preparación por la descripción publicada correspondiente; justificado por el cambio.",
+    "tests/test_docs.py: las tres líneas quitadas actualizan los textos de entrada de las pruebas de desajuste de versión al nuevo texto del README; justificado y conserva las comprobaciones.",
+    "tests/test_entrega_a18.py: el test existente se renombra y actualiza expectativas de a18 preparada a publicada; se reemplazan cinco líneas y se quitan cuatro aserciones viejas que contradecían el cambio. La comprobación de textos generales queda complementada por test_publicada_a18.py; no vi pérdida de cobertura relevante."
+  ]
+}

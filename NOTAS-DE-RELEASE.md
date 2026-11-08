@@ -1,4 +1,4 @@
-# Oracle Factory 0.1.0a18 (en preparación)
+# Oracle Factory 0.1.0a18
 
 - **`oracle-factory verificar` para CI.** De sólo lectura: sale con 0 si los cambios del proyecto están consistentes y con 1 si no, y con `--json` entrega el contrato `oracle-factory.verificar/1`. Una plantilla de workflow está en `docs/plantillas/verificar.yml` (ver `docs/ci.md`).
 - **La puerta local corre `verificar`.** Junto a `agentes`, `kb` y `resumen`; un cambio inconsistente avisa sin bloquear el push (sólo bloquean un secreto y la guía para agentes vieja), y se omite si el proyecto no tiene `.factory/config.json`. Ver `docs/puerta.md`.
@@ -6,6 +6,7 @@
 - **Una web más grande.** Menú, orden de lectura y toda la documentación en la web; capturas reales de VS Code y ejemplos de salida real en las guías; una simulación pixel art de personas y agentes trabajando a la vez.
 - **Los binarios del paquete no impiden aprobar.**
 - **Textos al día.** Las notas declaran publicada la 0.1.0a17, con su tag y su release.
+- **Publicada.** En PyPI como `oracle-factory==0.1.0a18` y en GitHub con su tag `v0.1.0a18` (pre-release); el wheel y el sdist de PyPI tienen los mismos hashes SHA-256 que los del release de GitHub, construidos desde `main` (wheel `e2d0ed02dbf5`, sdist `7f2f62fa485e`), y la instalación desde PyPI informa 0.1.0a18.
 - Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux. La extensión de VS Code sigue en 0.5.0 y se arma con `python3 editores/vscode/empaquetar.py`.
 
 # Oracle Factory 0.1.0a17

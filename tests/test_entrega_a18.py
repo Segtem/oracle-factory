@@ -43,16 +43,16 @@ class Version(unittest.TestCase):
         [propio] = [p for p in tomllib.loads((ROOT / "uv.lock").read_text(encoding="utf-8"))["package"] if p["name"] == "oracle-factory"]
         self.assertEqual(propio["version"], VERSION)
 
-    def test_ea1_los_textos_y_la_web_estan_al_dia_la_a17_figura_publicada_y_la_a18_preparada(self):
+    def test_ea1_los_textos_y_la_web_estan_al_dia_y_la_a17_y_la_a18_figuran_publicadas(self):
         self.assertEqual(docs_al_dia.problemas(ROOT), [])
         notas = (ROOT / "NOTAS-DE-RELEASE.md").read_text(encoding="utf-8")
-        self.assertTrue(notas.startswith("# Oracle Factory 0.1.0a18 (en preparación)\n"))
+        # La a18 pasó de «en preparación» a publicada (publicada-a18): el estado de cada una lo fija test_publicada_a18.
+        self.assertTrue(notas.startswith("# Oracle Factory 0.1.0a18\n"))
         self.assertIn("\n# Oracle Factory 0.1.0a17\n", "\n" + notas)
         self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a17`", notas)
-        self.assertNotIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a18`", notas)  # la a18 no se presenta como ya publicada
+        self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a18`", notas)
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        self.assertIn("Candidato en preparación `oracle-factory==0.1.0a18`", readme)
-        self.assertNotIn("Versión publicada en PyPI: `oracle-factory==0.1.0a18`", readme)
+        self.assertIn("Versión publicada en PyPI: `oracle-factory==0.1.0a18`", readme)
         self.assertIn("La versión publicada anterior es [0.1.0a17]", readme)
         for archivo in ("site/desde-cero.html", "site/colaboracion.html", "site/modos.html", "docs/colaboracion.md", "README.md"):
             self.assertIn(VERSION, (ROOT / archivo).read_text(encoding="utf-8"), archivo)
