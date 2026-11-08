@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261107-235004-sb1-publicadaa18]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «los textos de una versión publicada»
+- Medidas: `factory_publicada_a18.los_textos_declaran_publicada_la_version_a18`, `factory_publicada_a18.corrida_completa`
 - Fuente: openspec/changes/20261107-235004-sb1-publicadaa18/specs/distribucion/spec.md#los_textos_declaran_publicada_la_version_a18
 
 Tipo: funcional El sistema DEBE declarar publicada la 0.1.0a18 en las notas de release (con su línea «Publicada», su tag y su release), en el README, en la guía de colaboración y en la web, sin llamarla candidata ni en preparación, y DEBE conservar las notas de las versiones anteriores en orden, la más nueva arriba.
