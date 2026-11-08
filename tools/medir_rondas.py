@@ -41,6 +41,11 @@ def leer_json(ruta: Path):
         return None
 
 
+def informe_legible(contenido) -> bool:
+    """Un informe con su forma: un objeto cuyo `findings` es una lista de objetos (vacía vale). Otra cosa no se lee ni se cuenta como cero."""
+    return isinstance(contenido, dict) and isinstance(contenido.get("findings"), list) and all(isinstance(h, dict) for h in contenido["findings"])
+
+
 def rondas_de(eventos: list[dict]) -> dict[str, int]:
     """{candidato: número de ronda} por el primer evento de revisión de cada candidato, en orden cronológico."""
     primero: dict[str, datetime] = {}
@@ -82,14 +87,14 @@ def analizar(proyecto: Path, desde: str = "2026-10-24", origen: bool = False) ->
             candidato = informe.parts[-3]
             contenido = leer_json(informe)
             if candidato in primera:
-                if isinstance(contenido, dict):
+                if informe_legible(contenido):
                     leidos.add(candidato)
                 else:
                     cobertura["informes_ilegibles"] += 1
-            if not isinstance(contenido, dict) or candidato not in rondas:
+            if not informe_legible(contenido) or candidato not in rondas:
                 continue
             ronda = min(rondas[candidato], 5)
-            for hallazgo in contenido.get("findings") or []:
+            for hallazgo in contenido["findings"]:
                 severidad = hallazgo.get("severity")
                 por_ronda[ronda][severidad] += 1
                 if severidad in ("alta", "media"):

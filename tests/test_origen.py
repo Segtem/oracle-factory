@@ -28,16 +28,16 @@ class Origen(unittest.TestCase):
         self.raiz = Path(self._t.name)
 
     def registro(self, ident, rondas, informes=True):
-        """rondas: [[hallazgos de la ronda 1], …]; informes=False no escribe los informes y 'roto' los escribe con JSON inválido."""
+        """rondas: [[hallazgos de la ronda 1], …]; informes=False no escribe los informes, 'roto' los escribe con JSON inválido y cualquier otro valor se escribe tal cual como el contenido del informe."""
         carpeta = self.raiz / '.factory/cambios' / ident
         eventos = [{'accion': 'cambio_creado', 'cuando': '2026-10-25T00:00:00+00:00'}]
         for i, hallazgos in enumerate(rondas, 1):
             sha = f'c{i}{ident[-3:]}'
             eventos.append({'accion': 'revision_pedida', 'candidato': sha, 'cuando': f'2026-10-25T0{i}:00:00+00:00'})
-            if informes:
+            if informes is not False:
                 informe = carpeta / 'candidatos' / sha / 'revision' / 'agy-1.json'
                 informe.parent.mkdir(parents=True, exist_ok=True)
-                informe.write_text('{ esto no es json' if informes == 'roto' else json.dumps({'findings': hallazgos}))
+                informe.write_text('{ esto no es json' if informes == 'roto' else json.dumps({'findings': hallazgos} if informes is True else informes))
         eventos.append({'accion': 'cierre', 'cuando': '2026-10-26T00:00:00+00:00'})
         carpeta.mkdir(parents=True, exist_ok=True)
         (carpeta / 'factory.json').write_text(json.dumps({'id': ident, 'eventos': eventos}))
@@ -107,6 +107,22 @@ class Origen(unittest.TestCase):
         self.assertIn('1 informes ilegibles', salida)
         self.assertIn('incompleta', salida)
         self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura']['informes_ilegibles'], 1)
+
+    def test_or2_un_informe_con_findings_que_no_es_una_lista_de_objetos_es_ilegible_y_no_rompe_la_medicion(self):
+        for contenido in ({'findings': 'no es una lista'}, {'findings': [None]}, {'findings': ['x']}, {'findings': None}, {}, [], 3, None):
+            with self.subTest(contenido=contenido):
+                self.setUp()
+                self.registro('a', [[hallazgo('media', RUTAS)]], informes=contenido)
+                resultado = medir_rondas.analizar(self.raiz, origen=True)
+                self.assertEqual(resultado['cobertura'], {'candidatos_primera_ronda': 1, 'sin_informe_legible': 1, 'informes_ilegibles': 1})
+                self.assertEqual(sum(resultado['origen'].values()), 0)
+                self.assertIn('incompleta', self.correr('--origen'))
+                self.assertIn('1', self.correr())  # sin --origen tampoco se rompe
+
+    def test_or2_un_informe_sin_hallazgos_es_legible(self):
+        self.registro('a', [[]], informes={'findings': []})
+        self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura']['informes_ilegibles'], 0)
+        self.assertNotIn('incompleta', self.correr('--origen'))
 
     def test_or2_con_todos_los_informes_legibles_la_cobertura_es_completa_y_no_avisa(self):
         self.registro('a', [[hallazgo('media', RUTAS)], [hallazgo('media', NADA)]])  # la segunda ronda no cuenta para la cobertura
