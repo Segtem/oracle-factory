@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:27a08107bd0d3a7a5b0bf9b4c332a53d350b81c0e66cfe109f83080448637759 -->
+<!-- oracle-factory resumen sha256:871d491823a2b60cb24fecfe0f990cd69da1ec8ae2a98ae586e78ed64c1a53b2 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 327 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 330 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -392,6 +392,9 @@ Spec completa: [openspec/specs/practicas/spec.md](../openspec/specs/practicas/sp
 | la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo | funcional | `practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo` | factory_skill_agente.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo, factory_skill_agente.corrida_completa | verde al cerrar el 2026-11-03 | 20261103-170557-a0e-skillagente |
 | el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno | funcional | `practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno` | factory_skill_agente.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno, factory_skill_agente.corrida_completa | verde al cerrar el 2026-11-03 | 20261103-170557-a0e-skillagente |
 | la_guia_para_agentes_nombra_la_skill | funcional | `practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill` | factory_skill_agente.la_guia_para_agentes_nombra_la_skill, factory_skill_agente.corrida_completa | verde al cerrar el 2026-11-03 | 20261103-170557-a0e-skillagente |
+| el_verificador_no_pide_casos_para_un_requisito_exceptuado | funcional | `practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado` | factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado, factory_noaplica.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-115714-ohv-noaplica |
+| la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos | funcional | `practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos` | factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos, factory_noaplica.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-115714-ohv-noaplica |
+| una_excepcion_mal_escrita_no_se_ignora | funcional | `practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora` | factory_noaplica.una_excepcion_mal_escrita_no_se_ignora, factory_noaplica.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-115714-ohv-noaplica |
 
 ### procedencia
 
@@ -619,6 +622,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **PA17-004-2** (20261104-033615-oj8-publicada-a17): El detector omite «pendiente de publicación» para la a17. Aceptado por Brian Hollweg: Acepto el riesgo: El detector omite «pendiente de publicación» para la a17
 - **WPG-007** (20261106-002754-jzt-paginas): El comprobador ignora bloques marcados duplicados. Aceptado por Brian Hollweg: Acepto el riesgo: El comprobador ignora bloques marcados duplicados
 - **a18-registro-acepta-hashes-no-hexadecimales** (20261107-213354-5pg-entregaa18): La validación del registro acepta valores que no son hashes SHA-256. Aceptado por Brian Hollweg: Acepto el riesgo: La validación del registro acepta valores que no son hashes SHA-256
+- **F1** (20261108-115714-ohv-noaplica): El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~. Aceptado por Brian Hollweg: Acepto el riesgo: El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~
 
 ### Históricos
 
@@ -1719,6 +1723,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261108-020932-3t5-alcance) codex (gpt-6-luna): La edición de tests/datos/ayuda-cli.json es legítima: actualiza el golden de ayuda de desplegar para reflejar --cambios; no altera el comportamiento probado.
 - (20261108-020932-3t5-alcance) codex (gpt-6-luna): La vuelta anterior codex-1.json tiene findings vacío y permanece cerrada; no encontré regresiones en esta ronda.
 - (20261108-020932-3t5-alcance) codex (gpt-6-luna): No ejecuté las pruebas ni mutaciones: la indicación de esta ronda limita los cambios nuevos a los catálogos y su conteo se verificó contra el paquete.
+- (20261108-115714-ohv-noaplica) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261108-115714-ohv-noaplica) codex (gpt-6-luna): Revisé la spec, la propuesta y todos los parches de texto incluidos en el paquete; omissions está vacío.
+- (20261108-115714-ohv-noaplica) codex (gpt-6-luna): No ejecuté la suite ni herramientas de Oracle; la reproducción del hallazgo es por inspección estática.
+- (20261108-115714-ohv-noaplica) codex (gpt-6-luna): La modificación declarada de tests/test_verificador_generico.py cambia sólo la regex que fijaba el límite documentado; está justificada por este cambio, aunque la nueva aserción no prueba el caso de bloques ~~~.
+- (20261108-115714-ohv-noaplica) codex (gpt-6-luna): No hice mutaciones ejecutables: el checkout de revisión disponible en este entorno sólo contiene los archivos de instrucciones y no permite correr el candidato completo.
+- (20261108-115714-ohv-noaplica) codex (gpt-6-luna): Hallazgo bajo de heurística: cierre la clase comparando el tratamiento de fences del lector de excepciones con el parser de requisitos y agregando un caso con ~~~.
 
 ### Históricos
 

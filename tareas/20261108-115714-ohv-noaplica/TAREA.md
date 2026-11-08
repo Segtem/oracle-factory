@@ -1,6 +1,6 @@
 # El verificador respeta «Pruebas: no aplica»
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -71,3 +71,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-08 12:24:57 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261108-115714-ohv-noaplica/oracle-veredicto.txt.
+
+### Nota (2026-11-08 12:27:10 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
