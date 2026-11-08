@@ -1,0 +1,60 @@
+{
+  "noaplica_caso": [
+    {
+      "requisito": "el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+      "caso": "Contrato.test_na1_los_demas_requisitos_siguen_exigiendo_casos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+      "caso": "Contrato.test_na1_un_caso_para_el_requisito_exceptuado_falla_y_lo_nombra",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+      "caso": "Contrato.test_na1_un_requisito_exceptuado_sin_casos_queda_fuera_del_contrato_y_los_demas_conservan_su_numero",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+      "caso": "EvidenciaYCatalogos.test_na2_la_evidencia_nombra_solo_a_los_requisitos_con_casos_y_la_corrida_cuenta_los_suyos",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+      "caso": "EvidenciaYCatalogos.test_na2_los_catalogos_no_incluyen_al_exceptuado",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+      "caso": "EvidenciaYCatalogos.test_na2_un_requisito_que_pasa_a_estar_exceptuado_pierde_su_catalogo_y_los_demas_no_cambian",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_mal_escrita_no_se_ignora",
+      "caso": "Contrato.test_na3_con_todos_los_requisitos_exceptuados_no_hay_nada_que_verificar",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_mal_escrita_no_se_ignora",
+      "caso": "Contrato.test_na3_una_excepcion_repetida_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_mal_escrita_no_se_ignora",
+      "caso": "Contrato.test_na3_una_excepcion_sin_motivo_falla_con_el_error_del_lector",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_mal_escrita_no_se_ignora",
+      "caso": "Contrato.test_na3_una_linea_pruebas_con_otra_cosa_falla_con_el_error_del_lector",
+      "codigo": 0
+    }
+  ],
+  "noaplica_corrida": [
+    {
+      "completa": 1,
+      "casos": 10
+    }
+  ]
+}
