@@ -1,4 +1,4 @@
 requisito modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una:
     texto "Tipo: funcional El sistema DEBE ofrecer `oracle-factory autonomia`, de solo lectura y con `--json`, que muestre las cuatro etapas (la construcción con el modo por defecto del proyecto), el modo de cada una, quién decide por la vía de agente, y si hoy existe un comando de Factory que la aplique."
     fuente "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md#autonomia_muestra_las_etapas_y_quien_decide_en_cada_una"
-    sin_medir "sin medida todavía; escenarios: «el estado por defecto», «la salida estructurada»"
+    medido_por factory_etapas.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una, factory_etapas.corrida_completa

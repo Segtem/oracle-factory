@@ -218,7 +218,12 @@ def config_proyecto() -> dict:
               "oracle": datos.get("oracle", "."),
               "confiar_escalares": datos.get("confiar_escalares", False),
               "rag": datos.get("rag", {}),
-              "idioma": datos.get("idioma", plantillas.POR_DEFECTO)}
+              "idioma": datos.get("idioma", plantillas.POR_DEFECTO),
+              "autonomia": datos.get("autonomia", {})}
+    try:
+        config["autonomia"] = modos.autonomia(config["autonomia"])
+    except ValueError as e:
+        raise FactoryError(f"{ruta}: {e}") from e
     try:
         plantillas.validar(config["idioma"])
     except (ValueError, TypeError) as e:
@@ -906,10 +911,58 @@ def comando_destinos(como_json: bool, sin_consultar: bool) -> None:
     print("Última corrida: " + (f"{ultima['id']} — {ultima['resultado']}: {ultima['motivo']} (autorizó {ultima['autorizo']})" if ultima else "ninguna todavía"))
 
 
+# Qué comando de Factory aplica hoy la autonomía de cada etapa; integración y publicación se hacen con git y gh.
+APLICA_AUTONOMIA = {"construccion": "oracle-factory modo ID MODO", "integracion": None, "publicacion": None,
+                    "produccion": "oracle-factory desplegar --autorizar"}
+
+
+def filas_autonomia() -> list[dict]:
+    """Las cuatro etapas con su modo, quién decide por la vía de agente y si hoy hay un comando que la aplique."""
+    config = config_proyecto()
+    quien = {"autonomo": "agente", "confirmacion": "persona (el agente propone)", "funcional": "persona en lo funcional"}
+    filas = [{"etapa": "construccion", "modo": config["modo_por_defecto"], "decide": quien[config["modo_por_defecto"]]}]
+    filas += [{"etapa": e, "modo": m, "decide": "agente" if modos.via_agente_etapa(m) == "decide" else "persona"}
+              for e, m in config["autonomia"].items()]
+    return [{**f, "aplica_hoy": APLICA_AUTONOMIA[f["etapa"]] is not None, "comando": APLICA_AUTONOMIA[f["etapa"]]} for f in filas]
+
+
+def comando_autonomia(etapa: str | None, modo: str | None, como_json: bool) -> int:
+    """Muestra quién decide en cada etapa; con etapa y modo, una persona la cambia."""
+    if etapa and not modo:
+        raise FactoryError(f"indicá el modo de la etapa {etapa}: {' o '.join(modos.MODOS_ETAPA)}")
+    if etapa:
+        if AGENTE:
+            raise FactoryError(f"cambiar la autonomía de una etapa lo decide una persona, sin --agente: {AGENTE} no puede dársela a un agente")
+        if config_proyecto()["autonomia"][etapa] == modo:
+            print(f"La etapa {etapa} ya está en {modo}.")
+            return 0
+        confirmar_persona((f"Poner la etapa {etapa} en {modo}", f"Poner {etapa} en {modo}",
+                           "un agente " + ("podrá decidir en esa etapa" if modo == "autonomo" else "ya no podrá decidir en esa etapa")),
+                          "cambio de autonomía cancelado; la configuración sigue igual")
+        ruta = ruta_segura(ROOT / estructura.DIR / "config.json")
+        if not ruta.is_file():
+            raise FactoryError(f"no hay {estructura.DIR}/config.json: iniciá el proyecto con oracle-factory init")
+        crudo = ruta.read_bytes()
+        datos = json.loads(crudo)
+        datos["autonomia"] = {**(datos.get("autonomia") or {}), etapa: modo}
+        escribir_atomico(ruta, (json.dumps(datos, indent=2, ensure_ascii=False) + "\n").encode(), esperado=crudo)
+        print(f"La etapa {etapa} quedó en {modo}. El cambio está en {estructura.DIR}/config.json: commitealo para que valga en el equipo.")
+        return 0
+    filas = filas_autonomia()
+    if como_json:
+        print(json.dumps(filas, ensure_ascii=False, indent=2))
+        return 0
+    print("Autonomía por etapa (quién decide por la vía de agente; una persona decide siempre):")
+    for f in filas:
+        print(f"  {f['etapa']:13} {f['modo']:13} decide: {f['decide']:30} " + (f"lo aplica: {f['comando']}" if f["aplica_hoy"] else "sin comando de Factory todavía"))
+    return 0
+
+
 def comando_desplegar(simular: bool, autorizar: bool, commit: str | None, destinos: list[str], cambios: bool = False) -> int:
     """El plan de despliegue; sólo una persona desde su terminal lo ejecuta."""
     quien = actor()
-    if autorizar and quien["tipo_actor"] != "persona":
+    autonoma = modos.via_agente_etapa(config_proyecto()["autonomia"]["produccion"]) == "decide"  # la etapa producción en `autonomo`
+    if autorizar and quien["tipo_actor"] != "persona" and not (autonoma and quien["tipo_actor"] == "agente"):
         raise FactoryError("autorizar un despliegue lo hace una persona desde su terminal: un agente puede armar y simular el plan "
                            "(oracle-factory desplegar --simular), no ejecutarlo")
     try:
@@ -2444,6 +2497,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "puerta": return comando_puerta(args.hook, args.rango)
         elif args.comando == "verificar": return verificar_mod.comando(sys.modules[__name__], args.json)
         elif args.comando == "destinos": comando_destinos(args.json, args.sin_consultar)
+        elif args.comando == "autonomia": return comando_autonomia(args.etapa, args.modo, args.json)
         elif args.comando == "desplegar": return comando_desplegar(args.simular, args.autorizar, args.commit, args.destino, args.cambios)
         elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)
         elif args.comando == "unir-generado": return 0  # lo generado se queda como está y se rehace en el post-merge

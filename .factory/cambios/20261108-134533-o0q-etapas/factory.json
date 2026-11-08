@@ -62,6 +62,76 @@
         "modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa",
         "modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T13:59:32.582677+00:00",
+      "requisito": "modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona",
+      "medidas": [
+        "factory_etapas.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona",
+        "factory_etapas.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T13:59:34.426392+00:00",
+      "requisito": "modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma",
+      "medidas": [
+        "factory_etapas.un_agente_solo_decide_en_una_etapa_autonoma",
+        "factory_etapas.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T13:59:36.287008+00:00",
+      "requisito": "modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una",
+      "medidas": [
+        "factory_etapas.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una",
+        "factory_etapas.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T13:59:38.152468+00:00",
+      "requisito": "modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa",
+      "medidas": [
+        "factory_etapas.solo_una_persona_cambia_la_autonomia_de_una_etapa",
+        "factory_etapas.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T13:59:40.005321+00:00",
+      "requisito": "modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion",
+      "medidas": [
+        "factory_etapas.desplegar_autorizar_respeta_la_autonomia_de_produccion",
+        "factory_etapas.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -72,5 +142,76 @@
     "modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona": {
+      "sha256": "22149f0dc49cb5cd374cb3d480e171eef456b066b038fc221d3782f6e71647b4",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T13:59:32.535000+00:00",
+      "catalogos": {
+        "factory_etapas.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona": "0dce8dc6a149af3c7feb86763ca2de98476fa6af22a117f05c42605621cc9e62",
+        "factory_etapas.corrida_completa": "6f2cc9efef0a6c106420b2359600afac2a567e109a1c1869c7cc5b395bc65766"
+      },
+      "archivos_catalogo": {
+        "factory_etapas.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona": "catalogos/factory_etapas.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona.oracle",
+        "factory_etapas.corrida_completa": "catalogos/factory_etapas.corrida_completa.oracle"
+      }
+    },
+    "modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma": {
+      "sha256": "cc37cce42ee2fcdb25adb4d6f10cf82433de33014dcfea12479a28ceb0d60fb3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T13:59:34.378282+00:00",
+      "catalogos": {
+        "factory_etapas.un_agente_solo_decide_en_una_etapa_autonoma": "feeeeb2ef76dbadd3460fe8d23e6e36be80090c038c7558bac16168a36760bc8",
+        "factory_etapas.corrida_completa": "6f2cc9efef0a6c106420b2359600afac2a567e109a1c1869c7cc5b395bc65766"
+      },
+      "archivos_catalogo": {
+        "factory_etapas.un_agente_solo_decide_en_una_etapa_autonoma": "catalogos/factory_etapas.un_agente_solo_decide_en_una_etapa_autonoma.oracle",
+        "factory_etapas.corrida_completa": "catalogos/factory_etapas.corrida_completa.oracle"
+      }
+    },
+    "modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una": {
+      "sha256": "b3c1159c8d3e9c954d5315ca9507431111b48d8b8cb731f452c411de285988f3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T13:59:36.239667+00:00",
+      "catalogos": {
+        "factory_etapas.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una": "a19239f67b5713a2206e75eba451664a6c52333aabe1ec60b679e532523246a9",
+        "factory_etapas.corrida_completa": "6f2cc9efef0a6c106420b2359600afac2a567e109a1c1869c7cc5b395bc65766"
+      },
+      "archivos_catalogo": {
+        "factory_etapas.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una": "catalogos/factory_etapas.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una.oracle",
+        "factory_etapas.corrida_completa": "catalogos/factory_etapas.corrida_completa.oracle"
+      }
+    },
+    "modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa": {
+      "sha256": "786f44872dac36b3f391de366d18eae25eeee48f1e3f129c1c83f8c4b701823c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T13:59:38.104081+00:00",
+      "catalogos": {
+        "factory_etapas.solo_una_persona_cambia_la_autonomia_de_una_etapa": "cd4b97f5bc6419c2291ad954041aceaed21d3e0cf19c0867ce4340173141ddb5",
+        "factory_etapas.corrida_completa": "6f2cc9efef0a6c106420b2359600afac2a567e109a1c1869c7cc5b395bc65766"
+      },
+      "archivos_catalogo": {
+        "factory_etapas.solo_una_persona_cambia_la_autonomia_de_una_etapa": "catalogos/factory_etapas.solo_una_persona_cambia_la_autonomia_de_una_etapa.oracle",
+        "factory_etapas.corrida_completa": "catalogos/factory_etapas.corrida_completa.oracle"
+      }
+    },
+    "modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion": {
+      "sha256": "399061d167635cf22d71df7093bf42c8f2f902003bcdf86decb7e4e63fa83518",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T13:59:39.957565+00:00",
+      "catalogos": {
+        "factory_etapas.desplegar_autorizar_respeta_la_autonomia_de_produccion": "127da90ecbaee9093580be2efe4c4119ed786416b2899b8c81028c623a00802b",
+        "factory_etapas.corrida_completa": "6f2cc9efef0a6c106420b2359600afac2a567e109a1c1869c7cc5b395bc65766"
+      },
+      "archivos_catalogo": {
+        "factory_etapas.desplegar_autorizar_respeta_la_autonomia_de_produccion": "catalogos/factory_etapas.desplegar_autorizar_respeta_la_autonomia_de_produccion.oracle",
+        "factory_etapas.corrida_completa": "catalogos/factory_etapas.corrida_completa.oracle"
+      }
+    }
+  }
 }

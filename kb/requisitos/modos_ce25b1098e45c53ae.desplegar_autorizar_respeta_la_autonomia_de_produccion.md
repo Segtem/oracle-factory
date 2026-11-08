@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-134533-o0q-etapas]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «producción con confirmación», «producción autónoma», «producción autónoma con un plan negado»
+- Medidas: `factory_etapas.desplegar_autorizar_respeta_la_autonomia_de_produccion`, `factory_etapas.corrida_completa`
 - Fuente: openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md#desplegar_autorizar_respeta_la_autonomia_de_produccion
 
 Tipo: funcional El sistema DEBE permitir que un agente ejecute `desplegar --autorizar` solo cuando la etapa `produccion` está en `autonomo`, registrando la autorización a nombre del agente, y DEBE seguir negándoselo en cualquier otro caso con el mismo mensaje de hoy; el plan, la puerta y la simulación se siguen exigiendo igual.

@@ -34,6 +34,26 @@ Lo que pasa cuando un agente toma cada decisión (con `--agente`), según el mod
 
 Abandonar un cambio (`oracle-factory abandonar ID`) lo decide siempre una persona; un agente sólo puede proponer el motivo.
 
+### Autonomía por etapa
+
+El modo de un cambio dice quién decide cuando se **construye**. Lo que viene después tiene su propia autonomía, por etapa, en la clave `autonomia` de `.factory/config.json`:
+
+- `construccion`: la spec, las medidas, la revisión y el cierre. Lo aplica el modo del cambio (`modo_por_defecto`, `modo ID MODO`).
+- `integracion`: integrar en main. Todavía sin comando de Factory: se hace con git.
+- `publicacion`: empujar, el tag y el release. Todavía sin comando de Factory: se hace con git y gh.
+- `produccion`: `desplegar --autorizar` a los destinos. Lo aplica `oracle-factory desplegar --autorizar`.
+
+Cada etapa posterior a la construcción está en `confirmacion` (decide una persona; es lo que pasa si no se declara) o en `autonomo` (puede decidir un agente, registrado a su nombre). `funcional` no existe para estas etapas.
+
+```json
+{ "modo_por_defecto": "confirmacion", "autonomia": { "produccion": "autonomo" } }
+```
+
+- `oracle-factory autonomia` (con `--json`) muestra las cuatro etapas, su modo y quién decide. Es de sólo lectura.
+- `oracle-factory autonomia produccion autonomo` cambia una etapa. Lo decide siempre una persona, con una confirmación en su terminal; un agente con `--agente` no puede darse autonomía a sí mismo. El cambio queda en `.factory/config.json`: hay que commitearlo.
+- Con `produccion` en `autonomo`, un agente puede correr `desplegar --autorizar`. El plan, la puerta, la simulación, la prueba de cada destino y la del conjunto se exigen igual, y el rollback sigue vigente. La corrida queda registrada con el agente como quien autorizó.
+- Subir un paquete a PyPI no es una etapa de Factory y sigue siendo de una persona.
+
 ## Requisitos funcionales y no funcionales
 
 Cada requisito de la spec declara su tipo en la línea que sigue al título:

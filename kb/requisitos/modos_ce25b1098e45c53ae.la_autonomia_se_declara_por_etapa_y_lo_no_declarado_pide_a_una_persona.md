@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-134533-o0q-etapas]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «sin la clave», «una etapa declarada», «una etapa o un modo desconocidos»
+- Medidas: `factory_etapas.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona`, `factory_etapas.corrida_completa`
 - Fuente: openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md#la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona
 
 Tipo: funcional El sistema DEBE admitir en `.factory/config.json` una clave opcional `autonomia` con las etapas `integracion`, `publicacion` y `produccion`, cada una en `confirmacion` o `autonomo`, DEBE tratar como `confirmacion` toda etapa no declarada, DEBE rechazar con un error que nombre el archivo y el valor una etapa o un modo desconocidos, y NO DEBE cambiar nada para un proyecto sin esa clave.

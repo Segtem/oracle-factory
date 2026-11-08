@@ -14,6 +14,9 @@ POR_DEFECTO = 'confirmacion'
 INTERVENCION = {'autonomo': 0, 'funcional': 1, 'confirmacion': 2}
 TIPOS = ('funcional', 'no funcional')
 DECISIONES = ('spec', 'medidas', 'revision', 'cierre')
+# Las etapas posteriores a la construcción (la construcción es el modo del cambio) y los modos que admiten: `funcional` no tiene sentido para operaciones.
+ETAPAS = ('integracion', 'publicacion', 'produccion')
+MODOS_ETAPA = ('confirmacion', 'autonomo')
 
 
 class TipoInvalido(ValueError):
@@ -36,6 +39,25 @@ def via_agente(modo: str, decision: str, tipos: list[str]) -> str:
         return 'propone'
     # funcional: la persona decide lo funcional; el agente, lo no funcional.
     return 'rechaza' if 'funcional' in tipos else 'decide'
+
+
+def via_agente_etapa(modo: str) -> str:
+    """'decide' si la etapa es autónoma; si no, 'rechaza': lo decide una persona (que decide siempre)."""
+    if modo not in MODOS_ETAPA:
+        raise ValueError(f'modo de etapa desconocido: {modo!r}')
+    return 'decide' if modo == 'autonomo' else 'rechaza'
+
+
+def autonomia(valor) -> dict[str, str]:
+    """La clave `autonomia` de la configuración completa (lo no declarado pide a una persona); ValueError con lo que está mal."""
+    if not isinstance(valor, dict):
+        raise ValueError(f'autonomia es un objeto con las etapas {", ".join(ETAPAS)}; dice {valor!r}')
+    for etapa, modo in valor.items():
+        if etapa not in ETAPAS:
+            raise ValueError(f'autonomia: la etapa {etapa!r} no existe; hay {", ".join(ETAPAS)}')
+        if modo not in MODOS_ETAPA:
+            raise ValueError(f'autonomia.{etapa}: el modo {modo!r} no existe para una etapa; hay {", ".join(MODOS_ETAPA)}')
+    return {etapa: valor.get(etapa, 'confirmacion') for etapa in ETAPAS}
 
 
 def baja_intervencion(actual: str, nuevo: str) -> bool:
