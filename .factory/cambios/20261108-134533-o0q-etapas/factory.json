@@ -2,7 +2,7 @@
   "id": "20261108-134533-o0q-etapas",
   "titulo": "Autonomía por etapa: construcción, integración, publicación y producción",
   "capacidad": "modos",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md",
   "spec_sha256": "3865ceb987cccda96d376d58ab8d44b7f171dcccbd62df78ba8c2b7ad2652cf8",
   "spec_aprobada": {
@@ -290,6 +290,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "2ff7a02c886aaddc383659dfdc036934dd94a84208c2e97dc50733dd8ed99ad3"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T15:01:34.238680+00:00",
+      "oracle": ".factory/cambios/20261108-134533-o0q-etapas/oracle-veredicto.txt",
+      "revision": "tareas/20261108-134533-o0q-etapas/revisiones/registro-z_9p1a4s/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T15:01:34.277300+00:00",
+      "capacidad": "modos",
+      "spec": "openspec/specs/modos/spec.md"
     }
   ],
   "tipos": {
@@ -382,5 +402,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T15:01:34.179185+00:00"
+  },
+  "archivo": {
+    "capacidad": "modos",
+    "spec": "openspec/specs/modos/spec.md",
+    "cuando": "2026-11-08T15:01:34.277289+00:00"
+  }
 }

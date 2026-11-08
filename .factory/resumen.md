@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:647e7c8b8638ae252e29d056ea4026f57a73468d470ecedb212aa5e6ee13c060 -->
+<!-- oracle-factory resumen sha256:bf3a20f64e98d1544ff76491b9f8ee230d02877b548a844d1c3200176568cb2f -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 331 requisitos vigentes · 1 cambio abierto
+32 capacidades · 336 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -330,6 +330,11 @@ Spec completa: [openspec/specs/modos/spec.md](../openspec/specs/modos/spec.md)
 | cambio de modo con invalidacion | funcional | `modos_c45a4802846932222.cambio_de_modo_con_invalidacion` | factory_modos.cambio_de_modo_con_invalidacion, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
 | una decisión de medidas deja de valer si cambia el catálogo | funcional | `modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo` | factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo, factory_catalogo.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-140406-catalogo-confirmado |
 | una propuesta de medidas no se confirma si cambió el catálogo | funcional | `modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo` | factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo, factory_catalogo.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-140406-catalogo-confirmado |
+| la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona | funcional | `modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona` | factory_etapas.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona, factory_etapas.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-134533-o0q-etapas |
+| un_agente_solo_decide_en_una_etapa_autonoma | funcional | `modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma` | factory_etapas.un_agente_solo_decide_en_una_etapa_autonoma, factory_etapas.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-134533-o0q-etapas |
+| autonomia_muestra_las_etapas_y_quien_decide_en_cada_una | funcional | `modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una` | factory_etapas.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una, factory_etapas.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-134533-o0q-etapas |
+| solo_una_persona_cambia_la_autonomia_de_una_etapa | funcional | `modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa` | factory_etapas.solo_una_persona_cambia_la_autonomia_de_una_etapa, factory_etapas.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-134533-o0q-etapas |
+| desplegar_autorizar_respeta_la_autonomia_de_produccion | funcional | `modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion` | factory_etapas.desplegar_autorizar_respeta_la_autonomia_de_produccion, factory_etapas.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-134533-o0q-etapas |
 
 ### onboarding
 
@@ -566,14 +571,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261108-134533-o0q-etapas — Autonomía por etapa: construcción, integración, publicación y producción
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `modos` · [propuesta](../openspec/changes/20261108-134533-o0q-etapas/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -1742,6 +1740,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261108-124048-rv2-marcas) codex (gpt-6-luna): Corrí `python -m unittest tests.test_marcas </dev/null` (5 pruebas); no ejecuté la suite completa.
 - (20261108-124048-rv2-marcas) codex (gpt-6-luna): Realicé dos mutaciones temporales para marcadores duplicados con variación de espacios y mayúsculas; no modifiqué el checkout.
 - (20261108-124048-rv2-marcas) codex (gpt-6-luna): El paquete no omite archivos binarios.
+- (20261108-134533-o0q-etapas) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261108-134533-o0q-etapas) codex (gpt-6-luna): Hallazgos: ninguno tras contrastar los cinco requisitos de la spec con los cambios y pruebas del paquete.
+- (20261108-134533-o0q-etapas) codex (gpt-6-luna): No ejecuté pruebas ni mutaciones; la revisión fue estática del diff, contexto, rutas de decisión, configuración, despliegue y escenarios de tests/test_etapas.py.
+- (20261108-134533-o0q-etapas) codex (gpt-6-luna): tests/test_agentes.py: la edición agrega ‘autonomia ETAPA MODO’ a la prueba que verifica que la guía lista los comandos reservados a una persona; está justificada por la nueva orden de la guía.
+- (20261108-134533-o0q-etapas) codex (gpt-6-luna): tests/datos/ayuda-cli.json: regeneración de ayuda para reflejar el subcomando autonomia y el texto actualizado de desplegar; está justificada por el cambio de CLI.
+- (20261108-134533-o0q-etapas) codex (gpt-6-luna): El paquete no omite archivos binarios (omissions vacío).
 
 ### Históricos
 
