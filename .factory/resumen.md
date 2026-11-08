@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:78b04e8b5a2c6787837ef951e6836c64b5e2a2365615d6a29d06a5f2a740586f -->
+<!-- oracle-factory resumen sha256:f954f426aac7cc12dfac4c08910613bdd3b40966d243ecc38952435a9a0ef1d8 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 318 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 320 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -216,6 +216,8 @@ Spec completa: [openspec/specs/distribucion/spec.md](../openspec/specs/distribuc
 | la_version_a18_es_coherente_y_declara_su_estado | funcional | `distribucion_c0803bc5aff1b2bf1.la_version_a18_es_coherente_y_declara_su_estado` | factory_entrega_a18.la_version_a18_es_coherente_y_declara_su_estado, factory_entrega_a18.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-213354-5pg-entregaa18 |
 | el_wheel_a18_instalado_ofrece_lo_nuevo | funcional | `distribucion_c0803bc5aff1b2bf1.el_wheel_a18_instalado_ofrece_lo_nuevo` | factory_entrega_a18.el_wheel_a18_instalado_ofrece_lo_nuevo, factory_entrega_a18.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-213354-5pg-entregaa18 |
 | la_entrega_a18_registra_sus_hashes_y_sus_limites | funcional | `distribucion_c0803bc5aff1b2bf1.la_entrega_a18_registra_sus_hashes_y_sus_limites` | factory_entrega_a18.la_entrega_a18_registra_sus_hashes_y_sus_limites, factory_entrega_a18.corrida_completa | verde al cerrar el 2026-11-07 | 20261107-213354-5pg-entregaa18 |
+| los_textos_declaran_publicada_la_version_a18 | funcional | `distribucion_ce1b0aba1db172723.los_textos_declaran_publicada_la_version_a18` | factory_publicada_a18.los_textos_declaran_publicada_la_version_a18, factory_publicada_a18.corrida_completa | verde al cerrar el 2026-11-08 | 20261107-235004-sb1-publicadaa18 |
+| se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18 | funcional | `distribucion_ce1b0aba1db172723.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18` | factory_publicada_a18.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18, factory_publicada_a18.corrida_completa | verde al cerrar el 2026-11-08 | 20261107-235004-sb1-publicadaa18 |
 
 ### estructura
 
@@ -1693,6 +1695,13 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261107-213354-5pg-entregaa18) codex (gpt-6-luna): Las modificaciones de tests/datos/guias-texto.json y tests/test_docs.py actualizan las versiones candidatas en los fixtures y expectativas para probar discrepancias respecto de la nueva versión; parecen justificadas y no eliminan el tipo de escenario.
 - (20261107-213354-5pg-entregaa18) codex (gpt-6-luna): tests/test_entrega_a17.py pasa a tests/test_entrega_a18.py y actualiza versión/comandos; tests/test_publicada_a17.py y el test renombrado de publicación se quitan como pruebas específicas del ciclo a17. El reemplazo comprueba que a17 figure publicada y a18 preparada, pero omite las aserciones independientes de tag/release y de detección de divergencias candidatas/publicadas de pa1–pa2; su eliminación se entiende por el avance de versión, aunque reduce esa cobertura de regresión.
 - (20261107-213354-5pg-entregaa18) codex (gpt-6-luna): Hallazgo adicional: la validación de hashes acepta cualquier cadena de 64 caracteres; la creación habitual del registro sí calcula SHA-256.
+- (20261107-235004-sb1-publicadaa18) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261107-235004-sb1-publicadaa18) codex (gpt-6-luna): Sin hallazgos: las promesas del diff están reflejadas en los textos y las pruebas nuevas cubren la detección y las excepciones indicadas por la spec.
+- (20261107-235004-sb1-publicadaa18) codex (gpt-6-luna): No ejecuté la suite ni mutaciones; revisé estáticamente los tests y el código relevante.
+- (20261107-235004-sb1-publicadaa18) codex (gpt-6-luna): No pude verificar de forma independiente PyPI/GitHub, los SHA-256 completos ni la instalación de a18 desde este entorno; la afirmación de publicación se revisó como texto y como aserciones, no como hecho externo.
+- (20261107-235004-sb1-publicadaa18) codex (gpt-6-luna): tests/datos/guias-texto.json: las tres líneas quitadas sustituyen el estado de preparación por la descripción publicada correspondiente; justificado por el cambio.
+- (20261107-235004-sb1-publicadaa18) codex (gpt-6-luna): tests/test_docs.py: las tres líneas quitadas actualizan los textos de entrada de las pruebas de desajuste de versión al nuevo texto del README; justificado y conserva las comprobaciones.
+- (20261107-235004-sb1-publicadaa18) codex (gpt-6-luna): tests/test_entrega_a18.py: el test existente se renombra y actualiza expectativas de a18 preparada a publicada; se reemplazan cinco líneas y se quitan cuatro aserciones viejas que contradecían el cambio. La comprobación de textos generales queda complementada por test_publicada_a18.py; no vi pérdida de cobertura relevante.
 
 ### Históricos
 
