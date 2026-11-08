@@ -76,6 +76,7 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('--autorizar', action='store_true', help='ejecutar el plan: lo autoriza una persona desde su terminal, nunca un agente')
     q.add_argument('--commit', help='commit a desplegar (por defecto, la punta de la rama de despliegue; tiene que estar en ella)')
     q.add_argument('--destino', action='append', default=[], help='desplegar sólo este destino (se repite)')
+    q.add_argument('--cambios', action='store_true', help='elegir los destinos con cambios dentro de su alcance desde su última versión desplegada (no se combina con --destino)')
     q = sub.add_parser('trailer', help='(lo llama el hook prepare-commit-msg) agregar «Cambio: ID» al mensaje de un commit')
     q.add_argument('archivo'); q.add_argument('fuente', nargs='*')
     p = sub.add_parser('tablero', help='el tablero de comando: cada cambio abierto con su línea de tiempo, hallazgos y métricas')
