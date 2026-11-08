@@ -223,6 +223,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "b47ad9e1345c"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T14:15:07.383188+00:00",
+      "decision": "aprobar",
+      "candidato": "d2f0ec3"
     }
   ],
   "tipos": {
@@ -314,5 +324,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Codex sin hallazgos sobre d2f0ec3. Evidencia 1276 pruebas OK, 16 casos. Toca reglas de decisión (cli.py, modos.py): camino completo. Por defecto el cambio es cero: las tres etapas siguen en confirmacion y desplegar --autorizar sigue siendo solo de una persona hasta que una persona ponga produccion en autonomo con el comando. Cambiar la autonomía de una etapa es solo de una persona con confirmación en su terminal; un agente no puede. 12 mutaciones propias, 11 detectadas; la que sobrevive es equivalente (quitar el rechazo explícito a un agente en comando_autonomia: confirmar_persona→exigir_terminal ya lo niega). Declaro pruebas existentes tocadas, solo de forma aditiva o regenerada: test_agentes.py suma la orden 'autonomia ETAPA MODO' a las de persona que recorre; ayuda-cli.json regenerado (índice, desplegar y autonomia). Limite: integración y publicación no tienen comando de Factory que las aplique todavía; la política queda declarada y la salida lo dice. Seguimiento: un agente podría editar a mano .factory/config.json (la guía ya dice que no se edita a mano .factory/) y así darse autonomía; no hay una guarda técnica contra eso, solo la regla escrita.",
+      "candidato": "d2f0ec3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T14:15:07.383174+00:00"
+    }
+  }
 }
