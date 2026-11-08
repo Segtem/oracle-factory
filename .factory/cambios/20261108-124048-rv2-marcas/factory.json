@@ -81,6 +81,32 @@
         "factory_marcas.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado",
         "factory_marcas.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T13:07:06.283328+00:00",
+      "revisor": "codex",
+      "candidato": "e898903",
+      "lanzamiento": "329799c0fa0e"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T13:08:58.275704+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "e898903",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "329799c0fa0e"
     }
   ],
   "tipos": {

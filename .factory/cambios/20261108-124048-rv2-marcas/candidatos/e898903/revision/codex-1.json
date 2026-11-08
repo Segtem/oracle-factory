@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-marcadores-duplicados/.factory/local/revisiones/e898903-codex-1",
+  "base": "0c9840f51db31128f7dca93f34f573f9b2e76ee2",
+  "head": "e8989039d734ff884e391563f7a04dda6c19dca5",
+  "diff_sha256": "ac9e3fa5ec1b2d00822ed49f3c47a7f4acd5d0a9475d3291fb5d59ddff696d93",
+  "context_sha256": "e8f760dfdbce3a9a117edfc37101f6f7d8e7da8a284721f4b3a0fb521c80df1e",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "C1",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Una pareja duplicada con marcadores no canónicos pasa inadvertida",
+      "explanation": "El control sólo cuenta las cadenas exactas `<!-- bloque -->` y `<!-- /bloque -->`. Si se agrega una segunda pareja completa usando espacios extra o mayúsculas en ambos marcadores, el conteo del marcador canónico sigue en uno y `_actual` sigue comparando únicamente la primera pareja canónica; `problemas()` devuelve []. Así el comprobador no rechaza todas las páginas en que aparecen marcadores del bloque más de una vez, según la promesa de la spec. La escritura genera la forma canónica, por lo que considero el caso heurístico y de severidad baja.",
+      "location": {
+        "file": "tools/sitio_paginas.py",
+        "start_line": 177,
+        "end_line": 179,
+        "side": "head"
+      },
+      "trigger": "En una copia, anexar a `modos.html` una segunda pareja: `<!--  menu --><nav>x</nav><!-- /menu  -->` (espacio adicional), o `<!-- MENU --><nav>x</nav><!-- /MENU -->`.",
+      "evidence": "En ambas mutaciones temporales `problemas(dest)` devolvió `[]`. La línea 178 sólo cuenta dos literales exactos; `_actual` en el código sin cambios usa regex literal para encontrar la primera pareja canónica. En cambio, las cinco pruebas `tests.test_marcas` pasan porque insertan marcadores canónicos exactos.",
+      "related_requirement": "el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado",
+      "status": "pendiente",
+      "verification": "Reproducido en dos copias temporales del sitio: pareja adicional con espacio extra y pareja adicional con mayúsculas sobreviven al comprobador. `python -m unittest tests.test_marcas </dev/null`: 5 tests OK."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí `python -m unittest tests.test_marcas </dev/null` (5 pruebas); no ejecuté la suite completa.",
+    "Realicé dos mutaciones temporales para marcadores duplicados con variación de espacios y mayúsculas; no modifiqué el checkout.",
+    "El paquete no omite archivos binarios."
+  ]
+}
