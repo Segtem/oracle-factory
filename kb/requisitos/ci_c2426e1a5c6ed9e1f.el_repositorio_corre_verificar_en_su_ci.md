@@ -11,7 +11,7 @@ vigente: true
 - Id: `ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci`
 - Vigente: sí
 - Cambio: [[cambios/20261108-003501-eqd-activar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_ci_activar.el_repositorio_corre_verificar_en_su_ci`, `factory_ci_activar.corrida_completa`
 - Fuente: openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md#el_repositorio_corre_verificar_en_su_ci
 

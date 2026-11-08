@@ -11,7 +11,7 @@ vigente: true
 - Id: `ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas`
 - Vigente: sí
 - Cambio: [[cambios/20261108-003501-eqd-activar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_ci_activar.verificar_falla_en_main_y_avisa_en_las_demas`, `factory_ci_activar.corrida_completa`
 - Fuente: openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md#verificar_falla_en_main_y_avisa_en_las_demas
 
