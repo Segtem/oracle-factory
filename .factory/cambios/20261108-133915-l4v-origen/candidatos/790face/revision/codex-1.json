@@ -1,0 +1,47 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-origen-hallazgos/.factory/local/revisiones/790face-codex-1",
+  "base": "9b02fcc567ea924cfe021e9e8724d0c131bdc0cd",
+  "head": "790faced85a5389c3f993b005a39080398afc577",
+  "diff_sha256": "436e7db3a91ab8cbe6afbadfa8bfcf35f360a39a347478cbd0ad7bd8ea318ce3",
+  "context_sha256": "93fb4847c4bc885e328cdaf88db1fdd96b47154cc1090133c1928c3c08973975",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "origen-5",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un evento de revisión con accion no textual desaparece de la cobertura",
+      "explanation": "registro_legible sólo valida que cada evento sea un objeto. Si `accion` tiene un valor no textual (por ejemplo, 7), rondas_de lo ignora en silencio porque no coincide con `revision_pedida` ni `revision_lanzada`. El cambio cerrado sigue contándose, pero candidatos_primera_ronda y registros_ilegibles permanecen en cero, sin aviso de medición incompleta. Un candidato con informe de hallazgos presente se pierde por completo. Es la misma clase de falso cero por parseo tolerante que los hallazgos ya cerrados.",
+      "location": {"file": "tools/medir_rondas.py", "start_line": 56, "end_line": 56, "side": "head"},
+      "trigger": "En un factory.json de un cambio cerrado, usar eventos como lista de objetos válida, pero poner `accion: 7` en el evento que representa revision_pedida; incluir el informe correspondiente y ejecutar `medir_rondas.py --origen`.",
+      "evidence": "Reproduje en fixture temporal: con cambio_creado, evento {accion: 7, candidato: 'abc', cuando: fecha válida}, cierre y un informe media, analizar(..., origen=True) devolvió cambios=1, rondas_maximo=0, candidatos_primera_ronda=0, registros_ilegibles=0 y los cuatro grupos en cero. La implementación de rondas_de filtra por igualdad de accion y sólo intenta parsear cuando reconoce el valor, sin validar su tipo.",
+      "related_requirement": "la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec; la_salida_dice_la_regla_y_su_limite",
+      "status": "pendiente",
+      "verification": "Reproducido manualmente con fixture temporal; el checkout quedó sin cambios. tests.test_origen pasa sus 18 tests, pero no incluye accion no textual. Mismo tipo de falso cero por datos malformados señalado en las rondas 1 a 3."
+    },
+    {
+      "id": "origen-6",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El recorte de explanation puede clasificar como sin clase un hallazgo reconocible",
+      "explanation": "La clasificación inspecciona sólo los primeros 600 caracteres de explanation. Si una explicación válida incluye el indicador de una clase después del límite, el hallazgo se asigna a sin clase pese a contener texto que los patrones reconocerían. El total se conserva, así que esto no es otro caso de cobertura falsa, pero sí sesga el reparto prometido. El texto de la spec define una aproximación basada en los patrones, no un límite de longitud para aplicarlos.",
+      "location": {"file": "tools/medir_rondas.py", "start_line": 116, "end_line": 116, "side": "head"},
+      "trigger": "Crear un hallazgo de severidad media cuyo título no coincida con clases, cuya explanation tenga más de 600 caracteres y contenga `symlink` sólo después del carácter 600; ejecutar --origen.",
+      "evidence": "Reproduje con explanation = 'x' repetido 601 veces seguido de ' symlink'. El informe es legible y la cobertura queda completa, pero el resultado clasifica el hallazgo como sin clase (1) y atrapable al leer la spec (0), aunque el patrón de rutas coincide si se aplica a la explicación completa.",
+      "related_requirement": "la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+      "status": "pendiente",
+      "verification": "Reproducido manualmente con fixture temporal. tests.test_origen pasa sus 18 tests; no cubren indicadores de clase después del corte de 600 caracteres."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyó la propuesta, la spec, los 13 archivos de texto incluidos en el paquete y el código relevante de tools/medir_rondas.py; el paquete declara omisiones vacías.",
+    "Se revisaron los hallazgos de las rondas aa916ee, 63cecde y 065fd88: siguen cubiertos por validación estricta de informes y registros, sin regresión observada en esos casos.",
+    "Se ejecutó `python -m unittest tests.test_origen`; pasaron los 18 tests.",
+    "Se reprodujeron en fixtures temporales los eventos con accion no textual y la explicación con el patrón después de 600 caracteres.",
+    "No se ejecutó la suite completa del repositorio ni se hicieron mutaciones adicionales. No hay archivos binarios omitidos."
+  ]
+}

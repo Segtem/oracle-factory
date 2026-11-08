@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "3f84c03e4f410029530e684331d70e1497b999e8dd6888b5f1eb550b64731a15",
+  "actor": "Brian Hollweg",
+  "motivo": "Seis rondas de codex sobre candidatos 8 a 86b9543; evidencia 1278 pruebas OK, 18 casos; 27 mutaciones propias detectadas; sin ediciones a pruebas existentes. Las rondas 1 a 5 fueron de una misma clase (parseo tolerante que daba un falso cero) y se cerraron con validación estricta y una cobertura a la vista (informes, registros y eventos de revisión); la ronda 5 además aclaró la unidad de conteo (lo que reporta cada informe), que codex dio por coherente en la ronda 6. La ronda 6 trae un hallazgo medio SEMÁNTICO, no de tipos: una acción de revisión mal escrita (por ejemplo revision_pedid) con candidato y fecha no se reconoce y esa ronda no cuenta. Propongo aceptarlo como riesgo declarado: reconocer variantes tipográficas de nombres de acción es heurístico y no tiene fin (cualquier acción podría estar mal escrita), los registros los escribe Factory con nombres fijos y en los datos reales hay 0 registros o informes ilegibles de cualquier tipo. Límites que quedan: (1) una acción de revisión mal escrita no se reconoce; (2) la clase se busca en el título y los primeros 600 caracteres de la explicación (heredado de las siete clases originales, bajo, ronda 4); (3) el reparto es una aproximación por texto, no un juicio humano. Resultado con datos reales: 148 hallazgos altos y medios de la ronda 1 en 45 candidatos: 32 % atrapable al leer la spec, 18 % solo con código, 13 % mixto, 38 % sin clase.",
+  "decisiones": [
+    {
+      "hallazgo_id": "origen-9",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Una acción de revisión mal escrita sigue produciendo un falso cero silencioso",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-08T17:00:39.209420+00:00"
+    }
+  ]
+}

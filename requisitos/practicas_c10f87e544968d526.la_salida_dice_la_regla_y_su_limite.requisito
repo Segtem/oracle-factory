@@ -1,0 +1,4 @@
+requisito practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite:
+    texto "Tipo: funcional El sistema DEBE decir en la salida de `--origen` qué clases componen cada grupo y que el reparto es una aproximación por el texto del hallazgo y no un juicio humano."
+    fuente "openspec/changes/20261108-133915-l4v-origen/specs/practicas/spec.md#la_salida_dice_la_regla_y_su_limite"
+    medido_por factory_origen.la_salida_dice_la_regla_y_su_limite, factory_origen.corrida_completa
