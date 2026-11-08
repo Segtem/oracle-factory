@@ -15,3 +15,19 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-08 23:34:51 UTC)
 
 Requisitos importados: flujo_cbe1c0ee48f2ba730.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona (funcional), flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro (funcional), flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar (funcional), flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-08 23:42:32 UTC)
+
+Medidas de flujo_cbe1c0ee48f2ba730.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona: factory_conductor.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona, factory_conductor.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 23:42:34 UTC)
+
+Medidas de flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro: factory_conductor.cada_paso_deja_su_porque_en_el_registro, factory_conductor.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 23:42:35 UTC)
+
+Medidas de flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar: factory_conductor.el_bucle_observa_decide_actua_y_vuelve_a_observar, factory_conductor.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 23:42:37 UTC)
+
+Medidas de flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo: factory_conductor.el_bucle_tiene_topes_y_se_frena_solo, factory_conductor.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

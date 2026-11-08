@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-233304-ywj-actua]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el porqué», «el final»
+- Medidas: `factory_conductor.cada_paso_deja_su_porque_en_el_registro`, `factory_conductor.corrida_completa`
 - Fuente: openspec/changes/20261108-233304-ywj-actua/specs/flujo/spec.md#cada_paso_deja_su_porque_en_el_registro
 
 Tipo: funcional El sistema DEBE dejar, antes de cada paso, un `mensaje` en el registro del cambio, a nombre del agente, con la acción, el motivo y el comando o la instrucción; y al final, otro con el motivo de la detención, y DEBE mostrar un resumen de los pasos (en texto y con `--json`) con el resultado de cada uno.

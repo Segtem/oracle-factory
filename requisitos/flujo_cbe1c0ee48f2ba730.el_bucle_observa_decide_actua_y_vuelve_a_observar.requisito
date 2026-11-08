@@ -1,4 +1,4 @@
 requisito flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar:
     texto "Tipo: funcional El sistema DEBE, en cada vuelta, observar el estado, decidir con `autopilot.decidir`, y si la acción es `actuar` correr el comando de Factory con `--agente NOMBRE` en un proceso aparte, o si es `delegar_al_agente` lanzar el comando de `--lanzar` con la instrucción como último argumento (sin `--lanzar`, detenerse diciendo que falta), y volver a observar después de cada paso."
     fuente "openspec/changes/20261108-233304-ywj-actua/specs/flujo/spec.md#el_bucle_observa_decide_actua_y_vuelve_a_observar"
-    sin_medir "sin medida todavía; escenarios: «un comando mecánico», «trabajo creativo con agente», «trabajo creativo sin agente»"
+    medido_por factory_conductor.el_bucle_observa_decide_actua_y_vuelve_a_observar, factory_conductor.corrida_completa

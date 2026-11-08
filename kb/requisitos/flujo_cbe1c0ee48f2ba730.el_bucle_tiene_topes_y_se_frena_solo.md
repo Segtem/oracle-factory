@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-233304-ywj-actua]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el tope de pasos», «sin progreso», «un comando falla»
+- Medidas: `factory_conductor.el_bucle_tiene_topes_y_se_frena_solo`, `factory_conductor.corrida_completa`
 - Fuente: openspec/changes/20261108-233304-ywj-actua/specs/flujo/spec.md#el_bucle_tiene_topes_y_se_frena_solo
 
 Tipo: funcional El sistema DEBE detener el bucle cuando se llega al tope de pasos o de minutos (10 y 120 por defecto, `--max-pasos` y `--max-minutos`), cuando la misma decisión con el mismo comando se repite dos veces seguidas (sin progreso), cuando un comando o el agente lanzado terminan con error o no arrancan, o cuando los datos no se pueden leer; en todos los casos DEBE decir el motivo y no volver a actuar.
