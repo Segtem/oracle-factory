@@ -1,6 +1,6 @@
 # Alcance opcional de los destinos: desplegar sólo lo que cambió
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -99,3 +99,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-08 05:00:21 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261108-020932-3t5-alcance/oracle-veredicto.txt.
+
+### Nota (2026-11-08 05:03:40 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
