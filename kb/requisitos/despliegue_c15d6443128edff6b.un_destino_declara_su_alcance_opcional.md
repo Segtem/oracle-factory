@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-020932-3t5-alcance]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un alcance válido», «un alcance inválido», «sin alcance»
+- Medidas: `factory_destinos_alcance.un_destino_declara_su_alcance_opcional`, `factory_destinos_alcance.corrida_completa`
 - Fuente: openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#un_destino_declara_su_alcance_opcional
 
 Tipo: funcional El sistema DEBE aceptar en cada destino un campo opcional `alcance` con una lista no vacía de rutas de Git, y DEBE rechazar con un mensaje que nombre el destino un `alcance` que no sea una lista no vacía de textos no vacíos.

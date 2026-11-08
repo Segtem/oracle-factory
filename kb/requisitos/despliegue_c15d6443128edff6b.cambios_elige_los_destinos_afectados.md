@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-020932-3t5-alcance]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «se cambia sólo lo de un destino», «lo que no se puede descartar entra», «un elegido arrastra lo que necesita»
+- Medidas: `factory_destinos_alcance.cambios_elige_los_destinos_afectados`, `factory_destinos_alcance.corrida_completa`
 - Fuente: openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#cambios_elige_los_destinos_afectados
 
 Tipo: funcional El sistema DEBE ofrecer `desplegar --cambios`, que elige los destinos con archivos cambiados dentro de su `alcance` entre la última versión que Factory desplegó en ese destino y el commit del plan, DEBE incluir siempre los destinos sin `alcance`, los que nunca se desplegaron y aquellos cuya versión anterior no se puede comparar, y DEBE incluir también lo que los elegidos necesitan por `depende_de`.

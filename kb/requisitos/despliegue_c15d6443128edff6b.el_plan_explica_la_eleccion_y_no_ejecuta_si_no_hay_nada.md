@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-020932-3t5-alcance]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el plan con motivos», «nada que desplegar»
+- Medidas: `factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada`, `factory_destinos_alcance.corrida_completa`
 - Fuente: openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada
 
 Tipo: funcional El sistema DEBE mostrar en el plan por qué entra cada destino y cuáles se omiten, y cuando ningún destino resulta afectado DEBE decir que no hay nada que desplegar y NO DEBE ejecutar nada, ni siquiera con `--autorizar`.

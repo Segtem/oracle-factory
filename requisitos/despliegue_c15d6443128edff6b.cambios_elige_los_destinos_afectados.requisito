@@ -1,4 +1,4 @@
 requisito despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados:
     texto "Tipo: funcional El sistema DEBE ofrecer `desplegar --cambios`, que elige los destinos con archivos cambiados dentro de su `alcance` entre la última versión que Factory desplegó en ese destino y el commit del plan, DEBE incluir siempre los destinos sin `alcance`, los que nunca se desplegaron y aquellos cuya versión anterior no se puede comparar, y DEBE incluir también lo que los elegidos necesitan por `depende_de`."
     fuente "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#cambios_elige_los_destinos_afectados"
-    sin_medir "sin medida todavía; escenarios: «se cambia sólo lo de un destino», «lo que no se puede descartar entra», «un elegido arrastra lo que necesita»"
+    medido_por factory_destinos_alcance.cambios_elige_los_destinos_afectados, factory_destinos_alcance.corrida_completa

@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-020932-3t5-alcance]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «sin la opción», «las dos opciones juntas», «la guía y la plantilla»
+- Medidas: `factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance`, `factory_destinos_alcance.corrida_completa`
 - Fuente: openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md#sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance
 
 Tipo: funcional El sistema NO DEBE cambiar lo que hace `desplegar` sin `--cambios`, DEBE negar `--cambios` junto con `--destino`, y DEBE contar el campo `alcance`, la opción y sus límites en `docs/despliegue.md` y en la plantilla `docs/plantillas/destinos.json`.
