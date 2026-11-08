@@ -143,7 +143,7 @@ class Contrato(unittest.TestCase):
             vc.contrato(vc.requisitos_de_la_spec(spec), {1: ['A.test_dm1_x']})
         self.assertIn('dos', str(e.exception))
         documento = (SOURCE / 'docs/tests.md').read_text(encoding='utf-8')
-        self.assertRegex(documento, r'(?s)verificar_cambio.*Pruebas: no aplica.*(a mano|no lo cubre|todavía)')
+        self.assertRegex(documento, r'(?s)verificar_cambio.*Pruebas: no aplica.*(no necesita casos|sin medida)')
 
     def test_vg1_el_nombre_del_caso_exige_dos_o_tres_letras_minusculas_y_un_numero(self):
         for nombre, n in (('test_a1_x', None), ('test_ab1_x', 1), ('test_abc12_x', 12), ('test_abcd1_x', None), ('test_AB1_x', None),

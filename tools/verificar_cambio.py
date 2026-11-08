@@ -21,7 +21,7 @@ import unittest
 AQUI = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(AQUI))
 from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
-from oracle_factory import archivo, modos, trazabilidad  # noqa: E402
+from oracle_factory import archivo, modos, pruebas, trazabilidad  # noqa: E402
 
 CASO = re.compile(r"test_[a-z]{2,3}(\d+)_")
 REQUISITO = archivo.CABECERA_REQ  # la misma cabecera que lee Factory al importar
@@ -77,8 +77,11 @@ def requisitos_de_la_spec(texto: str) -> list[str]:
     return nombres
 
 
-def contrato(requisitos: list[str], casos: dict[int, list[str]]) -> dict[str, list[str]]:
-    """{requisito: [casos]}; ContratoInvalido si algún requisito queda sin casos, si un caso nombra un requisito que no existe o si no hay casos."""
+def contrato(requisitos: list[str], casos: dict[int, list[str]], exceptuados: frozenset[str] = frozenset()) -> dict[str, list[str]]:
+    """{requisito: [casos]}; ContratoInvalido si algún requisito queda sin casos, si un caso nombra un requisito que no existe o si no hay casos.
+
+    Un requisito exceptuado («Pruebas: no aplica — motivo») no necesita casos y queda fuera del contrato, pero cuenta en la numeración;
+    un caso que lo nombra contradice a la spec."""
     if not casos:
         raise ContratoInvalido("el módulo no tiene ningún caso test_<letras><n>_…")
     repetidos = sorted({r for r in requisitos if requisitos.count(r) > 1})
@@ -87,10 +90,14 @@ def contrato(requisitos: list[str], casos: dict[int, list[str]]) -> dict[str, li
     huerfanos = [c for n, lista in casos.items() if not 1 <= n <= len(requisitos) for c in lista]
     if huerfanos:
         raise ContratoInvalido(f"casos que nombran un requisito que la spec no tiene ({len(requisitos)} requisitos): {', '.join(huerfanos)}")
-    sin_casos = [r for i, r in enumerate(requisitos, 1) if i not in casos]
+    contradichos = [f"{c} (el requisito {requisitos[n - 1]} declara «Pruebas: no aplica»)" for n, lista in casos.items()
+                    if requisitos[n - 1] in exceptuados for c in lista]
+    if contradichos:
+        raise ContratoInvalido(f"casos para un requisito exceptuado de las pruebas: {', '.join(contradichos)}")
+    sin_casos = [r for i, r in enumerate(requisitos, 1) if i not in casos and r not in exceptuados]
     if sin_casos:
         raise ContratoInvalido(f"requisitos sin ningún caso: {', '.join(sin_casos)}")
-    return {r: casos[i] for i, r in enumerate(requisitos, 1)}
+    return {r: casos[i] for i, r in enumerate(requisitos, 1) if r not in exceptuados}
 
 
 def leer_contrato(raiz: Path, cambio: str, modulo: str) -> tuple[dict[str, list[str]], dict[str, str]]:
@@ -100,9 +107,13 @@ def leer_contrato(raiz: Path, cambio: str, modulo: str) -> tuple[dict[str, list[
     if not specs:
         raise ContratoInvalido(f"no encuentro la spec del cambio {cambio} en {carpeta}")
     try:
-        requisitos = [r for spec in specs for r in requisitos_de_la_spec(spec.read_text(encoding="utf-8"))]
+        textos = [spec.read_text(encoding="utf-8") for spec in specs]
+        requisitos = [r for texto in textos for r in requisitos_de_la_spec(texto)]
+        exceptuados = frozenset(s for texto in textos for s in pruebas.excepciones(texto))  # el mismo lector que aprobar-spec e importar
     except (OSError, ValueError) as e:  # ValueError incluye UnicodeDecodeError
         raise ContratoInvalido(f"no puedo leer la spec del cambio {cambio}: {e}") from e
+    except pruebas.PruebasInvalidas as e:
+        raise ContratoInvalido(str(e)) from e
     registro = raiz / ".factory" / "cambios" / cambio / "factory.json"
     try:
         ids = {i.rsplit(".", 1)[-1]: i for i in json.loads(registro.read_text(encoding="utf-8")).get("requisitos") or []}
@@ -116,7 +127,7 @@ def leer_contrato(raiz: Path, cambio: str, modulo: str) -> tuple[dict[str, list[
         casos = casos_del_modulo(archivo.read_text(encoding="utf-8"))
     except (OSError, ValueError, SyntaxError) as e:
         raise ContratoInvalido(f"no puedo leer las pruebas {archivo}: {e}") from e
-    return contrato(requisitos, casos), {r: ids[r] for r in requisitos}
+    return contrato(requisitos, casos, exceptuados), {r: ids[r] for r in requisitos}
 
 
 def fuentes(raiz: Path, salida: Path | None = None) -> dict:

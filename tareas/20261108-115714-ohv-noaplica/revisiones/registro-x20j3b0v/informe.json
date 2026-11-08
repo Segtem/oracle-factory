@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261108-115714-ohv-noaplica",
+  "contexto": {
+    "head": "1eb5e2dcf54325ec2ea62b21a2ae07f1acdc4951",
+    "archivos_sha256": "1a1c2ed1cdf06dbff07932995722dc29ea7d08e3607438ba698bf13e62d99d76"
+  },
+  "documentos": {
+    "openspec/changes/20261108-115714-ohv-noaplica/proposal.md": "09e48b56b99b057a9d5c97a42f0b4423896c073b901c3a336f8d2a8290fb9a1c",
+    "openspec/changes/20261108-115714-ohv-noaplica/specs/practicas/spec.md": "393d2a10bb1ae8ffd706bc2ef995ff6ff29d0cf7605a5056937f57ff6a1556fe"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_noaplica.corrida_completa.oracle",
+    "catalogos/factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado.oracle",
+    "catalogos/factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos.oracle",
+    "catalogos/factory_noaplica.una_excepcion_mal_escrita_no_se_ignora.oracle",
+    "docs/tests.md",
+    "openspec/changes/20261108-115714-ohv-noaplica/design.md",
+    "openspec/changes/20261108-115714-ohv-noaplica/proposal.md",
+    "openspec/changes/20261108-115714-ohv-noaplica/specs/practicas/spec.md",
+    "openspec/changes/20261108-115714-ohv-noaplica/tasks.md",
+    "requisitos/practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado.requisito",
+    "requisitos/practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos.requisito",
+    "requisitos/practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora.requisito",
+    "tests/test_noaplica.py",
+    "tests/test_verificador_generico.py",
+    "tools/verificar_cambio.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1255 pruebas, 10 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-115714-ohv-noaplica/candidatos/4673a3b/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-115714-ohv-noaplica/candidatos/4673a3b/revision/codex-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Revisé la spec, la propuesta y todos los parches de texto incluidos en el paquete; omissions está vacío.",
+    "codex (gpt-6-luna): No ejecuté la suite ni herramientas de Oracle; la reproducción del hallazgo es por inspección estática.",
+    "codex (gpt-6-luna): La modificación declarada de tests/test_verificador_generico.py cambia sólo la regex que fijaba el límite documentado; está justificada por este cambio, aunque la nueva aserción no prueba el caso de bloques ~~~.",
+    "codex (gpt-6-luna): No hice mutaciones ejecutables: el checkout de revisión disponible en este entorno sólo contiene los archivos de instrucciones y no permite correr el candidato completo.",
+    "codex (gpt-6-luna): Hallazgo bajo de heurística: cierre la clase comparando el tratamiento de fences del lector de excepciones con el parser de requisitos y agregando un caso con ~~~."
+  ],
+  "hallazgos": [
+    {
+      "id": "F1",
+      "descripcion": "El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~",
+      "ubicacion": "tools/verificar_cambio.py:112",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261108-115714-ohv-noaplica/candidatos/4673a3b/revision/codex-1.json, validado con oracle-clue; severidad baja. El parser requisitos_de_la_spec, líneas 60–77, contempla tanto fences de backtick como de tilde y omite su contenido. oracle_factory/pruebas.py:30–42 sólo detecta linea.lstrip().startswith(\"```\") y omite únicamente esos bloques; la línea Pruebas: de un fence ~~~ queda expuesta al regex EXCEPCION. leer_contrato llama pruebas.excepciones sobre cada texto completo en la línea 112. Esto no se ejecutó contra un checkout integral; reproducción deducida directamente de ambos parsers."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

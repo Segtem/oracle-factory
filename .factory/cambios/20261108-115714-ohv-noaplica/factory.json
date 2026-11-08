@@ -1,0 +1,415 @@
+{
+  "id": "20261108-115714-ohv-noaplica",
+  "titulo": "El verificador respeta «Pruebas: no aplica»",
+  "capacidad": "practicas",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261108-115714-ohv-noaplica/specs/practicas/spec.md",
+  "spec_sha256": "393d2a10bb1ae8ffd706bc2ef995ff6ff29d0cf7605a5056937f57ff6a1556fe",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T12:00:12.674913+00:00",
+    "documentos": {
+      "openspec/changes/20261108-115714-ohv-noaplica/proposal.md": "09e48b56b99b057a9d5c97a42f0b4423896c073b901c3a336f8d2a8290fb9a1c",
+      "openspec/changes/20261108-115714-ohv-noaplica/specs/practicas/spec.md": "393d2a10bb1ae8ffd706bc2ef995ff6ff29d0cf7605a5056937f57ff6a1556fe"
+    }
+  },
+  "requisitos": [
+    "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+    "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+    "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261108-115714-ohv-noaplica/revisiones/registro-x20j3b0v/informe.json",
+    "sha256": "29be40a50fe41b4225e4f88c1c98a757b6e7365dfbb81615c92823121413d065",
+    "decisiones": "tareas/20261108-115714-ohv-noaplica/revisiones/registro-x20j3b0v/decisiones.json",
+    "decisiones_sha256": "0b33c8e5fd2fd47d790425b6ff5cd6c1720171eb2452111d3357aa1dd6a0b4a3",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T12:24:48.982894+00:00",
+    "motivo": "Codex: un hallazgo bajo (F1), no del cambio: el lector compartido oracle_factory/pruebas.py sólo alterna cercas con tres comillas invertidas y no con ~~~, mientras requisitos_de_la_spec sí entiende ambas. Preexistente: lo comparten aprobar-spec e importar, y la spec dejó fuera cambiar ese lector. Propongo dejarlo como seguimiento. Evidencia 1255 pruebas OK, 10 casos. 6 mutaciones propias, 5 detectadas; la que sobrevive es equivalente (un caso para un exceptuado ya falla antes). Declaro una prueba existente editada: test_vg1_un_requisito_que_declara_pruebas_no_aplica_… en test_verificador_generico.py, sólo su regex sobre docs/tests.md, que fijaba el límite que este cambio levanta. No toca cli.py ni reglas de decisión.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "1eb5e2dcf54325ec2ea62b21a2ae07f1acdc4951",
+      "archivos_sha256": "1a1c2ed1cdf06dbff07932995722dc29ea7d08e3607438ba698bf13e62d99d76"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261108-115714-ohv-noaplica/candidatos/4673a3b/evidencia/hechos.json",
+    "hechos_sha256": "ed41fb3ce6cfc6ce73a8d3672c076c16ab2d0fa52484e4b5cb2779f2e6342407",
+    "informe": ".factory/cambios/20261108-115714-ohv-noaplica/oracle-veredicto.txt",
+    "informe_sha256": "8f513dd4cff33f531822aea51ac5266d8d6e6878698336b466845b442b90ee7e",
+    "cuando": "2026-11-08T12:24:57.148948+00:00",
+    "contexto": {
+      "head": "25371adb88bdfb4799b6ad6a5c2803c3b9c116fc",
+      "archivos_sha256": "1a1c2ed1cdf06dbff07932995722dc29ea7d08e3607438ba698bf13e62d99d76"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T11:57:14.347394+00:00",
+      "capacidad": "practicas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T12:00:12.674937+00:00",
+      "documentos": {
+        "openspec/changes/20261108-115714-ohv-noaplica/proposal.md": "09e48b56b99b057a9d5c97a42f0b4423896c073b901c3a336f8d2a8290fb9a1c",
+        "openspec/changes/20261108-115714-ohv-noaplica/specs/practicas/spec.md": "393d2a10bb1ae8ffd706bc2ef995ff6ff29d0cf7605a5056937f57ff6a1556fe"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T12:00:22.440585+00:00",
+      "ids": [
+        "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+        "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+        "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:01:27.007172+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+      "medidas": [
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+        "factory_noaplica.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:01:28.810726+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+      "medidas": [
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+        "factory_noaplica.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:01:30.627747+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora",
+      "medidas": [
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora",
+        "factory_noaplica.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:01:45.401910+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+      "medidas": [
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:01:45.583216+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+      "medidas": [
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:01:45.758392+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora",
+      "medidas": [
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:11:15.026360+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+      "medidas": [
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:11:16.797807+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+      "medidas": [
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:11:18.575752+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora",
+      "medidas": [
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:12:08.122799+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+      "medidas": [
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:12:08.304766+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+      "medidas": [
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:12:08.480419+00:00",
+      "requisito": "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora",
+      "medidas": [
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora",
+        "factory_noaplica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T12:20:56.371034+00:00",
+      "revisor": "codex",
+      "candidato": "4673a3b",
+      "lanzamiento": "f375491985ff"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T12:22:10.498265+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "4673a3b",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "f375491985ff"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:22:23.107673+00:00",
+      "decision": "aprobar",
+      "candidato": "4673a3b"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T12:24:48.982924+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "29be40a50fe41b4225e4f88c1c98a757b6e7365dfbb81615c92823121413d065",
+      "decisiones_sha256": "0b33c8e5fd2fd47d790425b6ff5cd6c1720171eb2452111d3357aa1dd6a0b4a3"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T12:24:57.148964+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "ed41fb3ce6cfc6ce73a8d3672c076c16ab2d0fa52484e4b5cb2779f2e6342407"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T12:27:10.987909+00:00",
+      "oracle": ".factory/cambios/20261108-115714-ohv-noaplica/oracle-veredicto.txt",
+      "revision": "tareas/20261108-115714-ohv-noaplica/revisiones/registro-x20j3b0v/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T12:27:11.029693+00:00",
+      "capacidad": "practicas",
+      "spec": "openspec/specs/practicas/spec.md"
+    }
+  ],
+  "tipos": {
+    "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado": "funcional",
+    "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": "funcional",
+    "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora": "funcional"
+  },
+  "medidas": {
+    "practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T12:12:08.075714+00:00",
+      "sha256": "2f799abc07269e322647c1d3c9fbe0e655e1823ef82c7771259133661398bd81",
+      "catalogos": {
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado": "45c893314f1d61a114db9b10d3ea497f38b28f85a969ac446b73f65470a65acc",
+        "factory_noaplica.corrida_completa": "18bc0e274d60cbdb242eb1e2db355c573e613b5f7e189eeb678f1924d5661513"
+      },
+      "archivos_catalogo": {
+        "factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado": "catalogos/factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado.oracle",
+        "factory_noaplica.corrida_completa": "catalogos/factory_noaplica.corrida_completa.oracle"
+      }
+    },
+    "practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T12:12:08.258139+00:00",
+      "sha256": "195a988c2e04c4a03e626e8502ff47b09ac19949226ad9be33181c8a0734ae3b",
+      "catalogos": {
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": "33da87fc8beefeaf8ebe8e88e5457bf39493c256d87db5d781301556d992f33d",
+        "factory_noaplica.corrida_completa": "18bc0e274d60cbdb242eb1e2db355c573e613b5f7e189eeb678f1924d5661513"
+      },
+      "archivos_catalogo": {
+        "factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos": "catalogos/factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos.oracle",
+        "factory_noaplica.corrida_completa": "catalogos/factory_noaplica.corrida_completa.oracle"
+      }
+    },
+    "practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T12:12:08.433936+00:00",
+      "sha256": "d1be73952086b4151702585ec550815bee467a210f43db128f9e5c64b3cc15fd",
+      "catalogos": {
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora": "0cf602ef223c0089f5454e5e352116275e9d5d1d5d6c5057f90480f845ac48b7",
+        "factory_noaplica.corrida_completa": "18bc0e274d60cbdb242eb1e2db355c573e613b5f7e189eeb678f1924d5661513"
+      },
+      "archivos_catalogo": {
+        "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora": "catalogos/factory_noaplica.una_excepcion_mal_escrita_no_se_ignora.oracle",
+        "factory_noaplica.corrida_completa": "catalogos/factory_noaplica.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tools/verificar_cambio.py",
+      "titulo": "El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~",
+      "firma": "tools/verificar_cambio.py|el lector de excepciones puede interpretar una línea pruebas dentro de un bloque ~~~",
+      "motivo": "Acepto el riesgo: El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-08T12:24:47.629348+00:00",
+      "candidato": "4673a3b"
+    }
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T12:27:10.923162+00:00"
+  },
+  "archivo": {
+    "capacidad": "practicas",
+    "spec": "openspec/specs/practicas/spec.md",
+    "cuando": "2026-11-08T12:27:11.029681+00:00"
+  }
+}
