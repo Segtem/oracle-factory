@@ -27,3 +27,11 @@ Medidas de flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio: fac
 ### Nota (2026-11-08 20:39:04 UTC)
 
 Medidas de flujo_cf63459721e7fb9ac.estado_muestra_los_frenos: factory_frenos.estado_muestra_los_frenos, factory_frenos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 20:49:12 UTC)
+
+Medidas de flujo_cf63459721e7fb9ac.estado_muestra_los_frenos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 20:49:12 UTC)
+
+Medidas de flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).
