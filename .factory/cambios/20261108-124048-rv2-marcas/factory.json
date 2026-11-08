@@ -2,7 +2,7 @@
   "id": "20261108-124048-rv2-marcas",
   "titulo": "El comprobador del sitio detecta bloques marcados duplicados",
   "capacidad": "web",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md",
   "spec_sha256": "1f0fe8b915635ab1d9f5b566568e14056775572de86b47094e683592cae91ee8",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "7bd36cdd5d907786708509b49381485e156e36043774f853299eaa88c62cefc8"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261108-124048-rv2-marcas/candidatos/e898903/evidencia/hechos.json",
+    "hechos_sha256": "fda325fd5aea064ce1aac45cdde95e55e968b7b69216537345d2f89be742a4b1",
+    "informe": ".factory/cambios/20261108-124048-rv2-marcas/oracle-veredicto.txt",
+    "informe_sha256": "4f893a7fabe00b02e4e6b4692e1e031bb6cbf2546fcc70f16e3895a5ce6062df",
+    "cuando": "2026-11-08T13:13:12.074038+00:00",
+    "contexto": {
+      "head": "6531724d749ef1c077924924b75a2875725907d7",
+      "archivos_sha256": "7bd36cdd5d907786708509b49381485e156e36043774f853299eaa88c62cefc8"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -151,6 +163,17 @@
       "abiertos": 0,
       "sha256": "6811898a99c8acce8c165b9a1ec99127974b38e0e06e6f7f9f3c6d619609c0d2",
       "decisiones_sha256": "17b7e23a9c4683b2acede45609aa14eed6339a1ea237de01a47a5f2d57d166e2"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T13:13:12.074055+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "fda325fd5aea064ce1aac45cdde95e55e968b7b69216537345d2f89be742a4b1"
     }
   ],
   "tipos": {
