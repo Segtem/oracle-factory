@@ -115,7 +115,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261107-235004-sb1-publicadaa18]] — Declarar publicada la 0.1.0a18 (cerrada)
 - [[cambios/20261108-003501-eqd-activar]] — Activar el workflow verificar en este repositorio (cerrada)
 - [[cambios/20261108-020932-3t5-alcance]] — Alcance opcional de los destinos: desplegar sólo lo que cambió (cerrada)
-- [[cambios/20261108-115714-ohv-noaplica]] — El verificador respeta «Pruebas: no aplica» (spec_aprobada)
+- [[cambios/20261108-115714-ohv-noaplica]] — El verificador respeta «Pruebas: no aplica» (requisitos_importados)
 
 ## Requisitos
 
@@ -358,6 +358,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa]]
 - [[requisitos/practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente]]
 - [[requisitos/practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear]]
+- [[requisitos/practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado]]
+- [[requisitos/practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos]]
+- [[requisitos/practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora]]
 - [[requisitos/practicas_c8fdb317e7f77a156.el_comando_skill_la_muestra_y_la_instala_sin_pisar_nada_ajeno]]
 - [[requisitos/practicas_c8fdb317e7f77a156.la_guia_para_agentes_nombra_la_skill]]
 - [[requisitos/practicas_c8fdb317e7f77a156.la_skill_describe_el_flujo_con_los_comandos_y_umbrales_del_codigo]]

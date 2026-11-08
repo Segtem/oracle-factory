@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261108-115714-ohv-noaplica. Modo de trabajo: confir
 ### Nota (2026-11-08 12:00:12 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261108-115714-ohv-noaplica/specs/practicas/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-08 12:00:22 UTC)
+
+Requisitos importados: practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado (funcional), practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos (funcional), practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
