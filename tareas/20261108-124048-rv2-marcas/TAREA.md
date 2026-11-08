@@ -23,3 +23,7 @@ Medidas de web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marc
 ### Nota (2026-11-08 12:43:23 UTC)
 
 Medidas de web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 13:13:03 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Camino ligero: un revisor, una ronda, sin hallazgos medios ni altos. Codex: un hallazgo bajo (heurístico): el control cuenta sólo los marcadores exactos que escribe la herramienta (<!-- bloque --> y <!-- /bloque -->), así que una segunda pareja con espacios extra o mayúsculas pasa inadvertida. Propongo aceptarlo como límite declarado: el escritor sólo genera la forma canónica, y detectar variantes de un comentario HTML es heurístico y no se cierra por rondas. Evidencia 1260 pruebas OK, 5 casos. 6 mutaciones propias, las 6 detectadas. Sin ediciones a pruebas existentes. 83 líneas de producto en tools/sitio_paginas.py.); 0 abiertos derivados; commit 2bef3490cc0c98221632ba8a3c8f608ab5da5d5f; informe tareas/20261108-124048-rv2-marcas/revisiones/registro-70vu9gxs/informe.json; decisiones tareas/20261108-124048-rv2-marcas/revisiones/registro-70vu9gxs/decisiones.json.
