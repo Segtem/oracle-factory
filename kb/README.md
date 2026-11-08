@@ -117,6 +117,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-020932-3t5-alcance]] — Alcance opcional de los destinos: desplegar sólo lo que cambió (cerrada)
 - [[cambios/20261108-115714-ohv-noaplica]] — El verificador respeta «Pruebas: no aplica» (cerrada)
 - [[cambios/20261108-124048-rv2-marcas]] — El comprobador del sitio detecta bloques marcados duplicados (cerrada)
+- [[cambios/20261108-134533-o0q-etapas]] — Autonomía por etapa: construcción, integración, publicación y producción (cerrada)
 
 ## Requisitos
 
@@ -332,6 +333,11 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/modos_c45a4802846932222.decisiones_segun_el_modo]]
 - [[requisitos/modos_c45a4802846932222.modo_explicito_por_cambio]]
 - [[requisitos/modos_c45a4802846932222.tipo_de_requisito]]
+- [[requisitos/modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una]]
+- [[requisitos/modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion]]
+- [[requisitos/modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona]]
+- [[requisitos/modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa]]
+- [[requisitos/modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma]]
 - [[requisitos/modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo]]
 - [[requisitos/modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo]]
 - [[requisitos/onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion]]

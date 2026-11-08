@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-autonomia-etapas/.factory/local/revisiones/d2f0ec3-codex-1",
+  "base": "9b02fcc567ea924cfe021e9e8724d0c131bdc0cd",
+  "head": "d2f0ec312dcba1e37e95052b9e072e2d5e0b1125",
+  "diff_sha256": "2b881fe49e4752db4686b76db0fbf5df2b88646981d3deb98f0676175867a021",
+  "context_sha256": "cf8de80f0e4e910c7010fdb4b584e29ddc30dbe230ff5736528ecdbc4bf66c94",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Hallazgos: ninguno tras contrastar los cinco requisitos de la spec con los cambios y pruebas del paquete.",
+    "No ejecuté pruebas ni mutaciones; la revisión fue estática del diff, contexto, rutas de decisión, configuración, despliegue y escenarios de tests/test_etapas.py.",
+    "tests/test_agentes.py: la edición agrega ‘autonomia ETAPA MODO’ a la prueba que verifica que la guía lista los comandos reservados a una persona; está justificada por la nueva orden de la guía.",
+    "tests/datos/ayuda-cli.json: regeneración de ayuda para reflejar el subcomando autonomia y el texto actualizado de desplegar; está justificada por el cambio de CLI.",
+    "El paquete no omite archivos binarios (omissions vacío)."
+  ]
+}

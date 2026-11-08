@@ -1,0 +1,90 @@
+{
+  "etapas_caso": [
+    {
+      "requisito": "la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona",
+      "caso": "Etapas.test_et1_sin_la_clave_las_tres_etapas_piden_a_una_persona",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona",
+      "caso": "Etapas.test_et1_una_etapa_declarada_no_cambia_las_otras",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona",
+      "caso": "Etapas.test_et1_una_etapa_o_un_modo_desconocidos_fallan_nombrando_el_archivo_y_el_valor",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_agente_solo_decide_en_una_etapa_autonoma",
+      "caso": "Etapas.test_et2_un_agente_decide_solo_si_la_etapa_es_autonoma",
+      "codigo": 0
+    },
+    {
+      "requisito": "autonomia_muestra_las_etapas_y_quien_decide_en_cada_una",
+      "caso": "Etapas.test_et3_la_salida_estructurada_refleja_la_etapa_autonoma_y_no_modifica_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "autonomia_muestra_las_etapas_y_quien_decide_en_cada_una",
+      "caso": "Etapas.test_et3_por_defecto_muestra_las_cuatro_etapas_con_una_persona_donde_corresponde",
+      "codigo": 0
+    },
+    {
+      "requisito": "solo_una_persona_cambia_la_autonomia_de_una_etapa",
+      "caso": "Etapas.test_et4_cambiar_una_etapa_conserva_las_otras_etapas_declaradas",
+      "codigo": 0
+    },
+    {
+      "requisito": "solo_una_persona_cambia_la_autonomia_de_una_etapa",
+      "caso": "Etapas.test_et4_poner_la_etapa_en_el_modo_que_ya_tiene_no_pregunta_ni_escribe",
+      "codigo": 0
+    },
+    {
+      "requisito": "solo_una_persona_cambia_la_autonomia_de_una_etapa",
+      "caso": "Etapas.test_et4_sin_modo_o_con_un_modo_que_no_existe_es_un_error_de_uso",
+      "codigo": 0
+    },
+    {
+      "requisito": "solo_una_persona_cambia_la_autonomia_de_una_etapa",
+      "caso": "Etapas.test_et4_un_agente_no_cambia_la_autonomia_y_la_configuracion_no_se_toca",
+      "codigo": 0
+    },
+    {
+      "requisito": "solo_una_persona_cambia_la_autonomia_de_una_etapa",
+      "caso": "Etapas.test_et4_una_persona_que_cancela_no_cambia_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "solo_una_persona_cambia_la_autonomia_de_una_etapa",
+      "caso": "Etapas.test_et4_una_persona_que_confirma_la_cambia_y_se_conserva_el_resto",
+      "codigo": 0
+    },
+    {
+      "requisito": "desplegar_autorizar_respeta_la_autonomia_de_produccion",
+      "caso": "Etapas.test_et5_con_confirmacion_un_agente_sigue_sin_poder_autorizar",
+      "codigo": 0
+    },
+    {
+      "requisito": "desplegar_autorizar_respeta_la_autonomia_de_produccion",
+      "caso": "Etapas.test_et5_con_produccion_autonoma_quien_no_es_ni_persona_ni_agente_tampoco_autoriza",
+      "codigo": 0
+    },
+    {
+      "requisito": "desplegar_autorizar_respeta_la_autonomia_de_produccion",
+      "caso": "Etapas.test_et5_con_produccion_autonoma_un_agente_despliega_y_queda_registrado",
+      "codigo": 0
+    },
+    {
+      "requisito": "desplegar_autorizar_respeta_la_autonomia_de_produccion",
+      "caso": "Etapas.test_et5_con_produccion_autonoma_un_plan_negado_no_ejecuta_nada",
+      "codigo": 0
+    }
+  ],
+  "etapas_corrida": [
+    {
+      "completa": 1,
+      "casos": 16
+    }
+  ]
+}
