@@ -204,6 +204,45 @@
         "factory_origen.una_muestra_permite_comprobar_la_regla",
         "factory_origen.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T14:07:48.941601+00:00",
+      "requisito": "practicas_c10f87e544968d526.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+      "medidas": [
+        "factory_origen.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+        "factory_origen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T14:07:49.127030+00:00",
+      "requisito": "practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite",
+      "medidas": [
+        "factory_origen.la_salida_dice_la_regla_y_su_limite",
+        "factory_origen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T14:07:49.307511+00:00",
+      "requisito": "practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla",
+      "medidas": [
+        "factory_origen.una_muestra_permite_comprobar_la_regla",
+        "factory_origen.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -211,13 +250,14 @@
     "practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite": "funcional",
     "practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "practicas_c10f87e544968d526.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T14:07:48.894471+00:00",
       "sha256": "ffbf59b74d25e938fc40ab760268f4f3e900df9ba1085b0e3a673c70a62edb2c",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T14:07:19.887141+00:00",
       "catalogos": {
         "factory_origen.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec": "478f0e6d6812e09747ac48625ca0f06c8327aeefc918e7fc9f421a52b7695685",
         "factory_origen.corrida_completa": "d3f12133e67e6a4ec12e2eb7598c766c9202c9f5f22eec6532240ec8b0d86376"
@@ -228,10 +268,12 @@
       }
     },
     "practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T14:07:49.080099+00:00",
       "sha256": "99a9ad4db2b66b2109ee7a231748646b49c4ab0ccdfa14e988ab837133ea34fd",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T14:07:21.731506+00:00",
       "catalogos": {
         "factory_origen.la_salida_dice_la_regla_y_su_limite": "9f26f7d0b47a953e94d17d2ebeab4b6bfc023b7b880ce0fa9feeb95e55819968",
         "factory_origen.corrida_completa": "d3f12133e67e6a4ec12e2eb7598c766c9202c9f5f22eec6532240ec8b0d86376"
@@ -242,10 +284,12 @@
       }
     },
     "practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T14:07:49.260055+00:00",
       "sha256": "04f0da9d2c92347ba7470ad000099eee4a7366c75091e9e3ccb6ff9d33b2bf12",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T14:07:23.617708+00:00",
       "catalogos": {
         "factory_origen.una_muestra_permite_comprobar_la_regla": "385ebdf1b151a32dfb1a9fc9ba24de3448a6c8c2e8e705d28d4d326a687018cc",
         "factory_origen.corrida_completa": "d3f12133e67e6a4ec12e2eb7598c766c9202c9f5f22eec6532240ec8b0d86376"
@@ -255,5 +299,6 @@
         "factory_origen.corrida_completa": "catalogos/factory_origen.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
