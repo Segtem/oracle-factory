@@ -243,6 +243,16 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "f375491985ff"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T12:22:23.107673+00:00",
+      "decision": "aprobar",
+      "candidato": "4673a3b"
     }
   ],
   "tipos": {
@@ -300,5 +310,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Codex: un hallazgo bajo (F1), no del cambio: el lector compartido oracle_factory/pruebas.py sólo alterna cercas con tres comillas invertidas y no con ~~~, mientras requisitos_de_la_spec sí entiende ambas. Preexistente: lo comparten aprobar-spec e importar, y la spec dejó fuera cambiar ese lector. Propongo dejarlo como seguimiento. Evidencia 1255 pruebas OK, 10 casos. 6 mutaciones propias, 5 detectadas; la que sobrevive es equivalente (un caso para un exceptuado ya falla antes). Declaro una prueba existente editada: test_vg1_un_requisito_que_declara_pruebas_no_aplica_… en test_verificador_generico.py, sólo su regex sobre docs/tests.md, que fijaba el límite que este cambio levanta. No toca cli.py ni reglas de decisión.",
+      "candidato": "4673a3b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T12:22:23.107659+00:00"
+    }
+  }
 }
