@@ -2,7 +2,7 @@
   "id": "20261108-134533-o0q-etapas",
   "titulo": "Autonomía por etapa: construcción, integración, publicación y producción",
   "capacidad": "modos",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md",
   "spec_sha256": "3865ceb987cccda96d376d58ab8d44b7f171dcccbd62df78ba8c2b7ad2652cf8",
   "spec_aprobada": {
@@ -23,7 +23,27 @@
     "modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa",
     "modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261108-134533-o0q-etapas/revisiones/registro-z_9p1a4s/informe.json",
+    "sha256": "f64537adda2d4540619843c922fa00bbd2280c318d9db1ef756a8e85e8233246",
+    "decisiones": "tareas/20261108-134533-o0q-etapas/revisiones/registro-z_9p1a4s/decisiones.json",
+    "decisiones_sha256": "cf2b1b20a78786d48d3084a16c5f15c6c948bc6505167228766043afa6beb1fc",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T15:00:27.018228+00:00",
+    "motivo": "Codex sin hallazgos sobre d2f0ec3. Evidencia 1276 pruebas OK, 16 casos. Toca reglas de decisión (cli.py, modos.py): camino completo. Por defecto el cambio es cero: las tres etapas siguen en confirmacion y desplegar --autorizar sigue siendo solo de una persona hasta que una persona ponga produccion en autonomo con el comando. Cambiar la autonomía de una etapa es solo de una persona con confirmación en su terminal; un agente no puede. 12 mutaciones propias, 11 detectadas; la que sobrevive es equivalente (quitar el rechazo explícito a un agente en comando_autonomia: confirmar_persona→exigir_terminal ya lo niega). Declaro pruebas existentes tocadas, solo de forma aditiva o regenerada: test_agentes.py suma la orden 'autonomia ETAPA MODO' a las de persona que recorre; ayuda-cli.json regenerado (índice, desplegar y autonomia). Limite: integración y publicación no tienen comando de Factory que las aplique todavía; la política queda declarada y la salida lo dice. Seguimiento: un agente podría editar a mano .factory/config.json (la guía ya dice que no se edita a mano .factory/) y así darse autonomía; no hay una guarda técnica contra eso, solo la regla escrita.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "6efe70a845511c7c344c94af1f6327d5c3a3443a",
+      "archivos_sha256": "c88868686bece19d7ef482a44ed671d4c42087a67539438b3e2fdfdbc0b68c2e"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -233,6 +253,20 @@
       "cuando": "2026-11-08T14:15:07.383188+00:00",
       "decision": "aprobar",
       "candidato": "d2f0ec3"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T15:00:27.018258+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f64537adda2d4540619843c922fa00bbd2280c318d9db1ef756a8e85e8233246",
+      "decisiones_sha256": "cf2b1b20a78786d48d3084a16c5f15c6c948bc6505167228766043afa6beb1fc"
     }
   ],
   "tipos": {
@@ -325,14 +359,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Codex sin hallazgos sobre d2f0ec3. Evidencia 1276 pruebas OK, 16 casos. Toca reglas de decisión (cli.py, modos.py): camino completo. Por defecto el cambio es cero: las tres etapas siguen en confirmacion y desplegar --autorizar sigue siendo solo de una persona hasta que una persona ponga produccion en autonomo con el comando. Cambiar la autonomía de una etapa es solo de una persona con confirmación en su terminal; un agente no puede. 12 mutaciones propias, 11 detectadas; la que sobrevive es equivalente (quitar el rechazo explícito a un agente en comando_autonomia: confirmar_persona→exigir_terminal ya lo niega). Declaro pruebas existentes tocadas, solo de forma aditiva o regenerada: test_agentes.py suma la orden 'autonomia ETAPA MODO' a las de persona que recorre; ayuda-cli.json regenerado (índice, desplegar y autonomia). Limite: integración y publicación no tienen comando de Factory que las aplique todavía; la política queda declarada y la salida lo dice. Seguimiento: un agente podría editar a mano .factory/config.json (la guía ya dice que no se edita a mano .factory/) y así darse autonomía; no hay una guarda técnica contra eso, solo la regla escrita.",
-      "candidato": "d2f0ec3",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T14:15:07.383174+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
