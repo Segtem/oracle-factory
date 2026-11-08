@@ -117,7 +117,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-020932-3t5-alcance]] — Alcance opcional de los destinos: desplegar sólo lo que cambió (cerrada)
 - [[cambios/20261108-115714-ohv-noaplica]] — El verificador respeta «Pruebas: no aplica» (cerrada)
 - [[cambios/20261108-124048-rv2-marcas]] — El comprobador del sitio detecta bloques marcados duplicados (cerrada)
-- [[cambios/20261108-133915-l4v-origen]] — Medir si los hallazgos de la primera ronda se atrapan leyendo la spec (spec_aprobada)
+- [[cambios/20261108-133915-l4v-origen]] — Medir si los hallazgos de la primera ronda se atrapan leyendo la spec (requisitos_importados)
 
 ## Requisitos
 
@@ -348,6 +348,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/portabilidad_cbe858e976e618573.respetar_los_registros_existentes]]
 - [[requisitos/portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado]]
 - [[requisitos/portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra]]
+- [[requisitos/practicas_c10f87e544968d526.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec]]
+- [[requisitos/practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite]]
+- [[requisitos/practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla]]
 - [[requisitos/practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear]]
 - [[requisitos/practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas]]
 - [[requisitos/practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas]]

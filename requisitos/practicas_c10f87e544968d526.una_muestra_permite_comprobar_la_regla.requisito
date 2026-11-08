@@ -1,0 +1,4 @@
+requisito practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla:
+    texto "Tipo: funcional El sistema DEBE listar con `--muestra N` hasta N hallazgos de cada grupo, con el cambio, la ronda y el título, en un orden que no dependa de la máquina, y NO DEBE modificar ningún archivo del proyecto medido."
+    fuente "openspec/changes/20261108-133915-l4v-origen/specs/practicas/spec.md#una_muestra_permite_comprobar_la_regla"
+    sin_medir "sin medida todavía; escenarios: «la muestra es fija», «solo lectura»"
