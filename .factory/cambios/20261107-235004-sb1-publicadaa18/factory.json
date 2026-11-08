@@ -2,7 +2,7 @@
   "id": "20261107-235004-sb1-publicadaa18",
   "titulo": "Declarar publicada la 0.1.0a18",
   "capacidad": "distribucion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261107-235004-sb1-publicadaa18/specs/distribucion/spec.md",
   "spec_sha256": "e5089e94b9e76f7904d52d41aed7ab6a9b503b434fc74d789b5d0719403a3758",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "distribucion_ce1b0aba1db172723.los_textos_declaran_publicada_la_version_a18",
     "distribucion_ce1b0aba1db172723.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261107-235004-sb1-publicadaa18/revisiones/registro-ei1qtgdj/informe.json",
+    "sha256": "f7897e65a729a812d1f3fbf463d0283d9920762793ec36837a61e6ec44e5c32b",
+    "decisiones": "tareas/20261107-235004-sb1-publicadaa18/revisiones/registro-ei1qtgdj/decisiones.json",
+    "decisiones_sha256": "224d254a7902057b7628a25cec9a2b89ddf2ac74ad664c21e66e7db061a30cc1",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T00:12:59.337684+00:00",
+    "motivo": "Codex sin hallazgos. Sólo textos y pruebas, sin código de producto. Evidencia 1222 pruebas OK. La línea Publicada se apoya en lo verificado: hashes de PyPI iguales a los del release y la instalación desde PyPI dice 0.1.0a18. Pruebas editadas (test_entrega_a18, test_docs): sólo pasan del estado en preparación al publicado, como en publicada-a17.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "d627ebe02175c843451e6c6747d6052e0584b5bc",
+      "archivos_sha256": "36bb8632992da645da9f8440ce5f76d5efab1470177fa893a37034260486418e"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -146,6 +166,20 @@
       "cuando": "2026-11-08T00:12:03.762526+00:00",
       "decision": "aprobar",
       "candidato": "5a04cdd"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T00:12:59.337713+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f7897e65a729a812d1f3fbf463d0283d9920762793ec36837a61e6ec44e5c32b",
+      "decisiones_sha256": "224d254a7902057b7628a25cec9a2b89ddf2ac74ad664c21e66e7db061a30cc1"
     }
   ],
   "tipos": {
@@ -187,14 +221,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Codex sin hallazgos. Sólo textos y pruebas, sin código de producto. Evidencia 1222 pruebas OK. La línea Publicada se apoya en lo verificado: hashes de PyPI iguales a los del release y la instalación desde PyPI dice 0.1.0a18. Pruebas editadas (test_entrega_a18, test_docs): sólo pasan del estado en preparación al publicado, como en publicada-a17.",
-      "candidato": "5a04cdd",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T00:12:03.762512+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

@@ -1,0 +1,57 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261107-235004-sb1-publicadaa18",
+  "contexto": {
+    "head": "d627ebe02175c843451e6c6747d6052e0584b5bc",
+    "archivos_sha256": "36bb8632992da645da9f8440ce5f76d5efab1470177fa893a37034260486418e"
+  },
+  "documentos": {
+    "openspec/changes/20261107-235004-sb1-publicadaa18/proposal.md": "c09ac92f4607195042298986411260e57b1be9661b9cab19f96bb7aa70c1fb22",
+    "openspec/changes/20261107-235004-sb1-publicadaa18/specs/distribucion/spec.md": "e5089e94b9e76f7904d52d41aed7ab6a9b503b434fc74d789b5d0719403a3758"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "NOTAS-DE-RELEASE.md",
+    "README.md",
+    "catalogos/factory_publicada_a18.corrida_completa.oracle",
+    "catalogos/factory_publicada_a18.los_textos_declaran_publicada_la_version_a18.oracle",
+    "catalogos/factory_publicada_a18.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18.oracle",
+    "docs/colaboracion.md",
+    "openspec/changes/20261107-235004-sb1-publicadaa18/design.md",
+    "openspec/changes/20261107-235004-sb1-publicadaa18/proposal.md",
+    "openspec/changes/20261107-235004-sb1-publicadaa18/specs/distribucion/spec.md",
+    "openspec/changes/20261107-235004-sb1-publicadaa18/tasks.md",
+    "requisitos/distribucion_ce1b0aba1db172723.los_textos_declaran_publicada_la_version_a18.requisito",
+    "requisitos/distribucion_ce1b0aba1db172723.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18.requisito",
+    "site/desde-cero.html",
+    "site/index.html",
+    "tests/datos/guias-texto.json",
+    "tests/test_docs.py",
+    "tests/test_entrega_a18.py",
+    "tests/test_publicada_a18.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1222 pruebas, 9 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261107-235004-sb1-publicadaa18/candidatos/5a04cdd/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261107-235004-sb1-publicadaa18/candidatos/5a04cdd/revision/codex-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Sin hallazgos: las promesas del diff están reflejadas en los textos y las pruebas nuevas cubren la detección y las excepciones indicadas por la spec.",
+    "codex (gpt-6-luna): No ejecuté la suite ni mutaciones; revisé estáticamente los tests y el código relevante.",
+    "codex (gpt-6-luna): No pude verificar de forma independiente PyPI/GitHub, los SHA-256 completos ni la instalación de a18 desde este entorno; la afirmación de publicación se revisó como texto y como aserciones, no como hecho externo.",
+    "codex (gpt-6-luna): tests/datos/guias-texto.json: las tres líneas quitadas sustituyen el estado de preparación por la descripción publicada correspondiente; justificado por el cambio.",
+    "codex (gpt-6-luna): tests/test_docs.py: las tres líneas quitadas actualizan los textos de entrada de las pruebas de desajuste de versión al nuevo texto del README; justificado y conserva las comprobaciones.",
+    "codex (gpt-6-luna): tests/test_entrega_a18.py: el test existente se renombra y actualiza expectativas de a18 preparada a publicada; se reemplazan cinco líneas y se quitan cuatro aserciones viejas que contradecían el cambio. La comprobación de textos generales queda complementada por test_publicada_a18.py; no vi pérdida de cobertura relevante."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

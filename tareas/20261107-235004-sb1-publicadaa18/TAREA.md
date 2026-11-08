@@ -31,3 +31,7 @@ Medidas de distribucion_ce1b0aba1db172723.los_textos_declaran_publicada_la_versi
 ### Nota (2026-11-08 00:01:30 UTC)
 
 Medidas de distribucion_ce1b0aba1db172723.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 00:12:59 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Codex sin hallazgos. Sólo textos y pruebas, sin código de producto. Evidencia 1222 pruebas OK. La línea Publicada se apoya en lo verificado: hashes de PyPI iguales a los del release y la instalación desde PyPI dice 0.1.0a18. Pruebas editadas (test_entrega_a18, test_docs): sólo pasan del estado en preparación al publicado, como en publicada-a17.); 0 abiertos derivados; commit d627ebe02175c843451e6c6747d6052e0584b5bc; informe tareas/20261107-235004-sb1-publicadaa18/revisiones/registro-ei1qtgdj/informe.json; decisiones tareas/20261107-235004-sb1-publicadaa18/revisiones/registro-ei1qtgdj/decisiones.json.
