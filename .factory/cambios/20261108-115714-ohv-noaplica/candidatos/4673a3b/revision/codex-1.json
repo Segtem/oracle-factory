@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-verificar-no-aplica/.factory/local/revisiones/4673a3b-codex-1",
+  "base": "4cd1204d6a4ffe390ba2ad9b04a6cb9fa04e17e8",
+  "head": "4673a3b688c5b05093ea3cd632abedd65786d284",
+  "diff_sha256": "4f7ca991d19c3dcb3fc12e4d2818d22fde158182bf69cccecd9263a38a04937b",
+  "context_sha256": "c2644cc1abfab0622e7249d3a1e4e44244ef8452bb0d1334a0df53d93c3ebd7a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~",
+      "explanation": "requisitos_de_la_spec ignora bloques Markdown abiertos con ``` o ~~~, pero leer/excepciones (oracle_factory.pruebas) sólo alterna el estado de cercado cuando la línea empieza con ```. Por eso, si el cuerpo de un requisito incluye un ejemplo cercado con ~~~ que contiene `Pruebas: manuales` o `Pruebas: no aplica` sin motivo, la llamada nueva a pruebas.excepciones(texto) trata ese ejemplo como metadato real: puede rechazar una spec válida con PruebasInvalidas, o exceptuar el requisito y alterar el contrato. El resultado es una falsa alarma o un falso silencio según el contenido del ejemplo. La prueba existente modificada en tests/test_verificador_generico.py cambia la regex para seguir la nueva documentación; el cambio está justificado porque la documentación levanta ese límite, pero no cubre este caso de cercado.",
+      "location": {
+        "file": "tools/verificar_cambio.py",
+        "start_line": 112,
+        "end_line": 112,
+        "side": "head"
+      },
+      "trigger": "En una spec, dentro de un requisito válido, incluir un ejemplo cercado así: `~~~text`, `Pruebas: manuales`, `~~~`; luego invocar el verificador. También se reproduce con `Pruebas: no aplica` sin motivo, que ahora provoca rechazo aunque esté en el ejemplo.",
+      "evidence": "El parser requisitos_de_la_spec, líneas 60–77, contempla tanto fences de backtick como de tilde y omite su contenido. oracle_factory/pruebas.py:30–42 sólo detecta linea.lstrip().startswith(\"```\") y omite únicamente esos bloques; la línea Pruebas: de un fence ~~~ queda expuesta al regex EXCEPCION. leer_contrato llama pruebas.excepciones sobre cada texto completo en la línea 112. Esto no se ejecutó contra un checkout integral; reproducción deducida directamente de ambos parsers.",
+      "related_requirement": "una_excepcion_mal_escrita_no_se_ignora",
+      "status": "pendiente",
+      "verification": "Inspección estática de la ruta leer_contrato → pruebas.excepciones y comparación con el manejo de fences en requisitos_de_la_spec; no ejecuté pruebas ni la reproducción en un proyecto temporal."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec, la propuesta y todos los parches de texto incluidos en el paquete; omissions está vacío.",
+    "No ejecuté la suite ni herramientas de Oracle; la reproducción del hallazgo es por inspección estática.",
+    "La modificación declarada de tests/test_verificador_generico.py cambia sólo la regex que fijaba el límite documentado; está justificada por este cambio, aunque la nueva aserción no prueba el caso de bloques ~~~.",
+    "No hice mutaciones ejecutables: el checkout de revisión disponible en este entorno sólo contiene los archivos de instrucciones y no permite correr el candidato completo.",
+    "Hallazgo bajo de heurística: cierre la clase comparando el tratamiento de fences del lector de excepciones con el parser de requisitos y agregando un caso con ~~~."
+  ]
+}

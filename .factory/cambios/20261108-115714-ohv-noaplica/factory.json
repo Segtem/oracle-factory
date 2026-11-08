@@ -217,6 +217,32 @@
         "factory_noaplica.una_excepcion_mal_escrita_no_se_ignora",
         "factory_noaplica.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T12:20:56.371034+00:00",
+      "revisor": "codex",
+      "candidato": "4673a3b",
+      "lanzamiento": "f375491985ff"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T12:22:10.498265+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "4673a3b",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "f375491985ff"
     }
   ],
   "tipos": {
