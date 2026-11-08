@@ -15,3 +15,7 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-08 12:42:20 UTC)
 
 Requisitos importados: web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-08 12:42:58 UTC)
+
+Medidas de web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado: factory_marcas.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado, factory_marcas.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

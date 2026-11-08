@@ -174,6 +174,9 @@ def problemas(raiz: Path) -> list[str]:
         marca = re.search(r'<a class="brand"[^>]*>', texto)  # el logo es la entrada de la portada: la marca sólo ella
         if not marca or ('aria-current="page"' in marca[0]) != (nombre == "index.html"):
             salida.append(f"{nombre}: el logo debe llevar aria-current=\"page\" sólo en la portada")
+        for bloque in ("menu", "pie", "leer", "ruta"):  # la comparación de abajo sólo mira la primera pareja: una segunda no se vería
+            if texto.count(f"<!-- {bloque} -->") > 1 or texto.count(f"<!-- /{bloque} -->") > 1:
+                salida.append(f"{nombre}: los marcadores del bloque «{bloque}» aparecen más de una vez")
         sobra = "leer" if nombre == "index.html" else "ruta"
         if _actual(texto, sobra) is not None:
             salida.append(f"{nombre}: no debería tener el bloque «{sobra}»")
