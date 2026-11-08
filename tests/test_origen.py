@@ -27,16 +27,17 @@ class Origen(unittest.TestCase):
         self.addCleanup(self._t.cleanup)
         self.raiz = Path(self._t.name)
 
-    def registro(self, ident, rondas):
-        """rondas: [[hallazgos de la ronda 1], [hallazgos de la ronda 2], …]."""
+    def registro(self, ident, rondas, informes=True):
+        """rondas: [[hallazgos de la ronda 1], …]; informes=False no escribe los informes y 'roto' los escribe con JSON inválido."""
         carpeta = self.raiz / '.factory/cambios' / ident
         eventos = [{'accion': 'cambio_creado', 'cuando': '2026-10-25T00:00:00+00:00'}]
         for i, hallazgos in enumerate(rondas, 1):
             sha = f'c{i}{ident[-3:]}'
             eventos.append({'accion': 'revision_pedida', 'candidato': sha, 'cuando': f'2026-10-25T0{i}:00:00+00:00'})
-            informe = carpeta / 'candidatos' / sha / 'revision' / 'agy-1.json'
-            informe.parent.mkdir(parents=True, exist_ok=True)
-            informe.write_text(json.dumps({'findings': hallazgos}))
+            if informes:
+                informe = carpeta / 'candidatos' / sha / 'revision' / 'agy-1.json'
+                informe.parent.mkdir(parents=True, exist_ok=True)
+                informe.write_text('{ esto no es json' if informes == 'roto' else json.dumps({'findings': hallazgos}))
         eventos.append({'accion': 'cierre', 'cuando': '2026-10-26T00:00:00+00:00'})
         carpeta.mkdir(parents=True, exist_ok=True)
         (carpeta / 'factory.json').write_text(json.dumps({'id': ident, 'eventos': eventos}))
@@ -90,6 +91,42 @@ class Origen(unittest.TestCase):
             self.assertIn(clase, salida)
         self.assertIn('aproximación por el texto', salida)
         self.assertIn('no un juicio humano', salida)
+
+    def test_or2_un_candidato_de_primera_ronda_sin_informe_se_dice_y_la_medicion_no_pasa_por_completa(self):
+        self.registro('a', [[hallazgo('media', RUTAS)]], informes=False)
+        salida = self.correr('--origen')
+        self.assertIn('1 candidatos de primera ronda', salida)
+        self.assertIn('1 sin informe legible', salida)
+        self.assertIn('incompleta', salida)
+        self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura'],
+                         {'candidatos_primera_ronda': 1, 'sin_informe_legible': 1, 'informes_ilegibles': 0})
+
+    def test_or2_un_informe_con_json_roto_se_cuenta_como_ilegible_y_tambien_avisa(self):
+        self.registro('a', [[hallazgo('media', RUTAS)]], informes='roto')
+        salida = self.correr('--origen')
+        self.assertIn('1 informes ilegibles', salida)
+        self.assertIn('incompleta', salida)
+        self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura']['informes_ilegibles'], 1)
+
+    def test_or2_con_todos_los_informes_legibles_la_cobertura_es_completa_y_no_avisa(self):
+        self.registro('a', [[hallazgo('media', RUTAS)], [hallazgo('media', NADA)]])  # la segunda ronda no cuenta para la cobertura
+        salida = self.correr('--origen')
+        self.assertIn('0 sin informe legible', salida)
+        self.assertIn('0 informes ilegibles', salida)
+        self.assertNotIn('incompleta', salida)
+        self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura'],
+                         {'candidatos_primera_ronda': 1, 'sin_informe_legible': 0, 'informes_ilegibles': 0})
+
+    def test_or2_los_informes_rotos_de_otra_ronda_no_ensucian_la_cobertura_de_la_primera(self):
+        self.registro('a', [[hallazgo('media', RUTAS)]])
+        carpeta = self.raiz / '.factory/cambios/a'
+        eventos = json.loads((carpeta / 'factory.json').read_text())
+        eventos['eventos'].insert(1, {'accion': 'revision_pedida', 'candidato': 'segunda', 'cuando': '2026-10-25T09:00:00+00:00'})
+        (carpeta / 'factory.json').write_text(json.dumps(eventos))
+        rota = carpeta / 'candidatos/segunda/revision/agy-1.json'
+        rota.parent.mkdir(parents=True)
+        rota.write_text('{ roto')
+        self.assertEqual(medir_rondas.analizar(self.raiz, origen=True)['cobertura']['informes_ilegibles'], 0)
 
     def test_or2_los_dos_grupos_cubren_clases_distintas_y_existentes(self):
         self.assertFalse(set(medir_rondas.ATRAPABLE) & set(medir_rondas.SOLO_CODIGO))

@@ -39,3 +39,15 @@ Medidas de practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite: Bria
 ### Nota (2026-11-08 13:42:50 UTC)
 
 Medidas de practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 14:07:19 UTC)
+
+Medidas de practicas_c10f87e544968d526.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-08 14:07:21 UTC)
+
+Medidas de practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-08 14:07:23 UTC)
+
+Medidas de practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.

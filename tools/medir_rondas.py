@@ -63,6 +63,7 @@ def analizar(proyecto: Path, desde: str = "2026-10-24", origen: bool = False) ->
     reparto: dict[str, list[tuple[str, str]]] = {g: [] for g in GRUPOS}  # grupo -> [(cambio, título)] de la primera ronda
     clases: dict[str, Counter] = defaultdict(Counter)
     rondas_por_cambio: list[int] = []
+    cobertura = {"candidatos_primera_ronda": 0, "sin_informe_legible": 0, "informes_ilegibles": 0}  # qué tan completa es la primera ronda leída
     for registro in sorted((proyecto / ".factory" / "cambios").glob("*/factory.json")):
         datos = leer_json(registro)
         if not isinstance(datos, dict):
@@ -73,11 +74,18 @@ def analizar(proyecto: Path, desde: str = "2026-10-24", origen: bool = False) ->
             continue
         rondas = rondas_de(eventos)
         rondas_por_cambio.append(len(rondas))
+        primera = {c for c, n in rondas.items() if n == 1}
+        leidos: set[str] = set()
         for informe in sorted(registro.parent.glob("candidatos/*/revision/*.json")):
             if informe.name.endswith(".pedido.json"):
                 continue
             candidato = informe.parts[-3]
             contenido = leer_json(informe)
+            if candidato in primera:
+                if isinstance(contenido, dict):
+                    leidos.add(candidato)
+                else:
+                    cobertura["informes_ilegibles"] += 1
             if not isinstance(contenido, dict) or candidato not in rondas:
                 continue
             ronda = min(rondas[candidato], 5)
@@ -91,7 +99,9 @@ def analizar(proyecto: Path, desde: str = "2026-10-24", origen: bool = False) ->
                     for nombre, patron in CLASES.items():
                         if re.search(patron, texto, re.IGNORECASE):
                             clases[nombre][ronda] += 1
-    extra = {"origen": {g: len(reparto[g]) for g in GRUPOS}, "reparto": {g: sorted(reparto[g]) for g in GRUPOS}} if origen else {}
+        cobertura["candidatos_primera_ronda"] += len(primera)
+        cobertura["sin_informe_legible"] += len(primera - leidos)
+    extra = {"origen": {g: len(reparto[g]) for g in GRUPOS}, "reparto": {g: sorted(reparto[g]) for g in GRUPOS}, "cobertura": cobertura} if origen else {}
     return {**extra, "cambios": len(rondas_por_cambio),
             "rondas_mediana": statistics.median(rondas_por_cambio) if rondas_por_cambio else 0,
             "rondas_maximo": max(rondas_por_cambio, default=0),
@@ -113,7 +123,11 @@ def texto(resultado: dict) -> str:
 
 def texto_origen(resultado: dict, muestra: int = 0) -> str:
     total = sum(resultado["origen"].values())
-    lineas = [f"hallazgos altos y medios de la primera ronda: {total}"]
+    c = resultado["cobertura"]
+    lineas = [f"hallazgos altos y medios de la primera ronda: {total}",
+              f"cobertura: {c['candidatos_primera_ronda']} candidatos de primera ronda; {c['sin_informe_legible']} sin informe legible; {c['informes_ilegibles']} informes ilegibles"]
+    if c["sin_informe_legible"] or c["informes_ilegibles"]:
+        lineas.append("AVISO: la medición está incompleta: faltan informes o no se pueden leer, así que los números de abajo son un piso, no el total.")
     for g in GRUPOS:
         n = resultado["origen"][g]
         lineas.append(f"  {n:4}  {g}" + (f"  ({round(100 * n / total)} %)" if total else ""))
