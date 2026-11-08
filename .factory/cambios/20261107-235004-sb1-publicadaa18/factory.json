@@ -110,6 +110,32 @@
         "factory_publicada_a18.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18",
         "factory_publicada_a18.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T00:10:27.165374+00:00",
+      "revisor": "codex",
+      "candidato": "5a04cdd",
+      "lanzamiento": "068837f4b349"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T00:11:51.085238+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "5a04cdd",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "068837f4b349"
     }
   ],
   "tipos": {
