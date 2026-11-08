@@ -22,23 +22,24 @@ def decidir(paso, fase='requisitos_importados', frenos=(), candidato='abc1234'):
 class Reglas(unittest.TestCase):
     # --- ap1: el conductor decide el siguiente paso por reglas ---------------------------------------------------------------
     def test_ap1_una_decision_de_persona_se_le_pide_a_la_persona_con_su_comando(self):
-        for sub in ('aprobar-spec', 'revisar', 'cerrar', 'abandonar', 'modo', 'autonomia', 'soltar', 'decidir-union'):
-            with self.subTest(sub=sub):
-                paso = f'oracle-factory {sub} {ID}'
+        for paso in (f'oracle-factory aprobar-spec {ID}', f'oracle-factory revisar {ID}', f'oracle-factory cerrar {ID}', f'oracle-factory abandonar {ID}',
+                     f'oracle-factory modo {ID} autonomo', 'oracle-factory autonomia produccion autonomo', f'oracle-factory soltar {ID}',
+                     f'oracle-factory decidir-union {ID} spec nuestro', f'oracle-factory medir {ID} --confirmar',
+                     # con las opciones globales antes del subcomando, tal como las acepta el parser: --agente, --proyecto, con «=» y abreviadas
+                     f'oracle-factory --agente codex cerrar {ID}', f'oracle-factory --proyecto /x --agente a aprobar-spec {ID}',
+                     f'oracle-factory --agente=codex revisar {ID}', f'oracle-factory --agen codex cerrar {ID}', f'oracle-factory --agente codex medir {ID} --confirmar'):
+            with self.subTest(paso=paso):
                 d = decidir(paso)
                 self.assertEqual((d['accion'], d['quien'], d['comando']), ('pedir_a_persona', 'persona', paso))
                 self.assertTrue(d['motivo'])
-        d = decidir(f'oracle-factory medir {ID} --confirmar')
-        self.assertEqual((d['accion'], d['quien'], d['comando']), ('pedir_a_persona', 'persona', f'oracle-factory medir {ID} --confirmar'))
 
     def test_ap1_un_comando_mecanico_lo_corre_un_agente(self):
-        for sub in ('importar', 'juzgar', 'pedir-revision', 'revision-preparar', 'tomar', 'mensaje'):
-            with self.subTest(sub=sub):
-                paso = f'oracle-factory {sub} {ID}'
+        for paso in (f'oracle-factory importar {ID}', f'oracle-factory juzgar {ID}', f'oracle-factory pedir-revision {ID} --a agy',
+                     f'oracle-factory revision-preparar {ID}', f'oracle-factory tomar {ID}', f'oracle-factory mensaje {ID} "un texto"',
+                     f'oracle-factory --agente codex juzgar {ID}', f'oracle-factory --agente=codex pedir-revision {ID} --a codex'):
+            with self.subTest(paso=paso):
                 d = decidir(paso)
                 self.assertEqual((d['accion'], d['quien'], d['comando']), ('actuar', 'agente', paso))
-        d = decidir(f'oracle-factory pedir-revision {ID} --a agy')
-        self.assertEqual((d['accion'], d['comando']), ('actuar', f'oracle-factory pedir-revision {ID} --a agy'))
 
     def test_ap1_la_prosa_y_elegir_medidas_son_trabajo_del_agente_y_sin_candidato_se_construye(self):
         for paso in (f'corregí los 2 hallazgos medios o más del candidato abc1234 y commitealo; después: oracle-factory pedir-revision {ID} --a agy',
@@ -70,7 +71,8 @@ class Reglas(unittest.TestCase):
 
     def test_ap2_un_paso_desconocido_incompleto_o_con_archivos_faltantes_frena(self):
         for paso in (None, '', 3, ['x'], 'hacé lo que quieras', f'oracle-factory estado {ID}', 'oracle-factory', 'oracle-factory medir',
-                     f'oracle-factory medir {ID} --otra', f'oracle-factory juzgar {ID} --con RUTA_DE_HECHOS',
+                     f'oracle-factory medir {ID} --otra', 'oracle-factory --version', 'oracle-factory --agente codex', f'oracle-factory cerrar', f'oracle-factory --agente cerrar {ID}',
+                     f'oracle-factory --otra x cerrar {ID}', f'oracle-factory juzgar {ID} --a', f'oracle-factory juzgar {ID} --con RUTA_DE_HECHOS',
                      f'oracle-factory juzgar {ID} --con RUTA_DE_LOS_HECHOS', "oracle-factory juzgar 'sin cerrar",
                      f'faltan archivos del cambio (a.json): recuperalos desde Git; después: oracle-factory estado {ID}',
                      f'faltan archivos del cambio (a.json): corregí algo; después: oracle-factory juzgar {ID}', f'otra-herramienta cerrar {ID}'):

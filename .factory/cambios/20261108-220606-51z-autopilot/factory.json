@@ -139,6 +139,32 @@
         "factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce",
         "factory_autopilot.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T22:48:10.138314+00:00",
+      "revisor": "codex",
+      "candidato": "92fc31a",
+      "lanzamiento": "92bff7238227"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T22:50:01.316777+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "92fc31a",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "92bff7238227"
     }
   ],
   "tipos": {

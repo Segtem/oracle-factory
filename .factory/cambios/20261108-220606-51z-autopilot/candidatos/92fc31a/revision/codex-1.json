@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-autopilot/.factory/local/revisiones/92fc31a-codex-1",
+  "base": "742c19e486c0322fce8ab7d6b3e182aa9053c644",
+  "head": "92fc31a1fafbea72565e38cd45e7fee1d6de24a2",
+  "diff_sha256": "8a0023dabf76137fe5d5d98ef988dd45fe5a576558528a98a081f1ec9b1a65bb",
+  "context_sha256": "4d3141ea6c68cae02b71b99a5f6b3d4b93be4e755ed07743f271861c768fff39",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "AP-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El prefijo global --agente oculta las decisiones humanas",
+      "explanation": "El parser acepta --agente antes del subcomando, tal como indican las instrucciones de uso del proyecto (`oracle-factory --agente NOMBRE …`). Sin embargo, decidir() exige que tokens[0] sea oracle-factory y toma tokens[1] como subcomando. Al recibir, por ejemplo, `oracle-factory --agente codex cerrar ID`, devuelve frenar por subcomando desconocido en vez de pedir_a_persona. El comando queda sin recomendar, pero incumple que todo comando humano sea siempre clasificado pedir_a_persona; el mismo defecto afecta a aprobar-spec, revisar, medir --confirmar y los demás. Las pruebas cubren los comandos sin el prefijo global y no cubren esta forma válida.",
+      "location": {"file": "oracle_factory/autopilot.py", "start_line": 52, "end_line": 54, "side": "head"},
+      "trigger": "decidir({\"fase\":\"x\",\"proximo_paso\":\"oracle-factory --agente codex cerrar 20261108-000000-abc-demo\",\"frenos\":[],\"candidato\":\"abc1234\"})",
+      "evidence": "Con la lógica actual, tokens[0] coincide con oracle-factory pero tokens[1] es --agente, que no pertenece a PERSONA; la salida es {accion: frenar, comando: null}. El parser define --agente como argumento global y lo acepta antes del subcomando. tests/test_autopilot.py prueba `oracle-factory cerrar ID` pero no el prefijo `--agente`.",
+      "related_requirement": "el_conductor_decide_el_siguiente_paso_por_reglas",
+      "status": "pendiente",
+      "verification": "Inspección estática de autopilot.py y parser.py; reproducción de tokens conforme a shlex.split. No se ejecutó la suite."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí propuesta y spec; contrasté las rutas de decisión con oracle_factory/autopilot.py, oracle_factory/parser.py, datos_estado y tests/test_autopilot.py.",
+    "No ejecuté la suite ni mutaciones manuales; no se inspeccionaron artefactos excluidos por el paquete, según el alcance indicado.",
+    "La única edición de un test existente fue tests/datos/ayuda-cli.json: legítima y necesaria para regenerar la ayuda del CLI tras agregar el subcomando autopilot; añade su entrada y actualiza el listado de subcomandos.",
+    "El paquete no omite archivos binarios."
+  ]
+}

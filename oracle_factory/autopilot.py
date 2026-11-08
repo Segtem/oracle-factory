@@ -5,6 +5,8 @@ a un agente (eso es la otra mitad). Ante la duda frena: un paso que no reconoce,
 la decisión a una persona, y las decisiones de una persona (`PERSONA`) lo son aunque una etapa esté en `autonomo`."""
 from __future__ import annotations
 
+import contextlib
+import io
 import re
 import shlex
 
@@ -15,6 +17,17 @@ MECANICO = frozenset({"importar", "juzgar", "pedir-revision", "revision-preparar
 # Un paso en prosa que `estado` da cuando hay trabajo creativo: corregir, commitear, resolver.
 PROSA = ("corregí", "commiteá", "resolvé")
 MARCADOR = re.compile(r"^RUTA_\w*$")  # un comando que estado deja por completar: «--con RUTA_DE_HECHOS»
+
+
+def _analizar(argumentos: list[str]):
+    """Los argumentos como los entiende el parser real de Factory (opciones globales como --agente o --proyecto antes del subcomando, `=`,
+    abreviaturas); None si no los acepta. Así el conductor no tiene su propia lectura de la línea de comandos."""
+    from .parser import construir_parser
+    try:
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            return construir_parser().parse_args(argumentos)
+    except SystemExit:
+        return None
 
 
 def _decision(accion, quien=None, comando=None, instruccion=None, motivo="", frenos=()):
@@ -51,12 +64,15 @@ def decidir(datos) -> dict:
         return _frena("el próximo paso no se puede leer como un comando")
     if len(tokens) < 3 or tokens[0] != "oracle-factory":
         return _frena("el próximo paso no es un comando ni un trabajo que el conductor conozca")
-    sub = tokens[1]
     if any(MARCADOR.match(t) for t in tokens):
         return _frena("el comando del próximo paso está incompleto: falta una ruta que decidir")
-    if sub == "medir" and "--confirmar" in tokens:
+    args = _analizar(tokens[1:])
+    if args is None:
+        return _frena("el próximo paso no es un comando que Factory acepte tal cual")
+    sub = args.comando
+    if sub == "medir" and getattr(args, "confirmar", False):
         return _decision("pedir_a_persona", "persona", paso, motivo="confirmar las medidas es sólo de una persona")
-    if sub == "medir" and "--listar" in tokens:
+    if sub == "medir" and getattr(args, "listar", False):
         return _decision("delegar_al_agente", "agente", instruccion="elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas",
                          motivo="elegir medidas es trabajo del agente; confirmarlas es de una persona")
     if sub in PERSONA:
