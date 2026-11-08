@@ -1,5 +1,6 @@
 # Plantilla de GitHub Actions para un proyecto con Oracle Factory: copiala a .github/workflows/verificar.yml.
-# Corre `oracle-factory verificar` (de sólo lectura): sale con 1 si algún cambio está inconsistente. No usa secretos ni escribe nada.
+# Corre `oracle-factory verificar` (de sólo lectura): sin secretos, no escribe nada.
+# Política: si algún cambio está inconsistente, falla en main y avisa (sin fallar) en las demás ramas y pull requests.
 name: Verificar los cambios de Factory
 on:
   push:
@@ -13,4 +14,10 @@ jobs:
       - uses: actions/checkout@v6
       - uses: astral-sh/setup-uv@v6
       - run: uv tool install oracle-factory
-      - run: oracle-factory verificar
+      - name: Verificar los cambios (falla en main, avisa en las demás ramas)
+        run: |
+          rc=0
+          oracle-factory verificar || rc=$?
+          if [ "$rc" -eq 0 ]; then exit 0; fi
+          if [ "$GITHUB_REF" = refs/heads/main ]; then exit "$rc"; fi
+          echo "::warning title=verificar::Hay cambios inconsistentes (el detalle está arriba). En main esto falla; en una rama de trabajo es esperable hasta que se renueve la revisión."
