@@ -2,10 +2,20 @@
   "id": "20261108-020932-3t5-alcance",
   "titulo": "Alcance opcional de los destinos: desplegar sólo lo que cambió",
   "capacidad": "despliegue",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T02:16:10.016031+00:00",
+    "documentos": {
+      "openspec/changes/20261108-020932-3t5-alcance/proposal.md": "69cf9f61bb103878b7a6e8bf3e3383b446459d37d094ac53b909a097ed8cb5a3",
+      "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-08T02:09:32.675597+00:00",
       "capacidad": "despliegue"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T02:16:10.016060+00:00",
+      "documentos": {
+        "openspec/changes/20261108-020932-3t5-alcance/proposal.md": "69cf9f61bb103878b7a6e8bf3e3383b446459d37d094ac53b909a097ed8cb5a3",
+        "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
