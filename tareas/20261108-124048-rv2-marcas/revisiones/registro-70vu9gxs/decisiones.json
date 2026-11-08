@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "6811898a99c8acce8c165b9a1ec99127974b38e0e06e6f7f9f3c6d619609c0d2",
+  "actor": "Brian Hollweg",
+  "motivo": "Camino ligero: un revisor, una ronda, sin hallazgos medios ni altos. Codex: un hallazgo bajo (heurístico): el control cuenta sólo los marcadores exactos que escribe la herramienta (<!-- bloque --> y <!-- /bloque -->), así que una segunda pareja con espacios extra o mayúsculas pasa inadvertida. Propongo aceptarlo como límite declarado: el escritor sólo genera la forma canónica, y detectar variantes de un comentario HTML es heurístico y no se cierra por rondas. Evidencia 1260 pruebas OK, 5 casos. 6 mutaciones propias, las 6 detectadas. Sin ediciones a pruebas existentes. 83 líneas de producto en tools/sitio_paginas.py.",
+  "decisiones": [
+    {
+      "hallazgo_id": "C1",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Una pareja duplicada con marcadores no canónicos pasa inadvertida",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-08T13:13:01.317806+00:00"
+    }
+  ]
+}

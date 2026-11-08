@@ -358,3 +358,28 @@ El sistema DEBE poder usarse a 360 px de ancho en las seis páginas, sin desplaz
 - DADO un ancho de 360 px
 - CUANDO se abre cada página y se recorre su menú con Tab
 - ENTONCES no hay desplazamiento horizontal de la página, cada enlace del menú recibe el foco, y no hay errores ni pedidos externos
+
+### Requirement: el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado
+Origen: 20261108-124048-rv2-marcas · web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado
+Tipo: funcional
+El sistema DEBE hacer que `tools/sitio_paginas.py` rechace, nombrando la página y el bloque, toda página donde los marcadores de un bloque generado (`menu`, `pie`, `leer` o `ruta`) aparezcan más de una vez, aunque el primer bloque coincida con la tabla; una página con una sola pareja bien formada NO DEBE recibir ese rechazo.
+
+#### Scenario: una segunda pareja alterada
+- DADO una copia del sitio donde una página repite la pareja del menú con otro contenido
+- CUANDO se corre el comprobador
+- ENTONCES falla nombrando la página y el bloque «menu»
+
+#### Scenario: una apertura o un cierre repetidos
+- DADO una página con una segunda apertura, o un segundo cierre, del mismo bloque
+- CUANDO se corre el comprobador
+- ENTONCES falla nombrando la página y el bloque
+
+#### Scenario: un bloque que la página no debe tener
+- DADO la portada con dos parejas del bloque «leer», o una guía con dos del bloque «ruta»
+- CUANDO se corre el comprobador
+- ENTONCES falla nombrando la página y el bloque
+
+#### Scenario: el sitio actual sigue pasando
+- DADO el repositorio sin tocar
+- CUANDO se corre el comprobador
+- ENTONCES no hay problemas

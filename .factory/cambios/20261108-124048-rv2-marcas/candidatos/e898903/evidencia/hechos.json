@@ -1,0 +1,35 @@
+{
+  "marcas_caso": [
+    {
+      "requisito": "el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado",
+      "caso": "MarcasDuplicadas.test_ma1_cada_bloque_generado_se_vigila",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado",
+      "caso": "MarcasDuplicadas.test_ma1_el_sitio_actual_no_tiene_ni_un_duplicado",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado",
+      "caso": "MarcasDuplicadas.test_ma1_un_bloque_que_la_pagina_no_debe_tener_y_viene_repetido_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado",
+      "caso": "MarcasDuplicadas.test_ma1_una_apertura_o_un_cierre_repetidos_fallan",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado",
+      "caso": "MarcasDuplicadas.test_ma1_una_segunda_pareja_alterada_falla_nombrando_la_pagina_y_el_bloque",
+      "codigo": 0
+    }
+  ],
+  "marcas_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}

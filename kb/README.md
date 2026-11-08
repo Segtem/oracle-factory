@@ -116,6 +116,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-003501-eqd-activar]] — Activar el workflow verificar en este repositorio (cerrada)
 - [[cambios/20261108-020932-3t5-alcance]] — Alcance opcional de los destinos: desplegar sólo lo que cambió (cerrada)
 - [[cambios/20261108-115714-ohv-noaplica]] — El verificador respeta «Pruebas: no aplica» (cerrada)
+- [[cambios/20261108-124048-rv2-marcas]] — El comprobador del sitio detecta bloques marcados duplicados (cerrada)
 
 ## Requisitos
 
@@ -451,6 +452,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/web_c3777bed32379e332.el_menu_es_el_mismo_en_todas_las_paginas]]
 - [[requisitos/web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica]]
 - [[requisitos/web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web]]
+- [[requisitos/web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado]]
 - [[requisitos/web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible]]
 - [[requisitos/web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada]]
 - [[requisitos/web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto]]

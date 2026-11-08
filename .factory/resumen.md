@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:871d491823a2b60cb24fecfe0f990cd69da1ec8ae2a98ae586e78ed64c1a53b2 -->
+<!-- oracle-factory resumen sha256:c71f4416a2c25bf7cde806fee9f8d7ec1f51527f088db73aa0ff1bfb77ee8761 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 330 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 331 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -562,6 +562,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 | cada_pagina_lleva_a_la_siguiente | funcional | `web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente` | factory_web_paginas.cada_pagina_lleva_a_la_siguiente, factory_web_paginas.corrida_completa | verde al cerrar el 2026-11-06 | 20261106-002754-jzt-paginas |
 | toda_la_documentacion_esta_en_la_web | funcional | `web_c3777bed32379e332.toda_la_documentacion_esta_en_la_web` | factory_web_paginas.toda_la_documentacion_esta_en_la_web, factory_web_paginas.corrida_completa | verde al cerrar el 2026-11-06 | 20261106-002754-jzt-paginas |
 | el_sitio_se_usa_en_pantalla_chica | funcional | `web_c3777bed32379e332.el_sitio_se_usa_en_pantalla_chica` | factory_web_paginas.el_sitio_se_usa_en_pantalla_chica, factory_web_paginas.corrida_completa | verde al cerrar el 2026-11-06 | 20261106-002754-jzt-paginas |
+| el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado | funcional | `web_c5280d3ce46f7827d.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado` | factory_marcas.el_comprobador_del_sitio_rechaza_un_bloque_marcado_duplicado, factory_marcas.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-124048-rv2-marcas |
 
 ## Cambios abiertos
 
@@ -623,6 +624,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **WPG-007** (20261106-002754-jzt-paginas): El comprobador ignora bloques marcados duplicados. Aceptado por Brian Hollweg: Acepto el riesgo: El comprobador ignora bloques marcados duplicados
 - **a18-registro-acepta-hashes-no-hexadecimales** (20261107-213354-5pg-entregaa18): La validación del registro acepta valores que no son hashes SHA-256. Aceptado por Brian Hollweg: Acepto el riesgo: La validación del registro acepta valores que no son hashes SHA-256
 - **F1** (20261108-115714-ohv-noaplica): El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~. Aceptado por Brian Hollweg: Acepto el riesgo: El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~
+- **C1** (20261108-124048-rv2-marcas): Una pareja duplicada con marcadores no canónicos pasa inadvertida. Aceptado por Brian Hollweg: Acepto el riesgo: Una pareja duplicada con marcadores no canónicos pasa inadvertida
 
 ### Históricos
 
@@ -1729,6 +1731,10 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261108-115714-ohv-noaplica) codex (gpt-6-luna): La modificación declarada de tests/test_verificador_generico.py cambia sólo la regex que fijaba el límite documentado; está justificada por este cambio, aunque la nueva aserción no prueba el caso de bloques ~~~.
 - (20261108-115714-ohv-noaplica) codex (gpt-6-luna): No hice mutaciones ejecutables: el checkout de revisión disponible en este entorno sólo contiene los archivos de instrucciones y no permite correr el candidato completo.
 - (20261108-115714-ohv-noaplica) codex (gpt-6-luna): Hallazgo bajo de heurística: cierre la clase comparando el tratamiento de fences del lector de excepciones con el parser de requisitos y agregando un caso con ~~~.
+- (20261108-124048-rv2-marcas) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261108-124048-rv2-marcas) codex (gpt-6-luna): Corrí `python -m unittest tests.test_marcas </dev/null` (5 pruebas); no ejecuté la suite completa.
+- (20261108-124048-rv2-marcas) codex (gpt-6-luna): Realicé dos mutaciones temporales para marcadores duplicados con variación de espacios y mayúsculas; no modifiqué el checkout.
+- (20261108-124048-rv2-marcas) codex (gpt-6-luna): El paquete no omite archivos binarios.
 
 ### Históricos
 
