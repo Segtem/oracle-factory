@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cf63459721e7fb9ac.estado_muestra_los_frenos`
 - Vigente: sí
 - Cambio: [[cambios/20261108-203356-puy-frenos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_frenos.estado_muestra_los_frenos`, `factory_frenos.corrida_completa`
 - Fuente: openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md#estado_muestra_los_frenos
 

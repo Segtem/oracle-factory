@@ -119,7 +119,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-124048-rv2-marcas]] — El comprobador del sitio detecta bloques marcados duplicados (cerrada)
 - [[cambios/20261108-133915-l4v-origen]] — Medir si los hallazgos de la primera ronda se atrapan leyendo la spec (cerrada)
 - [[cambios/20261108-134533-o0q-etapas]] — Autonomía por etapa: construcción, integración, publicación y producción (cerrada)
-- [[cambios/20261108-203356-puy-frenos]] — Frenos de construcción: avisos de estado que mandan parar (requisitos_importados)
+- [[cambios/20261108-203356-puy-frenos]] — Frenos de construcción: avisos de estado que mandan parar (oracle_verde)
 
 ## Requisitos
 

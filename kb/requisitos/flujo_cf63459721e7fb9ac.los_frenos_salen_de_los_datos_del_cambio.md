@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio`
 - Vigente: sí
 - Cambio: [[cambios/20261108-203356-puy-frenos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_frenos.los_frenos_salen_de_los_datos_del_cambio`, `factory_frenos.corrida_completa`
 - Fuente: openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md#los_frenos_salen_de_los_datos_del_cambio
 
