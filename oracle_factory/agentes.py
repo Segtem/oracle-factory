@@ -42,7 +42,7 @@ AGENTE = (
     ("tomar ID", "sumarse como agente al cambio"),
     ("abandonar ID --motivo M", "proponer el motivo de un abandono"),
 )
-LECTURA = ("estado ID", "preguntar \"PREGUNTA\"", "por-que ARCHIVO:LÍNEA", "buscar TEXTO", "log ID", "resumen", "listar")
+LECTURA = ("estado ID", "autopilot ID", "preguntar \"PREGUNTA\"", "por-que ARCHIVO:LÍNEA", "buscar TEXTO", "log ID", "resumen", "listar")
 QUE = {"decide": "decide", "propone": "propone", "rechaza": "no puede"}
 
 

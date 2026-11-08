@@ -67,7 +67,7 @@ Con `--agente` se niegan o dejan sólo una propuesta. Pedíselos a la persona, c
 
 ### Consultar el proyecto (sólo lectura)
 
-- `oracle-factory estado ID`, `oracle-factory preguntar "PREGUNTA"`, `oracle-factory por-que ARCHIVO:LÍNEA`, `oracle-factory buscar TEXTO`, `oracle-factory log ID`, `oracle-factory resumen`, `oracle-factory listar`.
+- `oracle-factory estado ID`, `oracle-factory autopilot ID`, `oracle-factory preguntar "PREGUNTA"`, `oracle-factory por-que ARCHIVO:LÍNEA`, `oracle-factory buscar TEXTO`, `oracle-factory log ID`, `oracle-factory resumen`, `oracle-factory listar`.
 - `preguntar` devuelve pasajes vigentes del conocimiento del proyecto con su cita: úsalo antes de suponer por qué algo es como es.
 - Por MCP, las mismas consultas como herramientas: `claude mcp add factory -- oracle-factory --proyecto RUTA mcp` (o `codex mcp add …`).
 
