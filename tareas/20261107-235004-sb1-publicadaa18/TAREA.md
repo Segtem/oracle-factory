@@ -23,3 +23,11 @@ Medidas de distribucion_ce1b0aba1db172723.los_textos_declaran_publicada_la_versi
 ### Nota (2026-11-08 00:00:54 UTC)
 
 Medidas de distribucion_ce1b0aba1db172723.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18: factory_publicada_a18.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18, factory_publicada_a18.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 00:01:29 UTC)
+
+Medidas de distribucion_ce1b0aba1db172723.los_textos_declaran_publicada_la_version_a18: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 00:01:30 UTC)
+
+Medidas de distribucion_ce1b0aba1db172723.se_detecta_lo_que_siga_llamando_candidata_a_la_version_a18: Brian Hollweg (persona, confirmo, modo confirmacion).
