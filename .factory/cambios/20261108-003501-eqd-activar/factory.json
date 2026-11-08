@@ -2,7 +2,7 @@
   "id": "20261108-003501-eqd-activar",
   "titulo": "Activar el workflow verificar en este repositorio",
   "capacidad": "ci",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md",
   "spec_sha256": "7c21040c7849f036b14a3a0e0d40dc5379aa4de708cc6e09016861aa0b0dde7f",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md": "7c21040c7849f036b14a3a0e0d40dc5379aa4de708cc6e09016861aa0b0dde7f"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci",
+    "ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica",
+    "ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261108-003501-eqd-activar/proposal.md": "52504f8140dd2178ed878d0fd532fa96e07ea19e6d5a56df6f9e13f273c40728",
         "openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md": "7c21040c7849f036b14a3a0e0d40dc5379aa4de708cc6e09016861aa0b0dde7f"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T00:38:11.461856+00:00",
+      "ids": [
+        "ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci",
+        "ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica",
+        "ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci": "funcional",
+    "ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica": "funcional",
+    "ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

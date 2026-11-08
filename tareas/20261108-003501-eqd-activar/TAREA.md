@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261108-003501-eqd-activar. Modo de trabajo: confirm
 ### Nota (2026-11-08 00:38:03 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-08 00:38:11 UTC)
+
+Requisitos importados: ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci (funcional), ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica (funcional), ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
