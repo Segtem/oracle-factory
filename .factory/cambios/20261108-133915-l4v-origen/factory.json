@@ -2,7 +2,7 @@
   "id": "20261108-133915-l4v-origen",
   "titulo": "Medir si los hallazgos de la primera ronda se atrapan leyendo la spec",
   "capacidad": "practicas",
-  "fase": "requisitos_importados",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261108-133915-l4v-origen/specs/practicas/spec.md",
   "spec_sha256": "e840650f2692f2d39139c5983846ae6622d1f4de28d407f22e8903a329a58891",
   "spec_aprobada": {
@@ -21,8 +21,40 @@
     "practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite",
     "practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261108-133915-l4v-origen/revisiones/registro-7egc8b6_/informe.json",
+    "sha256": "3f84c03e4f410029530e684331d70e1497b999e8dd6888b5f1eb550b64731a15",
+    "decisiones": "tareas/20261108-133915-l4v-origen/revisiones/registro-7egc8b6_/decisiones.json",
+    "decisiones_sha256": "1081daf3ccba958cfd0e9699d87e4615a5a76eb34b18b5c383245eb94a017ee6",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T17:00:40.740836+00:00",
+    "motivo": "Seis rondas de codex sobre candidatos 8 a 86b9543; evidencia 1278 pruebas OK, 18 casos; 27 mutaciones propias detectadas; sin ediciones a pruebas existentes. Las rondas 1 a 5 fueron de una misma clase (parseo tolerante que daba un falso cero) y se cerraron con validación estricta y una cobertura a la vista (informes, registros y eventos de revisión); la ronda 5 además aclaró la unidad de conteo (lo que reporta cada informe), que codex dio por coherente en la ronda 6. La ronda 6 trae un hallazgo medio SEMÁNTICO, no de tipos: una acción de revisión mal escrita (por ejemplo revision_pedid) con candidato y fecha no se reconoce y esa ronda no cuenta. Propongo aceptarlo como riesgo declarado: reconocer variantes tipográficas de nombres de acción es heurístico y no tiene fin (cualquier acción podría estar mal escrita), los registros los escribe Factory con nombres fijos y en los datos reales hay 0 registros o informes ilegibles de cualquier tipo. Límites que quedan: (1) una acción de revisión mal escrita no se reconoce; (2) la clase se busca en el título y los primeros 600 caracteres de la explicación (heredado de las siete clases originales, bajo, ronda 4); (3) el reparto es una aproximación por texto, no un juicio humano. Resultado con datos reales: 148 hallazgos altos y medios de la ronda 1 en 45 candidatos: 32 % atrapable al leer la spec, 18 % solo con código, 13 % mixto, 38 % sin clase.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "f55ac19173d53ed14e554f6edd78313e6635d0ed",
+      "archivos_sha256": "56ca2dced6bf6e75a5c9fdf9434087e9021667a9b78bdf4799e89afe0dd29a51"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261108-133915-l4v-origen/candidatos/86b9543/evidencia/hechos.json",
+    "hechos_sha256": "57632b5cf19e678279dd3d29b06aa8c4411e584d424641bac6e19c1e48e621a0",
+    "informe": ".factory/cambios/20261108-133915-l4v-origen/oracle-veredicto.txt",
+    "informe_sha256": "3a98700426cccf84b6682bd9d7c5ddfa1d9ddb3980981d85cadcc42b000c05d1",
+    "cuando": "2026-11-08T17:00:53.525182+00:00",
+    "contexto": {
+      "head": "f55ac19173d53ed14e554f6edd78313e6635d0ed",
+      "archivos_sha256": "56ca2dced6bf6e75a5c9fdf9434087e9021667a9b78bdf4799e89afe0dd29a51"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -539,6 +571,51 @@
       "cuando": "2026-11-08T15:57:56.233829+00:00",
       "decision": "aprobar",
       "candidato": "86b9543"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T17:00:40.740857+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "3f84c03e4f410029530e684331d70e1497b999e8dd6888b5f1eb550b64731a15",
+      "decisiones_sha256": "1081daf3ccba958cfd0e9699d87e4615a5a76eb34b18b5c383245eb94a017ee6"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T17:00:53.525200+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "57632b5cf19e678279dd3d29b06aa8c4411e584d424641bac6e19c1e48e621a0"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T17:05:47.298859+00:00",
+      "oracle": ".factory/cambios/20261108-133915-l4v-origen/oracle-veredicto.txt",
+      "revision": "tareas/20261108-133915-l4v-origen/revisiones/registro-7egc8b6_/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T17:05:47.341524+00:00",
+      "capacidad": "practicas",
+      "spec": "openspec/specs/practicas/spec.md"
     }
   ],
   "tipos": {
@@ -597,14 +674,28 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Seis rondas de codex sobre candidatos 8 a 86b9543; evidencia 1278 pruebas OK, 18 casos; 27 mutaciones propias detectadas; sin ediciones a pruebas existentes. Las rondas 1 a 5 fueron de una misma clase (parseo tolerante que daba un falso cero) y se cerraron con validación estricta y una cobertura a la vista (informes, registros y eventos de revisión); la ronda 5 además aclaró la unidad de conteo (lo que reporta cada informe), que codex dio por coherente en la ronda 6. La ronda 6 trae un hallazgo medio SEMÁNTICO, no de tipos: una acción de revisión mal escrita (por ejemplo revision_pedid) con candidato y fecha no se reconoce y esa ronda no cuenta. Propongo aceptarlo como riesgo declarado: reconocer variantes tipográficas de nombres de acción es heurístico y no tiene fin (cualquier acción podría estar mal escrita), los registros los escribe Factory con nombres fijos y en los datos reales hay 0 registros o informes ilegibles de cualquier tipo. Límites que quedan: (1) una acción de revisión mal escrita no se reconoce; (2) la clase se busca en el título y los primeros 600 caracteres de la explicación (heredado de las siete clases originales, bajo, ronda 4); (3) el reparto es una aproximación por texto, no un juicio humano. Resultado con datos reales: 148 hallazgos altos y medios de la ronda 1 en 45 candidatos: 32 % atrapable al leer la spec, 18 % solo con código, 13 % mixto, 38 % sin clase.",
-      "candidato": "86b9543",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T15:57:56.233816+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tools/medir_rondas.py",
+      "titulo": "Una acción de revisión mal escrita sigue produciendo un falso cero silencioso",
+      "firma": "tools/medir_rondas.py|una acción de revisión mal escrita sigue produciendo un falso cero silencioso",
+      "motivo": "Acepto el riesgo: Una acción de revisión mal escrita sigue produciendo un falso cero silencioso",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-08T17:00:39.209437+00:00",
+      "candidato": "86b9543"
     }
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T17:05:47.236147+00:00"
+  },
+  "archivo": {
+    "capacidad": "practicas",
+    "spec": "openspec/specs/practicas/spec.md",
+    "cuando": "2026-11-08T17:05:47.341513+00:00"
   }
 }

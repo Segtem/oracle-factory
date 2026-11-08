@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:c71f4416a2c25bf7cde806fee9f8d7ec1f51527f088db73aa0ff1bfb77ee8761 -->
+<!-- oracle-factory resumen sha256:c6eee920bb54eafb2bb29eb4cb3ed1eec3d0a152cee2aeb79129a00886a20c89 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 331 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 334 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -395,6 +395,9 @@ Spec completa: [openspec/specs/practicas/spec.md](../openspec/specs/practicas/sp
 | el_verificador_no_pide_casos_para_un_requisito_exceptuado | funcional | `practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado` | factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuado, factory_noaplica.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-115714-ohv-noaplica |
 | la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos | funcional | `practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos` | factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos, factory_noaplica.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-115714-ohv-noaplica |
 | una_excepcion_mal_escrita_no_se_ignora | funcional | `practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora` | factory_noaplica.una_excepcion_mal_escrita_no_se_ignora, factory_noaplica.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-115714-ohv-noaplica |
+| la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec | funcional | `practicas_c10f87e544968d526.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec` | factory_origen.la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec, factory_origen.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-133915-l4v-origen |
+| la_salida_dice_la_regla_y_su_limite | funcional | `practicas_c10f87e544968d526.la_salida_dice_la_regla_y_su_limite` | factory_origen.la_salida_dice_la_regla_y_su_limite, factory_origen.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-133915-l4v-origen |
+| una_muestra_permite_comprobar_la_regla | funcional | `practicas_c10f87e544968d526.una_muestra_permite_comprobar_la_regla` | factory_origen.una_muestra_permite_comprobar_la_regla, factory_origen.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-133915-l4v-origen |
 
 ### procedencia
 
@@ -625,6 +628,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **a18-registro-acepta-hashes-no-hexadecimales** (20261107-213354-5pg-entregaa18): La validación del registro acepta valores que no son hashes SHA-256. Aceptado por Brian Hollweg: Acepto el riesgo: La validación del registro acepta valores que no son hashes SHA-256
 - **F1** (20261108-115714-ohv-noaplica): El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~. Aceptado por Brian Hollweg: Acepto el riesgo: El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~
 - **C1** (20261108-124048-rv2-marcas): Una pareja duplicada con marcadores no canónicos pasa inadvertida. Aceptado por Brian Hollweg: Acepto el riesgo: Una pareja duplicada con marcadores no canónicos pasa inadvertida
+- **origen-9** (20261108-133915-l4v-origen): Una acción de revisión mal escrita sigue produciendo un falso cero silencioso. Aceptado por Brian Hollweg: Acepto el riesgo: Una acción de revisión mal escrita sigue produciendo un falso cero silencioso
 
 ### Históricos
 
@@ -1735,6 +1739,13 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261108-124048-rv2-marcas) codex (gpt-6-luna): Corrí `python -m unittest tests.test_marcas </dev/null` (5 pruebas); no ejecuté la suite completa.
 - (20261108-124048-rv2-marcas) codex (gpt-6-luna): Realicé dos mutaciones temporales para marcadores duplicados con variación de espacios y mayúsculas; no modifiqué el checkout.
 - (20261108-124048-rv2-marcas) codex (gpt-6-luna): El paquete no omite archivos binarios.
+- (20261108-133915-l4v-origen) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261108-133915-l4v-origen) codex (gpt-6-luna): Se leyó la spec, la propuesta, el diff del paquete y el código relevante; `omissions` está vacío.
+- (20261108-133915-l4v-origen) codex (gpt-6-luna): Se ejecutó `python -m unittest tests.test_origen`; pasaron los 18 tests.
+- (20261108-133915-l4v-origen) codex (gpt-6-luna): Se reprodujo en fixture temporal una acción de revisión con error tipográfico. No se modificó el checkout.
+- (20261108-133915-l4v-origen) codex (gpt-6-luna): Los falsos ceros previos por tipos inválidos de evento/informe, severidad no válida e informes ausentes o ilegibles quedan cubiertos por validaciones y conteo de cobertura; la prueba de un cambio anterior al filtro confirma que no ensucia la cobertura. Persiste el caso semántico de acción textual mal escrita señalado arriba.
+- (20261108-133915-l4v-origen) codex (gpt-6-luna): La lectura de la unidad por informe (cada revisor) es coherente con la salida explícita y la prueba añadida; no reporto duplicación entre informes de revisores distintos como defecto. La regla de recorte de explicación a 600 caracteres está declarada expresamente en la salida y es parte de la aproximación heurística por texto.
+- (20261108-133915-l4v-origen) codex (gpt-6-luna): No se ejecutó la suite completa del repositorio ni se hicieron mutaciones del código. No hay omisiones binarias.
 
 ### Históricos
 
