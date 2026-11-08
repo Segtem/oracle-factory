@@ -35,3 +35,23 @@ Medidas de modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_e
 ### Nota (2026-11-08 13:59:40 UTC)
 
 Medidas de modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion: factory_etapas.desplegar_autorizar_respeta_la_autonomia_de_produccion, factory_etapas.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 14:00:38 UTC)
+
+Medidas de modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 14:00:38 UTC)
+
+Medidas de modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 14:00:38 UTC)
+
+Medidas de modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 14:00:38 UTC)
+
+Medidas de modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 14:00:39 UTC)
+
+Medidas de modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma: Brian Hollweg (persona, confirmo, modo confirmacion).
