@@ -11,7 +11,7 @@ vigente: true
 - Id: `practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos`
 - Vigente: sí
 - Cambio: [[cambios/20261108-115714-ohv-noaplica]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_noaplica.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos`, `factory_noaplica.corrida_completa`
 - Fuente: openspec/changes/20261108-115714-ohv-noaplica/specs/practicas/spec.md#la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos
 

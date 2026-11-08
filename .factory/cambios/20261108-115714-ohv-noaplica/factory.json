@@ -2,7 +2,7 @@
   "id": "20261108-115714-ohv-noaplica",
   "titulo": "El verificador respeta «Pruebas: no aplica»",
   "capacidad": "practicas",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261108-115714-ohv-noaplica/specs/practicas/spec.md",
   "spec_sha256": "393d2a10bb1ae8ffd706bc2ef995ff6ff29d0cf7605a5056937f57ff6a1556fe",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "1a1c2ed1cdf06dbff07932995722dc29ea7d08e3607438ba698bf13e62d99d76"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261108-115714-ohv-noaplica/candidatos/4673a3b/evidencia/hechos.json",
+    "hechos_sha256": "ed41fb3ce6cfc6ce73a8d3672c076c16ab2d0fa52484e4b5cb2779f2e6342407",
+    "informe": ".factory/cambios/20261108-115714-ohv-noaplica/oracle-veredicto.txt",
+    "informe_sha256": "8f513dd4cff33f531822aea51ac5266d8d6e6878698336b466845b442b90ee7e",
+    "cuando": "2026-11-08T12:24:57.148948+00:00",
+    "contexto": {
+      "head": "25371adb88bdfb4799b6ad6a5c2803c3b9c116fc",
+      "archivos_sha256": "1a1c2ed1cdf06dbff07932995722dc29ea7d08e3607438ba698bf13e62d99d76"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -287,6 +299,17 @@
       "abiertos": 0,
       "sha256": "29be40a50fe41b4225e4f88c1c98a757b6e7365dfbb81615c92823121413d065",
       "decisiones_sha256": "0b33c8e5fd2fd47d790425b6ff5cd6c1720171eb2452111d3357aa1dd6a0b4a3"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T12:24:57.148964+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "ed41fb3ce6cfc6ce73a8d3672c076c16ab2d0fa52484e4b5cb2779f2e6342407"
     }
   ],
   "tipos": {

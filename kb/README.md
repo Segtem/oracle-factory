@@ -115,7 +115,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261107-235004-sb1-publicadaa18]] — Declarar publicada la 0.1.0a18 (cerrada)
 - [[cambios/20261108-003501-eqd-activar]] — Activar el workflow verificar en este repositorio (cerrada)
 - [[cambios/20261108-020932-3t5-alcance]] — Alcance opcional de los destinos: desplegar sólo lo que cambió (cerrada)
-- [[cambios/20261108-115714-ohv-noaplica]] — El verificador respeta «Pruebas: no aplica» (revision_aprobada)
+- [[cambios/20261108-115714-ohv-noaplica]] — El verificador respeta «Pruebas: no aplica» (oracle_verde)
 
 ## Requisitos
 
