@@ -1,0 +1,4 @@
+requisito modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion:
+    texto "Tipo: funcional El sistema DEBE permitir que un agente ejecute `desplegar --autorizar` solo cuando la etapa `produccion` está en `autonomo`, registrando la autorización a nombre del agente, y DEBE seguir negándoselo en cualquier otro caso con el mismo mensaje de hoy; el plan, la puerta y la simulación se siguen exigiendo igual."
+    fuente "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md#desplegar_autorizar_respeta_la_autonomia_de_produccion"
+    sin_medir "sin medida todavía; escenarios: «producción con confirmación», «producción autónoma», «producción autónoma con un plan negado»"

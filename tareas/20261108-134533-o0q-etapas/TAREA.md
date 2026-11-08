@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261108-134533-o0q-etapas. Modo de trabajo: confirma
 ### Nota (2026-11-08 13:54:25 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-08 13:54:44 UTC)
+
+Requisitos importados: modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una (funcional), modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion (funcional), modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona (funcional), modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa (funcional), modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

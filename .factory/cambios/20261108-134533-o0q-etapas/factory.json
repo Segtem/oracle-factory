@@ -2,7 +2,7 @@
   "id": "20261108-134533-o0q-etapas",
   "titulo": "Autonomía por etapa: construcción, integración, publicación y producción",
   "capacidad": "modos",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md",
   "spec_sha256": "3865ceb987cccda96d376d58ab8d44b7f171dcccbd62df78ba8c2b7ad2652cf8",
   "spec_aprobada": {
@@ -16,7 +16,13 @@
       "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md": "3865ceb987cccda96d376d58ab8d44b7f171dcccbd62df78ba8c2b7ad2652cf8"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una",
+    "modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion",
+    "modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona",
+    "modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa",
+    "modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +47,30 @@
         "openspec/changes/20261108-134533-o0q-etapas/proposal.md": "97af40c820a32bf8f0ec6bb6b5819d0b3dca84890061a2f9b2d040994cde06a9",
         "openspec/changes/20261108-134533-o0q-etapas/specs/modos/spec.md": "3865ceb987cccda96d376d58ab8d44b7f171dcccbd62df78ba8c2b7ad2652cf8"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T13:54:44.312614+00:00",
+      "ids": [
+        "modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una",
+        "modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion",
+        "modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona",
+        "modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa",
+        "modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "modos_ce25b1098e45c53ae.autonomia_muestra_las_etapas_y_quien_decide_en_cada_una": "funcional",
+    "modos_ce25b1098e45c53ae.desplegar_autorizar_respeta_la_autonomia_de_produccion": "funcional",
+    "modos_ce25b1098e45c53ae.la_autonomia_se_declara_por_etapa_y_lo_no_declarado_pide_a_una_persona": "funcional",
+    "modos_ce25b1098e45c53ae.solo_una_persona_cambia_la_autonomia_de_una_etapa": "funcional",
+    "modos_ce25b1098e45c53ae.un_agente_solo_decide_en_una_etapa_autonoma": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
