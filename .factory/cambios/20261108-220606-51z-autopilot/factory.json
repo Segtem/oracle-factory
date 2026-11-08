@@ -58,6 +58,48 @@
         "flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas",
         "flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T22:10:09.387119+00:00",
+      "requisito": "flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra",
+      "medidas": [
+        "factory_autopilot.autopilot_solo_lee_y_lo_muestra",
+        "factory_autopilot.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T22:10:11.245933+00:00",
+      "requisito": "flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas",
+      "medidas": [
+        "factory_autopilot.el_conductor_decide_el_siguiente_paso_por_reglas",
+        "factory_autopilot.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T22:10:13.115048+00:00",
+      "requisito": "flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce",
+      "medidas": [
+        "factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce",
+        "factory_autopilot.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra": {
+      "sha256": "2bda5016938a8958675632e7f7802d8d6b5b6e7b8a0eba2b5dcfcc9c71aa6f8f",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T22:10:09.338880+00:00",
+      "catalogos": {
+        "factory_autopilot.autopilot_solo_lee_y_lo_muestra": "fef8a8e230e635284744742748c7bdc0f042391a86f2a06546dcc2b2bd68925f",
+        "factory_autopilot.corrida_completa": "7d7e447b74e0e683ef4a6ece0c7cb86a6adb79353330aacfdd594bb0fe23c649"
+      },
+      "archivos_catalogo": {
+        "factory_autopilot.autopilot_solo_lee_y_lo_muestra": "catalogos/factory_autopilot.autopilot_solo_lee_y_lo_muestra.oracle",
+        "factory_autopilot.corrida_completa": "catalogos/factory_autopilot.corrida_completa.oracle"
+      }
+    },
+    "flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas": {
+      "sha256": "0106b73f1fb704f7a61dd4a3ea9aec52b6695fdabd2378c16b09c9a958c121a1",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T22:10:11.197364+00:00",
+      "catalogos": {
+        "factory_autopilot.el_conductor_decide_el_siguiente_paso_por_reglas": "db388bb091048b64bd677a280aa8206b4b49f3723fcb9308bebc311bb605e2c7",
+        "factory_autopilot.corrida_completa": "7d7e447b74e0e683ef4a6ece0c7cb86a6adb79353330aacfdd594bb0fe23c649"
+      },
+      "archivos_catalogo": {
+        "factory_autopilot.el_conductor_decide_el_siguiente_paso_por_reglas": "catalogos/factory_autopilot.el_conductor_decide_el_siguiente_paso_por_reglas.oracle",
+        "factory_autopilot.corrida_completa": "catalogos/factory_autopilot.corrida_completa.oracle"
+      }
+    },
+    "flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce": {
+      "sha256": "352668429bd4fe80b124bfa4865444701a98b5e1947d26baabc93c080743045d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T22:10:13.066001+00:00",
+      "catalogos": {
+        "factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce": "af818f0de200eaf8583bc10daf499281ed34f14281726d8c8b65253a8628844e",
+        "factory_autopilot.corrida_completa": "7d7e447b74e0e683ef4a6ece0c7cb86a6adb79353330aacfdd594bb0fe23c649"
+      },
+      "archivos_catalogo": {
+        "factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce": "catalogos/factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce.oracle",
+        "factory_autopilot.corrida_completa": "catalogos/factory_autopilot.corrida_completa.oracle"
+      }
+    }
+  }
 }

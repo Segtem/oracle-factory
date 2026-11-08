@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-08 22:07:55 UTC)
 
 Requisitos importados: flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra (funcional), flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas (funcional), flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-08 22:10:09 UTC)
+
+Medidas de flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra: factory_autopilot.autopilot_solo_lee_y_lo_muestra, factory_autopilot.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 22:10:11 UTC)
+
+Medidas de flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas: factory_autopilot.el_conductor_decide_el_siguiente_paso_por_reglas, factory_autopilot.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-08 22:10:13 UTC)
+
+Medidas de flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce: factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce, factory_autopilot.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

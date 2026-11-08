@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-220606-51z-autopilot]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un freno», «un paso desconocido o archivos faltantes», «un cambio terminado»
+- Medidas: `factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce`, `factory_autopilot.corrida_completa`
 - Fuente: openspec/changes/20261108-220606-51z-autopilot/specs/flujo/spec.md#el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce
 
 Tipo: funcional El sistema DEBE frenar, antes de cualquier otra regla, cuando el cambio tiene algún freno de `estado`, cuando el próximo paso no es uno que el conductor reconoce, o cuando faltan archivos del cambio; y DEBE decir `terminado` cuando el cambio está cerrado o abandonado y no tiene próximo paso. Frenar nunca trae un comando para actuar.

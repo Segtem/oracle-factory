@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-220606-51z-autopilot]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «la decisión en texto y en JSON», «no escribe», «un cambio que no existe»
+- Medidas: `factory_autopilot.autopilot_solo_lee_y_lo_muestra`, `factory_autopilot.corrida_completa`
 - Fuente: openspec/changes/20261108-220606-51z-autopilot/specs/flujo/spec.md#autopilot_solo_lee_y_lo_muestra
 
 Tipo: funcional El sistema DEBE ofrecer `oracle-factory autopilot ID`, de solo lectura, que muestre la decisión en texto y con `--json` (acción, quién, comando, instrucción, motivo y frenos), sin escribir nada en el proyecto ni en el registro del cambio, y que falle con un error claro si el cambio no existe.
