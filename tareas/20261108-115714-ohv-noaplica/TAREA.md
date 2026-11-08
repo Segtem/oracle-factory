@@ -39,3 +39,15 @@ Medidas de practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo
 ### Nota (2026-11-08 12:01:45 UTC)
 
 Medidas de practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-08 12:11:15 UTC)
+
+Medidas de practicas_c7e9c76d84c2a7a09.el_verificador_no_pide_casos_para_un_requisito_exceptuado propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-08 12:11:16 UTC)
+
+Medidas de practicas_c7e9c76d84c2a7a09.la_evidencia_y_los_catalogos_cuentan_solo_los_requisitos_con_casos propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-08 12:11:18 UTC)
+
+Medidas de practicas_c7e9c76d84c2a7a09.una_excepcion_mal_escrita_no_se_ignora propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.

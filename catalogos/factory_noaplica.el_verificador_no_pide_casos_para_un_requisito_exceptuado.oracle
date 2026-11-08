@@ -5,4 +5,4 @@ medida factory_noaplica.el_verificador_no_pide_casos_para_un_requisito_exceptuad
     umbral == 3 segun contrato porque "deben pasar los 3 casos enumerados para este requisito en tests/test_noaplica.py; asociar junto a corrida_completa"
     requiere noaplica_caso
     ambito universal
-    alcance "Pruebas nuevas en tests/test_noaplica.py (na1–na3), con proyectos temporales con Git de verdad. Sin ediciones a pruebas existentes. Producto: tools/verificar_cambio.py; docs/tests.md."
+    alcance "Pruebas nuevas en tests/test_noaplica.py (na1–na3), con proyectos temporales con Git de verdad. Una prueba existente se edita: test_vg1_un_requisito_que_declara_pruebas_no_aplica_… de tests/test_verificador_generico.py fijaba el límite documentado que este cambio levanta, y ahora comprueba el texto nuevo de docs/tests.md. Producto: tools/verificar_cambio.py; docs/tests.md."
