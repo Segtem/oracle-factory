@@ -1,7 +1,7 @@
 """El conductor `autopilot`, la mitad que observa y razona: un bucle de control de proceso determinista, sin modelo de lenguaje.
 
-Lee los datos de `estado` (el próximo paso y los frenos) y dice qué viene, por reglas fijas. No actúa: no corre ningún comando ni lanza
-a un agente (eso es la otra mitad). Ante la duda frena: un paso que no reconoce, un comando incompleto o un dato ilegible devuelven
+Lee los datos de `estado` (el próximo paso y los frenos) y dice qué viene, por reglas fijas. No actúa: quien corre los comandos y lanza
+al agente es `conductor.py` (la otra mitad). Ante la duda frena: un paso que no reconoce, un comando incompleto o un dato ilegible devuelven
 la decisión a una persona, y las decisiones de una persona (`PERSONA`) lo son aunque una etapa esté en `autonomo`."""
 from __future__ import annotations
 
@@ -28,6 +28,31 @@ def _analizar(argumentos: list[str]):
             return construir_parser().parse_args(argumentos)
     except SystemExit:
         return None
+
+
+GLOBALES = ("--agente", "--proyecto")  # las opciones del parser que van antes del subcomando y llevan un valor
+
+
+def argumentos_mecanicos(comando) -> list[str] | None:
+    """Los argumentos de un comando mecánico (sin `oracle-factory` ni las opciones globales), listos para que el conductor los corra con
+    su propio `--agente`; None si el comando no es uno que un agente pueda correr (una decisión de una persona o uno que no se reconoce).
+    Es la defensa de quien ejecuta: no depende de que `decidir` haya clasificado bien."""
+    try:
+        tokens = shlex.split(comando) if isinstance(comando, str) else []
+    except ValueError:
+        return None
+    if len(tokens) < 3 or tokens[0] != "oracle-factory" or any(MARCADOR.match(t) for t in tokens):
+        return None
+    args = _analizar(tokens[1:])
+    if args is None or args.comando not in MECANICO:
+        return None
+    i = 1
+    while i < len(tokens) and tokens[i].startswith("--"):  # las opciones globales, con su valor, abreviadas o con «=»
+        nombre = tokens[i].split("=")[0]
+        if len(nombre) < 3 or not any(g.startswith(nombre) for g in GLOBALES):
+            return None
+        i += 1 if "=" in tokens[i] else 2
+    return tokens[i:] if i < len(tokens) and tokens[i] == args.comando else None
 
 
 def _decision(accion, quien=None, comando=None, instruccion=None, motivo="", frenos=()):

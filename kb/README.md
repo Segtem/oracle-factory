@@ -121,6 +121,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-134533-o0q-etapas]] — Autonomía por etapa: construcción, integración, publicación y producción (cerrada)
 - [[cambios/20261108-203356-puy-frenos]] — Frenos de construcción: avisos de estado que mandan parar (cerrada)
 - [[cambios/20261108-220606-51z-autopilot]] — Conductor autopilot: decide el siguiente paso por reglas (sin actuar) (cerrada)
+- [[cambios/20261108-233304-ywj-actua]] — Autopilot que actúa: corre lo mecánico, delega lo creativo, con topes y rastro (requisitos_importados)
 
 ## Requisitos
 
@@ -298,6 +299,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza]]
+- [[requisitos/flujo_cbe1c0ee48f2ba730.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona]]
+- [[requisitos/flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro]]
+- [[requisitos/flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar]]
+- [[requisitos/flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce]]
