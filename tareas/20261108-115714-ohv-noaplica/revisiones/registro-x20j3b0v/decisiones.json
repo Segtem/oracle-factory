@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "29be40a50fe41b4225e4f88c1c98a757b6e7365dfbb81615c92823121413d065",
+  "actor": "Brian Hollweg",
+  "motivo": "Codex: un hallazgo bajo (F1), no del cambio: el lector compartido oracle_factory/pruebas.py sólo alterna cercas con tres comillas invertidas y no con ~~~, mientras requisitos_de_la_spec sí entiende ambas. Preexistente: lo comparten aprobar-spec e importar, y la spec dejó fuera cambiar ese lector. Propongo dejarlo como seguimiento. Evidencia 1255 pruebas OK, 10 casos. 6 mutaciones propias, 5 detectadas; la que sobrevive es equivalente (un caso para un exceptuado ya falla antes). Declaro una prueba existente editada: test_vg1_un_requisito_que_declara_pruebas_no_aplica_… en test_verificador_generico.py, sólo su regex sobre docs/tests.md, que fijaba el límite que este cambio levanta. No toca cli.py ni reglas de decisión.",
+  "decisiones": [
+    {
+      "hallazgo_id": "F1",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-11-08T12:24:47.629317+00:00"
+    }
+  ]
+}
