@@ -2067,9 +2067,14 @@ def mostrar(identificador: str) -> None:
     editados = alarmas_mod.del_candidato(ejecutar, vigente, es_producto=es_producto) if vigente else None
     flujo = alarmas_mod.del_flujo(ejecutar, estado, vigente, es_producto=es_producto)
     camino = alarmas_mod.linea_camino(alarmas_mod.camino_del_candidato(ejecutar, vigente, es_producto=es_producto))
+    try:
+        actual = contexto_producto()
+    except (FactoryError, OSError):
+        actual = None
     for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
                   + aviso_sin_medir(identificador, estado) + aviso_notas(identificador, estado) + aviso_union(identificador, estado)
-                  + pruebas_mod.avisos(prueba) + alarmas_mod.avisos(editados) + alarmas_mod.avisos_del_flujo(flujo)):
+                  + pruebas_mod.avisos(prueba) + alarmas_mod.avisos(editados) + alarmas_mod.avisos_del_flujo(flujo)
+                  + [f"FRENO: {x['motivo']}" for x in frenos_del_cambio(identificador, estado, vigente, actual, editados, flujo)]):
         print("Aviso: " + aviso + ".")
     if camino:
         print(camino + ".")
@@ -2623,6 +2628,7 @@ from .lecturas import (  # noqa: E402
     comando_trazabilidad,
     datos_donde,
     datos_estado,
+    frenos_del_cambio,
     datos_trazabilidad,
     dentro_del_tramo,
     escribir_kb,

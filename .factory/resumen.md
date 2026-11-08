@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:5c06e5710d5c50d3ddb4ebaf8e3fd86d8987d61db65c4862102833a9ed2e102d -->
+<!-- oracle-factory resumen sha256:ebf61da3fd769cca49f168e746b0d7bd88122e4adda2eb66b782f1a9f99bb104 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 339 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 341 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -272,6 +272,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | un requisito que quedó sin medir se avisa a tiempo | funcional | `flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo` | factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
 | la guía para agentes se genera y no se desactualiza | funcional | `flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza` | factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza, factory_agentes.corrida_completa | verde al cerrar el 2026-10-22 | 20261022-215347-y70-agentes |
 | la guía dice lo que hace la CLI | funcional | `flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli` | factory_agentes.la_guia_dice_lo_que_hace_la_cli, factory_agentes.corrida_completa | verde al cerrar el 2026-10-22 | 20261022-215347-y70-agentes |
+| los_frenos_salen_de_los_datos_del_cambio | funcional | `flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio` | factory_frenos.los_frenos_salen_de_los_datos_del_cambio, factory_frenos.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-203356-puy-frenos |
+| estado_muestra_los_frenos | funcional | `flujo_cf63459721e7fb9ac.estado_muestra_los_frenos` | factory_frenos.estado_muestra_los_frenos, factory_frenos.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-203356-puy-frenos |
 
 ### ide
 
@@ -1757,6 +1759,10 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261108-134533-o0q-etapas) codex (gpt-6-luna): tests/test_agentes.py: la edición agrega ‘autonomia ETAPA MODO’ a la prueba que verifica que la guía lista los comandos reservados a una persona; está justificada por la nueva orden de la guía.
 - (20261108-134533-o0q-etapas) codex (gpt-6-luna): tests/datos/ayuda-cli.json: regeneración de ayuda para reflejar el subcomando autonomia y el texto actualizado de desplegar; está justificada por el cambio de CLI.
 - (20261108-134533-o0q-etapas) codex (gpt-6-luna): El paquete no omite archivos binarios (omissions vacío).
+- (20261108-203356-puy-frenos) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261108-203356-puy-frenos) codex (gpt-6-luna): Leí la spec y el diff del paquete; las rutas de producto relevantes son texto y no hay omisiones binarias.
+- (20261108-203356-puy-frenos) codex (gpt-6-luna): Corrí `python -m unittest tests.test_frenos </dev/null`: 4 pruebas de cálculo pasaron y 3 pruebas de estado fallaron antes de ejercitar el cambio porque falta el módulo `oracle_metalenguaje` en el entorno; `.venv/bin/python` no existe.
+- (20261108-203356-puy-frenos) codex (gpt-6-luna): No corrí la suite completa ni mutaciones manuales. No encontré defectos confirmables en los escenarios revisados.
 
 ### Históricos
 

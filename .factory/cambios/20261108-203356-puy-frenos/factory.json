@@ -1,0 +1,292 @@
+{
+  "id": "20261108-203356-puy-frenos",
+  "titulo": "Frenos de construcción: avisos de estado que mandan parar",
+  "capacidad": "flujo",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md",
+  "spec_sha256": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T20:36:59.034534+00:00",
+    "documentos": {
+      "openspec/changes/20261108-203356-puy-frenos/proposal.md": "e3903c3ab2fdb6d64ad7c57684a587319f28d453e247e04227abf7c22dcbd19a",
+      "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e"
+    }
+  },
+  "requisitos": [
+    "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos",
+    "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261108-203356-puy-frenos/revisiones/registro-aqngyyje/informe.json",
+    "sha256": "5572c8e781b64644382651af9386cbce794bffad7a8a5db5de451163c1120c30",
+    "decisiones": "tareas/20261108-203356-puy-frenos/revisiones/registro-aqngyyje/decisiones.json",
+    "decisiones_sha256": "95b97883d9ef15f2a67d5e85958de5aedca26990eaf017f0102ebd066b50893f",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T21:18:52.688938+00:00",
+    "motivo": "Codex sin hallazgos sobre bbd1646 (una ronda). Evidencia 1301 pruebas OK, 7 casos de contrato. 18 mutaciones propias, las 18 detectadas (5 sobrevivían y se cerraron con casos dentro de métodos existentes). Toca reglas de decisión (cli.py): camino completo. Los frenos son información: no cambian pendientes ni próximo paso, se calculan en cada consulta y un dato ilegible no produce un freno. Sin pruebas existentes editadas. Límites: los umbrales de cambio_grande y bucle_de_revision son los de estado y los dos juicios rojos seguidos son nuevos; estado ya fallaba con eventos que no son objetos (aviso_revision, preexistente, seguimiento aparte). La evidencia falló una vez por test_cm2 (lecturas debe llamar a cli.frenos_del_cambio) y se corrigió con una línea. Es el cambio 2 del autopilot: el conductor que obedece los frenos es el cambio 3.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "93e7a17b7fb63583b40f053e5899a0e150124907",
+      "archivos_sha256": "e9cbe55e0b22ecc3159aeb42cb4b4e57960468f8bbd2715282ecb6c9a1d1a46c"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261108-203356-puy-frenos/candidatos/bbd1646/evidencia/hechos.json",
+    "hechos_sha256": "bdbaf3d1771fae3ae86dc2c92a5210f35edd75a2ea41c49b909bbbb276706dd3",
+    "informe": ".factory/cambios/20261108-203356-puy-frenos/oracle-veredicto.txt",
+    "informe_sha256": "e9feed933e12a8e8d71a0d576126574cabf9d32a80fba8a279cdc7aa15441f92",
+    "cuando": "2026-11-08T21:19:20.132528+00:00",
+    "contexto": {
+      "head": "93e7a17b7fb63583b40f053e5899a0e150124907",
+      "archivos_sha256": "e9cbe55e0b22ecc3159aeb42cb4b4e57960468f8bbd2715282ecb6c9a1d1a46c"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T20:33:56.797650+00:00",
+      "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T20:35:02.547642+00:00",
+      "documentos": {
+        "openspec/changes/20261108-203356-puy-frenos/proposal.md": "e3903c3ab2fdb6d64ad7c57684a587319f28d453e247e04227abf7c22dcbd19a",
+        "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T20:36:59.034554+00:00",
+      "documentos": {
+        "openspec/changes/20261108-203356-puy-frenos/proposal.md": "e3903c3ab2fdb6d64ad7c57684a587319f28d453e247e04227abf7c22dcbd19a",
+        "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T20:37:08.022529+00:00",
+      "ids": [
+        "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos",
+        "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T20:39:02.506556+00:00",
+      "requisito": "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio",
+      "medidas": [
+        "factory_frenos.los_frenos_salen_de_los_datos_del_cambio",
+        "factory_frenos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T20:39:04.315014+00:00",
+      "requisito": "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos",
+      "medidas": [
+        "factory_frenos.estado_muestra_los_frenos",
+        "factory_frenos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T20:49:12.501962+00:00",
+      "requisito": "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos",
+      "medidas": [
+        "factory_frenos.estado_muestra_los_frenos",
+        "factory_frenos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T20:49:12.689082+00:00",
+      "requisito": "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio",
+      "medidas": [
+        "factory_frenos.los_frenos_salen_de_los_datos_del_cambio",
+        "factory_frenos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T21:16:57.594584+00:00",
+      "revisor": "codex",
+      "candidato": "bbd1646",
+      "lanzamiento": "5d5d1617c49b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T21:18:11.827318+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "bbd1646",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "5d5d1617c49b"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T21:18:19.666125+00:00",
+      "decision": "aprobar",
+      "candidato": "bbd1646"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-08T21:18:52.688963+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "5572c8e781b64644382651af9386cbce794bffad7a8a5db5de451163c1120c30",
+      "decisiones_sha256": "95b97883d9ef15f2a67d5e85958de5aedca26990eaf017f0102ebd066b50893f"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T21:19:20.132545+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "bdbaf3d1771fae3ae86dc2c92a5210f35edd75a2ea41c49b909bbbb276706dd3"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T21:19:33.131292+00:00",
+      "oracle": ".factory/cambios/20261108-203356-puy-frenos/oracle-veredicto.txt",
+      "revision": "tareas/20261108-203356-puy-frenos/revisiones/registro-aqngyyje/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T21:19:33.170832+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
+    }
+  ],
+  "tipos": {
+    "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos": "funcional",
+    "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio": "funcional"
+  },
+  "medidas": {
+    "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T20:49:12.454140+00:00",
+      "sha256": "43270258bd6544ce4256ae4bdbecb9642ce84d576887233a0e1da01563f04461",
+      "catalogos": {
+        "factory_frenos.estado_muestra_los_frenos": "a1de34a001f7fbbbb91b748c27120cb974f995ad76d17efb6938e88b4639f60a",
+        "factory_frenos.corrida_completa": "92117e21564c496b7cf3facbc2bf85292ce55be6ebb17cc37668fd804fe6845c"
+      },
+      "archivos_catalogo": {
+        "factory_frenos.estado_muestra_los_frenos": "catalogos/factory_frenos.estado_muestra_los_frenos.oracle",
+        "factory_frenos.corrida_completa": "catalogos/factory_frenos.corrida_completa.oracle"
+      }
+    },
+    "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-08T20:49:12.640742+00:00",
+      "sha256": "c736797e76dd62c4bd31876a1e244fcd2c68583a0b5da164f231f0948002a2b8",
+      "catalogos": {
+        "factory_frenos.los_frenos_salen_de_los_datos_del_cambio": "006cf38a8577c8a94f09eaaf7ce21a961e758e0fd3304c429db87ec75c74de43",
+        "factory_frenos.corrida_completa": "92117e21564c496b7cf3facbc2bf85292ce55be6ebb17cc37668fd804fe6845c"
+      },
+      "archivos_catalogo": {
+        "factory_frenos.los_frenos_salen_de_los_datos_del_cambio": "catalogos/factory_frenos.los_frenos_salen_de_los_datos_del_cambio.oracle",
+        "factory_frenos.corrida_completa": "catalogos/factory_frenos.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T21:19:33.067203+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-08T21:19:33.170822+00:00"
+  }
+}

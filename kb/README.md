@@ -119,6 +119,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-124048-rv2-marcas]] — El comprobador del sitio detecta bloques marcados duplicados (cerrada)
 - [[cambios/20261108-133915-l4v-origen]] — Medir si los hallazgos de la primera ronda se atrapan leyendo la spec (cerrada)
 - [[cambios/20261108-134533-o0q-etapas]] — Autonomía por etapa: construcción, integración, publicación y producción (cerrada)
+- [[cambios/20261108-203356-puy-frenos]] — Frenos de construcción: avisos de estado que mandan parar (cerrada)
 
 ## Requisitos
 
@@ -299,6 +300,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa]]
 - [[requisitos/flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan]]
 - [[requisitos/flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista]]
+- [[requisitos/flujo_cf63459721e7fb9ac.estado_muestra_los_frenos]]
+- [[requisitos/flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio]]
 - [[requisitos/ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse]]
 - [[requisitos/ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos]]
 - [[requisitos/ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista]]
