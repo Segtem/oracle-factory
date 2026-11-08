@@ -1,0 +1,51 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261108-003501-eqd-activar",
+  "contexto": {
+    "head": "9d715e6a13eeb628b01c2d714955d3683a634631",
+    "archivos_sha256": "0575f06d6f5c6e4b87821862bdbe19e00da2a28d9a60c2ccbffa0a0bfd87a78d"
+  },
+  "documentos": {
+    "openspec/changes/20261108-003501-eqd-activar/proposal.md": "52504f8140dd2178ed878d0fd532fa96e07ea19e6d5a56df6f9e13f273c40728",
+    "openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md": "7c21040c7849f036b14a3a0e0d40dc5379aa4de708cc6e09016861aa0b0dde7f"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    ".github/workflows/verificar.yml",
+    "catalogos/factory_ci_activar.corrida_completa.oracle",
+    "catalogos/factory_ci_activar.el_repositorio_corre_verificar_en_su_ci.oracle",
+    "catalogos/factory_ci_activar.la_plantilla_y_la_guia_cuentan_la_politica.oracle",
+    "catalogos/factory_ci_activar.verificar_falla_en_main_y_avisa_en_las_demas.oracle",
+    "docs/ci.md",
+    "docs/plantillas/verificar.yml",
+    "openspec/changes/20261108-003501-eqd-activar/design.md",
+    "openspec/changes/20261108-003501-eqd-activar/proposal.md",
+    "openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md",
+    "openspec/changes/20261108-003501-eqd-activar/tasks.md",
+    "requisitos/ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci.requisito",
+    "requisitos/ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica.requisito",
+    "requisitos/ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas.requisito",
+    "tests/test_ci_activar.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1231 pruebas, 9 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-003501-eqd-activar/candidatos/f8e9894/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261108-003501-eqd-activar/candidatos/f8e9894/revision/codex-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Leí la spec incluida en el paquete y los diffs del workflow, la plantilla, la guía y tests/test_ci_activar.py; el paquete no tiene omisiones.",
+    "codex (gpt-6-luna): No ejecuté las pruebas ni GitHub Actions; contrasté el flujo con el shell bash -e -o pipefail y la semántica esperada de GITHUB_REF.",
+    "codex (gpt-6-luna): El workflow también se dispara en push de tags y en esos casos emite warning al no ser refs/heads/main. La spec define expresamente el comportamiento para main, otras ramas y pull requests, pero no define una política específica para tags."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

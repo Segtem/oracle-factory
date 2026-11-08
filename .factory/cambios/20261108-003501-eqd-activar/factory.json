@@ -165,6 +165,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "c5fe1014c001"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T00:49:29.851189+00:00",
+      "decision": "aprobar",
+      "candidato": "f8e9894"
     }
   ],
   "tipos": {
@@ -222,5 +232,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Codex sin hallazgos. Evidencia 1231 pruebas OK. Las pruebas ejecutan de verdad el paso de verificación (bash -e -o pipefail) con distintas GITHUB_REF; 6 mutaciones propias sobre el workflow detectadas (ref distinta de main, main no falla, sin warning, ignora el fallo, instala de PyPI, permiso de escritura). Sin ediciones a pruebas existentes. Límite: no se corrió en GitHub Actions real; se verá en el primer push.",
+      "candidato": "f8e9894",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T00:49:29.851175+00:00"
+    }
+  }
 }
