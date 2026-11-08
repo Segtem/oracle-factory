@@ -1,0 +1,80 @@
+{
+  "origen_caso": [
+    {
+      "requisito": "la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+      "caso": "Origen.test_or1_los_cambios_se_suman_y_cada_clase_cae_en_su_grupo",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+      "caso": "Origen.test_or1_sin_la_opcion_la_salida_es_la_de_siempre",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+      "caso": "Origen.test_or1_solo_cuentan_la_primera_ronda_y_los_altos_y_medios",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_medicion_reparte_los_hallazgos_de_la_primera_ronda_segun_se_pudieran_ver_en_la_spec",
+      "caso": "Origen.test_or1_un_hallazgo_por_grupo_y_cada_uno_se_cuenta_una_vez",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_salida_dice_la_regla_y_su_limite",
+      "caso": "Origen.test_or2_con_todos_los_informes_legibles_la_cobertura_es_completa_y_no_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_salida_dice_la_regla_y_su_limite",
+      "caso": "Origen.test_or2_la_salida_nombra_las_clases_de_cada_grupo_y_dice_que_es_una_aproximacion",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_salida_dice_la_regla_y_su_limite",
+      "caso": "Origen.test_or2_los_dos_grupos_cubren_clases_distintas_y_existentes",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_salida_dice_la_regla_y_su_limite",
+      "caso": "Origen.test_or2_los_informes_rotos_de_otra_ronda_no_ensucian_la_cobertura_de_la_primera",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_salida_dice_la_regla_y_su_limite",
+      "caso": "Origen.test_or2_un_candidato_de_primera_ronda_sin_informe_se_dice_y_la_medicion_no_pasa_por_completa",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_salida_dice_la_regla_y_su_limite",
+      "caso": "Origen.test_or2_un_informe_con_json_roto_se_cuenta_como_ilegible_y_tambien_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_muestra_permite_comprobar_la_regla",
+      "caso": "Origen.test_or3_la_muestra_lista_los_mismos_n_ordenados_por_cambio_y_titulo",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_muestra_permite_comprobar_la_regla",
+      "caso": "Origen.test_or3_medir_con_muestra_no_modifica_ningun_archivo",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_muestra_permite_comprobar_la_regla",
+      "caso": "Origen.test_or3_muestra_sin_origen_es_un_error_de_uso",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_muestra_permite_comprobar_la_regla",
+      "caso": "Origen.test_or3_sin_muestra_no_se_lista_ningun_hallazgo_y_con_cero_tampoco",
+      "codigo": 0
+    }
+  ],
+  "origen_corrida": [
+    {
+      "completa": 1,
+      "casos": 14
+    }
+  ]
+}
