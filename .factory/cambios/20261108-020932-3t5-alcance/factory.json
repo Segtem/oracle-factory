@@ -365,6 +365,32 @@
         "factory_destinos_alcance.un_destino_declara_su_alcance_opcional",
         "factory_destinos_alcance.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T04:44:43.705716+00:00",
+      "revisor": "codex",
+      "candidato": "d1b6a74",
+      "lanzamiento": "066f68766543"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T04:45:57.242639+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "d1b6a74",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "066f68766543"
     }
   ],
   "tipos": {
