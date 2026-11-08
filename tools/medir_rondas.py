@@ -52,8 +52,16 @@ def informe_legible(contenido) -> bool:
 
 
 def registro_legible(datos) -> bool:
-    """Un registro con su forma: un objeto con `eventos`, una lista de objetos."""
-    return isinstance(datos, dict) and isinstance(datos.get("eventos"), list) and all(isinstance(e, dict) for e in datos["eventos"])
+    """Un registro con su forma: un objeto con `eventos`, una lista de objetos con su `accion` de texto (y su `cuando`, si lo traen, de texto).
+    Sin eso no se puede ni decir si el cambio está cerrado."""
+    return (isinstance(datos, dict) and isinstance(datos.get("eventos"), list)
+            and all(isinstance(e, dict) and isinstance(e.get("accion"), str) and isinstance(e.get("cuando", ""), str) for e in datos["eventos"]))
+
+
+def eventos_de_revision_legibles(eventos: list[dict]) -> bool:
+    """Los eventos que dan las rondas traen su candidato y su momento, de texto: si no, esa ronda desaparecería de la cuenta."""
+    return all(isinstance(e.get("candidato"), str) and e["candidato"] and isinstance(e.get("cuando"), str)
+               for e in eventos if e["accion"] in ("revision_pedida", "revision_lanzada"))
 
 
 def rondas_de(eventos: list[dict]) -> dict[str, int]:
@@ -89,8 +97,10 @@ def analizar(proyecto: Path, desde: str = "2026-10-24", origen: bool = False) ->
         if not creado or creado[0].get("cuando", "") < desde or not any(e.get("accion") == "cierre" for e in eventos):
             continue
         try:
+            if not eventos_de_revision_legibles(eventos):
+                raise ValueError("evento de revisión sin candidato o sin momento de texto")
             rondas = rondas_de(eventos)
-        except (ValueError, TypeError):  # una fecha que no es una fecha
+        except (ValueError, TypeError):  # una fecha que no es una fecha, o un evento de revisión incompleto
             cobertura["registros_ilegibles"] += 1
             continue
         rondas_por_cambio.append(len(rondas))

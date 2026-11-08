@@ -134,8 +134,19 @@ class Origen(unittest.TestCase):
 
     def test_or2_un_registro_ilegible_o_con_eventos_malformados_se_cuenta_y_avisa_en_vez_de_desaparecer(self):
         evento = {'accion': 'revision_pedida', 'candidato': 'x', 'cuando': 'ayer'}
+        creado, cierre = {'accion': 'cambio_creado', 'cuando': '2026-10-25T00:00:00+00:00'}, {'accion': 'cierre', 'cuando': '2026-10-26T00:00:00+00:00'}
+        revision = {'accion': 'revision_pedida', 'candidato': 'x', 'cuando': '2026-10-25T01:00:00+00:00'}
         malos = ({'eventos': {'accion': 'cierre'}}, {'eventos': [{'accion': 'cierre'}, 'no es un evento']}, {'eventos': None}, {},
-                 [], 'texto', {'eventos': [{'accion': 'cambio_creado', 'cuando': '2026-10-25T00:00:00+00:00'}, evento, {'accion': 'cierre'}]})
+                 [], 'texto', {'eventos': [{'accion': 'cambio_creado', 'cuando': '2026-10-25T00:00:00+00:00'}, evento, {'accion': 'cierre'}]},
+                 {'eventos': [creado, {**revision, 'accion': 7}, cierre]}, {'eventos': [creado, {**revision, 'accion': None}, cierre]},
+                 {'eventos': [creado, {'candidato': 'x', 'cuando': revision['cuando']}, cierre]},  # sin accion
+                 {'eventos': [creado, {**revision, 'candidato': 5}, cierre]}, {'eventos': [creado, {**revision, 'candidato': ['x']}, cierre]},
+                 {'eventos': [creado, {k: v for k, v in revision.items() if k != 'candidato'}, cierre]},
+                 {'eventos': [creado, {**revision, 'cuando': 7}, cierre]},
+                 {'eventos': [{**creado, 'cuando': 7}, revision, cierre]},  # un evento cualquiera con el momento que no es texto
+                 {'eventos': [creado, {**revision, 'candidato': ''}, cierre]},
+                 {'eventos': [creado, {k: v for k, v in revision.items() if k != 'cuando'}, cierre]},
+                 {'eventos': [creado, {**revision, 'accion': 'revision_lanzada', 'candidato': 5}, cierre]})
         for malo in malos:
             with self.subTest(registro=malo):
                 self.setUp()

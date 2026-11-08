@@ -451,6 +451,32 @@
         "factory_origen.una_muestra_permite_comprobar_la_regla",
         "factory_origen.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T15:30:17.350254+00:00",
+      "revisor": "codex",
+      "candidato": "790face",
+      "lanzamiento": "bb2ac3b17850"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-08T15:31:44.169106+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "790face",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "bb2ac3b17850"
     }
   ],
   "tipos": {
