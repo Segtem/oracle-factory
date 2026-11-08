@@ -1,6 +1,6 @@
 # El comprobador del sitio detecta bloques marcados duplicados
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -31,3 +31,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-08 13:13:12 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261108-124048-rv2-marcas/oracle-veredicto.txt.
+
+### Nota (2026-11-08 13:13:39 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
