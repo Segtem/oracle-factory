@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-003501-eqd-activar]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el workflow del repositorio»
+- Medidas: `factory_ci_activar.el_repositorio_corre_verificar_en_su_ci`, `factory_ci_activar.corrida_completa`
 - Fuente: openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md#el_repositorio_corre_verificar_en_su_ci
 
 Tipo: funcional El sistema DEBE tener un workflow de GitHub Actions que corra `oracle-factory verificar` en cada push y pull request, con permisos de sólo lectura, sin secretos y con Factory instalado desde el checkout.

@@ -58,6 +58,48 @@
         "ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica",
         "ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T00:39:00.795073+00:00",
+      "requisito": "ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci",
+      "medidas": [
+        "factory_ci_activar.el_repositorio_corre_verificar_en_su_ci",
+        "factory_ci_activar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T00:39:02.540237+00:00",
+      "requisito": "ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas",
+      "medidas": [
+        "factory_ci_activar.verificar_falla_en_main_y_avisa_en_las_demas",
+        "factory_ci_activar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T00:39:04.295222+00:00",
+      "requisito": "ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica",
+      "medidas": [
+        "factory_ci_activar.la_plantilla_y_la_guia_cuentan_la_politica",
+        "factory_ci_activar.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci": {
+      "sha256": "a5b450057b5d1aadd9fa0f77b4a90195f74a777f0da7d829dad0a60307e9d682",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T00:39:00.749346+00:00",
+      "catalogos": {
+        "factory_ci_activar.el_repositorio_corre_verificar_en_su_ci": "f5521e23180830029cd95c8745549643f8f5dc16401fb6934b8a4ff874293920",
+        "factory_ci_activar.corrida_completa": "b1050b7df36e72ecc0febb41c81fb69b50b4cb5dfbe608c12e876cab30d9de92"
+      },
+      "archivos_catalogo": {
+        "factory_ci_activar.el_repositorio_corre_verificar_en_su_ci": "catalogos/factory_ci_activar.el_repositorio_corre_verificar_en_su_ci.oracle",
+        "factory_ci_activar.corrida_completa": "catalogos/factory_ci_activar.corrida_completa.oracle"
+      }
+    },
+    "ci_c2426e1a5c6ed9e1f.verificar_falla_en_main_y_avisa_en_las_demas": {
+      "sha256": "2486c172992b160860d46a296491f81a9dd68e74d8dd11c0eebaeefd15d22b81",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T00:39:02.494419+00:00",
+      "catalogos": {
+        "factory_ci_activar.verificar_falla_en_main_y_avisa_en_las_demas": "07ce65a9b4bd8bb671be70d3bfae46c1829b839bb8390dd83fd15504ea46317c",
+        "factory_ci_activar.corrida_completa": "b1050b7df36e72ecc0febb41c81fb69b50b4cb5dfbe608c12e876cab30d9de92"
+      },
+      "archivos_catalogo": {
+        "factory_ci_activar.verificar_falla_en_main_y_avisa_en_las_demas": "catalogos/factory_ci_activar.verificar_falla_en_main_y_avisa_en_las_demas.oracle",
+        "factory_ci_activar.corrida_completa": "catalogos/factory_ci_activar.corrida_completa.oracle"
+      }
+    },
+    "ci_c2426e1a5c6ed9e1f.la_plantilla_y_la_guia_cuentan_la_politica": {
+      "sha256": "23a32f9a6636fb306fd75fd4a6facd2d6d1affa045c2f0569b1807dd1d880ddb",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T00:39:04.249218+00:00",
+      "catalogos": {
+        "factory_ci_activar.la_plantilla_y_la_guia_cuentan_la_politica": "32589e34f1aa3690392b56712cc3a3a393bef3bc5fed585f33f8ce842e7e4660",
+        "factory_ci_activar.corrida_completa": "b1050b7df36e72ecc0febb41c81fb69b50b4cb5dfbe608c12e876cab30d9de92"
+      },
+      "archivos_catalogo": {
+        "factory_ci_activar.la_plantilla_y_la_guia_cuentan_la_politica": "catalogos/factory_ci_activar.la_plantilla_y_la_guia_cuentan_la_politica.oracle",
+        "factory_ci_activar.corrida_completa": "catalogos/factory_ci_activar.corrida_completa.oracle"
+      }
+    }
+  }
 }

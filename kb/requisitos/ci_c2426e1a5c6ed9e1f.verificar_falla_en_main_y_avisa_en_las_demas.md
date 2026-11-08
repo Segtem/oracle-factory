@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261108-003501-eqd-activar]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un cambio inconsistente en main», «un cambio inconsistente en otra rama», «todo consistente»
+- Medidas: `factory_ci_activar.verificar_falla_en_main_y_avisa_en_las_demas`, `factory_ci_activar.corrida_completa`
 - Fuente: openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md#verificar_falla_en_main_y_avisa_en_las_demas
 
 Tipo: funcional El sistema DEBE hacer fallar el workflow cuando `verificar` encuentra un cambio inconsistente en la rama `main`, y DEBE avisar sin fallar, con una anotación de advertencia, en cualquier otra rama o pull request.
