@@ -15,6 +15,7 @@ import sys
 from . import alarmas
 from . import archivo
 from . import estructura
+from . import frenos
 from . import kb as kb_mod
 from . import resumen
 from . import tablero as tablero_mod
@@ -337,6 +338,14 @@ def actualizar_resumen() -> None:
         print(f"Aviso: no pude actualizar el resumen ({type(e).__name__}: {e}); corré oracle-factory resumen.", file=sys.stderr)
 
 
+def frenos_del_cambio(identificador: str, estado: dict, candidato: str | None, actual: dict | None, editados, flujo: dict) -> list[dict]:
+    """Los frenos del cambio (`frenos.calcular`) con lo que ya tienen `estado` y `datos_estado`; la revisión cuenta si es aprobada y vigente."""
+    rev = estado.get("revision") if isinstance(estado.get("revision"), dict) else {}
+    aprobada = bool(rev and rev.get("decision") == "aprobar" and actual is not None and cli.mismo_producto(rev.get("contexto"), actual)
+                    and not cli.problemas_de_revision(estado))
+    return frenos.calcular(estado, tablero_mod.informes(cli.ROOT, cli.ROOT / estructura.DIR / "cambios" / identificador), candidato, aprobada, editados, flujo)
+
+
 def datos_estado(identificador: str) -> dict:
     """Lo que muestra `estado`, como datos con esquema versionado; no pregunta ni escribe nada."""
     carpeta, estado = cli.leer(identificador)
@@ -364,6 +373,7 @@ def datos_estado(identificador: str) -> dict:
     editados = alarmas.del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto) if candidato else None
     flujo = {"bucle_de_revision": None, "cambio_grande": None} if abandonado else alarmas.del_flujo(cli.ejecutar, estado, candidato, es_producto=cli.es_producto)
     prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, candidato, cli.documentos_o_nada(carpeta, estado))
+    frenos_ = [] if abandonado else frenos_del_cambio(identificador, estado, candidato, actual, editados, flujo)
     return {
         "esquema": cli.ESQUEMA_ESTADO, "id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase"),
         "modo": cli.modo_de(estado), "capacidad": estado.get("capacidad"),
@@ -387,9 +397,11 @@ def datos_estado(identificador: str) -> dict:
         "avisos": cli.aviso_union(identificador, estado) if abandonado else (cli.avisos_head(estado) + cli.aviso_revision(estado) + cli.aviso_lanzamientos(estado)
                                          + cli.aviso_sin_autor(estado) + cli.aviso_sin_medir(identificador, estado)
                                          + cli.aviso_notas(identificador, estado) + cli.aviso_union(identificador, estado)
-                                         + cli.pruebas_mod.avisos(prueba) + alarmas.avisos(editados) + alarmas.avisos_del_flujo(flujo)),
+                                         + cli.pruebas_mod.avisos(prueba) + alarmas.avisos(editados) + alarmas.avisos_del_flujo(flujo)
+                                         + [f"FRENO: {x['motivo']}" for x in frenos_]),
         "pruebas": prueba,
         "tests_editados": editados,
+        "frenos": frenos_,
         **flujo,
         "camino": alarmas.camino_del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto),  # un cambio abandonado no tiene candidato
         "commits": cli.commits_del_cambio(identificador, estado),

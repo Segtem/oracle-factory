@@ -1,0 +1,79 @@
+{
+  "id": "20261108-203356-puy-frenos",
+  "titulo": "Frenos de construcción: avisos de estado que mandan parar",
+  "capacidad": "flujo",
+  "fase": "requisitos_importados",
+  "spec": "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md",
+  "spec_sha256": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T20:36:59.034534+00:00",
+    "documentos": {
+      "openspec/changes/20261108-203356-puy-frenos/proposal.md": "e3903c3ab2fdb6d64ad7c57684a587319f28d453e247e04227abf7c22dcbd19a",
+      "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e"
+    }
+  },
+  "requisitos": [
+    "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos",
+    "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio"
+  ],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T20:33:56.797650+00:00",
+      "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T20:35:02.547642+00:00",
+      "documentos": {
+        "openspec/changes/20261108-203356-puy-frenos/proposal.md": "e3903c3ab2fdb6d64ad7c57684a587319f28d453e247e04227abf7c22dcbd19a",
+        "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T20:36:59.034554+00:00",
+      "documentos": {
+        "openspec/changes/20261108-203356-puy-frenos/proposal.md": "e3903c3ab2fdb6d64ad7c57684a587319f28d453e247e04227abf7c22dcbd19a",
+        "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md": "00db6ed85f5437d8fc41d88d5cf89c7f7428a3b4e20a72b95a860656b6eee33e"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T20:37:08.022529+00:00",
+      "ids": [
+        "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos",
+        "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio"
+      ]
+    }
+  ],
+  "tipos": {
+    "flujo_cf63459721e7fb9ac.estado_muestra_los_frenos": "funcional",
+    "flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
+}

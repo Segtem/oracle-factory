@@ -31,6 +31,15 @@ Con la misma idea (avisar sin bloquear), `oracle-factory estado ID` avisa de dos
 - **Bucle de revisión:** el cambio lleva 4 rondas o más. Una ronda es un candidato distinto al que se pidió revisión (varios revisores de un mismo candidato son una ronda). El aviso sugiere parar a arreglar la clase del problema entera y mirar la [lista previa](lista-previa.md) antes de pedir otra.
 - **Cambio grande:** el candidato agrega más de 450 líneas en archivos de producto, sin contar los archivos de pruebas ni los registros generados. El aviso sugiere partir el cambio.
 
+## Los frenos: cuándo parar y pedir a una persona
+
+`estado ID --json` lleva además la clave `frenos`: una lista de `{id, motivo}`, vacía si no hay ninguno, y `estado` muestra cada uno como un aviso que empieza con «FRENO:». Es la lista que un agente que construye solo (el modo autopilot) tiene que obedecer: en cuanto hay un freno, para y le devuelve la decisión a una persona. Los frenos no bloquean ningún comando ni cambian el próximo paso: se calculan en cada consulta, no se guardan, y un dato que no se puede leer no produce un freno.
+
+- `juicios_rojos`: los dos últimos juicios de Oracle (`juzgar`) terminaron en rojo.
+- `hallazgo_alto_abierto`: un informe del candidato vigente trae un hallazgo de severidad alta y no hay una revisión aprobada y vigente.
+- `prueba_existente_editada`: el candidato editó o borró tests que ya existían (la alarma de arriba).
+- `cambio_grande` y `bucle_de_revision`: las dos alarmas anteriores, con los mismos umbrales.
+
 Los dos números son referencias sacadas de 20 cambios cerrados (`tools/medir_rondas.py`): hasta unas 450 líneas la mediana fue de 2 rondas, y por encima, de 3; y los cambios de 5 o 6 rondas fueron bucles que parchaban la misma clase de problema caso por caso. Son una pauta y no una ley: un cambio de 600 líneas puede estar bien si es mecánico.
 
 ## La evidencia de un cambio, sin un verificador por cambio
