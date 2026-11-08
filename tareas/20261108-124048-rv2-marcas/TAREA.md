@@ -7,3 +7,7 @@
 ### Nota (2026-11-08 12:40:49 UTC)
 
 OpenSpec: openspec/changes/20261108-124048-rv2-marcas. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-11-08 12:41:57 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md; se reiniciaron las validaciones dependientes.

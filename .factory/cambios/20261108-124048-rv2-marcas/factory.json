@@ -2,10 +2,20 @@
   "id": "20261108-124048-rv2-marcas",
   "titulo": "El comprobador del sitio detecta bloques marcados duplicados",
   "capacidad": "web",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "1f0fe8b915635ab1d9f5b566568e14056775572de86b47094e683592cae91ee8",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-08T12:41:57.576390+00:00",
+    "documentos": {
+      "openspec/changes/20261108-124048-rv2-marcas/proposal.md": "b10e5e3efa9afc09d12aad94ce0dddfb2924b498f9b00566e8adb443d0e1daa6",
+      "openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md": "1f0fe8b915635ab1d9f5b566568e14056775572de86b47094e683592cae91ee8"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-08T12:40:48.921766+00:00",
       "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T12:41:57.576413+00:00",
+      "documentos": {
+        "openspec/changes/20261108-124048-rv2-marcas/proposal.md": "b10e5e3efa9afc09d12aad94ce0dddfb2924b498f9b00566e8adb443d0e1daa6",
+        "openspec/changes/20261108-124048-rv2-marcas/specs/web/spec.md": "1f0fe8b915635ab1d9f5b566568e14056775572de86b47094e683592cae91ee8"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
