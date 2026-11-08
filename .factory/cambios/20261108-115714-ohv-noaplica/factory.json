@@ -1,0 +1,24 @@
+{
+  "id": "20261108-115714-ohv-noaplica",
+  "titulo": "El verificador respeta «Pruebas: no aplica»",
+  "capacidad": "practicas",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261108-115714-ohv-noaplica/specs/practicas/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T11:57:14.347394+00:00",
+      "capacidad": "practicas"
+    }
+  ]
+}
