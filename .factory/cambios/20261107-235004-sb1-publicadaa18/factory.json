@@ -136,6 +136,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "068837f4b349"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-08T00:12:03.762526+00:00",
+      "decision": "aprobar",
+      "candidato": "5a04cdd"
     }
   ],
   "tipos": {
@@ -176,5 +186,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Codex sin hallazgos. Sólo textos y pruebas, sin código de producto. Evidencia 1222 pruebas OK. La línea Publicada se apoya en lo verificado: hashes de PyPI iguales a los del release y la instalación desde PyPI dice 0.1.0a18. Pruebas editadas (test_entrega_a18, test_docs): sólo pasan del estado en preparación al publicado, como en publicada-a17.",
+      "candidato": "5a04cdd",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-08T00:12:03.762512+00:00"
+    }
+  }
 }
