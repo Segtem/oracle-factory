@@ -2,7 +2,7 @@
   "id": "20261108-020932-3t5-alcance",
   "titulo": "Alcance opcional de los destinos: desplegar sólo lo que cambió",
   "capacidad": "despliegue",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261108-020932-3t5-alcance/specs/despliegue/spec.md",
   "spec_sha256": "994d68e7dea9e93e819f3fe9b775174c6dc96590eaa9456d6c116ea5666a19cf",
   "spec_aprobada": {
@@ -43,7 +43,19 @@
       "archivos_sha256": "aeafcb312abf07341680323bf867883a16669edec4d26ed60c559cb8a7546b45"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261108-020932-3t5-alcance/candidatos/d1b6a74/evidencia/hechos.json",
+    "hechos_sha256": "4f570a0a110d0bfa305e92057f1a9ac7320ba66b0c05a50230287047b6fe56be",
+    "informe": ".factory/cambios/20261108-020932-3t5-alcance/oracle-veredicto.txt",
+    "informe_sha256": "03881bcbe23b0f5a43e7f4536f16076a70b1bc5abc18a1e0c01e2fe64e21f7c4",
+    "cuando": "2026-11-08T05:00:21.167234+00:00",
+    "contexto": {
+      "head": "0fe298360e3cadab0339f8dfd4f95e4ba337bc08",
+      "archivos_sha256": "aeafcb312abf07341680323bf867883a16669edec4d26ed60c559cb8a7546b45"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -417,6 +429,17 @@
       "abiertos": 0,
       "sha256": "26c8cead8df8a0e6db0f4826946cdb9b18edef2f531ff0c7bbf6e32e2ca38d11",
       "decisiones_sha256": "abbb6a43591087e07b2cf21483f28c8fa9a6055e5603d7494ff8f92305938ba0"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-08T05:00:21.167250+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "4f570a0a110d0bfa305e92057f1a9ac7320ba66b0c05a50230287047b6fe56be"
     }
   ],
   "tipos": {

@@ -101,10 +101,10 @@
 ? desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica   sin juicio · factory_tests_unitarios.documento_de_la_practica no aplicada, factory_tests_unitarios.corrida_completa no aplicada
 ? desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes   sin juicio · factory_tests_unitarios.guia_de_tests_para_agentes no aplicada, factory_tests_unitarios.corrida_completa no aplicada
 ? desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero   sin juicio · factory_tests_unitarios.paso_de_tests_primero no aplicada, factory_tests_unitarios.corrida_completa no aplicada
-✗ despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados   no cumple · factory_destinos_alcance.cambios_elige_los_destinos_afectados falla, factory_destinos_alcance.corrida_completa falla
-✗ despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada   no cumple · factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada cumple, factory_destinos_alcance.corrida_completa falla
-✗ despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance   no cumple · factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance cumple, factory_destinos_alcance.corrida_completa falla
-✗ despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional   no cumple · factory_destinos_alcance.un_destino_declara_su_alcance_opcional cumple, factory_destinos_alcance.corrida_completa falla
+✓ despliegue_c15d6443128edff6b.cambios_elige_los_destinos_afectados   cumple · factory_destinos_alcance.cambios_elige_los_destinos_afectados cumple, factory_destinos_alcance.corrida_completa cumple
+✓ despliegue_c15d6443128edff6b.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada   cumple · factory_destinos_alcance.el_plan_explica_la_eleccion_y_no_ejecuta_si_no_hay_nada cumple, factory_destinos_alcance.corrida_completa cumple
+✓ despliegue_c15d6443128edff6b.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance   cumple · factory_destinos_alcance.sin_cambios_nada_cambia_y_la_guia_cuenta_el_alcance cumple, factory_destinos_alcance.corrida_completa cumple
+✓ despliegue_c15d6443128edff6b.un_destino_declara_su_alcance_opcional   cumple · factory_destinos_alcance.un_destino_declara_su_alcance_opcional cumple, factory_destinos_alcance.corrida_completa cumple
 ? despliegue_c1f413032a7a55aa1.cada_ejecucion_deja_evidencia_sin_secretos   sin juicio · factory_despliegue.cada_ejecucion_deja_evidencia_sin_secretos no aplicada, factory_despliegue.corrida_completa no aplicada
 ? despliegue_c1f413032a7a55aa1.los_destinos_los_declara_el_proyecto   sin juicio · factory_despliegue.los_destinos_los_declara_el_proyecto no aplicada, factory_despliegue.corrida_completa no aplicada
 ? despliegue_c1f413032a7a55aa1.se_prueba_cada_destino_y_el_conjunto   sin juicio · factory_despliegue.se_prueba_cada_destino_y_el_conjunto no aplicada, factory_despliegue.corrida_completa no aplicada
@@ -335,4 +335,4 @@
 ? web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo   sin juicio · factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo no aplicada, factory_modos_web.corrida_completa no aplicada
 ? web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados   sin juicio · factory_modos_web.los_modos_de_trabajo_estan_explicados no aplicada, factory_modos_web.corrida_completa no aplicada
 
-336 requisitos: 0 se cumplen (0 sólo en lo medido) · 4 no se cumplen · 329 sin juicio · 3 sin medir · 0 con medidas inexistentes
+336 requisitos: 4 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 329 sin juicio · 3 sin medir · 0 con medidas inexistentes
