@@ -2,10 +2,20 @@
   "id": "20261109-201722-oja-construir-primero",
   "titulo": "Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "c86d21f16a0cf0453923d47a829133cde430294ba2cf04c25da8953944f1e8b1",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T20:23:20.604748+00:00",
+    "documentos": {
+      "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "dd73194ed5ce5653dd664e6682721bfc62effc31de7f301e6e687d4c429b49cb",
+      "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "c86d21f16a0cf0453923d47a829133cde430294ba2cf04c25da8953944f1e8b1"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-09T20:17:22.826846+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:23:20.604770+00:00",
+      "documentos": {
+        "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "dd73194ed5ce5653dd664e6682721bfc62effc31de7f301e6e687d4c429b49cb",
+        "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "c86d21f16a0cf0453923d47a829133cde430294ba2cf04c25da8953944f1e8b1"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
