@@ -32,6 +32,7 @@ capacidad: "flujo"
 
 - `e5a33e0` construir-primero: propuesta y spec (trailer)
 - `65eaa2a` construir-primero: spec aprobada por Brian (trailer)
+- `c53e17d` construir-primero: instrucción del conductor, pruebas y docs (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-201722-oja-construir-primero`.
 
 ## Mensajes
