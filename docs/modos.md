@@ -64,7 +64,12 @@ Cada etapa posterior a la construcción está en `confirmacion` (decide una pers
 - `delegar_al_agente`: trabajo creativo, como construir (si no hay candidato), corregir lo que pidió la revisión o elegir las medidas.
 - `actuar`: un comando mecánico de Factory (`importar`, `juzgar`, `pedir-revision`, `revision-preparar`, `tomar`, `mensaje`) que un agente corre con `--agente NOMBRE`.
 
-Todavía no actúa: ejecutar los comandos, lanzar al agente y repetir el bucle son el cambio siguiente.
+Con `--ejecutar` (y `--agente NOMBRE`, porque lo que corre queda a nombre del agente) el conductor **actúa**: `oracle-factory --agente NOMBRE autopilot ID --ejecutar [--lanzar COMANDO] [--max-pasos N] [--max-minutos M]`. Repite: observa, decide con las mismas reglas, deja el porqué como `mensaje` en el registro del cambio, actúa y vuelve a observar.
+
+- `actuar`: corre el comando de Factory con `--agente NOMBRE`, en un proceso aparte.
+- `delegar_al_agente`: lanza el comando de `--lanzar` (por ejemplo `claude -p`) con la instrucción como último argumento y `FACTORY_AGENTE` puesto. Sin `--lanzar` se detiene y lo dice. `--lanzar` no se guarda en la configuración: se da en cada corrida.
+- Se detiene, y lo dice, ante `terminado`, un freno, una decisión de una persona (con su comando listo para pegar), un comando o un agente que fallan, la falta de progreso (la misma decisión dos veces seguidas) o un tope (10 pasos y 120 minutos por defecto). Al final deja otro `mensaje` con el motivo, con su propio plazo de 10 segundos fuera del tope: el rastro de por qué se detuvo se deja aunque el tiempo se haya agotado. Cada paso toma su plazo del reloj justo antes de correr, y sin tiempo no arranca. El código de salida es 1 si algo falló de verdad (un paso, dejar el porqué o el mensaje final, o leer el estado; el JSON lo dice en `fallo`); terminar, frenar, pedir a una persona o llegar a un tope no son fallas.
+- Nunca corre una decisión de una persona, aunque llegara mal clasificada, ni integra, publica ni despliega: esas etapas siguen en `confirmacion`.
 
 ## Requisitos funcionales y no funcionales
 

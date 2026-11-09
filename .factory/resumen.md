@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:a215de49b92e8db9ea893932d8e71c4c0ca7f0b8ff0e11ebae7236725da4a333 -->
+<!-- oracle-factory resumen sha256:9c1d1aa9a37c58e713ae59df58689e58ae8976b167e3e4a15645ff62c136713c -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 344 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 348 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -277,6 +277,10 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | el_conductor_decide_el_siguiente_paso_por_reglas | funcional | `flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas` | factory_autopilot.el_conductor_decide_el_siguiente_paso_por_reglas, factory_autopilot.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-220606-51z-autopilot |
 | el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce | funcional | `flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce` | factory_autopilot.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce, factory_autopilot.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-220606-51z-autopilot |
 | autopilot_solo_lee_y_lo_muestra | funcional | `flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra` | factory_autopilot.autopilot_solo_lee_y_lo_muestra, factory_autopilot.corrida_completa | verde al cerrar el 2026-11-08 | 20261108-220606-51z-autopilot |
+| autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona | funcional | `flujo_cbe1c0ee48f2ba730.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona` | factory_conductor.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona, factory_conductor.corrida_completa | verde al cerrar el 2026-11-09 | 20261108-233304-ywj-actua |
+| el_bucle_observa_decide_actua_y_vuelve_a_observar | funcional | `flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar` | factory_conductor.el_bucle_observa_decide_actua_y_vuelve_a_observar, factory_conductor.corrida_completa | verde al cerrar el 2026-11-09 | 20261108-233304-ywj-actua |
+| el_bucle_tiene_topes_y_se_frena_solo | funcional | `flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo` | factory_conductor.el_bucle_tiene_topes_y_se_frena_solo, factory_conductor.corrida_completa | verde al cerrar el 2026-11-09 | 20261108-233304-ywj-actua |
+| cada_paso_deja_su_porque_en_el_registro | funcional | `flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro` | factory_conductor.cada_paso_deja_su_porque_en_el_registro, factory_conductor.corrida_completa | verde al cerrar el 2026-11-09 | 20261108-233304-ywj-actua |
 
 ### ide
 
@@ -1770,6 +1774,10 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261108-220606-51z-autopilot) codex (gpt-6-luna): Revisé la spec, los parches de texto del paquete y el código/pruebas incluidos; no ejecuté la suite ni mutaciones manuales.
 - (20261108-220606-51z-autopilot) codex (gpt-6-luna): No encontré defectos verificables en los rangos revisados.
 - (20261108-220606-51z-autopilot) codex (gpt-6-luna): La edición de tests/datos/ayuda-cli.json quita una línea vieja del índice de subcomandos y actualiza el golden para incluir autopilot; está justificada por el subcomando nuevo.
+- (20261108-233304-ywj-actua) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261108-233304-ywj-actua) codex (gpt-6-luna): Sin hallazgos: contrasté la spec y los escenarios con el código y tests/test_conductor.py; no corrí las 1326 pruebas ni las mutaciones, porque el checkout es de sólo lectura para esta revisión.
+- (20261108-233304-ywj-actua) codex (gpt-6-luna): Las tres revisiones previas siguen corregidas en el candidato: los procesos reciben el plazo restante medido justo antes de correr; el mensaje final usa 10 segundos propios y su fallo activa fallo/código 1; terminado, frenar, pedir a una persona, topes y falta de progreso no cuentan como fallo.
+- (20261108-233304-ywj-actua) codex (gpt-6-luna): La única edición de un test preexistente es tests/datos/ayuda-cli.json: el golden de ayuda refleja las nuevas opciones autopilot, por lo que está justificada por el cambio y no altera una aserción de comportamiento.
 
 ### Históricos
 

@@ -1,0 +1,90 @@
+{
+  "conductor_caso": [
+    {
+      "requisito": "autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona",
+      "caso": "Persona.test_co1_sin_agente_el_comando_falla_y_no_corre_ni_escribe_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona",
+      "caso": "Persona.test_co1_terminado_y_frenar_detienen_el_bucle_sin_ejecutar_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona",
+      "caso": "Persona.test_co1_una_decision_de_persona_detiene_el_bucle_sin_ejecutar_y_muestra_el_comando",
+      "codigo": 0
+    },
+    {
+      "requisito": "autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona",
+      "caso": "Persona.test_co1_una_decision_de_persona_mal_clasificada_no_se_corre",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bucle_observa_decide_actua_y_vuelve_a_observar",
+      "caso": "Bucle.test_co2_el_comando_conserva_sus_argumentos_y_las_comillas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bucle_observa_decide_actua_y_vuelve_a_observar",
+      "caso": "Bucle.test_co2_el_trabajo_creativo_lanza_al_agente_con_la_instruccion_al_final",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bucle_observa_decide_actua_y_vuelve_a_observar",
+      "caso": "Bucle.test_co2_sin_lanzar_el_trabajo_creativo_detiene_el_bucle_y_deja_la_instruccion",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bucle_observa_decide_actua_y_vuelve_a_observar",
+      "caso": "Bucle.test_co2_un_comando_mecanico_se_corre_y_se_vuelve_a_observar",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bucle_tiene_topes_y_se_frena_solo",
+      "caso": "Bucle.test_co3_el_tope_de_minutos_detiene_el_bucle_con_un_reloj_falso",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bucle_tiene_topes_y_se_frena_solo",
+      "caso": "Bucle.test_co3_el_tope_de_pasos_detiene_el_bucle",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bucle_tiene_topes_y_se_frena_solo",
+      "caso": "Bucle.test_co3_la_misma_decision_dos_veces_seguidas_es_falta_de_progreso",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bucle_tiene_topes_y_se_frena_solo",
+      "caso": "Bucle.test_co3_un_comando_o_un_agente_que_fallan_detienen_el_bucle",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bucle_tiene_topes_y_se_frena_solo",
+      "caso": "Bucle.test_co3_un_estado_ilegible_detiene_el_bucle_sin_actuar",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_paso_deja_su_porque_en_el_registro",
+      "caso": "Bucle.test_co4_cada_paso_deja_un_mensaje_antes_y_otro_al_final",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_paso_deja_su_porque_en_el_registro",
+      "caso": "Bucle.test_co4_un_mensaje_largo_se_recorta_y_no_hace_fallar_el_bucle",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_paso_deja_su_porque_en_el_registro",
+      "caso": "Comando.test_co4_el_registro_recibe_el_mensaje_del_agente_y_la_salida_trae_el_resumen",
+      "codigo": 0
+    }
+  ],
+  "conductor_corrida": [
+    {
+      "completa": 1,
+      "casos": 16
+    }
+  ]
+}

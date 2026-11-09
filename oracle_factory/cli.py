@@ -31,6 +31,7 @@ from . import migracion
 from . import preparacion
 from . import trazabilidad as trazabilidad_mod
 from . import autopilot
+from . import conductor
 from . import modos
 from . import plantillas
 from . import alarmas as alarmas_mod
@@ -927,21 +928,47 @@ def filas_autonomia() -> list[dict]:
     return [{**f, "aplica_hoy": APLICA_AUTONOMIA[f["etapa"]] is not None, "comando": APLICA_AUTONOMIA[f["etapa"]]} for f in filas]
 
 
-def comando_autopilot(ident: str, como_json: bool) -> int:
-    """El conductor, sólo lectura: lo que haría ahora (`autopilot.decidir` sobre los datos de `estado`); no corre nada ni escribe."""
-    decision = autopilot.decidir(datos_estado(ident))
-    if como_json:
-        imprimir_json(decision)
+def comando_autopilot(ident: str, como_json: bool, ejecutar: bool = False, lanzar: str | None = None, max_pasos: int = 10,
+                      max_minutos: float = 120) -> int:
+    """El conductor. Sin `--ejecutar`, sólo lectura: lo que haría ahora (`autopilot.decidir` sobre los datos de `estado`). Con `--ejecutar`
+    (y `--agente`), el bucle de `conductor.bucle`: corre lo mecánico, lanza al agente para lo creativo, con topes y el porqué en el registro."""
+    if not ejecutar:
+        decision = autopilot.decidir(datos_estado(ident))
+        if como_json:
+            imprimir_json(decision)
+            return 0
+        print(f"Autopilot {ident}: {decision['accion']}" + (f" ({decision['quien']})" if decision["quien"] else ""))
+        if decision["comando"]:
+            print("Comando: " + decision["comando"] + ("  (con --agente NOMBRE)" if decision["quien"] == "agente" else ""))
+        if decision["instruccion"]:
+            print("Instrucción: " + decision["instruccion"])
+        print("Motivo: " + decision["motivo"])
+        for freno in decision["frenos"]:
+            print(f"  FRENO {freno.get('id')}: {freno.get('motivo')}")
         return 0
-    print(f"Autopilot {ident}: {decision['accion']}" + (f" ({decision['quien']})" if decision["quien"] else ""))
-    if decision["comando"]:
-        print("Comando: " + decision["comando"] + ("  (con --agente NOMBRE)" if decision["quien"] == "agente" else ""))
-    if decision["instruccion"]:
-        print("Instrucción: " + decision["instruccion"])
-    print("Motivo: " + decision["motivo"])
-    for freno in decision["frenos"]:
-        print(f"  FRENO {freno.get('id')}: {freno.get('motivo')}")
-    return 0
+    if not AGENTE:
+        raise FactoryError("autopilot --ejecutar actúa como agente: corré `oracle-factory --agente NOMBRE autopilot ID --ejecutar`; no escribí nada")
+    if max_pasos < 1 or not max_minutos > 0:
+        raise FactoryError("--max-pasos y --max-minutos tienen que ser positivos; no escribí nada")
+    try:
+        comando_lanzar = shlex.split(lanzar) if lanzar else None
+    except ValueError as e:
+        raise FactoryError(f"--lanzar no se puede leer como un comando: {e}; no escribí nada")
+    datos_estado(ident)  # un cambio que no existe falla acá, nombrándolo, antes de escribir nada
+    correr, lanzador = conductor.ejecutor(ROOT, AGENTE)
+    resultado = conductor.bucle(ident, lambda: datos_estado(ident), correr, lanzador, comando_lanzar, max_pasos, max_minutos)
+    if como_json:
+        imprimir_json(resultado)
+    else:
+        print(f"Autopilot {ident}: {len(resultado['pasos'])} paso(s)")
+        for i, p in enumerate(resultado["pasos"], 1):
+            print(f"  {i}. {p['accion']}: {p['comando'] or p['instruccion']} → código {p['codigo']}")
+        print("Se detuvo: " + resultado["motivo"])
+        if resultado["decision"] and resultado["decision"]["accion"] == "pedir_a_persona":
+            print("Comando para una persona: " + resultado["decision"]["comando"])
+        if resultado.get("aviso"):
+            print("Aviso: " + resultado["aviso"])
+    return 1 if resultado["fallo"] else 0
 
 
 def comando_autonomia(etapa: str | None, modo: str | None, como_json: bool) -> int:
@@ -2521,7 +2548,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "verificar": return verificar_mod.comando(sys.modules[__name__], args.json)
         elif args.comando == "destinos": comando_destinos(args.json, args.sin_consultar)
         elif args.comando == "autonomia": return comando_autonomia(args.etapa, args.modo, args.json)
-        elif args.comando == "autopilot": return comando_autopilot(args.id, args.json)
+        elif args.comando == "autopilot": return comando_autopilot(args.id, args.json, args.ejecutar, args.lanzar, args.max_pasos, args.max_minutos)
         elif args.comando == "desplegar": return comando_desplegar(args.simular, args.autorizar, args.commit, args.destino, args.cambios)
         elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)
         elif args.comando == "unir-generado": return 0  # lo generado se queda como está y se rehace en el post-merge
