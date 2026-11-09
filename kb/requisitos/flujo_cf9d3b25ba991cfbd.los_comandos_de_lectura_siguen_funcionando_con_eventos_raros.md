@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261109-012630-nn6-eventos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «estado», «kb»
+- Medidas: `factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros`, `factory_eventos_raros.corrida_completa`
 - Fuente: openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md#los_comandos_de_lectura_siguen_funcionando_con_eventos_raros
 
 Tipo: funcional El sistema DEBE seguir mostrando `estado`, `estado --json` y el conocimiento generado (`kb`) de un cambio cuyo registro tiene eventos que no son objetos, con los demás eventos intactos, sin fallar.
