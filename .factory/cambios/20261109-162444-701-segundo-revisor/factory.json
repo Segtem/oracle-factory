@@ -214,6 +214,32 @@
       "resultado": "ok",
       "hallazgos": 2,
       "lanzamiento": "8fb6b98771f3"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T18:16:40.323448+00:00",
+      "revisor": "agy2",
+      "candidato": "1428214",
+      "lanzamiento": "36b5a95313d0"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T18:34:13.142152+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "1428214",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "36b5a95313d0"
     }
   ],
   "tipos": {
