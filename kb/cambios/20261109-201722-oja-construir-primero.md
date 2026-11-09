@@ -23,6 +23,7 @@ capacidad: "flujo"
 - 2026-11-09 20:17 · Cambio creado · claude-code (agente)
 - 2026-11-09 20:23 · Spec aprobada · Brian Hollweg (persona)
 - 2026-11-09 20:23 · Requisitos importados · claude-code (agente)
+- 2026-11-09 20:26 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -33,6 +34,7 @@ capacidad: "flujo"
 - `e5a33e0` construir-primero: propuesta y spec (trailer)
 - `65eaa2a` construir-primero: spec aprobada por Brian (trailer)
 - `c53e17d` construir-primero: instrucción del conductor, pruebas y docs (trailer)
+- `dfe0412` construir-primero: catálogos y propuesta de medidas (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-201722-oja-construir-primero`.
 
 ## Mensajes
