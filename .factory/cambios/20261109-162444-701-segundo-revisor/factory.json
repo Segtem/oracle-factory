@@ -84,33 +84,46 @@
         "factory_segundo_revisor.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T17:21:39.869316+00:00",
+      "requisito": "flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision",
+      "medidas": [
+        "factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision",
+        "factory_segundo_revisor.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T17:21:40.064705+00:00",
+      "requisito": "flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo",
+      "medidas": [
+        "factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo",
+        "factory_segundo_revisor.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision": "funcional",
     "flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo": {
-      "sha256": "42ad0b021cb0cf35a088a2a9942d7ef8d9e90deec64d7712b284e882efce6534",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T17:21:06.114561+00:00",
-      "catalogos": {
-        "factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo": "21a219af09be382198db6e356d451285bee88b29d188161375f031157306b813",
-        "factory_segundo_revisor.corrida_completa": "6873800f0ea8380f5070b744ccd0774dbdb2a2819dd77af648ce620bec64ad1e"
-      },
-      "archivos_catalogo": {
-        "factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo": "catalogos/factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo.oracle",
-        "factory_segundo_revisor.corrida_completa": "catalogos/factory_segundo_revisor.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T17:21:39.818944+00:00",
       "sha256": "959dd6446853d1201944862dd0c4414f8d8eef9cd419fb87932db166df01278c",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T17:21:08.055683+00:00",
       "catalogos": {
         "factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision": "5483f3ca4d4fb1687a7967186e0cce1b67bbaac7971420208cd00e8a03958fa2",
         "factory_segundo_revisor.corrida_completa": "6873800f0ea8380f5070b744ccd0774dbdb2a2819dd77af648ce620bec64ad1e"
@@ -119,6 +132,23 @@
         "factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision": "catalogos/factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision.oracle",
         "factory_segundo_revisor.corrida_completa": "catalogos/factory_segundo_revisor.corrida_completa.oracle"
       }
+    },
+    "flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T17:21:40.012964+00:00",
+      "sha256": "42ad0b021cb0cf35a088a2a9942d7ef8d9e90deec64d7712b284e882efce6534",
+      "catalogos": {
+        "factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo": "21a219af09be382198db6e356d451285bee88b29d188161375f031157306b813",
+        "factory_segundo_revisor.corrida_completa": "6873800f0ea8380f5070b744ccd0774dbdb2a2819dd77af648ce620bec64ad1e"
+      },
+      "archivos_catalogo": {
+        "factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo": "catalogos/factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo.oracle",
+        "factory_segundo_revisor.corrida_completa": "catalogos/factory_segundo_revisor.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

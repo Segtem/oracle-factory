@@ -23,3 +23,11 @@ Medidas de flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_c
 ### Nota (2026-11-09 17:21:08 UTC)
 
 Medidas de flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision: factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision, factory_segundo_revisor.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-09 17:21:39 UTC)
+
+Medidas de flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 17:21:40 UTC)
+
+Medidas de flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo: Brian Hollweg (persona, confirmo, modo confirmacion).
