@@ -17,6 +17,7 @@ def construir_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="oracle-factory", description="Factory local con gates humanos, OpenSpec, oracle-task y Oracle")
     parser.add_argument("--version", action="version", version=f"oracle-factory {__version__}")
     parser.add_argument("--proyecto", type=Path, default=None, help="carpeta del proyecto; por defecto se busca .factory/ subiendo desde la carpeta actual y, si no hay, se usa la actual; colocar antes del subcomando")
+    parser.add_argument("--registros", type=Path, default=None, help="EXPERIMENTAL (etapa 1 de 6): carpeta aparte para los registros de Factory (.factory/, tareas/, openspec/, kb/, requisitos/, catálogos); el producto no se toca; sin ella, los registros viven en el proyecto; colocar antes del subcomando")
     parser.add_argument("--agente", default=os.environ.get("FACTORY_AGENTE"), help="actuar como agente con este nombre (o FACTORY_AGENTE); queda registrado como agente, nunca como persona")
     sub = parser.add_subparsers(dest="comando", required=True)
     p = sub.add_parser("init", help="inicializar Oracle, tareas y acuerdos sin sobrescribir configuración")
