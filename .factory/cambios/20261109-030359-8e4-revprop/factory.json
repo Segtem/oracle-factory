@@ -2,7 +2,7 @@
   "id": "20261109-030359-8e4-revprop",
   "titulo": "Autopilot: la propuesta de revisión es trabajo del agente, antes de pedírsela a la persona",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261109-030359-8e4-revprop/specs/flujo/spec.md",
   "spec_sha256": "1ada9de9727386aa3dc2fd01a6efa42cf4461bdcc23fe5bb80e1b8d5458d5b6c",
   "spec_aprobada": {
@@ -20,8 +20,40 @@
     "flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision",
     "flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261109-030359-8e4-revprop/revisiones/registro-w7wy4j8t/informe.json",
+    "sha256": "8fba9e4ae818f7ae80352a5c4aec2d492281c641a2b4b561804a839f895a3c59",
+    "decisiones": "tareas/20261109-030359-8e4-revprop/revisiones/registro-w7wy4j8t/decisiones.json",
+    "decisiones_sha256": "783e934e1cb5ab04fc07b6cfb488baf5e8560f4053d2af47b50595dfd17898c0",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T12:33:22.635233+00:00",
+    "motivo": "Tres rondas de codex sobre candidatos 04048bb, c16e67d y ef342fd; la tercera sin hallazgos. Ronda 1, REVPROP-1 (media): ultima_propuesta aceptaba una propuesta de quien no era un agente; ahora exige tipo_actor == agente. Ronda 2, REVPROP-2 (media): el conductor aceptaba una propuesta incompleta o con un candidato con basura; ahora cuenta sólo con decision aprobar o cambios, candidato hexadecimal de 7 a 40 caracteres que coincide con el vigente en los 7 primeros, y actor y fecha presentes. Las dos de la clase qué cuenta como propuesta válida. Evidencia 1336 pruebas OK, 7 casos de contrato. 35 mutaciones propias, todas detectadas. Toca reglas de decisión (cli.py no, pero autopilot.py decide qué se le pide a una persona): camino completo por el tamaño y por el freno. DECLARO DOS PRUEBAS EXISTENTES EDITADAS (la guarda de docs/tests.md; por eso estado marca el freno prueba_existente_editada y el conductor se frena solo): sólo sus ayudantes, de forma aditiva: el decidir() de tests/test_autopilot.py y el datos() de tests/test_conductor.py dejan por defecto una propuesta completa y válida del candidato vigente, porque ahora revisar sin propuesta pasa a delegar_al_agente y sin eso los casos que esperan pedir_a_persona dejarían de probar lo que decían. Ningún caso se quitó ni se aflojó; codex miró la edición y no objetó. Con datos reales de este cambio, sin el freno, el conductor decide delegar la propuesta al agente en vez de pedir revisar. Límites: el conductor no pide una segunda ronda con otro revisor (estado sólo sugiere uno); un freno ya declarado en la revisión sigue frenando al conductor durante todo el cambio, por eso hoy el paso se hace a mano; la validación de la propuesta está en el conductor y estado muestra lo que hay. La decisión de revisar es siempre de una persona.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "ad22abc03e63146973ed7d8a40f7a756617fd496",
+      "archivos_sha256": "0114a1ba0c08850f1ecae6206abad18e4f8665ec7cdcfa9ca39f58a142670d59"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261109-030359-8e4-revprop/candidatos/ef342fd/evidencia/hechos.json",
+    "hechos_sha256": "af397b6b62811ffc2b85d1c25b337b802999cb75f688ae36c8ddcef50c803352",
+    "informe": ".factory/cambios/20261109-030359-8e4-revprop/oracle-veredicto.txt",
+    "informe_sha256": "e530b0728e10357fa9bf0b878a47051e7d6cd6bc50fb4cee0132323e96604c50",
+    "cuando": "2026-11-09T12:33:32.860921+00:00",
+    "contexto": {
+      "head": "ad22abc03e63146973ed7d8a40f7a756617fd496",
+      "archivos_sha256": "0114a1ba0c08850f1ecae6206abad18e4f8665ec7cdcfa9ca39f58a142670d59"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -216,6 +248,31 @@
       "cuando": "2026-11-09T04:03:06.902417+00:00",
       "decision": "aprobar",
       "candidato": "ef342fd"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T12:33:22.635271+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "8fba9e4ae818f7ae80352a5c4aec2d492281c641a2b4b561804a839f895a3c59",
+      "decisiones_sha256": "783e934e1cb5ab04fc07b6cfb488baf5e8560f4053d2af47b50595dfd17898c0"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T12:33:32.860937+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "af397b6b62811ffc2b85d1c25b337b802999cb75f688ae36c8ddcef50c803352"
     }
   ],
   "tipos": {
@@ -257,14 +314,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Tres rondas de codex sobre candidatos 04048bb, c16e67d y ef342fd; la tercera sin hallazgos. Ronda 1, REVPROP-1 (media): ultima_propuesta aceptaba una propuesta de quien no era un agente; ahora exige tipo_actor == agente. Ronda 2, REVPROP-2 (media): el conductor aceptaba una propuesta incompleta o con un candidato con basura; ahora cuenta sólo con decision aprobar o cambios, candidato hexadecimal de 7 a 40 caracteres que coincide con el vigente en los 7 primeros, y actor y fecha presentes. Las dos de la clase qué cuenta como propuesta válida. Evidencia 1336 pruebas OK, 7 casos de contrato. 35 mutaciones propias, todas detectadas. Toca reglas de decisión (cli.py no, pero autopilot.py decide qué se le pide a una persona): camino completo por el tamaño y por el freno. DECLARO DOS PRUEBAS EXISTENTES EDITADAS (la guarda de docs/tests.md; por eso estado marca el freno prueba_existente_editada y el conductor se frena solo): sólo sus ayudantes, de forma aditiva: el decidir() de tests/test_autopilot.py y el datos() de tests/test_conductor.py dejan por defecto una propuesta completa y válida del candidato vigente, porque ahora revisar sin propuesta pasa a delegar_al_agente y sin eso los casos que esperan pedir_a_persona dejarían de probar lo que decían. Ningún caso se quitó ni se aflojó; codex miró la edición y no objetó. Con datos reales de este cambio, sin el freno, el conductor decide delegar la propuesta al agente en vez de pedir revisar. Límites: el conductor no pide una segunda ronda con otro revisor (estado sólo sugiere uno); un freno ya declarado en la revisión sigue frenando al conductor durante todo el cambio, por eso hoy el paso se hace a mano; la validación de la propuesta está en el conductor y estado muestra lo que hay. La decisión de revisar es siempre de una persona.",
-      "candidato": "ef342fd",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T04:03:06.902403+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

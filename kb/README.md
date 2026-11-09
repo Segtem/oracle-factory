@@ -123,7 +123,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-220606-51z-autopilot]] — Conductor autopilot: decide el siguiente paso por reglas (sin actuar) (cerrada)
 - [[cambios/20261108-233304-ywj-actua]] — Autopilot que actúa: corre lo mecánico, delega lo creativo, con topes y rastro (cerrada)
 - [[cambios/20261109-012630-nn6-eventos]] — El registro tolera eventos que no son objetos (cerrada)
-- [[cambios/20261109-030359-8e4-revprop]] — Autopilot: la propuesta de revisión es trabajo del agente, antes de pedírsela a la persona (requisitos_importados)
+- [[cambios/20261109-030359-8e4-revprop]] — Autopilot: la propuesta de revisión es trabajo del agente, antes de pedírsela a la persona (oracle_verde)
 
 ## Requisitos
 
