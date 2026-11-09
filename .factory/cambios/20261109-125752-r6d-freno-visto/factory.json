@@ -119,6 +119,42 @@
       "resultado": "ok",
       "hallazgos": 4,
       "lanzamiento": "5a1e1b3fb3e6"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T15:21:18.013792+00:00",
+      "revisor": "codex",
+      "candidato": "f575a13",
+      "lanzamiento": "d060c56e176b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T15:23:02.223206+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "f575a13",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "d060c56e176b"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T15:23:14.945124+00:00",
+      "decision": "aprobar",
+      "candidato": "f575a13"
     }
   ],
   "tipos": {
@@ -142,5 +178,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Propuesta del agente claude-code. Candidato f575a13: evidencia verde (1339 pruebas, 3 casos de contrato), 14 mutaciones propias detectadas, agy ronda 1 con FRV-001 y FRV-002 (medios, huecos de prueba: corregidos) y codex ronda 2 sin hallazgos. DECIDE BRIAN: (1) FRV-004 (informativo): en modo funcional con requisitos no funcionales, o en modo autonomo, un agente puede registrar una revision aprobada, y con eso el freno prueba_existente_editada se levanta sin que una persona haya mirado los tests editados; solo corregi la redaccion (comentario y docs/tests.md), la regla no cambia. En este proyecto (confirmacion) la revision siempre es de una persona, asi que no aplica aqui; si queres, un cambio siguiente exige tipo_actor persona. (2) FRV-003 (baja) aceptado: el ayudante de EstadoReal usa una lista de editados fija en las aserciones intermedias; el estado real con Git se prueba aparte. No edite ningun test existente.",
+      "candidato": "f575a13",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T15:23:14.945108+00:00"
+    }
+  }
 }
