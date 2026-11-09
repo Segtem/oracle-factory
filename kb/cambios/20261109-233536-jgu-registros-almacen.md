@@ -26,6 +26,10 @@ capacidad: "flujo"
 - 2026-11-09 23:35 · Cambio creado · claude-code (agente)
 - 2026-11-09 23:36 · Spec aprobada · Brian Hollweg (persona)
 - 2026-11-09 23:36 · Requisitos importados · claude-code (agente)
+- 2026-11-09 23:41 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-09 23:41 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-09 23:41 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-09 23:41 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -35,8 +39,10 @@ capacidad: "flujo"
 
 - `081f98f` registros-almacen: propuesta y spec (etapa 2 de 6) (trailer)
 - `12a44ad` registros-almacen: spec aprobada por Brian (trailer)
+- `5ee2f59` registros-almacen: pruebas, catálogos y propuesta de medidas (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-233536-jgu-registros-almacen`.
 
 ## Mensajes
 
 - 2026-11-09 23:37 · claude-code: autopilot delegar\_al\_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación
+- 2026-11-09 23:39 · claude-code: autopilot se detuvo: confirmar las medidas es sólo de una persona. Comando para una persona: oracle-factory medir 20261109-233536-jgu-registros-almacen --confirmar

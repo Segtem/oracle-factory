@@ -31,3 +31,19 @@ Medidas de flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar: factor
 ### Nota (2026-11-09 23:38:52 UTC)
 
 Medidas de flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega: factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega, factory_registros_almacen.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-09 23:41:43 UTC)
+
+Medidas de flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 23:41:43 UTC)
+
+Medidas de flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 23:41:43 UTC)
+
+Medidas de flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 23:41:43 UTC)
+
+Medidas de flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega: Brian Hollweg (persona, confirmo, modo confirmacion).
