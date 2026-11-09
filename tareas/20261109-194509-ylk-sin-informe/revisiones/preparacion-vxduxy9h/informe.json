@@ -1,0 +1,47 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261109-194509-ylk-sin-informe",
+  "contexto": {
+    "head": "a7a48b59290dfae41428f0dbb2a9a037ff0141b6",
+    "archivos_sha256": "2785c0cbda220309300e7f0c16428c0b0a33318070b59798ba707e625be64228"
+  },
+  "documentos": {
+    "openspec/changes/20261109-194509-ylk-sin-informe/proposal.md": "148bc738a73b0fb134c311483b23a171fd079fc287aed66c99a962940c724626",
+    "openspec/changes/20261109-194509-ylk-sin-informe/specs/flujo/spec.md": "2a7565e36ce35b232a17a340fda0b64f849878df35b54e4d0d47db2364ab999e"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_sin_informe.corrida_completa.oracle",
+    "catalogos/factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado.oracle",
+    "openspec/changes/20261109-194509-ylk-sin-informe/design.md",
+    "openspec/changes/20261109-194509-ylk-sin-informe/proposal.md",
+    "openspec/changes/20261109-194509-ylk-sin-informe/specs/flujo/spec.md",
+    "openspec/changes/20261109-194509-ylk-sin-informe/tasks.md",
+    "oracle_factory/autopilot.py",
+    "oracle_factory/lecturas.py",
+    "requisitos/flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado.requisito",
+    "tests/test_sin_informe.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1346 pruebas, 3 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-194509-ylk-sin-informe/candidatos/925896f/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-194509-ylk-sin-informe/candidatos/925896f/revision/codex-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): No encontré defectos verificables en el diff; revisé la spec, la lógica de filtrado y la cobertura de los tres escenarios.",
+    "codex (gpt-6-luna): Corrí `python -m unittest tests.test_sin_informe -v </dev/null`: pasó el caso del conductor; dos pruebas fallaron al inicializar por falta del módulo `oracle_metalenguaje`.",
+    "codex (gpt-6-luna): No corrí la suite completa: el entorno no tiene `.venv` ni `oracle_metalenguaje` instalado.",
+    "codex (gpt-6-luna): El paquete no omite archivos binarios."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

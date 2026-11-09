@@ -2,7 +2,7 @@
   "id": "20261109-194509-ylk-sin-informe",
   "titulo": "Autopilot: el conductor no repite el pedido a un revisor que se lanzó y no dejó resultado",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261109-194509-ylk-sin-informe/specs/flujo/spec.md",
   "spec_sha256": "2a7565e36ce35b232a17a340fda0b64f849878df35b54e4d0d47db2364ab999e",
   "spec_aprobada": {
@@ -19,8 +19,40 @@
   "requisitos": [
     "flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261109-194509-ylk-sin-informe/revisiones/registro-rtwqhmcp/informe.json",
+    "sha256": "b7fa637f982cabd8179c074e0ca16103bdd62282ba29baf845fab9ea6ccf5ad5",
+    "decisiones": "tareas/20261109-194509-ylk-sin-informe/revisiones/registro-rtwqhmcp/decisiones.json",
+    "decisiones_sha256": "e67f23846cae85b00ff8870e1a6046fe1985f1d34bb4a74585ea82134414925d",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T20:05:31.730915+00:00",
+    "motivo": "Propuesta del agente claude-code. Candidato 925896f (camino ligero, 83 líneas de producto): evidencia verde (1346 pruebas, 3 casos de contrato), 13 mutaciones propias detectadas (4 sobrevivieron al principio y las cubrí con casos dentro de los métodos de las pruebas), codex ronda 1 sin hallazgos. QUÉ HAY QUE SABER: (1) este cambio lo construyó un agente lanzado por el conductor con claude -p (permisos acotados: leer/editar/escribir, oracle-factory, .venv/bin/python, git status/diff/log/show/add/commit; sin push, checkout, reset, config ni red); yo escribí la spec, hice las mutaciones y pedí las revisiones. Su código fue mínimo y correcto, no tocó la configuración de git ni editó tests existentes. (2) La instrucción de construir no se la dio el conductor sino yo: ante medir --listar sin pruebas ni catálogos el conductor pidió elegir medidas y el agente contestó con razón que aún no se podía; es un hueco del conductor a arreglar en otro cambio. (3) Descarta al revisor que falló por NOMBRE, no por proveedor (como dice la spec): si codex falla y existe codex2 del mismo proveedor, se ofrece codex2. (4) agy y agy2 siguen sin cuota hasta cerca del 2026-11-15: el revisor fue sólo codex, y el camino ligero alcanza con un revisor y una ronda. No edité ningún test existente.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "a7a48b59290dfae41428f0dbb2a9a037ff0141b6",
+      "archivos_sha256": "2785c0cbda220309300e7f0c16428c0b0a33318070b59798ba707e625be64228"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261109-194509-ylk-sin-informe/candidatos/925896f/evidencia/hechos.json",
+    "hechos_sha256": "02361e44dc64ef75fa59a293ce718a440d47496b6a2f60dc97c14c85b03c0c59",
+    "informe": ".factory/cambios/20261109-194509-ylk-sin-informe/oracle-veredicto.txt",
+    "informe_sha256": "120f4e7858bf1b0d7f4b744683a605ee02d3bede8059a46aff0c7f1239870d14",
+    "cuando": "2026-11-09T20:05:43.775889+00:00",
+    "contexto": {
+      "head": "a7a48b59290dfae41428f0dbb2a9a037ff0141b6",
+      "archivos_sha256": "2785c0cbda220309300e7f0c16428c0b0a33318070b59798ba707e625be64228"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -144,6 +176,31 @@
       "cuando": "2026-11-09T20:05:07.858047+00:00",
       "decision": "aprobar",
       "candidato": "925896f"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T20:05:31.730943+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "b7fa637f982cabd8179c074e0ca16103bdd62282ba29baf845fab9ea6ccf5ad5",
+      "decisiones_sha256": "e67f23846cae85b00ff8870e1a6046fe1985f1d34bb4a74585ea82134414925d"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:05:43.775906+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "02361e44dc64ef75fa59a293ce718a440d47496b6a2f60dc97c14c85b03c0c59"
     }
   ],
   "tipos": {
@@ -168,14 +225,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Propuesta del agente claude-code. Candidato 925896f (camino ligero, 83 líneas de producto): evidencia verde (1346 pruebas, 3 casos de contrato), 13 mutaciones propias detectadas (4 sobrevivieron al principio y las cubrí con casos dentro de los métodos de las pruebas), codex ronda 1 sin hallazgos. QUÉ HAY QUE SABER: (1) este cambio lo construyó un agente lanzado por el conductor con claude -p (permisos acotados: leer/editar/escribir, oracle-factory, .venv/bin/python, git status/diff/log/show/add/commit; sin push, checkout, reset, config ni red); yo escribí la spec, hice las mutaciones y pedí las revisiones. Su código fue mínimo y correcto, no tocó la configuración de git ni editó tests existentes. (2) La instrucción de construir no se la dio el conductor sino yo: ante medir --listar sin pruebas ni catálogos el conductor pidió elegir medidas y el agente contestó con razón que aún no se podía; es un hueco del conductor a arreglar en otro cambio. (3) Descarta al revisor que falló por NOMBRE, no por proveedor (como dice la spec): si codex falla y existe codex2 del mismo proveedor, se ofrece codex2. (4) agy y agy2 siguen sin cuota hasta cerca del 2026-11-15: el revisor fue sólo codex, y el camino ligero alcanza con un revisor y una ronda. No edité ningún test existente.",
-      "candidato": "925896f",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T20:05:07.858035+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado`
 - Vigente: sí
 - Cambio: [[cambios/20261109-194509-ylk-sin-informe]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado`, `factory_sin_informe.corrida_completa`
 - Fuente: openspec/changes/20261109-194509-ylk-sin-informe/specs/flujo/spec.md#el_segundo_revisor_no_es_uno_que_no_dejo_resultado
 
