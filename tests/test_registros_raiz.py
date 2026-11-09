@@ -142,6 +142,21 @@ class RegistrosRaiz(unittest.TestCase):
                 self.assertEqual(self.arbol(self.producto), antes_de_todo)
                 self.assertFalse((adentro / '.factory').exists())
         self.assertFalse((self.producto / 'nuevo').exists())
+        # un enlace simbólico dentro del almacén hacia el producto no hace que init escriba en el producto (RRAIZ-2 de codex: no se reproduce, se fija)
+        for nombre in ('catalogos', 'requisitos', 'tareas', 'openspec', '.factory'):
+            with self.subTest(enlace=nombre):
+                destino = self.producto / nombre
+                destino.mkdir()
+                enlace = self.almacen.parent / f'almacen-con-{nombre}'
+                enlace.mkdir()
+                (enlace / nombre).symlink_to(destino)
+                antes_del_enlace = self.arbol(self.producto)
+                with patch.object(self, 'almacen', enlace):
+                    codigo, _, error = self.corre('init')
+                self.assertNotEqual(codigo, 0)
+                self.assertRegex(error, 'enlaces simbólicos|no es una carpeta de Factory')
+                self.assertEqual(self.arbol(self.producto), antes_del_enlace)
+                destino.rmdir()
         gemelo = self.producto.parent / 'producto-registros'  # un hermano con el mismo prefijo no está «dentro»
         gemelo.mkdir()
         with patch.object(self, 'almacen', gemelo):
