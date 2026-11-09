@@ -31,12 +31,13 @@ def _analizar(argumentos: list[str]):
 
 
 def ultima_propuesta(estado) -> dict | None:
-    """La última propuesta de revisión de un agente ({decision, candidato, actor, cuando}) del registro de un cambio; None si no hay o no se lee."""
+    """La última propuesta de revisión de un agente ({decision, candidato, actor, cuando}) del registro de un cambio; None si no hay o no se lee.
+    Una propuesta de quien no es un agente (una persona decide con `revisar`, que es otro evento) no cuenta."""
     eventos = estado.get("eventos") if isinstance(estado, dict) else None
     if not isinstance(eventos, list):
         return None
     for e in reversed(eventos):
-        if isinstance(e, dict) and e.get("accion") == "revision_propuesta":
+        if isinstance(e, dict) and e.get("accion") == "revision_propuesta" and e.get("tipo_actor") == "agente":
             return {k: e.get(k) for k in ("decision", "candidato", "actor", "cuando")}
     return None
 

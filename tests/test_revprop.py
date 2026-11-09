@@ -53,8 +53,15 @@ class Estado(_te.Base):
                 p = autopilot.ultima_propuesta(estado)
                 self.assertTrue(p is None or set(p) == {'decision', 'candidato', 'actor', 'cuando'})
         self.assertIsNone(autopilot.ultima_propuesta({'eventos': [None, 3, 'x', {'accion': 'mensaje'}]}))
-        self.assertEqual(autopilot.ultima_propuesta({'eventos': [{'accion': 'revision_propuesta'}]}),
+        self.assertEqual(autopilot.ultima_propuesta({'eventos': [{'accion': 'revision_propuesta', 'tipo_actor': 'agente'}]}),
                          {'decision': None, 'candidato': None, 'actor': None, 'cuando': None})
+        # sólo cuenta la propuesta de un agente: la de una persona, sin tipo o con un tipo raro se ignora, aunque sea la más reciente
+        de_agente = {'accion': 'revision_propuesta', 'tipo_actor': 'agente', 'actor': 'claude-code', 'candidato': 'abc1234', 'decision': 'aprobar'}
+        for raro in ({'tipo_actor': 'persona'}, {}, {'tipo_actor': None}, {'tipo_actor': 'Agente'}, {'tipo_actor': ['agente']}, {'tipo_actor': 'sin_identificar'}):
+            with self.subTest(raro=raro):
+                ajeno = {'accion': 'revision_propuesta', 'actor': 'ana', 'candidato': 'fffffff', 'decision': 'aprobar', **raro}
+                self.assertIsNone(autopilot.ultima_propuesta({'eventos': [ajeno]}))
+                self.assertEqual(autopilot.ultima_propuesta({'eventos': [de_agente, ajeno]})['candidato'], 'abc1234')
 
 
 class Reglas(unittest.TestCase):

@@ -128,6 +128,32 @@
         "factory_revprop.estado_dice_la_ultima_propuesta_de_revision_de_un_agente",
         "factory_revprop.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T03:31:17.356859+00:00",
+      "revisor": "codex",
+      "candidato": "04048bb",
+      "lanzamiento": "93931cdb1cc7"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T03:32:39.886517+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "04048bb",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "93931cdb1cc7"
     }
   ],
   "tipos": {

@@ -1,0 +1,33 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-autopilot-revision/.factory/local/revisiones/04048bb-codex-1",
+  "base": "818f366a5bac5ea23778fda2b95e70658434b920",
+  "head": "04048bbb987251b63a845b16dba6f84c800e841f",
+  "diff_sha256": "7fb8526cfc49d982844b664f481d341d965c1e4059e62f585625f8d36ec51660",
+  "context_sha256": "08eefdd65f46c2e2e5cfc226cf1fe25cb95988d415e97f0d125e6791a83aa511",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "REVPROP-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Una propuesta que no hizo un agente puede desbloquear la revisión",
+      "explanation": "La spec define propuesta_de_revision como la última propuesta de un agente, y exige que propuestas que no cuenten no habiliten pedir la decisión a la persona. ultima_propuesta selecciona el último evento sólo por accion == 'revision_propuesta'; no comprueba tipo_actor == 'agente'. Por tanto, si el registro contiene un evento de esa acción cuyo tipo_actor es 'persona' (o no está presente), el estado lo publica como propuesta y autopilot.decidir lo acepta por candidato, saltándose el paso delegado al agente. El productor estándar hoy crea la propuesta desde el flujo de agente, pero el lector trata el registro tolerante a eventos ilegibles y no valida el actor, así que no garantiza la condición funcional ante registros ajenos o malformados.",
+      "location": {"file": "oracle_factory/autopilot.py", "start_line": 39, "end_line": 40, "side": "head"},
+      "trigger": "Un estado contiene como evento más reciente {\"accion\":\"revision_propuesta\",\"tipo_actor\":\"persona\",\"actor\":\"ana\",\"candidato\":\"abc1234\", ...}; pedir estado y luego autopilot con candidato abc1234 y próximo paso revisar.",
+      "evidence": "En oracle_factory/autopilot.py:38-40 se recorre en reversa y se devuelve el evento más reciente que coincida con la acción, sin mirar tipo_actor. oracle_factory/cli.py:265-273 muestra que los eventos guardan los campos de cli.actor(); oracle_factory/flujo_revision.py:486-496 registra la propuesta habitual mediante cli.evento. tests/test_revprop.py sólo fabrica propuestas con tipo_actor='agente', por lo que no detecta el caso de actor no agente. El resultado derivado sería propuesta_de_revision con candidato abc1234 y autopilot.decidir elegiría pedir_a_persona en vez de delegar_al_agente.",
+      "related_requirement": "el_conductor_delega_la_propuesta_antes_de_pedir_la_revision",
+      "status": "pendiente",
+      "verification": "Inspección estática del lector, productor de eventos y escenarios de prueba; no se ejecutó una mutación sobre el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, propuesta, diff/contexto del paquete y el código del checkout; el paquete declara omissions vacío.",
+    "Intenté ejecutar tests/test_revprop.py con .venv/bin/python, pero el checkout no contiene .venv (salida 127); no corrí las pruebas.",
+    "No ejecuté mutaciones. La inspección cubrió las comparaciones de candidato y el orden de frenos; no encontré otro defecto confirmado.",
+    "tests/test_autopilot.py: se añadió una propuesta por defecto a su ayudante; es aditiva y justificada para conservar el supuesto de sus casos existentes que esperan pedir_a_persona.",
+    "tests/test_conductor.py: se añadió una propuesta por defecto a su ayudante; es aditiva y justificada por el mismo supuesto. No se quitaron ni relajaron casos en ninguna de las dos ediciones."
+  ]
+}
