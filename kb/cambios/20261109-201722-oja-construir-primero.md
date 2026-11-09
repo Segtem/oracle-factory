@@ -45,6 +45,7 @@ capacidad: "flujo"
 - `0f582fe` construir-primero: requisito importado de nuevo y medidas propuestas (trailer)
 - `b1a8886` construir-primero: medidas confirmadas por Brian (segunda vez) (trailer)
 - `d1acf6b` construir-primero: evidencia del candidato nuevo (trailer)
+- `1ce02a2` construir-primero: informe de codex (ronda 2, sin hallazgos) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-201722-oja-construir-primero`.
 
 ## Mensajes
