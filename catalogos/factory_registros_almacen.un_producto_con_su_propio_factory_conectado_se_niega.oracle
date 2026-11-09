@@ -1,0 +1,8 @@
+medida factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega:
+    de registros_almacen_caso c
+    donde c.requisito == "un_producto_con_su_propio_factory_conectado_se_niega" y c.codigo == 0
+    resumen contar(1)
+    umbral == 3 segun contrato porque "deben pasar los 3 casos enumerados para este requisito en tests/test_registros_almacen.py; asociar junto a corrida_completa"
+    requiere registros_almacen_caso
+    ambito universal
+    alcance "escenarios ra1 a ra4 sobre conectar, la configuración personal y el almacén, con Git de verdad en repositorios temporales con HOME y XDG_CONFIG_HOME temporales, Linux"

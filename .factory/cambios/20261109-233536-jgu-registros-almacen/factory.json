@@ -2,7 +2,7 @@
   "id": "20261109-233536-jgu-registros-almacen",
   "titulo": "Registros fuera del repo del producto, etapa 2: el almacén y conectar",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md",
   "spec_sha256": "ec7760948cbb35063d2fc3c405aa09b7e3cc27d4f97a90a41ab8de651573c043",
   "spec_aprobada": {
@@ -16,7 +16,12 @@
       "openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md": "ec7760948cbb35063d2fc3c405aa09b7e3cc27d4f97a90a41ab8de651573c043"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen",
+    "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+    "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar",
+    "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +46,150 @@
         "openspec/changes/20261109-233536-jgu-registros-almacen/proposal.md": "947a170bf913c3466ef9ab861c47803c394be29d242975a76faaf30321365fd9",
         "openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md": "ec7760948cbb35063d2fc3c405aa09b7e3cc27d4f97a90a41ab8de651573c043"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T23:36:50.045415+00:00",
+      "ids": [
+        "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen",
+        "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+        "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar",
+        "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T23:37:01.183292+00:00",
+      "texto": "autopilot delegar_al_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T23:38:45.857683+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen",
+      "medidas": [
+        "factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen",
+        "factory_registros_almacen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T23:38:48.048263+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "medidas": [
+        "factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+        "factory_registros_almacen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T23:38:50.232955+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar",
+      "medidas": [
+        "factory_registros_almacen.conectar_sin_argumentos_y_desconectar",
+        "factory_registros_almacen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T23:38:52.438543+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega",
+      "medidas": [
+        "factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega",
+        "factory_registros_almacen.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen": "funcional",
+    "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto": "funcional",
+    "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar": "funcional",
+    "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {
+    "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen": {
+      "sha256": "1f3ea9ca4c5af58f140411ef5c167f9544a53fcd3ddf2b3fa04561651e458566",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T23:38:45.803581+00:00",
+      "catalogos": {
+        "factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen": "1037299cf43a591082d68f15976aef40ac97061a4000d6e0459fb401bab4f8ee",
+        "factory_registros_almacen.corrida_completa": "1fceec806e94de09f7b3867ff6b8f044dfb9fb79f5c624e89904b8ec28f20f34"
+      },
+      "archivos_catalogo": {
+        "factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen": "catalogos/factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen.oracle",
+        "factory_registros_almacen.corrida_completa": "catalogos/factory_registros_almacen.corrida_completa.oracle"
+      }
+    },
+    "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto": {
+      "sha256": "78c89c4da3323e2919dac6639acf1a25f710bceea09b9ac72b7f32669dacbc3d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T23:38:47.995748+00:00",
+      "catalogos": {
+        "factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto": "b1128055dd9f4fa4b29de979e16b1efb234d6cf67f79aa78020d185c0b5b53b4",
+        "factory_registros_almacen.corrida_completa": "1fceec806e94de09f7b3867ff6b8f044dfb9fb79f5c624e89904b8ec28f20f34"
+      },
+      "archivos_catalogo": {
+        "factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto": "catalogos/factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto.oracle",
+        "factory_registros_almacen.corrida_completa": "catalogos/factory_registros_almacen.corrida_completa.oracle"
+      }
+    },
+    "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar": {
+      "sha256": "e3a645507d9277b8cc4b60897152d2d9c19790748911e53445d8656c83c4039d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T23:38:50.179505+00:00",
+      "catalogos": {
+        "factory_registros_almacen.conectar_sin_argumentos_y_desconectar": "874eaefc6f526343a6238c74d984e07a655a2adef7dd90b6d44c7b909039b175",
+        "factory_registros_almacen.corrida_completa": "1fceec806e94de09f7b3867ff6b8f044dfb9fb79f5c624e89904b8ec28f20f34"
+      },
+      "archivos_catalogo": {
+        "factory_registros_almacen.conectar_sin_argumentos_y_desconectar": "catalogos/factory_registros_almacen.conectar_sin_argumentos_y_desconectar.oracle",
+        "factory_registros_almacen.corrida_completa": "catalogos/factory_registros_almacen.corrida_completa.oracle"
+      }
+    },
+    "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega": {
+      "sha256": "aa7429b1f917d91c75fd365c07e43cdc0a49362047ea455e1502fa76b2fe1dfb",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T23:38:52.383983+00:00",
+      "catalogos": {
+        "factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega": "65f45f1e0206585c5c0574397a1fc433d02fd5ee07a5fc6ad20f97acb92936b5",
+        "factory_registros_almacen.corrida_completa": "1fceec806e94de09f7b3867ff6b8f044dfb9fb79f5c624e89904b8ec28f20f34"
+      },
+      "archivos_catalogo": {
+        "factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega": "catalogos/factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega.oracle",
+        "factory_registros_almacen.corrida_completa": "catalogos/factory_registros_almacen.corrida_completa.oracle"
+      }
+    }
+  }
 }
