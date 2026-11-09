@@ -123,6 +123,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-220606-51z-autopilot]] — Conductor autopilot: decide el siguiente paso por reglas (sin actuar) (cerrada)
 - [[cambios/20261108-233304-ywj-actua]] — Autopilot que actúa: corre lo mecánico, delega lo creativo, con topes y rastro (cerrada)
 - [[cambios/20261109-012630-nn6-eventos]] — El registro tolera eventos que no son objetos (cerrada)
+- [[cambios/20261109-030359-8e4-revprop]] — Autopilot: la propuesta de revisión es trabajo del agente, antes de pedírsela a la persona (cerrada)
 
 ## Requisitos
 
@@ -297,6 +298,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion]]
 - [[requisitos/flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores]]
 - [[requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan]]
+- [[requisitos/flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision]]
+- [[requisitos/flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente]]
 - [[requisitos/flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza]]

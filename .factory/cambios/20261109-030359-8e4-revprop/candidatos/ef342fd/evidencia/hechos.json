@@ -1,0 +1,45 @@
+{
+  "revprop_caso": [
+    {
+      "requisito": "estado_dice_la_ultima_propuesta_de_revision_de_un_agente",
+      "caso": "Estado.test_rp1_sin_propuesta_es_null_con_propuestas_trae_la_ultima_y_no_cambia_lo_demas",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_dice_la_ultima_propuesta_de_revision_de_un_agente",
+      "caso": "Estado.test_rp1_un_registro_ilegible_no_rompe_y_da_null",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_conductor_delega_la_propuesta_antes_de_pedir_la_revision",
+      "caso": "Reglas.test_rp2_con_propuesta_del_candidato_vigente_se_pide_a_la_persona",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_conductor_delega_la_propuesta_antes_de_pedir_la_revision",
+      "caso": "Reglas.test_rp2_en_el_bucle_sin_lanzar_se_detiene_con_la_instruccion_y_con_lanzar_el_agente_la_deja",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_conductor_delega_la_propuesta_antes_de_pedir_la_revision",
+      "caso": "Reglas.test_rp2_los_frenos_y_los_datos_ilegibles_van_primero",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_conductor_delega_la_propuesta_antes_de_pedir_la_revision",
+      "caso": "Reglas.test_rp2_sin_candidato_vigente_no_cambia_y_lo_demas_de_la_persona_tampoco",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_conductor_delega_la_propuesta_antes_de_pedir_la_revision",
+      "caso": "Reglas.test_rp2_sin_propuesta_para_el_candidato_se_delega_con_la_instruccion",
+      "codigo": 0
+    }
+  ],
+  "revprop_corrida": [
+    {
+      "completa": 1,
+      "casos": 7
+    }
+  ]
+}

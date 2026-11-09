@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-autopilot-revision/.factory/local/revisiones/ef342fd-codex-1",
+  "base": "818f366a5bac5ea23778fda2b95e70658434b920",
+  "head": "ef342fd23b1571515ed276ed9503fa94147fba5b",
+  "diff_sha256": "3380520d8711fa3d2767ae4e16903e4b003cbdf0e93562624eaa01f6c32c17ec",
+  "context_sha256": "0b77b063b0470cb367e036a3b336f58e81cf6abb98bdef9e0953b7a687f39952",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta y la spec del paquete, el diff y el código relacionado del checkout. El paquete declara omissions vacío; no hubo archivos binarios omitidos.",
+    "No ejecuté las 1336 pruebas declaradas ni las 35 mutaciones declaradas; este informe verifica el flujo por inspección estática. No hice mutaciones propias.",
+    "Contrasté las propuestas incompletas, las decisiones y sus campos, los candidatos no coincidentes, la precedencia de frenos y errores de lectura, el orden del conductor, y el candidato vigente. El candidato vigente normal se obtiene de git rev-list y se publica como su prefijo hexadecimal de siete caracteres; no confirmé un defecto alcanzable por formato raro del candidato vigente.",
+    "No encontré defectos confirmados que reportar. Las dos vueltas anteriores permanecen corregidas en el diff: ultima_propuesta filtra tipo_actor == agente y _propuesta_del_candidato exige decisión permitida, candidato hexadecimal completo y actor/fecha de texto no vacío, además de comparar el prefijo vigente.",
+    "tests/test_autopilot.py: la única línea quitada era el helper decidir() sin propuesta por defecto; el ayudante ahora suministra una propuesta válida, preservando los casos existentes que esperan pedir_a_persona. Edición justificada por el cambio; no se quitó ni aflojó ningún caso.",
+    "tests/test_conductor.py: la única línea quitada era el helper datos() sin propuesta por defecto; el ayudante ahora suministra una propuesta válida, preservando los casos existentes que esperan pedir_a_persona. Edición justificada por el cambio; no se quitó ni aflojó ningún caso."
+  ]
+}

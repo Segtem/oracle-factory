@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:77c19f1e98adf827c6139d50b2614ba43d379f307f9cfe72e77695d8063713a9 -->
+<!-- oracle-factory resumen sha256:384d277cfdcbbec5e60b9b1bb410ee9f65358a38386aeab912e81c4e20eb5808 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 350 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 352 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -283,6 +283,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | cada_paso_deja_su_porque_en_el_registro | funcional | `flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro` | factory_conductor.cada_paso_deja_su_porque_en_el_registro, factory_conductor.corrida_completa | verde al cerrar el 2026-11-09 | 20261108-233304-ywj-actua |
 | leer_ignora_los_eventos_que_no_son_objetos | funcional | `flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos` | factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos, factory_eventos_raros.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-012630-nn6-eventos |
 | los_comandos_de_lectura_siguen_funcionando_con_eventos_raros | funcional | `flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros` | factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros, factory_eventos_raros.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-012630-nn6-eventos |
+| estado_dice_la_ultima_propuesta_de_revision_de_un_agente | funcional | `flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente` | factory_revprop.estado_dice_la_ultima_propuesta_de_revision_de_un_agente, factory_revprop.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-030359-8e4-revprop |
+| el_conductor_delega_la_propuesta_antes_de_pedir_la_revision | funcional | `flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision` | factory_revprop.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision, factory_revprop.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-030359-8e4-revprop |
 
 ### ide
 
@@ -1789,6 +1791,13 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261109-012630-nn6-eventos) codex (gpt-6-luna): Sin hallazgos: los escenarios de la spec se cumplen en la ruta revisada; cli.leer guarda en LEIDOS los bytes crudos antes de filtrar eventos, y guardar los usa para la comparación esperada.
 - (20261109-012630-nn6-eventos) codex (gpt-6-luna): Inspeccioné el diff, tests/test_eventos_raros.py, lectores principales, AVISADOS, LEIDOS, guardar/escribir_atomico y las rutas crudas mencionadas; no ejecuté pruebas ni mutaciones.
 - (20261109-012630-nn6-eventos) codex (gpt-6-luna): Los lectores crudos encontrados en estructura.buscar y oracle_factory.unir quedan fuera del alcance de la propuesta (lectores que no pasan por cli.leer).
+- (20261109-030359-8e4-revprop) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261109-030359-8e4-revprop) codex (gpt-6-luna): Leí la propuesta y la spec del paquete, el diff y el código relacionado del checkout. El paquete declara omissions vacío; no hubo archivos binarios omitidos.
+- (20261109-030359-8e4-revprop) codex (gpt-6-luna): No ejecuté las 1336 pruebas declaradas ni las 35 mutaciones declaradas; este informe verifica el flujo por inspección estática. No hice mutaciones propias.
+- (20261109-030359-8e4-revprop) codex (gpt-6-luna): Contrasté las propuestas incompletas, las decisiones y sus campos, los candidatos no coincidentes, la precedencia de frenos y errores de lectura, el orden del conductor, y el candidato vigente. El candidato vigente normal se obtiene de git rev-list y se publica como su prefijo hexadecimal de siete caracteres; no confirmé un defecto alcanzable por formato raro del candidato vigente.
+- (20261109-030359-8e4-revprop) codex (gpt-6-luna): No encontré defectos confirmados que reportar. Las dos vueltas anteriores permanecen corregidas en el diff: ultima_propuesta filtra tipo_actor == agente y _propuesta_del_candidato exige decisión permitida, candidato hexadecimal completo y actor/fecha de texto no vacío, además de comparar el prefijo vigente.
+- (20261109-030359-8e4-revprop) codex (gpt-6-luna): tests/test_autopilot.py: la única línea quitada era el helper decidir() sin propuesta por defecto; el ayudante ahora suministra una propuesta válida, preservando los casos existentes que esperan pedir_a_persona. Edición justificada por el cambio; no se quitó ni aflojó ningún caso.
+- (20261109-030359-8e4-revprop) codex (gpt-6-luna): tests/test_conductor.py: la única línea quitada era el helper datos() sin propuesta por defecto; el ayudante ahora suministra una propuesta válida, preservando los casos existentes que esperan pedir_a_persona. Edición justificada por el cambio; no se quitó ni aflojó ningún caso.
 
 ### Históricos
 
