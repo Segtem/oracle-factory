@@ -1,0 +1,24 @@
+{
+  "id": "20261109-162444-701-segundo-revisor",
+  "titulo": "Autopilot: en el camino completo el conductor pide un segundo revisor de otro proveedor",
+  "capacidad": "flujo",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261109-162444-701-segundo-revisor/specs/flujo/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T16:24:44.626801+00:00",
+      "capacidad": "flujo"
+    }
+  ]
+}
