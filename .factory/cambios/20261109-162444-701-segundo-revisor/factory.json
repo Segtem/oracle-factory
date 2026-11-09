@@ -266,6 +266,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "50255215a9e4"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T18:36:31.961022+00:00",
+      "decision": "aprobar",
+      "candidato": "1428214"
     }
   ],
   "tipos": {
@@ -306,5 +316,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Propuesta del agente claude-code. Candidato 1428214: evidencia verde (1343 pruebas, 4 casos de contrato), 40 mutaciones propias detectadas con la base verde. Rondas: codex 1 (SR-1 medio, informe ilegible: corregido), agy2 sobre 5e2f1c8 (SR-2 medio, un solo proveedor configurado: corregido; SR-3 bajo, huecos de prueba: corregido), codex 2 sin hallazgos, codex 3 sin hallazgos sobre 1428214. DECIDE BRIAN: (1) agy y agy2 quedaron sin cuota (se reinicia en unas 150 horas): el candidato final no lo revisó un segundo proveedor, aunque agy2 revisó el candidato anterior y sus tres hallazgos están corregidos; es justo la regla que este cambio le da al conductor, así que te lo digo aquí. (2) La spec decía nombre de revisor con letras, dígitos, punto, guion y guion bajo; lo ajusté a que empiece con letra o dígito para que --a no se lea como opción (más estricto que lo aprobado). (3) Un informe ilegible o un solo proveedor configurado dejan segundo_revisor en null y el conductor sigue como antes. Limite: el conductor no cuenta como proveedor que informó a un revisor que falló sin dejar informe, así que repetiría el pedido; lo frena la regla de sin progreso. No edité ningún test existente.",
+      "candidato": "1428214",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T18:36:31.961011+00:00"
+    }
+  }
 }
