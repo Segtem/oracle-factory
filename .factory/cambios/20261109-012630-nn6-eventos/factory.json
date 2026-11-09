@@ -128,6 +128,50 @@
         "factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros",
         "factory_eventos_raros.corrida_completa"
       ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:39:02.928393+00:00",
+      "texto": "autopilot actuar: «pedir-revision» es un comando mecánico de Factory: lo corre un agente con --agente. Comando: oracle-factory pedir-revision 20261109-012630-nn6-eventos --a agy"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T01:39:05.355469+00:00",
+      "revisor": "agy",
+      "candidato": "079ec8f",
+      "lanzamiento": "6f4deeff844b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T01:53:24.529955+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "079ec8f",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "6f4deeff844b"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:53:26.703766+00:00",
+      "texto": "autopilot se detuvo: «revisar» es una decisión de una persona. Comando para una persona: oracle-factory revisar 20261109-012630-nn6-eventos"
     }
   ],
   "tipos": {
