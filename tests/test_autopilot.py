@@ -16,7 +16,8 @@ FRENO = {'id': 'cambio_grande', 'motivo': 'el candidato agrega 900 líneas de pr
 
 
 def decidir(paso, fase='requisitos_importados', frenos=(), candidato='abc1234'):
-    return autopilot.decidir({'fase': fase, 'proximo_paso': paso, 'frenos': list(frenos), 'candidato': candidato})
+    return autopilot.decidir({'fase': fase, 'proximo_paso': paso, 'frenos': list(frenos), 'candidato': candidato,
+                              'propuesta_de_revision': {'candidato': candidato}})  # con la propuesta del agente ya dejada: `revisar` es de la persona
 
 
 class Reglas(unittest.TestCase):

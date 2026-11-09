@@ -1,0 +1,4 @@
+requisito flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente:
+    texto "Tipo: funcional El sistema DEBE ofrecer en `estado --json` la clave `propuesta_de_revision`: la última propuesta de revisión de un agente (decisión, candidato, quién y cuándo), o `null` si no hay ninguna, sin cambiar ningún otro dato del estado, y sin romper con un registro cuyos eventos no se pueden leer."
+    fuente "openspec/changes/20261109-030359-8e4-revprop/specs/flujo/spec.md#estado_dice_la_ultima_propuesta_de_revision_de_un_agente"
+    sin_medir "sin medida todavía; escenarios: «con propuesta», «sin propuesta», «varias propuestas»"

@@ -14,6 +14,7 @@ import sys
 
 from . import alarmas
 from . import archivo
+from . import autopilot
 from . import estructura
 from . import frenos
 from . import kb as kb_mod
@@ -402,6 +403,7 @@ def datos_estado(identificador: str) -> dict:
         "pruebas": prueba,
         "tests_editados": editados,
         "frenos": frenos_,
+        "propuesta_de_revision": autopilot.ultima_propuesta(estado),
         **flujo,
         "camino": alarmas.camino_del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto),  # un cambio abandonado no tiene candidato
         "commits": cli.commits_del_cambio(identificador, estado),

@@ -30,6 +30,24 @@ def _analizar(argumentos: list[str]):
         return None
 
 
+def ultima_propuesta(estado) -> dict | None:
+    """La última propuesta de revisión de un agente ({decision, candidato, actor, cuando}) del registro de un cambio; None si no hay o no se lee."""
+    eventos = estado.get("eventos") if isinstance(estado, dict) else None
+    if not isinstance(eventos, list):
+        return None
+    for e in reversed(eventos):
+        if isinstance(e, dict) and e.get("accion") == "revision_propuesta":
+            return {k: e.get(k) for k in ("decision", "candidato", "actor", "cuando")}
+    return None
+
+
+def _propuesta_del_candidato(propuesta, candidato) -> bool:
+    """Si la propuesta es del candidato vigente (con 7 caracteres y en minúsculas, como los guarda Factory); un dato ilegible no cuenta."""
+    if not isinstance(propuesta, dict) or not isinstance(propuesta.get("candidato"), str):
+        return False
+    return propuesta["candidato"][:7].lower() == candidato[:7].lower()
+
+
 GLOBALES = ("--agente", "--proyecto")  # las opciones del parser que van antes del subcomando y llevan un valor
 
 
@@ -100,6 +118,11 @@ def decidir(datos) -> dict:
     if sub == "medir" and getattr(args, "listar", False):
         return _decision("delegar_al_agente", "agente", instruccion="elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas",
                          motivo="elegir medidas es trabajo del agente; confirmarlas es de una persona")
+    if sub == "revisar" and isinstance(candidato, str) and candidato and not _propuesta_del_candidato(datos.get("propuesta_de_revision"), candidato):
+        return _decision("delegar_al_agente", "agente", motivo="antes de pedirle la revisión a una persona, el agente prepara el informe y deja su propuesta",
+                         instruccion=f"dejá tu propuesta de revisión del candidato {candidato}: corré `oracle-factory --agente NOMBRE revision-preparar {args.id}` y proponé "
+                         f"la decisión con `oracle-factory --agente NOMBRE revisar {args.id} --decision aprobar|cambios --motivo MOTIVO` (rondas, evidencia, hallazgos, "
+                         f"mutaciones y límites); la decisión final es de una persona; después: {paso}")
     if sub in PERSONA:
         return _decision("pedir_a_persona", "persona", paso, motivo=f"«{sub}» es una decisión de una persona")
     if sub in ("pedir-revision", "revision-preparar") and not candidato:
