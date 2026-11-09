@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:384d277cfdcbbec5e60b9b1bb410ee9f65358a38386aeab912e81c4e20eb5808 -->
+<!-- oracle-factory resumen sha256:b50c4a51a0f1b242ba7287a62b695f1511bbdd9c0e9184c3c1fa4a7c4af47083 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 352 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 353 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -285,6 +285,7 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | los_comandos_de_lectura_siguen_funcionando_con_eventos_raros | funcional | `flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros` | factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros, factory_eventos_raros.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-012630-nn6-eventos |
 | estado_dice_la_ultima_propuesta_de_revision_de_un_agente | funcional | `flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente` | factory_revprop.estado_dice_la_ultima_propuesta_de_revision_de_un_agente, factory_revprop.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-030359-8e4-revprop |
 | el_conductor_delega_la_propuesta_antes_de_pedir_la_revision | funcional | `flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision` | factory_revprop.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision, factory_revprop.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-030359-8e4-revprop |
+| el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada | funcional | `flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada` | factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada, factory_freno_visto.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-125752-r6d-freno-visto |
 
 ### ide
 
@@ -1798,6 +1799,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261109-030359-8e4-revprop) codex (gpt-6-luna): No encontré defectos confirmados que reportar. Las dos vueltas anteriores permanecen corregidas en el diff: ultima_propuesta filtra tipo_actor == agente y _propuesta_del_candidato exige decisión permitida, candidato hexadecimal completo y actor/fecha de texto no vacío, además de comparar el prefijo vigente.
 - (20261109-030359-8e4-revprop) codex (gpt-6-luna): tests/test_autopilot.py: la única línea quitada era el helper decidir() sin propuesta por defecto; el ayudante ahora suministra una propuesta válida, preservando los casos existentes que esperan pedir_a_persona. Edición justificada por el cambio; no se quitó ni aflojó ningún caso.
 - (20261109-030359-8e4-revprop) codex (gpt-6-luna): tests/test_conductor.py: la única línea quitada era el helper datos() sin propuesta por defecto; el ayudante ahora suministra una propuesta válida, preservando los casos existentes que esperan pedir_a_persona. Edición justificada por el cambio; no se quitó ni aflojó ningún caso.
+- (20261109-125752-r6d-freno-visto) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261109-125752-r6d-freno-visto) codex (gpt-6-luna): Hallazgos: no encontré defectos en las líneas modificadas. La revisión aprobada vigente se calcula a partir de decisión, mismo producto y ausencia de problemas; el freno de tests editados queda condicionado a ese valor y el cálculo de avisos permanece separado.
+- (20261109-125752-r6d-freno-visto) codex (gpt-6-luna): Inspeccioné la propuesta, spec, todos los archivos de texto del diff, lógica de vigencia en lecturas.frenos_del_cambio, presentación por estado y la puerta de autopilot.decidir. Las pruebas nuevas cubren presencia/ausencia del freno, vigencia que se pierde, avisos y otros frenos; autopilot frena cuando recibe frenos no vacíos y actúa según el siguiente paso cuando la lista queda vacía.
+- (20261109-125752-r6d-freno-visto) codex (gpt-6-luna): No pude ejecutar tests/test_freno_visto.py: este checkout no tiene .venv/bin/python. No ejecuté la suite completa ni mutaciones.
+- (20261109-125752-r6d-freno-visto) codex (gpt-6-luna): La prueba nueva no invoca autopilot/conductor de punta a punta; la consecuencia está cubierta por el contrato ya existente de autopilot sobre datos de estado y la implementación inspeccionada, pero no verifiqué ejecución real del conductor.
+- (20261109-125752-r6d-freno-visto) codex (gpt-6-luna): El paquete no omite archivos binarios (omissions está vacío).
 
 ### Históricos
 

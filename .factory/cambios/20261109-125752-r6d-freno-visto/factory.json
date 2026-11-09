@@ -2,7 +2,7 @@
   "id": "20261109-125752-r6d-freno-visto",
   "titulo": "Frenos: el de pruebas editadas deja de frenar cuando una persona aprobó la revisión",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md",
   "spec_sha256": "67c8b0e7d59e6e3ebf2656d1ab8f32d85d82b30ff48985e8c5b4a8f5a79b82f7",
   "spec_aprobada": {
@@ -212,6 +212,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "540d3a58c3d0e429f1d66228b9a27b20104150a4ba0eb05011f5ba2cfbae2114"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T15:44:54.235899+00:00",
+      "oracle": ".factory/cambios/20261109-125752-r6d-freno-visto/oracle-veredicto.txt",
+      "revision": "tareas/20261109-125752-r6d-freno-visto/revisiones/registro-_p9n74kx/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T15:44:54.279980+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -236,5 +256,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T15:44:54.167563+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-09T15:44:54.279971+00:00"
+  }
 }
