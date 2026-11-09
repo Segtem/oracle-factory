@@ -1,0 +1,85 @@
+{
+  "id": "20261109-012630-nn6-eventos",
+  "titulo": "El registro tolera eventos que no son objetos",
+  "capacidad": "flujo",
+  "fase": "requisitos_importados",
+  "spec": "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md",
+  "spec_sha256": "a0b01b88010134745a61cca1741fb9bcbe13d20bf4becb894d39f7716d31be1d",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T01:27:03.747087+00:00",
+    "documentos": {
+      "openspec/changes/20261109-012630-nn6-eventos/proposal.md": "0a309690c900a6efa22ab9e36a480eb63d825ce094dab7e19b89ab567b8731ce",
+      "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md": "a0b01b88010134745a61cca1741fb9bcbe13d20bf4becb894d39f7716d31be1d"
+    }
+  },
+  "requisitos": [
+    "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos",
+    "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros"
+  ],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:26:30.477299+00:00",
+      "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:27:03.747112+00:00",
+      "documentos": {
+        "openspec/changes/20261109-012630-nn6-eventos/proposal.md": "0a309690c900a6efa22ab9e36a480eb63d825ce094dab7e19b89ab567b8731ce",
+        "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md": "a0b01b88010134745a61cca1741fb9bcbe13d20bf4becb894d39f7716d31be1d"
+      }
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:27:15.221437+00:00",
+      "texto": "autopilot actuar: «importar» es un comando mecánico de Factory: lo corre un agente con --agente. Comando: oracle-factory importar 20261109-012630-nn6-eventos"
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:27:17.024530+00:00",
+      "ids": [
+        "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos",
+        "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:27:18.920116+00:00",
+      "texto": "autopilot se detuvo: hay trabajo para un agente y falta --lanzar COMANDO para lanzarlo"
+    }
+  ],
+  "tipos": {
+    "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos": "funcional",
+    "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
+}

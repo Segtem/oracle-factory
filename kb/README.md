@@ -122,6 +122,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-203356-puy-frenos]] — Frenos de construcción: avisos de estado que mandan parar (cerrada)
 - [[cambios/20261108-220606-51z-autopilot]] — Conductor autopilot: decide el siguiente paso por reglas (sin actuar) (cerrada)
 - [[cambios/20261108-233304-ywj-actua]] — Autopilot que actúa: corre lo mecánico, delega lo creativo, con topes y rastro (cerrada)
+- [[cambios/20261109-012630-nn6-eventos]] — El registro tolera eventos que no son objetos (requisitos_importados)
 
 ## Requisitos
 
@@ -311,6 +312,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista]]
 - [[requisitos/flujo_cf63459721e7fb9ac.estado_muestra_los_frenos]]
 - [[requisitos/flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio]]
+- [[requisitos/flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos]]
+- [[requisitos/flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros]]
 - [[requisitos/ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse]]
 - [[requisitos/ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos]]
 - [[requisitos/ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista]]
