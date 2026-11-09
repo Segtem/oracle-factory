@@ -2,7 +2,7 @@
   "id": "20261109-012630-nn6-eventos",
   "titulo": "El registro tolera eventos que no son objetos",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md",
   "spec_sha256": "a0b01b88010134745a61cca1741fb9bcbe13d20bf4becb894d39f7716d31be1d",
   "spec_aprobada": {
@@ -20,8 +20,40 @@
     "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos",
     "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261109-012630-nn6-eventos/revisiones/registro-v6ung8z2/informe.json",
+    "sha256": "c4823ad974af24ff1ccb0b486a295259f97118c3517ae5ec7c73b968e8c7fb4c",
+    "decisiones": "tareas/20261109-012630-nn6-eventos/revisiones/registro-v6ung8z2/decisiones.json",
+    "decisiones_sha256": "89cf5c25680cd796578f69099e2b012e8c186699bd4dc6721ccd3f1e0e784d2d",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T01:57:42.476926+00:00",
+    "motivo": "Dos revisores sobre el candidato 079ec8f, sin hallazgos: agy (pedido por el conductor autopilot, que lo corrió él solo) y codex. Evidencia 1329 pruebas OK, 3 casos de contrato. 12 mutaciones propias, todas detectadas (dos revelaron pruebas débiles mías que reforcé: un aviso espurio escondido porque preparar ya había leído el cambio y una cantidad comprobada con un dígito que también está en el id). Toca reglas de decisión (cli.py): camino completo. Sin pruebas existentes editadas. cli.leer pasa el registro por sin_eventos_raros: ignora los eventos que no son objetos, trata un eventos que no es una lista como vacío, avisa una vez por cambio por stderr, no toca el archivo al leer y un registro sano no cambia ni avisa. Decisión declarada en la propuesta: cuando otro comando guarda el registro, los eventos ignorados no se vuelven a escribir. Límites: sólo cubre lo que pasa por cli.leer; no valida los campos de los eventos que sí son objetos; el aviso se emite una vez por cambio y por proceso. Es el cambio con el que se probó por primera vez el autopilot en un cambio real.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "b2d18c00de191e8ea2b9d746476f73e60e30ef8b",
+      "archivos_sha256": "fcc5f25d2d32916ded6917e94143b3b79623f9364c9372a694a245fa21334a5f"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261109-012630-nn6-eventos/candidatos/079ec8f/evidencia/hechos.json",
+    "hechos_sha256": "b0e3f9360eca4722bb4947a3a4f0cb78984c3f48ab88d7cfcfca6ae89b6ff626",
+    "informe": ".factory/cambios/20261109-012630-nn6-eventos/oracle-veredicto.txt",
+    "informe_sha256": "7bdc0294206e2fb416eec5beafd2ad1a4514a008c3edfd53a11314b98592b748",
+    "cuando": "2026-11-09T01:58:00.919899+00:00",
+    "contexto": {
+      "head": "b2d18c00de191e8ea2b9d746476f73e60e30ef8b",
+      "archivos_sha256": "fcc5f25d2d32916ded6917e94143b3b79623f9364c9372a694a245fa21334a5f"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -208,6 +240,60 @@
       "cuando": "2026-11-09T01:55:25.792293+00:00",
       "decision": "aprobar",
       "candidato": "079ec8f"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T01:57:42.476952+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "c4823ad974af24ff1ccb0b486a295259f97118c3517ae5ec7c73b968e8c7fb4c",
+      "decisiones_sha256": "89cf5c25680cd796578f69099e2b012e8c186699bd4dc6721ccd3f1e0e784d2d"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:57:53.207056+00:00",
+      "texto": "autopilot actuar: «juzgar» es un comando mecánico de Factory: lo corre un agente con --agente. Comando: oracle-factory juzgar 20261109-012630-nn6-eventos"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:57:55.458549+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b0e3f9360eca4722bb4947a3a4f0cb78984c3f48ab88d7cfcfca6ae89b6ff626"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:57:57.950640+00:00",
+      "texto": "autopilot se detuvo: «cerrar» es una decisión de una persona. Comando para una persona: oracle-factory cerrar 20261109-012630-nn6-eventos"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:58:00.919918+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b0e3f9360eca4722bb4947a3a4f0cb78984c3f48ab88d7cfcfca6ae89b6ff626"
     }
   ],
   "tipos": {
@@ -249,14 +335,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Dos revisores sobre el candidato 079ec8f, sin hallazgos: agy (pedido por el conductor autopilot, que lo corrió él solo) y codex. Evidencia 1329 pruebas OK, 3 casos de contrato. 12 mutaciones propias, todas detectadas (dos revelaron pruebas débiles mías que reforcé: un aviso espurio escondido porque preparar ya había leído el cambio y una cantidad comprobada con un dígito que también está en el id). Toca reglas de decisión (cli.py): camino completo. Sin pruebas existentes editadas. cli.leer pasa el registro por sin_eventos_raros: ignora los eventos que no son objetos, trata un eventos que no es una lista como vacío, avisa una vez por cambio por stderr, no toca el archivo al leer y un registro sano no cambia ni avisa. Decisión declarada en la propuesta: cuando otro comando guarda el registro, los eventos ignorados no se vuelven a escribir. Límites: sólo cubre lo que pasa por cli.leer; no valida los campos de los eventos que sí son objetos; el aviso se emite una vez por cambio y por proceso. Es el cambio con el que se probó por primera vez el autopilot en un cambio real.",
-      "candidato": "079ec8f",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T01:55:25.792280+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

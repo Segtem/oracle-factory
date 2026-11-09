@@ -31,3 +31,15 @@ Medidas de flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos: B
 ### Nota (2026-11-09 01:29:46 UTC)
 
 Medidas de flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 01:57:42 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos revisores sobre el candidato 079ec8f, sin hallazgos: agy (pedido por el conductor autopilot, que lo corrió él solo) y codex. Evidencia 1329 pruebas OK, 3 casos de contrato. 12 mutaciones propias, todas detectadas (dos revelaron pruebas débiles mías que reforcé: un aviso espurio escondido porque preparar ya había leído el cambio y una cantidad comprobada con un dígito que también está en el id). Toca reglas de decisión (cli.py): camino completo. Sin pruebas existentes editadas. cli.leer pasa el registro por sin_eventos_raros: ignora los eventos que no son objetos, trata un eventos que no es una lista como vacío, avisa una vez por cambio por stderr, no toca el archivo al leer y un registro sano no cambia ni avisa. Decisión declarada en la propuesta: cuando otro comando guarda el registro, los eventos ignorados no se vuelven a escribir. Límites: sólo cubre lo que pasa por cli.leer; no valida los campos de los eventos que sí son objetos; el aviso se emite una vez por cambio y por proceso. Es el cambio con el que se probó por primera vez el autopilot en un cambio real.); 0 abiertos derivados; commit b2d18c00de191e8ea2b9d746476f73e60e30ef8b; informe tareas/20261109-012630-nn6-eventos/revisiones/registro-v6ung8z2/informe.json; decisiones tareas/20261109-012630-nn6-eventos/revisiones/registro-v6ung8z2/decisiones.json.
+
+### Nota (2026-11-09 01:57:55 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261109-012630-nn6-eventos/oracle-veredicto.txt.
+
+### Nota (2026-11-09 01:58:00 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261109-012630-nn6-eventos/oracle-veredicto.txt.

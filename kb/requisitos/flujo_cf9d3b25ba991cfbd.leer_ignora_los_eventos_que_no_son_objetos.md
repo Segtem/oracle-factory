@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos`
 - Vigente: sí
 - Cambio: [[cambios/20261109-012630-nn6-eventos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos`, `factory_eventos_raros.corrida_completa`
 - Fuente: openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md#leer_ignora_los_eventos_que_no_son_objetos
 

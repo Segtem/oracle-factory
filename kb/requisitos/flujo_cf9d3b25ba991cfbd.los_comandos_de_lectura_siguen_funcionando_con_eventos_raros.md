@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros`
 - Vigente: sí
 - Cambio: [[cambios/20261109-012630-nn6-eventos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros`, `factory_eventos_raros.corrida_completa`
 - Fuente: openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md#los_comandos_de_lectura_siguen_funcionando_con_eventos_raros
 
