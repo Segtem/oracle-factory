@@ -1,0 +1,25 @@
+{
+  "sin_informe_caso": [
+    {
+      "requisito": "el_segundo_revisor_no_es_uno_que_no_dejo_resultado",
+      "caso": "Conductor.test_si1_el_conductor_no_repite_el_pedido",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_segundo_revisor_no_es_uno_que_no_dejo_resultado",
+      "caso": "SinInforme.test_si1_el_revisor_que_fallo_sobre_el_candidato_vigente_no_se_ofrece",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_segundo_revisor_no_es_uno_que_no_dejo_resultado",
+      "caso": "SinInforme.test_si1_un_lanzamiento_de_otro_candidato_o_ya_cerrado_no_descarta_a_nadie",
+      "codigo": 0
+    }
+  ],
+  "sin_informe_corrida": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ]
+}
