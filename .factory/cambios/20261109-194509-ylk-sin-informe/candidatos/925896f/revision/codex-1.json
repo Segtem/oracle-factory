@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revisor-sin-informe/.factory/local/revisiones/925896f-codex-1",
+  "base": "d25787efbb12a716eb2d4e92ad698c735f8b6250",
+  "head": "925896f7ea40e2f59a91703c29d621d27c3164eb",
+  "diff_sha256": "68e82ea21874aa02e20c2988676b69a53959b8813af73a596f94566d06ae147f",
+  "context_sha256": "291ab7c702cf07c2253c6ff1aafacec8b3014fd6b32f9dda77764c796a53e743",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "No encontré defectos verificables en el diff; revisé la spec, la lógica de filtrado y la cobertura de los tres escenarios.",
+    "Corrí `python -m unittest tests.test_sin_informe -v </dev/null`: pasó el caso del conductor; dos pruebas fallaron al inicializar por falta del módulo `oracle_metalenguaje`.",
+    "No corrí la suite completa: el entorno no tiene `.venv` ni `oracle_metalenguaje` instalado.",
+    "El paquete no omite archivos binarios."
+  ]
+}
