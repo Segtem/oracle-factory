@@ -45,6 +45,22 @@ class SinInforme(_te.Base):
         self.lanzar('codex', sha)
         self.assertIsNone(self.segundo(REVISORES))  # no hay otro de otro proveedor
         self.assertEqual(self.segundo(CON_OTRO), 'gemini')  # el primero que no falló
+        largo = self.git('rev-parse', sha).upper()  # el mismo candidato escrito entero y en mayúsculas
+        self.lanzar('gemini', largo, lanzamiento='l3')
+        self.assertIsNone(self.segundo(CON_OTRO))
+        real = f.config_proyecto
+        with patch.object(f, 'config_proyecto', side_effect=lambda: {**real(), 'revisores': REVISORES}):
+            _, estado = f.leer(self.ident)
+            self.assertEqual(f.segundo_revisor_del_cambio(self.ident, _sr.COMPLETO), 'codex')  # sin estado ni candidato no se descarta a nadie, ni rompe
+            self.assertEqual(f.segundo_revisor_del_cambio(self.ident, _sr.COMPLETO, estado, None), 'codex')
+        self.lanzar('codex', 'abc1234', lanzamiento='l4')
+        self.lanzar('gemini', 'abc1234', lanzamiento='l5')
+        with patch.object(f, 'config_proyecto', side_effect=lambda: {**real(), 'revisores': CON_OTRO}):
+            _, estado = f.leer(self.ident)
+            self.assertIsNone(f.segundo_revisor_del_cambio(self.ident, _sr.COMPLETO, estado, 'ABC1234'))  # mayúsculas o minúsculas, es el mismo candidato
+            self.assertEqual(f.segundo_revisor_del_cambio(self.ident, _sr.COMPLETO, estado, 'fff9999'), 'codex')
+        mismo_proveedor = {**REVISORES, 'codex2': {'proveedor': 'codex'}}
+        self.assertEqual(self.segundo(mismo_proveedor), 'codex2')  # se descarta al revisor que falló, no a todo su proveedor
 
     def test_si1_un_lanzamiento_de_otro_candidato_o_ya_cerrado_no_descarta_a_nadie(self):
         sha = self.con_informe_de_agy()
