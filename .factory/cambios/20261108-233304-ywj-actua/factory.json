@@ -246,6 +246,42 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "f0bc519a851d"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T01:10:58.551679+00:00",
+      "revisor": "codex",
+      "candidato": "18e9e86",
+      "lanzamiento": "ab7ccfc7c2f0"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T01:12:24.215103+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "18e9e86",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "ab7ccfc7c2f0"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T01:12:35.407344+00:00",
+      "decision": "aprobar",
+      "candidato": "18e9e86"
     }
   ],
   "tipos": {
@@ -320,5 +356,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Cuatro rondas de codex sobre candidatos a690c89, d90883c, aa012ae y 18e9e86; la cuarta sin hallazgos. Ronda 1, ACTUA-001 (media): el plazo de un paso se calculaba antes de dejar el porqué, que gasta tiempo del tope; ahora cada proceso toma su plazo del reloj justo antes de correr. Ronda 2, ACTUA-002 (media): _proceso estiraba cualquier plazo a 1 s y el mensaje final tenía 60 s fijos; ahora el plazo es exacto, sin tiempo no arranca, y el mensaje final tiene un plazo propio de 10 s (PLAZO_FINAL) FUERA del tope, decisión explícita y documentada en docs/modos.md: el rastro del motivo lo exige la spec aunque el tiempo se haya agotado y dejarlo no es actuar. Ronda 3, ACTUA-003 (media): el código de salida no reflejaba que faltara el mensaje final; ahora el resultado trae fallo (un paso, el porqué, el mensaje final o la lectura del estado) y el código sale de ahí. Evidencia 1326 pruebas OK, 16 casos de contrato. 47 mutaciones propias, 45 detectadas y 2 equivalentes declaradas (len(nombre) < 3 y la verificación final del subcomando en argumentos_mecanicos: defensas redundantes con el parser, que rechaza antes esos casos). Toca reglas de decisión (cli.py): camino completo. Sin pruebas existentes editadas; se regenera tests/datos/ayuda-cli.json. Las decisiones de persona nunca se corren, ni mal clasificadas (se verifica con el comando por separado de autopilot.argumentos_mecanicos); integración, publicación y producción siguen en confirmacion. Límites: --lanzar ejecuta lo que se le pase con los permisos del usuario y no se guarda en la configuración; qué agente lanzar y con qué permisos lo decide la persona en cada corrida; el agente lanzado hace lo que haga y se verifica con la evidencia, Oracle y la revisión de siempre; el plazo del mensaje final (10 s) queda fuera del tope por diseño; el conductor depende del parser real. Un freno de este cambio es el que da el cambio 2 (frenos).",
+      "candidato": "18e9e86",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T01:12:35.407326+00:00"
+    }
+  }
 }

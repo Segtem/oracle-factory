@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-autopilot-actua/.factory/local/revisiones/18e9e86-codex-1",
+  "base": "63fed11672e721870c39a12aa39b84901c9d9805",
+  "head": "18e9e866c77b47333c131ba127ca97a797d3e946",
+  "diff_sha256": "e80d09654d461cf4b645853c1b425cbfc47023830b69ecb25e152c7823a9bdb7",
+  "context_sha256": "dcfc91e34e6735a041343a13eafc3c844963fcddf4465c7a80ffc63c79f61ccc",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos: contrasté la spec y los escenarios con el código y tests/test_conductor.py; no corrí las 1326 pruebas ni las mutaciones, porque el checkout es de sólo lectura para esta revisión.",
+    "Las tres revisiones previas siguen corregidas en el candidato: los procesos reciben el plazo restante medido justo antes de correr; el mensaje final usa 10 segundos propios y su fallo activa fallo/código 1; terminado, frenar, pedir a una persona, topes y falta de progreso no cuentan como fallo.",
+    "La única edición de un test preexistente es tests/datos/ayuda-cli.json: el golden de ayuda refleja las nuevas opciones autopilot, por lo que está justificada por el cambio y no altera una aserción de comportamiento."
+  ]
+}
