@@ -2,7 +2,7 @@
   "id": "20261109-212224-xo0-registros-raiz",
   "titulo": "Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros)",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261109-212224-xo0-registros-raiz/specs/flujo/spec.md",
   "spec_sha256": "93cab9a41c53a76c5567ac732a9882bc8b9646913f96d8c2eb158bd9efd4b64a",
   "spec_aprobada": {
@@ -346,6 +346,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "257c04549baf8844dbce71aac6cb1a54d89651bd45d9220be6ca4fa303040769"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T23:12:23.951477+00:00",
+      "oracle": ".factory/cambios/20261109-212224-xo0-registros-raiz/oracle-veredicto.txt",
+      "revision": "tareas/20261109-212224-xo0-registros-raiz/revisiones/registro-2slk0e9f/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T23:12:23.998623+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -404,5 +424,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T23:12:23.884705+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-09T23:12:23.998612+00:00"
+  }
 }

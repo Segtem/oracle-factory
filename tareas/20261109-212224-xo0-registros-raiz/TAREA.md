@@ -1,6 +1,6 @@
 # Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros)
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-09 23:10:04 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261109-212224-xo0-registros-raiz/oracle-veredicto.txt.
+
+### Nota (2026-11-09 23:12:23 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

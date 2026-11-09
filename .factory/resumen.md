@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:81395c326ce5831f20a458279eaac409d67d99a0e6ae5681f307018821f646e5 -->
+<!-- oracle-factory resumen sha256:fd65d748e19aabca11fa5c6f3a94e2c3f925936aa7f269fe348ed562876fcb27 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 357 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 360 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -290,6 +290,9 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | el_conductor_pide_el_segundo_revisor_antes_de_la_revision | funcional | `flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision` | factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision, factory_segundo_revisor.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-162444-701-segundo-revisor |
 | el_segundo_revisor_no_es_uno_que_no_dejo_resultado | funcional | `flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado` | factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado, factory_sin_informe.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-194509-ylk-sin-informe |
 | ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas | funcional | `flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas` | factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas, factory_construir_primero.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-201722-oja-construir-primero |
+| sin_registros_aparte_nada_cambia | funcional | `flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia` | factory_registros_raiz.sin_registros_aparte_nada_cambia, factory_registros_raiz.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-212224-xo0-registros-raiz |
+| con_registros_aparte_el_repo_del_producto_queda_limpio | funcional | `flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio` | factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio, factory_registros_raiz.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-212224-xo0-registros-raiz |
+| con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno | funcional | `flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno` | factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno, factory_registros_raiz.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-212224-xo0-registros-raiz |
 
 ### ide
 
@@ -1825,6 +1828,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261109-201722-oja-construir-primero) codex (gpt-6-luna): Intenté `python -m unittest discover -s tests </dev/null`; tras 30 segundos seguía ejecutándose y mostró errores y fallos. No obtuve el resumen ni trazas; no lo usé como evidencia atribuible al cambio.
 - (20261109-201722-oja-construir-primero) codex (gpt-6-luna): No realicé mutaciones. Revisé estáticamente la spec, el diff, la prueba nueva, las ramas pertinentes de autopilot.py y docs/modos.md, y el informe de la ronda anterior.
 - (20261109-201722-oja-construir-primero) codex (gpt-6-luna): No hay archivos omitidos/binarios en el paquete.
+- (20261109-212224-xo0-registros-raiz) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261109-212224-xo0-registros-raiz) codex (gpt-6-luna): Revisé los tres requisitos de la spec, el diff completo (15 archivos), sus rangos y las pruebas nuevas; no encontré un defecto reproducible que justifique un hallazgo.
+- (20261109-212224-xo0-registros-raiz) codex (gpt-6-luna): La modificación de tests/datos/ayuda-cli.json elimina la línea esperada de ayuda global para documentar --registros; está justificada por el cambio de la ayuda generada.
+- (20261109-212224-xo0-registros-raiz) codex (gpt-6-luna): Las pruebas test_rr1_* y test_rr3_* y test_rr2_el_producto_con_su_propio_git_no_cambia pasan.
+- (20261109-212224-xo0-registros-raiz) codex (gpt-6-luna): test_rr2_un_cambio_completo_hasta_las_medidas falla en este entorno antes de completar: medir --listar devuelve 1 porque /usr/bin/python carece de oracle-metalenguaje. No pude verificar ese escenario completo ni la suite completa; la suite discover mostró numerosos errores compatibles con dependencias ausentes.
+- (20261109-212224-xo0-registros-raiz) codex (gpt-6-luna): No hay omisiones binarias en el paquete.
 
 ### Históricos
 
