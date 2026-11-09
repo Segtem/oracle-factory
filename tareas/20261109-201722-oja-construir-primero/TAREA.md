@@ -35,3 +35,7 @@ Requisitos importados: flujo_c0d820474143ed460.ante_medir_listar_el_conductor_ma
 ### Nota (2026-11-09 20:40:24 UTC)
 
 Medidas de flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas: factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas, factory_construir_primero.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-09 20:42:34 UTC)
+
+Medidas de flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas: Brian Hollweg (persona, confirmo, modo confirmacion).

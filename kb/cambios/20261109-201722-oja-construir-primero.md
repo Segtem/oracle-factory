@@ -26,6 +26,7 @@ capacidad: "flujo"
 - 2026-11-09 20:26 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-09 20:39 · Spec aprobada · Brian Hollweg (persona)
 - 2026-11-09 20:40 · Requisitos importados · claude-code (agente)
+- 2026-11-09 20:42 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -41,6 +42,7 @@ capacidad: "flujo"
 - `b09eba3` construir-primero: evidencia del candidato (trailer)
 - `23f3d51` construir-primero: hallazgo CP1-001 de codex y corrección de la spec (la evidencia va después de confirmar las medidas) (trailer)
 - `3b3709c` construir-primero: spec aprobada de nuevo por Brian (trailer)
+- `0f582fe` construir-primero: requisito importado de nuevo y medidas propuestas (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-201722-oja-construir-primero`.
 
 ## Mensajes
