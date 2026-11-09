@@ -2,7 +2,7 @@
   "id": "20261109-212224-xo0-registros-raiz",
   "titulo": "Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros)",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261109-212224-xo0-registros-raiz/specs/flujo/spec.md",
   "spec_sha256": "93cab9a41c53a76c5567ac732a9882bc8b9646913f96d8c2eb158bd9efd4b64a",
   "spec_aprobada": {
@@ -21,8 +21,40 @@
     "flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno",
     "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261109-212224-xo0-registros-raiz/revisiones/registro-2slk0e9f/informe.json",
+    "sha256": "85873d1d7938660d20d6a0b967075f6af63cf68d5b5fd1063706daf95d69def8",
+    "decisiones": "tareas/20261109-212224-xo0-registros-raiz/revisiones/registro-2slk0e9f/decisiones.json",
+    "decisiones_sha256": "a21b8ed35b28a6a69a1da55c85fcad2f0bfc8be714475c52079b87703d4d27c2",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T23:09:56.210690+00:00",
+    "motivo": "Propuesta del agente claude-code. Etapa 1 de 6 de «registros fuera del repo del producto». Candidato 19e963a (camino completo: toca cli.py): evidencia verde (1354 pruebas, 6 casos de contrato). QUIÉN LO HIZO: lo construyó un agente lanzado por el conductor (autopilot --ejecutar --lanzar con claude -p y permisos acotados: leer/editar/escribir, oracle-factory, .venv/bin/python, git status/diff/log/show/add/commit; sin push, checkout, reset, config ni red) en dos pasos: 1) pruebas, catálogos y propuesta de medidas (te frenó en medir --confirmar); 2) implementación y evidencia (se frenó por el freno de pruebas editadas). Yo escribí la spec, hice las mutaciones, pedí las revisiones y arreglé los hallazgos. IDEA: ROOT sigue significando «dónde están los registros» (así sus ~220 usos no cambian) y una variable nueva PRODUCTO guarda la raíz del producto sólo con --registros distinto; main la fija y la suelta; CON_CANDIDATO rechaza pedir-revision, revision-preparar, revision, revisar, juzgar y cerrar (etapa 3); verificar_en_proceso y ofrecer_siguiente pasan ambas raíces. PRUEBA EXISTENTE EDITADA (declarada, motivo del freno): tests/datos/ayuda-cli.json se regeneró porque se agregó la opción --registros (es un archivo de datos con la ayuda del CLI; el diff es sólo esa opción); ninguna prueba existente se quitó ni aflojó. REVISIÓN: sólo codex (3 rondas): RRAIZ-1 (medio: un almacén dentro del producto, o al revés, ensuciaba el repo del producto; corregido con un rechazo en main por is_relative_to y pruebas con tres rutas y un hermano de prefijo igual) y RRAIZ-2 (medio: un enlace simbólico dentro del almacén haría escribir en el producto) que NO SE REPRODUCE: probé enlaces en catalogos, requisitos, macros, corpus, diferencial, relaciones, oracle.json, tareas, openspec, .factory, .gitignore y kb, antes y después de init, y el producto nunca cambió (ruta_segura y la validación de .factory ya lo bloquean); propongo DESCARTARLO con ese motivo y lo dejé fijado con pruebas; la ronda 3 no trajo hallazgos. DECIDE BRIAN: (1) este es un cambio de camino completo con un solo proveedor revisor (agy y agy2 siguen sin cuota hasta cerca del 2026-11-15); la etapa 1 es chica y de bajo riesgo (la opción es experimental y nadie la usa hasta la etapa 2), pero lo digo. (2) 15 mutaciones propias reales detectadas; equivalentes declaradas: la asignación de tupla PRODUCTO, ROOT = ROOT, registros evaluada en otro orden es idéntica, y el reinicio de PRODUCTO al principio de main es redundante con el finally (el finally sí está probado). LÍMITES para las etapas siguientes: las llamadas a git siguen con cwd=ROOT, o sea en el almacén, y la etapa 3 tiene que apuntarlas al producto; REGISTROS es un alias de ROOT. No edité ninguna otra prueba existente.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "410b673bc823a19a271325f90a4f8fd1fd3c3534",
+      "archivos_sha256": "2a11a8a94df6c7fcd19176fa9e9094c194a10218d5de13fcf96fbcd954991b21"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261109-212224-xo0-registros-raiz/candidatos/19e963a/evidencia/hechos.json",
+    "hechos_sha256": "257c04549baf8844dbce71aac6cb1a54d89651bd45d9220be6ca4fa303040769",
+    "informe": ".factory/cambios/20261109-212224-xo0-registros-raiz/oracle-veredicto.txt",
+    "informe_sha256": "2c90c4c0de511e15c68becadb1ac3173ebaaee1c8e471fcf9c88e811b9eb56e9",
+    "cuando": "2026-11-09T23:10:04.143933+00:00",
+    "contexto": {
+      "head": "410b673bc823a19a271325f90a4f8fd1fd3c3534",
+      "archivos_sha256": "2a11a8a94df6c7fcd19176fa9e9094c194a10218d5de13fcf96fbcd954991b21"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -289,6 +321,31 @@
       "cuando": "2026-11-09T22:54:58.304421+00:00",
       "decision": "aprobar",
       "candidato": "19e963a"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T23:09:56.210723+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "85873d1d7938660d20d6a0b967075f6af63cf68d5b5fd1063706daf95d69def8",
+      "decisiones_sha256": "a21b8ed35b28a6a69a1da55c85fcad2f0bfc8be714475c52079b87703d4d27c2"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T23:10:04.143946+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "257c04549baf8844dbce71aac6cb1a54d89651bd45d9220be6ca4fa303040769"
     }
   ],
   "tipos": {
@@ -347,14 +404,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Propuesta del agente claude-code. Etapa 1 de 6 de «registros fuera del repo del producto». Candidato 19e963a (camino completo: toca cli.py): evidencia verde (1354 pruebas, 6 casos de contrato). QUIÉN LO HIZO: lo construyó un agente lanzado por el conductor (autopilot --ejecutar --lanzar con claude -p y permisos acotados: leer/editar/escribir, oracle-factory, .venv/bin/python, git status/diff/log/show/add/commit; sin push, checkout, reset, config ni red) en dos pasos: 1) pruebas, catálogos y propuesta de medidas (te frenó en medir --confirmar); 2) implementación y evidencia (se frenó por el freno de pruebas editadas). Yo escribí la spec, hice las mutaciones, pedí las revisiones y arreglé los hallazgos. IDEA: ROOT sigue significando «dónde están los registros» (así sus ~220 usos no cambian) y una variable nueva PRODUCTO guarda la raíz del producto sólo con --registros distinto; main la fija y la suelta; CON_CANDIDATO rechaza pedir-revision, revision-preparar, revision, revisar, juzgar y cerrar (etapa 3); verificar_en_proceso y ofrecer_siguiente pasan ambas raíces. PRUEBA EXISTENTE EDITADA (declarada, motivo del freno): tests/datos/ayuda-cli.json se regeneró porque se agregó la opción --registros (es un archivo de datos con la ayuda del CLI; el diff es sólo esa opción); ninguna prueba existente se quitó ni aflojó. REVISIÓN: sólo codex (3 rondas): RRAIZ-1 (medio: un almacén dentro del producto, o al revés, ensuciaba el repo del producto; corregido con un rechazo en main por is_relative_to y pruebas con tres rutas y un hermano de prefijo igual) y RRAIZ-2 (medio: un enlace simbólico dentro del almacén haría escribir en el producto) que NO SE REPRODUCE: probé enlaces en catalogos, requisitos, macros, corpus, diferencial, relaciones, oracle.json, tareas, openspec, .factory, .gitignore y kb, antes y después de init, y el producto nunca cambió (ruta_segura y la validación de .factory ya lo bloquean); propongo DESCARTARLO con ese motivo y lo dejé fijado con pruebas; la ronda 3 no trajo hallazgos. DECIDE BRIAN: (1) este es un cambio de camino completo con un solo proveedor revisor (agy y agy2 siguen sin cuota hasta cerca del 2026-11-15); la etapa 1 es chica y de bajo riesgo (la opción es experimental y nadie la usa hasta la etapa 2), pero lo digo. (2) 15 mutaciones propias reales detectadas; equivalentes declaradas: la asignación de tupla PRODUCTO, ROOT = ROOT, registros evaluada en otro orden es idéntica, y el reinicio de PRODUCTO al principio de main es redundante con el finally (el finally sí está probado). LÍMITES para las etapas siguientes: las llamadas a git siguen con cwd=ROOT, o sea en el almacén, y la etapa 3 tiene que apuntarlas al producto; REGISTROS es un alias de ROOT. No edité ninguna otra prueba existente.",
-      "candidato": "19e963a",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T22:54:58.304408+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

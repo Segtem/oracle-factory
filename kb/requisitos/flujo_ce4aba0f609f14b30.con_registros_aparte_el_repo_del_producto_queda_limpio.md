@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio`
 - Vigente: sí
 - Cambio: [[cambios/20261109-212224-xo0-registros-raiz]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio`, `factory_registros_raiz.corrida_completa`
 - Fuente: openspec/changes/20261109-212224-xo0-registros-raiz/specs/flujo/spec.md#con_registros_aparte_el_repo_del_producto_queda_limpio
 
