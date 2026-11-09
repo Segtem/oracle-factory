@@ -2,7 +2,7 @@
   "id": "20261109-194509-ylk-sin-informe",
   "titulo": "Autopilot: el conductor no repite el pedido a un revisor que se lanzó y no dejó resultado",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261109-194509-ylk-sin-informe/specs/flujo/spec.md",
   "spec_sha256": "2a7565e36ce35b232a17a340fda0b64f849878df35b54e4d0d47db2364ab999e",
   "spec_aprobada": {
@@ -16,7 +16,9 @@
       "openspec/changes/20261109-194509-ylk-sin-informe/specs/flujo/spec.md": "2a7565e36ce35b232a17a340fda0b64f849878df35b54e4d0d47db2364ab999e"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +43,78 @@
         "openspec/changes/20261109-194509-ylk-sin-informe/proposal.md": "148bc738a73b0fb134c311483b23a171fd079fc287aed66c99a962940c724626",
         "openspec/changes/20261109-194509-ylk-sin-informe/specs/flujo/spec.md": "2a7565e36ce35b232a17a340fda0b64f849878df35b54e4d0d47db2364ab999e"
       }
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T19:45:52.394378+00:00",
+      "texto": "autopilot actuar: «importar» es un comando mecánico de Factory: lo corre un agente con --agente. Comando: oracle-factory importar 20261109-194509-ylk-sin-informe"
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T19:45:54.291895+00:00",
+      "ids": [
+        "flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T19:45:56.252018+00:00",
+      "texto": "autopilot delegar_al_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T19:46:17.012732+00:00",
+      "texto": "autopilot se detuvo: sin progreso: la misma decisión dos veces seguidas"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T19:47:26.709370+00:00",
+      "requisito": "flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado",
+      "medidas": [
+        "factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado",
+        "factory_sin_informe.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {
+    "flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado": {
+      "sha256": "393662001eb31c263917acd5f9e47278ac76b6512c4f0c87572cfdb110b7f976",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T19:47:26.658565+00:00",
+      "catalogos": {
+        "factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado": "a211bfd491a4e54ca372a815b14df0b8420bca5f5e07cc116f70ac729fd97b94",
+        "factory_sin_informe.corrida_completa": "9b3c92d249597cf18661795a269cd1579ae2c2c74295bbe4e10424c614bd620b"
+      },
+      "archivos_catalogo": {
+        "factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado": "catalogos/factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado.oracle",
+        "factory_sin_informe.corrida_completa": "catalogos/factory_sin_informe.corrida_completa.oracle"
+      }
+    }
+  }
 }

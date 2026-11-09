@@ -64,10 +64,11 @@ GLOBALES = ("--agente", "--proyecto")  # las opciones del parser que van antes d
 NOMBRE_DE_REVISOR = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")  # sin guion inicial: no se lee como opción
 
 
-def segundo_revisor(camino, informes, revisores) -> str | None:
+def segundo_revisor(camino, informes, revisores, fallidos=()) -> str | None:
     """El revisor configurado de otro proveedor que falta en un cambio de camino completo; None si no hace falta o no se puede saber.
 
-    Cuenta los proveedores de los informes de todos los candidatos del cambio (agy y agy2 son uno), y un revisor sin `proveedor` cuenta por su nombre."""
+    Cuenta los proveedores de los informes de todos los candidatos del cambio (agy y agy2 son uno), y un revisor sin `proveedor` cuenta por su nombre.
+    `fallidos`: revisores lanzados sin resultado sobre el candidato vigente; no se ofrecen (sigue el primero de otro proveedor, o None)."""
     if not (isinstance(camino, dict) and camino.get("tipo") == "completo" and isinstance(informes, list) and isinstance(revisores, dict)):
         return None
 
@@ -78,7 +79,7 @@ def segundo_revisor(camino, informes, revisores) -> str | None:
     usados = {proveedor(i["revisor"]) for i in informes if isinstance(i, dict) and isinstance(i.get("revisor"), str)}
     if len(usados) >= 2 or len({proveedor(n) for n in revisores if isinstance(n, str) and NOMBRE_DE_REVISOR.fullmatch(n)}) < 2:
         return None  # ya hay dos proveedores, o la configuración no tiene otro que pedir
-    return next((n for n in sorted(n for n in revisores if isinstance(n, str) and NOMBRE_DE_REVISOR.fullmatch(n)) if proveedor(n) not in usados), None)
+    return next((n for n in sorted(n for n in revisores if isinstance(n, str) and NOMBRE_DE_REVISOR.fullmatch(n)) if proveedor(n) not in usados and n not in fallidos), None)
 
 
 def argumentos_mecanicos(comando) -> list[str] | None:
