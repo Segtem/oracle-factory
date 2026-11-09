@@ -27,3 +27,15 @@ Medidas de flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_que
 ### Nota (2026-11-09 21:26:56 UTC)
 
 Medidas de flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno: factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno, factory_registros_raiz.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-09 21:31:52 UTC)
+
+Medidas de flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 21:31:52 UTC)
+
+Medidas de flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 21:31:52 UTC)
+
+Medidas de flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia: Brian Hollweg (persona, confirmo, modo confirmacion).

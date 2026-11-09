@@ -118,6 +118,45 @@
       "forma": "mensaje",
       "cuando": "2026-11-09T21:27:04.428121+00:00",
       "texto": "autopilot se detuvo: confirmar las medidas es sólo de una persona. Comando para una persona: oracle-factory medir 20261109-212224-xo0-registros-raiz --confirmar"
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T21:31:52.538008+00:00",
+      "requisito": "flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio",
+      "medidas": [
+        "factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio",
+        "factory_registros_raiz.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T21:31:52.736221+00:00",
+      "requisito": "flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno",
+      "medidas": [
+        "factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno",
+        "factory_registros_raiz.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T21:31:52.929172+00:00",
+      "requisito": "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia",
+      "medidas": [
+        "factory_registros_raiz.sin_registros_aparte_nada_cambia",
+        "factory_registros_raiz.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -125,27 +164,14 @@
     "flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno": "funcional",
     "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia": {
-      "sha256": "dd772c86ed24982292b2c12bece5bfda217388dcc5a261ceb554f690c816e2c6",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T21:26:51.965783+00:00",
-      "catalogos": {
-        "factory_registros_raiz.sin_registros_aparte_nada_cambia": "bf55a45af77fff42df16ec36bc796cccc3c20d2e04b901a193f3ac624246a794",
-        "factory_registros_raiz.corrida_completa": "b6779828e62d3c9160012254b4812ea24c5c83ac39fdc0b0ace3266b7df9a4c8"
-      },
-      "archivos_catalogo": {
-        "factory_registros_raiz.sin_registros_aparte_nada_cambia": "catalogos/factory_registros_raiz.sin_registros_aparte_nada_cambia.oracle",
-        "factory_registros_raiz.corrida_completa": "catalogos/factory_registros_raiz.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T21:31:52.487151+00:00",
       "sha256": "ad69c5ab70730ea68aae92b1906e8134721bc989e6eace25d2fbee755612eb96",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T21:26:53.981076+00:00",
       "catalogos": {
         "factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio": "466dbfa12de626f890fdbc1d02c1a150071ade483acbf24049d2893700a2c33d",
         "factory_registros_raiz.corrida_completa": "b6779828e62d3c9160012254b4812ea24c5c83ac39fdc0b0ace3266b7df9a4c8"
@@ -156,10 +182,12 @@
       }
     },
     "flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T21:31:52.684986+00:00",
       "sha256": "426111289c64dca34e17835acb6476a4340a7caaa460306f4fb3dfccb019fd24",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T21:26:56.055725+00:00",
       "catalogos": {
         "factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno": "1572aaa9df13fcbdd9f6961c0000d88fb19df0d68994ae8f0785775fdbe93aa1",
         "factory_registros_raiz.corrida_completa": "b6779828e62d3c9160012254b4812ea24c5c83ac39fdc0b0ace3266b7df9a4c8"
@@ -168,6 +196,23 @@
         "factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno": "catalogos/factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno.oracle",
         "factory_registros_raiz.corrida_completa": "catalogos/factory_registros_raiz.corrida_completa.oracle"
       }
+    },
+    "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T21:31:52.875010+00:00",
+      "sha256": "dd772c86ed24982292b2c12bece5bfda217388dcc5a261ceb554f690c816e2c6",
+      "catalogos": {
+        "factory_registros_raiz.sin_registros_aparte_nada_cambia": "bf55a45af77fff42df16ec36bc796cccc3c20d2e04b901a193f3ac624246a794",
+        "factory_registros_raiz.corrida_completa": "b6779828e62d3c9160012254b4812ea24c5c83ac39fdc0b0ace3266b7df9a4c8"
+      },
+      "archivos_catalogo": {
+        "factory_registros_raiz.sin_registros_aparte_nada_cambia": "catalogos/factory_registros_raiz.sin_registros_aparte_nada_cambia.oracle",
+        "factory_registros_raiz.corrida_completa": "catalogos/factory_registros_raiz.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
