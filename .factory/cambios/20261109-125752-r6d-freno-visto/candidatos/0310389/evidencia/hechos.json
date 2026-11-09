@@ -1,0 +1,25 @@
+{
+  "freno_visto_caso": [
+    {
+      "requisito": "el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
+      "caso": "Calculo.test_fv1_la_revision_aprobada_levanta_el_freno_de_pruebas_editadas_y_sin_ella_sigue",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
+      "caso": "Calculo.test_fv1_los_demas_frenos_no_cambian_con_la_revision_aprobada",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
+      "caso": "EstadoReal.test_fv1_con_estado_real_la_revision_vigente_la_levanta_y_otro_candidato_la_devuelve_y_el_aviso_queda",
+      "codigo": 0
+    }
+  ],
+  "freno_visto_corrida": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ]
+}
