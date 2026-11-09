@@ -42,6 +42,10 @@ class Calculo(unittest.TestCase):
         self.assertIsNone(segundo(camino=None))
         self.assertIsNone(segundo(camino={'tipo': 'otro'}))
         self.assertEqual(segundo(informes=[]), 'agy')
+        tres = {**REVISORES, 'gemini': {'proveedor': 'google'}}
+        self.assertIsNone(segundo(informes=[informe('agy'), informe('codex')], revisores=tres))  # con dos proveedores ya alcanza, haya más o no
+        self.assertEqual(segundo(informes=[informe('agy')], revisores=tres), 'codex')
+        self.assertEqual(segundo(informes=[], revisores={'zeta': {'proveedor': 'z'}, 'beta': {'proveedor': 'b'}}), 'beta')  # el primero por orden de nombre
         # sin otro proveedor, o datos ilegibles: null y sin romper
         self.assertIsNone(segundo(revisores={'agy': {'proveedor': 'agy'}, 'agy2': {'proveedor': 'agy'}}))
         self.assertIsNone(segundo(revisores={}))
