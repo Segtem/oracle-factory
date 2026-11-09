@@ -1,0 +1,98 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-freno-declarado/.factory/local/revisiones/4e4ee9f-agy-1",
+  "base": "54ca249d646bd6d9eacb16fd6ad76bc28ab9b554",
+  "head": "4e4ee9f9f598b204d26d4642c621246293c9958f",
+  "diff_sha256": "9c4d90b26cb4e03953e28d1c35909d88eb80e26237889f0e2562564fa056f1f2",
+  "context_sha256": "c2fd15fbc63453a7e2b0e0655fcfea610ca69ab5fd9e0ba92325245729b631b3",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "FRV-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La prueba en EstadoReal no comprueba que un candidato nuevo vuelva a activar el freno, a pesar de prometerlo en su nombre y en la spec",
+      "explanation": "El escenario 'la revisión deja de ser vigente' de la spec exige que ante una revisión aprobada de un candidato anterior, al calcular los frenos del candidato nuevo, prueba_existente_editada vuelva a figurar. El método test_fv1_con_estado_real_la_revision_vigente_la_levanta_y_otro_candidato_la_devuelve_y_el_aviso_queda declara explícitamente en su nombre 'y otro candidato la devuelve', pero en su cuerpo nunca ejecuta self.candidato(...) para crear un segundo candidato ni comprueba que f.datos_estado o frenos_del_cambio vuelvan a declarar el freno en un repositorio real. La comprobación se detiene tras asertar que la revisión aprobada vacía los frenos (línea 56). Una mutación donde una revisión aprobada se considere vigente de forma permanente ignorando candidatos nuevos sobrevive a EstadoReal.",
+      "location": {
+        "file": "tests/test_freno_visto.py",
+        "start_line": 30,
+        "end_line": 58,
+        "side": "head"
+      },
+      "trigger": "Se ejecutó una mutación sobre lecturas.frenos_del_cambio forzando aprobada=True cuando rev.get('decision') == 'aprobar' sin validar el contexto del nuevo producto. La suite test_freno_visto.EstadoReal pasó sin detectar el fallo.",
+      "evidence": "En tests/test_freno_visto.py:30-58, tras guardar la revisión aprobada en la línea 53 y verificar datos['frenos'] == [], el test finaliza sin crear otro commit de producto ni volver a consultar datos_estado(self.ident). Además, en el script temporal test_gap.py se comprobó que invocar sha2 = self.candidato(...) y consultar datos_estado efectivamente retorna [PRUEBA], confirmando que el código soporta el escenario pero la prueba unitaria omitió esa verificación.",
+      "related_requirement": "el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
+      "status": "pendiente",
+      "verification": "Reproducido con script de mutación mutation_vigencia.py sobre una copia en el directorio del revisor, sin alterar el checkout."
+    },
+    {
+      "id": "FRV-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Hueco de prueba en test_freno_visto.py: falta verificar que sin tests editados no se frene cuando no hay revisión aprobada (sobrevive mutación)",
+      "explanation": "En tests/test_freno_visto.py se prueba calcular(editados=EDITADOS), calcular(editados=EDITADOS, aprobada=False), calcular(editados=EDITADOS, aprobada=True) y calcular(editados=[], aprobada=True), pero en ningún momento se comprueba calcular(editados=[], aprobada=False) ni con editados=None. Debido a esta omisión, si se muta oracle_factory/frenos.py cambiando 'if editados and not revision_aprobada:' por 'if not revision_aprobada:' (emitiendo prueba_existente_editada ante cualquier cambio sin revisión aprobada aunque no se hayan tocado tests existentes), todas las pruebas de tests/test_freno_visto.py pasan intactas. La medida de Oracle factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada evalúa exclusivamente test_freno_visto.py, por lo que este hueco deja sin protección contractual la rama donde no hay tests editados y no hay revisión.",
+      "location": {
+        "file": "tests/test_freno_visto.py",
+        "start_line": 18,
+        "end_line": 23,
+        "side": "head"
+      },
+      "trigger": "Mutación M2 en frenos.calcular: se reemplazó 'if editados and not revision_aprobada:' por 'if not revision_aprobada:'. Se ejecutó test_freno_visto.py y la suite completa de 3 tests pasó sin fallar.",
+      "evidence": "test_fv1_la_revision_aprobada_levanta_el_freno_de_pruebas_editadas_y_sin_ella_sigue sólo prueba editados=[] con aprobada=True (línea 22). Los demás tests (fv1_los_demas_frenos y EstadoReal) siempre pasan editados=EDITADOS o tienen tests eliminados. Al mutar la condición omitiendo editados, ningún test de test_freno_visto.py falla.",
+      "related_requirement": "el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
+      "status": "pendiente",
+      "verification": "Verificado mediante mutation_runner.py en el entorno de pruebas local."
+    },
+    {
+      "id": "FRV-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "Desacoplamiento en la prueba EstadoReal: la función auxiliar frenos() usa EDITADOS cableado en lugar de los cambios reales del candidato",
+      "explanation": "En EstadoReal (tests/test_freno_visto.py:37), la función interna frenos() invoca f.frenos_del_cambio pasando la constante global EDITADOS (que referencia tests/test_a.py con 2 líneas y 1 assert quitados), en lugar de los cambios reales generados en el candidato mediante self.candidato(lambda: (self.root / 'tests/test_b.py').unlink()). Aunque más adelante se evalúa self.estado() (que calcula los editados reales desde Git), las aserciones intermedias de las líneas 41–47 prueban la función con datos sintéticos desconectados del árbol Git que la clase preparó.",
+      "location": {
+        "file": "tests/test_freno_visto.py",
+        "start_line": 35,
+        "end_line": 47,
+        "side": "head"
+      },
+      "trigger": "Inspección estática de tests/test_freno_visto.py líneas 35-47 contrastada con la preparación del candidato en línea 32.",
+      "evidence": "Línea 32: sha = self.candidato(lambda: (self.root / 'tests/test_b.py').unlink()). Línea 37: return ids(f.frenos_del_cambio(self.ident, estado, sha, actual, EDITADOS, {})), donde EDITADOS es [{'archivo': 'tests/test_a.py', ...}].",
+      "related_requirement": "el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
+      "status": "pendiente",
+      "verification": "Comprobado por inspección estática del código de prueba."
+    },
+    {
+      "id": "FRV-004",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.85,
+      "title": "En modo funcional con requisitos no funcionales, el freno se desactiva con la revisión de un agente sin mirada humana",
+      "explanation": "El comentario en frenos.py:45 afirma 'una revisión aprobada y vigente es que una persona lo vio', y proposal.md señala que la revisión aprobada por una persona es la forma en que una persona vio el freno. No obstante, en modo 'funcional' (modos.py:41), cuando todos los requisitos del cambio son de tipo 'no funcional', un agente con --agente puede registrar directamente una revisión con decision='aprobar' (vía modos.via_agente devolviendo 'decide'). Si el agente hubiera editado tests existentes en ese cambio, el freno prueba_existente_editada quedará levantado sin que una persona física haya revisado la modificación de las pruebas.",
+      "location": {
+        "file": "oracle_factory/frenos.py",
+        "start_line": 44,
+        "end_line": 46,
+        "side": "head"
+      },
+      "trigger": "Análisis de reglas de decisión en modos.via_agente('funcional', 'revision', ['no funcional']) y su impacto sobre frenos_del_cambio.",
+      "evidence": "oracle_factory/frenos.py:45 condiciona el freno a 'not revision_aprobada', calculada en lecturas.frenos_del_cambio como rev.get('decision') == 'aprobar'. En modo funcional, un agente puede aprobar revisiones si no hay requisitos funcionales.",
+      "related_requirement": "el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
+      "status": "pendiente",
+      "verification": "Confirmado por análisis de flujo_revision.py y modos.py."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance y contexto del diff: revisión independiente de la ronda 1 para el cambio 20261109-125752-r6d-freno-visto en el candidato 4e4ee9f9f598 frente a la base 54ca249d646b. Se inspeccionaron la propuesta, la spec en openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md, el diff del paquete en oracle_factory/frenos.py (líneas 36-48), docs/tests.md (líneas 33-39), tests/test_freno_visto.py (64 líneas), catálogos en catalogos/ y definiciones en requisitos/. No se editó el checkout candidato ni se modificó su historia Git.",
+    "Comportamiento de frenos, autopilot y conductor: se analizó la interacción entre frenos.calcular, lecturas.frenos_del_cambio, autopilot.decidir y conductor.bucle. Antes del cambio, prueba_existente_editada frenaba indefinidamente a autopilot impidiendo la ejecución mecánica de juzgar tras la aprobación de la revisión. Con el cambio, al contar con una revisión aprobada y vigente, el freno se retira y autopilot.decidir emite accion='actuar' permitiendo que el conductor ejecute juzgar automáticamente. Se constató que ningún test en test_freno_visto.py ejercita autopilot.decidir.",
+    "Ejecución de pruebas unitarias: se ejecutó la suite completa de pruebas unitarias (.venv/bin/python -m unittest discover -s tests </dev/null; 1339 pruebas superadas, 15 omitidas, 0 fallos, 0 errores en 460s) y el módulo nuevo tests/test_freno_visto.py (3 casos superados en 0.4s).",
+    "Pruebas de mutación: se ejecutaron 4 mutaciones sobre copias locales: M1 (ignorar revision_aprobada: detectada por Calculo), M2 (ignorar editados en frenos.calcular: sobrevivió a test_freno_visto.py, ver hallazgo FRV-002), M3 (invertir la condición booleana de revisión: detectada), M4 (hacer permanente la aprobación de revisión en lecturas.frenos_del_cambio ignorando cambios posteriores de producto: sobrevivió a EstadoReal, ver hallazgo FRV-001).",
+    "Omisiones del paquete: el paquete de Oracle Clue no incluye exclusiones ni omisiones de archivos binarios (omissions está vacío); todos los archivos del diff son texto y fueron revisados en su totalidad."
+  ]
+}

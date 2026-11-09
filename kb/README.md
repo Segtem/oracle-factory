@@ -124,6 +124,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-233304-ywj-actua]] — Autopilot que actúa: corre lo mecánico, delega lo creativo, con topes y rastro (cerrada)
 - [[cambios/20261109-012630-nn6-eventos]] — El registro tolera eventos que no son objetos (cerrada)
 - [[cambios/20261109-030359-8e4-revprop]] — Autopilot: la propuesta de revisión es trabajo del agente, antes de pedírsela a la persona (cerrada)
+- [[cambios/20261109-125752-r6d-freno-visto]] — Frenos: el de pruebas editadas deja de frenar cuando una persona aprobó la revisión (cerrada)
 
 ## Requisitos
 
@@ -310,6 +311,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce]]
+- [[requisitos/flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada]]
 - [[requisitos/flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa]]
 - [[requisitos/flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan]]
 - [[requisitos/flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista]]

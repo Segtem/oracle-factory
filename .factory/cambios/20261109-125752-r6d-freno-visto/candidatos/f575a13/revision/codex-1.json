@@ -1,0 +1,18 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-freno-declarado/.factory/local/revisiones/f575a13-codex-1",
+  "base": "54ca249d646bd6d9eacb16fd6ad76bc28ab9b554",
+  "head": "f575a131cc0f0d10c2c7e107d771e7a293014417",
+  "diff_sha256": "105326779676aaf53d0ea639d91d0300309fa7456e8a42b2c74df5b7403903e4",
+  "context_sha256": "bc94963d5de4ccdde909f5892dbd25ace861f6343ed547cd128ff122201ba8cf",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Hallazgos: no encontré defectos en las líneas modificadas. La revisión aprobada vigente se calcula a partir de decisión, mismo producto y ausencia de problemas; el freno de tests editados queda condicionado a ese valor y el cálculo de avisos permanece separado.",
+    "Inspeccioné la propuesta, spec, todos los archivos de texto del diff, lógica de vigencia en lecturas.frenos_del_cambio, presentación por estado y la puerta de autopilot.decidir. Las pruebas nuevas cubren presencia/ausencia del freno, vigencia que se pierde, avisos y otros frenos; autopilot frena cuando recibe frenos no vacíos y actúa según el siguiente paso cuando la lista queda vacía.",
+    "No pude ejecutar tests/test_freno_visto.py: este checkout no tiene .venv/bin/python. No ejecuté la suite completa ni mutaciones.",
+    "La prueba nueva no invoca autopilot/conductor de punta a punta; la consecuencia está cubierta por el contrato ya existente de autopilot sobre datos de estado y la implementación inspeccionada, pero no verifiqué ejecución real del conductor.",
+    "El paquete no omite archivos binarios (omissions está vacío)."
+  ]
+}

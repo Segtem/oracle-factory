@@ -1,0 +1,53 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261109-125752-r6d-freno-visto",
+  "contexto": {
+    "head": "5e176a3fa41f95b854e6c230b724f0e8190dc60c",
+    "archivos_sha256": "262e5c43e197ee52f13084c0f76fe76b0425b8d7c667dbc1dd423ed7293d722b"
+  },
+  "documentos": {
+    "openspec/changes/20261109-125752-r6d-freno-visto/proposal.md": "368067ae5882a74b9bb431f8cb264c3413d6b643568a78ae25b736f6a2918645",
+    "openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md": "67c8b0e7d59e6e3ebf2656d1ab8f32d85d82b30ff48985e8c5b4a8f5a79b82f7"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_freno_visto.corrida_completa.oracle",
+    "catalogos/factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada.oracle",
+    "docs/tests.md",
+    "openspec/changes/20261109-125752-r6d-freno-visto/design.md",
+    "openspec/changes/20261109-125752-r6d-freno-visto/proposal.md",
+    "openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md",
+    "openspec/changes/20261109-125752-r6d-freno-visto/tasks.md",
+    "oracle_factory/frenos.py",
+    "requisitos/flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada.requisito",
+    "tests/test_freno_visto.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1339 pruebas, 3 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-125752-r6d-freno-visto/candidatos/f575a13/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-125752-r6d-freno-visto/candidatos/f575a13/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4e4ee9f: agy (gemini-3.8-flash-high), 4 hallazgos: FRV-001 (media), FRV-002 (media), FRV-003 (baja), FRV-004 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-125752-r6d-freno-visto/candidatos/4e4ee9f/revision/agy-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Hallazgos: no encontré defectos en las líneas modificadas. La revisión aprobada vigente se calcula a partir de decisión, mismo producto y ausencia de problemas; el freno de tests editados queda condicionado a ese valor y el cálculo de avisos permanece separado.",
+    "codex (gpt-6-luna): Inspeccioné la propuesta, spec, todos los archivos de texto del diff, lógica de vigencia en lecturas.frenos_del_cambio, presentación por estado y la puerta de autopilot.decidir. Las pruebas nuevas cubren presencia/ausencia del freno, vigencia que se pierde, avisos y otros frenos; autopilot frena cuando recibe frenos no vacíos y actúa según el siguiente paso cuando la lista queda vacía.",
+    "codex (gpt-6-luna): No pude ejecutar tests/test_freno_visto.py: este checkout no tiene .venv/bin/python. No ejecuté la suite completa ni mutaciones.",
+    "codex (gpt-6-luna): La prueba nueva no invoca autopilot/conductor de punta a punta; la consecuencia está cubierta por el contrato ya existente de autopilot sobre datos de estado y la implementación inspeccionada, pero no verifiqué ejecución real del conductor.",
+    "codex (gpt-6-luna): El paquete no omite archivos binarios (omissions está vacío)."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
