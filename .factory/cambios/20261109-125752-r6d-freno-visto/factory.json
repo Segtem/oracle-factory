@@ -66,11 +66,40 @@
       "ids": [
         "flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T13:10:52.269765+00:00",
+      "requisito": "flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
+      "medidas": [
+        "factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
+        "factory_freno_visto.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
     "flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada": {
+      "sha256": "f0cb2bcd1c14de5c5af1e50cf7c9e5ea74a98ca8e899adc542ee15d4b1b76e84",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T13:10:52.219235+00:00",
+      "catalogos": {
+        "factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada": "38b0f47a1df0d4f4e38fee2509b17b47dc4a8551c2d8cbe342e02c737f5692a1",
+        "factory_freno_visto.corrida_completa": "4a4803bb44b25bdeaaaa581be156be77aadf8721a9b8aba58df986a272bc7711"
+      },
+      "archivos_catalogo": {
+        "factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada": "catalogos/factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada.oracle",
+        "factory_freno_visto.corrida_completa": "catalogos/factory_freno_visto.corrida_completa.oracle"
+      }
+    }
+  }
 }

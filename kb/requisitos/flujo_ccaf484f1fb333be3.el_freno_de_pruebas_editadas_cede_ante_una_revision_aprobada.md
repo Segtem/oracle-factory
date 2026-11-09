@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261109-125752-r6d-freno-visto]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «sin revisión aprobada», «con revisión aprobada vigente», «la revisión deja de ser vigente», «otros frenos»
+- Medidas: `factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada`, `factory_freno_visto.corrida_completa`
 - Fuente: openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md#el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada
 
 Tipo: funcional El sistema DEBE dejar de declarar el freno `prueba_existente_editada` cuando hay una revisión aprobada y vigente del cambio (decisión `aprobar`, del mismo producto que el candidato actual y sin problemas), y declararlo cuando hay tests existentes editados y no la hay; los avisos de tests editados siguen mostrándose en ambos casos, y los demás frenos no cambian.
