@@ -1,6 +1,6 @@
 # Autopilot que actúa: corre lo mecánico, delega lo creativo, con topes y rastro
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -55,3 +55,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-09 01:13:06 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261108-233304-ywj-actua/oracle-veredicto.txt.
+
+### Nota (2026-11-09 01:13:23 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
