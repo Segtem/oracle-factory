@@ -1,6 +1,6 @@
 # Autopilot: la propuesta de revisión es trabajo del agente, antes de pedírsela a la persona
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-09 12:33:32 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261109-030359-8e4-revprop/oracle-veredicto.txt.
+
+### Nota (2026-11-09 12:37:24 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

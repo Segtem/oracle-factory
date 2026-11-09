@@ -2,7 +2,7 @@
   "id": "20261109-030359-8e4-revprop",
   "titulo": "Autopilot: la propuesta de revisión es trabajo del agente, antes de pedírsela a la persona",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261109-030359-8e4-revprop/specs/flujo/spec.md",
   "spec_sha256": "1ada9de9727386aa3dc2fd01a6efa42cf4461bdcc23fe5bb80e1b8d5458d5b6c",
   "spec_aprobada": {
@@ -273,6 +273,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "af397b6b62811ffc2b85d1c25b337b802999cb75f688ae36c8ddcef50c803352"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T12:37:24.506314+00:00",
+      "oracle": ".factory/cambios/20261109-030359-8e4-revprop/oracle-veredicto.txt",
+      "revision": "tareas/20261109-030359-8e4-revprop/revisiones/registro-w7wy4j8t/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T12:37:24.549329+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -314,5 +334,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T12:37:24.441726+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-09T12:37:24.549318+00:00"
+  }
 }
