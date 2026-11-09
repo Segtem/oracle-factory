@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-segundo-revisor/.factory/local/revisiones/5e2f1c8-codex-1",
+  "base": "d80cd8bae3f31aaf5b0b0f80ea6f457a1416705c",
+  "head": "5e2f1c8423204931fcabb9becd189e0c4f34fb17",
+  "diff_sha256": "2bdf191fc96c38c5cfc9715449ab9b266129e33468db9ee236792e58c385c06c",
+  "context_sha256": "089d4539b7524b904b0147545595fed33a531ad7dc23224248d9ad18f337dcb3",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé spec, diff, pruebas, lecturas de informes/configuración, conductor y la revisión previa SR-1; no encontré defectos confirmables.",
+    "No se ejecutaron pruebas: `.venv/bin/python` no existe en el checkout; no ejecuté otra suite.",
+    "No hice mutaciones manuales.",
+    "No revisé los archivos excluidos por la solicitud; el paquete no declara omisiones binarias."
+  ]
+}
