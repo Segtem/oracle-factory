@@ -2691,6 +2691,7 @@ from .lecturas import (  # noqa: E402
     datos_donde,
     datos_estado,
     frenos_del_cambio,
+    segundo_revisor_del_cambio,
     datos_trazabilidad,
     dentro_del_tramo,
     escribir_kb,

@@ -1,0 +1,30 @@
+{
+  "segundo_revisor_caso": [
+    {
+      "requisito": "estado_dice_que_segundo_revisor_falta_en_el_camino_completo",
+      "caso": "Calculo.test_sr1_el_segundo_revisor_es_el_de_otro_proveedor_y_solo_en_el_camino_completo",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_dice_que_segundo_revisor_falta_en_el_camino_completo",
+      "caso": "EstadoReal.test_sr1_con_estado_real_aparece_en_el_json_y_se_va_con_el_segundo_proveedor",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_conductor_pide_el_segundo_revisor_antes_de_la_revision",
+      "caso": "Conductor.test_sr2_con_segundo_revisor_el_conductor_lo_pide_antes_de_la_revision",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_conductor_pide_el_segundo_revisor_antes_de_la_revision",
+      "caso": "Conductor.test_sr2_un_nombre_invalido_o_otro_paso_no_corre_nada_y_un_freno_va_primero",
+      "codigo": 0
+    }
+  ],
+  "segundo_revisor_corrida": [
+    {
+      "completa": 1,
+      "casos": 4
+    }
+  ]
+}

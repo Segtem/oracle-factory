@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-segundo-revisor/.factory/local/revisiones/bdf566d-codex-1",
+  "base": "d80cd8bae3f31aaf5b0b0f80ea6f457a1416705c",
+  "head": "bdf566d23bd95fe9e269fac02ce5f80e51996d96",
+  "diff_sha256": "32a2e356ccc6519b3a7bcadc95e6c06a6d3f8b0b00af252d99edc03b0d5ce2d9",
+  "context_sha256": "c377071da9fb4ed4517b6b27d1e9d1c7218390cd9e326c0deed1b49d472621bd",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "SR-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "Informes ilegibles se tratan como si no existieran",
+      "explanation": "La especificación exige segundo_revisor=null cuando los informes son ilegibles. tablero.informes descarta archivos JSON corruptos o con forma inválida sin comunicar que hubo un error; este cálculo recibe la lista restante y cuenta sólo sus revisores. Si el informe del proveedor que ya fue pedido no se puede leer, el proveedor no cuenta y el conductor puede pedirlo otra vez (o sugerir otro revisor cuando debería devolver null).",
+      "location": {
+        "file": "oracle_factory/autopilot.py",
+        "start_line": 78,
+        "end_line": 78,
+        "side": "head"
+      },
+      "trigger": "En un candidato de camino completo con revisores de proveedores agy y codex, deja un informe JSON corrupto/no válido para codex en candidatos/<sha>/revision/ y consulta estado --json. Repite con un informe legible de agy además del informe ilegible de codex.",
+      "evidence": "oracle_factory/tablero.py:94-116 ignora OSError/ValueError y documentos sin findings como lista; oracle_factory/lecturas.py:356 pasa tablero_mod.informes(...) directamente a autopilot.segundo_revisor. En la línea señalada, usados sólo incluye los informes ya devueltos. Por tanto un informe descartado no aporta su proveedor y segundo_revisor devuelve un revisor configurado.",
+      "related_requirement": "estado_dice_que_segundo_revisor_falta_en_el_camino_completo",
+      "status": "pendiente",
+      "verification": "Inspección de implementación y flujo de lectura. Las pruebas agregadas no cubren un archivo de informe corrupto o inválido. La prueba nominal de estado no pudo completar en este entorno por ModuleNotFoundError: oracle_metalenguaje."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté `python -m unittest tests.test_segundo_revisor -v`: 3 pruebas pasaron; EstadoReal falló porque falta el módulo oracle_metalenguaje en el entorno.",
+    "No ejecuté mutaciones manuales.",
+    "No revisé los registros y artefactos excluidos por la solicitud.",
+    "No hubo omisiones binarias declaradas por el paquete.",
+    "El chequeo del loop en conductor.bucle fue por inspección; un fallo de comando devuelve código distinto de cero y detiene esa ejecución."
+  ]
+}

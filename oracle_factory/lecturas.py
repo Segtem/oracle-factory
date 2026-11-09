@@ -347,6 +347,20 @@ def frenos_del_cambio(identificador: str, estado: dict, candidato: str | None, a
     return frenos.calcular(estado, tablero_mod.informes(cli.ROOT, cli.ROOT / estructura.DIR / "cambios" / identificador), candidato, aprobada, editados, flujo)
 
 
+def segundo_revisor_del_cambio(identificador: str, camino: dict | None) -> str | None:
+    """`autopilot.segundo_revisor` con los informes del cambio y los revisores configurados; None si la configuración o algún informe no se puede leer."""
+    carpeta = cli.ROOT / estructura.DIR / "cambios" / identificador
+    try:
+        revisores = cli.config_proyecto().get("revisores")
+        for ruta in carpeta.glob("candidatos/*/revision/*.json"):  # tablero.informes descarta en silencio los ilegibles: acá hacen que no se sepa
+            informe = json.loads(ruta.read_text(encoding="utf-8"))
+            if not (isinstance(informe, dict) and isinstance(informe.get("findings"), list)):
+                return None
+    except (cli.FactoryError, OSError, ValueError):
+        return None
+    return autopilot.segundo_revisor(camino, tablero_mod.informes(cli.ROOT, carpeta), revisores)
+
+
 def datos_estado(identificador: str) -> dict:
     """Lo que muestra `estado`, como datos con esquema versionado; no pregunta ni escribe nada."""
     carpeta, estado = cli.leer(identificador)
@@ -375,6 +389,7 @@ def datos_estado(identificador: str) -> dict:
     flujo = {"bucle_de_revision": None, "cambio_grande": None} if abandonado else alarmas.del_flujo(cli.ejecutar, estado, candidato, es_producto=cli.es_producto)
     prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, candidato, cli.documentos_o_nada(carpeta, estado))
     frenos_ = [] if abandonado else cli.frenos_del_cambio(identificador, estado, candidato, actual, editados, flujo)
+    camino_ = alarmas.camino_del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto)  # un cambio abandonado no tiene candidato
     return {
         "esquema": cli.ESQUEMA_ESTADO, "id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase"),
         "modo": cli.modo_de(estado), "capacidad": estado.get("capacidad"),
@@ -405,7 +420,8 @@ def datos_estado(identificador: str) -> dict:
         "frenos": frenos_,
         "propuesta_de_revision": autopilot.ultima_propuesta(estado),
         **flujo,
-        "camino": alarmas.camino_del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto),  # un cambio abandonado no tiene candidato
+        "camino": camino_,
+        "segundo_revisor": cli.segundo_revisor_del_cambio(identificador, camino_),
         "commits": cli.commits_del_cambio(identificador, estado),
         "quien": cli.quien_del_cambio(estado),
     }

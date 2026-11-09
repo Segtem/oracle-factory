@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:b50c4a51a0f1b242ba7287a62b695f1511bbdd9c0e9184c3c1fa4a7c4af47083 -->
+<!-- oracle-factory resumen sha256:a2bd7beb1ef7150d0791ebb375b42ec12fa2da2d64eeef2ecc3c9bfa2d19fb0e -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 353 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 355 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -286,6 +286,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | estado_dice_la_ultima_propuesta_de_revision_de_un_agente | funcional | `flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente` | factory_revprop.estado_dice_la_ultima_propuesta_de_revision_de_un_agente, factory_revprop.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-030359-8e4-revprop |
 | el_conductor_delega_la_propuesta_antes_de_pedir_la_revision | funcional | `flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision` | factory_revprop.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision, factory_revprop.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-030359-8e4-revprop |
 | el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada | funcional | `flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada` | factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada, factory_freno_visto.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-125752-r6d-freno-visto |
+| estado_dice_que_segundo_revisor_falta_en_el_camino_completo | funcional | `flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo` | factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo, factory_segundo_revisor.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-162444-701-segundo-revisor |
+| el_conductor_pide_el_segundo_revisor_antes_de_la_revision | funcional | `flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision` | factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision, factory_segundo_revisor.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-162444-701-segundo-revisor |
 
 ### ide
 
@@ -1805,6 +1807,11 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261109-125752-r6d-freno-visto) codex (gpt-6-luna): No pude ejecutar tests/test_freno_visto.py: este checkout no tiene .venv/bin/python. No ejecuté la suite completa ni mutaciones.
 - (20261109-125752-r6d-freno-visto) codex (gpt-6-luna): La prueba nueva no invoca autopilot/conductor de punta a punta; la consecuencia está cubierta por el contrato ya existente de autopilot sobre datos de estado y la implementación inspeccionada, pero no verifiqué ejecución real del conductor.
 - (20261109-125752-r6d-freno-visto) codex (gpt-6-luna): El paquete no omite archivos binarios (omissions está vacío).
+- (20261109-162444-701-segundo-revisor) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261109-162444-701-segundo-revisor) codex (gpt-6-luna): Sin hallazgos: las promesas revisadas coinciden con el flujo de selección y decisión; no encontré defectos demostrables en el diff.
+- (20261109-162444-701-segundo-revisor) codex (gpt-6-luna): Corrí `python -m unittest discover -s tests -p 'test_segundo_revisor.py' -v </dev/null`: los tres casos puros pasaron; el caso integrado falló al importar `oracle_metalenguaje` (`ModuleNotFoundError`), dependencia ausente en este checkout.
+- (20261109-162444-701-segundo-revisor) codex (gpt-6-luna): Intenté `python -m unittest discover -s tests </dev/null`; el conjunto mostró errores de entorno/dependencias y no terminó dentro de la ventana disponible.
+- (20261109-162444-701-segundo-revisor) codex (gpt-6-luna): Revisé la spec, el diff, los tres informes previos indicados y el estado de las áreas de `autopilot.segundo_revisor`, `lecturas.segundo_revisor_del_cambio` y `autopilot.decidir`; no ejecuté mutaciones sobre copias.
 
 ### Históricos
 
