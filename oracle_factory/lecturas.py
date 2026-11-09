@@ -348,12 +348,17 @@ def frenos_del_cambio(identificador: str, estado: dict, candidato: str | None, a
 
 
 def segundo_revisor_del_cambio(identificador: str, camino: dict | None) -> str | None:
-    """`autopilot.segundo_revisor` con los informes del cambio y los revisores configurados; None si la configuración no se puede leer."""
+    """`autopilot.segundo_revisor` con los informes del cambio y los revisores configurados; None si la configuración o algún informe no se puede leer."""
+    carpeta = cli.ROOT / estructura.DIR / "cambios" / identificador
     try:
         revisores = cli.config_proyecto().get("revisores")
+        for ruta in carpeta.glob("candidatos/*/revision/*.json"):  # tablero.informes descarta en silencio los ilegibles: acá hacen que no se sepa
+            informe = json.loads(ruta.read_text(encoding="utf-8"))
+            if not (isinstance(informe, dict) and isinstance(informe.get("findings"), list)):
+                return None
     except (cli.FactoryError, OSError, ValueError):
         return None
-    return autopilot.segundo_revisor(camino, tablero_mod.informes(cli.ROOT, cli.ROOT / estructura.DIR / "cambios" / identificador), revisores)
+    return autopilot.segundo_revisor(camino, tablero_mod.informes(cli.ROOT, carpeta), revisores)
 
 
 def datos_estado(identificador: str) -> dict:

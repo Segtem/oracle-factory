@@ -78,6 +78,13 @@ class EstadoReal(_te.Base):
             self.assertEqual(datos['segundo_revisor'], 'agy')  # todavía ningún informe
             escribir('agy', sha)
             self.assertEqual(f.datos_estado(self.ident)['segundo_revisor'], 'codex')
+            # un informe ilegible (no JSON, o sin la lista findings) hace que no se sepa: null, aunque falte el segundo proveedor
+            ilegible = estructura.ruta_canonica(self.root, self.ident, 'revision', sha) / 'codex-1.json'
+            for contenido in ('{', '[]', json.dumps({'findings': 'x'}), json.dumps({})):
+                ilegible.write_text(contenido)
+                self.assertIsNone(f.datos_estado(self.ident)['segundo_revisor'], contenido)
+            ilegible.unlink()
+            self.assertEqual(f.datos_estado(self.ident)['segundo_revisor'], 'codex')
             escribir('codex', 'otro1234')
             self.assertIsNone(f.datos_estado(self.ident)['segundo_revisor'])
         with patch.object(f, 'config_proyecto', side_effect=con('no es un objeto')):
