@@ -2,7 +2,7 @@
   "id": "20261109-162444-701-segundo-revisor",
   "titulo": "Autopilot: en el camino completo el conductor pide un segundo revisor de otro proveedor",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261109-162444-701-segundo-revisor/specs/flujo/spec.md",
   "spec_sha256": "7ba169cb2b635f8d52b1bcefdb3a21586d2de820a9f5603fe970dff11838b9f8",
   "spec_aprobada": {
@@ -333,6 +333,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "6b8a2022f85b5fa38449ac9a268f3d1910cc31280a1a7abcaa89cef3042cc797"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T19:29:28.304916+00:00",
+      "oracle": ".factory/cambios/20261109-162444-701-segundo-revisor/oracle-veredicto.txt",
+      "revision": "tareas/20261109-162444-701-segundo-revisor/revisiones/registro-di3l86g3/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T19:29:28.352421+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -374,5 +394,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T19:29:28.238909+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-09T19:29:28.352409+00:00"
+  }
 }

@@ -125,7 +125,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-012630-nn6-eventos]] — El registro tolera eventos que no son objetos (cerrada)
 - [[cambios/20261109-030359-8e4-revprop]] — Autopilot: la propuesta de revisión es trabajo del agente, antes de pedírsela a la persona (cerrada)
 - [[cambios/20261109-125752-r6d-freno-visto]] — Frenos: el de pruebas editadas deja de frenar cuando una persona aprobó la revisión (cerrada)
-- [[cambios/20261109-162444-701-segundo-revisor]] — Autopilot: en el camino completo el conductor pide un segundo revisor de otro proveedor (oracle_verde)
+- [[cambios/20261109-162444-701-segundo-revisor]] — Autopilot: en el camino completo el conductor pide un segundo revisor de otro proveedor (cerrada)
 
 ## Requisitos
 
