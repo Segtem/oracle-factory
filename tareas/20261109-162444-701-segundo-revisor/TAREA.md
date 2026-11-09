@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261109-162444-701-segundo-revisor. Modo de trabajo:
 ### Nota (2026-11-09 17:13:35 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261109-162444-701-segundo-revisor/specs/flujo/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-09 17:13:44 UTC)
+
+Requisitos importados: flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision (funcional), flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

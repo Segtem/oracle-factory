@@ -61,6 +61,26 @@ def _propuesta_del_candidato(propuesta, candidato) -> bool:
 GLOBALES = ("--agente", "--proyecto")  # las opciones del parser que van antes del subcomando y llevan un valor
 
 
+NOMBRE_DE_REVISOR = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")  # sin guion inicial: no se lee como opción
+
+
+def segundo_revisor(camino, informes, revisores) -> str | None:
+    """El revisor configurado de otro proveedor que falta en un cambio de camino completo; None si no hace falta o no se puede saber.
+
+    Cuenta los proveedores de los informes de todos los candidatos del cambio (agy y agy2 son uno), y un revisor sin `proveedor` cuenta por su nombre."""
+    if not (isinstance(camino, dict) and camino.get("tipo") == "completo" and isinstance(informes, list) and isinstance(revisores, dict)):
+        return None
+
+    def proveedor(nombre):
+        config = revisores.get(nombre)
+        propio = config.get("proveedor") if isinstance(config, dict) else None
+        return propio if isinstance(propio, str) and propio else nombre
+    usados = {proveedor(i["revisor"]) for i in informes if isinstance(i, dict) and isinstance(i.get("revisor"), str)}
+    if len(usados) >= 2:
+        return None
+    return next((n for n in sorted(n for n in revisores if isinstance(n, str) and NOMBRE_DE_REVISOR.fullmatch(n)) if proveedor(n) not in usados), None)
+
+
 def argumentos_mecanicos(comando) -> list[str] | None:
     """Los argumentos de un comando mecánico (sin `oracle-factory` ni las opciones globales), listos para que el conductor los corra con
     su propio `--agente`; None si el comando no es uno que un agente pueda correr (una decisión de una persona o uno que no se reconoce).
@@ -128,6 +148,10 @@ def decidir(datos) -> dict:
     if sub == "medir" and getattr(args, "listar", False):
         return _decision("delegar_al_agente", "agente", instruccion="elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas",
                          motivo="elegir medidas es trabajo del agente; confirmarlas es de una persona")
+    segundo = datos.get("segundo_revisor")
+    if sub == "revisar" and isinstance(segundo, str) and NOMBRE_DE_REVISOR.fullmatch(segundo):
+        return _decision("actuar", "agente", f"oracle-factory pedir-revision {args.id} --a {segundo}",
+                         motivo=f"camino completo: falta la revisión de un segundo proveedor ({segundo}) antes de la decisión de una persona")
     if sub == "revisar" and isinstance(candidato, str) and candidato and not _propuesta_del_candidato(datos.get("propuesta_de_revision"), candidato):
         return _decision("delegar_al_agente", "agente", motivo="antes de pedirle la revisión a una persona, el agente prepara el informe y deja su propuesta",
                          instruccion=f"dejá tu propuesta de revisión del candidato {candidato}: corré `oracle-factory --agente NOMBRE revision-preparar {args.id}` y proponé "
