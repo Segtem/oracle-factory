@@ -2,7 +2,7 @@
   "id": "20261109-201722-oja-construir-primero",
   "titulo": "Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md",
   "spec_sha256": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9",
   "spec_aprobada": {
@@ -16,7 +16,9 @@
       "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -117,17 +119,43 @@
         "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "3e79110180cc426eef3d0ce48d88edc33f41f6a44525b4a7a78a58e7751bd8ae",
         "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:40:17.857563+00:00",
+      "ids": [
+        "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T20:40:24.432191+00:00",
+      "requisito": "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+      "medidas": [
+        "factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+        "factory_construir_primero.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
-  "tipos": {},
-  "medidas": {
-    "flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-11-09T20:26:04.629849+00:00",
-      "sha256": "49fd40ed680ee8ee5fd4dd5983afa8971deab8ab4451a727fec943ee9d1a1b5d",
+  "tipos": {
+    "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {
+    "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": {
+      "sha256": "d83b4ec644ecb519d0db8c4aaa2599bbf5db29f17ec8f4736bf246c4fa6eb523",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T20:40:24.381331+00:00",
       "catalogos": {
         "factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": "e94f8268b8a8b07c6f0d981543f20d8387cdc5d681cdd4b3ec531346a5e0f5f0",
         "factory_construir_primero.corrida_completa": "60f8afefc382221ca57f331a631ee514aebcca43af29ae14ff27b8a0a7781c75"
@@ -137,6 +165,5 @@
         "factory_construir_primero.corrida_completa": "catalogos/factory_construir_primero.corrida_completa.oracle"
       }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }

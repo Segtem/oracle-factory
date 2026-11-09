@@ -127,7 +127,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-125752-r6d-freno-visto]] — Frenos: el de pruebas editadas deja de frenar cuando una persona aprobó la revisión (cerrada)
 - [[cambios/20261109-162444-701-segundo-revisor]] — Autopilot: en el camino completo el conductor pide un segundo revisor de otro proveedor (cerrada)
 - [[cambios/20261109-194509-ylk-sin-informe]] — Autopilot: el conductor no repite el pedido a un revisor que se lanzó y no dejó resultado (cerrada)
-- [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (spec_aprobada)
+- [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (requisitos_importados)
 
 ## Requisitos
 
@@ -296,6 +296,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente]]
 - [[requisitos/estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos]]
 - [[requisitos/estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto]]
+- [[requisitos/flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas]]
 - [[requisitos/flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision]]
 - [[requisitos/flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo]]
 - [[requisitos/flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos]]
@@ -313,7 +314,6 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro]]
 - [[requisitos/flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar]]
 - [[requisitos/flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo]]
-- [[requisitos/flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce]]
