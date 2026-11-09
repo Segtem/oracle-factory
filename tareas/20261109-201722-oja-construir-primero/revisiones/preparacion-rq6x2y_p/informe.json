@@ -1,0 +1,53 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261109-201722-oja-construir-primero",
+  "contexto": {
+    "head": "d65c434b2b82f92d792f1c676a0e961a4af78b31",
+    "archivos_sha256": "4a3e6c19adec088a0b5ed34db87fe6ed36419f6d6e338ec5f55d543751d065e5"
+  },
+  "documentos": {
+    "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "3e79110180cc426eef3d0ce48d88edc33f41f6a44525b4a7a78a58e7751bd8ae",
+    "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas.oracle",
+    "catalogos/factory_construir_primero.corrida_completa.oracle",
+    "docs/modos.md",
+    "openspec/changes/20261109-201722-oja-construir-primero/design.md",
+    "openspec/changes/20261109-201722-oja-construir-primero/proposal.md",
+    "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md",
+    "openspec/changes/20261109-201722-oja-construir-primero/tasks.md",
+    "oracle_factory/autopilot.py",
+    "requisitos/flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas.requisito",
+    "tests/test_construir_primero.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1348 pruebas, 2 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-201722-oja-construir-primero/candidatos/b1a8886/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-201722-oja-construir-primero/candidatos/b1a8886/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato cbe6500: codex (gpt-6-luna), 1 hallazgo: CP1-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-201722-oja-construir-primero/candidatos/cbe6500/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Sin hallazgos: la rama de medir --listar mantiene delegación, ordena construir lo faltante antes de proponer medidas y aplaza explícitamente la evidencia hasta la confirmación humana; medir --confirmar y frenos conservan sus rutas previas. CP1-001 quedó corregido: desapareció la condición ambigua y la instrucción ahora dice construir lo que falte.",
+    "codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_construir_primero -v </dev/null`: 2 pruebas pasaron.",
+    "codex (gpt-6-luna): Intenté `python -m unittest discover -s tests </dev/null`; tras 30 segundos seguía ejecutándose y mostró errores y fallos. No obtuve el resumen ni trazas; no lo usé como evidencia atribuible al cambio.",
+    "codex (gpt-6-luna): No realicé mutaciones. Revisé estáticamente la spec, el diff, la prueba nueva, las ramas pertinentes de autopilot.py y docs/modos.md, y el informe de la ronda anterior.",
+    "codex (gpt-6-luna): No hay archivos omitidos/binarios en el paquete."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

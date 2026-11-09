@@ -2,7 +2,7 @@
   "id": "20261109-201722-oja-construir-primero",
   "titulo": "Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md",
   "spec_sha256": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9",
   "spec_aprobada": {
@@ -19,8 +19,40 @@
   "requisitos": [
     "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261109-201722-oja-construir-primero/revisiones/registro-gdmu7_de/informe.json",
+    "sha256": "2d96814c6d46f4c5ff18623613e4043b11af0b128d7d5f8bdb5fa2e3b09688ed",
+    "decisiones": "tareas/20261109-201722-oja-construir-primero/revisiones/registro-gdmu7_de/decisiones.json",
+    "decisiones_sha256": "275421e4088e64c9aef55954b39a62cf98718bac50eee6bfa7dbf528dcc29a59",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T20:55:12.846443+00:00",
+    "motivo": "Propuesta del agente claude-code. Candidato b1a8886 (camino ligero): evidencia verde, 10 mutaciones propias detectadas sobre la redacción final, codex ronda 1 con CP1-001 (medio: «pruebas ni catálogos» ambigua; corregido) y ronda 2 sin hallazgos. DECIDIÓ BRIAN (ya aprobada la spec corregida): me aparté de mi propia spec aprobada: listaba la evidencia del candidato como parte de construir y en el flujo real va DESPUÉS de que una persona confirma las medidas; la spec cambió, aprobaste de nuevo, el requisito cambió de identificador y reconfirmaste las medidas. QUÉ HAY QUE SABER: la instrucción sigue siendo texto para un agente: no detecta con datos qué falta (pruebas, catálogos); lo decide el agente mirando el cambio. Si mañana un agente la lee mal, el conductor lo frena por sin progreso. No edité ningún test existente (el que mira medidas en la instrucción sigue pasando).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "d65c434b2b82f92d792f1c676a0e961a4af78b31",
+      "archivos_sha256": "4a3e6c19adec088a0b5ed34db87fe6ed36419f6d6e338ec5f55d543751d065e5"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261109-201722-oja-construir-primero/candidatos/b1a8886/evidencia/hechos.json",
+    "hechos_sha256": "23fa6ebdac54db0888333e19f7f3c62729c9db07e2cd9eb33ff8c787c3f9eec3",
+    "informe": ".factory/cambios/20261109-201722-oja-construir-primero/oracle-veredicto.txt",
+    "informe_sha256": "1ef82d1f13c9948c9526b7a8f74cc2c7bdfdf23d4e0bac816bcef4736c847ce8",
+    "cuando": "2026-11-09T20:55:24.158765+00:00",
+    "contexto": {
+      "head": "d65c434b2b82f92d792f1c676a0e961a4af78b31",
+      "archivos_sha256": "4a3e6c19adec088a0b5ed34db87fe6ed36419f6d6e338ec5f55d543751d065e5"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -193,6 +225,31 @@
       "cuando": "2026-11-09T20:53:10.576494+00:00",
       "decision": "aprobar",
       "candidato": "b1a8886"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T20:55:12.846471+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2d96814c6d46f4c5ff18623613e4043b11af0b128d7d5f8bdb5fa2e3b09688ed",
+      "decisiones_sha256": "275421e4088e64c9aef55954b39a62cf98718bac50eee6bfa7dbf528dcc29a59"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:55:24.158781+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "23fa6ebdac54db0888333e19f7f3c62729c9db07e2cd9eb33ff8c787c3f9eec3"
     }
   ],
   "tipos": {
@@ -217,14 +274,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Propuesta del agente claude-code. Candidato b1a8886 (camino ligero): evidencia verde, 10 mutaciones propias detectadas sobre la redacción final, codex ronda 1 con CP1-001 (medio: «pruebas ni catálogos» ambigua; corregido) y ronda 2 sin hallazgos. DECIDIÓ BRIAN (ya aprobada la spec corregida): me aparté de mi propia spec aprobada: listaba la evidencia del candidato como parte de construir y en el flujo real va DESPUÉS de que una persona confirma las medidas; la spec cambió, aprobaste de nuevo, el requisito cambió de identificador y reconfirmaste las medidas. QUÉ HAY QUE SABER: la instrucción sigue siendo texto para un agente: no detecta con datos qué falta (pruebas, catálogos); lo decide el agente mirando el cambio. Si mañana un agente la lee mal, el conductor lo frena por sin progreso. No edité ningún test existente (el que mira medidas en la instrucción sigue pasando).",
-      "candidato": "b1a8886",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T20:53:10.576481+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
