@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-construir-primero/.factory/local/revisiones/cbe6500-codex-1",
+  "base": "7baf8a31f5ec6c56912c5509e2034a38e0f99636",
+  "head": "cbe650080f31cc3798d7c51dabce9b88ca069545",
+  "diff_sha256": "3531bc79eb6e327123af50a4efe69d27a0f5dbc2558dff833632686678c27ca1",
+  "context_sha256": "fe250b50b090dbdd8a8e1c4f6914fb2676794f8b2baf3a1f9cbf2d0440bc6bd6",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CP1-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.86,
+      "title": "La condición de construir primero puede omitir recursos faltantes por separado",
+      "explanation": "La instrucción dice construir si todavía no hay pruebas ni catálogos. Si se interpreta como que ambos deben faltar, un cambio que ya tenga pruebas pero no catálogos (o catálogos pero no pruebas) recibe la orden de elegir/proponer medidas sin completar la construcción faltante. Eso puede volver a dejar al agente sin medidas posibles o permitir medidas basadas en catálogos sin pruebas correspondientes. La spec repite la condición ambigua y los dos tests nuevos sólo comparan el texto estático; no cubren los estados parciales ni el flujo de construcción y propuesta.",
+      "location": {
+        "file": "oracle_factory/autopilot.py",
+        "start_line": 150,
+        "end_line": 150,
+        "side": "head"
+      },
+      "trigger": "Ante medir ID --listar, el cambio ya tiene pruebas pero aún no tiene catálogos de medidas (o viceversa).",
+      "evidence": "La instrucción de la línea 150 condiciona “construí primero” a “si todavía no hay pruebas ni catálogos”. tests/test_construir_primero.py comprueba que esas palabras estén presentes y ordenadas, y que confirmar/frenar/importar conserven decisiones; no prueba presencia parcial. La spec usa la misma expresión.",
+      "related_requirement": "flujo.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+      "status": "pendiente",
+      "verification": "No ejecutado; inferido del texto de la rama y la cobertura de pruebas del diff."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "No ejecuté la suite de pruebas ni mutaciones; análisis estático del diff, contexto, spec y pruebas nuevas.",
+    "No hay archivos omitidos/binarios en el paquete.",
+    "La ruta parcial identificada es un riesgo por ambigüedad de la instrucción; no se comprobó la respuesta de un agente concreto."
+  ]
+}

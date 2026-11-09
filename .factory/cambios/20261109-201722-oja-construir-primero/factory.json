@@ -81,6 +81,32 @@
         "factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
         "factory_construir_primero.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T20:35:15.124216+00:00",
+      "revisor": "codex",
+      "candidato": "cbe6500",
+      "lanzamiento": "cf3abb7bd4d1"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T20:36:25.492505+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "cbe6500",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "cf3abb7bd4d1"
     }
   ],
   "tipos": {

@@ -6,7 +6,7 @@ En la primera prueba real de `autopilot --ejecutar --lanzar` el conductor, reci�
 
 ## Qué cambia
 
-La instrucción que el conductor delega ante `medir ID --listar` dice, en orden: construir primero si todavía no hay pruebas ni catálogos (pruebas antes que el código, evidencia del candidato y catálogos de los requisitos); después elegir las medidas de cada requisito y proponerlas; y que confirmarlas es de una persona. La acción sigue siendo `delegar_al_agente` y el motivo no cambia.
+La instrucción que el conductor delega ante `medir ID --listar` dice, en orden: construir primero lo que falte (las pruebas antes que el código y los catálogos de los requisitos, sin correr todavía la evidencia completa: va después de que una persona confirme las medidas); después elegir las medidas de cada requisito y proponerlas; y que confirmarlas es de una persona. La acción sigue siendo `delegar_al_agente` y el motivo no cambia.
 
 ## Fuera de alcance
 

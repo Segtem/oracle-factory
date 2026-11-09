@@ -14,8 +14,9 @@ class Conductor(unittest.TestCase):
         self.assertEqual((d['accion'], d['quien'], d['comando']), ('delegar_al_agente', 'agente', None))
         self.assertEqual(d['motivo'], 'elegir medidas es trabajo del agente; confirmarlas es de una persona')
         texto = d['instruccion']
-        orden = ['construí primero', 'pruebas', 'catálogos', 'antes que el código', 'evidencia del candidato y los catálogos', 'después elegí las medidas de cada requisito',
-                 'oracle-factory medir ... --requisito R --medida M', 'proponelas', 'confirmarlas es de una persona']
+        orden = ['construí primero lo que falte', 'pruebas de cada escenario', 'antes que el código', 'catálogos de medidas de los requisitos',
+                 'sin correr todavía la evidencia completa', 'después elegí las medidas de cada requisito', 'oracle-factory medir ... --requisito R --medida M',
+                 'proponelas', 'confirmarlas es de una persona', 'la evidencia se hace después de su confirmación']
         posiciones = [texto.find(x) for x in orden]
         self.assertNotIn(-1, posiciones, texto)
         self.assertEqual(posiciones, sorted(posiciones), texto)
