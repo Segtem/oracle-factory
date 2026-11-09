@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-registros-raiz/.factory/local/revisiones/19e963a-codex-1",
+  "base": "1f69bcba7e733386a2fe2d2d79c07e0be8f85469",
+  "head": "19e963a35747ac1f3b7d6587eb0a37e23ff3ae1e",
+  "diff_sha256": "79d5e148522ca9540c4e78f22e555ee7460cf588874b7089ef39d9280f8bd7ca",
+  "context_sha256": "7605e47dd8b07ef050dc7618a76e691f88c0ec0ad12f9b7fb6b561ee81e7dead",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé los tres requisitos de la spec, el diff completo (15 archivos), sus rangos y las pruebas nuevas; no encontré un defecto reproducible que justifique un hallazgo.",
+    "La modificación de tests/datos/ayuda-cli.json elimina la línea esperada de ayuda global para documentar --registros; está justificada por el cambio de la ayuda generada.",
+    "Las pruebas test_rr1_* y test_rr3_* y test_rr2_el_producto_con_su_propio_git_no_cambia pasan.",
+    "test_rr2_un_cambio_completo_hasta_las_medidas falla en este entorno antes de completar: medir --listar devuelve 1 porque /usr/bin/python carece de oracle-metalenguaje. No pude verificar ese escenario completo ni la suite completa; la suite discover mostró numerosos errores compatibles con dependencias ausentes.",
+    "No hay omisiones binarias en el paquete."
+  ]
+}
