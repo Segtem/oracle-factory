@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-eventos-raros/.factory/local/revisiones/079ec8f-agy-1",
+  "base": "b23cae1c4403180a9242ba4e8278ae8b7b27dfa1",
+  "head": "079ec8f83c04d404ed7e049f906d3bca13749885",
+  "diff_sha256": "38bba1d2835530e517919565f15b6d0ace49ce75b1dd6c353a60976810447668",
+  "context_sha256": "8b755c5bcb0ea21132964f245ccfe5215c962ee0c744a9da92317611b74b7b78",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance y contexto del diff: revisión independiente de la ronda 1 para el cambio 20261109-012630-nn6-eventos en el candidato 079ec8f83c04 frente a la base b23cae1c4403. Se inspeccionaron la propuesta, la spec en openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md, el diff del paquete en oracle_factory/cli.py (líneas 130-152), tests/test_eventos_raros.py (98 líneas), catálogos en catalogos/ y definiciones en requisitos/. No se editaron archivos del checkout ni se modificó el repositorio de revisión.",
+    "Cumplimiento de requisitos y spec: se verificó el cumplimiento de ambos requisitos funcionales ('leer_ignora_los_eventos_que_no_son_objetos' y 'los_comandos_de_lectura_siguen_funcionando_con_eventos_raros'). La función auxiliar sin_eventos_raros descarta de forma pura en memoria los elementos que no sean diccionarios (objetos JSON) y convierte eventos que no sean listas en lista vacía ([]), emitiendo exactamente un aviso por stderr con la cantidad de eventos ignorados o el aviso de tipo inválido usando ('eventos', identificador) en AVISADOS. Registros sanos no generan avisos ni sufren transformaciones. La lectura en cli.leer no modifica los bytes en disco del registro de cambio. Los comandos y lectores (mostrar, datos_estado, kb_mod.armar, log, tablero) operan correctamente sin lanzar AttributeError ante registros con eventos inválidos.",
+    "Ejecución de pruebas y validación: se ejecutó la suite completa de pruebas unitarias (.venv/bin/python -m unittest discover -s tests </dev/null; 1329 pruebas superadas, 15 omitidas, 0 fallos, 0 errores en 431s) y el módulo nuevo tests/test_eventos_raros.py (3 casos ejecutados en 0.8s). Asimismo se evaluó el juicio de Oracle sobre la evidencia registrada (hechos.json) mediante oracle juzgar --con hechos.json --parcial --proyecto ..., resultando en verde en las 3 medidas del contrato (corrida_completa == 1 y casos == 3, leer_ignora_los_eventos_que_no_son_objetos == 2, los_comandos_de_lectura_siguen_funcionando_con_eventos_raros == 1).",
+    "Pruebas de mutación: se ejecutaron 8 mutaciones sobre sin_eventos_raros contra tests/test_eventos_raros.py: M1 (no filtrar eventos inválidos: 5 fallos, 1 error), M2 (filtrar sin emitir aviso en stderr: 5 fallos), M3 (emitir aviso en cada lectura sin registrar en AVISADOS: 1 fallo), M4 (no vaciar eventos si no es lista: 4 fallos), M5 (desfase por uno en la cuenta de ignorados: 2 fallos), M6 (no avisar cuando eventos no es lista: 4 fallos), M7 (filtrar sólo None y números reteniendo cadenas: 1 fallo, 1 error), M8 (modificar el archivo en disco durante la lectura: 6 errores). Ningún mutante sobrevivió.",
+    "Omisiones del paquete: el paquete de Oracle Clue no incluye exclusiones u omisiones de archivos binarios; todos los archivos del diff son texto y fueron revisados integralmente."
+  ]
+}

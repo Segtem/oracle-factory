@@ -1,0 +1,57 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261109-012630-nn6-eventos",
+  "contexto": {
+    "head": "b2d18c00de191e8ea2b9d746476f73e60e30ef8b",
+    "archivos_sha256": "fcc5f25d2d32916ded6917e94143b3b79623f9364c9372a694a245fa21334a5f"
+  },
+  "documentos": {
+    "openspec/changes/20261109-012630-nn6-eventos/proposal.md": "0a309690c900a6efa22ab9e36a480eb63d825ce094dab7e19b89ab567b8731ce",
+    "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md": "a0b01b88010134745a61cca1741fb9bcbe13d20bf4becb894d39f7716d31be1d"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_eventos_raros.corrida_completa.oracle",
+    "catalogos/factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos.oracle",
+    "catalogos/factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros.oracle",
+    "openspec/changes/20261109-012630-nn6-eventos/design.md",
+    "openspec/changes/20261109-012630-nn6-eventos/proposal.md",
+    "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md",
+    "openspec/changes/20261109-012630-nn6-eventos/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos.requisito",
+    "requisitos/flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros.requisito",
+    "tests/test_eventos_raros.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1329 pruebas, 3 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-012630-nn6-eventos/candidatos/079ec8f/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-012630-nn6-eventos/candidatos/079ec8f/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-012630-nn6-eventos/candidatos/079ec8f/revision/codex-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "agy (gemini-3.8-flash-high): Alcance y contexto del diff: revisión independiente de la ronda 1 para el cambio 20261109-012630-nn6-eventos en el candidato 079ec8f83c04 frente a la base b23cae1c4403. Se inspeccionaron la propuesta, la spec en openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md, el diff del paquete en oracle_factory/cli.py (líneas 130-152), tests/test_eventos_raros.py (98 líneas), catálogos en catalogos/ y definiciones en requisitos/. No se editaron archivos del checkout ni se modificó el repositorio de revisión.",
+    "agy (gemini-3.8-flash-high): Cumplimiento de requisitos y spec: se verificó el cumplimiento de ambos requisitos funcionales ('leer_ignora_los_eventos_que_no_son_objetos' y 'los_comandos_de_lectura_siguen_funcionando_con_eventos_raros'). La función auxiliar sin_eventos_raros descarta de forma pura en memoria los elementos que no sean diccionarios (objetos JSON) y convierte eventos que no sean listas en lista vacía ([]), emitiendo exactamente un aviso por stderr con la cantidad de eventos ignorados o el aviso de tipo inválido usando ('eventos', identificador) en AVISADOS. Registros sanos no generan avisos ni sufren transformaciones. La lectura en cli.leer no modifica los bytes en disco del registro de cambio. Los comandos y lectores (mostrar, datos_estado, kb_mod.armar, log, tablero) operan correctamente sin lanzar AttributeError ante registros con eventos inválidos.",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas y validación: se ejecutó la suite completa de pruebas unitarias (.venv/bin/python -m unittest discover -s tests </dev/null; 1329 pruebas superadas, 15 omitidas, 0 fallos, 0 errores en 431s) y el módulo nuevo tests/test_eventos_raros.py (3 casos ejecutados en 0.8s). Asimismo se evaluó el juicio de Oracle sobre la evidencia registrada (hechos.json) mediante oracle juzgar --con hechos.json --parcial --proyecto ..., resultando en verde en las 3 medidas del contrato (corrida_completa == 1 y casos == 3, leer_ignora_los_eventos_que_no_son_objetos == 2, los_comandos_de_lectura_siguen_funcionando_con_eventos_raros == 1).",
+    "agy (gemini-3.8-flash-high): Pruebas de mutación: se ejecutaron 8 mutaciones sobre sin_eventos_raros contra tests/test_eventos_raros.py: M1 (no filtrar eventos inválidos: 5 fallos, 1 error), M2 (filtrar sin emitir aviso en stderr: 5 fallos), M3 (emitir aviso en cada lectura sin registrar en AVISADOS: 1 fallo), M4 (no vaciar eventos si no es lista: 4 fallos), M5 (desfase por uno en la cuenta de ignorados: 2 fallos), M6 (no avisar cuando eventos no es lista: 4 fallos), M7 (filtrar sólo None y números reteniendo cadenas: 1 fallo, 1 error), M8 (modificar el archivo en disco durante la lectura: 6 errores). Ningún mutante sobrevivió.",
+    "agy (gemini-3.8-flash-high): Omisiones del paquete: el paquete de Oracle Clue no incluye exclusiones u omisiones de archivos binarios; todos los archivos del diff son texto y fueron revisados integralmente.",
+    "codex (gpt-6-luna): Sin hallazgos: los escenarios de la spec se cumplen en la ruta revisada; cli.leer guarda en LEIDOS los bytes crudos antes de filtrar eventos, y guardar los usa para la comparación esperada.",
+    "codex (gpt-6-luna): Inspeccioné el diff, tests/test_eventos_raros.py, lectores principales, AVISADOS, LEIDOS, guardar/escribir_atomico y las rutas crudas mencionadas; no ejecuté pruebas ni mutaciones.",
+    "codex (gpt-6-luna): Los lectores crudos encontrados en estructura.buscar y oracle_factory.unir quedan fuera del alcance de la propuesta (lectores que no pasan por cli.leer)."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

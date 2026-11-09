@@ -130,7 +130,23 @@ def leer(identificador: str) -> tuple[Path, dict]:
         print(f"Aviso: el estado de {identificador} está en el lugar anterior a la fase 2 (openspec/changes/); "
               "oracle-factory migrar lo pasa a .factory/cambios/.", file=sys.stderr)
     LEIDOS[archivo] = datos = archivo.read_bytes()
-    return carpeta, json.loads(datos.decode("utf-8"))
+    return carpeta, sin_eventos_raros(json.loads(datos.decode("utf-8")), identificador)
+
+
+def sin_eventos_raros(estado, identificador: str):
+    """El registro con sólo los eventos que son objetos (un `eventos` que no es una lista, vacío), con un aviso una vez por cambio.
+    Sólo se lee: el archivo no se toca, y un comando que guarda el registro no vuelve a escribir lo que se ignoró."""
+    if not isinstance(estado, dict) or "eventos" not in estado:
+        return estado
+    eventos = estado["eventos"]
+    ignorados = 1 if not isinstance(eventos, list) else sum(not isinstance(e, dict) for e in eventos)
+    if ignorados:
+        estado = {**estado, "eventos": [e for e in eventos if isinstance(e, dict)] if isinstance(eventos, list) else []}
+        if ("eventos", identificador) not in AVISADOS:
+            AVISADOS.add(("eventos", identificador))
+            print(f"Aviso: el registro de {identificador} trae {ignorados} evento(s) que no son objetos (o un «eventos» que no es una lista): "
+                  "los ignoro al leer y no se vuelven a escribir si un comando guarda el registro.", file=sys.stderr)
+    return estado
 
 
 def guardar(carpeta: Path, estado: dict, esperado: bytes | None = None) -> None:

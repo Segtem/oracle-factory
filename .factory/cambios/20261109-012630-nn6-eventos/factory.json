@@ -1,0 +1,371 @@
+{
+  "id": "20261109-012630-nn6-eventos",
+  "titulo": "El registro tolera eventos que no son objetos",
+  "capacidad": "flujo",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md",
+  "spec_sha256": "a0b01b88010134745a61cca1741fb9bcbe13d20bf4becb894d39f7716d31be1d",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T01:27:03.747087+00:00",
+    "documentos": {
+      "openspec/changes/20261109-012630-nn6-eventos/proposal.md": "0a309690c900a6efa22ab9e36a480eb63d825ce094dab7e19b89ab567b8731ce",
+      "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md": "a0b01b88010134745a61cca1741fb9bcbe13d20bf4becb894d39f7716d31be1d"
+    }
+  },
+  "requisitos": [
+    "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos",
+    "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261109-012630-nn6-eventos/revisiones/registro-v6ung8z2/informe.json",
+    "sha256": "c4823ad974af24ff1ccb0b486a295259f97118c3517ae5ec7c73b968e8c7fb4c",
+    "decisiones": "tareas/20261109-012630-nn6-eventos/revisiones/registro-v6ung8z2/decisiones.json",
+    "decisiones_sha256": "89cf5c25680cd796578f69099e2b012e8c186699bd4dc6721ccd3f1e0e784d2d",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T01:57:42.476926+00:00",
+    "motivo": "Dos revisores sobre el candidato 079ec8f, sin hallazgos: agy (pedido por el conductor autopilot, que lo corrió él solo) y codex. Evidencia 1329 pruebas OK, 3 casos de contrato. 12 mutaciones propias, todas detectadas (dos revelaron pruebas débiles mías que reforcé: un aviso espurio escondido porque preparar ya había leído el cambio y una cantidad comprobada con un dígito que también está en el id). Toca reglas de decisión (cli.py): camino completo. Sin pruebas existentes editadas. cli.leer pasa el registro por sin_eventos_raros: ignora los eventos que no son objetos, trata un eventos que no es una lista como vacío, avisa una vez por cambio por stderr, no toca el archivo al leer y un registro sano no cambia ni avisa. Decisión declarada en la propuesta: cuando otro comando guarda el registro, los eventos ignorados no se vuelven a escribir. Límites: sólo cubre lo que pasa por cli.leer; no valida los campos de los eventos que sí son objetos; el aviso se emite una vez por cambio y por proceso. Es el cambio con el que se probó por primera vez el autopilot en un cambio real.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "b2d18c00de191e8ea2b9d746476f73e60e30ef8b",
+      "archivos_sha256": "fcc5f25d2d32916ded6917e94143b3b79623f9364c9372a694a245fa21334a5f"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261109-012630-nn6-eventos/candidatos/079ec8f/evidencia/hechos.json",
+    "hechos_sha256": "b0e3f9360eca4722bb4947a3a4f0cb78984c3f48ab88d7cfcfca6ae89b6ff626",
+    "informe": ".factory/cambios/20261109-012630-nn6-eventos/oracle-veredicto.txt",
+    "informe_sha256": "7bdc0294206e2fb416eec5beafd2ad1a4514a008c3edfd53a11314b98592b748",
+    "cuando": "2026-11-09T01:58:00.919899+00:00",
+    "contexto": {
+      "head": "b2d18c00de191e8ea2b9d746476f73e60e30ef8b",
+      "archivos_sha256": "fcc5f25d2d32916ded6917e94143b3b79623f9364c9372a694a245fa21334a5f"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:26:30.477299+00:00",
+      "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:27:03.747112+00:00",
+      "documentos": {
+        "openspec/changes/20261109-012630-nn6-eventos/proposal.md": "0a309690c900a6efa22ab9e36a480eb63d825ce094dab7e19b89ab567b8731ce",
+        "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md": "a0b01b88010134745a61cca1741fb9bcbe13d20bf4becb894d39f7716d31be1d"
+      }
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:27:15.221437+00:00",
+      "texto": "autopilot actuar: «importar» es un comando mecánico de Factory: lo corre un agente con --agente. Comando: oracle-factory importar 20261109-012630-nn6-eventos"
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:27:17.024530+00:00",
+      "ids": [
+        "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos",
+        "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:27:18.920116+00:00",
+      "texto": "autopilot se detuvo: hay trabajo para un agente y falta --lanzar COMANDO para lanzarlo"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T01:29:22.780961+00:00",
+      "requisito": "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos",
+      "medidas": [
+        "factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos",
+        "factory_eventos_raros.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T01:29:24.640643+00:00",
+      "requisito": "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros",
+      "medidas": [
+        "factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros",
+        "factory_eventos_raros.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T01:29:46.507311+00:00",
+      "requisito": "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos",
+      "medidas": [
+        "factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos",
+        "factory_eventos_raros.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T01:29:46.698265+00:00",
+      "requisito": "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros",
+      "medidas": [
+        "factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros",
+        "factory_eventos_raros.corrida_completa"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:39:02.928393+00:00",
+      "texto": "autopilot actuar: «pedir-revision» es un comando mecánico de Factory: lo corre un agente con --agente. Comando: oracle-factory pedir-revision 20261109-012630-nn6-eventos --a agy"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T01:39:05.355469+00:00",
+      "revisor": "agy",
+      "candidato": "079ec8f",
+      "lanzamiento": "6f4deeff844b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T01:53:24.529955+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "079ec8f",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "6f4deeff844b"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:53:26.703766+00:00",
+      "texto": "autopilot se detuvo: «revisar» es una decisión de una persona. Comando para una persona: oracle-factory revisar 20261109-012630-nn6-eventos"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T01:53:50.139684+00:00",
+      "revisor": "codex",
+      "candidato": "079ec8f",
+      "lanzamiento": "399f573e322a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T01:55:16.216378+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "079ec8f",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "399f573e322a"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T01:55:25.792293+00:00",
+      "decision": "aprobar",
+      "candidato": "079ec8f"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T01:57:42.476952+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "c4823ad974af24ff1ccb0b486a295259f97118c3517ae5ec7c73b968e8c7fb4c",
+      "decisiones_sha256": "89cf5c25680cd796578f69099e2b012e8c186699bd4dc6721ccd3f1e0e784d2d"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:57:53.207056+00:00",
+      "texto": "autopilot actuar: «juzgar» es un comando mecánico de Factory: lo corre un agente con --agente. Comando: oracle-factory juzgar 20261109-012630-nn6-eventos"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:57:55.458549+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b0e3f9360eca4722bb4947a3a4f0cb78984c3f48ab88d7cfcfca6ae89b6ff626"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T01:57:57.950640+00:00",
+      "texto": "autopilot se detuvo: «cerrar» es una decisión de una persona. Comando para una persona: oracle-factory cerrar 20261109-012630-nn6-eventos"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:58:00.919918+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b0e3f9360eca4722bb4947a3a4f0cb78984c3f48ab88d7cfcfca6ae89b6ff626"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T02:23:17.087795+00:00",
+      "oracle": ".factory/cambios/20261109-012630-nn6-eventos/oracle-veredicto.txt",
+      "revision": "tareas/20261109-012630-nn6-eventos/revisiones/registro-v6ung8z2/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T02:23:17.127326+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
+    }
+  ],
+  "tipos": {
+    "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos": "funcional",
+    "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros": "funcional"
+  },
+  "medidas": {
+    "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T01:29:46.458779+00:00",
+      "sha256": "2e04419d01ebbf5d0f179bb63fb2fd53f8ec0d65ce758a563e9b5de2a6d6f018",
+      "catalogos": {
+        "factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos": "c04669655d19ff321e82717c1a760b70651c72fea4b7db28a0619018dd7b6f1a",
+        "factory_eventos_raros.corrida_completa": "719c8bd65a4439f3a049b6a2a82538a4dcfe5d98a1649297100229135306c094"
+      },
+      "archivos_catalogo": {
+        "factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos": "catalogos/factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos.oracle",
+        "factory_eventos_raros.corrida_completa": "catalogos/factory_eventos_raros.corrida_completa.oracle"
+      }
+    },
+    "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T01:29:46.648509+00:00",
+      "sha256": "81c9ced12888fd7710875b70f534fd575d8babc68a610d2d7ed33cad20718f6f",
+      "catalogos": {
+        "factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros": "b1dc30bd3ce7361165a5e959ceed76d527b2f4a2e134e9dc94bffe5e1877bb13",
+        "factory_eventos_raros.corrida_completa": "719c8bd65a4439f3a049b6a2a82538a4dcfe5d98a1649297100229135306c094"
+      },
+      "archivos_catalogo": {
+        "factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros": "catalogos/factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros.oracle",
+        "factory_eventos_raros.corrida_completa": "catalogos/factory_eventos_raros.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T02:23:17.021410+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-09T02:23:17.127315+00:00"
+  }
+}
