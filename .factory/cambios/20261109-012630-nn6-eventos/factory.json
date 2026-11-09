@@ -2,7 +2,7 @@
   "id": "20261109-012630-nn6-eventos",
   "titulo": "El registro tolera eventos que no son objetos",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md",
   "spec_sha256": "a0b01b88010134745a61cca1741fb9bcbe13d20bf4becb894d39f7716d31be1d",
   "spec_aprobada": {
@@ -294,6 +294,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "b0e3f9360eca4722bb4947a3a4f0cb78984c3f48ab88d7cfcfca6ae89b6ff626"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T02:23:17.087795+00:00",
+      "oracle": ".factory/cambios/20261109-012630-nn6-eventos/oracle-veredicto.txt",
+      "revision": "tareas/20261109-012630-nn6-eventos/revisiones/registro-v6ung8z2/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T02:23:17.127326+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -335,5 +355,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T02:23:17.021410+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-09T02:23:17.127315+00:00"
+  }
 }

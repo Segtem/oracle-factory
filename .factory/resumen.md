@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:9c1d1aa9a37c58e713ae59df58689e58ae8976b167e3e4a15645ff62c136713c -->
+<!-- oracle-factory resumen sha256:77c19f1e98adf827c6139d50b2614ba43d379f307f9cfe72e77695d8063713a9 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 348 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 350 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -281,6 +281,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | el_bucle_observa_decide_actua_y_vuelve_a_observar | funcional | `flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar` | factory_conductor.el_bucle_observa_decide_actua_y_vuelve_a_observar, factory_conductor.corrida_completa | verde al cerrar el 2026-11-09 | 20261108-233304-ywj-actua |
 | el_bucle_tiene_topes_y_se_frena_solo | funcional | `flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo` | factory_conductor.el_bucle_tiene_topes_y_se_frena_solo, factory_conductor.corrida_completa | verde al cerrar el 2026-11-09 | 20261108-233304-ywj-actua |
 | cada_paso_deja_su_porque_en_el_registro | funcional | `flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro` | factory_conductor.cada_paso_deja_su_porque_en_el_registro, factory_conductor.corrida_completa | verde al cerrar el 2026-11-09 | 20261108-233304-ywj-actua |
+| leer_ignora_los_eventos_que_no_son_objetos | funcional | `flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos` | factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos, factory_eventos_raros.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-012630-nn6-eventos |
+| los_comandos_de_lectura_siguen_funcionando_con_eventos_raros | funcional | `flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros` | factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros, factory_eventos_raros.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-012630-nn6-eventos |
 
 ### ide
 
@@ -1778,6 +1780,15 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261108-233304-ywj-actua) codex (gpt-6-luna): Sin hallazgos: contrasté la spec y los escenarios con el código y tests/test_conductor.py; no corrí las 1326 pruebas ni las mutaciones, porque el checkout es de sólo lectura para esta revisión.
 - (20261108-233304-ywj-actua) codex (gpt-6-luna): Las tres revisiones previas siguen corregidas en el candidato: los procesos reciben el plazo restante medido justo antes de correr; el mensaje final usa 10 segundos propios y su fallo activa fallo/código 1; terminado, frenar, pedir a una persona, topes y falta de progreso no cuentan como fallo.
 - (20261108-233304-ywj-actua) codex (gpt-6-luna): La única edición de un test preexistente es tests/datos/ayuda-cli.json: el golden de ayuda refleja las nuevas opciones autopilot, por lo que está justificada por el cambio y no altera una aserción de comportamiento.
+- (20261109-012630-nn6-eventos) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261109-012630-nn6-eventos) agy (gemini-3.8-flash-high): Alcance y contexto del diff: revisión independiente de la ronda 1 para el cambio 20261109-012630-nn6-eventos en el candidato 079ec8f83c04 frente a la base b23cae1c4403. Se inspeccionaron la propuesta, la spec en openspec/changes/20261109-012630-nn6-eventos/specs/flujo/spec.md, el diff del paquete en oracle_factory/cli.py (líneas 130-152), tests/test_eventos_raros.py (98 líneas), catálogos en catalogos/ y definiciones en requisitos/. No se editaron archivos del checkout ni se modificó el repositorio de revisión.
+- (20261109-012630-nn6-eventos) agy (gemini-3.8-flash-high): Cumplimiento de requisitos y spec: se verificó el cumplimiento de ambos requisitos funcionales ('leer_ignora_los_eventos_que_no_son_objetos' y 'los_comandos_de_lectura_siguen_funcionando_con_eventos_raros'). La función auxiliar sin_eventos_raros descarta de forma pura en memoria los elementos que no sean diccionarios (objetos JSON) y convierte eventos que no sean listas en lista vacía ([]), emitiendo exactamente un aviso por stderr con la cantidad de eventos ignorados o el aviso de tipo inválido usando ('eventos', identificador) en AVISADOS. Registros sanos no generan avisos ni sufren transformaciones. La lectura en cli.leer no modifica los bytes en disco del registro de cambio. Los comandos y lectores (mostrar, datos_estado, kb_mod.armar, log, tablero) operan correctamente sin lanzar AttributeError ante registros con eventos inválidos.
+- (20261109-012630-nn6-eventos) agy (gemini-3.8-flash-high): Ejecución de pruebas y validación: se ejecutó la suite completa de pruebas unitarias (.venv/bin/python -m unittest discover -s tests </dev/null; 1329 pruebas superadas, 15 omitidas, 0 fallos, 0 errores en 431s) y el módulo nuevo tests/test_eventos_raros.py (3 casos ejecutados en 0.8s). Asimismo se evaluó el juicio de Oracle sobre la evidencia registrada (hechos.json) mediante oracle juzgar --con hechos.json --parcial --proyecto ..., resultando en verde en las 3 medidas del contrato (corrida_completa == 1 y casos == 3, leer_ignora_los_eventos_que_no_son_objetos == 2, los_comandos_de_lectura_siguen_funcionando_con_eventos_raros == 1).
+- (20261109-012630-nn6-eventos) agy (gemini-3.8-flash-high): Pruebas de mutación: se ejecutaron 8 mutaciones sobre sin_eventos_raros contra tests/test_eventos_raros.py: M1 (no filtrar eventos inválidos: 5 fallos, 1 error), M2 (filtrar sin emitir aviso en stderr: 5 fallos), M3 (emitir aviso en cada lectura sin registrar en AVISADOS: 1 fallo), M4 (no vaciar eventos si no es lista: 4 fallos), M5 (desfase por uno en la cuenta de ignorados: 2 fallos), M6 (no avisar cuando eventos no es lista: 4 fallos), M7 (filtrar sólo None y números reteniendo cadenas: 1 fallo, 1 error), M8 (modificar el archivo en disco durante la lectura: 6 errores). Ningún mutante sobrevivió.
+- (20261109-012630-nn6-eventos) agy (gemini-3.8-flash-high): Omisiones del paquete: el paquete de Oracle Clue no incluye exclusiones u omisiones de archivos binarios; todos los archivos del diff son texto y fueron revisados integralmente.
+- (20261109-012630-nn6-eventos) codex (gpt-6-luna): Sin hallazgos: los escenarios de la spec se cumplen en la ruta revisada; cli.leer guarda en LEIDOS los bytes crudos antes de filtrar eventos, y guardar los usa para la comparación esperada.
+- (20261109-012630-nn6-eventos) codex (gpt-6-luna): Inspeccioné el diff, tests/test_eventos_raros.py, lectores principales, AVISADOS, LEIDOS, guardar/escribir_atomico y las rutas crudas mencionadas; no ejecuté pruebas ni mutaciones.
+- (20261109-012630-nn6-eventos) codex (gpt-6-luna): Los lectores crudos encontrados en estructura.buscar y oracle_factory.unir quedan fuera del alcance de la propuesta (lectores que no pasan por cli.leer).
 
 ### Históricos
 

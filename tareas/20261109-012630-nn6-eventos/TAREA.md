@@ -1,6 +1,6 @@
 # El registro tolera eventos que no son objetos
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -43,3 +43,7 @@ Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261109-012630
 ### Nota (2026-11-09 01:58:00 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261109-012630-nn6-eventos/oracle-veredicto.txt.
+
+### Nota (2026-11-09 02:23:17 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
