@@ -31,3 +31,19 @@ Medidas de flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_obse
 ### Nota (2026-11-08 23:42:37 UTC)
 
 Medidas de flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo: factory_conductor.el_bucle_tiene_topes_y_se_frena_solo, factory_conductor.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-09 00:04:48 UTC)
+
+Medidas de flujo_cbe1c0ee48f2ba730.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 00:04:48 UTC)
+
+Medidas de flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 00:04:48 UTC)
+
+Medidas de flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 00:04:48 UTC)
+
+Medidas de flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo: Brian Hollweg (persona, confirmo, modo confirmacion).

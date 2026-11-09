@@ -116,6 +116,58 @@
         "factory_conductor.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T00:04:48.209359+00:00",
+      "requisito": "flujo_cbe1c0ee48f2ba730.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona",
+      "medidas": [
+        "factory_conductor.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona",
+        "factory_conductor.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T00:04:48.397480+00:00",
+      "requisito": "flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro",
+      "medidas": [
+        "factory_conductor.cada_paso_deja_su_porque_en_el_registro",
+        "factory_conductor.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T00:04:48.580526+00:00",
+      "requisito": "flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar",
+      "medidas": [
+        "factory_conductor.el_bucle_observa_decide_actua_y_vuelve_a_observar",
+        "factory_conductor.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T00:04:48.766911+00:00",
+      "requisito": "flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo",
+      "medidas": [
+        "factory_conductor.el_bucle_tiene_topes_y_se_frena_solo",
+        "factory_conductor.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -124,13 +176,14 @@
     "flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar": "funcional",
     "flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_cbe1c0ee48f2ba730.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T00:04:48.158782+00:00",
       "sha256": "706bfbc18cac651be679fc3d703f564e9f8b5f27bffc3e102002f597656664ad",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T23:42:32.084234+00:00",
       "catalogos": {
         "factory_conductor.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona": "4d1ece0834b38e325fd74a08c7919b7fc12a20698ad3f979f4ba04e90ca78c37",
         "factory_conductor.corrida_completa": "797b78e562c248680d03ece0848eb9454b409a5ad356a378c3843a2ba010fd2c"
@@ -141,10 +194,12 @@
       }
     },
     "flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T00:04:48.348642+00:00",
       "sha256": "d115b52a54084e0a6863ce411233ec511cc2bd60a720d3e10dbc7fde7de29233",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T23:42:33.921392+00:00",
       "catalogos": {
         "factory_conductor.cada_paso_deja_su_porque_en_el_registro": "d498cbac3ee72fd6381d00f03c9e2ce31cb5329b0df06da91664906250faf608",
         "factory_conductor.corrida_completa": "797b78e562c248680d03ece0848eb9454b409a5ad356a378c3843a2ba010fd2c"
@@ -155,10 +210,12 @@
       }
     },
     "flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T00:04:48.531498+00:00",
       "sha256": "add9f026c5417117547d12816bdf466dc147529cae96eefd44f799c1b13a6158",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T23:42:35.755967+00:00",
       "catalogos": {
         "factory_conductor.el_bucle_observa_decide_actua_y_vuelve_a_observar": "4e8d865302ea26d446995391a0ef9c407c2f57337c263f83931436272c207e6b",
         "factory_conductor.corrida_completa": "797b78e562c248680d03ece0848eb9454b409a5ad356a378c3843a2ba010fd2c"
@@ -169,10 +226,12 @@
       }
     },
     "flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T00:04:48.715337+00:00",
       "sha256": "5d68d97608edf56b0ace28f8db94595d77e03e074283eefe6e38ec2f33294a8c",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-08T23:42:37.586680+00:00",
       "catalogos": {
         "factory_conductor.el_bucle_tiene_topes_y_se_frena_solo": "d315029f92926c04ab0dfe4bc1a5b6bdb2c8dda3fa18f82d0d8b3b025056b1cc",
         "factory_conductor.corrida_completa": "797b78e562c248680d03ece0848eb9454b409a5ad356a378c3843a2ba010fd2c"
@@ -182,5 +241,6 @@
         "factory_conductor.corrida_completa": "catalogos/factory_conductor.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
