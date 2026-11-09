@@ -128,6 +128,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-162444-701-segundo-revisor]] — Autopilot: en el camino completo el conductor pide un segundo revisor de otro proveedor (cerrada)
 - [[cambios/20261109-194509-ylk-sin-informe]] — Autopilot: el conductor no repite el pedido a un revisor que se lanzó y no dejó resultado (cerrada)
 - [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (cerrada)
+- [[cambios/20261109-212224-xo0-registros-raiz]] — Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros) (cerrada)
 
 ## Requisitos
 
@@ -319,6 +320,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce]]
 - [[requisitos/flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada]]
 - [[requisitos/flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado]]
+- [[requisitos/flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio]]
+- [[requisitos/flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno]]
+- [[requisitos/flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia]]
 - [[requisitos/flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa]]
 - [[requisitos/flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan]]
 - [[requisitos/flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista]]

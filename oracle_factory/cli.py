@@ -51,7 +51,9 @@ from . import rag as rag_mod
 from . import unir as unir_mod
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
-ROOT = Path.cwd().resolve()
+ROOT = Path.cwd().resolve()  # la raíz de los REGISTROS (con --registros, el almacén; si no, la del producto)
+PRODUCTO: Path | None = None  # la raíz del producto, sólo con registros aparte (main la fija y la suelta al terminar)
+REGISTROS = ROOT  # = ROOT, con el nombre de la spec
 AGENTE: str | None = None  # --agente o FACTORY_AGENTE: la vía de agente nunca se registra como persona
 CHANGES = ROOT / "openspec" / "changes"
 ID_RE = re.compile(r"^\d{8}-\d{6}-[a-z0-9_-]+$")
@@ -873,18 +875,22 @@ def instalar_hook() -> str:
             f"«Cambio: ID».\n{instalar_pre_push(carpeta)}")
 
 
+def argumentos_de_raiz() -> list[str]:
+    return ["--proyecto", str(PRODUCTO), "--registros", str(ROOT)] if PRODUCTO else ["--proyecto", str(ROOT)]
+
+
 def verificar_en_proceso(argv: list[str]) -> tuple[int, str]:
     """Corre un comando de Factory en este proceso con la salida capturada; (código, salida). Para las verificaciones de la puerta."""
-    global ROOT, CHANGES, AGENTE
-    guardado = (ROOT, CHANGES, AGENTE)
+    global ROOT, CHANGES, AGENTE, PRODUCTO, REGISTROS
+    guardado = (ROOT, CHANGES, AGENTE, PRODUCTO, REGISTROS)
     salida = io.StringIO()
     try:
         with contextlib.redirect_stdout(salida), contextlib.redirect_stderr(salida):
-            codigo = main(["--proyecto", str(ROOT), *argv])
+            codigo = main([*argumentos_de_raiz(), *argv])
     except SystemExit as e:
         codigo = e.code if isinstance(e.code, int) else 1
     finally:
-        ROOT, CHANGES, AGENTE = guardado
+        ROOT, CHANGES, AGENTE, PRODUCTO, REGISTROS = guardado
     return codigo or 0, salida.getvalue()
 
 
@@ -2497,7 +2503,7 @@ def ofrecer_siguiente(identificador: str) -> int:
                                     for p in comandos), ("Salir", "no ejecuta nada")])
     if eleccion is None or eleccion >= len(comandos):
         return 0
-    return main(["--proyecto", str(ROOT), *shlex.split(comandos[eleccion])[1:]])
+    return main([*argumentos_de_raiz(), *shlex.split(comandos[eleccion])[1:]])
 
 
 def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = False) -> None:
@@ -2524,8 +2530,11 @@ def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = Fal
     print(f'Acuerdos: {CHANGES}')
 
 
+CON_CANDIDATO = {"pedir-revision", "revision-preparar", "revision", "revisar", "juzgar", "cerrar"}
+
+
 def main(argv: list[str] | None = None) -> int:
-    global ROOT, CHANGES, AGENTE
+    global ROOT, CHANGES, AGENTE, PRODUCTO, REGISTROS
     args = construir_parser().parse_args(argv)
     if args.proyecto is not None:
         ROOT = args.proyecto.expanduser().resolve()
@@ -2534,9 +2543,19 @@ def main(argv: list[str] | None = None) -> int:
         ROOT = actual if args.comando == "init" else (estructura.raiz_del_proyecto(actual) or actual)
         if ROOT != actual:
             print(f"Proyecto: {ROOT} (encontrado desde {actual})", file=sys.stderr)
+    PRODUCTO = None
+    if args.registros is not None and args.registros.expanduser().resolve() != ROOT:
+        PRODUCTO, ROOT = ROOT, args.registros.expanduser().resolve()  # ROOT sigue siendo «donde están los registros»
+    REGISTROS = ROOT
     CHANGES = ROOT / "openspec" / "changes"
     AGENTE = (args.agente or "").strip() or None
     try:
+        if PRODUCTO and (ROOT.is_relative_to(PRODUCTO) or PRODUCTO.is_relative_to(ROOT)):  # un almacén dentro del producto (o al revés) lo ensucia
+            raise FactoryError(f"--registros ({ROOT}) y el producto ({PRODUCTO}) no pueden estar uno dentro del otro: el almacén de registros va "
+                               "en una carpeta aparte, para que el repo del producto no reciba nada de Factory. No se escribió nada.")
+        if PRODUCTO and args.comando in CON_CANDIDATO:
+            raise FactoryError(f"{args.comando} todavía no se admite con registros aparte (etapa 3 de 6): "
+                               "el candidato y su huella salen del repo del producto. No se escribió nada.")
         if args.comando != "init" and not ROOT.is_dir():
             raise FactoryError("el proyecto no existe; ejecutá primero init")
         if (args.comando != "init" and not (ROOT / estructura.DIR).is_symlink()
@@ -2626,6 +2645,8 @@ def main(argv: list[str] | None = None) -> int:
     except (FactoryError, OSError, json.JSONDecodeError, EOFError) as e:
         print(f"FACTORY BLOQUEADA: {e}", file=sys.stderr)
         return 1
+    finally:
+        PRODUCTO = None
 
 
 # Lo movido a otros módulos sigue disponible acá, con el mismo nombre (el código movido lee `cli` al usarlo).

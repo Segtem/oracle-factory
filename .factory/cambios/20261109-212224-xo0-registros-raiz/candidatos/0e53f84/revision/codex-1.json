@@ -1,0 +1,31 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-registros-raiz/.factory/local/revisiones/0e53f84-codex-1",
+  "base": "1f69bcba7e733386a2fe2d2d79c07e0be8f85469",
+  "head": "0e53f847475d2efc8e33fe83fad5fa7fa7cd827e",
+  "diff_sha256": "3482a1a54ac7e2b2467c2d4372d08eda3b46639166b74e1eb5cec96b8d8cf573",
+  "context_sha256": "b29cc565d879624d9e5694c0f8d78b001495bc3b714f79b03d987541004b05d2",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "RRAIZ-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "No se impide ubicar el almacén dentro del producto",
+      "explanation": "La selección de raíces sólo comprueba que --registros sea distinto de ROOT. Si se pasa una carpeta hija del producto (por ejemplo PRODUCTO/.factory-registros), la línea cambia ROOT a esa carpeta y init crea allí .factory/, tareas/, openspec/, requisitos/ y catálogos. Esos archivos siguen dentro del árbol del producto y ensucian su repositorio, en contra de la promesa de mantener limpio el repo. También las llamadas Git posteriores usan cwd=ROOT y pueden descubrir el repositorio padre, lo que puede instalar hooks en el producto durante init. La prueba rr2 usa únicamente carpetas hermanas producto/ y almacen/ y no cubre rutas contenidas ni ancestros; tests/datos/ayuda-cli.json sólo actualiza la ayuda para --registros, un cambio justificado por la opción añadida.",
+      "location": {"file": "oracle_factory/cli.py", "start_line": 2547, "end_line": 2548, "side": "head"},
+      "trigger": "Con un repo de producto con Git, ejecutar `oracle-factory --proyecto PRODUCTO --registros PRODUCTO/.factory-registros init` y luego el flujo `nuevo`/`aprobar-spec`/`importar`.",
+      "evidence": "En `main`, la única condición es `args.registros.expanduser().resolve() != ROOT`; no se comprueba si la ruta de registros está dentro de PRODUCTO ni si contiene PRODUCTO. `inicializar()` crea los directorios bajo ROOT (cli.py:2213-2230) y usa ejecutar() con cwd=ROOT (cli.py:414), y también instala hooks desde init. `tests/test_registros_raiz.py:test_rr2_un_cambio_completo_hasta_las_medidas` usa `base/producto` y `base/almacen`, y toma el árbol del producto como baseline; no prueba almacenes anidados o superpuestos.",
+      "related_requirement": "con_registros_aparte_el_repo_del_producto_queda_limpio",
+      "status": "pendiente",
+      "verification": "Inspección estática del código y de tests/test_registros_raiz.py; no ejecuté la prueba ni una mutación. El resultado se deduce de las rutas de escritura bajo ROOT."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec, el diff y los archivos de contexto del paquete; el paquete no declara omisiones binarias.",
+    "Inspeccioné tests/test_registros_raiz.py y el cambio de tests/datos/ayuda-cli.json; la actualización de ayuda está justificada por la opción nueva.",
+    "No ejecuté pruebas ni mutaciones; no revisé los archivos excluidos indicados en el pedido, porque son registros y evidencia de Factory."
+  ]
+}
