@@ -52,7 +52,9 @@ def _porque(decision: dict) -> str:
 
 
 def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, max_pasos: int, max_minutos: float, ahora=time.monotonic) -> dict:
-    """{motivo, pasos, decision, aviso?}: repite hasta que algo lo detenga y deja un mensaje final con el motivo.
+    """{motivo, pasos, decision, fallo, aviso?}: repite hasta que algo lo detenga y deja un mensaje final con el motivo. `fallo` es verdadero
+    cuando algo falló de verdad (un paso, dejar el porqué, dejar el mensaje final o leer el estado); frenar, terminar, pedir a una persona o
+    llegar a un tope no son fallas.
 
     `observar()` da los datos de estado; `correr(argv, plazo)` y `lanzar(argv, plazo)` dan (código, salida)."""
     pasos, previa, decision, inicio = [], None, None, ahora()
@@ -60,10 +62,10 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
     def restante() -> float:
         return max_minutos * 60 - (ahora() - inicio)
 
-    def detener(motivo: str) -> dict:
+    def detener(motivo: str, fallo: bool = False) -> dict:
         texto = f"autopilot se detuvo: {motivo}" + (f". Comando para una persona: {decision['comando']}" if decision and decision["accion"] == "pedir_a_persona" else "")
         codigo, salida = correr(["mensaje", ident, _recortar(texto, MAX_MENSAJE)], PLAZO_FINAL)
-        resultado = {"motivo": motivo, "pasos": pasos, "decision": decision}
+        resultado = {"motivo": motivo, "pasos": pasos, "decision": decision, "fallo": fallo or bool(codigo)}
         if codigo:
             resultado["aviso"] = f"no se pudo dejar el mensaje final en el registro: {salida[:200]}"
         return resultado
@@ -74,7 +76,7 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
         try:
             decision = autopilot.decidir(observar())
         except Exception as e:  # noqa: BLE001 — un estado que no se puede leer detiene el bucle, nunca lo rompe
-            return detener(f"no se pudo leer el estado del cambio: {str(e)[:200]}")
+            return detener(f"no se pudo leer el estado del cambio: {str(e)[:200]}", fallo=True)
         accion = decision["accion"]
         if accion in ("terminado", "frenar", "pedir_a_persona"):
             return detener(decision["motivo"])
@@ -95,7 +97,7 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
             return detener(f"se llegó al tope de {max_minutos:g} minutos")
         codigo, _ = correr(["mensaje", ident, _porque(decision)], min(60, plazo))
         if codigo:
-            return detener("no se pudo dejar el porqué en el registro: no se actúa sin dejarlo")
+            return detener("no se pudo dejar el porqué en el registro: no se actúa sin dejarlo", fallo=True)
         plazo = restante()
         if plazo <= 0:
             return detener(f"se llegó al tope de {max_minutos:g} minutos")
@@ -103,4 +105,4 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
         pasos.append({"accion": accion, "comando": decision["comando"], "instruccion": decision["instruccion"], "motivo": decision["motivo"],
                       "codigo": codigo, "salida": _recortar(salida, 300)})
         if codigo:
-            return detener(f"el paso falló (código {codigo}): {_recortar(salida, 200)}")
+            return detener(f"el paso falló (código {codigo}): {_recortar(salida, 200)}", fallo=True)

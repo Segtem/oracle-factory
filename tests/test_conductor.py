@@ -24,11 +24,12 @@ def datos(paso, frenos=(), candidato='abc1234', fase='requisitos_importados'):
 class Fabrica:
     """Un ejecutor falso: observa una lista de estados (el último se repite), anota cada comando y devuelve lo que se le dice."""
 
-    def __init__(self, estados, falla=(), lanzar_falla=None, reloj_paso=0, mensaje_tarda=0):
+    def __init__(self, estados, falla=(), lanzar_falla=None, reloj_paso=0, mensaje_tarda=0, mensajes_fallan=()):
         self.estados, self.llamadas, self.lanzadas, self.observadas, self.falla, self.lanzar_falla = list(estados), [], [], 0, set(falla), lanzar_falla
         self.t = 0.0
         self.reloj_paso, self.mensaje_tarda = reloj_paso, mensaje_tarda
         self.plazos = []  # (comando, plazo) de cada proceso
+        self.mensajes_fallan, self.mensajes = set(mensajes_fallan), 0  # los mensajes (por orden) que fallan
 
     def observar(self):
         self.observadas += 1
@@ -42,6 +43,9 @@ class Fabrica:
         self.plazos.append((argv[0], plazo))
         if argv[0] == 'mensaje':
             self.t += self.mensaje_tarda  # dejar el porqué gasta tiempo del tope
+            self.mensajes += 1
+            if self.mensajes - 1 in self.mensajes_fallan:
+                return 1, 'falló'
         return (1, 'falló') if argv[0] in self.falla else (0, 'ok')
 
     def lanzar(self, argv, plazo):
@@ -74,6 +78,11 @@ class Persona(unittest.TestCase):
                 self.assertEqual(fab.comandos(), ['mensaje'])  # sólo el mensaje final
                 self.assertEqual((r['pasos'], r['decision']['accion'], r['decision']['comando']), ([], 'pedir_a_persona', paso))
                 self.assertIn(paso, [a for a in fab.llamadas if a[0] == 'mensaje'][-1][2])  # el mensaje final deja el comando para la persona
+                self.assertFalse(r['fallo'])  # pedir a una persona no es una falla...
+                fab = Fabrica([datos(paso)], falla={'mensaje'})
+                r = fab.bucle()
+                self.assertTrue(r['fallo'])  # ...pero no poder dejar el mensaje final sí: falta el rastro
+                self.assertIn('mensaje final', r['aviso'])
                 self.assertFalse(fab.lanzadas)
 
     def test_co1_terminado_y_frenar_detienen_el_bucle_sin_ejecutar_nada(self):
@@ -83,6 +92,7 @@ class Persona(unittest.TestCase):
                 fab = Fabrica([estado])
                 r = fab.bucle(lanzar=['claude', '-p'])
                 self.assertEqual((fab.comandos(), fab.lanzadas, r['pasos'], r['decision']['accion']), (['mensaje'], [], [], accion))
+                self.assertFalse(r['fallo'])  # terminar o frenar no son fallas
                 self.assertTrue(r['motivo'])
 
     def test_co1_una_decision_de_persona_mal_clasificada_no_se_corre(self):
@@ -151,6 +161,7 @@ class Bucle(unittest.TestCase):
         self.assertEqual((fab.lanzadas, r['pasos'], fab.comandos()), ([], [], ['mensaje']))
         self.assertIn('--lanzar', r['motivo'])
         self.assertEqual(r['decision']['instruccion'], paso)
+        self.assertFalse(r['fallo'])
 
     # --- co3: topes y frenos propios ------------------------------------------------------------------------------------------------
     def test_co3_el_tope_de_pasos_detiene_el_bucle(self):
@@ -158,6 +169,7 @@ class Bucle(unittest.TestCase):
         r = fab.bucle(max_pasos=3)
         self.assertEqual(len(r['pasos']), 3)
         self.assertIn('pasos', r['motivo'])
+        self.assertFalse(r['fallo'])
         self.assertEqual(fab.comandos().count('mensaje'), 4)  # uno por paso y el final
 
     def test_co3_el_tope_de_minutos_detiene_el_bucle_con_un_reloj_falso(self):
@@ -204,17 +216,23 @@ class Bucle(unittest.TestCase):
         r = fab.bucle()
         self.assertEqual(len(r['pasos']), 1)
         self.assertIn('progreso', r['motivo'])
+        self.assertFalse(r['fallo'])
         self.assertEqual(fab.comandos().count('juzgar'), 1)
 
     def test_co3_un_comando_o_un_agente_que_fallan_detienen_el_bucle(self):
         fab = Fabrica(pasos_distintos(3) , falla={'mensaje'})  # el porqué es obligatorio: si no se puede dejar, no se actúa
         r = fab.bucle()
         self.assertEqual((r['pasos'], fab.comandos()[0]), ([], 'mensaje'))
+        self.assertTrue(r['fallo'])
         self.assertIn('mensaje final', r['aviso'])  # y como el final tampoco se pudo dejar, lo avisa
+        fab = Fabrica(pasos_distintos(3), mensajes_fallan={0})  # sólo falla el porqué: el mensaje final sí se deja
+        r = fab.bucle()
+        self.assertEqual((r['pasos'], r['fallo'], 'aviso' in r), ([], True, False))
         fab = Fabrica([datos(f'oracle-factory juzgar {ID}'), datos(f'oracle-factory cerrar {ID}')], falla={'juzgar'})
         r = fab.bucle()
         self.assertEqual([p['codigo'] for p in r['pasos']], [1])
         self.assertIn('falló', r['motivo'])
+        self.assertTrue(r['fallo'])
         self.assertEqual(fab.observadas, 1)  # no sigue
         fab = Fabrica([datos('corregí algo'), datos(f'oracle-factory cerrar {ID}')], lanzar_falla=(127, 'no arranca'))
         r = fab.bucle(lanzar=['no-existe'])
@@ -229,6 +247,7 @@ class Bucle(unittest.TestCase):
                 r = fab.bucle()
                 self.assertEqual((r['pasos'], fab.comandos()), ([], ['mensaje']))
                 self.assertTrue(r['motivo'])
+                self.assertEqual(r['fallo'], isinstance(estados[0], Exception))  # un estado que no se lee es una falla; uno que dice frenar, no
 
     # --- co4: el porqué en el registro ---------------------------------------------------------------------------------------------
     def test_co4_cada_paso_deja_un_mensaje_antes_y_otro_al_final(self):
@@ -287,15 +306,15 @@ class Comando(_te.Base):
         self.assertTrue({'motivo', 'pasos', 'decision'} <= set(datos_))
         self.assertEqual(datos_['decision']['accion'], 'delegar_al_agente')
         resultado = {'motivo': 'm', 'pasos': [{'accion': 'actuar', 'comando': 'oracle-factory juzgar X', 'instruccion': None, 'motivo': 'm', 'codigo': 1, 'salida': ''}],
-                     'decision': {'accion': 'pedir_a_persona', 'comando': 'oracle-factory cerrar X'}, 'aviso': 'un aviso'}
+                     'decision': {'accion': 'pedir_a_persona', 'comando': 'oracle-factory cerrar X'}, 'aviso': 'un aviso', 'fallo': True}
         with patch.object(f.conductor, 'bucle', return_value=resultado):
             codigo, texto = self.corrida()
-        self.assertEqual(codigo, 1)  # un paso falló
+        self.assertEqual(codigo, 1)  # algo falló
         for linea in ('1. actuar: oracle-factory juzgar X → código 1', 'Se detuvo: m', 'Comando para una persona: oracle-factory cerrar X', 'Aviso: un aviso'):
             self.assertIn(linea, texto)
-        resultado['pasos'][0]['codigo'] = 0
+        resultado['fallo'] = False
         with patch.object(f.conductor, 'bucle', return_value=resultado):
-            self.assertEqual(self.corrida()[0], 0)
+            self.assertEqual(self.corrida()[0], 0)  # la salida sale de «fallo», no de los códigos de los pasos
 
 
 if __name__ == '__main__':

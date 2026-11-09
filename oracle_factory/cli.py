@@ -968,7 +968,7 @@ def comando_autopilot(ident: str, como_json: bool, ejecutar: bool = False, lanza
             print("Comando para una persona: " + resultado["decision"]["comando"])
         if resultado.get("aviso"):
             print("Aviso: " + resultado["aviso"])
-    return 1 if any(p["codigo"] for p in resultado["pasos"]) else 0
+    return 1 if resultado["fallo"] else 0
 
 
 def comando_autonomia(etapa: str | None, modo: str | None, como_json: bool) -> int:
