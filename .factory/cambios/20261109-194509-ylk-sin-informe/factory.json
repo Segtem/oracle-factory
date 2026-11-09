@@ -108,6 +108,32 @@
         "factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado",
         "factory_sin_informe.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T20:03:26.376252+00:00",
+      "revisor": "codex",
+      "candidato": "925896f",
+      "lanzamiento": "7ace247844ef"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T20:04:54.467713+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "925896f",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "7ace247844ef"
     }
   ],
   "tipos": {
