@@ -136,6 +136,13 @@ class Bucle(unittest.TestCase):
         self.assertEqual(lanzar([sys.executable, '-c', 'import os, sys; sys.exit(0 if os.environ.get("FACTORY_AGENTE") == "claude-code" else 3)'], 30)[0], 0)
         self.assertEqual(lanzar([sys.executable, '-c', 'import time; time.sleep(30)'], 0.01)[0], 124)
         self.assertEqual(lanzar(['no-existe-este-comando-xyz'], 5)[0], 127)
+        self.assertEqual(lanzar([sys.executable, '-c', 'import sys; sys.exit(0)'], 0)[0], 124)  # sin tiempo no arranca, y el plazo no se estira a un segundo
+        self.assertEqual(lanzar([sys.executable, '-c', 'import sys; sys.exit(0)'], -5)[0], 124)
+        with patch.object(conductor.subprocess, 'run', side_effect=AssertionError('sin tiempo no arranca')):  # y sin tiempo ni siquiera arranca
+            self.assertEqual(lanzar(['x'], 0)[0], 124)
+        with patch.object(conductor.subprocess, 'run', side_effect=conductor.subprocess.TimeoutExpired('x', 0.2)) as run:  # el plazo llega exacto
+            self.assertEqual(lanzar(['x'], 0.2)[0], 124)
+            self.assertEqual(run.call_args.kwargs['timeout'], 0.2)
 
     def test_co2_sin_lanzar_el_trabajo_creativo_detiene_el_bucle_y_deja_la_instruccion(self):
         paso = 'corregí lo que pidió la revisión y commitealo'
@@ -178,6 +185,19 @@ class Bucle(unittest.TestCase):
         fab = Fabrica([datos(f'oracle-factory juzgar {ID}'), datos(f'oracle-factory cerrar {ID}')])
         fab.bucle(max_minutos=0.5)
         self.assertEqual(fab.plazos[0], ('mensaje', 30))  # el plazo del porqué es lo que queda, hasta 60 s
+        self.assertEqual(fab.plazos[-1], ('mensaje', 10))  # el mensaje final tiene su plazo propio
+        # los plazos son exactos: menos de un segundo no se estira a un segundo
+        fab = Fabrica([datos(f'oracle-factory juzgar {ID}'), datos(f'oracle-factory cerrar {ID}')], mensaje_tarda=59.5)
+        fab.bucle(max_minutos=1)
+        self.assertEqual([p for p in fab.plazos if p[0] == 'juzgar'], [('juzgar', 0.5)])
+        fab = Fabrica([datos(f'oracle-factory juzgar {ID}'), datos(f'oracle-factory cerrar {ID}')])
+        fab.bucle(max_minutos=0.01)
+        self.assertAlmostEqual(fab.plazos[0][1], 0.6)
+        # si al ir a dejar el porqué ya no queda tiempo, no se deja ni se actúa
+        fab = Fabrica(pasos_distintos(3), reloj_paso=60)
+        r = fab.bucle(max_minutos=1)
+        self.assertEqual((r['pasos'], fab.comandos()), ([], ['mensaje']))
+        self.assertIn('minutos', r['motivo'])
 
     def test_co3_la_misma_decision_dos_veces_seguidas_es_falta_de_progreso(self):
         fab = Fabrica([datos(f'oracle-factory juzgar {ID}')])  # el estado nunca cambia

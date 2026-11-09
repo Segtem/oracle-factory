@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-autopilot-actua/.factory/local/revisiones/d90883c-codex-1",
+  "base": "63fed11672e721870c39a12aa39b84901c9d9805",
+  "head": "d90883c9dbb4e41309026e27b24994f783d1381b",
+  "diff_sha256": "eb64d36d6ddf4e922247c4bab7f1ce5ffead814e1fd6c01efeb904bc3a724cec",
+  "context_sha256": "b9b53a12f02995acc6d78567828c1ebf30b968fb9b88b23b779110c460e00e53",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "ACTUA-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "Los procesos pueden exceder el tope de minutos",
+      "explanation": "El plazo temporal no es un límite estricto: `_proceso` aplica `max(1, plazo)`, así que una acción que empieza cuando queda menos de un segundo puede correr hasta un segundo y sobrepasar `--max-minutos`. Además, `detener()` lanza el mensaje final con plazo fijo de 60 segundos incluso cuando el tope ya se agotó. Por tanto, tras detenerse por tiempo el proceso de registro todavía puede seguir ejecutándose hasta un minuto fuera del límite.",
+      "location": {"file": "oracle_factory/conductor.py", "start_line": 25, "end_line": 25, "side": "head"},
+      "trigger": "Con un reloj controlado, deja menos de 1 segundo antes de correr un paso cuyo proceso tarda más que el restante; también prueba agotar el tope y hacer que el proceso `mensaje` final tarde más de lo que quedaba.",
+      "evidence": "La llamada a `subprocess.run` fuerza `timeout=max(1, plazo)`. El bucle permite actuar si `restante()` es positivo, aunque sea menor que un segundo; y el cierre llama `correr(..., 60)` sin consultar el restante. Los plazos por paso se recalculan después del porqué, pero la garantía de no exceder el máximo sigue rota en estos casos límite.",
+      "related_requirement": "el_bucle_tiene_topes_y_se_frena_solo",
+      "status": "pendiente",
+      "verification": "No ejecuté mutaciones ni pruebas. Una mutación que quite el mínimo de 1 s y limite también el cierre al restante debería detectar estos casos; con el código actual sobreviven porque el timeout puede ser mayor que el presupuesto temporal disponible."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, propuesta, diff del paquete, código de autopilot/conductor/parser, pruebas nuevas y revisión previa. No ejecuté la suite ni mutaciones.",
+    "El hallazgo ACTUA-001 de ronda 1 está corregido: el plazo del paso se calcula después del mensaje previo y el bucle no actúa si el restante ya no es positivo.",
+    "tests/datos/ayuda-cli.json quita una línea del golden y la sustituye por la ayuda actualizada de autopilot para --ejecutar, --lanzar, --max-pasos y --max-minutos; la edición está justificada por las opciones nuevas.",
+    "El paquete no omite archivos binarios."
+  ]
+}

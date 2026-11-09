@@ -13,6 +13,7 @@ import time
 from . import autopilot
 
 MAX_MENSAJE = 2000  # el largo de un mensaje del registro
+PLAZO_FINAL = 10  # segundos para dejar el mensaje final: el rastro de por qué se detuvo se deja aunque el tope ya esté agotado; no es actuar
 
 
 def _recortar(texto: str, largo: int) -> str:
@@ -20,9 +21,12 @@ def _recortar(texto: str, largo: int) -> str:
 
 
 def _proceso(argv, cwd, plazo: float, env=None) -> tuple[int, str]:
-    """(código, salida) de un proceso con un plazo; un plazo vencido o un proceso que no arranca son un código distinto de cero."""
+    """(código, salida) de un proceso con un plazo exacto; sin plazo (cero o menos) no arranca. Un plazo vencido o un proceso que no
+    arranca son un código distinto de cero."""
+    if plazo <= 0:
+        return 124, "no quedaba tiempo"
     try:
-        p = subprocess.run(argv, cwd=cwd, capture_output=True, text=True, stdin=subprocess.DEVNULL, timeout=max(1, plazo), env=env)
+        p = subprocess.run(argv, cwd=cwd, capture_output=True, text=True, stdin=subprocess.DEVNULL, timeout=plazo, env=env)
     except subprocess.TimeoutExpired:
         return 124, "se acabó el plazo"
     except (OSError, ValueError) as e:
@@ -58,7 +62,7 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
 
     def detener(motivo: str) -> dict:
         texto = f"autopilot se detuvo: {motivo}" + (f". Comando para una persona: {decision['comando']}" if decision and decision["accion"] == "pedir_a_persona" else "")
-        codigo, salida = correr(["mensaje", ident, _recortar(texto, MAX_MENSAJE)], 60)
+        codigo, salida = correr(["mensaje", ident, _recortar(texto, MAX_MENSAJE)], PLAZO_FINAL)
         resultado = {"motivo": motivo, "pasos": pasos, "decision": decision}
         if codigo:
             resultado["aviso"] = f"no se pudo dejar el mensaje final en el registro: {salida[:200]}"
@@ -67,8 +71,6 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
     while True:
         if len(pasos) >= max_pasos:
             return detener(f"se llegó al tope de {max_pasos} pasos")
-        if restante() <= 0:
-            return detener(f"se llegó al tope de {max_minutos:g} minutos")
         try:
             decision = autopilot.decidir(observar())
         except Exception as e:  # noqa: BLE001 — un estado que no se puede leer detiene el bucle, nunca lo rompe
@@ -88,7 +90,10 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
             return detener("hay trabajo para un agente y falta --lanzar COMANDO para lanzarlo")
         previa = clave
         # Cada proceso toma su plazo del reloj justo antes de correr: dejar el porqué también gasta tiempo del tope.
-        codigo, _ = correr(["mensaje", ident, _porque(decision)], min(60, max(1, restante())))
+        plazo = restante()
+        if plazo <= 0:
+            return detener(f"se llegó al tope de {max_minutos:g} minutos")
+        codigo, _ = correr(["mensaje", ident, _porque(decision)], min(60, plazo))
         if codigo:
             return detener("no se pudo dejar el porqué en el registro: no se actúa sin dejarlo")
         plazo = restante()

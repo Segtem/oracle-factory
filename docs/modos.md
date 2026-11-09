@@ -68,7 +68,7 @@ Con `--ejecutar` (y `--agente NOMBRE`, porque lo que corre queda a nombre del ag
 
 - `actuar`: corre el comando de Factory con `--agente NOMBRE`, en un proceso aparte.
 - `delegar_al_agente`: lanza el comando de `--lanzar` (por ejemplo `claude -p`) con la instrucción como último argumento y `FACTORY_AGENTE` puesto. Sin `--lanzar` se detiene y lo dice. `--lanzar` no se guarda en la configuración: se da en cada corrida.
-- Se detiene, y lo dice, ante `terminado`, un freno, una decisión de una persona (con su comando listo para pegar), un comando o un agente que fallan, la falta de progreso (la misma decisión dos veces seguidas) o un tope (10 pasos y 120 minutos por defecto). Al final deja otro `mensaje` con el motivo.
+- Se detiene, y lo dice, ante `terminado`, un freno, una decisión de una persona (con su comando listo para pegar), un comando o un agente que fallan, la falta de progreso (la misma decisión dos veces seguidas) o un tope (10 pasos y 120 minutos por defecto). Al final deja otro `mensaje` con el motivo, con su propio plazo de 10 segundos fuera del tope: el rastro de por qué se detuvo se deja aunque el tiempo se haya agotado. Cada paso toma su plazo del reloj justo antes de correr, y sin tiempo no arranca.
 - Nunca corre una decisión de una persona, aunque llegara mal clasificada, ni integra, publica ni despliega: esas etapas siguen en `confirmacion`.
 
 ## Requisitos funcionales y no funcionales
