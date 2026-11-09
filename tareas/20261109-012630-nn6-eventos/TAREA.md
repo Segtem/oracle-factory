@@ -23,3 +23,11 @@ Medidas de flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos: f
 ### Nota (2026-11-09 01:29:24 UTC)
 
 Medidas de flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros: factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros, factory_eventos_raros.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-09 01:29:46 UTC)
+
+Medidas de flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 01:29:46 UTC)
+
+Medidas de flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros: Brian Hollweg (persona, confirmo, modo confirmacion).

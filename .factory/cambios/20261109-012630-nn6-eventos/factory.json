@@ -102,19 +102,46 @@
         "factory_eventos_raros.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T01:29:46.507311+00:00",
+      "requisito": "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos",
+      "medidas": [
+        "factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos",
+        "factory_eventos_raros.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T01:29:46.698265+00:00",
+      "requisito": "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros",
+      "medidas": [
+        "factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros",
+        "factory_eventos_raros.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos": "funcional",
     "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T01:29:46.458779+00:00",
       "sha256": "2e04419d01ebbf5d0f179bb63fb2fd53f8ec0d65ce758a563e9b5de2a6d6f018",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T01:29:22.731575+00:00",
       "catalogos": {
         "factory_eventos_raros.leer_ignora_los_eventos_que_no_son_objetos": "c04669655d19ff321e82717c1a760b70651c72fea4b7db28a0619018dd7b6f1a",
         "factory_eventos_raros.corrida_completa": "719c8bd65a4439f3a049b6a2a82538a4dcfe5d98a1649297100229135306c094"
@@ -125,10 +152,12 @@
       }
     },
     "flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T01:29:46.648509+00:00",
       "sha256": "81c9ced12888fd7710875b70f534fd575d8babc68a610d2d7ed33cad20718f6f",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T01:29:24.590869+00:00",
       "catalogos": {
         "factory_eventos_raros.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros": "b1dc30bd3ce7361165a5e959ceed76d527b2f4a2e134e9dc94bffe5e1877bb13",
         "factory_eventos_raros.corrida_completa": "719c8bd65a4439f3a049b6a2a82538a4dcfe5d98a1649297100229135306c094"
@@ -138,5 +167,6 @@
         "factory_eventos_raros.corrida_completa": "catalogos/factory_eventos_raros.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
