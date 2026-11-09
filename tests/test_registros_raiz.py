@@ -131,6 +131,21 @@ class RegistrosRaiz(unittest.TestCase):
         self.assertEqual(self.corre('estado', ident)[0], 0)
         self.assertEqual(self.git('status', '--porcelain', '--untracked-files=all'), '')
         self.assertEqual(self.arbol(self.producto), antes)  # ni un archivo nuevo ni modificado, tampoco ignorado
+        # el almacén dentro del producto, o el producto dentro del almacén, se rechaza sin escribir nada (hallazgo RRAIZ-1 de codex)
+        (self.producto / 'hijo').mkdir()
+        for adentro in (self.producto / 'hijo', self.producto / 'nuevo' / 'mas', self.producto.parent):
+            with self.subTest(almacen=str(adentro)), patch.object(self, 'almacen', adentro):
+                antes_de_todo = self.arbol(self.producto)
+                codigo, _, error = self.corre('init')
+                self.assertNotEqual(codigo, 0)
+                self.assertIn('uno dentro del otro', error)
+                self.assertEqual(self.arbol(self.producto), antes_de_todo)
+                self.assertFalse((adentro / '.factory').exists())
+        self.assertFalse((self.producto / 'nuevo').exists())
+        gemelo = self.producto.parent / 'producto-registros'  # un hermano con el mismo prefijo no está «dentro»
+        gemelo.mkdir()
+        with patch.object(self, 'almacen', gemelo):
+            self.assertEqual(self.corre('init')[0], 0)
         # lo que ve el código por dentro: la raíz de los registros, la del producto, y que se suelta al terminar
         visto = {}
         with patch.object(f, 'listar', side_effect=lambda *a, **k: visto.update(registros=f.REGISTROS, root=f.ROOT, producto=f.PRODUCTO)):

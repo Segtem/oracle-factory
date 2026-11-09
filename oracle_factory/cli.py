@@ -2550,6 +2550,9 @@ def main(argv: list[str] | None = None) -> int:
     CHANGES = ROOT / "openspec" / "changes"
     AGENTE = (args.agente or "").strip() or None
     try:
+        if PRODUCTO and (ROOT.is_relative_to(PRODUCTO) or PRODUCTO.is_relative_to(ROOT)):  # un almacén dentro del producto (o al revés) lo ensucia
+            raise FactoryError(f"--registros ({ROOT}) y el producto ({PRODUCTO}) no pueden estar uno dentro del otro: el almacén de registros va "
+                               "en una carpeta aparte, para que el repo del producto no reciba nada de Factory. No se escribió nada.")
         if PRODUCTO and args.comando in CON_CANDIDATO:
             raise FactoryError(f"{args.comando} todavía no se admite con registros aparte (etapa 3 de 6): "
                                "el candidato y su huella salen del repo del producto. No se escribió nada.")
