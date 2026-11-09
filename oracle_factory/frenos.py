@@ -36,13 +36,13 @@ def calcular(estado: dict, informes: list[dict], candidato: str | None, revision
     """[{id, motivo}] en un orden fijo; vacío si no hay ninguno.
 
     `informes` son los de `tablero.informes` (con `candidato` y `hallazgos`); `revision_aprobada` es una revisión aprobada y vigente
-    (que un humano miró el hallazgo); `editados` y `flujo`, lo que ya calcula `alarmas` para `estado`."""
+    (que un humano miró el hallazgo y las pruebas editadas); `editados` y `flujo`, lo que ya calcula `alarmas` para `estado`."""
     salida = []
     if _dos_juicios_rojos(estado):
         salida.append(("juicios_rojos", "los dos últimos juicios de Oracle fueron rojos: no sigas probando, buscá la causa o pedí ayuda"))
     if not revision_aprobada and _hallazgo_alto(informes, candidato):
         salida.append(("hallazgo_alto_abierto", "un informe del candidato vigente trae un hallazgo de severidad alta y no hay una revisión aprobada vigente"))
-    if editados:
+    if editados and not revision_aprobada:  # una revisión aprobada y vigente es que una persona lo vio
         salida.append(("prueba_existente_editada", "el candidato editó o borró tests que ya existían: decilo en la revisión (docs/tests.md)"))
     if _avisa(flujo, "cambio_grande"):
         salida.append(("cambio_grande", f"el candidato agrega {flujo['cambio_grande'].get('lineas')} líneas de producto: considerá partir el cambio"))
