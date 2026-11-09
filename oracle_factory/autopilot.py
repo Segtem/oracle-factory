@@ -147,7 +147,8 @@ def decidir(datos) -> dict:
     if sub == "medir" and getattr(args, "confirmar", False):
         return _decision("pedir_a_persona", "persona", paso, motivo="confirmar las medidas es sólo de una persona")
     if sub == "medir" and getattr(args, "listar", False):
-        return _decision("delegar_al_agente", "agente", instruccion="elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas",
+        return _decision("delegar_al_agente", "agente", instruccion="construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; "
+                         "después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación",
                          motivo="elegir medidas es trabajo del agente; confirmarlas es de una persona")
     segundo = datos.get("segundo_revisor")
     if sub == "revisar" and isinstance(segundo, str) and NOMBRE_DE_REVISOR.fullmatch(segundo):

@@ -1,0 +1,310 @@
+{
+  "id": "20261109-201722-oja-construir-primero",
+  "titulo": "Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero",
+  "capacidad": "flujo",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md",
+  "spec_sha256": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T20:39:44.273802+00:00",
+    "documentos": {
+      "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "3e79110180cc426eef3d0ce48d88edc33f41f6a44525b4a7a78a58e7751bd8ae",
+      "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9"
+    }
+  },
+  "requisitos": [
+    "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261109-201722-oja-construir-primero/revisiones/registro-gdmu7_de/informe.json",
+    "sha256": "2d96814c6d46f4c5ff18623613e4043b11af0b128d7d5f8bdb5fa2e3b09688ed",
+    "decisiones": "tareas/20261109-201722-oja-construir-primero/revisiones/registro-gdmu7_de/decisiones.json",
+    "decisiones_sha256": "275421e4088e64c9aef55954b39a62cf98718bac50eee6bfa7dbf528dcc29a59",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T20:55:12.846443+00:00",
+    "motivo": "Propuesta del agente claude-code. Candidato b1a8886 (camino ligero): evidencia verde, 10 mutaciones propias detectadas sobre la redacción final, codex ronda 1 con CP1-001 (medio: «pruebas ni catálogos» ambigua; corregido) y ronda 2 sin hallazgos. DECIDIÓ BRIAN (ya aprobada la spec corregida): me aparté de mi propia spec aprobada: listaba la evidencia del candidato como parte de construir y en el flujo real va DESPUÉS de que una persona confirma las medidas; la spec cambió, aprobaste de nuevo, el requisito cambió de identificador y reconfirmaste las medidas. QUÉ HAY QUE SABER: la instrucción sigue siendo texto para un agente: no detecta con datos qué falta (pruebas, catálogos); lo decide el agente mirando el cambio. Si mañana un agente la lee mal, el conductor lo frena por sin progreso. No edité ningún test existente (el que mira medidas en la instrucción sigue pasando).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "d65c434b2b82f92d792f1c676a0e961a4af78b31",
+      "archivos_sha256": "4a3e6c19adec088a0b5ed34db87fe6ed36419f6d6e338ec5f55d543751d065e5"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261109-201722-oja-construir-primero/candidatos/b1a8886/evidencia/hechos.json",
+    "hechos_sha256": "23fa6ebdac54db0888333e19f7f3c62729c9db07e2cd9eb33ff8c787c3f9eec3",
+    "informe": ".factory/cambios/20261109-201722-oja-construir-primero/oracle-veredicto.txt",
+    "informe_sha256": "1ef82d1f13c9948c9526b7a8f74cc2c7bdfdf23d4e0bac816bcef4736c847ce8",
+    "cuando": "2026-11-09T20:55:24.158765+00:00",
+    "contexto": {
+      "head": "d65c434b2b82f92d792f1c676a0e961a4af78b31",
+      "archivos_sha256": "4a3e6c19adec088a0b5ed34db87fe6ed36419f6d6e338ec5f55d543751d065e5"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:17:22.826846+00:00",
+      "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:23:20.604770+00:00",
+      "documentos": {
+        "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "dd73194ed5ce5653dd664e6682721bfc62effc31de7f301e6e687d4c429b49cb",
+        "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "c86d21f16a0cf0453923d47a829133cde430294ba2cf04c25da8953944f1e8b1"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:23:29.001447+00:00",
+      "ids": [
+        "flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T20:24:16.865039+00:00",
+      "requisito": "flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+      "medidas": [
+        "factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+        "factory_construir_primero.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T20:26:04.679626+00:00",
+      "requisito": "flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+      "medidas": [
+        "factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+        "factory_construir_primero.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T20:35:15.124216+00:00",
+      "revisor": "codex",
+      "candidato": "cbe6500",
+      "lanzamiento": "cf3abb7bd4d1"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T20:36:25.492505+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "cbe6500",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "cf3abb7bd4d1"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:39:44.273830+00:00",
+      "documentos": {
+        "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "3e79110180cc426eef3d0ce48d88edc33f41f6a44525b4a7a78a58e7751bd8ae",
+        "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:40:17.857563+00:00",
+      "ids": [
+        "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T20:40:24.432191+00:00",
+      "requisito": "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+      "medidas": [
+        "factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+        "factory_construir_primero.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T20:42:34.451945+00:00",
+      "requisito": "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+      "medidas": [
+        "factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+        "factory_construir_primero.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T20:51:25.287519+00:00",
+      "revisor": "codex",
+      "candidato": "b1a8886",
+      "lanzamiento": "1067ed8f2981"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T20:52:56.789729+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "b1a8886",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "1067ed8f2981"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T20:53:10.576494+00:00",
+      "decision": "aprobar",
+      "candidato": "b1a8886"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T20:55:12.846471+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2d96814c6d46f4c5ff18623613e4043b11af0b128d7d5f8bdb5fa2e3b09688ed",
+      "decisiones_sha256": "275421e4088e64c9aef55954b39a62cf98718bac50eee6bfa7dbf528dcc29a59"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:55:24.158781+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "23fa6ebdac54db0888333e19f7f3c62729c9db07e2cd9eb33ff8c787c3f9eec3"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:59:22.218754+00:00",
+      "oracle": ".factory/cambios/20261109-201722-oja-construir-primero/oracle-veredicto.txt",
+      "revision": "tareas/20261109-201722-oja-construir-primero/revisiones/registro-gdmu7_de/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:59:22.261471+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
+    }
+  ],
+  "tipos": {
+    "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": "funcional"
+  },
+  "medidas": {
+    "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T20:42:34.399594+00:00",
+      "sha256": "d83b4ec644ecb519d0db8c4aaa2599bbf5db29f17ec8f4736bf246c4fa6eb523",
+      "catalogos": {
+        "factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": "e94f8268b8a8b07c6f0d981543f20d8387cdc5d681cdd4b3ec531346a5e0f5f0",
+        "factory_construir_primero.corrida_completa": "60f8afefc382221ca57f331a631ee514aebcca43af29ae14ff27b8a0a7781c75"
+      },
+      "archivos_catalogo": {
+        "factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": "catalogos/factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas.oracle",
+        "factory_construir_primero.corrida_completa": "catalogos/factory_construir_primero.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T20:59:22.152070+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-09T20:59:22.261460+00:00"
+  }
+}

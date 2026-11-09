@@ -127,6 +127,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-125752-r6d-freno-visto]] — Frenos: el de pruebas editadas deja de frenar cuando una persona aprobó la revisión (cerrada)
 - [[cambios/20261109-162444-701-segundo-revisor]] — Autopilot: en el camino completo el conductor pide un segundo revisor de otro proveedor (cerrada)
 - [[cambios/20261109-194509-ylk-sin-informe]] — Autopilot: el conductor no repite el pedido a un revisor que se lanzó y no dejó resultado (cerrada)
+- [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (cerrada)
 
 ## Requisitos
 
@@ -295,6 +296,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente]]
 - [[requisitos/estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos]]
 - [[requisitos/estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto]]
+- [[requisitos/flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas]]
 - [[requisitos/flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision]]
 - [[requisitos/flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo]]
 - [[requisitos/flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos]]

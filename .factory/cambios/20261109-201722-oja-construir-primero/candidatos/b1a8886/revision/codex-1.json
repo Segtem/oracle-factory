@@ -1,0 +1,18 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-construir-primero/.factory/local/revisiones/b1a8886-codex-1",
+  "base": "7baf8a31f5ec6c56912c5509e2034a38e0f99636",
+  "head": "b1a88860dd77b1af994788a9cfdc1bf3932811af",
+  "diff_sha256": "64301a5f8f762faa982213d89589c60831e88f6e22e5dce962229e4c451ebcdc",
+  "context_sha256": "db3c46e8c354bd07560b625486a314c097f6548ebf3d61d6b812ce7941a750a7",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos: la rama de medir --listar mantiene delegación, ordena construir lo faltante antes de proponer medidas y aplaza explícitamente la evidencia hasta la confirmación humana; medir --confirmar y frenos conservan sus rutas previas. CP1-001 quedó corregido: desapareció la condición ambigua y la instrucción ahora dice construir lo que falte.",
+    "Ejecuté `python -m unittest tests.test_construir_primero -v </dev/null`: 2 pruebas pasaron.",
+    "Intenté `python -m unittest discover -s tests </dev/null`; tras 30 segundos seguía ejecutándose y mostró errores y fallos. No obtuve el resumen ni trazas; no lo usé como evidencia atribuible al cambio.",
+    "No realicé mutaciones. Revisé estáticamente la spec, el diff, la prueba nueva, las ramas pertinentes de autopilot.py y docs/modos.md, y el informe de la ronda anterior.",
+    "No hay archivos omitidos/binarios en el paquete."
+  ]
+}
