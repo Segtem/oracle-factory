@@ -23,3 +23,7 @@ Medidas de flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construi
 ### Nota (2026-11-09 20:26:04 UTC)
 
 Medidas de flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 20:39:44 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md; se reiniciaron las validaciones dependientes.

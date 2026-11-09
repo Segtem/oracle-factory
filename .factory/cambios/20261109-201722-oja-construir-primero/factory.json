@@ -2,23 +2,21 @@
   "id": "20261109-201722-oja-construir-primero",
   "titulo": "Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md",
-  "spec_sha256": "c86d21f16a0cf0453923d47a829133cde430294ba2cf04c25da8953944f1e8b1",
+  "spec_sha256": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-11-09T20:23:20.604748+00:00",
+    "cuando": "2026-11-09T20:39:44.273802+00:00",
     "documentos": {
-      "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "dd73194ed5ce5653dd664e6682721bfc62effc31de7f301e6e687d4c429b49cb",
-      "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "c86d21f16a0cf0453923d47a829133cde430294ba2cf04c25da8953944f1e8b1"
+      "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "3e79110180cc426eef3d0ce48d88edc33f41f6a44525b4a7a78a58e7751bd8ae",
+      "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9"
     }
   },
-  "requisitos": [
-    "flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas"
-  ],
+  "requisitos": [],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -107,11 +105,21 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "cf3abb7bd4d1"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:39:44.273830+00:00",
+      "documentos": {
+        "openspec/changes/20261109-201722-oja-construir-primero/proposal.md": "3e79110180cc426eef3d0ce48d88edc33f41f6a44525b4a7a78a58e7751bd8ae",
+        "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9"
+      }
     }
   ],
-  "tipos": {
-    "flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": "funcional"
-  },
+  "tipos": {},
   "medidas": {
     "flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": {
       "actor": "Brian Hollweg",

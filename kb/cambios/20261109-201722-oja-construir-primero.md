@@ -1,7 +1,7 @@
 ---
 generado: oracle-factory kb
 id: "20261109-201722-oja-construir-primero"
-fase: "requisitos_importados"
+fase: "spec_aprobada"
 capacidad: "flujo"
 ---
 
@@ -9,14 +9,14 @@ capacidad: "flujo"
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Fase: requisitos_importados
+- Fase: spec_aprobada
 - Capacidad: flujo
 - Responsable: nadie
 - Spec: [openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md](../../openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md)
 
 ## Requisitos
 
-- [[requisitos/flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas]] — sin juicio
+- Ninguno importado.
 
 ## Decisiones
 
@@ -24,6 +24,7 @@ capacidad: "flujo"
 - 2026-11-09 20:23 · Spec aprobada · Brian Hollweg (persona)
 - 2026-11-09 20:23 · Requisitos importados · claude-code (agente)
 - 2026-11-09 20:26 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-09 20:39 · Spec aprobada · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -37,6 +38,7 @@ capacidad: "flujo"
 - `dfe0412` construir-primero: catálogos y propuesta de medidas (trailer)
 - `cbe6500` construir-primero: medidas confirmadas por Brian (trailer)
 - `b09eba3` construir-primero: evidencia del candidato (trailer)
+- `23f3d51` construir-primero: hallazgo CP1-001 de codex y corrección de la spec (la evidencia va después de confirmar las medidas) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-201722-oja-construir-primero`.
 
 ## Mensajes
