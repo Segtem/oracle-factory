@@ -2,10 +2,20 @@
   "id": "20261109-125752-r6d-freno-visto",
   "titulo": "Frenos: el de pruebas editadas deja de frenar cuando una persona aprobó la revisión",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "67c8b0e7d59e6e3ebf2656d1ab8f32d85d82b30ff48985e8c5b4a8f5a79b82f7",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T13:09:57.320088+00:00",
+    "documentos": {
+      "openspec/changes/20261109-125752-r6d-freno-visto/proposal.md": "368067ae5882a74b9bb431f8cb264c3413d6b643568a78ae25b736f6a2918645",
+      "openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md": "67c8b0e7d59e6e3ebf2656d1ab8f32d85d82b30ff48985e8c5b4a8f5a79b82f7"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,31 @@
       "forma": "decidio",
       "cuando": "2026-11-09T12:57:52.150685+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T13:02:42.232943+00:00",
+      "documentos": {
+        "openspec/changes/20261109-125752-r6d-freno-visto/proposal.md": "368067ae5882a74b9bb431f8cb264c3413d6b643568a78ae25b736f6a2918645",
+        "openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md": "67c8b0e7d59e6e3ebf2656d1ab8f32d85d82b30ff48985e8c5b4a8f5a79b82f7"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T13:09:57.320109+00:00",
+      "documentos": {
+        "openspec/changes/20261109-125752-r6d-freno-visto/proposal.md": "368067ae5882a74b9bb431f8cb264c3413d6b643568a78ae25b736f6a2918645",
+        "openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md": "67c8b0e7d59e6e3ebf2656d1ab8f32d85d82b30ff48985e8c5b4a8f5a79b82f7"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
