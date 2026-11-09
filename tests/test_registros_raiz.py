@@ -109,6 +109,11 @@ class RegistrosRaiz(unittest.TestCase):
         with patch.object(self, 'almacen', self.producto):
             con = self.corre('listar')
         self.assertEqual(sin, con)
+        (self.producto / 'sub').mkdir()
+        for ruta in (self.producto, self.producto / '..' / 'producto', self.producto / 'sub' / '..'):  # el mismo lugar, escrito de otra manera
+            with patch.object(self, 'almacen', ruta):
+                self.assertNotIn(ETAPA_3, self.corre('juzgar', 'x')[2], ruta)  # no cuenta como registros aparte
+        self.assertNotIn(ETAPA_3, self.corre('juzgar', 'x', registros=False)[2])  # sin la opción, un comando de candidato sigue siendo el de siempre
 
     # --- rr2: con --registros el producto queda limpio -------------------------------------------------------------
     def test_rr2_un_cambio_completo_hasta_las_medidas(self):
@@ -126,6 +131,40 @@ class RegistrosRaiz(unittest.TestCase):
         self.assertEqual(self.corre('estado', ident)[0], 0)
         self.assertEqual(self.git('status', '--porcelain', '--untracked-files=all'), '')
         self.assertEqual(self.arbol(self.producto), antes)  # ni un archivo nuevo ni modificado, tampoco ignorado
+        # lo que ve el código por dentro: la raíz de los registros, la del producto, y que se suelta al terminar
+        visto = {}
+        with patch.object(f, 'listar', side_effect=lambda *a, **k: visto.update(registros=f.REGISTROS, root=f.ROOT, producto=f.PRODUCTO)):
+            self.corre('listar')
+        self.assertEqual(visto, {'registros': self.almacen.resolve(), 'root': self.almacen.resolve(), 'producto': self.producto.resolve()})
+        with patch.object(self, 'almacen', self.almacen / '..' / 'almacen'):  # el almacén escrito con «..»: la raíz queda resuelta
+            visto.clear()
+            with patch.object(f, 'listar', side_effect=lambda *a, **k: visto.update(root=f.ROOT)):
+                self.corre('listar')
+            self.assertEqual(visto, {'root': self.almacen.resolve()})
+        self.assertIsNone(f.PRODUCTO)
+        self.assertEqual(f.argumentos_de_raiz(), ['--proyecto', str(f.ROOT)])
+        with patch.object(f, 'PRODUCTO', self.producto):
+            self.assertEqual(f.argumentos_de_raiz(), ['--proyecto', str(self.producto), '--registros', str(f.ROOT)])
+        # verificar_en_proceso corre sobre las dos raíces y las deja como estaban
+        with patch.object(f, 'PRODUCTO', self.producto), patch.object(f, 'ROOT', self.almacen), patch.object(f, 'REGISTROS', Path('/otra')):
+            original, adentro = f.listar, {}
+
+            def espiar(*a, **k):
+                adentro.update(producto=f.PRODUCTO, root=f.ROOT)
+                return original(*a, **k)
+            with patch.object(f, 'listar', side_effect=espiar):
+                codigo, salida = f.verificar_en_proceso(['listar'])
+            self.assertEqual(adentro, {'producto': self.producto.resolve(), 'root': self.almacen.resolve()})  # adentro también están las dos raíces
+            self.assertEqual((codigo, f.ROOT, f.PRODUCTO, f.REGISTROS), (0, self.almacen, self.producto, Path('/otra')))
+            self.assertIn(ident, salida)
+        # el menú «¿Seguís?» vuelve a llamar con las dos raíces
+        class Tty(io.StringIO):
+            def isatty(self):
+                return True
+        with patch.object(f, 'PRODUCTO', self.producto), patch.object(f, 'AGENTE', None), patch.object(f, 'elegir', return_value=0), \
+                patch.object(f, 'pasos', return_value=['oracle-factory estado ID']), patch.object(f, 'main') as principal, contextlib.redirect_stdout(Tty()):
+            f.ofrecer_siguiente(ident)
+        principal.assert_called_once_with(['--proyecto', str(self.producto), '--registros', str(f.ROOT), 'estado', 'ID'])
 
     def test_rr2_el_producto_con_su_propio_git_no_cambia(self):
         self.producto_con_git()

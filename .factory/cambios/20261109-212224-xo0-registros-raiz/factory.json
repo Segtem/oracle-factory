@@ -166,6 +166,41 @@
       "forma": "mensaje",
       "cuando": "2026-11-09T21:32:15.310736+00:00",
       "texto": "autopilot delegar_al_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261109-212224-xo0-registros-raiz --a agy"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T22:18:26.760963+00:00",
+      "revisor": "agy",
+      "candidato": "9aeced2",
+      "lanzamiento": "e75d8e76b248"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T22:18:33.317293+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "9aeced2",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "e75d8e76b248"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T22:18:42.658916+00:00",
+      "texto": "autopilot se detuvo: hay frenos: prueba_existente_editada"
     }
   ],
   "tipos": {
