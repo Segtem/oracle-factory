@@ -43,6 +43,8 @@ capacidad: "flujo"
 - `23f3d51` construir-primero: hallazgo CP1-001 de codex y corrección de la spec (la evidencia va después de confirmar las medidas) (trailer)
 - `3b3709c` construir-primero: spec aprobada de nuevo por Brian (trailer)
 - `0f582fe` construir-primero: requisito importado de nuevo y medidas propuestas (trailer)
+- `b1a8886` construir-primero: medidas confirmadas por Brian (segunda vez) (trailer)
+- `d1acf6b` construir-primero: evidencia del candidato nuevo (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-201722-oja-construir-primero`.
 
 ## Mensajes
