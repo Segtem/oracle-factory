@@ -1,4 +1,4 @@
 requisito flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision:
     texto "Tipo: funcional El sistema DEBE, ante un próximo paso `revisar` con un `segundo_revisor` válido (texto no vacío de letras, dígitos, punto, guion y guion bajo), decidir `actuar` con el comando mecánico `oracle-factory pedir-revision ID --a ESE_REVISOR`, antes de delegar la propuesta de revisión o pedirle la revisión a una persona; con `segundo_revisor` ausente, `null` o inválido la decisión no cambia; y los frenos y los datos ilegibles siguen yendo primero."
     fuente "openspec/changes/20261109-162444-701-segundo-revisor/specs/flujo/spec.md#el_conductor_pide_el_segundo_revisor_antes_de_la_revision"
-    sin_medir "sin medida todavía; escenarios: «con segundo revisor», «sin segundo revisor», «nombre inválido», «con un freno»"
+    medido_por factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision, factory_segundo_revisor.corrida_completa
