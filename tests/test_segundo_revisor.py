@@ -48,6 +48,11 @@ class Calculo(unittest.TestCase):
         self.assertEqual(segundo(informes=[], revisores={'zeta': {'proveedor': 'z'}, 'beta': {'proveedor': 'b'}}), 'beta')  # el primero por orden de nombre
         # sin otro proveedor, o datos ilegibles: null y sin romper
         self.assertIsNone(segundo(revisores={'agy': {'proveedor': 'agy'}, 'agy2': {'proveedor': 'agy'}}))
+        solo = {'agy': {'proveedor': 'agy'}, 'agy2': {'proveedor': 'agy'}}
+        for previos in ([], [informe('agy')], [informe('codex')]):  # un solo proveedor configurado: nunca hay segundo, haya o no informes
+            self.assertIsNone(segundo(informes=previos, revisores=solo))
+        self.assertIsNone(segundo(informes=[], revisores={'agy': {}}))
+        self.assertIsNone(segundo(informes=[], revisores={'agy': {'proveedor': 'p'}, 'raro nombre': {'proveedor': 'q'}}))  # un nombre inválido no cuenta como proveedor
         self.assertIsNone(segundo(revisores={}))
         for malo in (None, [], 'x', 3):
             self.assertIsNone(segundo(revisores=malo))
@@ -57,6 +62,7 @@ class Calculo(unittest.TestCase):
         self.assertEqual(segundo(revisores={'agy': {}, 'otro': 'x'}), 'otro')
         self.assertIsNone(segundo(revisores={'agy': {}, 'con espacio': {}, 'a;b': {}}))
         self.assertEqual(segundo(informes=[informe('agy'), 7], revisores=REVISORES), 'codex')
+        self.assertEqual(segundo(revisores={'agy': {}, 'codex': {}, 'a b': {}}), 'codex')  # un nombre inválido no se ofrece aunque su proveedor falte
 
 class EstadoReal(_te.Base):
     def test_sr1_con_estado_real_aparece_en_el_json_y_se_va_con_el_segundo_proveedor(self):
@@ -78,15 +84,24 @@ class EstadoReal(_te.Base):
             self.assertEqual(datos['segundo_revisor'], 'agy')  # todavía ningún informe
             escribir('agy', sha)
             self.assertEqual(f.datos_estado(self.ident)['segundo_revisor'], 'codex')
+            with patch('oracle_factory.alarmas.camino_del_candidato', return_value=LIGERO):
+                datos = f.datos_estado(self.ident)  # usa el camino que calcula estado: con un camino ligero no hay segundo revisor
+            self.assertEqual((datos['camino'], datos['segundo_revisor']), (LIGERO, None))
             # un informe ilegible (no JSON, o sin la lista findings) hace que no se sepa: null, aunque falte el segundo proveedor
             ilegible = estructura.ruta_canonica(self.root, self.ident, 'revision', sha) / 'codex-1.json'
             for contenido in ('{', '[]', json.dumps({'findings': 'x'}), json.dumps({})):
                 ilegible.write_text(contenido)
                 self.assertIsNone(f.datos_estado(self.ident)['segundo_revisor'], contenido)
             ilegible.unlink()
+            otro = ilegible.with_name('otro-1.json')  # cualquier informe ilegible cuenta, no sólo el de un revisor
+            otro.write_text('{')
+            self.assertIsNone(f.datos_estado(self.ident)['segundo_revisor'])
+            otro.unlink()
             self.assertEqual(f.datos_estado(self.ident)['segundo_revisor'], 'codex')
             escribir('codex', 'otro1234')
             self.assertIsNone(f.datos_estado(self.ident)['segundo_revisor'])
+        with patch.object(f, 'config_proyecto', side_effect=con({'agy': {'proveedor': 'agy'}, 'agy2': {'proveedor': 'agy'}})):
+            self.assertIsNone(f.datos_estado(self.ident)['segundo_revisor'])  # un solo proveedor configurado
         with patch.object(f, 'config_proyecto', side_effect=con('no es un objeto')):
             self.assertIsNone(f.datos_estado(self.ident)['segundo_revisor'])
         for error in (f.FactoryError('ilegible'), OSError('x'), ValueError('y')):

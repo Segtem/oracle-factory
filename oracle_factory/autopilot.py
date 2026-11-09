@@ -76,8 +76,8 @@ def segundo_revisor(camino, informes, revisores) -> str | None:
         propio = config.get("proveedor") if isinstance(config, dict) else None
         return propio if isinstance(propio, str) and propio else nombre
     usados = {proveedor(i["revisor"]) for i in informes if isinstance(i, dict) and isinstance(i.get("revisor"), str)}
-    if len(usados) >= 2:
-        return None
+    if len(usados) >= 2 or len({proveedor(n) for n in revisores if isinstance(n, str) and NOMBRE_DE_REVISOR.fullmatch(n)}) < 2:
+        return None  # ya hay dos proveedores, o la configuración no tiene otro que pedir
     return next((n for n in sorted(n for n in revisores if isinstance(n, str) and NOMBRE_DE_REVISOR.fullmatch(n)) if proveedor(n) not in usados), None)
 
 

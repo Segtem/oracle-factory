@@ -1,0 +1,61 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-segundo-revisor/.factory/local/revisiones/5e2f1c8-agy2-1",
+  "base": "d80cd8bae3f31aaf5b0b0f80ea6f457a1416705c",
+  "head": "5e2f1c8423204931fcabb9becd189e0c4f34fb17",
+  "diff_sha256": "2bdf191fc96c38c5cfc9715449ab9b266129e33468db9ee236792e58c385c06c",
+  "context_sha256": "28bb5e75530693467fef0bfe42198f326d984c16b9017187b0ab13d14f796561",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "SR-2",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Con un solo proveedor configurado y sin informes previos, segundo_revisor devuelve el primer revisor en vez de null",
+      "explanation": "La especificación exige en el escenario «sin otro proveedor ni datos legibles» que cuando sólo hay revisores de un proveedor, segundo_revisor sea null: «DADO que sólo hay revisores de un proveedor, o una configuración que no se puede leer / CUANDO se pide estado --json / ENTONCES segundo_revisor es null y estado no falla». Igualmente, la regla general dice que ante «ningún revisor configurado de otro proveedor (...) DEBE ser null». Sin embargo, autopilot.segundo_revisor no comprueba si en la configuración existen al menos dos proveedores distintos: calcula `usados` sobre los informes existentes y, si la lista está vacía (`informes=[]`), `usados` resulta vacío (`set()`). Como para el primer revisor en orden alfabético se cumple `proveedor(n) not in usados`, la función devuelve ese primer revisor (por ejemplo 'agy') en vez de null. Esto hace que en cualquier proyecto con un único proveedor configurado (o un solo revisor), ante un cambio nuevo de camino completo sin informes, estado --json publique `segundo_revisor: \"agy\"` (o el nombre del único revisor) y, si el conductor estuviera ante el paso `revisar`, decidiría pedir-revision con un motivo falso de segundo proveedor.",
+      "location": {
+        "file": "oracle_factory/autopilot.py",
+        "start_line": 81,
+        "end_line": 83,
+        "side": "head"
+      },
+      "trigger": "En un cambio de camino completo sin informes (informes=[]) con revisores configurados de un solo proveedor (por ejemplo {'agy': {'proveedor': 'agy'}, 'agy2': {'proveedor': 'agy'}} o un único revisor {'agy': {'proveedor': 'google'}}), invocar autopilot.segundo_revisor(camino, [], revisores).",
+      "evidence": "autopilot.segundo_revisor({'tipo': 'completo'}, [], {'agy': {'proveedor': 'agy'}, 'agy2': {'proveedor': 'agy'}}) devuelve 'agy' en vez de None. Con un único revisor {'agy': {'proveedor': 'google'}} y lista vacía de informes también devuelve 'agy'.",
+      "related_requirement": "estado_dice_que_segundo_revisor_falta_en_el_camino_completo",
+      "status": "pendiente",
+      "verification": "Reproducido en Python 3.13 con los módulos del checkout. La prueba existente en tests/test_segundo_revisor.py:48 pasó por alto este caso porque el helper `segundo(...)` usa por defecto `informes=(informe('agy'),)` y nunca probó `informes=[]` junto a revisores de un solo proveedor."
+    },
+    {
+      "id": "SR-3",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Huecos de prueba en tests/test_segundo_revisor.py permiten que mutaciones en el cálculo de camino y filtrado de informes sobrevivan",
+      "explanation": "tests/test_segundo_revisor.py presenta dos huecos de comprobación respecto a los escenarios comprometidos en la spec:\n1) En Calculo (línea 48), la llamada `self.assertIsNone(segundo(revisores={'agy': {'proveedor': 'agy'}, 'agy2': {'proveedor': 'agy'}}))` omite el parámetro `informes`, tomando el default `(informe('agy'),)`; no existe caso que evalúe `informes=[]` con revisores de un solo proveedor, lo cual enmascaró el defecto SR-2.\n2) En EstadoReal (líneas 60-84), el candidato de prueba se crea siempre con 240 líneas de código (`grande`), forzando camino completo; nunca se prueba `datos_estado` con un candidato de camino ligero ni con revisores de un solo proveedor. Mutaciones manuales que hardcodean `camino={'tipo': 'completo'}` en lecturas.py:segundo_revisor_del_cambio o que filtran únicamente `codex*.json` en la comprobación de informes corruptos pasan los 4 tests sin fallar.",
+      "location": {
+        "file": "tests/test_segundo_revisor.py",
+        "start_line": 48,
+        "end_line": 70,
+        "side": "head"
+      },
+      "trigger": "Introducir en oracle_factory/lecturas.py:segundo_revisor_del_cambio una mutación que hardcodee `camino={'tipo': 'completo'}` o que limite el glob a `codex*.json` y ejecutar `python tests/test_segundo_revisor.py`.",
+      "evidence": "Ambas mutaciones ejecutadas sobre una copia local pasaron la suite (Ran 4 tests in 0.525s OK). Asimismo, la mutación `if len(usados) == 2: return None` en autopilot.py sobrevive porque no se prueba el comportamiento con 3 proveedores ya registrados.",
+      "related_requirement": "estado_dice_que_segundo_revisor_falta_en_el_camino_completo",
+      "status": "pendiente",
+      "verification": "Mutaciones a mano verificadas localmente en directorio de trabajo aislado contra tests/test_segundo_revisor.py."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté la suite de pruebas `tests/test_segundo_revisor.py` con Python 3.13 en el entorno virtual del proyecto (4 tests pasaron).",
+    "Ejecuté mutaciones a mano sobre copias locales aisladas en `mutaciones/repo`: mutación de camino completo forzado en lecturas.py sobrevivió; mutación de glob a codex*.json sobrevivió; mutación len(usados) == 2 en autopilot.py sobrevivió.",
+    "Comprobé casos borde de autopilot.decidir ante el paso revisar, nombres inválidos de revisores, presencia de frenos y comandos con shlex.",
+    "No se ejecutó la suite completa de todo el repositorio oracle_factory para evitar alterar estado fuera del alcance de este candidato.",
+    "No revisé los archivos excluidos por la solicitud (.factory, kb, tareas).",
+    "El paquete de Clue no declaró archivos omitidos por ser binarios."
+  ]
+}
