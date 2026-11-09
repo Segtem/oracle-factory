@@ -1,4 +1,4 @@
 requisito flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision:
     texto "Tipo: funcional El sistema DEBE, ante un próximo paso `revisar` con un candidato vigente, decidir `delegar_al_agente` (con la instrucción de preparar el informe y proponer la decisión, diciendo que la decisión final es de una persona) cuando no hay una propuesta para ese candidato, y `pedir_a_persona` cuando sí la hay; una propuesta de otro candidato, o un dato de propuesta ilegible, no cuenta; sin candidato vigente la acción no cambia (`pedir_a_persona`); y los frenos y los datos ilegibles siguen yendo primero."
     fuente "openspec/changes/20261109-030359-8e4-revprop/specs/flujo/spec.md#el_conductor_delega_la_propuesta_antes_de_pedir_la_revision"
-    sin_medir "sin medida todavía; escenarios: «sin propuesta», «con propuesta del candidato vigente», «propuesta de otro candidato», «con un freno»"
+    medido_por factory_revprop.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision, factory_revprop.corrida_completa
