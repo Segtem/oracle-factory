@@ -1,0 +1,24 @@
+{
+  "id": "20261109-201722-oja-construir-primero",
+  "titulo": "Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero",
+  "capacidad": "flujo",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:17:22.826846+00:00",
+      "capacidad": "flujo"
+    }
+  ]
+}
