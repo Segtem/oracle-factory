@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261109-201722-oja-construir-primero. Modo de trabaj
 ### Nota (2026-11-09 20:23:20 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-09 20:23:29 UTC)
+
+Requisitos importados: flujo_cc36414a701aa1b86.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
