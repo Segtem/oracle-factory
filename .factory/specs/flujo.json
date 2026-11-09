@@ -14,7 +14,8 @@
     "20261109-030359-8e4-revprop",
     "20261109-125752-r6d-freno-visto",
     "20261109-162444-701-segundo-revisor",
-    "20261109-194509-ylk-sin-informe"
+    "20261109-194509-ylk-sin-informe",
+    "20261109-201722-oja-construir-primero"
   ],
   "requisitos": {
     "un valor del registro que no es una ruta se informa sin caerse": {
@@ -617,6 +618,24 @@
         "- DADO el escenario del primer caso con `segundo_revisor` en `null`",
         "- CUANDO el conductor decide sobre el paso `revisar`",
         "- ENTONCES no corre `pedir-revision` y sigue como sin segundo revisor"
+      ]
+    },
+    "ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas": {
+      "cambio": "20261109-201722-oja-construir-primero",
+      "requisito": "flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El sistema DEBE, ante el próximo paso `medir ID --listar`, mantener la acción `delegar_al_agente` y entregar una instrucción que diga, en este orden: primero construir lo que falte (las pruebas de cada escenario antes que el código, y los catálogos de medidas de los requisitos) sin correr todavía la evidencia completa, después elegir las medidas de cada requisito y proponerlas con `oracle-factory medir ... --requisito R --medida M`, y que confirmarlas es de una persona y que la evidencia se hace después de su confirmación; el motivo, el paso siguiente y el resto de las decisiones del conductor no cambian.",
+        "",
+        "#### Scenario: instrucción completa y en orden",
+        "- DADO el próximo paso `medir ID --listar`",
+        "- CUANDO el conductor decide",
+        "- ENTONCES la acción es `delegar_al_agente` y la instrucción nombra construir lo que falte (pruebas primero y catálogos, sin la evidencia completa todavía), proponer las medidas, y que confirmarlas es de una persona y que la evidencia va después, en ese orden",
+        "",
+        "#### Scenario: nada más cambia",
+        "- DADO el próximo paso `medir ID --confirmar`, o un freno",
+        "- CUANDO el conductor decide",
+        "- ENTONCES la decisión es la de siempre (`pedir_a_persona`, o `frenar`)"
       ]
     }
   },

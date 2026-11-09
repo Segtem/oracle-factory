@@ -127,7 +127,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-125752-r6d-freno-visto]] — Frenos: el de pruebas editadas deja de frenar cuando una persona aprobó la revisión (cerrada)
 - [[cambios/20261109-162444-701-segundo-revisor]] — Autopilot: en el camino completo el conductor pide un segundo revisor de otro proveedor (cerrada)
 - [[cambios/20261109-194509-ylk-sin-informe]] — Autopilot: el conductor no repite el pedido a un revisor que se lanzó y no dejó resultado (cerrada)
-- [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (oracle_verde)
+- [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (cerrada)
 
 ## Requisitos
 

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:3b4242c42784b2b1f4ad34bd54eb642c5a6c95d7d606476fa038ecaa0cc5196d -->
+<!-- oracle-factory resumen sha256:81395c326ce5831f20a458279eaac409d67d99a0e6ae5681f307018821f646e5 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 356 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 357 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -289,6 +289,7 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | estado_dice_que_segundo_revisor_falta_en_el_camino_completo | funcional | `flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo` | factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo, factory_segundo_revisor.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-162444-701-segundo-revisor |
 | el_conductor_pide_el_segundo_revisor_antes_de_la_revision | funcional | `flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision` | factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision, factory_segundo_revisor.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-162444-701-segundo-revisor |
 | el_segundo_revisor_no_es_uno_que_no_dejo_resultado | funcional | `flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado` | factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado, factory_sin_informe.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-194509-ylk-sin-informe |
+| ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas | funcional | `flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas` | factory_construir_primero.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas, factory_construir_primero.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-201722-oja-construir-primero |
 
 ### ide
 
@@ -1818,6 +1819,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261109-194509-ylk-sin-informe) codex (gpt-6-luna): Corrí `python -m unittest tests.test_sin_informe -v </dev/null`: pasó el caso del conductor; dos pruebas fallaron al inicializar por falta del módulo `oracle_metalenguaje`.
 - (20261109-194509-ylk-sin-informe) codex (gpt-6-luna): No corrí la suite completa: el entorno no tiene `.venv` ni `oracle_metalenguaje` instalado.
 - (20261109-194509-ylk-sin-informe) codex (gpt-6-luna): El paquete no omite archivos binarios.
+- (20261109-201722-oja-construir-primero) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261109-201722-oja-construir-primero) codex (gpt-6-luna): Sin hallazgos: la rama de medir --listar mantiene delegación, ordena construir lo faltante antes de proponer medidas y aplaza explícitamente la evidencia hasta la confirmación humana; medir --confirmar y frenos conservan sus rutas previas. CP1-001 quedó corregido: desapareció la condición ambigua y la instrucción ahora dice construir lo que falte.
+- (20261109-201722-oja-construir-primero) codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_construir_primero -v </dev/null`: 2 pruebas pasaron.
+- (20261109-201722-oja-construir-primero) codex (gpt-6-luna): Intenté `python -m unittest discover -s tests </dev/null`; tras 30 segundos seguía ejecutándose y mostró errores y fallos. No obtuve el resumen ni trazas; no lo usé como evidencia atribuible al cambio.
+- (20261109-201722-oja-construir-primero) codex (gpt-6-luna): No realicé mutaciones. Revisé estáticamente la spec, el diff, la prueba nueva, las ramas pertinentes de autopilot.py y docs/modos.md, y el informe de la ronda anterior.
+- (20261109-201722-oja-construir-primero) codex (gpt-6-luna): No hay archivos omitidos/binarios en el paquete.
 
 ### Históricos
 

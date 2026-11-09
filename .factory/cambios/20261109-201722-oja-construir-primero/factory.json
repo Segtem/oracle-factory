@@ -2,7 +2,7 @@
   "id": "20261109-201722-oja-construir-primero",
   "titulo": "Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261109-201722-oja-construir-primero/specs/flujo/spec.md",
   "spec_sha256": "3cd8038912234ab1581ba1bbd7ffb70463fc34a6c7a0dce74b00d4a656839ed9",
   "spec_aprobada": {
@@ -250,6 +250,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "23fa6ebdac54db0888333e19f7f3c62729c9db07e2cd9eb33ff8c787c3f9eec3"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:59:22.218754+00:00",
+      "oracle": ".factory/cambios/20261109-201722-oja-construir-primero/oracle-veredicto.txt",
+      "revision": "tareas/20261109-201722-oja-construir-primero/revisiones/registro-gdmu7_de/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T20:59:22.261471+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -274,5 +294,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T20:59:22.152070+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-09T20:59:22.261460+00:00"
+  }
 }
