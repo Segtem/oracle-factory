@@ -129,7 +129,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-194509-ylk-sin-informe]] — Autopilot: el conductor no repite el pedido a un revisor que se lanzó y no dejó resultado (cerrada)
 - [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (cerrada)
 - [[cambios/20261109-212224-xo0-registros-raiz]] — Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros) (cerrada)
-- [[cambios/20261109-233536-jgu-registros-almacen]] — Registros fuera del repo del producto, etapa 2: el almacén y conectar (espera_aprobacion_spec)
+- [[cambios/20261109-233536-jgu-registros-almacen]] — Registros fuera del repo del producto, etapa 2: el almacén y conectar (spec_aprobada)
 
 ## Requisitos
 
