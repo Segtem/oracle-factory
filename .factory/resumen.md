@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:a2bd7beb1ef7150d0791ebb375b42ec12fa2da2d64eeef2ecc3c9bfa2d19fb0e -->
+<!-- oracle-factory resumen sha256:3b4242c42784b2b1f4ad34bd54eb642c5a6c95d7d606476fa038ecaa0cc5196d -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 355 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 356 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -288,6 +288,7 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada | funcional | `flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada` | factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada, factory_freno_visto.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-125752-r6d-freno-visto |
 | estado_dice_que_segundo_revisor_falta_en_el_camino_completo | funcional | `flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo` | factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo, factory_segundo_revisor.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-162444-701-segundo-revisor |
 | el_conductor_pide_el_segundo_revisor_antes_de_la_revision | funcional | `flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision` | factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision, factory_segundo_revisor.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-162444-701-segundo-revisor |
+| el_segundo_revisor_no_es_uno_que_no_dejo_resultado | funcional | `flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado` | factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado, factory_sin_informe.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-194509-ylk-sin-informe |
 
 ### ide
 
@@ -1812,6 +1813,11 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261109-162444-701-segundo-revisor) codex (gpt-6-luna): Corrí `python -m unittest discover -s tests -p 'test_segundo_revisor.py' -v </dev/null`: los tres casos puros pasaron; el caso integrado falló al importar `oracle_metalenguaje` (`ModuleNotFoundError`), dependencia ausente en este checkout.
 - (20261109-162444-701-segundo-revisor) codex (gpt-6-luna): Intenté `python -m unittest discover -s tests </dev/null`; el conjunto mostró errores de entorno/dependencias y no terminó dentro de la ventana disponible.
 - (20261109-162444-701-segundo-revisor) codex (gpt-6-luna): Revisé la spec, el diff, los tres informes previos indicados y el estado de las áreas de `autopilot.segundo_revisor`, `lecturas.segundo_revisor_del_cambio` y `autopilot.decidir`; no ejecuté mutaciones sobre copias.
+- (20261109-194509-ylk-sin-informe) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261109-194509-ylk-sin-informe) codex (gpt-6-luna): No encontré defectos verificables en el diff; revisé la spec, la lógica de filtrado y la cobertura de los tres escenarios.
+- (20261109-194509-ylk-sin-informe) codex (gpt-6-luna): Corrí `python -m unittest tests.test_sin_informe -v </dev/null`: pasó el caso del conductor; dos pruebas fallaron al inicializar por falta del módulo `oracle_metalenguaje`.
+- (20261109-194509-ylk-sin-informe) codex (gpt-6-luna): No corrí la suite completa: el entorno no tiene `.venv` ni `oracle_metalenguaje` instalado.
+- (20261109-194509-ylk-sin-informe) codex (gpt-6-luna): El paquete no omite archivos binarios.
 
 ### Históricos
 
