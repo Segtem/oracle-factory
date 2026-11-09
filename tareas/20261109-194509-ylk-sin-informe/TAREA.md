@@ -19,3 +19,7 @@ Requisitos importados: flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_
 ### Nota (2026-11-09 19:47:26 UTC)
 
 Medidas de flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado: factory_sin_informe.el_segundo_revisor_no_es_uno_que_no_dejo_resultado, factory_sin_informe.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-09 19:49:11 UTC)
+
+Medidas de flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado: Brian Hollweg (persona, confirmo, modo confirmacion).
