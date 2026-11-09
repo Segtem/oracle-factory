@@ -93,6 +93,32 @@
         "factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada",
         "factory_freno_visto.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T14:56:14.478294+00:00",
+      "revisor": "agy",
+      "candidato": "4e4ee9f",
+      "lanzamiento": "5a1e1b3fb3e6"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T15:11:45.729938+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "4e4ee9f",
+      "resultado": "ok",
+      "hallazgos": 4,
+      "lanzamiento": "5a1e1b3fb3e6"
     }
   ],
   "tipos": {

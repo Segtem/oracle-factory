@@ -20,6 +20,8 @@ class Calculo(unittest.TestCase):
         self.assertEqual(ids(calcular(editados=EDITADOS, aprobada=False)), [PRUEBA])
         self.assertEqual(calcular(editados=EDITADOS, aprobada=True), [])
         self.assertEqual(calcular(editados=[], aprobada=True), [])
+        self.assertEqual(calcular(editados=[], aprobada=False), [])  # sin tests editados no hay freno, con o sin revisión
+        self.assertEqual(calcular(editados=None, aprobada=False), [])
 
     def test_fv1_los_demas_frenos_no_cambian_con_la_revision_aprobada(self):
         todo = calcular([juicio(1), juicio(1)], editados=EDITADOS, flujo=GRANDE, aprobada=True)
@@ -58,6 +60,12 @@ class EstadoReal(_te.Base):
         self.assertEqual(datos['frenos'], [])
         self.assertTrue(any('test existente editado' in a for a in datos['avisos']))
         self.assertFalse(any(a.startswith('FRENO:') for a in datos['avisos']))
+        # un candidato nuevo (otro producto) deja vieja esa revisión y el freno vuelve, con Git de verdad
+        self.candidato(lambda: (self.root / 'src/modulo.py').write_text('def f():\n    return 3\n'))
+        with patch.object(f, 'problemas_de_revision', return_value=[]):
+            datos = f.datos_estado(self.ident)
+        self.assertEqual(ids(datos['frenos']), [PRUEBA])
+        self.assertTrue(any(a.startswith('FRENO:') for a in datos['avisos']))
 
 
 if __name__ == '__main__':
