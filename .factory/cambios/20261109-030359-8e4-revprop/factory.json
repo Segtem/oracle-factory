@@ -180,6 +180,42 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "502844461976"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T04:01:34.296035+00:00",
+      "revisor": "codex",
+      "candidato": "ef342fd",
+      "lanzamiento": "0585cefe1523"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T04:02:44.426727+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "ef342fd",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "0585cefe1523"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T04:03:06.902417+00:00",
+      "decision": "aprobar",
+      "candidato": "ef342fd"
     }
   ],
   "tipos": {
@@ -220,5 +256,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres rondas de codex sobre candidatos 04048bb, c16e67d y ef342fd; la tercera sin hallazgos. Ronda 1, REVPROP-1 (media): ultima_propuesta aceptaba una propuesta de quien no era un agente; ahora exige tipo_actor == agente. Ronda 2, REVPROP-2 (media): el conductor aceptaba una propuesta incompleta o con un candidato con basura; ahora cuenta sólo con decision aprobar o cambios, candidato hexadecimal de 7 a 40 caracteres que coincide con el vigente en los 7 primeros, y actor y fecha presentes. Las dos de la clase qué cuenta como propuesta válida. Evidencia 1336 pruebas OK, 7 casos de contrato. 35 mutaciones propias, todas detectadas. Toca reglas de decisión (cli.py no, pero autopilot.py decide qué se le pide a una persona): camino completo por el tamaño y por el freno. DECLARO DOS PRUEBAS EXISTENTES EDITADAS (la guarda de docs/tests.md; por eso estado marca el freno prueba_existente_editada y el conductor se frena solo): sólo sus ayudantes, de forma aditiva: el decidir() de tests/test_autopilot.py y el datos() de tests/test_conductor.py dejan por defecto una propuesta completa y válida del candidato vigente, porque ahora revisar sin propuesta pasa a delegar_al_agente y sin eso los casos que esperan pedir_a_persona dejarían de probar lo que decían. Ningún caso se quitó ni se aflojó; codex miró la edición y no objetó. Con datos reales de este cambio, sin el freno, el conductor decide delegar la propuesta al agente en vez de pedir revisar. Límites: el conductor no pide una segunda ronda con otro revisor (estado sólo sugiere uno); un freno ya declarado en la revisión sigue frenando al conductor durante todo el cambio, por eso hoy el paso se hace a mano; la validación de la propuesta está en el conductor y estado muestra lo que hay. La decisión de revisar es siempre de una persona.",
+      "candidato": "ef342fd",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T04:03:06.902403+00:00"
+    }
+  }
 }
