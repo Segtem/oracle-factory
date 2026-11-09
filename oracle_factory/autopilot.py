@@ -42,11 +42,20 @@ def ultima_propuesta(estado) -> dict | None:
     return None
 
 
+SHA = re.compile(r"[0-9a-fA-F]{7,40}")  # un candidato como lo guarda Factory: un commit de 7 caracteres o más
+DECISIONES = ("aprobar", "cambios")
+
+
 def _propuesta_del_candidato(propuesta, candidato) -> bool:
-    """Si la propuesta es del candidato vigente (con 7 caracteres y en minúsculas, como los guarda Factory); un dato ilegible no cuenta."""
-    if not isinstance(propuesta, dict) or not isinstance(propuesta.get("candidato"), str):
+    """Si la propuesta es completa y del candidato vigente (con 7 caracteres y en minúsculas, como los guarda Factory). Una propuesta incompleta
+    o con algo que no se entiende (decisión, candidato, actor o fecha) no cuenta: el agente tiene que dejarla bien."""
+    if not isinstance(propuesta, dict):
         return False
-    return propuesta["candidato"][:7].lower() == candidato[:7].lower()
+    propio = propuesta.get("candidato")
+    if not (isinstance(propio, str) and SHA.fullmatch(propio) and propuesta.get("decision") in DECISIONES
+            and all(isinstance(propuesta.get(k), str) and propuesta[k] for k in ("actor", "cuando"))):
+        return False
+    return propio[:7].lower() == candidato[:7].lower()
 
 
 GLOBALES = ("--agente", "--proyecto")  # las opciones del parser que van antes del subcomando y llevan un valor

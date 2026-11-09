@@ -67,17 +67,23 @@ class Estado(_te.Base):
 class Reglas(unittest.TestCase):
     # --- rp2: el conductor delega la propuesta antes de pedir la revisión ---------------------------------------------------------
     def test_rp2_sin_propuesta_para_el_candidato_se_delega_con_la_instruccion(self):
-        for prop in (None, propuesta('fffffff'), 'x', [], {}, {'candidato': 3}, {'candidato': None}, {'candidato': ''}, 3):
+        malas = [{**propuesta(), 'decision': None}, {**propuesta(), 'decision': 'quizás'}, {**propuesta(), 'decision': ['aprobar']}, {**propuesta(), 'actor': None},
+                 {**propuesta(), 'actor': ''}, {**propuesta(), 'cuando': None}, {**propuesta(), 'cuando': 3}, {**propuesta(), 'candidato': 'abc1234-basura'},
+                 {**propuesta(), 'candidato': 'abc123'}, {**propuesta(), 'candidato': 'zzzzzzz'}, {**propuesta(), 'candidato': 'abc1234' + 'f' * 34},
+                 {'decision': None, 'candidato': 'abc1234', 'actor': None, 'cuando': None}, {'candidato': 'abc1234'}]
+        for prop in (None, propuesta('fffffff'), 'x', [], {}, {'candidato': 3}, {'candidato': None}, {'candidato': ''}, 3, *malas):
             with self.subTest(prop=prop):
                 d = decidir(prop=prop)
                 self.assertEqual((d['accion'], d['quien'], d['comando']), ('delegar_al_agente', 'agente', None))
                 for texto in ('abc1234', 'revision-preparar', ID, 'revisar', '--decision', 'persona', f'oracle-factory revisar {ID}'):
                     self.assertIn(texto, d['instruccion'])
                 self.assertTrue(d['motivo'])
+        # un candidato de menos de 7 caracteres no es uno de Factory, aunque coincida con el vigente
+        self.assertEqual(decidir(candidato='abc123', prop=propuesta('abc123'))['accion'], 'delegar_al_agente')
 
     def test_rp2_con_propuesta_del_candidato_vigente_se_pide_a_la_persona(self):
         for prop, candidato in ((propuesta('abc1234'), 'abc1234'), (propuesta('abc1234'), 'ABC1234567'), (propuesta('ABC1234567'), 'abc1234'),
-                                (propuesta('abc1234', decision='cambios'), 'abc1234')):
+                                (propuesta('abc1234', decision='cambios'), 'abc1234'), (propuesta('abc1234' + 'f' * 33), 'abc1234')):
             with self.subTest(prop=prop, candidato=candidato):
                 paso = f'oracle-factory revisar {ID}'
                 d = decidir(paso, candidato=candidato, prop=prop)

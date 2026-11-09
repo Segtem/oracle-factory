@@ -19,7 +19,7 @@ FRENO = {'id': 'cambio_grande', 'motivo': 'el candidato agrega 900 líneas'}
 
 def datos(paso, frenos=(), candidato='abc1234', fase='requisitos_importados'):
     return {'fase': fase, 'proximo_paso': paso, 'frenos': list(frenos), 'candidato': candidato,
-            'propuesta_de_revision': {'candidato': candidato}}  # con la propuesta del agente ya dejada: `revisar` es de la persona
+            'propuesta_de_revision': {'decision': 'aprobar', 'candidato': candidato, 'actor': 'claude-code', 'cuando': '2026-11-09T01:00:00+00:00'}}  # con la propuesta del agente ya dejada: `revisar` es de la persona
 
 
 class Fabrica:
