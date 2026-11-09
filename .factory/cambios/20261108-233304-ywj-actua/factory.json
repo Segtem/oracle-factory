@@ -2,7 +2,7 @@
   "id": "20261108-233304-ywj-actua",
   "titulo": "Autopilot que actúa: corre lo mecánico, delega lo creativo, con topes y rastro",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261108-233304-ywj-actua/specs/flujo/spec.md",
   "spec_sha256": "70457b438dcbdf6f58fe630fa8ae0f97036d41fb66bc1e3f8ae6699da703406c",
   "spec_aprobada": {
@@ -22,8 +22,40 @@
     "flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar",
     "flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261108-233304-ywj-actua/revisiones/registro-r4hama_3/informe.json",
+    "sha256": "9e07056b99c2c55f02c4c6b74b7ea4bb9a5f77e6fd08f205df286a3193723436",
+    "decisiones": "tareas/20261108-233304-ywj-actua/revisiones/registro-r4hama_3/decisiones.json",
+    "decisiones_sha256": "1e6a5b3595c543e20b50a0aa99f908539be47f8b5eb29c7f5df3b2ab1ed3293b",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T01:12:56.530455+00:00",
+    "motivo": "Cuatro rondas de codex sobre candidatos a690c89, d90883c, aa012ae y 18e9e86; la cuarta sin hallazgos. Ronda 1, ACTUA-001 (media): el plazo de un paso se calculaba antes de dejar el porqué, que gasta tiempo del tope; ahora cada proceso toma su plazo del reloj justo antes de correr. Ronda 2, ACTUA-002 (media): _proceso estiraba cualquier plazo a 1 s y el mensaje final tenía 60 s fijos; ahora el plazo es exacto, sin tiempo no arranca, y el mensaje final tiene un plazo propio de 10 s (PLAZO_FINAL) FUERA del tope, decisión explícita y documentada en docs/modos.md: el rastro del motivo lo exige la spec aunque el tiempo se haya agotado y dejarlo no es actuar. Ronda 3, ACTUA-003 (media): el código de salida no reflejaba que faltara el mensaje final; ahora el resultado trae fallo (un paso, el porqué, el mensaje final o la lectura del estado) y el código sale de ahí. Evidencia 1326 pruebas OK, 16 casos de contrato. 47 mutaciones propias, 45 detectadas y 2 equivalentes declaradas (len(nombre) < 3 y la verificación final del subcomando en argumentos_mecanicos: defensas redundantes con el parser, que rechaza antes esos casos). Toca reglas de decisión (cli.py): camino completo. Sin pruebas existentes editadas; se regenera tests/datos/ayuda-cli.json. Las decisiones de persona nunca se corren, ni mal clasificadas (se verifica con el comando por separado de autopilot.argumentos_mecanicos); integración, publicación y producción siguen en confirmacion. Límites: --lanzar ejecuta lo que se le pase con los permisos del usuario y no se guarda en la configuración; qué agente lanzar y con qué permisos lo decide la persona en cada corrida; el agente lanzado hace lo que haga y se verifica con la evidencia, Oracle y la revisión de siempre; el plazo del mensaje final (10 s) queda fuera del tope por diseño; el conductor depende del parser real. Un freno de este cambio es el que da el cambio 2 (frenos).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "b2cb6fc2d91b42cd2ff0173d1b7670bfe1c16e1f",
+      "archivos_sha256": "641ba7bf3957f13d90fce64de29ea52ecb569bd5e9a3b20b8dc08b8b286b4f89"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261108-233304-ywj-actua/candidatos/18e9e86/evidencia/hechos.json",
+    "hechos_sha256": "f44f9ec6a747b4e33f8267125caec4c8c829fb61c75d7eea52d234203d2da370",
+    "informe": ".factory/cambios/20261108-233304-ywj-actua/oracle-veredicto.txt",
+    "informe_sha256": "ca37e09a01ca5835a823b3ce4bc46edcb3407e010f16a5784947b6fee466aaa7",
+    "cuando": "2026-11-09T01:13:06.507038+00:00",
+    "contexto": {
+      "head": "b2cb6fc2d91b42cd2ff0173d1b7670bfe1c16e1f",
+      "archivos_sha256": "641ba7bf3957f13d90fce64de29ea52ecb569bd5e9a3b20b8dc08b8b286b4f89"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -282,6 +314,31 @@
       "cuando": "2026-11-09T01:12:35.407344+00:00",
       "decision": "aprobar",
       "candidato": "18e9e86"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T01:12:56.530490+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "9e07056b99c2c55f02c4c6b74b7ea4bb9a5f77e6fd08f205df286a3193723436",
+      "decisiones_sha256": "1e6a5b3595c543e20b50a0aa99f908539be47f8b5eb29c7f5df3b2ab1ed3293b"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T01:13:06.507056+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "f44f9ec6a747b4e33f8267125caec4c8c829fb61c75d7eea52d234203d2da370"
     }
   ],
   "tipos": {
@@ -357,14 +414,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Cuatro rondas de codex sobre candidatos a690c89, d90883c, aa012ae y 18e9e86; la cuarta sin hallazgos. Ronda 1, ACTUA-001 (media): el plazo de un paso se calculaba antes de dejar el porqué, que gasta tiempo del tope; ahora cada proceso toma su plazo del reloj justo antes de correr. Ronda 2, ACTUA-002 (media): _proceso estiraba cualquier plazo a 1 s y el mensaje final tenía 60 s fijos; ahora el plazo es exacto, sin tiempo no arranca, y el mensaje final tiene un plazo propio de 10 s (PLAZO_FINAL) FUERA del tope, decisión explícita y documentada en docs/modos.md: el rastro del motivo lo exige la spec aunque el tiempo se haya agotado y dejarlo no es actuar. Ronda 3, ACTUA-003 (media): el código de salida no reflejaba que faltara el mensaje final; ahora el resultado trae fallo (un paso, el porqué, el mensaje final o la lectura del estado) y el código sale de ahí. Evidencia 1326 pruebas OK, 16 casos de contrato. 47 mutaciones propias, 45 detectadas y 2 equivalentes declaradas (len(nombre) < 3 y la verificación final del subcomando en argumentos_mecanicos: defensas redundantes con el parser, que rechaza antes esos casos). Toca reglas de decisión (cli.py): camino completo. Sin pruebas existentes editadas; se regenera tests/datos/ayuda-cli.json. Las decisiones de persona nunca se corren, ni mal clasificadas (se verifica con el comando por separado de autopilot.argumentos_mecanicos); integración, publicación y producción siguen en confirmacion. Límites: --lanzar ejecuta lo que se le pase con los permisos del usuario y no se guarda en la configuración; qué agente lanzar y con qué permisos lo decide la persona en cada corrida; el agente lanzado hace lo que haga y se verifica con la evidencia, Oracle y la revisión de siempre; el plazo del mensaje final (10 s) queda fuera del tope por diseño; el conductor depende del parser real. Un freno de este cambio es el que da el cambio 2 (frenos).",
-      "candidato": "18e9e86",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T01:12:35.407326+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

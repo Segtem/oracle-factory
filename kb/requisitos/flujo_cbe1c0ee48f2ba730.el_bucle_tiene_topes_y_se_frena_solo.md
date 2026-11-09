@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo`
 - Vigente: sí
 - Cambio: [[cambios/20261108-233304-ywj-actua]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_conductor.el_bucle_tiene_topes_y_se_frena_solo`, `factory_conductor.corrida_completa`
 - Fuente: openspec/changes/20261108-233304-ywj-actua/specs/flujo/spec.md#el_bucle_tiene_topes_y_se_frena_solo
 

@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cbe1c0ee48f2ba730.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona`
 - Vigente: sí
 - Cambio: [[cambios/20261108-233304-ywj-actua]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_conductor.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona`, `factory_conductor.corrida_completa`
 - Fuente: openspec/changes/20261108-233304-ywj-actua/specs/flujo/spec.md#autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona
 

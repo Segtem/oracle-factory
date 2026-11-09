@@ -121,7 +121,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261108-134533-o0q-etapas]] — Autonomía por etapa: construcción, integración, publicación y producción (cerrada)
 - [[cambios/20261108-203356-puy-frenos]] — Frenos de construcción: avisos de estado que mandan parar (cerrada)
 - [[cambios/20261108-220606-51z-autopilot]] — Conductor autopilot: decide el siguiente paso por reglas (sin actuar) (cerrada)
-- [[cambios/20261108-233304-ywj-actua]] — Autopilot que actúa: corre lo mecánico, delega lo creativo, con topes y rastro (requisitos_importados)
+- [[cambios/20261108-233304-ywj-actua]] — Autopilot que actúa: corre lo mecánico, delega lo creativo, con topes y rastro (oracle_verde)
 
 ## Requisitos
 

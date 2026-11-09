@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro`
 - Vigente: sí
 - Cambio: [[cambios/20261108-233304-ywj-actua]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_conductor.cada_paso_deja_su_porque_en_el_registro`, `factory_conductor.corrida_completa`
 - Fuente: openspec/changes/20261108-233304-ywj-actua/specs/flujo/spec.md#cada_paso_deja_su_porque_en_el_registro
 
