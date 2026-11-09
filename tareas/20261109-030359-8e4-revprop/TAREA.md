@@ -23,3 +23,11 @@ Medidas de flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_ped
 ### Nota (2026-11-09 03:12:14 UTC)
 
 Medidas de flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente: factory_revprop.estado_dice_la_ultima_propuesta_de_revision_de_un_agente, factory_revprop.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-09 03:20:40 UTC)
+
+Medidas de flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-09 03:20:40 UTC)
+
+Medidas de flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente: Brian Hollweg (persona, confirmo, modo confirmacion).
