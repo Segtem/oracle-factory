@@ -45,6 +45,8 @@ class EstadoReal(_te.Base):
         self.assertEqual(frenos('aprobar', actual, ['algo']), [PRUEBA])
         self.assertEqual(frenos('aprobar', {'archivos_sha256': 'otro'}), [PRUEBA])
         self.assertEqual(frenos('aprobar', None), [PRUEBA])
+        estado['revision'] = {'decision': 'aprobar', 'contexto': actual}
+        self.assertEqual(ids(f.frenos_del_cambio(self.ident, estado, sha, None, EDITADOS, {})), [PRUEBA])  # producto ilegible: no rompe y frena
         texto, datos = self.estado()
         self.assertEqual(ids(datos['frenos']), [PRUEBA])  # sin revisión registrada todavía
         self.assertTrue(any('test existente editado' in a for a in datos['avisos']))
