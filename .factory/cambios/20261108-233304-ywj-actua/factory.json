@@ -168,6 +168,32 @@
         "factory_conductor.el_bucle_tiene_topes_y_se_frena_solo",
         "factory_conductor.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T00:15:16.313038+00:00",
+      "revisor": "codex",
+      "candidato": "a690c89",
+      "lanzamiento": "760b5e657433"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T00:16:30.498461+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "a690c89",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "760b5e657433"
     }
   ],
   "tipos": {

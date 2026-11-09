@@ -24,10 +24,11 @@ def datos(paso, frenos=(), candidato='abc1234', fase='requisitos_importados'):
 class Fabrica:
     """Un ejecutor falso: observa una lista de estados (el último se repite), anota cada comando y devuelve lo que se le dice."""
 
-    def __init__(self, estados, falla=(), lanzar_falla=None, reloj_paso=0):
+    def __init__(self, estados, falla=(), lanzar_falla=None, reloj_paso=0, mensaje_tarda=0):
         self.estados, self.llamadas, self.lanzadas, self.observadas, self.falla, self.lanzar_falla = list(estados), [], [], 0, set(falla), lanzar_falla
         self.t = 0.0
-        self.reloj_paso = reloj_paso
+        self.reloj_paso, self.mensaje_tarda = reloj_paso, mensaje_tarda
+        self.plazos = []  # (comando, plazo) de cada proceso
 
     def observar(self):
         self.observadas += 1
@@ -38,10 +39,14 @@ class Fabrica:
 
     def correr(self, argv, plazo):
         self.llamadas.append(argv)
+        self.plazos.append((argv[0], plazo))
+        if argv[0] == 'mensaje':
+            self.t += self.mensaje_tarda  # dejar el porqué gasta tiempo del tope
         return (1, 'falló') if argv[0] in self.falla else (0, 'ok')
 
     def lanzar(self, argv, plazo):
         self.lanzadas.append(argv)
+        self.plazos.append(('lanzar', plazo))
         return self.lanzar_falla or (0, 'hecho')
 
     def ahora(self):
@@ -151,8 +156,28 @@ class Bucle(unittest.TestCase):
     def test_co3_el_tope_de_minutos_detiene_el_bucle_con_un_reloj_falso(self):
         fab = Fabrica(pasos_distintos(10), reloj_paso=60)  # cada lectura del reloj avanza un minuto
         r = fab.bucle(max_minutos=3)
-        self.assertEqual(len(r['pasos']), 2)  # justo en el tope ya no actúa
+        self.assertLessEqual(len(r['pasos']), 1)  # cada lectura del reloj gasta un minuto: con un tope de tres no caben más
         self.assertIn('minutos', r['motivo'])
+        # el porqué gasta tiempo del tope: el paso toma su plazo del reloj de después, y si ya no queda, no se actúa
+        fab = Fabrica([datos(f'oracle-factory juzgar {ID}'), datos(f'oracle-factory cerrar {ID}')], mensaje_tarda=45)
+        r = fab.bucle(max_minutos=1)
+        self.assertEqual([p for p in fab.plazos if p[0] == 'juzgar'], [('juzgar', 15)])  # 60 s menos los 45 del mensaje
+        self.assertLessEqual([p for p in fab.plazos if p[0] == 'mensaje'][0][1], 60)
+        fab = Fabrica([datos(f'oracle-factory juzgar {ID}')], mensaje_tarda=70)
+        r = fab.bucle(max_minutos=1)
+        self.assertEqual((r['pasos'], 'juzgar' in fab.comandos()), ([], False))
+        self.assertIn('minutos', r['motivo'])
+        fab = Fabrica([datos(f'oracle-factory juzgar {ID}')], mensaje_tarda=60)
+        r = fab.bucle(max_minutos=1)
+        self.assertEqual((r['pasos'], 'juzgar' in fab.comandos()), ([], False))  # justo en el tope tampoco
+        # con el tiempo ya agotado no se deja ni el porqué: sólo el mensaje final
+        for reloj, tope in ((1, 0.001), (0, 0)):
+            fab = Fabrica(pasos_distintos(3), reloj_paso=reloj)
+            r = fab.bucle(max_minutos=tope)
+            self.assertEqual((r['pasos'], fab.comandos()), ([], ['mensaje']))
+        fab = Fabrica([datos(f'oracle-factory juzgar {ID}'), datos(f'oracle-factory cerrar {ID}')])
+        fab.bucle(max_minutos=0.5)
+        self.assertEqual(fab.plazos[0], ('mensaje', 30))  # el plazo del porqué es lo que queda, hasta 60 s
 
     def test_co3_la_misma_decision_dos_veces_seguidas_es_falta_de_progreso(self):
         fab = Fabrica([datos(f'oracle-factory juzgar {ID}')])  # el estado nunca cambia

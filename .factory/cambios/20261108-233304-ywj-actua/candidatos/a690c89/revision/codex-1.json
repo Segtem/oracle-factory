@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-autopilot-actua/.factory/local/revisiones/a690c89-codex-1",
+  "base": "63fed11672e721870c39a12aa39b84901c9d9805",
+  "head": "a690c895c1b04ba95b74edc920a6399c32376c83",
+  "diff_sha256": "d33acc8f22202adc5477c09703a05b95d40b09faa01c2ee88c92f02860a0b4f3",
+  "context_sha256": "41d4e443d5fe00ef071cdbd9c1b86ba80bc69c1c92a360c0bb686aad7ab25697",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "ACTUA-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "El tope de minutos no incluye la escritura previa del porqué",
+      "explanation": "El plazo restante se calcula en la línea 88, antes de correr el `mensaje` previo en la línea 89. Ese proceso puede consumir hasta 60 segundos; luego el paso recibe el plazo calculado con el tiempo anterior. Por eso, cerca del límite, una acción puede comenzar después de vencido `--max-minutos` y ejecutarse hasta un minuto extra (además del mínimo de 1 s que aplica `_proceso`). Esto incumple el requisito de detenerse al llegar al tope temporal.",
+      "location": {
+        "file": "oracle_factory/conductor.py",
+        "start_line": 88,
+        "end_line": 89,
+        "side": "head"
+      },
+      "trigger": "Use `--max-minutos` pequeño y una decisión que actúe cuando quede menos de 60 s; haga que el comando `mensaje` previo tarde más que el tiempo restante, sin fallar.",
+      "evidence": "`plazo = max_minutos * 60 - transcurrido` precede a `correr([\"mensaje\", ...], 60)`; después se pasa el `plazo` previo a `correr(argv, plazo)` o `lanzar(...)`. No se vuelve a consultar el reloj ni se recalcula el restante tras registrar el porqué.",
+      "related_requirement": "el_bucle_tiene_topes_y_se_frena_solo",
+      "status": "pendiente",
+      "verification": "No corrí una mutación. Una prueba con reloj falso y un ejecutor cuyo mensaje previo avanza el reloj hasta superar el límite debería demostrar que el paso aún se ejecuta; debe pasar al recalcular el restante y frenar antes de actuar."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "No ejecuté la suite ni mutaciones; contrasté el código y los escenarios de `tests/test_conductor.py` con la spec.",
+    "`tests/datos/ayuda-cli.json` elimina una línea del golden y la reemplaza con la ayuda actualizada de `autopilot`; el cambio está justificado por las nuevas opciones de CLI (`--ejecutar`, `--lanzar`, `--max-pasos`, `--max-minutos`). No vi edición de otro test existente.",
+    "El paquete no omite archivos binarios."
+  ]
+}

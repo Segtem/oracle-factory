@@ -53,6 +53,9 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
     `observar()` da los datos de estado; `correr(argv, plazo)` y `lanzar(argv, plazo)` dan (código, salida)."""
     pasos, previa, decision, inicio = [], None, None, ahora()
 
+    def restante() -> float:
+        return max_minutos * 60 - (ahora() - inicio)
+
     def detener(motivo: str) -> dict:
         texto = f"autopilot se detuvo: {motivo}" + (f". Comando para una persona: {decision['comando']}" if decision and decision["accion"] == "pedir_a_persona" else "")
         codigo, salida = correr(["mensaje", ident, _recortar(texto, MAX_MENSAJE)], 60)
@@ -62,10 +65,9 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
         return resultado
 
     while True:
-        transcurrido = ahora() - inicio
         if len(pasos) >= max_pasos:
             return detener(f"se llegó al tope de {max_pasos} pasos")
-        if transcurrido >= max_minutos * 60:
+        if restante() <= 0:
             return detener(f"se llegó al tope de {max_minutos:g} minutos")
         try:
             decision = autopilot.decidir(observar())
@@ -85,10 +87,13 @@ def bucle(ident: str, observar, correr, lanzar, lanzar_cmd: list[str] | None, ma
         elif not lanzar_cmd:
             return detener("hay trabajo para un agente y falta --lanzar COMANDO para lanzarlo")
         previa = clave
-        plazo = max_minutos * 60 - transcurrido
-        codigo, _ = correr(["mensaje", ident, _porque(decision)], 60)
+        # Cada proceso toma su plazo del reloj justo antes de correr: dejar el porqué también gasta tiempo del tope.
+        codigo, _ = correr(["mensaje", ident, _porque(decision)], min(60, max(1, restante())))
         if codigo:
             return detener("no se pudo dejar el porqué en el registro: no se actúa sin dejarlo")
+        plazo = restante()
+        if plazo <= 0:
+            return detener(f"se llegó al tope de {max_minutos:g} minutos")
         codigo, salida = correr(argv, plazo) if accion == "actuar" else lanzar([*lanzar_cmd, decision["instruccion"]], plazo)
         pasos.append({"accion": accion, "comando": decision["comando"], "instruccion": decision["instruccion"], "motivo": decision["motivo"],
                       "codigo": codigo, "salida": _recortar(salida, 300)})
