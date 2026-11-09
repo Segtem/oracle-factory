@@ -1,0 +1,66 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261109-162444-701-segundo-revisor",
+  "contexto": {
+    "head": "6d0a0cbc732d0baf12f0f596a67f3cd987fe8b18",
+    "archivos_sha256": "64410590127506306eed047fd696f868208c7f0dc7842bb5ee4a7d8eb41bb834"
+  },
+  "documentos": {
+    "openspec/changes/20261109-162444-701-segundo-revisor/proposal.md": "5b20db1830714780c6f44cb3539ee275c7ffe6349e3468d0ff70510dda9c2e5d",
+    "openspec/changes/20261109-162444-701-segundo-revisor/specs/flujo/spec.md": "7ba169cb2b635f8d52b1bcefdb3a21586d2de820a9f5603fe970dff11838b9f8"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_segundo_revisor.corrida_completa.oracle",
+    "catalogos/factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision.oracle",
+    "catalogos/factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo.oracle",
+    "docs/modos.md",
+    "openspec/changes/20261109-162444-701-segundo-revisor/design.md",
+    "openspec/changes/20261109-162444-701-segundo-revisor/proposal.md",
+    "openspec/changes/20261109-162444-701-segundo-revisor/specs/flujo/spec.md",
+    "openspec/changes/20261109-162444-701-segundo-revisor/tasks.md",
+    "oracle_factory/autopilot.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/lecturas.py",
+    "requisitos/flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision.requisito",
+    "requisitos/flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo.requisito",
+    "tests/test_segundo_revisor.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1343 pruebas, 4 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-162444-701-segundo-revisor/candidatos/1428214/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-162444-701-segundo-revisor/candidatos/1428214/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bdf566d: codex (gpt-6-luna), 1 hallazgo: SR-1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-162444-701-segundo-revisor/candidatos/bdf566d/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5e2f1c8: agy (gemini-3.8-flash-high), 2 hallazgos: SR-2 (media), SR-3 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-162444-701-segundo-revisor/candidatos/5e2f1c8/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5e2f1c8: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261109-162444-701-segundo-revisor/candidatos/5e2f1c8/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Sin hallazgos: las promesas revisadas coinciden con el flujo de selección y decisión; no encontré defectos demostrables en el diff.",
+    "codex (gpt-6-luna): Corrí `python -m unittest discover -s tests -p 'test_segundo_revisor.py' -v </dev/null`: los tres casos puros pasaron; el caso integrado falló al importar `oracle_metalenguaje` (`ModuleNotFoundError`), dependencia ausente en este checkout.",
+    "codex (gpt-6-luna): Intenté `python -m unittest discover -s tests </dev/null`; el conjunto mostró errores de entorno/dependencias y no terminó dentro de la ventana disponible.",
+    "codex (gpt-6-luna): Revisé la spec, el diff, los tres informes previos indicados y el estado de las áreas de `autopilot.segundo_revisor`, `lecturas.segundo_revisor_del_cambio` y `autopilot.decidir`; no ejecuté mutaciones sobre copias."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

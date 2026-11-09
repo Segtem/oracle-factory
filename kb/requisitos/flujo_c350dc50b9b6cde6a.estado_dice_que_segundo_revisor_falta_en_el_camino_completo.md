@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo`
 - Vigente: sí
 - Cambio: [[cambios/20261109-162444-701-segundo-revisor]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo`, `factory_segundo_revisor.corrida_completa`
 - Fuente: openspec/changes/20261109-162444-701-segundo-revisor/specs/flujo/spec.md#estado_dice_que_segundo_revisor_falta_en_el_camino_completo
 

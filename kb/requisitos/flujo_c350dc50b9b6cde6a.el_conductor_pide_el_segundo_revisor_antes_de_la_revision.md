@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision`
 - Vigente: sí
 - Cambio: [[cambios/20261109-162444-701-segundo-revisor]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_segundo_revisor.el_conductor_pide_el_segundo_revisor_antes_de_la_revision`, `factory_segundo_revisor.corrida_completa`
 - Fuente: openspec/changes/20261109-162444-701-segundo-revisor/specs/flujo/spec.md#el_conductor_pide_el_segundo_revisor_antes_de_la_revision
 

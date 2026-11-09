@@ -2,7 +2,7 @@
   "id": "20261109-162444-701-segundo-revisor",
   "titulo": "Autopilot: en el camino completo el conductor pide un segundo revisor de otro proveedor",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261109-162444-701-segundo-revisor/specs/flujo/spec.md",
   "spec_sha256": "7ba169cb2b635f8d52b1bcefdb3a21586d2de820a9f5603fe970dff11838b9f8",
   "spec_aprobada": {
@@ -20,8 +20,40 @@
     "flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision",
     "flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261109-162444-701-segundo-revisor/revisiones/registro-di3l86g3/informe.json",
+    "sha256": "6405e6f2411c6c0abfb97fc2cb058b60da89a1b1b351bd940e3f6769b8f2bc6d",
+    "decisiones": "tareas/20261109-162444-701-segundo-revisor/revisiones/registro-di3l86g3/decisiones.json",
+    "decisiones_sha256": "87b9ba1196b4c934693f73885dbfd722cc9b74bbf7f618e29d27a7e26e91b6f1",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T19:25:23.109674+00:00",
+    "motivo": "Propuesta del agente claude-code. Candidato 1428214: evidencia verde (1343 pruebas, 4 casos de contrato), 40 mutaciones propias detectadas con la base verde. Rondas: codex 1 (SR-1 medio, informe ilegible: corregido), agy2 sobre 5e2f1c8 (SR-2 medio, un solo proveedor configurado: corregido; SR-3 bajo, huecos de prueba: corregido), codex 2 sin hallazgos, codex 3 sin hallazgos sobre 1428214. DECIDE BRIAN: (1) agy y agy2 quedaron sin cuota (se reinicia en unas 150 horas): el candidato final no lo revisó un segundo proveedor, aunque agy2 revisó el candidato anterior y sus tres hallazgos están corregidos; es justo la regla que este cambio le da al conductor, así que te lo digo aquí. (2) La spec decía nombre de revisor con letras, dígitos, punto, guion y guion bajo; lo ajusté a que empiece con letra o dígito para que --a no se lea como opción (más estricto que lo aprobado). (3) Un informe ilegible o un solo proveedor configurado dejan segundo_revisor en null y el conductor sigue como antes. Limite: el conductor no cuenta como proveedor que informó a un revisor que falló sin dejar informe, así que repetiría el pedido; lo frena la regla de sin progreso. No edité ningún test existente.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "6d0a0cbc732d0baf12f0f596a67f3cd987fe8b18",
+      "archivos_sha256": "64410590127506306eed047fd696f868208c7f0dc7842bb5ee4a7d8eb41bb834"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261109-162444-701-segundo-revisor/candidatos/1428214/evidencia/hechos.json",
+    "hechos_sha256": "6b8a2022f85b5fa38449ac9a268f3d1910cc31280a1a7abcaa89cef3042cc797",
+    "informe": ".factory/cambios/20261109-162444-701-segundo-revisor/oracle-veredicto.txt",
+    "informe_sha256": "fe5fabe7068221dc07466ba4eddae84956b07c88c901b1d1386ddebe46b4bab5",
+    "cuando": "2026-11-09T19:25:32.054780+00:00",
+    "contexto": {
+      "head": "6d0a0cbc732d0baf12f0f596a67f3cd987fe8b18",
+      "archivos_sha256": "64410590127506306eed047fd696f868208c7f0dc7842bb5ee4a7d8eb41bb834"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -276,6 +308,31 @@
       "cuando": "2026-11-09T18:36:31.961022+00:00",
       "decision": "aprobar",
       "candidato": "1428214"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T19:25:23.109698+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "6405e6f2411c6c0abfb97fc2cb058b60da89a1b1b351bd940e3f6769b8f2bc6d",
+      "decisiones_sha256": "87b9ba1196b4c934693f73885dbfd722cc9b74bbf7f618e29d27a7e26e91b6f1"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T19:25:32.054795+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "6b8a2022f85b5fa38449ac9a268f3d1910cc31280a1a7abcaa89cef3042cc797"
     }
   ],
   "tipos": {
@@ -317,14 +374,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Propuesta del agente claude-code. Candidato 1428214: evidencia verde (1343 pruebas, 4 casos de contrato), 40 mutaciones propias detectadas con la base verde. Rondas: codex 1 (SR-1 medio, informe ilegible: corregido), agy2 sobre 5e2f1c8 (SR-2 medio, un solo proveedor configurado: corregido; SR-3 bajo, huecos de prueba: corregido), codex 2 sin hallazgos, codex 3 sin hallazgos sobre 1428214. DECIDE BRIAN: (1) agy y agy2 quedaron sin cuota (se reinicia en unas 150 horas): el candidato final no lo revisó un segundo proveedor, aunque agy2 revisó el candidato anterior y sus tres hallazgos están corregidos; es justo la regla que este cambio le da al conductor, así que te lo digo aquí. (2) La spec decía nombre de revisor con letras, dígitos, punto, guion y guion bajo; lo ajusté a que empiece con letra o dígito para que --a no se lea como opción (más estricto que lo aprobado). (3) Un informe ilegible o un solo proveedor configurado dejan segundo_revisor en null y el conductor sigue como antes. Limite: el conductor no cuenta como proveedor que informó a un revisor que falló sin dejar informe, así que repetiría el pedido; lo frena la regla de sin progreso. No edité ningún test existente.",
-      "candidato": "1428214",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-09T18:36:31.961011+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
