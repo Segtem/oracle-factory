@@ -157,6 +157,15 @@
         "factory_registros_raiz.sin_registros_aparte_nada_cambia",
         "factory_registros_raiz.corrida_completa"
       ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T21:32:15.310736+00:00",
+      "texto": "autopilot delegar_al_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261109-212224-xo0-registros-raiz --a agy"
     }
   ],
   "tipos": {
