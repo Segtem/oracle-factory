@@ -2,7 +2,7 @@
   "id": "20261109-212224-xo0-registros-raiz",
   "titulo": "Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros)",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261109-212224-xo0-registros-raiz/specs/flujo/spec.md",
   "spec_sha256": "93cab9a41c53a76c5567ac732a9882bc8b9646913f96d8c2eb158bd9efd4b64a",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261109-212224-xo0-registros-raiz/specs/flujo/spec.md": "93cab9a41c53a76c5567ac732a9882bc8b9646913f96d8c2eb158bd9efd4b64a"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio",
+    "flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno",
+    "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,129 @@
         "openspec/changes/20261109-212224-xo0-registros-raiz/proposal.md": "cdea463d1eb6b7862cee231f46bf90feb078b81d74d91380d4d7c8bd2ba57f5f",
         "openspec/changes/20261109-212224-xo0-registros-raiz/specs/flujo/spec.md": "93cab9a41c53a76c5567ac732a9882bc8b9646913f96d8c2eb158bd9efd4b64a"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T21:25:10.002018+00:00",
+      "ids": [
+        "flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio",
+        "flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno",
+        "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T21:25:23.891038+00:00",
+      "texto": "autopilot delegar_al_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T21:26:52.017416+00:00",
+      "requisito": "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia",
+      "medidas": [
+        "factory_registros_raiz.sin_registros_aparte_nada_cambia",
+        "factory_registros_raiz.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T21:26:54.032649+00:00",
+      "requisito": "flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio",
+      "medidas": [
+        "factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio",
+        "factory_registros_raiz.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T21:26:56.106742+00:00",
+      "requisito": "flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno",
+      "medidas": [
+        "factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno",
+        "factory_registros_raiz.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T21:27:04.428121+00:00",
+      "texto": "autopilot se detuvo: confirmar las medidas es sólo de una persona. Comando para una persona: oracle-factory medir 20261109-212224-xo0-registros-raiz --confirmar"
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio": "funcional",
+    "flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno": "funcional",
+    "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {
+    "flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia": {
+      "sha256": "dd772c86ed24982292b2c12bece5bfda217388dcc5a261ceb554f690c816e2c6",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T21:26:51.965783+00:00",
+      "catalogos": {
+        "factory_registros_raiz.sin_registros_aparte_nada_cambia": "bf55a45af77fff42df16ec36bc796cccc3c20d2e04b901a193f3ac624246a794",
+        "factory_registros_raiz.corrida_completa": "b6779828e62d3c9160012254b4812ea24c5c83ac39fdc0b0ace3266b7df9a4c8"
+      },
+      "archivos_catalogo": {
+        "factory_registros_raiz.sin_registros_aparte_nada_cambia": "catalogos/factory_registros_raiz.sin_registros_aparte_nada_cambia.oracle",
+        "factory_registros_raiz.corrida_completa": "catalogos/factory_registros_raiz.corrida_completa.oracle"
+      }
+    },
+    "flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio": {
+      "sha256": "ad69c5ab70730ea68aae92b1906e8134721bc989e6eace25d2fbee755612eb96",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T21:26:53.981076+00:00",
+      "catalogos": {
+        "factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio": "466dbfa12de626f890fdbc1d02c1a150071ade483acbf24049d2893700a2c33d",
+        "factory_registros_raiz.corrida_completa": "b6779828e62d3c9160012254b4812ea24c5c83ac39fdc0b0ace3266b7df9a4c8"
+      },
+      "archivos_catalogo": {
+        "factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio": "catalogos/factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio.oracle",
+        "factory_registros_raiz.corrida_completa": "catalogos/factory_registros_raiz.corrida_completa.oracle"
+      }
+    },
+    "flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno": {
+      "sha256": "426111289c64dca34e17835acb6476a4340a7caaa460306f4fb3dfccb019fd24",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-09T21:26:56.055725+00:00",
+      "catalogos": {
+        "factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno": "1572aaa9df13fcbdd9f6961c0000d88fb19df0d68994ae8f0785775fdbe93aa1",
+        "factory_registros_raiz.corrida_completa": "b6779828e62d3c9160012254b4812ea24c5c83ac39fdc0b0ace3266b7df9a4c8"
+      },
+      "archivos_catalogo": {
+        "factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno": "catalogos/factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno.oracle",
+        "factory_registros_raiz.corrida_completa": "catalogos/factory_registros_raiz.corrida_completa.oracle"
+      }
+    }
+  }
 }
