@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "3a631a2949b9a69167682ef5e183e6382f040e6d04215517fd168e49c363063c",
+  "actor": "Brian Hollweg",
+  "motivo": "Propuesta del agente claude-code. Candidato f575a13: evidencia verde (1339 pruebas, 3 casos de contrato), 14 mutaciones propias detectadas, agy ronda 1 con FRV-001 y FRV-002 (medios, huecos de prueba: corregidos) y codex ronda 2 sin hallazgos. DECIDE BRIAN: (1) FRV-004 (informativo): en modo funcional con requisitos no funcionales, o en modo autonomo, un agente puede registrar una revision aprobada, y con eso el freno prueba_existente_editada se levanta sin que una persona haya mirado los tests editados; solo corregi la redaccion (comentario y docs/tests.md), la regla no cambia. En este proyecto (confirmacion) la revision siempre es de una persona, asi que no aplica aqui; si queres, un cambio siguiente exige tipo_actor persona. (2) FRV-003 (baja) aceptado: el ayudante de EstadoReal usa una lista de editados fija en las aserciones intermedias; el estado real con Git se prueba aparte. No edite ningun test existente.",
+  "decisiones": []
+}

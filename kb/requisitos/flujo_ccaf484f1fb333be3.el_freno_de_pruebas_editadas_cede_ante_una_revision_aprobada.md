@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada`
 - Vigente: sí
 - Cambio: [[cambios/20261109-125752-r6d-freno-visto]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_freno_visto.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada`, `factory_freno_visto.corrida_completa`
 - Fuente: openspec/changes/20261109-125752-r6d-freno-visto/specs/flujo/spec.md#el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada
 
