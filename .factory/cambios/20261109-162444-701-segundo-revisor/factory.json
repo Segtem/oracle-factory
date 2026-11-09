@@ -110,6 +110,32 @@
         "factory_segundo_revisor.estado_dice_que_segundo_revisor_falta_en_el_camino_completo",
         "factory_segundo_revisor.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T17:30:59.430389+00:00",
+      "revisor": "agy",
+      "candidato": "bdf566d",
+      "lanzamiento": "9895e6e410ba"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-09T17:36:31.600635+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "bdf566d",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "9895e6e410ba"
     }
   ],
   "tipos": {
