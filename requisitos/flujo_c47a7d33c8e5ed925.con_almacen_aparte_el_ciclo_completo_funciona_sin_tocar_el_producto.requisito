@@ -1,0 +1,4 @@
+requisito flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto:
+    texto "Tipo: funcional El sistema DEBE, con almacén aparte, permitir `pedir-revision`, `revision-preparar`, `revision`, `revisar`, `juzgar` y `cerrar`, haciendo sobre el repo del producto todo lo que mira el producto (diferencias, base del candidato, el paquete y la copia para los revisores, trazabilidad, alarmas, `log`, `por-que`, `ruta` y `procedencia`); y NO DEBE escribir nada en el producto en todo el ciclo: ni en su árbol de trabajo ni en su `.git` (índice, refs, hooks, configuración ni objetos)."
+    fuente "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md#con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto"
+    medido_por factory_registros_candidato.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto, factory_registros_candidato.corrida_completa

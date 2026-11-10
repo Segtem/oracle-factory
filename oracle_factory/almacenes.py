@@ -157,3 +157,16 @@ def comando(cli, nombre: str, almacen: Path | None) -> int:
         raise cli.FactoryError(str(e)) from e
     print(f"Producto conectado al almacén {destino}: desde cualquier carpeta o worktree del producto, Factory usa sus registros.")
     return 0
+
+
+def con_el_cambio(cli, identificador: str, contexto: dict) -> dict:
+    """La huella del producto (`contexto`) más la de los archivos de un cambio en el almacén: su propuesta y su spec, sus
+    requisitos y los catálogos de las medidas que tiene elegidas; no los registros que Factory genera. Los archivos de otro
+    cambio no cuentan: editarlos no vence la revisión ni el juicio de éste."""
+    carpeta, estado = cli.leer(identificador)
+    rutas = [carpeta / "proposal.md", cli.ROOT / estado["spec"],
+             *(cli.requisitos_dir() / f"{r}.requisito" for r in estado.get("requisitos") or []),
+             *(cli.ROOT / a for m in (estado.get("medidas") or {}).values() if isinstance(m, dict)
+               for a in (m.get("archivos_catalogo") or {}).values() if isinstance(a, str) and a)]
+    archivos = [[n, cli.dato_de_archivo(n, cli.ROOT / n)] for n in sorted({os.path.relpath(r, cli.ROOT) for r in rutas})]
+    return {**contexto, "archivos_sha256": cli.sha256(json.dumps([contexto["archivos_sha256"], archivos]).encode())}

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:cdc8caa8f9be50c557a2e0940ea96fadfa4f041c81cd318f3086a7db08ad7c89 -->
+<!-- oracle-factory resumen sha256:a8157aa04ad3c3d08e75378fc8331a5d55bcd814f8a148df574097d2ea25d0b8 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 367 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 371 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -300,6 +300,10 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | el_agente_lanzado_recibe_un_entorno_minimo | funcional | `flujo_c93a1d23e9668d672.el_agente_lanzado_recibe_un_entorno_minimo` | factory_entorno_agente.el_agente_lanzado_recibe_un_entorno_minimo, factory_entorno_agente.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-095631-0w3-entorno-agente |
 | entorno_explicito_por_corrida | funcional | `flujo_c93a1d23e9668d672.entorno_explicito_por_corrida` | factory_entorno_agente.entorno_explicito_por_corrida, factory_entorno_agente.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-095631-0w3-entorno-agente |
 | la_guia_de_permisos_no_abre_python | funcional | `flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python` | factory_entorno_agente.la_guia_de_permisos_no_abre_python, factory_entorno_agente.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-095631-0w3-entorno-agente |
+| con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia | funcional | `flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia` | factory_registros_candidato.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia, factory_registros_candidato.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-140719-h7t-registros-candidato |
+| con_almacen_aparte_la_huella_es_el_producto_y_este_cambio | funcional | `flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio` | factory_registros_candidato.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio, factory_registros_candidato.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-140719-h7t-registros-candidato |
+| con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto | funcional | `flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto` | factory_registros_candidato.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto, factory_registros_candidato.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-140719-h7t-registros-candidato |
+| con_almacen_aparte_no_hay_hook_en_el_producto | funcional | `flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto` | factory_registros_candidato.con_almacen_aparte_no_hay_hook_en_el_producto, factory_registros_candidato.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-140719-h7t-registros-candidato |
 
 ### ide
 
@@ -1851,6 +1855,9 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261110-095631-0w3-entorno-agente) codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_entorno_agente </dev/null`: 8 pruebas pasaron; 2 terminaron con ModuleNotFoundError por la dependencia oracle_metalenguaje ausente, antes de completar sus aserciones.
 - (20261110-095631-0w3-entorno-agente) codex (gpt-6-luna): No ejecuté la suite completa ni mutaciones sobre copias. No encontré defectos que pueda respaldar con un hallazgo dentro de los rangos del diff.
 - (20261110-095631-0w3-entorno-agente) codex (gpt-6-luna): La edición de tests/datos/ayuda-cli.json reemplaza la línea de ayuda de autopilot para documentar --entorno NOMBRE y su repetición; queda justificada por la opción nueva y no elimina cobertura funcional.
+- (20261110-140719-h7t-registros-candidato) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261110-140719-h7t-registros-candidato) codex (gpt-6-luna): Revisé la spec, el diff textual completo del paquete y las implementaciones/pruebas citadas; no ejecuté la suite ni mutaciones manuales.
+- (20261110-140719-h7t-registros-candidato) codex (gpt-6-luna): La prueba quitada en tests/test_registros_raiz.py era la aserción de que los comandos con candidato fallaran con el mensaje de etapa 3; se reemplazó por cobertura de comportamiento sin candidato y no tocar el producto, justificado por la etapa 3.
 
 ### Históricos
 

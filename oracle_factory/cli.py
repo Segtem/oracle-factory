@@ -415,6 +415,14 @@ def ejecutar(args: list[str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(args, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", check=False)
 
 
+def git_producto(args: list[str]) -> subprocess.CompletedProcess[str]:
+    """Git sobre el producto: `ejecutar` sin almacén aparte; con almacén, en su repo y sin escrituras opcionales."""
+    if PRODUCTO is None:
+        return ejecutar(args)
+    return subprocess.run(args, cwd=PRODUCTO, env={**os.environ, "GIT_OPTIONAL_LOCKS": "0"}, capture_output=True, text=True,
+                          encoding="utf-8", check=False)
+
+
 def nota_tarea(identificador: str, texto: str) -> None:
     p = ejecutar(["tasks", "note", identificador, texto, "--proyecto", str(ROOT)])
     if p.returncode:
@@ -548,7 +556,9 @@ def exigir_spec(carpeta: Path, estado: dict) -> None:
 
 
 def es_producto(nombre: str) -> bool:
-    """Si un archivo (ruta relativa) cuenta en la huella del producto."""
+    """Si un archivo (ruta relativa) cuenta en la huella del producto. Con almacén aparte, todo el repo del producto lo es."""
+    if PRODUCTO is not None:
+        return True
     partes = Path(nombre).parts
     # Una spec consolidada que Factory generó (tiene índice) se deriva de specs ya aceptadas: no es producto nuevo, y si
     # contara, archivar los cambios anteriores vencería la revisión del último integrado. Las demás de openspec/specs/ sí cuentan.
@@ -564,8 +574,8 @@ def es_producto(nombre: str) -> bool:
 
 def cambios_locales_de_producto() -> list[str]:
     """Archivos del producto modificados, en el índice o nuevos, sin commit."""
-    locales = ejecutar(["git", "diff", "--name-only", "HEAD"]).stdout.splitlines()
-    locales += ejecutar(["git", "ls-files", "--others", "--exclude-standard"]).stdout.splitlines()
+    locales = git_producto(["git", "diff", "--name-only", "HEAD"]).stdout.splitlines()
+    locales += git_producto(["git", "ls-files", "--others", "--exclude-standard"]).stdout.splitlines()
     return [n for n in locales if es_producto(n)]
 
 
@@ -575,7 +585,7 @@ def candidatos_anteriores(identificador: str, sha: str | None) -> list[str]:
     if base.is_symlink() or not base.is_dir():
         return []
     con_informes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink() and any((p / "revision").glob("*.json"))}
-    orden = [c[:7] for c in ejecutar(["git", "rev-list", "HEAD"]).stdout.split()]
+    orden = [c[:7] for c in git_producto(["git", "rev-list", "HEAD"]).stdout.split()]
     return [c for c in reversed(orden) if c in con_informes and c != sha]
 
 
@@ -588,13 +598,14 @@ def candidato_vigente(identificador: str) -> str | None:
     base = ROOT / estructura.DIR / "cambios" / identificador / "candidatos"
     if base.is_symlink() or not base.is_dir():
         return None
-    existentes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink()}
+    existentes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink()  # con almacén: sólo con su evidencia
+                  and (PRODUCTO is None or ((p / "evidencia").is_dir() and not (p / "evidencia").is_symlink()))}
     # Un cambio de producto sin commit (modificado, en el índice o nuevo) también deja viejo a cualquier candidato.
     if cambios_locales_de_producto():
         return None
-    for commit in ejecutar(["git", "rev-list", "HEAD"]).stdout.split():
+    for commit in git_producto(["git", "rev-list", "HEAD"]).stdout.split():
         if commit[:7] in existentes:
-            cambiados = ejecutar(["git", "diff", "--name-only", commit, "HEAD"]).stdout.splitlines()
+            cambiados = git_producto(["git", "diff", "--name-only", commit, "HEAD"]).stdout.splitlines()
             return None if any(es_producto(n) for n in cambiados) else commit[:7]
     return None
 
@@ -602,7 +613,7 @@ def candidato_vigente(identificador: str) -> str | None:
 def hechos_del_candidato(identificador: str) -> Path:
     """`hechos.json` de la evidencia del candidato vigente; FactoryError con la ruta esperada si no está."""
     leer(identificador)
-    sha = candidato_vigente(identificador) or ejecutar(["git", "rev-parse", "HEAD"]).stdout.strip()[:7]
+    sha = candidato_vigente(identificador) or git_producto(["git", "rev-parse", "HEAD"]).stdout.strip()[:7]
     hechos = estructura.ruta_canonica(ROOT, identificador, "evidencia", sha) / "hechos.json"
     if not ruta_segura(hechos).is_file():
         raise FactoryError(f"no encuentro los hechos del candidato: {hechos.relative_to(ROOT)}. Generalos ahí "
@@ -616,25 +627,28 @@ def contexto_producto() -> dict:
     Los registros generados del flujo no son código del producto; las specs y las
     medidas Oracle sí forman parte de lo revisado. No sigue enlaces simbólicos.
     """
-    head = ejecutar(["git", "rev-parse", "--verify", "HEAD"])
-    lista = ejecutar(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"])
+    head = git_producto(["git", "rev-parse", "--verify", "HEAD"])
+    lista = git_producto(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"])
     if head.returncode or lista.returncode:
         raise FactoryError("la revisión necesita un repositorio Git con al menos un commit")
-    archivos = []
-    for nombre in sorted(set(lista.stdout.split("\0")) - {""}):
-        if not es_producto(nombre):
-            continue
-        p = ROOT / nombre
-        if p.is_symlink():
-            dato = ["enlace", str(p.readlink())]
-        elif p.is_file():
-            dato = ["archivo", sha256(p.read_bytes()), bool(p.stat().st_mode & 0o111)]
-        elif p.is_dir():
-            raise FactoryError("los submódulos/directorios Git requieren revisión externa explícita: " + nombre)
-        else:
-            dato = ["ausente"]
-        archivos.append([nombre, dato])
+    archivos = [[n, dato_de_archivo(n, (PRODUCTO or ROOT) / n)] for n in sorted(set(lista.stdout.split("\0")) - {""}) if es_producto(n)]
     return {"head": head.stdout.strip(), "archivos_sha256": sha256(json.dumps(archivos).encode())}
+
+
+def dato_de_archivo(nombre: str, p: Path) -> list:
+    if p.is_symlink():
+        return ["enlace", str(p.readlink())]
+    if p.is_file():
+        return ["archivo", sha256(p.read_bytes()), bool(p.stat().st_mode & 0o111)]
+    if p.is_dir():
+        raise FactoryError("los submódulos/directorios Git requieren revisión externa explícita: " + nombre)
+    return ["ausente"]
+
+
+def contexto_del_cambio(identificador: str) -> dict:
+    """La huella de lo revisado de un cambio: la del producto y, con almacén aparte, la de sus archivos en el almacén."""
+    contexto = contexto_producto()
+    return contexto if PRODUCTO is None else almacenes.con_el_cambio(sys.modules[__name__], identificador, contexto)
 
 
 def ruta_del_registro(valor) -> Path | None:
@@ -1231,11 +1245,11 @@ def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
     formato = "--format=%H%x1f%an%x1f%aI%x1f%cI%x1f%s"  # la fecha de autor y la de cuando se hizo el commit
 
     def git_log(*args: str) -> list[list[str]]:
-        p = ejecutar(["git", "log", formato, *args])
+        p = git_producto(["git", "log", formato, *args])
         return [] if p.returncode else [linea.split("\x1f") for linea in p.stdout.splitlines() if linea.count("\x1f") == 4]
 
     def completo(ref: str) -> str | None:
-        p = ejecutar(["git", "rev-parse", "--verify", "--quiet", ref + "^{commit}"])
+        p = git_producto(["git", "rev-parse", "--verify", "--quiet", ref + "^{commit}"])
         return p.stdout.strip() if p.returncode == 0 else None
 
     base = ROOT / estructura.DIR / "cambios" / identificador / "candidatos"
@@ -1247,7 +1261,7 @@ def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
         if sha:
             candidatos[sha] = str(corto_)
     # --grep encuentra la línea en cualquier parte del mensaje; cuenta sólo si está en el bloque de trailers.
-    con_trailer = set(ejecutar(["git", "log", "--all", f"--grep=^Cambio: {identificador}$",
+    con_trailer = set(git_producto(["git", "log", "--all", f"--grep=^Cambio: {identificador}$",
                                 "--format=%H %(trailers:key=Cambio,valueonly,separator=%x20)"]).stdout.splitlines())
     propios = {linea.split()[0] for linea in con_trailer if identificador in linea.split()[1:]}
     unidos = {c[0]: (c, "trailer") for c in git_log(*propios, "--no-walk")} if propios else {}
@@ -1259,12 +1273,12 @@ def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
     principal = next((r for r in ("main", "master") if completo(r)), "HEAD")
 
     def contiene(ref: str, sha: str) -> bool:
-        return ejecutar(["git", "merge-base", "--is-ancestor", sha, ref]).returncode == 0
+        return git_producto(["git", "merge-base", "--is-ancestor", sha, ref]).returncode == 0
 
     for sha in candidatos if estado.get("fase") == "cerrada" else ():
         if not contiene(principal, sha):
             continue  # un candidato de una vuelta descartada: no está en la historia
-        merge = next((m for m in ejecutar(["git", "rev-list", "--first-parent", "--merges", "--reverse",
+        merge = next((m for m in git_producto(["git", "rev-list", "--first-parent", "--merges", "--reverse",
                                            f"{sha}..{principal}"]).stdout.split() if contiene(m, sha)), None)
         if merge and not contiene(merge + "^1", sha):
             deducidos += git_log(f"{merge}^1..{merge}^2")
@@ -1305,7 +1319,7 @@ def comando_log(identificador: str, como_json: bool) -> None:
 def avisos_head(estado: dict) -> list[str]:
     """Registros vigentes cuyo HEAD no es el actual: producto idéntico, otra historia."""
     try:
-        actual = contexto_producto()
+        actual = contexto_del_cambio(estado.get("id"))
     except (FactoryError, OSError):
         return []
     avisos = []
@@ -1517,7 +1531,7 @@ def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
             if ejecutar(["git", "check-ignore", "-q", str(archivo)]).returncode == 0:
                 print(f"Aviso: los hechos ({rutas[-1]}) están ignorados por Git y no viajan con el repositorio; otra máquina "
                       "no podrá verificarlos. Guardalos fuera de las carpetas ignoradas, por ejemplo en tareas/.", file=sys.stderr)
-    contexto = contexto_producto()
+    contexto = contexto_del_cambio(identificador)
     huellas = [sha256(archivo.read_bytes()) for archivo in hechos]
     huella = huellas[0]
     cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(proyecto_oracle()), *con_escalares()])
@@ -1537,7 +1551,7 @@ def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
     if not any(re.search(r"^[✓◐·✗?]\s+" + re.escape(rid) + r"\s", p.stdout, re.M) for rid in estado["requisitos"]):
         raise FactoryError("Oracle no pudo juzgar estos hechos; no registré un veredicto: "
                            + (p.stdout + p.stderr).strip()[:800])
-    if not mismo_producto(contexto, contexto_producto()) or [sha256(a.read_bytes()) for a in hechos] != huellas:
+    if not mismo_producto(contexto, contexto_del_cambio(identificador)) or [sha256(a.read_bytes()) for a in hechos] != huellas:
         raise FactoryError("el producto o los hechos cambiaron durante el juicio; repetí la corrida")
     exigir_spec(carpeta, estado)
     informe = dir_estado(carpeta) / 'oracle-veredicto.txt'
@@ -1617,7 +1631,7 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
         faltan.append(str(e))
     if estado.get("revision") or estado.get("oracle"):
         try:
-            contexto = contexto_producto()
+            contexto = contexto_del_cambio(carpeta.name)
             for nombre in ("revision", "oracle"):
                 registro = estado.get(nombre)
                 if registro and not mismo_producto(registro.get("contexto"), contexto):
@@ -1973,7 +1987,7 @@ def comando_migrar(verificar: bool) -> None:
 
 def comando_ruta(identificador: str, tipo: str) -> None:
     leer(identificador)  # el cambio tiene que existir
-    head = ejecutar(["git", "rev-parse", "HEAD"])
+    head = git_producto(["git", "rev-parse", "HEAD"])
     if head.returncode:
         raise FactoryError("ruta necesita un repositorio Git con al menos un commit")
     try:
@@ -2026,15 +2040,15 @@ def comando_procedencia(args) -> None:
             print(procedencia_mod.informe_buscar(ROOT, args.buscar, args.json) if args.buscar
                   else procedencia_mod.informe_auditar(ROOT, args.avisos, args.json), end="")
             return
-        python = procedencia_mod.python_del_proyecto(ROOT, args.python)
-        bom, diferencias, confiable = procedencia_mod.inventario(ROOT, python)
+        python = procedencia_mod.python_del_proyecto(PRODUCTO or ROOT, args.python)
+        bom, diferencias, confiable = procedencia_mod.inventario(PRODUCTO or ROOT, python)
     except procedencia_mod.ProcedenciaError as e:
         raise FactoryError(str(e)) from e
     cuerpo = procedencia_mod.texto(bom)
     guardado = None
     if args.id:
         carpeta, estado = abierto(args.id)
-        head = ejecutar(["git", "rev-parse", "HEAD"])
+        head = git_producto(["git", "rev-parse", "HEAD"])
         if head.returncode:
             raise FactoryError("procedencia necesita un repositorio Git con al menos un commit")
         sha = candidato_vigente(args.id) or head.stdout.strip()[:7]
@@ -2138,11 +2152,11 @@ def mostrar(identificador: str) -> None:
     print(linea_quien(quien_del_cambio(estado)) + ".")
     vigente = candidato_vigente(identificador)
     prueba = pruebas_mod.datos(ROOT, identificador, estado, vigente, documentos_o_nada(carpeta, estado))
-    editados = alarmas_mod.del_candidato(ejecutar, vigente, es_producto=es_producto) if vigente else None
-    flujo = alarmas_mod.del_flujo(ejecutar, estado, vigente, es_producto=es_producto)
-    camino = alarmas_mod.linea_camino(alarmas_mod.camino_del_candidato(ejecutar, vigente, es_producto=es_producto))
+    editados = alarmas_mod.del_candidato(git_producto, vigente, es_producto=es_producto) if vigente else None
+    flujo = alarmas_mod.del_flujo(git_producto, estado, vigente, es_producto=es_producto)
+    camino = alarmas_mod.linea_camino(alarmas_mod.camino_del_candidato(git_producto, vigente, es_producto=es_producto))
     try:
-        actual = contexto_producto()
+        actual = contexto_del_cambio(identificador)
     except (FactoryError, OSError):
         actual = None
     for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
@@ -2446,7 +2460,7 @@ def _pasos(identificador: str) -> str | list[str] | None:
         return f"oracle-factory medir {ident} --listar"
     # ¿La revisión vale para el producto actual?
     rev = estado.get("revision") or {}
-    revisado = (bool(rev) and mismo_producto(rev.get("contexto"), contexto_producto())
+    revisado = (bool(rev) and mismo_producto(rev.get("contexto"), contexto_del_cambio(ident))
                 and not problemas_de_revision(estado))  # mismas reglas que pendientes_actuales
     if not revisado:
         if cambios_locales_de_producto():
@@ -2466,7 +2480,7 @@ def _pasos(identificador: str) -> str | list[str] | None:
     oracle = estado.get("oracle") or {}
     juzgados = ruta_del_registro(oracle.get("hechos"))
     varios = hechos_registrados(oracle)
-    if len(varios) > 1 and not juicio_vigente(oracle, contexto_producto()):
+    if len(varios) > 1 and not juicio_vigente(oracle, contexto_del_cambio(ident)):
         return comando_juzgar(ident, varios)
     try:  # hechos del candidato que no son los juzgados: juzgarlos
         del_candidato = hechos_del_candidato(ident)
@@ -2475,7 +2489,7 @@ def _pasos(identificador: str) -> str | list[str] | None:
             return f"oracle-factory juzgar {ident}"
     except FactoryError:
         pass
-    if juicio_vigente(oracle, contexto_producto()):
+    if juicio_vigente(oracle, contexto_del_cambio(ident)):
         if oracle.get("codigo") != 0:
             return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
         if not pendientes_actuales(carpeta, estado):
@@ -2537,9 +2551,6 @@ def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = Fal
     print(f'Acuerdos: {CHANGES}')
 
 
-CON_CANDIDATO = {"pedir-revision", "revision-preparar", "revision", "revisar", "juzgar", "cerrar"}
-
-
 def main(argv: list[str] | None = None) -> int:
     global ROOT, CHANGES, AGENTE, PRODUCTO, REGISTROS
     args = construir_parser().parse_args(argv)
@@ -2563,9 +2574,9 @@ def main(argv: list[str] | None = None) -> int:
         if PRODUCTO and (ROOT.is_relative_to(PRODUCTO) or PRODUCTO.is_relative_to(ROOT)):  # un almacén dentro del producto (o al revés) lo ensucia
             raise FactoryError(f"--registros ({ROOT}) y el producto ({PRODUCTO}) no pueden estar uno dentro del otro: el almacén de registros va "
                                "en una carpeta aparte, para que el repo del producto no reciba nada de Factory. No se escribió nada.")
-        if PRODUCTO and args.comando in CON_CANDIDATO:
-            raise FactoryError(f"{args.comando} todavía no se admite con registros aparte (etapa 3 de 6): "
-                               "el candidato y su huella salen del repo del producto. No se escribió nada.")
+        if PRODUCTO and args.comando == "hooks":
+            raise FactoryError("con registros aparte no se instala ningún hook en el repo del producto: los commits de un cambio "
+                               "se deducen de sus candidatos (oracle-factory log ID). No se escribió nada.")
         if args.comando != "init" and not ROOT.is_dir():
             raise FactoryError("el proyecto no existe; ejecutá primero init")
         if (args.comando != "init" and not (ROOT / estructura.DIR).is_symlink()
@@ -2671,6 +2682,7 @@ from .flujo_revision import (  # noqa: E402
     aviso_sin_autor,
     aviso_sin_medir,
     base_vacia,
+    base_vacia_en,
     bytes_json,
     corte_del_candidato,
     exclusiones_del_paquete,

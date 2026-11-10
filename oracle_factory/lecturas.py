@@ -229,7 +229,7 @@ def tocados_por(identificador: str, estado: dict) -> set[str]:
 
 def nombres(comando: list[str]) -> set[str]:
     """Las rutas de una salida de git con -z (una ruta puede tener espacios)."""
-    return {n for n in cli.ejecutar(comando).stdout.split("\0") if n}
+    return {n for n in cli.git_producto(comando).stdout.split("\0") if n}
 
 
 def archivos_de(commits) -> set[str]:
@@ -251,18 +251,22 @@ def aviso_notas(identificador: str, estado: dict) -> list[str]:
 def por_que(referencia: str, como_json: bool) -> None:
     """Del commit que escribió una línea a su cambio, sus requisitos, decisiones, riesgos, hallazgos y notas."""
     m = re.fullmatch(r"(.+):(\d+)", referencia or "")
-    relativa = cli.carpeta_relativa(m[1]) if m else None
-    if not m or relativa is None or not (cli.ROOT / relativa).is_file():
+    raiz = cli.PRODUCTO or cli.ROOT
+    ruta = m[1] if m else ""
+    if cli.PRODUCTO is not None and Path(ruta).is_absolute() and Path(ruta).resolve().is_relative_to(raiz):
+        ruta = Path(ruta).resolve().relative_to(raiz).as_posix()  # con almacén aparte, el archivo es del producto
+    relativa = cli.carpeta_relativa(ruta) if m else None
+    if not m or relativa is None or not (raiz / relativa).is_file():
         raise cli.FactoryError("por-que espera ARCHIVO:LÍNEA de un archivo del proyecto (por ejemplo oracle_factory/cli.py:120)")
     archivo, linea = relativa.as_posix(), int(m[2])
-    p = cli.ejecutar(["git", "blame", "--porcelain", "-L", f"{linea},{linea}", "--", archivo])
+    p = cli.git_producto(["git", "blame", "--porcelain", "-L", f"{linea},{linea}", "--", archivo])
     if p.returncode or not p.stdout:
         raise cli.FactoryError(f"git no pudo decir quién escribió {archivo}:{linea}: {(p.stderr or '').strip()[:200]}")
     sha_ = p.stdout.split()[0]
     if set(sha_) == {"0"}:
         datos = {"esquema": "oracle-factory.por-que/1", "archivo": archivo, "linea": linea, "commit": None, "cambio": None}
         return cli.imprimir_json(datos) if como_json else print(f"{archivo}:{linea} todavía no está en un commit.")
-    l = cli.ejecutar(["git", "log", "-1", "--format=%H%x1f%an%x1f%aI%x1f%s%x1f%(trailers:key=Cambio,valueonly,separator=%x20)", sha_])
+    l = cli.git_producto(["git", "log", "-1", "--format=%H%x1f%an%x1f%aI%x1f%s%x1f%(trailers:key=Cambio,valueonly,separator=%x20)", sha_])
     completo_, autor, fecha, asunto, trailer = (l.stdout.rstrip("\n").split("\x1f") + [""] * 5)[:5]
     commit = {"sha": completo_, "corto": completo_[:7], "autor": autor, "fecha": fecha, "asunto": asunto}
     cambios = {i: e for i, e in kb_mod.cambios_del_proyecto(cli)}
@@ -319,11 +323,13 @@ def dentro_del_tramo(identificador: str, estado: dict, sha: str) -> bool:
     """Si un commit sin trailer cae en el tramo de un cambio: después del commit que creó su propuesta y antes de alguno
     de sus candidatos. Es una deducción: un commit ajeno hecho en esa rama en ese tiempo también cae, y por eso la unión
     dice «por su tramo» (con el hook, los commits nuevos llevan su trailer y no llegan acá)."""
+    if cli.PRODUCTO is not None:  # con almacén aparte, la propuesta no está en la historia del producto: no hay tramo
+        return False
     candidatos = [c["sha"] for c in cli.commits_del_cambio(identificador, estado) if c["candidato"]]
-    alta = cli.ejecutar(["git", "log", "--diff-filter=A", "--format=%H", "--", f"openspec/changes/{identificador}/proposal.md"]).stdout.split()
+    alta =cli.git_producto(["git", "log", "--diff-filter=A", "--format=%H", "--", f"openspec/changes/{identificador}/proposal.md"]).stdout.split()
     if not candidatos or not alta:
         return False
-    es = lambda a, b: cli.ejecutar(["git", "merge-base", "--is-ancestor", a, b]).returncode == 0
+    es = lambda a, b: cli.git_producto(["git", "merge-base", "--is-ancestor", a, b]).returncode == 0
     return es(alta[-1], sha) and any(es(sha, c) for c in candidatos)
 
 
@@ -368,7 +374,7 @@ def datos_estado(identificador: str) -> dict:
     carpeta, estado = cli.leer(identificador)
     abandonado = estado.get("fase") == "abandonada"
     try:
-        actual = None if abandonado else cli.contexto_producto()
+        actual = None if abandonado else cli.contexto_del_cambio(identificador)
     except (cli.FactoryError, OSError):
         actual = None
     medido_por: dict[str, list[str]] = {}
@@ -387,11 +393,11 @@ def datos_estado(identificador: str) -> dict:
 
     pendientes_medidas = estado.get("medidas_pendientes") or {}
     candidato = None if abandonado else cli.candidato_vigente(identificador)
-    editados = alarmas.del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto) if candidato else None
-    flujo = {"bucle_de_revision": None, "cambio_grande": None} if abandonado else alarmas.del_flujo(cli.ejecutar, estado, candidato, es_producto=cli.es_producto)
+    editados = alarmas.del_candidato(cli.git_producto, candidato, es_producto=cli.es_producto) if candidato else None
+    flujo = {"bucle_de_revision": None, "cambio_grande": None} if abandonado else alarmas.del_flujo(cli.git_producto, estado, candidato, es_producto=cli.es_producto)
     prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, candidato, cli.documentos_o_nada(carpeta, estado))
     frenos_ = [] if abandonado else cli.frenos_del_cambio(identificador, estado, candidato, actual, editados, flujo)
-    camino_ = alarmas.camino_del_candidato(cli.ejecutar, candidato, es_producto=cli.es_producto)  # un cambio abandonado no tiene candidato
+    camino_ = alarmas.camino_del_candidato(cli.git_producto, candidato, es_producto=cli.es_producto)  # un cambio abandonado no tiene candidato
     return {
         "esquema": cli.ESQUEMA_ESTADO, "id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase"),
         "modo": cli.modo_de(estado), "capacidad": estado.get("capacidad"),
@@ -452,14 +458,14 @@ def datos_trazabilidad(identificador: str, base: str | None = None) -> dict:
     trazas = json.loads(ruta.read_text(encoding="utf-8"))
     if not isinstance(trazas, dict) or trazas.get("esquema") != trazabilidad_mod.ESQUEMA_CASOS:
         raise cli.FactoryError(f"{ruta.relative_to(cli.ROOT)} no es una trazabilidad de casos ({trazabilidad_mod.ESQUEMA_CASOS})")
-    candidato = cli.ejecutar(["git", "rev-parse", sha]).stdout.strip()
+    candidato = cli.git_producto(["git", "rev-parse", sha]).stdout.strip()
     # La base es la del candidato (no la de HEAD), como el paquete de pedir-revision; --base la cambia.
-    p = cli.ejecutar(["git", "merge-base", candidato, base or "main"])
+    p = cli.git_producto(["git", "merge-base", candidato, base or "main"])
     if p.returncode:
         raise cli.FactoryError(f"no encuentro la base del diff ({base or 'main'}): indicá otra con --base REF")
     base = p.stdout.strip()
     # Nombres exactos (-z, sin comillas ni tabuladores) y renombres detectados: un archivo movido no es uno nuevo entero.
-    lista = cli.ejecutar(["git", "diff", "--name-status", "-z", "-M", base, candidato])
+    lista = cli.git_producto(["git", "diff", "--name-status", "-z", "-M", base, candidato])
     if lista.returncode:
         raise cli.FactoryError(f"git diff falló: {lista.stderr.strip()[:300]}")
     cambios, borrados, ejecutables = {}, [], {}
@@ -472,10 +478,10 @@ def datos_trazabilidad(identificador: str, base: str | None = None) -> dict:
             borrados.append(archivo["ruta"])
             continue
         rutas = [archivo["origen"], archivo["ruta"]] if archivo["origen"] else [archivo["ruta"]]
-        diff = cli.ejecutar(["git", "diff", "-U0", "-M", "--no-color", base, candidato, "--", *rutas])
+        diff = cli.git_producto(["git", "diff", "-U0", "-M", "--no-color", base, candidato, "--", *rutas])
         cambios[archivo["ruta"]] = trazabilidad_mod.lineas_agregadas(diff.stdout)
         # El archivo como está en el candidato, no en el árbol de trabajo.
-        texto = cli.ejecutar(["git", "show", f"{candidato}:{archivo['ruta']}"]) if archivo["ruta"].endswith(".py") else None
+        texto = cli.git_producto(["git", "show", f"{candidato}:{archivo['ruta']}"]) if archivo["ruta"].endswith(".py") else None
         ejecutables[archivo["ruta"]] = (trazabilidad_mod.lineas_ejecutables(texto.stdout)
                                         if texto is not None and not texto.returncode else None)
     return {"esquema": trazabilidad_mod.ESQUEMA, "id": identificador, "candidato": sha, "base": base,
