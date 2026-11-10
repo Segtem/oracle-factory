@@ -46,6 +46,10 @@ capacidad: "flujo"
 - `d21a4ee` registros-candidato: la trazabilidad no lista una prueba que sólo pierde una línea (expectativa corregida) (trailer)
 - `4cef61f` registros-candidato: casos de las mutaciones propias (próximo paso con la huella del cambio, base vacía, vueltas anteriores) (trailer)
 - `76ca0a1` registros-candidato: evidencia del candidato (trailer)
+- `e682db5` registros-candidato: con almacén aparte sólo es candidato la carpeta con su evidencia (hallazgo RCAND-1 de codex) (trailer)
+- `ddce6d2` registros-candidato: evidencia del candidato tras RCAND-1 (trailer)
+- `49e4233` registros-candidato: cli.py vuelve bajo su tope de tamaño (comentarios más cortos) (trailer)
+- `84bfe8a` registros-candidato: evidencia del candidato tras el tope de cli.py (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-140719-h7t-registros-candidato`.
 
 ## Mensajes
