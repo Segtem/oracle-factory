@@ -78,7 +78,8 @@ El agente que lanza `--lanzar` corre como vos, en tu máquina. Factory **filtra 
 Los permisos los define el comando de `--lanzar`. Un ejemplo para `claude -p`, con Python acotado a las pruebas y a la herramienta de evidencia:
 
 ```fish
-oracle-factory --agente claude-code autopilot ID --ejecutar --max-pasos 4 --lanzar 'claude -p --allowedTools "Read Edit Write Glob Grep Bash(oracle-factory:*) Bash(.venv/bin/oracle-factory:*) Bash(.venv/bin/python -m unittest:*) Bash(.venv/bin/python tools/verificar_cambio.py:*) Bash(git status:*) Bash(git diff:*) Bash(git log:*) Bash(git show:*) Bash(git add:*) Bash(git commit:*)" --permission-mode acceptEdits --'
+set agente 'claude -p --allowedTools "Read Edit Write Glob Grep Bash(oracle-factory:*) Bash(.venv/bin/oracle-factory:*) Bash(.venv/bin/python -m unittest:*) Bash(.venv/bin/python tools/verificar_cambio.py:*) Bash(git status:*) Bash(git diff:*) Bash(git log:*) Bash(git show:*) Bash(git add:*) Bash(git commit:*)" --permission-mode acceptEdits --'
+oracle-factory --agente claude-code autopilot ID --ejecutar --max-pasos 4 --lanzar $agente
 ```
 
 El `--` final evita que `--allowedTools`, que acepta varios valores, se trague la instrucción. No uses el patrón abierto `Bash(.venv/bin/python:*)`: deja correr cualquier Python, y con eso el agente puede abrir la red, leer su entorno y ejecutar git (un `push`, por ejemplo). Tampoco aísla el proceso: sigue siendo tu usuario y ve tu `HOME`; para aislarlo hace falta un contenedor.
