@@ -81,6 +81,7 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('--json', action='store_true', help='la decisión como JSON: acción, quién, comando, instrucción, motivo y frenos (con --ejecutar, el resumen de los pasos)')
     q.add_argument('--ejecutar', action='store_true', help='actuar: correr lo mecánico y lanzar al agente para lo creativo, con topes y el porqué en el registro (sólo con --agente)')
     q.add_argument('--lanzar', metavar='COMANDO', help='con --ejecutar: el agente para lo creativo, por ejemplo «claude -p»; recibe la instrucción como último argumento (no se guarda)')
+    q.add_argument('--entorno', metavar='NOMBRE', action='append', help='con --lanzar: entregar al agente esta variable de tu entorno (repetible; por defecto el agente ve sólo un entorno mínimo; no se guarda)')
     q.add_argument('--max-pasos', type=int, default=10, help='con --ejecutar: el tope de pasos (10)')
     q.add_argument('--max-minutos', type=float, default=120, help='con --ejecutar: el tope de minutos (120)')
     q = sub.add_parser('desplegar', help='armar el plan de despliegue a los destinos y, si una persona lo autoriza, ejecutarlo y probar cada destino y el conjunto')

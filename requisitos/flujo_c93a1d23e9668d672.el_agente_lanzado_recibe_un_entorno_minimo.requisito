@@ -1,0 +1,4 @@
+requisito flujo_c93a1d23e9668d672.el_agente_lanzado_recibe_un_entorno_minimo:
+    texto "Tipo: funcional El sistema DEBE lanzar el comando de `--lanzar` con un entorno que contenga únicamente `FACTORY_AGENTE`, las variables `PATH`, `HOME`, `USER`, `LOGNAME`, `SHELL`, `LANG`, `LANGUAGE`, `TERM`, `TZ`, `TMPDIR`, `BASH_DEFAULT_TIMEOUT_MS`, `BASH_MAX_TIMEOUT_MS`, las que empiezan con `LC_` o con `XDG_`, y las que la persona nombró con `--entorno` y existen; ninguna otra variable del entorno de la persona DEBE llegar al agente, tampoco las de nombre inocuo, y los comandos mecánicos que corre Factory no cambian."
+    fuente "openspec/changes/20261110-095631-0w3-entorno-agente/specs/flujo/spec.md#el_agente_lanzado_recibe_un_entorno_minimo"
+    sin_medir "sin medida todavía; escenarios: «un entorno con secretos y variables comunes», «los prefijos permitidos», «los comandos mecánicos»"

@@ -130,7 +130,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (cerrada)
 - [[cambios/20261109-212224-xo0-registros-raiz]] — Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros) (cerrada)
 - [[cambios/20261109-233536-jgu-registros-almacen]] — Registros fuera del repo del producto, etapa 2: el almacén y conectar (cerrada)
-- [[cambios/20261110-095631-0w3-entorno-agente]] — Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto (spec_aprobada)
+- [[cambios/20261110-095631-0w3-entorno-agente]] — Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto (requisitos_importados)
 
 ## Requisitos
 
@@ -314,6 +314,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto]]
 - [[requisitos/flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar]]
 - [[requisitos/flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega]]
+- [[requisitos/flujo_c93a1d23e9668d672.el_agente_lanzado_recibe_un_entorno_minimo]]
+- [[requisitos/flujo_c93a1d23e9668d672.entorno_explicito_por_corrida]]
+- [[requisitos/flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python]]
 - [[requisitos/flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza]]
