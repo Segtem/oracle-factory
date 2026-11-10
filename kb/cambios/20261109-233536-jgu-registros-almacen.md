@@ -44,6 +44,8 @@ capacidad: "flujo"
 - `e5486d5` registros-almacen: conectar y desconectar, el almacén por usuario (etapa 2 de 6) (trailer)
 - `19ed52d` registros-almacen: evidencia del candidato e5486d5 (trailer)
 - `6a24a61` registros-almacen: intento de revisión con agy (cuota agotada) (trailer)
+- `fb6769c` registros-almacen: casos de las mutaciones propias (XDG/HOME, ruta relativa, raíces restauradas, producto desde subcarpeta) (trailer)
+- `43dab88` registros-almacen: evidencia del candidato tras las mutaciones propias (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-233536-jgu-registros-almacen`.
 
 ## Mensajes

@@ -4,11 +4,18 @@
 No importa cli.py: los errores salen como ValueError y quien llama los muestra."""
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
+
+try:
+    import fcntl
+except ImportError:  # sin fcntl (Windows) no hay bloqueo: dos conectar a la vez podrían pisarse
+    fcntl = None
 
 
 def archivo() -> Path:
@@ -33,9 +40,30 @@ def leer() -> dict[str, str]:
 def guardar(datos: dict[str, str]) -> None:
     ruta = archivo()
     ruta.parent.mkdir(parents=True, exist_ok=True)
-    temporal = ruta.with_name(ruta.name + ".tmp")
-    temporal.write_text(json.dumps(datos, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
-    temporal.replace(ruta)
+    descriptor, nombre = tempfile.mkstemp(dir=ruta.parent, prefix=ruta.name + ".", suffix=".tmp")  # un temporal propio de cada proceso
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as temporal:
+            temporal.write(json.dumps(datos, indent=2, ensure_ascii=False, sort_keys=True) + "\n")
+        os.replace(nombre, ruta)
+    except BaseException:
+        with contextlib.suppress(OSError):
+            os.unlink(nombre)
+        raise
+
+
+@contextlib.contextmanager
+def actualizando():
+    """Lee la configuración, deja modificarla y la guarda, todo bajo un bloqueo: dos conectar a la vez no se pierden entradas.
+
+    ValueError si no se puede leer (y no guarda nada)."""
+    ruta = archivo()
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    with open(ruta.with_name(ruta.name + ".lock"), "a", encoding="utf-8") as candado:
+        if fcntl:
+            fcntl.flock(candado, fcntl.LOCK_EX)
+        datos = leer()
+        yield datos
+        guardar(datos)
 
 
 def _git(desde: Path, *args: str) -> str | None:
@@ -92,7 +120,11 @@ def comando(cli, nombre: str, almacen: Path | None) -> int:
         if actual is None:
             print("El producto no estaba conectado a ningún almacén.")
         else:
-            guardar({k: v for k, v in datos.items() if k != llave})
+            try:
+                with actualizando() as vigentes:
+                    vigentes.pop(llave, None)
+            except ValueError as e:
+                raise cli.FactoryError(str(e)) from e
             print(f"Producto desconectado del almacén {actual} (el almacén y el producto siguen como estaban).")
         return 0
     if almacen is None:
@@ -118,6 +150,10 @@ def comando(cli, nombre: str, almacen: Path | None) -> int:
     finally:
         os.chdir(cwd)
         cli.ROOT, cli.CHANGES = antes
-    guardar({**datos, llave: str(destino)})
+    try:
+        with actualizando() as vigentes:  # se vuelve a leer: otro conectar pudo agregar algo mientras se preparaba el almacén
+            vigentes[llave] = str(destino)
+    except ValueError as e:
+        raise cli.FactoryError(str(e)) from e
     print(f"Producto conectado al almacén {destino}: desde cualquier carpeta o worktree del producto, Factory usa sus registros.")
     return 0

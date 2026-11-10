@@ -230,6 +230,32 @@
       "forma": "mensaje",
       "cuando": "2026-11-10T00:11:15.771074+00:00",
       "texto": "autopilot se detuvo: hay frenos: prueba_existente_editada"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:28:54.247492+00:00",
+      "revisor": "codex",
+      "candidato": "fb6769c",
+      "lanzamiento": "899f865157fd"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:30:15.987857+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "fb6769c",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "899f865157fd"
     }
   ],
   "tipos": {

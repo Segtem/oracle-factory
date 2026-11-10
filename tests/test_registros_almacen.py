@@ -98,7 +98,7 @@ class RegistrosAlmacen(unittest.TestCase):
         self.assertEqual(self.arbol(self.producto), antes)
         self.assertEqual(self.git_en(self.producto, 'status', '--porcelain', '--untracked-files=all'), '')
         self.assertFalse((self.producto / '.factory').exists())
-        self.assertEqual(sorted(p.name for p in self.config.parent.iterdir()), ['almacenes.json'])  # sin residuos temporales
+        self.assertEqual(sorted(p.name for p in self.config.parent.iterdir()), ['almacenes.json', 'almacenes.json.lock'])  # sin temporales
         # dónde vive la configuración personal: XDG_CONFIG_HOME si está puesto, y si no HOME/.config
         otra = self.base / 'otra-config'
         with patch.dict(os.environ, {'XDG_CONFIG_HOME': str(otra)}):
@@ -128,6 +128,22 @@ class RegistrosAlmacen(unittest.TestCase):
         self.config.write_text(json.dumps({'/otro/.git': '/otro/almacen'}), encoding='utf-8')
         self.conecta()
         self.assertEqual(self.conexiones(), {'/otro/.git': '/otro/almacen', self.clave: str(self.almacen)})
+        # varios procesos a la vez no se pierden entradas (hallazgo de codex): cada uno agrega la suya con el bloqueo tomado un rato
+        codigo = ("import sys, time\nsys.path.insert(0, %r)\nfrom oracle_factory import almacenes\n"
+                  "with almacenes.actualizando() as d:\n    time.sleep(0.15)\n    d['/p/' + sys.argv[1]] = '/a/' + sys.argv[1]\n") % str(Path(__file__).resolve().parents[1])
+        procesos = [subprocess.Popen([sys.executable, '-c', codigo, str(n)], env=os.environ.copy()) for n in range(6)]
+        self.assertEqual([p.wait(timeout=60) for p in procesos], [0] * 6)
+        self.assertEqual(self.conexiones(), {'/otro/.git': '/otro/almacen', self.clave: str(self.almacen), **{f'/p/{n}': f'/a/{n}' for n in range(6)}})
+        self.assertEqual(sorted(p.name for p in self.config.parent.iterdir()), ['almacenes.json', 'almacenes.json.lock'])  # ni temporales sueltos
+        # el temporal nace junto al archivo (para que el reemplazo sea atómico) y, si el reemplazo falla, no queda suelto
+        creados = []
+        real = f.almacenes.tempfile.mkstemp
+        with patch.object(f.almacenes.tempfile, 'mkstemp', side_effect=lambda **k: (creados.append(k['dir']), real(**k))[1]), \
+                patch.object(f.almacenes.os, 'replace', side_effect=PermissionError('no se puede reemplazar')):
+            with self.assertRaises(PermissionError):
+                f.almacenes.guardar({'x': 'y'})
+        self.assertEqual(creados, [self.config.parent])
+        self.assertEqual(sorted(p.name for p in self.config.parent.iterdir()), ['almacenes.json', 'almacenes.json.lock'])
 
     def test_ra1_una_ruta_que_no_sirve_falla_sin_cambiar_nada(self):
         no_git = self.base / 'sin-git'
