@@ -1,0 +1,60 @@
+{
+  "entorno_agente_caso": [
+    {
+      "requisito": "el_agente_lanzado_recibe_un_entorno_minimo",
+      "caso": "Entorno.test_ea1_el_agente_ve_las_permitidas_y_factory_agente_y_nada_mas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_agente_lanzado_recibe_un_entorno_minimo",
+      "caso": "Entorno.test_ea1_los_comandos_mecanicos_no_cambian",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_agente_lanzado_recibe_un_entorno_minimo",
+      "caso": "Entorno.test_ea1_los_prefijos_permitidos_son_exactamente_lc_y_xdg",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_agente_lanzado_recibe_un_entorno_minimo",
+      "caso": "Entorno.test_ea1_una_variable_permitida_que_no_existe_no_se_inventa_y_factory_agente_gana",
+      "codigo": 0
+    },
+    {
+      "requisito": "entorno_explicito_por_corrida",
+      "caso": "Explicito.test_ea2_el_comando_pasa_la_lista_al_ejecutor_y_no_guarda_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "entorno_explicito_por_corrida",
+      "caso": "Explicito.test_ea2_la_opcion_existe_en_el_parser_y_es_repetible",
+      "codigo": 0
+    },
+    {
+      "requisito": "entorno_explicito_por_corrida",
+      "caso": "Explicito.test_ea2_los_nombres_validos_pasan_el_filtro",
+      "codigo": 0
+    },
+    {
+      "requisito": "entorno_explicito_por_corrida",
+      "caso": "Explicito.test_ea2_un_nombre_que_no_sirve_o_sin_lanzar_se_rechaza_antes_de_correr_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "entorno_explicito_por_corrida",
+      "caso": "Explicito.test_ea2_una_variable_entregada_a_proposito_llega_en_esa_corrida_y_en_la_siguiente_no",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_de_permisos_no_abre_python",
+      "caso": "Guia.test_ea3_la_guia_filtra_el_entorno_acota_python_y_advierte_del_patron_abierto",
+      "codigo": 0
+    }
+  ],
+  "entorno_agente_corrida": [
+    {
+      "completa": 1,
+      "casos": 10
+    }
+  ]
+}
