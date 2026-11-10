@@ -131,7 +131,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-212224-xo0-registros-raiz]] — Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros) (cerrada)
 - [[cambios/20261109-233536-jgu-registros-almacen]] — Registros fuera del repo del producto, etapa 2: el almacén y conectar (cerrada)
 - [[cambios/20261110-095631-0w3-entorno-agente]] — Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto (cerrada)
-- [[cambios/20261110-140719-h7t-registros-candidato]] — Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes (spec_aprobada)
+- [[cambios/20261110-140719-h7t-registros-candidato]] — Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes (requisitos_importados)
 
 ## Requisitos
 
@@ -309,6 +309,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion]]
 - [[requisitos/flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores]]
 - [[requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan]]
+- [[requisitos/flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia]]
+- [[requisitos/flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto]]
+- [[requisitos/flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio]]
+- [[requisitos/flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto]]
 - [[requisitos/flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision]]
 - [[requisitos/flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente]]
 - [[requisitos/flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen]]

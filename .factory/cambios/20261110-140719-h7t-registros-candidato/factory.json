@@ -2,7 +2,7 @@
   "id": "20261110-140719-h7t-registros-candidato",
   "titulo": "Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md",
   "spec_sha256": "ac1ab42d05715d1d8e537e59b8c38e2aecec16ec0689f052a0d9d3a60a9bf233",
   "spec_aprobada": {
@@ -16,7 +16,12 @@
       "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md": "ac1ab42d05715d1d8e537e59b8c38e2aecec16ec0689f052a0d9d3a60a9bf233"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia",
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto",
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio",
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +46,150 @@
         "openspec/changes/20261110-140719-h7t-registros-candidato/proposal.md": "065eb76cce043a6d517264c678527e99b9dcb03b60fb1525dace0139e188a1d6",
         "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md": "ac1ab42d05715d1d8e537e59b8c38e2aecec16ec0689f052a0d9d3a60a9bf233"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T14:08:24.191212+00:00",
+      "ids": [
+        "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia",
+        "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto",
+        "flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio",
+        "flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-10T14:08:49.989786+00:00",
+      "texto": "autopilot delegar_al_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T14:14:33.114319+00:00",
+      "requisito": "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia",
+      "medidas": [
+        "factory_registros_candidato.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia",
+        "factory_registros_candidato.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T14:14:35.136920+00:00",
+      "requisito": "flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio",
+      "medidas": [
+        "factory_registros_candidato.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio",
+        "factory_registros_candidato.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T14:14:37.158823+00:00",
+      "requisito": "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto",
+      "medidas": [
+        "factory_registros_candidato.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto",
+        "factory_registros_candidato.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T14:14:39.197057+00:00",
+      "requisito": "flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto",
+      "medidas": [
+        "factory_registros_candidato.con_almacen_aparte_no_hay_hook_en_el_producto",
+        "factory_registros_candidato.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia": "funcional",
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto": "funcional",
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio": "funcional",
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia": {
+      "sha256": "7397e7a40514f8367c9b2e99acb3bdec8f27c7efdc1272861c700af0768ed6ac",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T14:14:33.061931+00:00",
+      "catalogos": {
+        "factory_registros_candidato.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia": "5d0fd00f35a227d7dea081569f14a1b94dc5566832e3770378fd55e4a542a578",
+        "factory_registros_candidato.corrida_completa": "881ec2fd634a2ff8b5d39a57cdfc70fa5d037c00de4df0a769c1040cd7aa2e5d"
+      },
+      "archivos_catalogo": {
+        "factory_registros_candidato.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia": "catalogos/factory_registros_candidato.con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia.oracle",
+        "factory_registros_candidato.corrida_completa": "catalogos/factory_registros_candidato.corrida_completa.oracle"
+      }
+    },
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio": {
+      "sha256": "6830ecb0f2e7571722a8012976ce73314cb7cc178c419de05cf5766638320427",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T14:14:35.084843+00:00",
+      "catalogos": {
+        "factory_registros_candidato.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio": "6f4e96310d709603440e822f2e3691478cb1c6d7e4d4745f83248c73122b28db",
+        "factory_registros_candidato.corrida_completa": "881ec2fd634a2ff8b5d39a57cdfc70fa5d037c00de4df0a769c1040cd7aa2e5d"
+      },
+      "archivos_catalogo": {
+        "factory_registros_candidato.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio": "catalogos/factory_registros_candidato.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio.oracle",
+        "factory_registros_candidato.corrida_completa": "catalogos/factory_registros_candidato.corrida_completa.oracle"
+      }
+    },
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto": {
+      "sha256": "85d6811ee12a1c101bf59b3f66812e8a4e6a1bfb196c882ce5ddb93245ffd05f",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T14:14:37.105417+00:00",
+      "catalogos": {
+        "factory_registros_candidato.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto": "1a446464134a45be99793660c79bab80d36fb1b19f278ea993c04d33a558903c",
+        "factory_registros_candidato.corrida_completa": "881ec2fd634a2ff8b5d39a57cdfc70fa5d037c00de4df0a769c1040cd7aa2e5d"
+      },
+      "archivos_catalogo": {
+        "factory_registros_candidato.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto": "catalogos/factory_registros_candidato.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto.oracle",
+        "factory_registros_candidato.corrida_completa": "catalogos/factory_registros_candidato.corrida_completa.oracle"
+      }
+    },
+    "flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto": {
+      "sha256": "7ad8e240bca876f4b1b6f6da5627896f1a3071c1974031dad8a858825cfb447b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T14:14:39.144467+00:00",
+      "catalogos": {
+        "factory_registros_candidato.con_almacen_aparte_no_hay_hook_en_el_producto": "96b8505cb8c5a3b5faff20a57c3a2eb8b1a5b1cbc2155e23459ebedbf227a889",
+        "factory_registros_candidato.corrida_completa": "881ec2fd634a2ff8b5d39a57cdfc70fa5d037c00de4df0a769c1040cd7aa2e5d"
+      },
+      "archivos_catalogo": {
+        "factory_registros_candidato.con_almacen_aparte_no_hay_hook_en_el_producto": "catalogos/factory_registros_candidato.con_almacen_aparte_no_hay_hook_en_el_producto.oracle",
+        "factory_registros_candidato.corrida_completa": "catalogos/factory_registros_candidato.corrida_completa.oracle"
+      }
+    }
+  }
 }

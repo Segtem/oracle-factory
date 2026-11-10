@@ -1,0 +1,8 @@
+medida factory_registros_candidato.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto:
+    de registros_candidato_caso c
+    donde c.requisito == "con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto" y c.codigo == 0
+    resumen contar(1)
+    umbral == 3 segun contrato porque "deben pasar los 3 casos enumerados para este requisito en tests/test_registros_candidato.py; asociar junto a corrida_completa"
+    requiere registros_candidato_caso
+    ambito universal
+    alcance "escenarios rc1 a rc4 sobre el candidato, la huella, el ciclo completo y los hooks con almacén aparte, con Git de verdad en repositorios temporales (producto y almacén) y HOME y XDG_CONFIG_HOME temporales, un revisor de prueba y Clue real, Linux"
