@@ -2,7 +2,7 @@
   "id": "20261110-203907-qfp-partir-cli",
   "titulo": "cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261110-203907-qfp-partir-cli/specs/flujo/spec.md",
   "spec_sha256": "aa52437b1bdcb8963b0838ca2f98c64bdb458ff8dde8f7aeaae787999d6b1e22",
   "spec_aprobada": {
@@ -16,7 +16,10 @@
       "openspec/changes/20261110-203907-qfp-partir-cli/specs/flujo/spec.md": "aa52437b1bdcb8963b0838ca2f98c64bdb458ff8dde8f7aeaae787999d6b1e22"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope",
+    "flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +44,24 @@
         "openspec/changes/20261110-203907-qfp-partir-cli/proposal.md": "9cf3b9f8bce23321304b88311c52ef339cead9c0dcce2bc2fed2f17d28ea6b22",
         "openspec/changes/20261110-203907-qfp-partir-cli/specs/flujo/spec.md": "aa52437b1bdcb8963b0838ca2f98c64bdb458ff8dde8f7aeaae787999d6b1e22"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T20:46:57.204600+00:00",
+      "ids": [
+        "flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope",
+        "flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope": "no funcional",
+    "flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual": "no funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

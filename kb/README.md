@@ -132,7 +132,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-233536-jgu-registros-almacen]] — Registros fuera del repo del producto, etapa 2: el almacén y conectar (cerrada)
 - [[cambios/20261110-095631-0w3-entorno-agente]] — Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto (cerrada)
 - [[cambios/20261110-140719-h7t-registros-candidato]] — Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes (cerrada)
-- [[cambios/20261110-203907-qfp-partir-cli]] — cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope (spec_aprobada)
+- [[cambios/20261110-203907-qfp-partir-cli]] — cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope (requisitos_importados)
 
 ## Requisitos
 
@@ -330,6 +330,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cbe1c0ee48f2ba730.cada_paso_deja_su_porque_en_el_registro]]
 - [[requisitos/flujo_cbe1c0ee48f2ba730.el_bucle_observa_decide_actua_y_vuelve_a_observar]]
 - [[requisitos/flujo_cbe1c0ee48f2ba730.el_bucle_tiene_topes_y_se_frena_solo]]
+- [[requisitos/flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope]]
+- [[requisitos/flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.autopilot_solo_lee_y_lo_muestra]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce]]

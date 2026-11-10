@@ -965,123 +965,6 @@ def filas_autonomia() -> list[dict]:
     return [{**f, "aplica_hoy": APLICA_AUTONOMIA[f["etapa"]] is not None, "comando": APLICA_AUTONOMIA[f["etapa"]]} for f in filas]
 
 
-def comando_autopilot(ident: str, como_json: bool, ejecutar: bool = False, lanzar: str | None = None, max_pasos: int = 10,
-                      max_minutos: float = 120, entorno: list[str] | None = None) -> int:
-    """El conductor. Sin `--ejecutar`, sólo lectura: lo que haría ahora (`autopilot.decidir` sobre los datos de `estado`). Con `--ejecutar`
-    (y `--agente`), el bucle de `conductor.bucle`: corre lo mecánico, lanza al agente para lo creativo, con topes y el porqué en el registro."""
-    entregar = list(entorno or [])
-    if entregar and not (ejecutar and lanzar):  # antes de la salida de sólo lectura: una opción que no vale en este modo no se ignora en silencio
-        raise FactoryError("--entorno entrega variables al agente que lanza --lanzar: sólo vale con --ejecutar y --lanzar; no escribí nada")
-    for nombre in entregar:
-        if not conductor.NOMBRE_DE_VARIABLE.fullmatch(nombre):
-            raise FactoryError(f"--entorno {nombre!r} no es el nombre de una variable (letras, dígitos y guion bajo, sin empezar con un dígito); no escribí nada")
-    if not ejecutar:
-        decision = autopilot.decidir(datos_estado(ident))
-        if como_json:
-            imprimir_json(decision)
-            return 0
-        print(f"Autopilot {ident}: {decision['accion']}" + (f" ({decision['quien']})" if decision["quien"] else ""))
-        if decision["comando"]:
-            print("Comando: " + decision["comando"] + ("  (con --agente NOMBRE)" if decision["quien"] == "agente" else ""))
-        if decision["instruccion"]:
-            print("Instrucción: " + decision["instruccion"])
-        print("Motivo: " + decision["motivo"])
-        for freno in decision["frenos"]:
-            print(f"  FRENO {freno.get('id')}: {freno.get('motivo')}")
-        return 0
-    if not AGENTE:
-        raise FactoryError("autopilot --ejecutar actúa como agente: corré `oracle-factory --agente NOMBRE autopilot ID --ejecutar`; no escribí nada")
-    if max_pasos < 1 or not max_minutos > 0:
-        raise FactoryError("--max-pasos y --max-minutos tienen que ser positivos; no escribí nada")
-    try:
-        comando_lanzar = shlex.split(lanzar) if lanzar else None
-    except ValueError as e:
-        raise FactoryError(f"--lanzar no se puede leer como un comando: {e}; no escribí nada")
-    datos_estado(ident)  # un cambio que no existe falla acá, nombrándolo, antes de escribir nada
-    correr, lanzador = conductor.ejecutor(ROOT, AGENTE, entregar)
-    resultado = conductor.bucle(ident, lambda: datos_estado(ident), correr, lanzador, comando_lanzar, max_pasos, max_minutos)
-    if como_json:
-        imprimir_json(resultado)
-    else:
-        print(f"Autopilot {ident}: {len(resultado['pasos'])} paso(s)")
-        for i, p in enumerate(resultado["pasos"], 1):
-            print(f"  {i}. {p['accion']}: {p['comando'] or p['instruccion']} → código {p['codigo']}")
-        print("Se detuvo: " + resultado["motivo"])
-        if resultado["decision"] and resultado["decision"]["accion"] == "pedir_a_persona":
-            print("Comando para una persona: " + resultado["decision"]["comando"])
-        if resultado.get("aviso"):
-            print("Aviso: " + resultado["aviso"])
-    return 1 if resultado["fallo"] else 0
-
-
-def comando_autonomia(etapa: str | None, modo: str | None, como_json: bool) -> int:
-    """Muestra quién decide en cada etapa; con etapa y modo, una persona la cambia."""
-    if etapa and not modo:
-        raise FactoryError(f"indicá el modo de la etapa {etapa}: {' o '.join(modos.MODOS_ETAPA)}")
-    if etapa:
-        if AGENTE:
-            raise FactoryError(f"cambiar la autonomía de una etapa lo decide una persona, sin --agente: {AGENTE} no puede dársela a un agente")
-        if config_proyecto()["autonomia"][etapa] == modo:
-            print(f"La etapa {etapa} ya está en {modo}.")
-            return 0
-        confirmar_persona((f"Poner la etapa {etapa} en {modo}", f"Poner {etapa} en {modo}",
-                           "un agente " + ("podrá decidir en esa etapa" if modo == "autonomo" else "ya no podrá decidir en esa etapa")),
-                          "cambio de autonomía cancelado; la configuración sigue igual")
-        ruta = ruta_segura(ROOT / estructura.DIR / "config.json")
-        if not ruta.is_file():
-            raise FactoryError(f"no hay {estructura.DIR}/config.json: iniciá el proyecto con oracle-factory init")
-        crudo = ruta.read_bytes()
-        datos = json.loads(crudo)
-        datos["autonomia"] = {**(datos.get("autonomia") or {}), etapa: modo}
-        escribir_atomico(ruta, (json.dumps(datos, indent=2, ensure_ascii=False) + "\n").encode(), esperado=crudo)
-        print(f"La etapa {etapa} quedó en {modo}. El cambio está en {estructura.DIR}/config.json: commitealo para que valga en el equipo.")
-        return 0
-    filas = filas_autonomia()
-    if como_json:
-        print(json.dumps(filas, ensure_ascii=False, indent=2))
-        return 0
-    print("Autonomía por etapa (quién decide por la vía de agente; una persona decide siempre):")
-    for f in filas:
-        print(f"  {f['etapa']:13} {f['modo']:13} decide: {f['decide']:30} " + (f"lo aplica: {f['comando']}" if f["aplica_hoy"] else "sin comando de Factory todavía"))
-    return 0
-
-
-def comando_desplegar(simular: bool, autorizar: bool, commit: str | None, destinos: list[str], cambios: bool = False) -> int:
-    """El plan de despliegue; sólo una persona desde su terminal lo ejecuta."""
-    quien = actor()
-    autonoma = modos.via_agente_etapa(config_proyecto()["autonomia"]["produccion"]) == "decide"  # la etapa producción en `autonomo`
-    if autorizar and quien["tipo_actor"] != "persona" and not (autonoma and quien["tipo_actor"] == "agente"):
-        raise FactoryError("autorizar un despliegue lo hace una persona desde su terminal: un agente puede armar y simular el plan "
-                           "(oracle-factory desplegar --simular), no ejecutarlo")
-    try:
-        decl = despliegue_mod.cargar(ROOT)
-        codigo_puerta, texto_puerta = verificar_en_proceso(["puerta"])
-        plan = despliegue_mod.armar_plan(ROOT, decl, commit, destinos or None, puerta=lambda: (codigo_puerta == 0, texto_puerta), cambios=cambios)
-    except (despliegue_mod.DeclaracionInvalida, despliegue_mod.DespliegueNegado) as e:
-        raise FactoryError(str(e)) from e
-    print(despliegue_mod.texto_plan(decl, plan))
-    if cambios and not plan["orden"]:
-        return 0
-    faltan = despliegue_mod.faltan_secretos(decl, plan)
-    if faltan:
-        print("Faltan en el entorno estos secretos (sólo los nombres): " + ", ".join(faltan))
-    if not autorizar or simular:
-        print("No se ejecutó nada. Para ejecutarlo, una persona: oracle-factory desplegar --autorizar" + (f" --commit {commit}" if commit else ""))
-        return 0
-    try:
-        registro = despliegue_mod.ejecutar(ROOT, decl, plan, autorizo=quien["actor"], planeo=quien["actor"])
-    except despliegue_mod.DespliegueNegado as e:
-        raise FactoryError(str(e)) from e
-    for n in registro["orden"]:
-        r = registro["destinos"][n]
-        print(f"  {n}: {r['estado']}" + (f" — {r['motivo']}" if r["motivo"] else ""))
-    print(f"Conjunto: {registro['conjunto']['resultado']}")
-    if registro["aviso"]:
-        print("Aviso: " + registro["aviso"])
-    print(f"Resultado: {registro['motivo']} (registro: .factory/despliegues/{registro['id']}/registro.json)")
-    return 0 if registro["resultado"] == "todo_funciona" else 1
-
-
 @reintentar_si_cambia
 def tomar(identificador: str, con: list[str] | None = None, relevo: bool = False) -> None:
     """Una persona se registra como responsable del cambio (con sus agentes); un agente se suma al cambio."""
@@ -1960,31 +1843,6 @@ def _decision(registro: dict | None) -> dict | None:
     return datos
 
 
-def comando_migrar(verificar: bool) -> None:
-    """Pasa el estado de cada cambio y la configuración a .factory/ (fase 2 de la estructura)."""
-    movimientos, problemas, avisos = migracion.planear(ROOT)
-    for texto in problemas + avisos:
-        print(f"Aviso: {texto}", file=sys.stderr)
-    if verificar:
-        for m in movimientos:
-            print(f"{m['cambio']}: {m['origen'].relative_to(ROOT)} -> {m['destino'].relative_to(ROOT)}"
-                  + ("" if m["estado"] == "escribir" else " (ya está en el lugar nuevo; sólo falta borrar el viejo)"))
-        print(f"Por migrar: {len(movimientos)} archivos.")
-        if any(m["origen"].name == "factory.json" and m["origen"].parent == ROOT for m in movimientos):
-            print("Aviso: factory.json de la raíz es parte del producto: moverlo cambia la huella y vence las revisiones vigentes.")
-        if movimientos or problemas:
-            raise SystemExit(1)
-        return
-    if any(m["origen"].name == "factory.json" and m["origen"].parent == ROOT for m in movimientos):
-        print("Aviso: factory.json de la raíz es parte del producto: moverlo cambia la huella y vence las revisiones vigentes; "
-              "hay que volver a preparar y registrar la revisión de los cambios abiertos.")
-    hechos = migracion.aplicar(movimientos)
-    cambios = sorted({m["cambio"] for m in movimientos})
-    print(f"Migrados {hechos} archivos de {len(cambios)} cambios y configuración. No hice commits: revisá con git status y confirmalos.")
-    if problemas:
-        raise SystemExit(1)
-
-
 def comando_ruta(identificador: str, tipo: str) -> None:
     leer(identificador)  # el cambio tiene que existir
     head = git_producto(["git", "rev-parse", "HEAD"])
@@ -2011,71 +1869,6 @@ def comando_buscar(texto: str, maximo: int) -> None:
     print(f"{total} coincidencia(s)" + (f"; se muestran {len(lineas)}, usá --max para ver más" if total > len(lineas) else ""))
     if omitidos:
         print(f"Aviso: {omitidos} archivo(s) omitido(s) por superar {estructura.LIMITE_ARCHIVO // 1_000_000} MB; el texto podría estar ahí.")
-
-
-def comando_procedencia(args) -> None:
-    """El inventario de las dependencias, quién usó una y la auditoría contra avisos OSV. Local, salvo --consultar-osv --red."""
-    if args.consultar_osv:
-        if not args.red:
-            raise FactoryError("--consultar-osv se conecta a OSV.dev: autorizalo con --red (sale sólo nombre, versión y ecosistema de cada dependencia)")
-        if args.buscar or args.auditar or args.id or args.avisos:
-            raise FactoryError("--consultar-osv mira todos los inventarios guardados y no se combina con --buscar, --auditar, --avisos ni un cambio")
-        try:
-            print(osv_mod.informe(ROOT, args.osv_url, args.salida, args.json), end="")
-        except procedencia_mod.ProcedenciaError as e:
-            raise FactoryError(str(e)) from e
-        return
-    if args.red or args.salida:
-        raise FactoryError("--red y --salida son para --consultar-osv")
-    if args.buscar and args.auditar:
-        raise FactoryError("--buscar y --auditar no se combinan; usá uno")
-    if (args.buscar or args.auditar) and args.id:
-        raise FactoryError("--buscar y --auditar miran todos los inventarios guardados: no llevan un cambio")
-    if args.auditar and not args.avisos:
-        raise FactoryError("--auditar necesita --avisos ARCHIVO con avisos en formato OSV")
-    if args.avisos and not args.auditar:
-        raise FactoryError("--avisos es para --auditar")
-    try:
-        if args.buscar or args.auditar:
-            print(procedencia_mod.informe_buscar(ROOT, args.buscar, args.json) if args.buscar
-                  else procedencia_mod.informe_auditar(ROOT, args.avisos, args.json), end="")
-            return
-        python = procedencia_mod.python_del_proyecto(PRODUCTO or ROOT, args.python)
-        bom, diferencias, confiable = procedencia_mod.inventario(PRODUCTO or ROOT, python)
-    except procedencia_mod.ProcedenciaError as e:
-        raise FactoryError(str(e)) from e
-    cuerpo = procedencia_mod.texto(bom)
-    guardado = None
-    if args.id:
-        carpeta, estado = abierto(args.id)
-        head = git_producto(["git", "rev-parse", "HEAD"])
-        if head.returncode:
-            raise FactoryError("procedencia necesita un repositorio Git con al menos un commit")
-        sha = candidato_vigente(args.id) or head.stdout.strip()[:7]
-        destino = ROOT / estructura.DIR / "cambios" / args.id / "candidatos" / sha / "procedencia" / "cyclonedx.json"
-        ruta_segura(destino)
-        destino.parent.mkdir(parents=True, exist_ok=True)
-        escribir_atomico(destino, cuerpo.encode("utf-8"))
-        huella = sha256(cuerpo.encode("utf-8"))
-        evento(estado, "procedencia_registrada", candidato=sha, archivo=destino.relative_to(ROOT).as_posix(), huella=huella,
-               componentes=len(bom["components"]), confiable=confiable, diferencias=len(diferencias))
-        guardar(carpeta, estado)
-        guardado = (destino.relative_to(ROOT).as_posix(), huella)
-    if args.json:
-        print(cuerpo, end="")
-        return
-    fuente = "uv.lock" if any(procedencia_mod.propiedad(c, "factory:fuente") == "uv.lock" for c in bom["components"]) else "el entorno instalado"
-    print(f"Inventario de dependencias de Python: {len(bom['components'])} componentes, según {fuente}.")
-    print("Confiable: sí." if confiable else "Confiable: no.")
-    for d in diferencias:
-        print(f"  - {d}")
-    for c in bom["components"]:
-        if procedencia_mod.propiedad(c, "factory:corregida"):
-            print(f"  corregido por Lightwell: {c['name']} {c['version']}")
-    if guardado:
-        print(f"Guardado en {guardado[0]} (sha256 {guardado[1][:16]}…) y registrado en {args.id}.")
-    else:
-        print("No se guardó (indicá el cambio para guardarlo en su candidato) ni se mostró el CycloneDX (--json).")
 
 
 def comando_skill(instalar: bool, forzar: bool) -> int:
@@ -2213,87 +2006,6 @@ Más detalle en `docs/estructura.md` del repositorio de Factory, y `oracle-facto
 SIN_USO_DE_ORACLE = ("corpus", "relaciones", "diferencial")
 
 
-def inicializar(oracle: str | None = None) -> None:
-    """Prepara Factory en ROOT. Con `oracle`, adopta el proyecto Oracle que ya está en esa carpeta en vez de crear uno en la raíz."""
-    marca = ROOT / estructura.DIR
-    if marca.is_symlink() or (marca.exists() and not marca.is_dir()):
-        raise FactoryError(f"{marca} existe y no es una carpeta de Factory: renombrala o quitala antes de ejecutar init; no creé nada")
-    if oracle is None and (marca / "config.json").is_file():  # ya inicializado: se respeta la carpeta de Oracle configurada
-        configurada = config_proyecto()["oracle"]
-        oracle = None if configurada in (".", "") else configurada
-    afuera = estructura.raiz_del_proyecto(ROOT.parent) if ROOT.parent != ROOT else None
-    if afuera is not None:
-        print(f"Aviso: esta carpeta está dentro del proyecto Factory {afuera}; init crea un proyecto anidado y los comandos "
-              "usarán el más cercano.", file=sys.stderr)
-    if oracle is not None:
-        relativa = carpeta_relativa(oracle)
-        if (oracle in ("", ".") or relativa is None
-                or (ROOT / relativa).resolve() != ROOT / relativa or not (ROOT / relativa / "oracle.json").is_file()):
-            raise FactoryError(f"--oracle es la carpeta de un proyecto Oracle que ya existe dentro de este proyecto "
-                               f"(con oracle.json); «{oracle}» no lo es. No creé nada")
-    ROOT.mkdir(parents=True, exist_ok=True)
-    propios = ("tareas", ".gitignore", "openspec/changes", estructura.DIR)
-    oracle_raiz = ("catalogos", "corpus", "diferencial", "relaciones", "requisitos", "macros", "oracle.json")
-    for nombre in propios + (() if oracle else oracle_raiz):
-        ruta_segura(ROOT / nombre)
-    de_antes = {nombre for nombre in SIN_USO_DE_ORACLE if (ROOT / nombre).exists()}
-    for comando in (["tasks", "init", str(ROOT), "--sin-readme"], *([] if oracle else [["oracle", "init", str(ROOT)]])):
-        resultado = ejecutar(comando)
-        if resultado.returncode:
-            raise FactoryError(resultado.stderr or resultado.stdout)
-    for nombre in SIN_USO_DE_ORACLE:  # las crea `oracle init` y Factory no las usa: vacías, sólo confunden
-        carpeta = ROOT / nombre
-        if nombre not in de_antes and carpeta.is_dir() and not carpeta.is_symlink() and not any(carpeta.iterdir()):
-            carpeta.rmdir()
-    ruta_segura(CHANGES).mkdir(parents=True, exist_ok=True)
-    for sub in ('cambios', 'local'):
-        ruta_segura(ROOT / estructura.DIR / sub).mkdir(parents=True, exist_ok=True)
-    config = ruta_segura(ROOT / estructura.DIR / 'config.json')
-    if not config.exists() and not (ROOT / 'factory.json').exists():  # con la configuración anterior en la raíz, la pasa `migrar`
-        datos = {"modo_por_defecto": modos.POR_DEFECTO, "tipos_obligatorios": False}
-        config.write_text(json.dumps({**datos, **({"oracle": oracle} if oracle else {})}, indent=2) + "\n", encoding='utf-8')
-    elif oracle and config.exists():  # ya inicializado: sólo se anota dónde está el proyecto Oracle
-        datos = json.loads(config.read_text(encoding='utf-8'))
-        if datos.get("oracle") != oracle:
-            escribir_atomico(config, (json.dumps({**datos, "oracle": oracle}, indent=2, ensure_ascii=False) + "\n").encode())
-    leeme = ruta_segura(ROOT / estructura.DIR / 'LEEME.md')
-    if not leeme.exists():
-        leeme.write_text(LEEME_FACTORY, encoding='utf-8')
-    ignore = ruta_segura(ROOT / '.gitignore')
-    contenido = ignore.read_text(encoding='utf-8') if ignore.exists() else ''
-    pendientes = [line for line in (estructura.IGNORAR_LOCAL, estructura.IGNORAR_CLUE, '__pycache__/', '*.py[cod]')
-                  if line not in contenido.splitlines()]
-    if pendientes:
-        with ignore.open('a', encoding='utf-8') as archivo:
-            archivo.write(('\n' if contenido and not contenido.endswith('\n') else '') + '\n'.join(pendientes) + '\n')
-    versionados = ejecutar(["git", "ls-files", "--", ":(glob)" + estructura.IGNORAR_CLUE + "**"]).stdout.split()
-    if versionados:  # el .gitignore no saca del índice lo que ya estaba versionado; init no toca el índice
-        print("Aviso: hay paquetes de Clue versionados de antes; ahora son locales. Para dejar de versionarlos sin borrarlos: "
-              "git rm -r --cached " + " ".join(sorted({str(Path(p).parent) for p in versionados})), file=sys.stderr)
-    # Git no versiona carpetas vacías: sin esto, quien clona el proyecto no tiene tareas/ ni catalogos/ y no puede
-    # crear un cambio. .factory/local/ no: es local y Git la ignora.
-    raiz_oracle = ROOT / (oracle or "")
-    for carpeta_vacia in (ROOT / "tareas", CHANGES, ROOT / estructura.DIR / "cambios", raiz_oracle / "catalogos",
-                          raiz_oracle / "requisitos", raiz_oracle / "macros"):
-        if carpeta_vacia.is_dir() and not any(carpeta_vacia.iterdir()):
-            (ruta_segura(carpeta_vacia) / ".gitkeep").write_text("", encoding="utf-8")
-        regla = ejecutar(["git", "check-ignore", "-v", "--", str(carpeta_vacia / ".gitkeep")])
-        if not regla.returncode:  # un .gitignore del proyecto la excluye: Factory no pisa esa regla, pero avisa
-            print(f"Aviso: Git ignora {carpeta_vacia.relative_to(ROOT)}/ ({regla.stdout.split(chr(9))[0].strip()}): quien "
-                  "clone el proyecto no la va a tener. Si es de Factory, sacá esa regla del .gitignore.", file=sys.stderr)
-    print(f'Factory inicializada en {ROOT}. No se crearon commits ni aprobaciones.')
-    print(f'Acuerdos: {CHANGES}; tareas: {ROOT / "tareas"}; proyecto Oracle: {ROOT / (oracle or "")}.')
-    print(f'Carpeta propia de Factory: {ROOT / estructura.DIR} (versionada, salvo local/, que Git ignora).')
-    print('Conservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.')
-    print('Si el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.')
-    print(instalar_hook())
-    comando_agentes(False)
-    if not ejecutar(["git", "rev-parse", "--git-dir"]).returncode:
-        print(instalar_union())
-    print('Próximo paso: oracle-factory nuevo --con-ejemplo notas "Comprobar el título de una nota"')
-    print('Para recuperar cambios existentes: oracle-factory listar')
-
-
 def copiar_ejemplo(destino: Path) -> None:
     if not destino.is_absolute():
         destino = ROOT / destino
@@ -2359,37 +2071,6 @@ def escribir_atomico(ruta: Path, datos: bytes, *, esperado: bytes | None = None)
     finally:
         if temporal is not None and temporal.exists():
             temporal.unlink()
-
-
-def plan_ejemplo() -> dict[Path, bytes]:
-    destino = ruta_segura(ROOT / 'examples' / 'notas')
-    if destino.exists():
-        raise FactoryError(f"el destino del ejemplo ya existe: {destino}; usá nuevo --capacidad notas para otro cambio")
-    oracle = proyecto_oracle()
-    if not (oracle / 'catalogos').is_dir() or not (oracle / 'oracle.json').is_file():
-        raise FactoryError('primero inicializá el proyecto con oracle-factory init')
-    origen = resources.files('oracle_factory').joinpath('data/notas')
-    plan = {}
-    def recorrer(carpeta, relativa):
-        for item in sorted(carpeta.iterdir(), key=lambda x: x.name):
-            nombre = relativa / item.name
-            if item.is_dir():
-                recorrer(item, nombre)
-            else:
-                plan[destino / nombre] = item.read_bytes()
-                if relativa == Path('catalogos'):
-                    plan[oracle / 'catalogos' / item.name] = item.read_bytes()
-    recorrer(origen, Path())
-    for ruta in plan:
-        ruta_segura(ruta)
-        if ruta.exists():
-            raise FactoryError(f"destino existente; no se creó ninguna tarea ni se sobrescribió: {ruta}")
-        for padre in ruta.parents:
-            if padre == ROOT:
-                break
-            if padre.exists() and not padre.is_dir():
-                raise FactoryError(f"el directorio destino es un archivo: {padre}")
-    return plan
 
 
 def preparar_ejemplo(plan: dict[Path, bytes]) -> None:
@@ -2671,6 +2352,15 @@ def main(argv: list[str] | None = None) -> int:
 
 
 # Lo movido a otros módulos sigue disponible acá, con el mismo nombre (el código movido lee `cli` al usarlo).
+from .proyecto import (  # noqa: E402
+    comando_autonomia,
+    comando_autopilot,
+    comando_desplegar,
+    comando_migrar,
+    comando_procedencia,
+    inicializar,
+    plan_ejemplo,
+)
 from .parser import (  # noqa: E402
     construir_parser,
 )
