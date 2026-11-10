@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-10 09:58:50 UTC)
 
 Requisitos importados: flujo_c93a1d23e9668d672.el_agente_lanzado_recibe_un_entorno_minimo (funcional), flujo_c93a1d23e9668d672.entorno_explicito_por_corrida (funcional), flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-10 10:01:48 UTC)
+
+Medidas de flujo_c93a1d23e9668d672.el_agente_lanzado_recibe_un_entorno_minimo: factory_entorno_agente.el_agente_lanzado_recibe_un_entorno_minimo, factory_entorno_agente.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-10 10:01:50 UTC)
+
+Medidas de flujo_c93a1d23e9668d672.entorno_explicito_por_corrida: factory_entorno_agente.entorno_explicito_por_corrida, factory_entorno_agente.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-10 10:01:52 UTC)
+
+Medidas de flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python: factory_entorno_agente.la_guia_de_permisos_no_abre_python, factory_entorno_agente.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

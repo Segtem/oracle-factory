@@ -58,6 +58,48 @@
         "flujo_c93a1d23e9668d672.entorno_explicito_por_corrida",
         "flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T10:01:48.863650+00:00",
+      "requisito": "flujo_c93a1d23e9668d672.el_agente_lanzado_recibe_un_entorno_minimo",
+      "medidas": [
+        "factory_entorno_agente.el_agente_lanzado_recibe_un_entorno_minimo",
+        "factory_entorno_agente.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T10:01:50.899227+00:00",
+      "requisito": "flujo_c93a1d23e9668d672.entorno_explicito_por_corrida",
+      "medidas": [
+        "factory_entorno_agente.entorno_explicito_por_corrida",
+        "factory_entorno_agente.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T10:01:52.941458+00:00",
+      "requisito": "flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python",
+      "medidas": [
+        "factory_entorno_agente.la_guia_de_permisos_no_abre_python",
+        "factory_entorno_agente.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "flujo_c93a1d23e9668d672.el_agente_lanzado_recibe_un_entorno_minimo": {
+      "sha256": "c15e8cdfbf03bd0d50f757ed0b9aa42d203232abafd9f22b4786a46cb1e7f50e",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T10:01:48.811424+00:00",
+      "catalogos": {
+        "factory_entorno_agente.el_agente_lanzado_recibe_un_entorno_minimo": "b24150a05d55e9122a293b5660b8417f32dad9797ffe4b214f33dee40d403a10",
+        "factory_entorno_agente.corrida_completa": "044ae28324d9434e614ae6250fd36cde126328c648c4f5a7e5f6ba82198feb0a"
+      },
+      "archivos_catalogo": {
+        "factory_entorno_agente.el_agente_lanzado_recibe_un_entorno_minimo": "catalogos/factory_entorno_agente.el_agente_lanzado_recibe_un_entorno_minimo.oracle",
+        "factory_entorno_agente.corrida_completa": "catalogos/factory_entorno_agente.corrida_completa.oracle"
+      }
+    },
+    "flujo_c93a1d23e9668d672.entorno_explicito_por_corrida": {
+      "sha256": "1df79207d55bfa332407ea72d679d99c2221faf3ef35b0909c5b942e76adbe85",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T10:01:50.845796+00:00",
+      "catalogos": {
+        "factory_entorno_agente.entorno_explicito_por_corrida": "c13c83f795102cb047b02d5734182f249da7a03eff27e02b9cdd8d528e5a0818",
+        "factory_entorno_agente.corrida_completa": "044ae28324d9434e614ae6250fd36cde126328c648c4f5a7e5f6ba82198feb0a"
+      },
+      "archivos_catalogo": {
+        "factory_entorno_agente.entorno_explicito_por_corrida": "catalogos/factory_entorno_agente.entorno_explicito_por_corrida.oracle",
+        "factory_entorno_agente.corrida_completa": "catalogos/factory_entorno_agente.corrida_completa.oracle"
+      }
+    },
+    "flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python": {
+      "sha256": "ca9c9c84690bacff93f6bbd9ed1c33f97c4569505f64b6dfd6f05d56b6e7ef47",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T10:01:52.889043+00:00",
+      "catalogos": {
+        "factory_entorno_agente.la_guia_de_permisos_no_abre_python": "66ffac3dd73ed6cc55a94d1600bc67f02d16a68f20aebb48274031e2484a00fd",
+        "factory_entorno_agente.corrida_completa": "044ae28324d9434e614ae6250fd36cde126328c648c4f5a7e5f6ba82198feb0a"
+      },
+      "archivos_catalogo": {
+        "factory_entorno_agente.la_guia_de_permisos_no_abre_python": "catalogos/factory_entorno_agente.la_guia_de_permisos_no_abre_python.oracle",
+        "factory_entorno_agente.corrida_completa": "catalogos/factory_entorno_agente.corrida_completa.oracle"
+      }
+    }
+  }
 }

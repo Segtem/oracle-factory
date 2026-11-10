@@ -1,4 +1,4 @@
 requisito flujo_c93a1d23e9668d672.entorno_explicito_por_corrida:
     texto "Tipo: funcional El sistema DEBE aceptar `--entorno NOMBRE`, repetible y sólo junto con `--ejecutar --lanzar`, que agrega esa variable al entorno del agente si existe en el entorno de la persona; DEBE rechazar antes de correr nada, con un mensaje claro y código de salida distinto de cero, un nombre que no sea un identificador de variable (letras, dígitos y guion bajo, sin empezar con dígito) o `--entorno` sin `--lanzar`; y NO DEBE guardar nada de esto en la configuración."
     fuente "openspec/changes/20261110-095631-0w3-entorno-agente/specs/flujo/spec.md#entorno_explicito_por_corrida"
-    sin_medir "sin medida todavía; escenarios: «una variable entregada a propósito», «nombres que no sirven»"
+    medido_por factory_entorno_agente.entorno_explicito_por_corrida, factory_entorno_agente.corrida_completa

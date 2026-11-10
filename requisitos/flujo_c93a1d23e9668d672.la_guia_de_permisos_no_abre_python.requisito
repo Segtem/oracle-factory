@@ -1,4 +1,4 @@
 requisito flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python:
     texto "Tipo: funcional El sistema DEBE, en `docs/modos.md`, explicar que Factory filtra el entorno del agente y mostrar un ejemplo de `--lanzar` cuyos permisos de Python se limiten a `-m unittest` y a `tools/verificar_cambio.py`, sin el patrón abierto `.venv/bin/python:*`, diciendo por qué ese patrón abierto no se recomienda (permite red, leer el entorno y ejecutar git)."
     fuente "openspec/changes/20261110-095631-0w3-entorno-agente/specs/flujo/spec.md#la_guia_de_permisos_no_abre_python"
-    sin_medir "sin medida todavía; escenarios: «la documentación»"
+    medido_por factory_entorno_agente.la_guia_de_permisos_no_abre_python, factory_entorno_agente.corrida_completa
