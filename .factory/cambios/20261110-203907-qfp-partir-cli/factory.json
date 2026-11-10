@@ -1,0 +1,24 @@
+{
+  "id": "20261110-203907-qfp-partir-cli",
+  "titulo": "cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope",
+  "capacidad": "flujo",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261110-203907-qfp-partir-cli/specs/flujo/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T20:39:07.184854+00:00",
+      "capacidad": "flujo"
+    }
+  ]
+}
