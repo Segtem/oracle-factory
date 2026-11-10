@@ -2,7 +2,7 @@
   "id": "20261110-095631-0w3-entorno-agente",
   "titulo": "Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261110-095631-0w3-entorno-agente/specs/flujo/spec.md",
   "spec_sha256": "985b0006171929154327628ec98024b62ff9d764dfec9b2088f8af0912867902",
   "spec_aprobada": {
@@ -21,8 +21,40 @@
     "flujo_c93a1d23e9668d672.entorno_explicito_por_corrida",
     "flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261110-095631-0w3-entorno-agente/revisiones/registro-33zcxc3p/informe.json",
+    "sha256": "a51a51ee7302a636bab857cb467bc2df391964957b70da938a746d7c6b6ef4ff",
+    "decisiones": "tareas/20261110-095631-0w3-entorno-agente/revisiones/registro-33zcxc3p/decisiones.json",
+    "decisiones_sha256": "69469f68446244e71d7ad005bb02fa6b5cc60417c8418cb1bceb75fa0fe17410",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T13:50:44.885104+00:00",
+    "motivo": "Propuesta del agente claude-code. Arreglo de seguridad del conductor, construido por mí (no por un agente lanzado: no corresponde que un agente construya su propia jaula). Candidato 34e2d97 (camino COMPLETO: 166+ líneas de producto y toca cli.py; yo había dicho «ligero» y me corregí): evidencia verde (1384 pruebas, 10 casos de contrato). QUÉ CAMBIA: el agente lanzado por autopilot --ejecutar --lanzar recibe un entorno MÍNIMO por lista de permitidos (PATH, HOME, USER, LOGNAME, SHELL, LANG, LANGUAGE, TERM, TZ, TMPDIR, BASH_DEFAULT_TIMEOUT_MS, BASH_MAX_TIMEOUT_MS, prefijos LC_ y XDG_) más FACTORY_AGENTE (que gana siempre) y lo que la persona entregue con --entorno NOMBRE (repetible, sólo con --ejecutar --lanzar, por corrida, no se guarda; se rechaza antes de correr o escribir nada); los comandos mecánicos de Factory no cambian; docs/modos.md explica el filtro y la guía de permisos con Python acotado a -m unittest y tools/verificar_cambio.py, advirtiendo del patrón abierto. PRUEBA EXISTENTE EDITADA (declarada): tests/datos/ayuda-cli.json regenerado por la opción nueva --entorno (datos de la ayuda del CLI); ninguna otra prueba existente se editó. REVISIÓN: sólo codex (2 rondas): un hallazgo medio, EA-1 (--entorno se ignoraba en la consulta de sólo lectura sin --ejecutar): corregido, con prueba; ronda 2 sin hallazgos. MUTACIONES propias: 27 sobre el cambio más 6 sobre la corrección de EA-1, todas las reales detectadas; una de mis corridas de mutaciones se cortó por un error de mi script y por un momento afirmé que estaban detectadas sin haberlas corrido: lo corregí y las corrí de verdad. UNA FALLA PROPIA: la evidencia dio éxito: False en la primera vuelta porque una prueba existente de la web (test_w3) leyó las opciones de claude dentro del texto de --lanzar como opciones de autopilot; ajusté el ejemplo de la guía (variable de fish) y la repetí; yo sólo había corrido las pruebas cercanas. DECIDE BRIAN: (1) camino completo con un solo proveedor revisor (agy sin cuota hasta cerca del 2026-11-15). (2) LÍMITES DECLARADOS: HOME llega al agente y puede apuntar a credenciales; el proceso no se aísla (corre como tu usuario; para aislarlo hace falta un contenedor); Factory no hace cumplir los permisos de --allowedTools, que define el comando de --lanzar. (3) Las tres corridas anteriores del agente (origen de este cambio) recibieron TODO el entorno, incluidas OPENROUTER_API_KEY y CLAUDE_CODE_MESSAGING_TOKEN (sólo vi los nombres); no hicieron nada fuera de lugar que yo haya visto, pero no puedo garantizarlo: si preferís rotar esas claves, es decisión tuya. No edité otra prueba existente.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "fa9ef0ed750111391b898f2e164e1bffe9085d5a",
+      "archivos_sha256": "3f3e43abf2a385ff958dc2afc50ac30fb1c6cb2c97d8aee8ea04642d8e03aecb"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261110-095631-0w3-entorno-agente/candidatos/34e2d97/evidencia/hechos.json",
+    "hechos_sha256": "0ad90ebf78e4fa14545e1e1c7f5cd188bf835bfbeaf8b144560281a29baabd40",
+    "informe": ".factory/cambios/20261110-095631-0w3-entorno-agente/oracle-veredicto.txt",
+    "informe_sha256": "0cb202320890290dd6eab20e2dc91c7f04852c2e794246c2c6af03413fa6378c",
+    "cuando": "2026-11-10T13:52:32.288665+00:00",
+    "contexto": {
+      "head": "fa9ef0ed750111391b898f2e164e1bffe9085d5a",
+      "archivos_sha256": "3f3e43abf2a385ff958dc2afc50ac30fb1c6cb2c97d8aee8ea04642d8e03aecb"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -201,6 +233,31 @@
       "cuando": "2026-11-10T10:33:55.423067+00:00",
       "decision": "aprobar",
       "candidato": "34e2d97"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-10T13:50:44.885143+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "a51a51ee7302a636bab857cb467bc2df391964957b70da938a746d7c6b6ef4ff",
+      "decisiones_sha256": "69469f68446244e71d7ad005bb02fa6b5cc60417c8418cb1bceb75fa0fe17410"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T13:52:32.288680+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "0ad90ebf78e4fa14545e1e1c7f5cd188bf835bfbeaf8b144560281a29baabd40"
     }
   ],
   "tipos": {
@@ -259,14 +316,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Propuesta del agente claude-code. Arreglo de seguridad del conductor, construido por mí (no por un agente lanzado: no corresponde que un agente construya su propia jaula). Candidato 34e2d97 (camino COMPLETO: 166+ líneas de producto y toca cli.py; yo había dicho «ligero» y me corregí): evidencia verde (1384 pruebas, 10 casos de contrato). QUÉ CAMBIA: el agente lanzado por autopilot --ejecutar --lanzar recibe un entorno MÍNIMO por lista de permitidos (PATH, HOME, USER, LOGNAME, SHELL, LANG, LANGUAGE, TERM, TZ, TMPDIR, BASH_DEFAULT_TIMEOUT_MS, BASH_MAX_TIMEOUT_MS, prefijos LC_ y XDG_) más FACTORY_AGENTE (que gana siempre) y lo que la persona entregue con --entorno NOMBRE (repetible, sólo con --ejecutar --lanzar, por corrida, no se guarda; se rechaza antes de correr o escribir nada); los comandos mecánicos de Factory no cambian; docs/modos.md explica el filtro y la guía de permisos con Python acotado a -m unittest y tools/verificar_cambio.py, advirtiendo del patrón abierto. PRUEBA EXISTENTE EDITADA (declarada): tests/datos/ayuda-cli.json regenerado por la opción nueva --entorno (datos de la ayuda del CLI); ninguna otra prueba existente se editó. REVISIÓN: sólo codex (2 rondas): un hallazgo medio, EA-1 (--entorno se ignoraba en la consulta de sólo lectura sin --ejecutar): corregido, con prueba; ronda 2 sin hallazgos. MUTACIONES propias: 27 sobre el cambio más 6 sobre la corrección de EA-1, todas las reales detectadas; una de mis corridas de mutaciones se cortó por un error de mi script y por un momento afirmé que estaban detectadas sin haberlas corrido: lo corregí y las corrí de verdad. UNA FALLA PROPIA: la evidencia dio éxito: False en la primera vuelta porque una prueba existente de la web (test_w3) leyó las opciones de claude dentro del texto de --lanzar como opciones de autopilot; ajusté el ejemplo de la guía (variable de fish) y la repetí; yo sólo había corrido las pruebas cercanas. DECIDE BRIAN: (1) camino completo con un solo proveedor revisor (agy sin cuota hasta cerca del 2026-11-15). (2) LÍMITES DECLARADOS: HOME llega al agente y puede apuntar a credenciales; el proceso no se aísla (corre como tu usuario; para aislarlo hace falta un contenedor); Factory no hace cumplir los permisos de --allowedTools, que define el comando de --lanzar. (3) Las tres corridas anteriores del agente (origen de este cambio) recibieron TODO el entorno, incluidas OPENROUTER_API_KEY y CLAUDE_CODE_MESSAGING_TOKEN (sólo vi los nombres); no hicieron nada fuera de lugar que yo haya visto, pero no puedo garantizarlo: si preferís rotar esas claves, es decisión tuya. No edité otra prueba existente.",
-      "candidato": "34e2d97",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-10T10:33:55.423052+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
