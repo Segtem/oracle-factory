@@ -1,4 +1,4 @@
 requisito flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope:
     texto "Tipo: no funcional El sistema DEBE tener `oracle_factory/cli.py` de 145.000 bytes o menos, y ningún archivo del paquete por encima de sus topes."
     fuente "openspec/changes/20261110-203907-qfp-partir-cli/specs/flujo/spec.md#cli_py_queda_con_margen_bajo_su_tope"
-    sin_medir "sin medida todavía; escenarios: «el tamaño»"
+    medido_por factory_partir_cli.cli_py_queda_con_margen_bajo_su_tope, factory_partir_cli.corrida_completa

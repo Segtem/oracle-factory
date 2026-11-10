@@ -15,3 +15,11 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-10 20:46:57 UTC)
 
 Requisitos importados: flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope (no funcional), flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual (no funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-10 20:58:11 UTC)
+
+Medidas de flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope: factory_partir_cli.cli_py_queda_con_margen_bajo_su_tope, factory_partir_cli.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-10 20:58:13 UTC)
+
+Medidas de flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual: factory_partir_cli.lo_mudado_a_proyecto_sigue_igual, factory_partir_cli.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

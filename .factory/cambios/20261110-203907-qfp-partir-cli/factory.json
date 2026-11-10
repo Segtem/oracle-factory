@@ -56,6 +56,34 @@
         "flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope",
         "flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T20:58:11.136020+00:00",
+      "requisito": "flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope",
+      "medidas": [
+        "factory_partir_cli.cli_py_queda_con_margen_bajo_su_tope",
+        "factory_partir_cli.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T20:58:13.309542+00:00",
+      "requisito": "flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual",
+      "medidas": [
+        "factory_partir_cli.lo_mudado_a_proyecto_sigue_igual",
+        "factory_partir_cli.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -63,5 +91,34 @@
     "flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual": "no funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope": {
+      "sha256": "5887412e0b8e10d0879dbdeaefd9ba7117e879c5210ae770d2b4a1bb77e15c3c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T20:58:11.082175+00:00",
+      "catalogos": {
+        "factory_partir_cli.cli_py_queda_con_margen_bajo_su_tope": "a9c4c80d00a3a09c1e0c6b0fb22cd86804b6606936eba9ec0640958de53dddba",
+        "factory_partir_cli.corrida_completa": "ba312bd1b655c5b89c256ac445a500592af541e8d1d79eb0cf0647a394c9f7b7"
+      },
+      "archivos_catalogo": {
+        "factory_partir_cli.cli_py_queda_con_margen_bajo_su_tope": "catalogos/factory_partir_cli.cli_py_queda_con_margen_bajo_su_tope.oracle",
+        "factory_partir_cli.corrida_completa": "catalogos/factory_partir_cli.corrida_completa.oracle"
+      }
+    },
+    "flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual": {
+      "sha256": "2537aecfd7662001012eeae5f67226a184857e24f9ce5f4f69198b421cf39ed8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T20:58:13.255893+00:00",
+      "catalogos": {
+        "factory_partir_cli.lo_mudado_a_proyecto_sigue_igual": "29f9b18104d541ac7186f55e26d475457e1a0e0f73e0f77c485a4a89e611aa1e",
+        "factory_partir_cli.corrida_completa": "ba312bd1b655c5b89c256ac445a500592af541e8d1d79eb0cf0647a394c9f7b7"
+      },
+      "archivos_catalogo": {
+        "factory_partir_cli.lo_mudado_a_proyecto_sigue_igual": "catalogos/factory_partir_cli.lo_mudado_a_proyecto_sigue_igual.oracle",
+        "factory_partir_cli.corrida_completa": "catalogos/factory_partir_cli.corrida_completa.oracle"
+      }
+    }
+  }
 }
