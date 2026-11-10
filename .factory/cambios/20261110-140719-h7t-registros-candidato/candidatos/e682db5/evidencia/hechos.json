@@ -1,0 +1,70 @@
+{
+  "registros_candidato_caso": [
+    {
+      "requisito": "con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia",
+      "caso": "RegistrosCandidato.test_rc1_commits_sin_cambios_de_archivos_despues",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia",
+      "caso": "RegistrosCandidato.test_rc1_el_commit_con_evidencia_es_head",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia",
+      "caso": "RegistrosCandidato.test_rc1_el_producto_cambio",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_el_candidato_es_el_ancestro_con_evidencia",
+      "caso": "RegistrosCandidato.test_rc1_sin_almacen_el_candidato_es_el_de_siempre",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_la_huella_es_el_producto_y_este_cambio",
+      "caso": "RegistrosCandidato.test_rc2_la_spec_o_el_producto_de_este_cambio",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_la_huella_es_el_producto_y_este_cambio",
+      "caso": "RegistrosCandidato.test_rc2_otro_cambio_del_almacen",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_la_huella_es_el_producto_y_este_cambio",
+      "caso": "RegistrosCandidato.test_rc2_sin_almacen_la_huella_es_la_de_siempre",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto",
+      "caso": "RegistrosCandidato.test_rc3_de_punta_a_punta",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto",
+      "caso": "RegistrosCandidato.test_rc3_lo_que_mira_el_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto",
+      "caso": "RegistrosCandidato.test_rc3_sin_almacen_el_mismo_ciclo_funciona_como_siempre",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_no_hay_hook_en_el_producto",
+      "caso": "RegistrosCandidato.test_rc4_hooks_con_almacen_aparte",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_almacen_aparte_no_hay_hook_en_el_producto",
+      "caso": "RegistrosCandidato.test_rc4_log_sin_trailer",
+      "codigo": 0
+    }
+  ],
+  "registros_candidato_corrida": [
+    {
+      "completa": 0,
+      "casos": 12
+    }
+  ]
+}
