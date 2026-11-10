@@ -1,0 +1,110 @@
+{
+  "registros_almacen_caso": [
+    {
+      "requisito": "conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "caso": "RegistrosAlmacen.test_ra1_conectar_desde_algo_que_no_es_un_repo_git_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "caso": "RegistrosAlmacen.test_ra1_conectar_desde_una_subcarpeta_del_producto_usa_la_clave_del_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "caso": "RegistrosAlmacen.test_ra1_conectar_dos_veces_no_cambia_nada_y_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "caso": "RegistrosAlmacen.test_ra1_conectar_respeta_la_configuracion_del_usuario_y_agrega_sin_pisar",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "caso": "RegistrosAlmacen.test_ra1_conectar_un_almacen_nuevo",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "caso": "RegistrosAlmacen.test_ra1_una_configuracion_personal_ilegible_no_se_sobrescribe",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "caso": "RegistrosAlmacen.test_ra1_una_ruta_que_no_sirve_falla_sin_cambiar_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_el_producto_conectado_los_comandos_usan_el_almacen",
+      "caso": "RegistrosAlmacen.test_ra2_desde_una_subcarpeta_y_desde_un_worktree",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_el_producto_conectado_los_comandos_usan_el_almacen",
+      "caso": "RegistrosAlmacen.test_ra2_la_opcion_explicita_manda_sobre_la_conexion",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_el_producto_conectado_los_comandos_usan_el_almacen",
+      "caso": "RegistrosAlmacen.test_ra2_los_comandos_que_escriben_tambien_van_al_almacen",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_el_producto_conectado_los_comandos_usan_el_almacen",
+      "caso": "RegistrosAlmacen.test_ra2_sin_conexion_se_comporta_como_siempre",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_el_producto_conectado_los_comandos_usan_el_almacen",
+      "caso": "RegistrosAlmacen.test_ra2_sin_ninguna_configuracion_personal_no_se_crea_una",
+      "codigo": 0
+    },
+    {
+      "requisito": "con_el_producto_conectado_los_comandos_usan_el_almacen",
+      "caso": "RegistrosAlmacen.test_ra2_una_configuracion_personal_ilegible_se_avisa_y_es_no_conectado",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_sin_argumentos_y_desconectar",
+      "caso": "RegistrosAlmacen.test_ra3_desconectar_con_la_configuracion_ilegible_no_la_sobrescribe",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_sin_argumentos_y_desconectar",
+      "caso": "RegistrosAlmacen.test_ra3_el_conductor_las_trata_como_decisiones_de_una_persona",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_sin_argumentos_y_desconectar",
+      "caso": "RegistrosAlmacen.test_ra3_un_agente_no_conecta_ni_desconecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_sin_argumentos_y_desconectar",
+      "caso": "RegistrosAlmacen.test_ra3_ver_y_quitar_la_conexion",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_producto_con_su_propio_factory_conectado_se_niega",
+      "caso": "RegistrosAlmacen.test_ra4_con_registros_explicito_no_se_niega_ni_con_los_dos",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_producto_con_su_propio_factory_conectado_se_niega",
+      "caso": "RegistrosAlmacen.test_ra4_desconectar_y_conectar_siguen_funcionando_con_los_dos",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_producto_con_su_propio_factory_conectado_se_niega",
+      "caso": "RegistrosAlmacen.test_ra4_los_dos_a_la_vez_se_niega_sin_escribir",
+      "codigo": 0
+    }
+  ],
+  "registros_almacen_corrida": [
+    {
+      "completa": 1,
+      "casos": 20
+    }
+  ]
+}
