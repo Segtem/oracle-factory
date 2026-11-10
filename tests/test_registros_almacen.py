@@ -98,11 +98,30 @@ class RegistrosAlmacen(unittest.TestCase):
         self.assertEqual(self.arbol(self.producto), antes)
         self.assertEqual(self.git_en(self.producto, 'status', '--porcelain', '--untracked-files=all'), '')
         self.assertFalse((self.producto / '.factory').exists())
+        self.assertEqual(sorted(p.name for p in self.config.parent.iterdir()), ['almacenes.json'])  # sin residuos temporales
+        # dónde vive la configuración personal: XDG_CONFIG_HOME si está puesto, y si no HOME/.config
+        otra = self.base / 'otra-config'
+        with patch.dict(os.environ, {'XDG_CONFIG_HOME': str(otra)}):
+            self.assertEqual(f.almacenes.archivo(), otra / 'oracle-factory' / 'almacenes.json')
+        sin_xdg = {k: v for k, v in os.environ.items() if k != 'XDG_CONFIG_HOME'}
+        with patch.dict(os.environ, sin_xdg, clear=True):
+            self.assertEqual(f.almacenes.archivo(), self.casa / '.config' / 'oracle-factory' / 'almacenes.json')
 
     def test_ra1_conectar_desde_una_subcarpeta_del_producto_usa_la_clave_del_producto(self):
         codigo, _, error = self.corre('conectar', str(self.almacen), desde=self.producto / 'src')
         self.assertEqual(codigo, 0, error)
         self.assertEqual(self.conexiones(), {self.clave: str(self.almacen)})
+        # con una ruta relativa, y sin dejar movido ni el directorio actual ni las raíces ni lo de Git del producto
+        self.assertEqual(self.corre('desconectar')[0], 0)
+        git_antes = {n: (self.producto / '.git' / n).read_bytes() for n in ('config', 'HEAD')}
+        ganchos = sorted(p.name for p in (self.producto / '.git/hooks').iterdir())
+        codigo, _, error = self.corre('conectar', os.path.relpath(self.almacen, self.producto), desde=self.producto)
+        self.assertEqual(codigo, 0, error)
+        self.assertEqual(self.conexiones(), {self.clave: str(self.almacen)})
+        self.assertEqual(Path(os.getcwd()).resolve(), self.producto)
+        self.assertEqual((f.ROOT, f.CHANGES), (self.producto, self.producto / 'openspec' / 'changes'))
+        self.assertEqual({n: (self.producto / '.git' / n).read_bytes() for n in ('config', 'HEAD')}, git_antes)
+        self.assertEqual(sorted(p.name for p in (self.producto / '.git/hooks').iterdir()), ganchos)
 
     def test_ra1_conectar_respeta_la_configuracion_del_usuario_y_agrega_sin_pisar(self):
         self.config.parent.mkdir(parents=True)
@@ -175,6 +194,10 @@ class RegistrosAlmacen(unittest.TestCase):
                 self.assertEqual(codigo, 0, error)
                 self.assertIn(ident, salida)
                 self.assertEqual((codigo, salida), explicito[:2])  # el mismo comportamiento que --registros ALMACEN
+                visto = {}
+                with patch.object(f, 'listar', side_effect=lambda *a, **k: visto.update(producto=f.PRODUCTO, root=f.ROOT)):
+                    self.corre('listar', desde=desde)
+                self.assertEqual(visto, {'producto': Path(self.git_en(desde, 'rev-parse', '--show-toplevel')).resolve(), 'root': self.almacen})
         self.assertEqual((self.arbol(self.producto), self.arbol(trabajo)), (antes_producto, antes_trabajo))
         self.assertEqual(self.git_en(trabajo, 'status', '--porcelain', '--untracked-files=all'), '')
         self.assertFalse((trabajo / '.factory').exists() or (self.producto / '.factory').exists())
@@ -246,6 +269,7 @@ class RegistrosAlmacen(unittest.TestCase):
         codigo, salida, error = self.corre('desconectar')
         self.assertEqual(codigo, 0, error)
         self.assertEqual(self.conexiones(), {'/otro/.git': '/otro/almacen'})  # sólo se quita la de este producto
+        self.assertIn('el almacén y el producto siguen como estaban', salida)
         self.assertEqual((self.arbol(self.producto), self.arbol(self.almacen)), (antes_producto, antes_almacen))
         codigo, salida, error = self.corre('desconectar')
         self.assertEqual(codigo, 0, error)
@@ -280,6 +304,8 @@ class RegistrosAlmacen(unittest.TestCase):
             with self.subTest(paso=paso):
                 d = autopilot.decidir({'fase': 'requisitos_importados', 'proximo_paso': paso, 'frenos': [], 'candidato': None})
                 self.assertEqual((d['accion'], d['quien'], d['comando']), ('pedir_a_persona', 'persona', paso))
+        solo = autopilot.decidir({'fase': 'requisitos_importados', 'proximo_paso': 'oracle-factory', 'frenos': [], 'candidato': None})
+        self.assertEqual(solo['accion'], 'frenar')  # el programa sin subcomando no es un paso que se conozca
 
     # --- ra4: un producto con su propio Factory conectado se niega ---------------------------------------------------
     def test_ra4_los_dos_a_la_vez_se_niega_sin_escribir(self):

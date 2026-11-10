@@ -221,6 +221,15 @@
       "resultado": "sin_informe",
       "hallazgos": 0,
       "lanzamiento": "5530f9c997dc"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-10T00:11:15.771074+00:00",
+      "texto": "autopilot se detuvo: hay frenos: prueba_existente_editada"
     }
   ],
   "tipos": {

@@ -43,6 +43,7 @@ capacidad: "flujo"
 - `6b2ddb6` registros-almacen: medidas confirmadas por Brian (trailer)
 - `e5486d5` registros-almacen: conectar y desconectar, el almacén por usuario (etapa 2 de 6) (trailer)
 - `19ed52d` registros-almacen: evidencia del candidato e5486d5 (trailer)
+- `6a24a61` registros-almacen: intento de revisión con agy (cuota agotada) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-233536-jgu-registros-almacen`.
 
 ## Mensajes
@@ -50,3 +51,4 @@ capacidad: "flujo"
 - 2026-11-09 23:37 · claude-code: autopilot delegar\_al\_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación
 - 2026-11-09 23:39 · claude-code: autopilot se detuvo: confirmar las medidas es sólo de una persona. Comando para una persona: oracle-factory medir 20261109-233536-jgu-registros-almacen --confirmar
 - 2026-11-09 23:49 · claude-code: autopilot delegar\_al\_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261109-233536-jgu-registros-almacen --a agy
+- 2026-11-10 00:11 · claude-code: autopilot se detuvo: hay frenos: prueba\_existente\_editada
