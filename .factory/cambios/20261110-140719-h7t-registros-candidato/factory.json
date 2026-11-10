@@ -2,10 +2,20 @@
   "id": "20261110-140719-h7t-registros-candidato",
   "titulo": "Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "ac1ab42d05715d1d8e537e59b8c38e2aecec16ec0689f052a0d9d3a60a9bf233",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T14:08:13.586640+00:00",
+    "documentos": {
+      "openspec/changes/20261110-140719-h7t-registros-candidato/proposal.md": "065eb76cce043a6d517264c678527e99b9dcb03b60fb1525dace0139e188a1d6",
+      "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md": "ac1ab42d05715d1d8e537e59b8c38e2aecec16ec0689f052a0d9d3a60a9bf233"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-10T14:07:19.456654+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T14:08:13.586667+00:00",
+      "documentos": {
+        "openspec/changes/20261110-140719-h7t-registros-candidato/proposal.md": "065eb76cce043a6d517264c678527e99b9dcb03b60fb1525dace0139e188a1d6",
+        "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md": "ac1ab42d05715d1d8e537e59b8c38e2aecec16ec0689f052a0d9d3a60a9bf233"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
