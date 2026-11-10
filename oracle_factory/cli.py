@@ -416,8 +416,7 @@ def ejecutar(args: list[str]) -> subprocess.CompletedProcess[str]:
 
 
 def git_producto(args: list[str]) -> subprocess.CompletedProcess[str]:
-    """Git sobre lo que mira el producto. Sin almacén aparte es `ejecutar` (el producto es ROOT); con almacén corre en el
-    repo del producto y sin las escrituras opcionales de Git (el índice que refresca un `status`): no le escribe nada."""
+    """Git sobre el producto: `ejecutar` sin almacén aparte; con almacén, en su repo y sin escrituras opcionales."""
     if PRODUCTO is None:
         return ejecutar(args)
     return subprocess.run(args, cwd=PRODUCTO, env={**os.environ, "GIT_OPTIONAL_LOCKS": "0"}, capture_output=True, text=True,
@@ -599,8 +598,7 @@ def candidato_vigente(identificador: str) -> str | None:
     base = ROOT / estructura.DIR / "cambios" / identificador / "candidatos"
     if base.is_symlink() or not base.is_dir():
         return None
-    existentes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink()
-                  # con almacén aparte, sólo cuenta el que tiene su evidencia: una carpeta con sólo una revisión o un paquete no es candidato
+    existentes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink()  # con almacén: sólo con su evidencia
                   and (PRODUCTO is None or ((p / "evidencia").is_dir() and not (p / "evidencia").is_symlink()))}
     # Un cambio de producto sin commit (modificado, en el índice o nuevo) también deja viejo a cualquier candidato.
     if cambios_locales_de_producto():
