@@ -1,0 +1,24 @@
+{
+  "id": "20261110-095631-0w3-entorno-agente",
+  "titulo": "Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto",
+  "capacidad": "flujo",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261110-095631-0w3-entorno-agente/specs/flujo/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T09:56:31.476641+00:00",
+      "capacidad": "flujo"
+    }
+  ]
+}
