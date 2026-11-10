@@ -41,6 +41,8 @@ capacidad: "flujo"
 - `e05007e` registros-candidato: spec aprobada por Brian (trailer)
 - `a19f159` registros-candidato: pruebas rc1-rc4, catálogos y propuesta de medidas (trailer)
 - `7ec1a31` registros-candidato: medidas confirmadas por Brian (trailer)
+- `82f9fb9` registros-candidato: el candidato y la huella con dos fuentes (etapa 3 de 6) (trailer)
+- `cde755d` registros-candidato: evidencia del candidato 82f9fb9 (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-140719-h7t-registros-candidato`.
 
 ## Mensajes
@@ -48,3 +50,4 @@ capacidad: "flujo"
 - 2026-11-10 14:08 · claude-code: autopilot delegar\_al\_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación
 - 2026-11-10 14:15 · claude-code: autopilot se detuvo: confirmar las medidas es sólo de una persona. Comando para una persona: oracle-factory medir 20261110-140719-h7t-registros-candidato --confirmar
 - 2026-11-10 14:52 · claude-code: autopilot delegar\_al\_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261110-140719-h7t-registros-candidato --a agy
+- 2026-11-10 15:43 · claude-code: autopilot se detuvo: el paso falló (código 1): Implementé el cambio y commiteé el producto y la evidencia, pero hay dos cosas abiertas: \*\*la evidencia salió con \`éxito: False\` y la revisión de agy no se hizo\*\* (se le acabó la cuota). \*\*Commits\*\*…

@@ -381,7 +381,7 @@ class RegistrosCandidato(unittest.TestCase):
         traza = json.loads(self.ok('trazabilidad', ident, '--json'))
         self.assertEqual((traza['candidato'], traza['base']), (sha, base))
         self.assertIn('src/app.py', traza['sin_respaldo'])
-        self.assertEqual(sorted(traza['sin_respaldo']), ['src/app.py', 'tests/test_app.py'])
+        self.assertEqual(sorted(traza['sin_respaldo']), ['src/app.py'])  # la prueba sólo pierde una línea: no tiene líneas agregadas que cubrir
         # las alarmas: la prueba existente a la que el candidato le quitó una aserción
         texto = self.ok('estado', ident)
         self.assertIn('test existente editado: tests/test_app.py', texto)

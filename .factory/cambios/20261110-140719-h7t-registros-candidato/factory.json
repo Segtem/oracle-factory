@@ -195,6 +195,41 @@
       "forma": "mensaje",
       "cuando": "2026-11-10T14:52:59.315946+00:00",
       "texto": "autopilot delegar_al_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261110-140719-h7t-registros-candidato --a agy"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T15:32:48.158392+00:00",
+      "revisor": "agy",
+      "candidato": "82f9fb9",
+      "lanzamiento": "b00b15968240"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T15:32:55.514792+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "82f9fb9",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "b00b15968240"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-10T15:43:02.323449+00:00",
+      "texto": "autopilot se detuvo: el paso falló (código 1): Implementé el cambio y commiteé el producto y la evidencia, pero hay dos cosas abiertas: **la evidencia salió con `éxito: False` y la revisión de agy no se hizo** (se le acabó la cuota).\n\n**Commits**…"
     }
   ],
   "tipos": {
