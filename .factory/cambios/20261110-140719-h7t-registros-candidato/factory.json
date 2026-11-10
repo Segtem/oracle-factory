@@ -2,7 +2,7 @@
   "id": "20261110-140719-h7t-registros-candidato",
   "titulo": "Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md",
   "spec_sha256": "ac1ab42d05715d1d8e537e59b8c38e2aecec16ec0689f052a0d9d3a60a9bf233",
   "spec_aprobada": {
@@ -349,6 +349,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "05740f2a4306ec294f07d25ad98bac8c9df9479172ed21905005b897131276cd"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T19:52:57.626978+00:00",
+      "oracle": ".factory/cambios/20261110-140719-h7t-registros-candidato/oracle-veredicto.txt",
+      "revision": "tareas/20261110-140719-h7t-registros-candidato/revisiones/registro-8dzzyxgy/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T19:52:57.673236+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -424,5 +444,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T19:52:57.561186+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-10T19:52:57.673226+00:00"
+  }
 }

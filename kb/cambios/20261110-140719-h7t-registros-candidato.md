@@ -1,7 +1,7 @@
 ---
 generado: oracle-factory kb
 id: "20261110-140719-h7t-registros-candidato"
-fase: "oracle_verde"
+fase: "cerrada"
 capacidad: "flujo"
 ---
 
@@ -9,7 +9,7 @@ capacidad: "flujo"
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Fase: oracle_verde
+- Fase: cerrada
 - Capacidad: flujo
 - Responsable: nadie
 - Spec: [openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md](../../openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md)
@@ -32,6 +32,8 @@ capacidad: "flujo"
 - 2026-11-10 14:52 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-10 19:33 · Revisión registrada · Brian Hollweg (persona) — aprobar: Propuesta del agente claude-code. Etapa 3 de 6 de «registros fuera del repo del producto»: el candidato y la huella con dos fuentes. Candidato 49e4233 (camino completo): evidencia verde (1396 pruebas, 12 casos de contrato). QUIÉN LO HIZO: un agente lanzado por el conductor, por primera vez con el entorno filtrado y Python acotado (sólo -m unittest y tools/verificar\_cambio.py): escribió las 12 pruebas, implementó (cli.git\_producto con GIT\_OPTIONAL\_LOCKS=0; candidato vigente sobre la historia del producto; huella = producto + propuesta, spec, requisitos y catálogos de ESTE cambio vía almacenes.con\_el\_cambio; la base vacía se crea en el clon del revisor; hooks se niega con almacén) y produjo una primera evidencia que falló. Yo arreglé lo que faltaba, hice las mutaciones, pedí las revisiones y corregí el hallazgo. FALLAS EN EL CAMINO: (1) una prueba nueva del agente esperaba que la trazabilidad listara una prueba que sólo pierde una línea; el código hace bien en no listarla: corregí la expectativa. (2) errores de test\_guided en la primera evidencia que no se reproducen ni aislados ni en la suite completa: probablemente el agente editó archivos mientras su suite corría. (3) cli.py pasó su tope de 160000 bytes con mi arreglo: acorté comentarios, quedó en 159984 (16 bytes de margen: el próximo cambio que lo toque tiene que partirlo). PRUEBA EXISTENTE EDITADA (declarada, motivo del freno): tests/test\_registros\_raiz.py, test\_rr3: probaba que con registros aparte esos comandos se negaban con «etapa 3 de 6», y esta etapa es justamente la que los habilita; ahora prueba que sin candidato fallan sin escribir nada ni tocar el producto (el porqué está en un comentario dentro de la prueba). REVISIÓN: sólo codex (2 rondas): RCAND-1 (medio: con almacén aparte una carpeta de candidato sin evidencia contaba como candidato) corregido: sólo cuenta la carpeta con evidencia/ que no sea enlace; ronda 2 sin hallazgos. MUTACIONES: 25 sobre el código del agente más 3 sobre la corrección; reales detectadas con casos nuevos (próximo paso con la huella del cambio, base vacía, vueltas anteriores); equivalentes declaradas: exclusiones del paquete con almacén (no hay registros en el diff del producto), GIT\_OPTIONAL\_LOCKS (hoy no se corre status sobre el producto: defensa), la base vacía creada en el almacén (el clon la vuelve a crear y el producto no se toca), procedencia con --python explícito. DECIDE BRIAN: (1) camino completo con un solo proveedor revisor (agy sin cuota hasta cerca del 2026-11-15). (2) LÍMITES SIN PRUEBA: procedencia sobre un producto con uv.lock; la cabeza del paquete cuando no hay candidato; sin almacén aparte, el mismo hueco de RCAND-1 sigue (una carpeta de candidato sin evidencia cuenta): no lo toqué porque la spec pide no cambiar ese modo; queda para otro cambio. (3) cli.py está al límite de tamaño. No edité otra prueba existente.
 - 2026-11-10 19:33 · Juicio de Oracle · claude-code (agente)
+- 2026-11-10 19:52 · Cerrado · Brian Hollweg (persona)
+- 2026-11-10 19:52 · Archivado · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -54,6 +56,7 @@ capacidad: "flujo"
 - `84bfe8a` registros-candidato: evidencia del candidato tras el tope de cli.py (trailer)
 - `7ae8b1a` registros-candidato: informe de codex (ronda 2, sin hallazgos) (trailer)
 - `87d528a` registros-candidato: propuesta de revisión (trailer)
+- `7b0fa4d` registros-candidato: revisión aprobada por Brian y veredicto de Oracle (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-140719-h7t-registros-candidato`.
 
 ## Mensajes

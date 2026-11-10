@@ -1,6 +1,6 @@
 # Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -55,3 +55,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-10 19:33:44 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261110-140719-h7t-registros-candidato/oracle-veredicto.txt.
+
+### Nota (2026-11-10 19:52:57 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
