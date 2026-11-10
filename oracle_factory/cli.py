@@ -955,6 +955,12 @@ def comando_autopilot(ident: str, como_json: bool, ejecutar: bool = False, lanza
                       max_minutos: float = 120, entorno: list[str] | None = None) -> int:
     """El conductor. Sin `--ejecutar`, sólo lectura: lo que haría ahora (`autopilot.decidir` sobre los datos de `estado`). Con `--ejecutar`
     (y `--agente`), el bucle de `conductor.bucle`: corre lo mecánico, lanza al agente para lo creativo, con topes y el porqué en el registro."""
+    entregar = list(entorno or [])
+    if entregar and not (ejecutar and lanzar):  # antes de la salida de sólo lectura: una opción que no vale en este modo no se ignora en silencio
+        raise FactoryError("--entorno entrega variables al agente que lanza --lanzar: sólo vale con --ejecutar y --lanzar; no escribí nada")
+    for nombre in entregar:
+        if not conductor.NOMBRE_DE_VARIABLE.fullmatch(nombre):
+            raise FactoryError(f"--entorno {nombre!r} no es el nombre de una variable (letras, dígitos y guion bajo, sin empezar con un dígito); no escribí nada")
     if not ejecutar:
         decision = autopilot.decidir(datos_estado(ident))
         if como_json:
@@ -977,12 +983,6 @@ def comando_autopilot(ident: str, como_json: bool, ejecutar: bool = False, lanza
         comando_lanzar = shlex.split(lanzar) if lanzar else None
     except ValueError as e:
         raise FactoryError(f"--lanzar no se puede leer como un comando: {e}; no escribí nada")
-    entregar = list(entorno or [])
-    if entregar and not lanzar:
-        raise FactoryError("--entorno entrega variables al agente que lanza --lanzar: sin --lanzar no hay a quién; no escribí nada")
-    for nombre in entregar:
-        if not conductor.NOMBRE_DE_VARIABLE.fullmatch(nombre):
-            raise FactoryError(f"--entorno {nombre!r} no es el nombre de una variable (letras, dígitos y guion bajo, sin empezar con un dígito); no escribí nada")
     datos_estado(ident)  # un cambio que no existe falla acá, nombrándolo, antes de escribir nada
     correr, lanzador = conductor.ejecutor(ROOT, AGENTE, entregar)
     resultado = conductor.bucle(ident, lambda: datos_estado(ident), correr, lanzador, comando_lanzar, max_pasos, max_minutos)

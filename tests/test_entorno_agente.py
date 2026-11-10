@@ -111,6 +111,13 @@ class Explicito(_te.Base):
                 with self.subTest(sin='lanzar'), self.assertRaises(f.FactoryError) as e:
                     self.lanza(**bueno_sin_lanzar)
                 self.assertIn('--lanzar', str(e.exception))
+            # tampoco en la consulta de sólo lectura (sin --ejecutar): la opción no se ignora en silencio (hallazgo EA-1 de codex)
+            for opciones in ({'entorno': ['BUENA']}, {'entorno': ['A B']}, {'entorno': ['BUENA'], 'lanzar': 'claude -p'}):
+                with self.subTest(solo_lectura=opciones), self.assertRaises(f.FactoryError) as e:
+                    f.comando_autopilot(self.ident, False, **opciones)
+                self.assertIn('--ejecutar', str(e.exception))
+            with patch.object(f, 'AGENTE', None):  # y por la línea de comandos de verdad
+                self.assertEqual(f.main(['--proyecto', str(self.root), 'autopilot', self.ident, '--entorno', 'A']), 1)
         self.assertEqual((self.root / '.factory' / 'config.json').read_bytes(), config)
 
     def test_ea2_los_nombres_validos_pasan_el_filtro(self):

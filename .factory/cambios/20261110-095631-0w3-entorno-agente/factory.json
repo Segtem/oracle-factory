@@ -139,6 +139,32 @@
         "factory_entorno_agente.la_guia_de_permisos_no_abre_python",
         "factory_entorno_agente.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T10:21:07.411950+00:00",
+      "revisor": "codex",
+      "candidato": "b2dee68",
+      "lanzamiento": "ad8329fd265f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T10:23:08.907290+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "b2dee68",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "ad8329fd265f"
     }
   ],
   "tipos": {
