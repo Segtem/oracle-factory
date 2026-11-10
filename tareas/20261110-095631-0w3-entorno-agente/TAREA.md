@@ -27,3 +27,15 @@ Medidas de flujo_c93a1d23e9668d672.entorno_explicito_por_corrida: factory_entorn
 ### Nota (2026-11-10 10:01:52 UTC)
 
 Medidas de flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python: factory_entorno_agente.la_guia_de_permisos_no_abre_python, factory_entorno_agente.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-10 10:02:28 UTC)
+
+Medidas de flujo_c93a1d23e9668d672.el_agente_lanzado_recibe_un_entorno_minimo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-10 10:02:28 UTC)
+
+Medidas de flujo_c93a1d23e9668d672.entorno_explicito_por_corrida: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-10 10:02:28 UTC)
+
+Medidas de flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python: Brian Hollweg (persona, confirmo, modo confirmacion).
