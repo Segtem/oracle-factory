@@ -230,6 +230,32 @@
       "forma": "mensaje",
       "cuando": "2026-11-10T15:43:02.323449+00:00",
       "texto": "autopilot se detuvo: el paso falló (código 1): Implementé el cambio y commiteé el producto y la evidencia, pero hay dos cosas abiertas: **la evidencia salió con `éxito: False` y la revisión de agy no se hizo** (se le acabó la cuota).\n\n**Commits**…"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T18:56:09.177202+00:00",
+      "revisor": "codex",
+      "candidato": "4cef61f",
+      "lanzamiento": "5d1c99cb574c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T18:57:52.935801+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "4cef61f",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "5d1c99cb574c"
     }
   ],
   "tipos": {

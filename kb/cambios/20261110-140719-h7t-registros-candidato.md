@@ -43,6 +43,9 @@ capacidad: "flujo"
 - `7ec1a31` registros-candidato: medidas confirmadas por Brian (trailer)
 - `82f9fb9` registros-candidato: el candidato y la huella con dos fuentes (etapa 3 de 6) (trailer)
 - `cde755d` registros-candidato: evidencia del candidato 82f9fb9 (trailer)
+- `d21a4ee` registros-candidato: la trazabilidad no lista una prueba que sólo pierde una línea (expectativa corregida) (trailer)
+- `4cef61f` registros-candidato: casos de las mutaciones propias (próximo paso con la huella del cambio, base vacía, vueltas anteriores) (trailer)
+- `76ca0a1` registros-candidato: evidencia del candidato (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-140719-h7t-registros-candidato`.
 
 ## Mensajes

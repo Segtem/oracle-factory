@@ -222,6 +222,13 @@ class RegistrosCandidato(unittest.TestCase):
         self.evidencia(ident)
         self.assertEqual(self.candidato(ident), self.head())
         self.assertEqual(self.git_en(self.producto, 'status', '--porcelain', '--untracked-files=all'), '')
+        # una carpeta de candidato sin su evidencia (sólo una revisión, o una evidencia que es un enlace) no es candidato (RCAND-1 de codex)
+        otro_cambio = self.cambio(sufijo='rs', capacidad='sueltas')
+        carpeta = self.registros / '.factory/cambios' / otro_cambio / 'candidatos' / self.head()
+        (carpeta / 'revision').mkdir(parents=True)
+        self.assertIsNone(self.candidato(otro_cambio))
+        (carpeta / 'evidencia').symlink_to(carpeta / 'revision', target_is_directory=True)
+        self.assertIsNone(self.candidato(otro_cambio))
         # la evidencia de otro cambio no hace candidato a este
         otro = self.cambio(sufijo='rd', capacidad='otras')
         self.assertIsNone(self.candidato(otro))

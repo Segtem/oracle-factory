@@ -599,7 +599,9 @@ def candidato_vigente(identificador: str) -> str | None:
     base = ROOT / estructura.DIR / "cambios" / identificador / "candidatos"
     if base.is_symlink() or not base.is_dir():
         return None
-    existentes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink()}
+    existentes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink()
+                  # con almacén aparte, sólo cuenta el que tiene su evidencia: una carpeta con sólo una revisión o un paquete no es candidato
+                  and (PRODUCTO is None or ((p / "evidencia").is_dir() and not (p / "evidencia").is_symlink()))}
     # Un cambio de producto sin commit (modificado, en el índice o nuevo) también deja viejo a cualquier candidato.
     if cambios_locales_de_producto():
         return None
@@ -614,7 +616,7 @@ def hechos_del_candidato(identificador: str) -> Path:
     """`hechos.json` de la evidencia del candidato vigente; FactoryError con la ruta esperada si no está."""
     leer(identificador)
     sha = candidato_vigente(identificador) or git_producto(["git", "rev-parse", "HEAD"]).stdout.strip()[:7]
-    hechos =estructura.ruta_canonica(ROOT, identificador, "evidencia", sha) / "hechos.json"
+    hechos = estructura.ruta_canonica(ROOT, identificador, "evidencia", sha) / "hechos.json"
     if not ruta_segura(hechos).is_file():
         raise FactoryError(f"no encuentro los hechos del candidato: {hechos.relative_to(ROOT)}. Generalos ahí "
                            f"(oracle-factory ruta {identificador} evidencia) o indicá --con RUTA")
