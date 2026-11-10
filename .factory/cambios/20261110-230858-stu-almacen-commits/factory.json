@@ -2,10 +2,20 @@
   "id": "20261110-230858-stu-almacen-commits",
   "titulo": "Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "9b23d563e3420ca6bf826ef387c6b47feeabb7bcb945a34eb3c011b93906796a",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T23:19:27.046714+00:00",
+    "documentos": {
+      "openspec/changes/20261110-230858-stu-almacen-commits/proposal.md": "010fdfdca29929726708624b65d7480c773758cf779b32e1385b962786577267",
+      "openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md": "9b23d563e3420ca6bf826ef387c6b47feeabb7bcb945a34eb3c011b93906796a"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-10T23:08:58.683703+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T23:19:27.046738+00:00",
+      "documentos": {
+        "openspec/changes/20261110-230858-stu-almacen-commits/proposal.md": "010fdfdca29929726708624b65d7480c773758cf779b32e1385b962786577267",
+        "openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md": "9b23d563e3420ca6bf826ef387c6b47feeabb7bcb945a34eb3c011b93906796a"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
