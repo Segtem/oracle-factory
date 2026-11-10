@@ -48,6 +48,7 @@ capacidad: "flujo"
 - `43dab88` registros-almacen: evidencia del candidato tras las mutaciones propias (trailer)
 - `7786b00` registros-almacen: bloqueo y temporal propio al guardar las conexiones (hallazgo de codex sobre conectar a la vez) (trailer)
 - `807da81` registros-almacen: evidencia del candidato tras el hallazgo de la concurrencia (trailer)
+- `d4bb2b8` registros-almacen: informe de codex (ronda 2, sin hallazgos) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-233536-jgu-registros-almacen`.
 
 ## Mensajes
