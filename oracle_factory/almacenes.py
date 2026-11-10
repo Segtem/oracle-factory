@@ -5,6 +5,7 @@ No importa cli.py: los errores salen como ValueError y quien llama los muestra."
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -142,13 +143,17 @@ def comando(cli, nombre: str, almacen: Path | None) -> int:
     cli.ROOT, cli.CHANGES = destino, destino / "openspec" / "changes"
     try:
         os.chdir(destino)  # los hooks y la configuración de Git de init son del almacén, no del producto
+        previo = foto(destino)
+        cli.PRODUCTO = producto  # init ve que prepara un almacén: no escribe su configuración de Git
         cli.inicializar()
         requisitos = cli.ruta_segura(destino / "requisitos")  # init no la crea y Git no versiona carpetas vacías
         if not requisitos.exists():
             requisitos.mkdir()
             (requisitos / ".gitkeep").write_text("", encoding="utf-8")
+        commitear(cli, destino, previo, nombre)
     finally:
         os.chdir(cwd)
+        cli.PRODUCTO = None
         cli.ROOT, cli.CHANGES = antes
     try:
         with actualizando() as vigentes:  # se vuelve a leer: otro conectar pudo agregar algo mientras se preparaba el almacén
@@ -170,3 +175,73 @@ def con_el_cambio(cli, identificador: str, contexto: dict) -> dict:
                for a in (m.get("archivos_catalogo") or {}).values() if isinstance(a, str) and a)]
     archivos = [[n, cli.dato_de_archivo(n, cli.ROOT / n)] for n in sorted({os.path.relpath(r, cli.ROOT) for r in rutas})]
     return {**contexto, "archivos_sha256": cli.sha256(json.dumps([contexto["archivos_sha256"], archivos]).encode())}
+
+
+# --- etapa 4a: Factory commitea en el almacén lo que escribió cada comando -------------------------------------------
+# Variables con las que Git apuntaría a otro repo (por ejemplo, si Factory corre dentro de un hook del producto).
+_GIT_DE_OTRO_REPO = ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+                     "GIT_COMMON_DIR", "GIT_PREFIX", "GIT_NAMESPACE")
+
+
+def _git_almacen(almacen: Path, *args: str, entrada: bytes | None = None) -> subprocess.CompletedProcess:
+    entorno = {k: v for k, v in os.environ.items() if k not in _GIT_DE_OTRO_REPO}
+    return subprocess.run(["git", *args], cwd=almacen, input=entrada, capture_output=True,
+                          env={**entorno, "GIT_LITERAL_PATHSPECS": "1"})
+
+
+def foto(almacen: Path) -> dict[str, str | None] | None:
+    """Lo que Git ve cambiado en el almacén: {ruta: sha256 del contenido, o None si el archivo no está}.
+
+    None si el almacén no es la raíz de un repo Git: ahí no hay dónde commitear."""
+    try:
+        arriba = _git_almacen(almacen, "rev-parse", "--show-toplevel")
+        if arriba.returncode or Path(os.fsdecode(arriba.stdout).strip()).resolve() != almacen.resolve():
+            return None
+        estado = _git_almacen(almacen, "status", "--porcelain", "-z", "--no-renames", "--untracked-files=all")
+    except OSError:
+        return None
+    if estado.returncode:
+        return None
+    vista: dict[str, str | None] = {}
+    for entrada in estado.stdout.split(b"\0"):
+        if len(entrada) > 3:
+            nombre = os.fsdecode(entrada[3:])
+            ruta = almacen / nombre
+            try:
+                contenido = os.fsencode(os.readlink(ruta)) if ruta.is_symlink() else ruta.read_bytes() if ruta.is_file() else None
+            except OSError:
+                contenido = None
+            vista[nombre] = None if contenido is None else hashlib.sha256(contenido).hexdigest()
+    return vista
+
+
+def commitear(cli, almacen: Path, antes: dict[str, str | None] | None, comando: str, ident: str | None = None) -> None:
+    """Commitea en el almacén exactamente lo que cambió desde `antes` (una `foto`); lo que ya estaba cambiado y sigue igual
+    no entra. No escribe configuración de Git, no sube nada y no falla: si Git no puede, avisa y los archivos quedan en el disco.
+
+    ponytail: un archivo que ya estaba cambiado a mano y que el comando volvió a cambiar entra entero (no se separan las dos
+    ediciones); si hiciera falta, habría que commitear por trozos."""
+    if antes is None:
+        return
+    try:
+        despues = foto(almacen)
+        tocados = sorted(n for n, huella in (despues or {}).items() if n not in antes or antes[n] != huella)
+        if not tocados:
+            return
+        if not (ident and cli.estructura.ID_RE.fullmatch(ident)):  # `nuevo` no recibe el ID: sale de lo que escribió
+            ids = {p[2] for p in (Path(n).parts for n in tocados)
+                   if len(p) > 3 and p[:2] in ((cli.estructura.DIR, "cambios"), ("openspec", "changes")) and cli.estructura.ID_RE.fullmatch(p[2])}
+            ident = ids.pop() if len(ids) == 1 else None
+        quien = cli.actor()
+        pie = "\n".join([*([f"Cambio: {ident}"] if ident else []), f"Comando: {comando}", f"Actor: {quien['actor']} ({quien['tipo_actor']})"])
+        rutas = b"\0".join(os.fsencode(n) for n in tocados)
+        paso = _git_almacen(almacen, "add", "--pathspec-from-file=-", "--pathspec-file-nul", entrada=rutas)
+        if paso.returncode == 0:  # --only: lo que ya estaba en el índice se queda en el índice, sin entrar al commit
+            paso = _git_almacen(almacen, "commit", "-q", "--only", "-m", f"Factory: {comando}{' ' + ident if ident else ''}", "-m", pie,
+                                "--pathspec-from-file=-", "--pathspec-file-nul", entrada=rutas)
+        motivo = "" if paso.returncode == 0 else (os.fsdecode(paso.stderr + paso.stdout).strip() or f"git terminó con código {paso.returncode}")
+    except OSError as e:
+        motivo = str(e)
+    if motivo:
+        print(f"Aviso: no se pudo commitear en el almacén ({almacen}): {motivo}\nLos registros quedaron escritos en el disco; "
+              "arreglá la causa y commitealos a mano en el almacén.", file=sys.stderr)
