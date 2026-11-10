@@ -1,6 +1,6 @@
 # Registros fuera del repo del producto, etapa 2: el almacén y conectar
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -55,3 +55,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-10 01:10:30 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261109-233536-jgu-registros-almacen/oracle-veredicto.txt.
+
+### Nota (2026-11-10 01:17:13 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

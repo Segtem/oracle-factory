@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:fd65d748e19aabca11fa5c6f3a94e2c3f925936aa7f269fe348ed562876fcb27 -->
+<!-- oracle-factory resumen sha256:487cc4619187744031320d327ed3a2fd9f5e854575322b7bc0cb50dc496991bd -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 360 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 364 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -293,6 +293,10 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | sin_registros_aparte_nada_cambia | funcional | `flujo_ce4aba0f609f14b30.sin_registros_aparte_nada_cambia` | factory_registros_raiz.sin_registros_aparte_nada_cambia, factory_registros_raiz.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-212224-xo0-registros-raiz |
 | con_registros_aparte_el_repo_del_producto_queda_limpio | funcional | `flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio` | factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio, factory_registros_raiz.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-212224-xo0-registros-raiz |
 | con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno | funcional | `flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno` | factory_registros_raiz.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno, factory_registros_raiz.corrida_completa | verde al cerrar el 2026-11-09 | 20261109-212224-xo0-registros-raiz |
+| conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto | funcional | `flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto` | factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto, factory_registros_almacen.corrida_completa | verde al cerrar el 2026-11-10 | 20261109-233536-jgu-registros-almacen |
+| con_el_producto_conectado_los_comandos_usan_el_almacen | funcional | `flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen` | factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen, factory_registros_almacen.corrida_completa | verde al cerrar el 2026-11-10 | 20261109-233536-jgu-registros-almacen |
+| conectar_sin_argumentos_y_desconectar | funcional | `flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar` | factory_registros_almacen.conectar_sin_argumentos_y_desconectar, factory_registros_almacen.corrida_completa | verde al cerrar el 2026-11-10 | 20261109-233536-jgu-registros-almacen |
+| un_producto_con_su_propio_factory_conectado_se_niega | funcional | `flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega` | factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega, factory_registros_almacen.corrida_completa | verde al cerrar el 2026-11-10 | 20261109-233536-jgu-registros-almacen |
 
 ### ide
 
@@ -1834,6 +1838,11 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261109-212224-xo0-registros-raiz) codex (gpt-6-luna): Las pruebas test_rr1_* y test_rr3_* y test_rr2_el_producto_con_su_propio_git_no_cambia pasan.
 - (20261109-212224-xo0-registros-raiz) codex (gpt-6-luna): test_rr2_un_cambio_completo_hasta_las_medidas falla en este entorno antes de completar: medir --listar devuelve 1 porque /usr/bin/python carece de oracle-metalenguaje. No pude verificar ese escenario completo ni la suite completa; la suite discover mostró numerosos errores compatibles con dependencias ausentes.
 - (20261109-212224-xo0-registros-raiz) codex (gpt-6-luna): No hay omisiones binarias en el paquete.
+- (20261109-233536-jgu-registros-almacen) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261109-233536-jgu-registros-almacen) codex (gpt-6-luna): Revisé la spec, la propuesta, el diff completo incluido en el paquete, el informe anterior y el código/pruebas relevantes. No hay omisiones de archivos binarios (omissions vacío).
+- (20261109-233536-jgu-registros-almacen) codex (gpt-6-luna): No corrí la suite ni hice mutaciones manuales sobre copias; la revisión fue estática. La suite requeriría preparar un entorno y las pruebas de concurrencia incluidas en el diff no se ejecutaron aquí.
+- (20261109-233536-jgu-registros-almacen) codex (gpt-6-luna): tests/datos/ayuda-cli.json quitó una línea de ayuda anterior y añadió entradas de conectar/desconectar para los nuevos subcomandos; la edición está justificada por este cambio.
+- (20261109-233536-jgu-registros-almacen) codex (gpt-6-luna): La corrección de la ronda anterior mantiene el descriptor del lock durante lectura, modificación y guardado, relee bajo bloqueo y usa temporales únicos; la prueba añadida cubre seis procesos concurrentes y la limpieza al fallar el replace. No encontré defectos demostrables restantes en los escenarios de la spec.
 
 ### Históricos
 

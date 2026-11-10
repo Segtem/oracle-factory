@@ -1,7 +1,7 @@
 ---
 generado: oracle-factory kb
 id: "20261109-233536-jgu-registros-almacen"
-fase: "oracle_verde"
+fase: "cerrada"
 capacidad: "flujo"
 ---
 
@@ -9,7 +9,7 @@ capacidad: "flujo"
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Fase: oracle_verde
+- Fase: cerrada
 - Capacidad: flujo
 - Responsable: nadie
 - Spec: [openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md](../../openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md)
@@ -32,6 +32,8 @@ capacidad: "flujo"
 - 2026-11-09 23:41 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-10 01:10 · Revisión registrada · Brian Hollweg (persona) — aprobar: Propuesta del agente claude-code. Etapa 2 de 6 de «registros fuera del repo del producto»: el almacén y conectar. Candidato 7786b00 (camino completo: toca cli.py, 301+ líneas de producto): evidencia verde (1374 pruebas, 20 casos de contrato). QUIÉN LO HIZO: lo construyó un agente lanzado por el conductor (autopilot --ejecutar --lanzar con claude -p y permisos acotados: leer/editar/escribir, oracle-factory, .venv/bin/python, git status/diff/log/show/add/commit; sin push, checkout, reset, config ni red) en dos pasos: 1) 20 pruebas, catálogos y propuesta de medidas (se frenó en medir --confirmar); 2) implementación (oracle\_factory/almacenes.py nuevo, 123 líneas, más cableado en cli.py, parser, autopilot) y evidencia (se frenó por el freno de pruebas editadas). Yo escribí la spec, hice las 69+ mutaciones, pedí la revisión y arreglé el hallazgo. QUÉ HACE: conectar RUTA guarda en la configuración personal (XDG\_CONFIG\_HOME/oracle-factory/almacenes.json o \~/.config/...) {directorio común de Git del producto: almacén}; con el producto conectado todo comando sin --registros usa el almacén (desde subcarpetas y worktrees); conectar sin argumentos dice el estado; desconectar quita la conexión; sólo de una persona (autopilot.PERSONA); un producto con .factory/ propio y conectado se niega. PRUEBA EXISTENTE EDITADA (declarada, motivo del freno): tests/datos/ayuda-cli.json regenerado por los subcomandos nuevos conectar y desconectar (datos de la ayuda del CLI); ninguna prueba existente se quitó ni aflojó. REVISIÓN: sólo codex (2 rondas): un hallazgo medio, dos conectar a la vez podían perder una conexión (leer-modificar-guardar sin bloqueo, temporal fijo): corregido con un flock exclusivo sobre almacenes.json.lock, relectura bajo el bloqueo y temporal propio; la prueba lanza 6 procesos a la vez; la ronda 2 no trajo hallazgos. DECIDE BRIAN: (1) INTERPRETACIÓN DEL AGENTE MÁS ESPECÍFICA QUE LA SPEC: conectar y desconectar SIGUEN FUNCIONANDO cuando el producto tiene .factory/ propio y además está conectado (la spec dice que se niega «un comando»); me parece correcto porque es la salida del conflicto (el mensaje propone desconectar); si preferís que se nieguen también, hay que cambiar la spec. (2) camino completo con un solo proveedor revisor (agy y agy2 sin cuota hasta cerca del 2026-11-15). (3) Sin fcntl (Windows) no hay bloqueo: dos conectar a la vez podrían pisarse; está dicho en un comentario y no hay prueba porque este entorno es Linux. MUTACIONES: 69 sobre el código del agente: las reales detectadas con casos nuevos dentro de métodos existentes; equivalentes declaradas con motivo: claves de JSON siempre texto, git devuelve los errores por stderr, leer() ya devuelve {} sin archivo, git ya devuelve rutas reales, os.chdir al almacén es redundante (ejecutar() corre git con cwd=ROOT), el parser rechaza el comando vacío, el nombre del temporal, unlink sin suprimir. LÍMITES: la configuración personal vale por usuario y máquina; clonar desde una URL, subir/bajar el almacén y commitear tras cada decisión son la etapa 4; el candidato y la huella con dos fuentes la etapa 3. No edité otra prueba existente.
 - 2026-11-10 01:10 · Juicio de Oracle · claude-code (agente)
+- 2026-11-10 01:17 · Cerrado · Brian Hollweg (persona)
+- 2026-11-10 01:17 · Archivado · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -52,6 +54,7 @@ capacidad: "flujo"
 - `807da81` registros-almacen: evidencia del candidato tras el hallazgo de la concurrencia (trailer)
 - `d4bb2b8` registros-almacen: informe de codex (ronda 2, sin hallazgos) (trailer)
 - `dbb57b4` registros-almacen: propuesta de revisión (trailer)
+- `4caad5c` registros-almacen: revisión aprobada por Brian y veredicto de Oracle (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-233536-jgu-registros-almacen`.
 
 ## Mensajes

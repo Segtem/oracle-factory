@@ -2,7 +2,7 @@
   "id": "20261109-233536-jgu-registros-almacen",
   "titulo": "Registros fuera del repo del producto, etapa 2: el almacén y conectar",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md",
   "spec_sha256": "ec7760948cbb35063d2fc3c405aa09b7e3cc27d4f97a90a41ab8de651573c043",
   "spec_aprobada": {
@@ -349,6 +349,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "8f03d663ee687f28c85201ebbb874a0dc93716dab6d13a46ce89875e8fd918e5"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T01:17:13.614950+00:00",
+      "oracle": ".factory/cambios/20261109-233536-jgu-registros-almacen/oracle-veredicto.txt",
+      "revision": "tareas/20261109-233536-jgu-registros-almacen/revisiones/registro-e5rd1coj/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T01:17:13.658249+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -424,5 +444,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T01:17:13.552446+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-10T01:17:13.658238+00:00"
+  }
 }
