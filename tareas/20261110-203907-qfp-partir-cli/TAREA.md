@@ -1,6 +1,6 @@
 # cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-10 22:50:16 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261110-203907-qfp-partir-cli/oracle-veredicto.txt.
+
+### Nota (2026-11-10 22:51:03 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

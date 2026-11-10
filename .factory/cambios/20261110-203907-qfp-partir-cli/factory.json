@@ -2,7 +2,7 @@
   "id": "20261110-203907-qfp-partir-cli",
   "titulo": "cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261110-203907-qfp-partir-cli/specs/flujo/spec.md",
   "spec_sha256": "aa52437b1bdcb8963b0838ca2f98c64bdb458ff8dde8f7aeaae787999d6b1e22",
   "spec_aprobada": {
@@ -203,6 +203,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "cdc36169e9b4c90f4a6d992d51b5aa0a52a99f6b20144ec3a9854c4b385019dc"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T22:51:03.840211+00:00",
+      "oracle": ".factory/cambios/20261110-203907-qfp-partir-cli/oracle-veredicto.txt",
+      "revision": "tareas/20261110-203907-qfp-partir-cli/revisiones/registro-oor3tjiu/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T22:51:03.882246+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -244,5 +264,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T22:51:03.773209+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-10T22:51:03.882233+00:00"
+  }
 }

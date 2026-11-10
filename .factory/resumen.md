@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:a8157aa04ad3c3d08e75378fc8331a5d55bcd814f8a148df574097d2ea25d0b8 -->
+<!-- oracle-factory resumen sha256:ae9d2788a14e3c93dd1e3541884e8fb8db8a47b3a3bb8bd06afd0c8cb9357c67 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 371 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 373 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -304,6 +304,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | con_almacen_aparte_la_huella_es_el_producto_y_este_cambio | funcional | `flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio` | factory_registros_candidato.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio, factory_registros_candidato.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-140719-h7t-registros-candidato |
 | con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto | funcional | `flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto` | factory_registros_candidato.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto, factory_registros_candidato.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-140719-h7t-registros-candidato |
 | con_almacen_aparte_no_hay_hook_en_el_producto | funcional | `flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto` | factory_registros_candidato.con_almacen_aparte_no_hay_hook_en_el_producto, factory_registros_candidato.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-140719-h7t-registros-candidato |
+| cli_py_queda_con_margen_bajo_su_tope | no funcional | `flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope` | factory_partir_cli.cli_py_queda_con_margen_bajo_su_tope, factory_partir_cli.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-203907-qfp-partir-cli |
+| lo_mudado_a_proyecto_sigue_igual | no funcional | `flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual` | factory_partir_cli.lo_mudado_a_proyecto_sigue_igual, factory_partir_cli.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-203907-qfp-partir-cli |
 
 ### ide
 
@@ -1858,6 +1860,13 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261110-140719-h7t-registros-candidato) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
 - (20261110-140719-h7t-registros-candidato) codex (gpt-6-luna): Revisé la spec, el diff textual completo del paquete y las implementaciones/pruebas citadas; no ejecuté la suite ni mutaciones manuales.
 - (20261110-140719-h7t-registros-candidato) codex (gpt-6-luna): La prueba quitada en tests/test_registros_raiz.py era la aserción de que los comandos con candidato fallaran con el mensaje de etapa 3; se reemplazó por cobertura de comportamiento sin candidato y no tocar el producto, justificado por la etapa 3.
+- (20261110-203907-qfp-partir-cli) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261110-203907-qfp-partir-cli) codex (gpt-6-luna): No ejecuté tests ni la suite completa; la revisión fue estática.
+- (20261110-203907-qfp-partir-cli) codex (gpt-6-luna): Comparé los AST de las siete funciones contra el commit base; son iguales tras quitar los prefijos cli. añadidos, y revisé las importaciones y reexportaciones.
+- (20261110-203907-qfp-partir-cli) codex (gpt-6-luna): Comprobé que oracle_factory/cli.py mide 139642 bytes.
+- (20261110-203907-qfp-partir-cli) codex (gpt-6-luna): La modificación de dos líneas de tests/test_cli_modulos.py (importar proyecto y agregarlo a MODULOS) está justificada por el requisito de vigilancia.
+- (20261110-203907-qfp-partir-cli) codex (gpt-6-luna): No hice mutaciones manuales.
+- (20261110-203907-qfp-partir-cli) codex (gpt-6-luna): El paquete declara omissions vacío; no hubo archivos binarios omitidos que abrir.
 
 ### Históricos
 
