@@ -1,0 +1,33 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entorno-agente/.factory/local/revisiones/b2dee68-codex-1",
+  "base": "e82cb09edb5397f0a929ac6ca69b8fd53282abf6",
+  "head": "b2dee6864b4c8fe174f3470dfcbf6c31b5921daf",
+  "diff_sha256": "dbcd997c3df14c779809b4ede19423ec181de331423a19c37e3fe0be332705e2",
+  "context_sha256": "807fee3106ce64099387d3d5c53c004beddd9bfc69f99799f872cc00000db141",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "EA-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "--entorno se ignora si autopilot corre en modo de sólo lectura",
+      "explanation": "La promesa limita --entorno a --ejecutar --lanzar y requiere rechazarlo fuera de ese modo. comando_autopilot retorna por la rama `if not ejecutar` antes de construir o validar `entregar`; por eso `autopilot ID --entorno 'A B'` se acepta como consulta de sólo lectura y sale con 0. Además, tampoco se informa que la opción carece de efecto. La validación debe ocurrir antes de esa salida temprana.",
+      "location": {"file": "oracle_factory/cli.py", "start_line": 980, "end_line": 981, "side": "head"},
+      "trigger": "Invocar `oracle-factory --agente N autopilot ID --entorno 'A B'` sin `--ejecutar` (o pasar `--entorno` como argumento a `comando_autopilot` con ejecutar=False).",
+      "evidence": "Reproducción directa: con `datos_estado` y `autopilot.decidir` controlados, `comando_autopilot('ID', True, ejecutar=False, entorno=['A B'])` retornó 0; la rama de sólo lectura está antes de las líneas 980–985, donde recién se valida el nombre y la presencia de --lanzar. Esto contradice el requisito entorno_explicito_por_corrida, que restringe la opción a `--ejecutar --lanzar` y exige rechazar el uso fuera de ese modo.",
+      "related_requirement": "entorno_explicito_por_corrida",
+      "status": "pendiente",
+      "verification": "Reproducido en el candidato; no depende de ejecutar el conductor ni de escribir configuración."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec, todos los archivos de producto del diff, los rangos del paquete y los tests nuevos; el paquete no omite binarios (omissions vacío).",
+    "Ejecuté `python -m unittest tests.test_entorno_agente`: 8 pruebas pasaron y 2 fallaron al importar la dependencia `oracle_metalenguaje` ausente en este checkout; las fallas ocurrieron antes de ejercitar sus aserciones.",
+    "Reproduje de forma aislada el caso de `--entorno` sin `--ejecutar`: la llamada devolvió código 0 con un nombre inválido.",
+    "No ejecuté la suite completa ni mutaciones sobre copias.",
+    "La única edición de test preexistente indicada, `tests/datos/ayuda-cli.json`, está justificada por la nueva opción: actualiza el texto de ayuda de autopilot para incluir `--entorno NOMBRE` y su descripción, sin retirar cobertura funcional."
+  ]
+}

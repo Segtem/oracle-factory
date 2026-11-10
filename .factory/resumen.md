@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:487cc4619187744031320d327ed3a2fd9f5e854575322b7bc0cb50dc496991bd -->
+<!-- oracle-factory resumen sha256:cdc8caa8f9be50c557a2e0940ea96fadfa4f041c81cd318f3086a7db08ad7c89 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 364 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 367 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -297,6 +297,9 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | con_el_producto_conectado_los_comandos_usan_el_almacen | funcional | `flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen` | factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen, factory_registros_almacen.corrida_completa | verde al cerrar el 2026-11-10 | 20261109-233536-jgu-registros-almacen |
 | conectar_sin_argumentos_y_desconectar | funcional | `flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar` | factory_registros_almacen.conectar_sin_argumentos_y_desconectar, factory_registros_almacen.corrida_completa | verde al cerrar el 2026-11-10 | 20261109-233536-jgu-registros-almacen |
 | un_producto_con_su_propio_factory_conectado_se_niega | funcional | `flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega` | factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega, factory_registros_almacen.corrida_completa | verde al cerrar el 2026-11-10 | 20261109-233536-jgu-registros-almacen |
+| el_agente_lanzado_recibe_un_entorno_minimo | funcional | `flujo_c93a1d23e9668d672.el_agente_lanzado_recibe_un_entorno_minimo` | factory_entorno_agente.el_agente_lanzado_recibe_un_entorno_minimo, factory_entorno_agente.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-095631-0w3-entorno-agente |
+| entorno_explicito_por_corrida | funcional | `flujo_c93a1d23e9668d672.entorno_explicito_por_corrida` | factory_entorno_agente.entorno_explicito_por_corrida, factory_entorno_agente.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-095631-0w3-entorno-agente |
+| la_guia_de_permisos_no_abre_python | funcional | `flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python` | factory_entorno_agente.la_guia_de_permisos_no_abre_python, factory_entorno_agente.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-095631-0w3-entorno-agente |
 
 ### ide
 
@@ -1843,6 +1846,11 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261109-233536-jgu-registros-almacen) codex (gpt-6-luna): No corrí la suite ni hice mutaciones manuales sobre copias; la revisión fue estática. La suite requeriría preparar un entorno y las pruebas de concurrencia incluidas en el diff no se ejecutaron aquí.
 - (20261109-233536-jgu-registros-almacen) codex (gpt-6-luna): tests/datos/ayuda-cli.json quitó una línea de ayuda anterior y añadió entradas de conectar/desconectar para los nuevos subcomandos; la edición está justificada por este cambio.
 - (20261109-233536-jgu-registros-almacen) codex (gpt-6-luna): La corrección de la ronda anterior mantiene el descriptor del lock durante lectura, modificación y guardado, relee bajo bloqueo y usa temporales únicos; la prueba añadida cubre seis procesos concurrentes y la limpieza al fallar el replace. No encontré defectos demostrables restantes en los escenarios de la spec.
+- (20261110-095631-0w3-entorno-agente) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261110-095631-0w3-entorno-agente) codex (gpt-6-luna): Revisé la spec, la propuesta, todos los archivos de producto incluidos en el diff, las pruebas añadidas y el hallazgo EA-1 de la ronda anterior; la corrección valida --entorno antes de la salida de sólo lectura y antes de iniciar el bucle.
+- (20261110-095631-0w3-entorno-agente) codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_entorno_agente </dev/null`: 8 pruebas pasaron; 2 terminaron con ModuleNotFoundError por la dependencia oracle_metalenguaje ausente, antes de completar sus aserciones.
+- (20261110-095631-0w3-entorno-agente) codex (gpt-6-luna): No ejecuté la suite completa ni mutaciones sobre copias. No encontré defectos que pueda respaldar con un hallazgo dentro de los rangos del diff.
+- (20261110-095631-0w3-entorno-agente) codex (gpt-6-luna): La edición de tests/datos/ayuda-cli.json reemplaza la línea de ayuda de autopilot para documentar --entorno NOMBRE y su repetición; queda justificada por la opción nueva y no elimina cobertura funcional.
 
 ### Históricos
 

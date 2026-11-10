@@ -6,6 +6,7 @@ afuera para probar el bucle sin procesos ni esperas; `ejecutor` arma los de verd
 from __future__ import annotations
 
 import os
+import re
 import subprocess
 import sys
 import time
@@ -34,15 +35,31 @@ def _proceso(argv, cwd, plazo: float, env=None) -> tuple[int, str]:
     return p.returncode, (p.stdout + p.stderr).strip()
 
 
-def ejecutor(raiz, agente: str):
+# Lo único que un agente lanzado ve del entorno de la persona (más lo que ella entregue con --entorno): lo que hace falta para correr herramientas de
+# línea de comandos. Una lista de permitidos y no de prohibidos por nombre: un secreto con un nombre inocuo tampoco pasa.
+ENTORNO_PERMITIDO = frozenset({"PATH", "HOME", "USER", "LOGNAME", "SHELL", "LANG", "LANGUAGE", "TERM", "TZ", "TMPDIR",
+                               "BASH_DEFAULT_TIMEOUT_MS", "BASH_MAX_TIMEOUT_MS"})
+PREFIJOS_PERMITIDOS = ("LC_", "XDG_")
+NOMBRE_DE_VARIABLE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+
+
+def entorno_del_agente(entorno, agente: str, entregar=()) -> dict:
+    """El entorno de un agente lanzado: las variables permitidas, las que la persona entregó por nombre (si existen) y FACTORY_AGENTE."""
+    visto = {k: v for k, v in entorno.items() if k in ENTORNO_PERMITIDO or k.startswith(PREFIJOS_PERMITIDOS)}
+    visto.update({k: entorno[k] for k in entregar if k in entorno})
+    visto["FACTORY_AGENTE"] = agente
+    return visto
+
+
+def ejecutor(raiz, agente: str, entregar=()):
     """(correr, lanzar): `correr(argv, plazo)` corre un comando de Factory como `agente` en un proceso aparte; `lanzar(argv, plazo)`, un
-    agente externo, con FACTORY_AGENTE puesto para que lo que haga con Factory quede a su nombre."""
+    agente externo, con un entorno mínimo (`entorno_del_agente`) y FACTORY_AGENTE puesto para que lo que haga con Factory quede a su nombre."""
     def correr(argv, plazo):
         return _proceso([sys.executable, "-c", "import sys; from oracle_factory.cli import main; sys.exit(main())",
                          "--proyecto", str(raiz), "--agente", agente, *argv], raiz, plazo)
 
     def lanzar(argv, plazo):
-        return _proceso(argv, raiz, plazo, {**os.environ, "FACTORY_AGENTE": agente})
+        return _proceso(argv, raiz, plazo, entorno_del_agente(os.environ, agente, entregar))
     return correr, lanzar
 
 

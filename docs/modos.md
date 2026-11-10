@@ -64,12 +64,25 @@ Cada etapa posterior a la construcción está en `confirmacion` (decide una pers
 - `delegar_al_agente`: trabajo creativo, como construir (si no hay candidato), corregir lo que pidió la revisión, elegir las medidas (ante `medir ID --listar` la instrucción manda construir primero lo que falte —pruebas antes que el código y catálogos, sin correr todavía la evidencia completa— y después proponer las medidas; la evidencia va después de que una persona las confirma) o dejar la propuesta de revisión: ante `revisar` con un candidato vigente, mientras el agente no dejó su propuesta para ese candidato (`estado --json` la muestra en `propuesta_de_revision`), la instrucción es preparar el informe (`revision-preparar`) y proponer la decisión (`revisar --decision --motivo`); con la propuesta hecha, la decisión se le pide a una persona. En un cambio de camino completo, antes de eso, si los informes del cambio cubren menos de dos proveedores distintos (`agy` y `agy2` cuentan como uno) y hay un revisor configurado de otro, `estado --json` lo dice en `segundo_revisor` y el conductor corre `pedir-revision ID --a ESE` (decisión `actuar`); con el camino ligero, o sin otro proveedor, no pide nada.
 - `actuar`: un comando mecánico de Factory (`importar`, `juzgar`, `pedir-revision`, `revision-preparar`, `tomar`, `mensaje`) que un agente corre con `--agente NOMBRE`.
 
-Con `--ejecutar` (y `--agente NOMBRE`, porque lo que corre queda a nombre del agente) el conductor **actúa**: `oracle-factory --agente NOMBRE autopilot ID --ejecutar [--lanzar COMANDO] [--max-pasos N] [--max-minutos M]`. Repite: observa, decide con las mismas reglas, deja el porqué como `mensaje` en el registro del cambio, actúa y vuelve a observar.
+Con `--ejecutar` (y `--agente NOMBRE`, porque lo que corre queda a nombre del agente) el conductor **actúa**: `oracle-factory --agente NOMBRE autopilot ID --ejecutar [--lanzar COMANDO [--entorno NOMBRE]…] [--max-pasos N] [--max-minutos M]`. Repite: observa, decide con las mismas reglas, deja el porqué como `mensaje` en el registro del cambio, actúa y vuelve a observar.
 
 - `actuar`: corre el comando de Factory con `--agente NOMBRE`, en un proceso aparte.
 - `delegar_al_agente`: lanza el comando de `--lanzar` (por ejemplo `claude -p`) con la instrucción como último argumento y `FACTORY_AGENTE` puesto. Sin `--lanzar` se detiene y lo dice. `--lanzar` no se guarda en la configuración: se da en cada corrida.
 - Se detiene, y lo dice, ante `terminado`, un freno, una decisión de una persona (con su comando listo para pegar), un comando o un agente que fallan, la falta de progreso (la misma decisión dos veces seguidas) o un tope (10 pasos y 120 minutos por defecto). Al final deja otro `mensaje` con el motivo, con su propio plazo de 10 segundos fuera del tope: el rastro de por qué se detuvo se deja aunque el tiempo se haya agotado. Cada paso toma su plazo del reloj justo antes de correr, y sin tiempo no arranca. El código de salida es 1 si algo falló de verdad (un paso, dejar el porqué o el mensaje final, o leer el estado; el JSON lo dice en `fallo`); terminar, frenar, pedir a una persona o llegar a un tope no son fallas.
 - Nunca corre una decisión de una persona, aunque llegara mal clasificada, ni integra, publica ni despliega: esas etapas siguen en `confirmacion`.
+
+### El agente lanzado: entorno y permisos
+
+El agente que lanza `--lanzar` corre como vos, en tu máquina. Factory **filtra el entorno** que le da: sólo ve `PATH`, `HOME`, `USER`, `LOGNAME`, `SHELL`, `LANG`, `LANGUAGE`, `TERM`, `TZ`, `TMPDIR`, `BASH_DEFAULT_TIMEOUT_MS`, `BASH_MAX_TIMEOUT_MS`, las variables `LC_*` y `XDG_*`, y `FACTORY_AGENTE`. Tus claves de API y tus tokens no le llegan, aunque su nombre no lo parezca. Si necesita alguna (por ejemplo `claude -p` con `ANTHROPIC_API_KEY`), la entregás en esa corrida con `--entorno NOMBRE` (repetible; no se guarda). Los comandos mecánicos de Factory no cambian.
+
+Los permisos los define el comando de `--lanzar`. Un ejemplo para `claude -p`, con Python acotado a las pruebas y a la herramienta de evidencia:
+
+```fish
+set agente 'claude -p --allowedTools "Read Edit Write Glob Grep Bash(oracle-factory:*) Bash(.venv/bin/oracle-factory:*) Bash(.venv/bin/python -m unittest:*) Bash(.venv/bin/python tools/verificar_cambio.py:*) Bash(git status:*) Bash(git diff:*) Bash(git log:*) Bash(git show:*) Bash(git add:*) Bash(git commit:*)" --permission-mode acceptEdits --'
+oracle-factory --agente claude-code autopilot ID --ejecutar --max-pasos 4 --lanzar $agente
+```
+
+El `--` final evita que `--allowedTools`, que acepta varios valores, se trague la instrucción. No uses el patrón abierto `Bash(.venv/bin/python:*)`: deja correr cualquier Python, y con eso el agente puede abrir la red, leer su entorno y ejecutar git (un `push`, por ejemplo). Tampoco aísla el proceso: sigue siendo tu usuario y ve tu `HOME`; para aislarlo hace falta un contenedor.
 
 ## Requisitos funcionales y no funcionales
 

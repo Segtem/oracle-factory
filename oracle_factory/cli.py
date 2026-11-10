@@ -952,9 +952,15 @@ def filas_autonomia() -> list[dict]:
 
 
 def comando_autopilot(ident: str, como_json: bool, ejecutar: bool = False, lanzar: str | None = None, max_pasos: int = 10,
-                      max_minutos: float = 120) -> int:
+                      max_minutos: float = 120, entorno: list[str] | None = None) -> int:
     """El conductor. Sin `--ejecutar`, sólo lectura: lo que haría ahora (`autopilot.decidir` sobre los datos de `estado`). Con `--ejecutar`
     (y `--agente`), el bucle de `conductor.bucle`: corre lo mecánico, lanza al agente para lo creativo, con topes y el porqué en el registro."""
+    entregar = list(entorno or [])
+    if entregar and not (ejecutar and lanzar):  # antes de la salida de sólo lectura: una opción que no vale en este modo no se ignora en silencio
+        raise FactoryError("--entorno entrega variables al agente que lanza --lanzar: sólo vale con --ejecutar y --lanzar; no escribí nada")
+    for nombre in entregar:
+        if not conductor.NOMBRE_DE_VARIABLE.fullmatch(nombre):
+            raise FactoryError(f"--entorno {nombre!r} no es el nombre de una variable (letras, dígitos y guion bajo, sin empezar con un dígito); no escribí nada")
     if not ejecutar:
         decision = autopilot.decidir(datos_estado(ident))
         if como_json:
@@ -978,7 +984,7 @@ def comando_autopilot(ident: str, como_json: bool, ejecutar: bool = False, lanza
     except ValueError as e:
         raise FactoryError(f"--lanzar no se puede leer como un comando: {e}; no escribí nada")
     datos_estado(ident)  # un cambio que no existe falla acá, nombrándolo, antes de escribir nada
-    correr, lanzador = conductor.ejecutor(ROOT, AGENTE)
+    correr, lanzador = conductor.ejecutor(ROOT, AGENTE, entregar)
     resultado = conductor.bucle(ident, lambda: datos_estado(ident), correr, lanzador, comando_lanzar, max_pasos, max_minutos)
     if como_json:
         imprimir_json(resultado)
@@ -2587,7 +2593,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "verificar": return verificar_mod.comando(sys.modules[__name__], args.json)
         elif args.comando == "destinos": comando_destinos(args.json, args.sin_consultar)
         elif args.comando == "autonomia": return comando_autonomia(args.etapa, args.modo, args.json)
-        elif args.comando == "autopilot": return comando_autopilot(args.id, args.json, args.ejecutar, args.lanzar, args.max_pasos, args.max_minutos)
+        elif args.comando == "autopilot": return comando_autopilot(args.id, args.json, args.ejecutar, args.lanzar, args.max_pasos, args.max_minutos, args.entorno)
         elif args.comando == "desplegar": return comando_desplegar(args.simular, args.autorizar, args.commit, args.destino, args.cambios)
         elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)
         elif args.comando == "unir-generado": return 0  # lo generado se queda como está y se rehace en el post-merge
