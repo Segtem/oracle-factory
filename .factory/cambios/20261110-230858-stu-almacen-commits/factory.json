@@ -93,19 +93,55 @@
         "factory_almacen_commits.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-10T23:23:00.909029+00:00",
+      "texto": "autopilot se detuvo: confirmar las medidas es sólo de una persona. Comando para una persona: oracle-factory medir 20261110-230858-stu-almacen-commits --confirmar"
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-10T23:27:56.711844+00:00",
+      "requisito": "flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit",
+      "medidas": [
+        "factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit",
+        "factory_almacen_commits.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-10T23:27:56.915120+00:00",
+      "requisito": "flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar",
+      "medidas": [
+        "factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar",
+        "factory_almacen_commits.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit": "funcional",
     "flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-10T23:27:56.657970+00:00",
       "sha256": "b1a0c44a08e23f7fa35a45bd733a4b42d35a7b49d5f9989d0e6fe9ad5abcd5c4",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-10T23:22:40.846381+00:00",
       "catalogos": {
         "factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit": "26a49f930c01fd4ad7488a5d57df3a385555059d7dbcb5ad6a4b4584e8cbfd60",
         "factory_almacen_commits.corrida_completa": "f7b0dd7ded3f40bec91ea236a8cd0d8b784308f2db5a39baf5015b0f40757c04"
@@ -116,10 +152,12 @@
       }
     },
     "flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-10T23:27:56.861468+00:00",
       "sha256": "5de81a4878d90f025e3dd784794de675bfd2cff22460e47ebfe37552ca6df785",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-10T23:22:43.089512+00:00",
       "catalogos": {
         "factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar": "3a5299ecffd3ca52804a581e40a159d76ee585dd7a2c06272b21f85b910133d1",
         "factory_almacen_commits.corrida_completa": "f7b0dd7ded3f40bec91ea236a8cd0d8b784308f2db5a39baf5015b0f40757c04"
@@ -129,5 +167,6 @@
         "factory_almacen_commits.corrida_completa": "catalogos/factory_almacen_commits.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

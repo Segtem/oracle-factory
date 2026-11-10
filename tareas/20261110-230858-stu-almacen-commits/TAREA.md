@@ -23,3 +23,11 @@ Medidas de flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_
 ### Nota (2026-11-10 23:22:43 UTC)
 
 Medidas de flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar: factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar, factory_almacen_commits.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-10 23:27:56 UTC)
+
+Medidas de flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-10 23:27:56 UTC)
+
+Medidas de flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar: Brian Hollweg (persona, confirmo, modo confirmacion).
