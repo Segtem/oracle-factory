@@ -1,0 +1,24 @@
+{
+  "id": "20261110-140719-h7t-registros-candidato",
+  "titulo": "Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes",
+  "capacidad": "flujo",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T14:07:19.456654+00:00",
+      "capacidad": "flujo"
+    }
+  ]
+}
