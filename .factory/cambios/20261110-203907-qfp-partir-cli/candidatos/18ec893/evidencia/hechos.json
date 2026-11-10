@@ -1,0 +1,25 @@
+{
+  "partir_cli_caso": [
+    {
+      "requisito": "cli_py_queda_con_margen_bajo_su_tope",
+      "caso": "Tamano.test_pc1_cli_py_mide_145000_bytes_o_menos_y_nada_pasa_su_tope",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_mudado_a_proyecto_sigue_igual",
+      "caso": "Mudanza.test_pc2_cada_funcion_mudada_es_la_misma_en_cli_con_su_firma_y_cli_no_la_define",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_mudado_a_proyecto_sigue_igual",
+      "caso": "Mudanza.test_pc2_la_prueba_de_modulos_vigila_proyecto_y_proyecto_lee_cli_al_usarlo",
+      "codigo": 0
+    }
+  ],
+  "partir_cli_corrida": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ]
+}
