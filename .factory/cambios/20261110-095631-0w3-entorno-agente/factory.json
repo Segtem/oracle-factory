@@ -2,10 +2,20 @@
   "id": "20261110-095631-0w3-entorno-agente",
   "titulo": "Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261110-095631-0w3-entorno-agente/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "985b0006171929154327628ec98024b62ff9d764dfec9b2088f8af0912867902",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T09:58:39.496299+00:00",
+    "documentos": {
+      "openspec/changes/20261110-095631-0w3-entorno-agente/proposal.md": "d6b1ee6776637f5e1891d405043b7db85f6217fd6f0c6a1bde6ec0044ac2b493",
+      "openspec/changes/20261110-095631-0w3-entorno-agente/specs/flujo/spec.md": "985b0006171929154327628ec98024b62ff9d764dfec9b2088f8af0912867902"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-10T09:56:31.476641+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T09:58:39.496325+00:00",
+      "documentos": {
+        "openspec/changes/20261110-095631-0w3-entorno-agente/proposal.md": "d6b1ee6776637f5e1891d405043b7db85f6217fd6f0c6a1bde6ec0044ac2b493",
+        "openspec/changes/20261110-095631-0w3-entorno-agente/specs/flujo/spec.md": "985b0006171929154327628ec98024b62ff9d764dfec9b2088f8af0912867902"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }

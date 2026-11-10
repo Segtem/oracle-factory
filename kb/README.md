@@ -130,7 +130,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (cerrada)
 - [[cambios/20261109-212224-xo0-registros-raiz]] — Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros) (cerrada)
 - [[cambios/20261109-233536-jgu-registros-almacen]] — Registros fuera del repo del producto, etapa 2: el almacén y conectar (cerrada)
-- [[cambios/20261110-095631-0w3-entorno-agente]] — Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto (espera_aprobacion_spec)
+- [[cambios/20261110-095631-0w3-entorno-agente]] — Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto (spec_aprobada)
 
 ## Requisitos
 
