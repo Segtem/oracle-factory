@@ -2,7 +2,7 @@
   "id": "20261110-140719-h7t-registros-candidato",
   "titulo": "Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md",
   "spec_sha256": "ac1ab42d05715d1d8e537e59b8c38e2aecec16ec0689f052a0d9d3a60a9bf233",
   "spec_aprobada": {
@@ -22,8 +22,40 @@
     "flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio",
     "flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261110-140719-h7t-registros-candidato/revisiones/registro-8dzzyxgy/informe.json",
+    "sha256": "0f213d84cc42625972b4c3dfe653e90eaf7b91ad32b2f26467a1f8022fcd2dec",
+    "decisiones": "tareas/20261110-140719-h7t-registros-candidato/revisiones/registro-8dzzyxgy/decisiones.json",
+    "decisiones_sha256": "c5a1a06be6809c8b31d769c9e204f0a4e860ef5b4c23a230b726ddd7d4e3bbc3",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T19:33:18.936794+00:00",
+    "motivo": "Propuesta del agente claude-code. Etapa 3 de 6 de «registros fuera del repo del producto»: el candidato y la huella con dos fuentes. Candidato 49e4233 (camino completo): evidencia verde (1396 pruebas, 12 casos de contrato). QUIÉN LO HIZO: un agente lanzado por el conductor, por primera vez con el entorno filtrado y Python acotado (sólo -m unittest y tools/verificar_cambio.py): escribió las 12 pruebas, implementó (cli.git_producto con GIT_OPTIONAL_LOCKS=0; candidato vigente sobre la historia del producto; huella = producto + propuesta, spec, requisitos y catálogos de ESTE cambio vía almacenes.con_el_cambio; la base vacía se crea en el clon del revisor; hooks se niega con almacén) y produjo una primera evidencia que falló. Yo arreglé lo que faltaba, hice las mutaciones, pedí las revisiones y corregí el hallazgo. FALLAS EN EL CAMINO: (1) una prueba nueva del agente esperaba que la trazabilidad listara una prueba que sólo pierde una línea; el código hace bien en no listarla: corregí la expectativa. (2) errores de test_guided en la primera evidencia que no se reproducen ni aislados ni en la suite completa: probablemente el agente editó archivos mientras su suite corría. (3) cli.py pasó su tope de 160000 bytes con mi arreglo: acorté comentarios, quedó en 159984 (16 bytes de margen: el próximo cambio que lo toque tiene que partirlo). PRUEBA EXISTENTE EDITADA (declarada, motivo del freno): tests/test_registros_raiz.py, test_rr3: probaba que con registros aparte esos comandos se negaban con «etapa 3 de 6», y esta etapa es justamente la que los habilita; ahora prueba que sin candidato fallan sin escribir nada ni tocar el producto (el porqué está en un comentario dentro de la prueba). REVISIÓN: sólo codex (2 rondas): RCAND-1 (medio: con almacén aparte una carpeta de candidato sin evidencia contaba como candidato) corregido: sólo cuenta la carpeta con evidencia/ que no sea enlace; ronda 2 sin hallazgos. MUTACIONES: 25 sobre el código del agente más 3 sobre la corrección; reales detectadas con casos nuevos (próximo paso con la huella del cambio, base vacía, vueltas anteriores); equivalentes declaradas: exclusiones del paquete con almacén (no hay registros en el diff del producto), GIT_OPTIONAL_LOCKS (hoy no se corre status sobre el producto: defensa), la base vacía creada en el almacén (el clon la vuelve a crear y el producto no se toca), procedencia con --python explícito. DECIDE BRIAN: (1) camino completo con un solo proveedor revisor (agy sin cuota hasta cerca del 2026-11-15). (2) LÍMITES SIN PRUEBA: procedencia sobre un producto con uv.lock; la cabeza del paquete cuando no hay candidato; sin almacén aparte, el mismo hueco de RCAND-1 sigue (una carpeta de candidato sin evidencia cuenta): no lo toqué porque la spec pide no cambiar ese modo; queda para otro cambio. (3) cli.py está al límite de tamaño. No edité otra prueba existente.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "87d528a6a55bcfb9377297eacac8e41c46585a70",
+      "archivos_sha256": "79aa1e7175882f09a56ec92ea2bb59599b5e2aba868e55792e5fa7a3d81bde91"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261110-140719-h7t-registros-candidato/candidatos/49e4233/evidencia/hechos.json",
+    "hechos_sha256": "05740f2a4306ec294f07d25ad98bac8c9df9479172ed21905005b897131276cd",
+    "informe": ".factory/cambios/20261110-140719-h7t-registros-candidato/oracle-veredicto.txt",
+    "informe_sha256": "faa94adfb290b90aca6e3b42ec92c99467617b1f9197671a50ad6f1545d253da",
+    "cuando": "2026-11-10T19:33:44.739489+00:00",
+    "contexto": {
+      "head": "87d528a6a55bcfb9377297eacac8e41c46585a70",
+      "archivos_sha256": "79aa1e7175882f09a56ec92ea2bb59599b5e2aba868e55792e5fa7a3d81bde91"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -292,6 +324,31 @@
       "cuando": "2026-11-10T19:19:40.750677+00:00",
       "decision": "aprobar",
       "candidato": "49e4233"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-10T19:33:18.936826+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "0f213d84cc42625972b4c3dfe653e90eaf7b91ad32b2f26467a1f8022fcd2dec",
+      "decisiones_sha256": "c5a1a06be6809c8b31d769c9e204f0a4e860ef5b4c23a230b726ddd7d4e3bbc3"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T19:33:44.739503+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "05740f2a4306ec294f07d25ad98bac8c9df9479172ed21905005b897131276cd"
     }
   ],
   "tipos": {
@@ -367,14 +424,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Propuesta del agente claude-code. Etapa 3 de 6 de «registros fuera del repo del producto»: el candidato y la huella con dos fuentes. Candidato 49e4233 (camino completo): evidencia verde (1396 pruebas, 12 casos de contrato). QUIÉN LO HIZO: un agente lanzado por el conductor, por primera vez con el entorno filtrado y Python acotado (sólo -m unittest y tools/verificar_cambio.py): escribió las 12 pruebas, implementó (cli.git_producto con GIT_OPTIONAL_LOCKS=0; candidato vigente sobre la historia del producto; huella = producto + propuesta, spec, requisitos y catálogos de ESTE cambio vía almacenes.con_el_cambio; la base vacía se crea en el clon del revisor; hooks se niega con almacén) y produjo una primera evidencia que falló. Yo arreglé lo que faltaba, hice las mutaciones, pedí las revisiones y corregí el hallazgo. FALLAS EN EL CAMINO: (1) una prueba nueva del agente esperaba que la trazabilidad listara una prueba que sólo pierde una línea; el código hace bien en no listarla: corregí la expectativa. (2) errores de test_guided en la primera evidencia que no se reproducen ni aislados ni en la suite completa: probablemente el agente editó archivos mientras su suite corría. (3) cli.py pasó su tope de 160000 bytes con mi arreglo: acorté comentarios, quedó en 159984 (16 bytes de margen: el próximo cambio que lo toque tiene que partirlo). PRUEBA EXISTENTE EDITADA (declarada, motivo del freno): tests/test_registros_raiz.py, test_rr3: probaba que con registros aparte esos comandos se negaban con «etapa 3 de 6», y esta etapa es justamente la que los habilita; ahora prueba que sin candidato fallan sin escribir nada ni tocar el producto (el porqué está en un comentario dentro de la prueba). REVISIÓN: sólo codex (2 rondas): RCAND-1 (medio: con almacén aparte una carpeta de candidato sin evidencia contaba como candidato) corregido: sólo cuenta la carpeta con evidencia/ que no sea enlace; ronda 2 sin hallazgos. MUTACIONES: 25 sobre el código del agente más 3 sobre la corrección; reales detectadas con casos nuevos (próximo paso con la huella del cambio, base vacía, vueltas anteriores); equivalentes declaradas: exclusiones del paquete con almacén (no hay registros en el diff del producto), GIT_OPTIONAL_LOCKS (hoy no se corre status sobre el producto: defensa), la base vacía creada en el almacén (el clon la vuelve a crear y el producto no se toca), procedencia con --python explícito. DECIDE BRIAN: (1) camino completo con un solo proveedor revisor (agy sin cuota hasta cerca del 2026-11-15). (2) LÍMITES SIN PRUEBA: procedencia sobre un producto con uv.lock; la cabeza del paquete cuando no hay candidato; sin almacén aparte, el mismo hueco de RCAND-1 sigue (una carpeta de candidato sin evidencia cuenta): no lo toqué porque la spec pide no cambiar ese modo; queda para otro cambio. (3) cli.py está al límite de tamaño. No edité otra prueba existente.",
-      "candidato": "49e4233",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-10T19:19:40.750663+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

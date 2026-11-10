@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio`
 - Vigente: sí
 - Cambio: [[cambios/20261110-140719-h7t-registros-candidato]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_registros_candidato.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio`, `factory_registros_candidato.corrida_completa`
 - Fuente: openspec/changes/20261110-140719-h7t-registros-candidato/specs/flujo/spec.md#con_almacen_aparte_la_huella_es_el_producto_y_este_cambio
 
