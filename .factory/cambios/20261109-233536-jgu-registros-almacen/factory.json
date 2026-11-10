@@ -195,6 +195,32 @@
       "forma": "mensaje",
       "cuando": "2026-11-09T23:49:06.626545+00:00",
       "texto": "autopilot delegar_al_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261109-233536-jgu-registros-almacen --a agy"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:10:53.305065+00:00",
+      "revisor": "agy",
+      "candidato": "e5486d5",
+      "lanzamiento": "5530f9c997dc"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:11:00.417164+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "e5486d5",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "5530f9c997dc"
     }
   ],
   "tipos": {

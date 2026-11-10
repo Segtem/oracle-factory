@@ -41,6 +41,8 @@ capacidad: "flujo"
 - `12a44ad` registros-almacen: spec aprobada por Brian (trailer)
 - `5ee2f59` registros-almacen: pruebas, catálogos y propuesta de medidas (trailer)
 - `6b2ddb6` registros-almacen: medidas confirmadas por Brian (trailer)
+- `e5486d5` registros-almacen: conectar y desconectar, el almacén por usuario (etapa 2 de 6) (trailer)
+- `19ed52d` registros-almacen: evidencia del candidato e5486d5 (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261109-233536-jgu-registros-almacen`.
 
 ## Mensajes
