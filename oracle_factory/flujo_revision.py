@@ -66,13 +66,18 @@ def base_vacia() -> str:
 
     Es un objeto de Git sin rama que lo apunte: no toca ramas, historia ni configuración (la identidad va sólo en este comando).
     """
+    return cli.base_vacia_en(cli.ROOT)
+
+
+def base_vacia_en(repo: Path) -> str:
+    """La base vacía, escrita en `repo` (con almacén aparte, el clon del revisor: el .git del producto no recibe objetos)."""
     arbol = subprocess.run(
-        ["git", "hash-object", "-t", "tree", "-w", "--stdin"], cwd=cli.ROOT, input="", capture_output=True, text=True)
+        ["git", "hash-object", "-t", "tree", "-w", "--stdin"], cwd=repo, input="", capture_output=True, text=True)
     fijo = {**os.environ, "GIT_AUTHOR_DATE": "2000-01-01T00:00:00+0000", "GIT_COMMITTER_DATE": "2000-01-01T00:00:00+0000"}
     for rol in ("AUTHOR", "COMMITTER"):  # la identidad del entorno ganaría sobre la fija y cambiaría el SHA
         fijo[f"GIT_{rol}_NAME"], fijo[f"GIT_{rol}_EMAIL"] = "Oracle Factory", "factory@invalid"
     p = subprocess.run(["git", "commit-tree", arbol.stdout.strip(), "-m", "base vacía para revisar el producto entero"],
-                       cwd=cli.ROOT, env=fijo, capture_output=True, text=True)
+                       cwd=repo, env=fijo, capture_output=True, text=True)
     if arbol.returncode or p.returncode:
         raise cli.FactoryError(f"no pude crear la base vacía: {(arbol.stderr or p.stderr).strip()}")
     return p.stdout.strip()
@@ -84,7 +89,7 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
     if json.loads(registro) != estado:
         raise cli.FactoryError('registro cambió durante la lectura; volvé a preparar')
     cli.exigir_spec(carpeta, estado)
-    contexto, docs = cli.contexto_producto(), cli.documentos(carpeta, estado)
+    contexto, docs = cli.contexto_del_cambio(identificador), cli.documentos(carpeta, estado)
     informe, decisiones = documentos_revision.plantillas(identificador, contexto, docs)
     sha = cli.candidato_vigente(identificador)
     if not sha:
@@ -110,7 +115,7 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
     rutas = cli.guardar_par_revision(identificador, 'preparacion', cli.bytes_json(informe), cli.bytes_json(decisiones))
     try:
         cli.exigir_spec(carpeta, estado)
-        if (not cli.mismo_producto(contexto, cli.contexto_producto()) or cli.documentos(carpeta, estado) != docs
+        if (not cli.mismo_producto(contexto, cli.contexto_del_cambio(identificador)) or cli.documentos(carpeta, estado) != docs
                 or (cli.ruta_registro(carpeta)).read_bytes() != registro):
             raise cli.FactoryError('cambió el producto o el registro durante la preparación')
     except (cli.FactoryError, OSError) as e:
@@ -195,7 +200,10 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
 
 
 def exclusiones_del_paquete(base: str, head: str) -> list[str]:
-    """Lo que el paquete de Clue deja fuera: .factory/ y tareas/, más cada otro archivo del diff que no es producto."""
+    """Lo que el paquete de Clue deja fuera: .factory/ y tareas/, más cada otro archivo del diff que no es producto.
+    Con almacén aparte, nada: todo el repo del producto es producto."""
+    if cli.PRODUCTO is not None:
+        return []
     cambiados = [n for n in cli.ejecutar(["git", "diff", "--name-only", "-z", "--no-renames", base, head]).stdout.split("\0") if n]
     carpetas = ("tareas", estructura.DIR)
     return sorted({*carpetas, *(n for n in cambiados if n and not cli.es_producto(n) and Path(n).parts[0] not in carpetas)})
@@ -236,17 +244,18 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         raise cli.FactoryError("hay cambios del producto sin commit: confirmalos antes de pedir una revisión ("
                            + ", ".join(cli.cambios_locales_de_producto()[:5]) + ")")
     # Un commit que sólo guarda informes o evidencia no cambia el producto: el candidato sigue siendo el vigente.
-    head = cli.ejecutar(["git", "rev-parse", cli.candidato_vigente(identificador) or "HEAD"]).stdout.strip()
+    head = cli.git_producto(["git", "rev-parse", cli.candidato_vigente(identificador) or "HEAD"]).stdout.strip()
     sha = head[:7]
-    if base == "vacio":
-        base = cli.base_vacia()
+    vacia = base == "vacio"
+    if vacia:  # con almacén aparte se crea después, en el clon del revisor: el .git del producto no recibe objetos
+        base = cli.base_vacia() if cli.PRODUCTO is None else None
     elif base is None:
-        p = cli.ejecutar(["git", "merge-base", "HEAD", "main"])
+        p = cli.git_producto(["git", "merge-base", "HEAD", "main"])
         if p.returncode:
             raise cli.FactoryError("no encuentro la rama main para la base del paquete; indicá --base REF")
         base = p.stdout.strip()
     else:  # el clon del revisor no tiene las ramas del repositorio: la base va como SHA
-        p = cli.ejecutar(["git", "rev-parse", "--verify", "--quiet", base + "^{commit}"])
+        p = cli.git_producto(["git", "rev-parse", "--verify", "--quiet", base + "^{commit}"])
         if p.returncode:
             raise cli.FactoryError(f"--base {base} no es un commit de este repositorio")
         base = p.stdout.strip()
@@ -272,14 +281,18 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         checkout = revisiones / f"{sha}-{nombre}-{n}"
         if checkout.exists():
             raise cli.FactoryError(f"el checkout {checkout.relative_to(cli.ROOT)} ya existe; borralo o pedí la revisión otra vez")
-        p = cli.ejecutar(["git", "clone", "--quiet", "--local", "--no-checkout", str(cli.ROOT), str(checkout)])
+        p = cli.ejecutar(["git", "clone", "--quiet", "--local", "--no-checkout", str(cli.PRODUCTO or cli.ROOT), str(checkout)])
         if not p.returncode:
             p = cli.ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--detach", head])
         for remoto in cli.ejecutar(["git", "-C", str(checkout), "remote"]).stdout.split() if not p.returncode else []:
             p = cli.ejecutar(["git", "-C", str(checkout), "remote", "remove", remoto])  # sin remoto: un push no llega al repositorio
+        if not p.returncode and cli.PRODUCTO is not None and vacia:  # con almacén, la base vacía va al clon, no al producto
+            base = cli.base_vacia_en(checkout)
         if p.returncode:
             raise cli.FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
-        p = cli.ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
+        # Con almacén aparte la spec no está en el repo del producto: el revisor la recibe en el pedido, no en el paquete.
+        contexto = ["--contexto", estado["spec"]] if cli.PRODUCTO is None else []
+        p = cli.ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, *contexto,
                       *(a for ruta in excluir for a in ("--excluir", ruta)), "--salida", str(paquete)])
     if p.returncode and any(m in (p.stderr or p.stdout) for m in ("vacío fuera de las exclusiones", "el diff está vacío")):
         raise cli.FactoryError(f"el candidato {sha} no cambia el producto respecto de la base: no trae cambios o sólo trae registros, "
@@ -302,7 +315,7 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         vueltas += ("Riesgos ya aceptados por una persona en este cambio (no los reportes otra vez salvo que el defecto haya "
                     "cambiado o empeorado):\n" + "\n".join(f"- {a['archivo']}: {a['titulo']} (aceptado por {a['actor']}: "
                                                             f"{a['motivo']})" for a in estado["aceptados"]) + "\n")
-    vueltas += alarmas.texto_para_el_revisor(alarmas.tests_editados(cli.ejecutar, base, head, cli.es_producto))  # la guarda de los tests existentes
+    vueltas += alarmas.texto_para_el_revisor(alarmas.tests_editados(cli.git_producto, base, head, cli.es_producto))  # la guarda de los tests existentes
     if datos_paquete.get("excluded_files"):
         vueltas += (f"Fuera del paquete, porque no son producto ({', '.join(datos_paquete.get('exclusions') or [])}): "
                     f"{len(datos_paquete['excluded_files'])} archivos de registros y evidencia de Factory; no los revises.\n")
@@ -389,7 +402,7 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
         raise cli.FactoryError('registro cambió durante la lectura; volvé a revisar')
     cli.exigir_spec(carpeta, estado)
     contenido, resoluciones = cli.leer_regular(informe, 'informe'), cli.leer_regular(decisiones, 'decisiones')
-    contexto, docs = cli.contexto_producto(), cli.documentos(carpeta, estado)
+    contexto, docs = cli.contexto_del_cambio(identificador), cli.documentos(carpeta, estado)
     try:
         analisis, triage, pendientes_ids = documentos_revision.validar(
             contenido, resoluciones, identificador=identificador, contexto=contexto, documentos=docs, revisor=revisor)
@@ -421,7 +434,7 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
         cli.exigir_spec(carpeta, estado)
         if (cli.leer_regular(informe, 'informe') != contenido or cli.leer_regular(decisiones, 'decisiones') != resoluciones):
             raise cli.FactoryError('informe o decisiones cambiaron durante la operación; volvé a revisarlos')
-        if (not cli.mismo_producto(contexto, cli.contexto_producto()) or cli.documentos(carpeta, estado) != docs
+        if (not cli.mismo_producto(contexto, cli.contexto_del_cambio(identificador)) or cli.documentos(carpeta, estado) != docs
                 or registro_ruta.read_bytes() != registro):
             raise cli.FactoryError('producto, spec o registro cambió durante la operación; volvé a revisar')
 
@@ -609,7 +622,7 @@ def aviso_revision(estado: dict) -> list[str]:
         return []
     try:  # «sigue valiendo» con las mismas reglas de vigencia que estado y el próximo paso
         rev = estado.get("revision") or {}
-        vigente = bool(rev) and cli.mismo_producto(rev.get("contexto"), cli.contexto_producto()) and not cli.problemas_de_revision(estado)
+        vigente = bool(rev) and cli.mismo_producto(rev.get("contexto"), cli.contexto_del_cambio(estado.get("id"))) and not cli.problemas_de_revision(estado)
     except (cli.FactoryError, OSError):
         vigente = False
     que = "sigue valiendo la revisión anterior" if vigente else f"volvé a correr oracle-factory revisar {estado['id']}"
@@ -760,7 +773,7 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     contenido = informe.read_bytes()
     if not contenido.strip():
         raise cli.FactoryError("el informe de revisión está vacío")
-    contexto = cli.contexto_producto()
+    contexto = cli.contexto_del_cambio(identificador)
     huella = cli.sha256(contenido)
     destino = cli.dir_estado(carpeta) / 'review.md'
     print('Formato: libre; declaración humana sin validación estructural del contenido, alcance ni límites.')
@@ -777,7 +790,7 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     if forma is None:
         return
     cli.exigir_spec(carpeta, estado)
-    if not cli.mismo_producto(contexto, cli.contexto_producto()):
+    if not cli.mismo_producto(contexto, cli.contexto_del_cambio(identificador)):
         raise cli.FactoryError("el producto cambió durante la confirmación; repetí la revisión")
     if cli.leer_regular(informe, 'informe') != contenido or (cli.ruta_registro(carpeta)).read_bytes() != registro:
         raise cli.FactoryError('informe o registro cambió durante la confirmación; repetí la revisión')

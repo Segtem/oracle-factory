@@ -209,7 +209,9 @@ class RegistrosRaiz(unittest.TestCase):
         self.assertEqual(self.git('status', '--porcelain', '--untracked-files=all'), '')
 
     # --- rr3: lo que necesita candidato no inventa uno --------------------------------------------------------------
-    def test_rr3_un_comando_de_candidato_falla_con_el_mensaje_de_la_etapa_3(self):
+    def test_rr3_un_comando_de_candidato_sin_candidato_no_toca_el_producto(self):
+        # Editado en la etapa 3 (registros-candidato): estos comandos ya no se niegan con «etapa 3 de 6». Sin candidato
+        # fallan sin escribir nada (revision-preparar avisa y deja su preparación en el almacén), y el producto no cambia.
         self.producto_con_git()
         ident = self.cambio_en_el_almacen()
         comandos = [('pedir-revision', ident, '--a', 'codex'), ('revision-preparar', ident),
@@ -219,10 +221,12 @@ class RegistrosRaiz(unittest.TestCase):
             with self.subTest(comando=comando[0]):
                 almacen, producto = self.arbol(self.almacen), self.arbol(self.producto)
                 codigo, _, error = self.corre(*comando)
-                self.assertNotEqual(codigo, 0)
-                self.assertIn(ETAPA_3, error)
-                self.assertIn('registros aparte', error)
-                self.assertEqual((self.arbol(self.almacen), self.arbol(self.producto)), (almacen, producto))
+                self.assertNotIn(ETAPA_3, error)
+                self.assertNotIn('Traceback', error)
+                self.assertEqual(self.arbol(self.producto), producto)
+                if comando[0] != 'revision-preparar':
+                    self.assertNotEqual(codigo, 0)
+                    self.assertEqual(self.arbol(self.almacen), almacen)
 
     def test_rr3_estado_muestra_el_cambio_sin_candidato_vigente_y_no_escribe(self):
         self.producto_con_git()
