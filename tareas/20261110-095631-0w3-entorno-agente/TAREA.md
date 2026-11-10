@@ -1,6 +1,6 @@
 # Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-10 13:52:32 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261110-095631-0w3-entorno-agente/oracle-veredicto.txt.
+
+### Nota (2026-11-10 13:54:25 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
