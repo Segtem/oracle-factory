@@ -79,6 +79,10 @@ Lo que se guarda ahí, Factory lo usa:
 - **`revision-preparar ID`** lee los informes de los revisores en `revision/*.json` (formato de Oracle Clue), la evidencia (`evidencia/resultado.json`) y el paquete de Clue (`clue/*.json`), y completa el informe guiado: hallazgos con ubicación y lo que dijo cada revisor, comprobaciones, límites y archivos del candidato. Las decisiones quedan sin estado: las toma la persona. Cada informe se valida con Oracle Clue, que viene con Factory, contra su paquete y su checkout; si faltan o Clue lo rechaza, no se usa. Un informe de otro candidato, ilegible o que Clue rechaza se avisa y no se usa.
 - **Los paquetes de Clue no se versionan** (`init` agrega `.factory/cambios/*/candidatos/*/clue/` al `.gitignore`): son de cada máquina, como los checkouts. Pesan cientos de KB —más de lo que Clue acepta en un diff— y guardan la ruta absoluta del checkout que revisaron. Sí se versionan los informes de los revisores (`revision/`), que son chicos y son lo que se decide.
 
+## Registros en un almacén aparte (experimental)
+
+Con `oracle-factory conectar ALMACEN` (una persona, desde una carpeta del producto), el producto usa como registros un repo Git propio, `ALMACEN`, en vez de su propia carpeta `.factory/`: la conexión se guarda en `~/.config/oracle-factory/almacenes.json` (o bajo `$XDG_CONFIG_HOME`), con el directorio común de Git del producto como clave, así que vale desde cualquier subcarpeta y worktree, y el repo del producto no recibe nada de Factory. `conectar` sin argumentos dice a qué almacén está conectado; `oracle-factory desconectar` quita la conexión sin tocar el almacén ni el producto. `--registros ALMACEN` manda sobre la conexión; un producto con `.factory/` propio y conectado se niega a trabajar hasta que se desconecte o se migre. Un agente no conecta ni desconecta. Todavía no cubre `pedir-revision`, `revisar`, `juzgar` ni `cerrar` (etapa 3 de 6).
+
 ## Encontrar las cosas
 
 | Comando | Para qué |

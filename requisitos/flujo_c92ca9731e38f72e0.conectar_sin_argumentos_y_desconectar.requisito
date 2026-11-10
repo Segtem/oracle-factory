@@ -1,0 +1,4 @@
+requisito flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar:
+    texto "Tipo: funcional El sistema DEBE, con `conectar` sin argumentos, decir a qué almacén está conectado el producto o que no lo está; DEBE, con `desconectar`, quitar la conexión del producto de la configuración personal sin tocar el almacén ni el producto (y decir que no estaba conectado si no lo estaba); y DEBE negar `conectar` y `desconectar` con `--agente` sin escribir nada, y hacer que el conductor los trate como decisiones de una persona."
+    fuente "openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md#conectar_sin_argumentos_y_desconectar"
+    medido_por factory_registros_almacen.conectar_sin_argumentos_y_desconectar, factory_registros_almacen.corrida_completa

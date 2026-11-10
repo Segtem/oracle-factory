@@ -1,0 +1,4 @@
+requisito flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega:
+    texto "Tipo: funcional El sistema DEBE negarse, con un mensaje que explique el conflicto y sin escribir nada, a correr un comando cuando el producto tiene su propia carpeta `.factory/` y además está conectado a un almacén (sin `--registros` explícito)."
+    fuente "openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md#un_producto_con_su_propio_factory_conectado_se_niega"
+    medido_por factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega, factory_registros_almacen.corrida_completa

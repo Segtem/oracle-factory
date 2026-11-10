@@ -1,0 +1,460 @@
+{
+  "id": "20261109-233536-jgu-registros-almacen",
+  "titulo": "Registros fuera del repo del producto, etapa 2: el almacén y conectar",
+  "capacidad": "flujo",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md",
+  "spec_sha256": "ec7760948cbb35063d2fc3c405aa09b7e3cc27d4f97a90a41ab8de651573c043",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-09T23:36:42.177159+00:00",
+    "documentos": {
+      "openspec/changes/20261109-233536-jgu-registros-almacen/proposal.md": "947a170bf913c3466ef9ab861c47803c394be29d242975a76faaf30321365fd9",
+      "openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md": "ec7760948cbb35063d2fc3c405aa09b7e3cc27d4f97a90a41ab8de651573c043"
+    }
+  },
+  "requisitos": [
+    "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen",
+    "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+    "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar",
+    "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261109-233536-jgu-registros-almacen/revisiones/registro-e5rd1coj/informe.json",
+    "sha256": "991e9676757a591b113f5a736e06de0eae6e1292915b5170fd43260e94136e5e",
+    "decisiones": "tareas/20261109-233536-jgu-registros-almacen/revisiones/registro-e5rd1coj/decisiones.json",
+    "decisiones_sha256": "2cd0a734b252ac8c14edaecb418d64fcb7b4212392f4a838c540c515de6e7a16",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T01:10:22.158951+00:00",
+    "motivo": "Propuesta del agente claude-code. Etapa 2 de 6 de «registros fuera del repo del producto»: el almacén y conectar. Candidato 7786b00 (camino completo: toca cli.py, 301+ líneas de producto): evidencia verde (1374 pruebas, 20 casos de contrato). QUIÉN LO HIZO: lo construyó un agente lanzado por el conductor (autopilot --ejecutar --lanzar con claude -p y permisos acotados: leer/editar/escribir, oracle-factory, .venv/bin/python, git status/diff/log/show/add/commit; sin push, checkout, reset, config ni red) en dos pasos: 1) 20 pruebas, catálogos y propuesta de medidas (se frenó en medir --confirmar); 2) implementación (oracle_factory/almacenes.py nuevo, 123 líneas, más cableado en cli.py, parser, autopilot) y evidencia (se frenó por el freno de pruebas editadas). Yo escribí la spec, hice las 69+ mutaciones, pedí la revisión y arreglé el hallazgo. QUÉ HACE: conectar RUTA guarda en la configuración personal (XDG_CONFIG_HOME/oracle-factory/almacenes.json o ~/.config/...) {directorio común de Git del producto: almacén}; con el producto conectado todo comando sin --registros usa el almacén (desde subcarpetas y worktrees); conectar sin argumentos dice el estado; desconectar quita la conexión; sólo de una persona (autopilot.PERSONA); un producto con .factory/ propio y conectado se niega. PRUEBA EXISTENTE EDITADA (declarada, motivo del freno): tests/datos/ayuda-cli.json regenerado por los subcomandos nuevos conectar y desconectar (datos de la ayuda del CLI); ninguna prueba existente se quitó ni aflojó. REVISIÓN: sólo codex (2 rondas): un hallazgo medio, dos conectar a la vez podían perder una conexión (leer-modificar-guardar sin bloqueo, temporal fijo): corregido con un flock exclusivo sobre almacenes.json.lock, relectura bajo el bloqueo y temporal propio; la prueba lanza 6 procesos a la vez; la ronda 2 no trajo hallazgos. DECIDE BRIAN: (1) INTERPRETACIÓN DEL AGENTE MÁS ESPECÍFICA QUE LA SPEC: conectar y desconectar SIGUEN FUNCIONANDO cuando el producto tiene .factory/ propio y además está conectado (la spec dice que se niega «un comando»); me parece correcto porque es la salida del conflicto (el mensaje propone desconectar); si preferís que se nieguen también, hay que cambiar la spec. (2) camino completo con un solo proveedor revisor (agy y agy2 sin cuota hasta cerca del 2026-11-15). (3) Sin fcntl (Windows) no hay bloqueo: dos conectar a la vez podrían pisarse; está dicho en un comentario y no hay prueba porque este entorno es Linux. MUTACIONES: 69 sobre el código del agente: las reales detectadas con casos nuevos dentro de métodos existentes; equivalentes declaradas con motivo: claves de JSON siempre texto, git devuelve los errores por stderr, leer() ya devuelve {} sin archivo, git ya devuelve rutas reales, os.chdir al almacén es redundante (ejecutar() corre git con cwd=ROOT), el parser rechaza el comando vacío, el nombre del temporal, unlink sin suprimir. LÍMITES: la configuración personal vale por usuario y máquina; clonar desde una URL, subir/bajar el almacén y commitear tras cada decisión son la etapa 4; el candidato y la huella con dos fuentes la etapa 3. No edité otra prueba existente.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "dbb57b45af5f3a0fcfda6ffd61515caf8b80e409",
+      "archivos_sha256": "734f6a0688fa67520f6b1158e14303aa7b380856b42670c42a331298426335bc"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261109-233536-jgu-registros-almacen/candidatos/7786b00/evidencia/hechos.json",
+    "hechos_sha256": "8f03d663ee687f28c85201ebbb874a0dc93716dab6d13a46ce89875e8fd918e5",
+    "informe": ".factory/cambios/20261109-233536-jgu-registros-almacen/oracle-veredicto.txt",
+    "informe_sha256": "e62a6387c1d89a41d19b33d00dd30ac18e6f8a91c5addb35e209611225b942d2",
+    "cuando": "2026-11-10T01:10:30.628222+00:00",
+    "contexto": {
+      "head": "dbb57b45af5f3a0fcfda6ffd61515caf8b80e409",
+      "archivos_sha256": "734f6a0688fa67520f6b1158e14303aa7b380856b42670c42a331298426335bc"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T23:35:36.310700+00:00",
+      "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T23:36:42.177180+00:00",
+      "documentos": {
+        "openspec/changes/20261109-233536-jgu-registros-almacen/proposal.md": "947a170bf913c3466ef9ab861c47803c394be29d242975a76faaf30321365fd9",
+        "openspec/changes/20261109-233536-jgu-registros-almacen/specs/flujo/spec.md": "ec7760948cbb35063d2fc3c405aa09b7e3cc27d4f97a90a41ab8de651573c043"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-09T23:36:50.045415+00:00",
+      "ids": [
+        "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen",
+        "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+        "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar",
+        "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T23:37:01.183292+00:00",
+      "texto": "autopilot delegar_al_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T23:38:45.857683+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen",
+      "medidas": [
+        "factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen",
+        "factory_registros_almacen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T23:38:48.048263+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "medidas": [
+        "factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+        "factory_registros_almacen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T23:38:50.232955+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar",
+      "medidas": [
+        "factory_registros_almacen.conectar_sin_argumentos_y_desconectar",
+        "factory_registros_almacen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-09T23:38:52.438543+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega",
+      "medidas": [
+        "factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega",
+        "factory_registros_almacen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T23:39:03.595015+00:00",
+      "texto": "autopilot se detuvo: confirmar las medidas es sólo de una persona. Comando para una persona: oracle-factory medir 20261109-233536-jgu-registros-almacen --confirmar"
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T23:41:43.371789+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen",
+      "medidas": [
+        "factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen",
+        "factory_registros_almacen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T23:41:43.569990+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+      "medidas": [
+        "factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto",
+        "factory_registros_almacen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T23:41:43.766451+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar",
+      "medidas": [
+        "factory_registros_almacen.conectar_sin_argumentos_y_desconectar",
+        "factory_registros_almacen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-09T23:41:43.959606+00:00",
+      "requisito": "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega",
+      "medidas": [
+        "factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega",
+        "factory_registros_almacen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-09T23:49:06.626545+00:00",
+      "texto": "autopilot delegar_al_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261109-233536-jgu-registros-almacen --a agy"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:10:53.305065+00:00",
+      "revisor": "agy",
+      "candidato": "e5486d5",
+      "lanzamiento": "5530f9c997dc"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:11:00.417164+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "e5486d5",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "5530f9c997dc"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-10T00:11:15.771074+00:00",
+      "texto": "autopilot se detuvo: hay frenos: prueba_existente_editada"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:28:54.247492+00:00",
+      "revisor": "codex",
+      "candidato": "fb6769c",
+      "lanzamiento": "899f865157fd"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:30:15.987857+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "fb6769c",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "899f865157fd"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:40:36.948804+00:00",
+      "revisor": "codex",
+      "candidato": "7786b00",
+      "lanzamiento": "98820266fee7"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-10T00:41:52.304367+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "7786b00",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "98820266fee7"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T00:42:11.337800+00:00",
+      "decision": "aprobar",
+      "candidato": "7786b00"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-10T01:10:22.158990+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "991e9676757a591b113f5a736e06de0eae6e1292915b5170fd43260e94136e5e",
+      "decisiones_sha256": "2cd0a734b252ac8c14edaecb418d64fcb7b4212392f4a838c540c515de6e7a16"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T01:10:30.628237+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "8f03d663ee687f28c85201ebbb874a0dc93716dab6d13a46ce89875e8fd918e5"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T01:17:13.614950+00:00",
+      "oracle": ".factory/cambios/20261109-233536-jgu-registros-almacen/oracle-veredicto.txt",
+      "revision": "tareas/20261109-233536-jgu-registros-almacen/revisiones/registro-e5rd1coj/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T01:17:13.658249+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
+    }
+  ],
+  "tipos": {
+    "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen": "funcional",
+    "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto": "funcional",
+    "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar": "funcional",
+    "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega": "funcional"
+  },
+  "medidas": {
+    "flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T23:41:43.320502+00:00",
+      "sha256": "1f3ea9ca4c5af58f140411ef5c167f9544a53fcd3ddf2b3fa04561651e458566",
+      "catalogos": {
+        "factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen": "1037299cf43a591082d68f15976aef40ac97061a4000d6e0459fb401bab4f8ee",
+        "factory_registros_almacen.corrida_completa": "1fceec806e94de09f7b3867ff6b8f044dfb9fb79f5c624e89904b8ec28f20f34"
+      },
+      "archivos_catalogo": {
+        "factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen": "catalogos/factory_registros_almacen.con_el_producto_conectado_los_comandos_usan_el_almacen.oracle",
+        "factory_registros_almacen.corrida_completa": "catalogos/factory_registros_almacen.corrida_completa.oracle"
+      }
+    },
+    "flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T23:41:43.518072+00:00",
+      "sha256": "78c89c4da3323e2919dac6639acf1a25f710bceea09b9ac72b7f32669dacbc3d",
+      "catalogos": {
+        "factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto": "b1128055dd9f4fa4b29de979e16b1efb234d6cf67f79aa78020d185c0b5b53b4",
+        "factory_registros_almacen.corrida_completa": "1fceec806e94de09f7b3867ff6b8f044dfb9fb79f5c624e89904b8ec28f20f34"
+      },
+      "archivos_catalogo": {
+        "factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto": "catalogos/factory_registros_almacen.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto.oracle",
+        "factory_registros_almacen.corrida_completa": "catalogos/factory_registros_almacen.corrida_completa.oracle"
+      }
+    },
+    "flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T23:41:43.711976+00:00",
+      "sha256": "e3a645507d9277b8cc4b60897152d2d9c19790748911e53445d8656c83c4039d",
+      "catalogos": {
+        "factory_registros_almacen.conectar_sin_argumentos_y_desconectar": "874eaefc6f526343a6238c74d984e07a655a2adef7dd90b6d44c7b909039b175",
+        "factory_registros_almacen.corrida_completa": "1fceec806e94de09f7b3867ff6b8f044dfb9fb79f5c624e89904b8ec28f20f34"
+      },
+      "archivos_catalogo": {
+        "factory_registros_almacen.conectar_sin_argumentos_y_desconectar": "catalogos/factory_registros_almacen.conectar_sin_argumentos_y_desconectar.oracle",
+        "factory_registros_almacen.corrida_completa": "catalogos/factory_registros_almacen.corrida_completa.oracle"
+      }
+    },
+    "flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-09T23:41:43.908371+00:00",
+      "sha256": "aa7429b1f917d91c75fd365c07e43cdc0a49362047ea455e1502fa76b2fe1dfb",
+      "catalogos": {
+        "factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega": "65f45f1e0206585c5c0574397a1fc433d02fd5ee07a5fc6ad20f97acb92936b5",
+        "factory_registros_almacen.corrida_completa": "1fceec806e94de09f7b3867ff6b8f044dfb9fb79f5c624e89904b8ec28f20f34"
+      },
+      "archivos_catalogo": {
+        "factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega": "catalogos/factory_registros_almacen.un_producto_con_su_propio_factory_conectado_se_niega.oracle",
+        "factory_registros_almacen.corrida_completa": "catalogos/factory_registros_almacen.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-10T01:17:13.552446+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-10T01:17:13.658238+00:00"
+  }
+}

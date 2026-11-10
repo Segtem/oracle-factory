@@ -35,6 +35,7 @@ from . import conductor
 from . import modos
 from . import plantillas
 from . import alarmas as alarmas_mod
+from . import almacenes
 from . import skill as skill_mod
 from . import osv as osv_mod
 from . import pruebas as pruebas_mod
@@ -2544,12 +2545,15 @@ def main(argv: list[str] | None = None) -> int:
         if ROOT != actual:
             print(f"Proyecto: {ROOT} (encontrado desde {actual})", file=sys.stderr)
     PRODUCTO = None
-    if args.registros is not None and args.registros.expanduser().resolve() != ROOT:
-        PRODUCTO, ROOT = ROOT, args.registros.expanduser().resolve()  # ROOT sigue siendo «donde están los registros»
-    REGISTROS = ROOT
-    CHANGES = ROOT / "openspec" / "changes"
     AGENTE = (args.agente or "").strip() or None
     try:
+        if args.comando in ("conectar", "desconectar"):  # operan sobre el producto: no se redirigen a su almacén
+            return almacenes.comando(sys.modules[__name__], args.comando, getattr(args, "almacen", None))
+        registros = args.registros.expanduser().resolve() if args.registros is not None else almacenes.conectado(sys.modules[__name__])
+        if registros is not None and registros != ROOT:
+            PRODUCTO, ROOT = almacenes.raiz_git(ROOT) or ROOT, registros  # ROOT sigue siendo «donde están los registros»
+        REGISTROS = ROOT
+        CHANGES = ROOT / "openspec" / "changes"
         if PRODUCTO and (ROOT.is_relative_to(PRODUCTO) or PRODUCTO.is_relative_to(ROOT)):  # un almacén dentro del producto (o al revés) lo ensucia
             raise FactoryError(f"--registros ({ROOT}) y el producto ({PRODUCTO}) no pueden estar uno dentro del otro: el almacén de registros va "
                                "en una carpeta aparte, para que el repo del producto no reciba nada de Factory. No se escribió nada.")

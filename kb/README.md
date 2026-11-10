@@ -129,6 +129,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261109-194509-ylk-sin-informe]] — Autopilot: el conductor no repite el pedido a un revisor que se lanzó y no dejó resultado (cerrada)
 - [[cambios/20261109-201722-oja-construir-primero]] — Autopilot: ante medir --listar sin medidas todavía el conductor delega construir primero (cerrada)
 - [[cambios/20261109-212224-xo0-registros-raiz]] — Registros fuera del repo del producto, etapa 1: dos raíces (producto y registros) (cerrada)
+- [[cambios/20261109-233536-jgu-registros-almacen]] — Registros fuera del repo del producto, etapa 2: el almacén y conectar (cerrada)
 
 ## Requisitos
 
@@ -308,6 +309,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan]]
 - [[requisitos/flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision]]
 - [[requisitos/flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente]]
+- [[requisitos/flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen]]
+- [[requisitos/flujo_c92ca9731e38f72e0.conectar_guarda_el_almacen_por_usuario_sin_tocar_el_producto]]
+- [[requisitos/flujo_c92ca9731e38f72e0.conectar_sin_argumentos_y_desconectar]]
+- [[requisitos/flujo_c92ca9731e38f72e0.un_producto_con_su_propio_factory_conectado_se_niega]]
 - [[requisitos/flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza]]

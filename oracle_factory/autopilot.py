@@ -11,7 +11,7 @@ import re
 import shlex
 
 # Decisiones que son sólo de una persona (docs/agentes.md): el conductor las pide, nunca las toma.
-PERSONA = frozenset({"aprobar-spec", "revisar", "cerrar", "abandonar", "modo", "autonomia", "soltar", "decidir-union"})
+PERSONA = frozenset({"aprobar-spec", "revisar", "cerrar", "abandonar", "modo", "autonomia", "soltar", "decidir-union", "conectar", "desconectar"})
 # Comandos mecánicos de Factory: un agente los corre con `--agente NOMBRE`.
 MECANICO = frozenset({"importar", "juzgar", "pedir-revision", "revision-preparar", "tomar", "mensaje"})
 # Un paso en prosa que `estado` da cuando hay trabajo creativo: corregir, commitear, resolver.
@@ -136,7 +136,7 @@ def decidir(datos) -> dict:
         tokens = shlex.split(paso)
     except ValueError:
         return _frena("el próximo paso no se puede leer como un comando")
-    if len(tokens) < 3 or tokens[0] != "oracle-factory":
+    if len(tokens) < 2 or tokens[0] != "oracle-factory":  # `oracle-factory desconectar` no lleva más
         return _frena("el próximo paso no es un comando ni un trabajo que el conductor conozca")
     if any(MARCADOR.match(t) for t in tokens):
         return _frena("el comando del próximo paso está incompleto: falta una ruta que decidir")
