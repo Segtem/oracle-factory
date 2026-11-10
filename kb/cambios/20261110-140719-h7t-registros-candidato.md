@@ -50,6 +50,7 @@ capacidad: "flujo"
 - `ddce6d2` registros-candidato: evidencia del candidato tras RCAND-1 (trailer)
 - `49e4233` registros-candidato: cli.py vuelve bajo su tope de tamaño (comentarios más cortos) (trailer)
 - `84bfe8a` registros-candidato: evidencia del candidato tras el tope de cli.py (trailer)
+- `7ae8b1a` registros-candidato: informe de codex (ronda 2, sin hallazgos) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-140719-h7t-registros-candidato`.
 
 ## Mensajes
