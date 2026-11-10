@@ -19,7 +19,8 @@
     "20261109-212224-xo0-registros-raiz",
     "20261109-233536-jgu-registros-almacen",
     "20261110-095631-0w3-entorno-agente",
-    "20261110-140719-h7t-registros-candidato"
+    "20261110-140719-h7t-registros-candidato",
+    "20261110-203907-qfp-partir-cli"
   ],
   "requisitos": {
     "un valor del registro que no es una ruta se informa sin caerse": {
@@ -902,6 +903,37 @@
         "- DADO un cambio con candidato en un almacén aparte y commits del producto sin el trailer `Cambio: ID`",
         "- CUANDO se corre `log ID`",
         "- ENTONCES muestra el commit del candidato"
+      ]
+    },
+    "cli_py_queda_con_margen_bajo_su_tope": {
+      "cambio": "20261110-203907-qfp-partir-cli",
+      "requisito": "flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope",
+      "cuerpo": [
+        "Tipo: no funcional",
+        "El sistema DEBE tener `oracle_factory/cli.py` de 145.000 bytes o menos, y ningún archivo del paquete por encima de sus topes.",
+        "",
+        "#### Scenario: el tamaño",
+        "- DADO el paquete",
+        "- CUANDO se mide `oracle_factory/cli.py`",
+        "- ENTONCES mide 145.000 bytes o menos y `tools/tamanos.py` no informa problemas"
+      ]
+    },
+    "lo_mudado_a_proyecto_sigue_igual": {
+      "cambio": "20261110-203907-qfp-partir-cli",
+      "requisito": "flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual",
+      "cuerpo": [
+        "Tipo: no funcional",
+        "El sistema DEBE ofrecer en `cli` las funciones mudadas a `oracle_factory/proyecto.py` (`inicializar`, `plan_ejemplo`, `comando_migrar`, `comando_procedencia`, `comando_autonomia`, `comando_desplegar` y `comando_autopilot`) como el mismo objeto, con la misma firma, sin que `cli.py` las defina; las funciones de `proyecto.py` DEBEN leer de `cli` lo que necesitan en el momento de usarlo, y `proyecto` DEBE estar entre los módulos que vigila la prueba de módulos de la CLI.",
+        "",
+        "#### Scenario: los nombres",
+        "- DADO `cli` y `proyecto`",
+        "- CUANDO se busca cada función mudada",
+        "- ENTONCES `cli.NOMBRE` es `proyecto.NOMBRE`, con la misma firma de antes, y `cli.py` no la define",
+        "",
+        "#### Scenario: la vigilancia",
+        "- DADO la prueba de módulos de la CLI",
+        "- CUANDO se mira su lista de módulos",
+        "- ENTONCES incluye `proyecto`"
       ]
     }
   },
