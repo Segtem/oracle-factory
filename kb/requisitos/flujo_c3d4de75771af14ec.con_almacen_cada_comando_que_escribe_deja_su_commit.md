@@ -1,0 +1,18 @@
+---
+generado: oracle-factory kb
+id: "flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit"
+vigente: true
+---
+
+# con almacen cada comando que escribe deja su commit
+
+> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
+
+- Id: `flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit`
+- Vigente: sí
+- Cambio: [[cambios/20261110-230858-stu-almacen-commits]]
+- Veredicto: sin juicio
+- Medidas: `factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit`, `factory_almacen_commits.corrida_completa`
+- Fuente: openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md#con_almacen_cada_comando_que_escribe_deja_su_commit
+
+Tipo: funcional El sistema DEBE, con almacén aparte, hacer un commit en el repo del almacén al terminar cada comando que cambió archivos del almacén, con exactamente los archivos que ese comando creó, modificó o borró (los que ya estaban cambiados antes del comando NO DEBEN entrar), y con un mensaje que nombre el comando y el cambio y que termine con las líneas `Cambio: ID` (cuando el comando es de un cambio), `Comando: NOMBRE` y `Actor: NOMBRE (persona|agente)`; un comando que no cambió nada del almacén NO DEBE hacer commit; y sin almacén aparte NO DEBE hacer ningún commit.

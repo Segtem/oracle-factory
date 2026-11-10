@@ -2,7 +2,7 @@
   "id": "20261110-230858-stu-almacen-commits",
   "titulo": "Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md",
   "spec_sha256": "9b23d563e3420ca6bf826ef387c6b47feeabb7bcb945a34eb3c011b93906796a",
   "spec_aprobada": {
@@ -16,7 +16,10 @@
       "openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md": "9b23d563e3420ca6bf826ef387c6b47feeabb7bcb945a34eb3c011b93906796a"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit",
+    "flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +44,90 @@
         "openspec/changes/20261110-230858-stu-almacen-commits/proposal.md": "010fdfdca29929726708624b65d7480c773758cf779b32e1385b962786577267",
         "openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md": "9b23d563e3420ca6bf826ef387c6b47feeabb7bcb945a34eb3c011b93906796a"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-10T23:19:41.155026+00:00",
+      "ids": [
+        "flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit",
+        "flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-10T23:19:52.826118+00:00",
+      "texto": "autopilot delegar_al_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T23:22:40.901054+00:00",
+      "requisito": "flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit",
+      "medidas": [
+        "factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit",
+        "factory_almacen_commits.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-10T23:22:43.144096+00:00",
+      "requisito": "flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar",
+      "medidas": [
+        "factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar",
+        "factory_almacen_commits.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit": "funcional",
+    "flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {
+    "flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit": {
+      "sha256": "b1a0c44a08e23f7fa35a45bd733a4b42d35a7b49d5f9989d0e6fe9ad5abcd5c4",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T23:22:40.846381+00:00",
+      "catalogos": {
+        "factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit": "26a49f930c01fd4ad7488a5d57df3a385555059d7dbcb5ad6a4b4584e8cbfd60",
+        "factory_almacen_commits.corrida_completa": "f7b0dd7ded3f40bec91ea236a8cd0d8b784308f2db5a39baf5015b0f40757c04"
+      },
+      "archivos_catalogo": {
+        "factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit": "catalogos/factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit.oracle",
+        "factory_almacen_commits.corrida_completa": "catalogos/factory_almacen_commits.corrida_completa.oracle"
+      }
+    },
+    "flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar": {
+      "sha256": "5de81a4878d90f025e3dd784794de675bfd2cff22460e47ebfe37552ca6df785",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-10T23:22:43.089512+00:00",
+      "catalogos": {
+        "factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar": "3a5299ecffd3ca52804a581e40a159d76ee585dd7a2c06272b21f85b910133d1",
+        "factory_almacen_commits.corrida_completa": "f7b0dd7ded3f40bec91ea236a8cd0d8b784308f2db5a39baf5015b0f40757c04"
+      },
+      "archivos_catalogo": {
+        "factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar": "catalogos/factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar.oracle",
+        "factory_almacen_commits.corrida_completa": "catalogos/factory_almacen_commits.corrida_completa.oracle"
+      }
+    }
+  }
 }
