@@ -335,11 +335,14 @@ class RegistrosCandidato(unittest.TestCase):
                 ruta.parent.mkdir(parents=True, exist_ok=True)
                 ruta.write_bytes((original or b'') + b'\n# editado\n')
                 self.assertEqual(self.vigentes(a), (False, False))
+                paso = self.estado(a)['proximo_paso'] or ''  # el próximo paso usa la misma huella: no ofrece juzgar ni cerrar
+                self.assertFalse(paso.startswith('oracle-factory cerrar') or 'juzgar' in paso, paso)
                 if original is None:
                     ruta.unlink()
                 else:
                     ruta.write_bytes(original)
                 self.assertEqual(self.vigentes(a), (True, True))  # la vigencia es por contenido
+                self.assertTrue((self.estado(a)['proximo_paso'] or '').startswith('oracle-factory cerrar'), self.estado(a)['proximo_paso'])
 
     def test_rc2_sin_almacen_la_huella_es_la_de_siempre(self):
         self.sin_almacen()
@@ -398,6 +401,18 @@ class RegistrosCandidato(unittest.TestCase):
         self.assertTrue((self.almacen / '.factory/cambios' / ident / 'candidatos' / sha / 'procedencia/cyclonedx.json').is_file())
         self.assertEqual(self.producto_entero(), antes)
         self.assertFalse((self.producto / '.factory').exists())
+        # una revisión con la base vacía (todo el producto) no escribe objetos en el .git del producto: la base se crea en el clon
+        self.ok('pedir-revision', ident, '--a', 'prueba', '--base', 'vacio', agente='claude-code')
+        self.assertEqual(self.producto_entero(), antes)
+        paquete = json.loads((self.almacen / '.factory/cambios' / ident / 'candidatos' / sha / 'clue/paquete-prueba-1.json').read_text(encoding='utf-8'))
+        self.assertNotEqual(paquete['base'], base)
+        self.assertIn('README.md', [a['file'] for a in paquete['files']])  # con la base vacía entra todo el producto
+        # una segunda vuelta sobre otro candidato nombra la anterior: los candidatos anteriores salen de la historia del producto
+        sha2 = self.commit_producto(texto='def saludo():\n    return "hola, otra vez"\n')
+        self.evidencia(ident, sha2)
+        self.ok('pedir-revision', ident, '--a', 'prueba', '--base', base, agente='claude-code')
+        pedido = (self.almacen / '.factory/cambios' / ident / 'candidatos' / sha2 / 'revision/prueba-1.pedido.md').read_text(encoding='utf-8')
+        self.assertIn(sha, pedido)
 
     # --- rc4: con almacén aparte no hay hook en el producto -------------------------------------------------------------
     def test_rc4_hooks_con_almacen_aparte(self):
