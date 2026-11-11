@@ -38,7 +38,7 @@ function registros(raiz) {
     if (fs.existsSync(path.join(raiz, '.factory'))) return Promise.resolve(raiz);
     if (!conexiones.has(raiz))
         conexiones.set(raiz, correr(raiz, ['conectar', '--json']).then(
-            c => c.conectado && c.almacen && fs.existsSync(path.join(c.almacen, '.factory')) ? c.almacen : null, () => null));
+            c => c.almacen && fs.existsSync(path.join(c.almacen, '.factory')) ? c.almacen : null, () => null));
     return conexiones.get(raiz);
 }
 
