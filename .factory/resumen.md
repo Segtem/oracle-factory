@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:8c845fe53679f6e3f6378adf841d94dc49d2d560789869981028feb810c94372 -->
+<!-- oracle-factory resumen sha256:94a9b9fb550c2d645529dd4cd299ad34e04c4aa3bda7ce6cf68fec9a38d0fe34 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 380 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 382 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -313,6 +313,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario | funcional | `flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario` | factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario, factory_almacen_sincronizar.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-135546-t8q-almacen-sincronizar |
 | sincronizar_une_los_registros_de_todos_sin_escribir_configuracion | funcional | `flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion` | factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion, factory_almacen_sincronizar.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-135546-t8q-almacen-sincronizar |
 | sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias | funcional | `flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias` | factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias, factory_almacen_sincronizar.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-135546-t8q-almacen-sincronizar |
+| con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar | funcional | `flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar` | factory_almacen_guia.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar, factory_almacen_guia.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-161316-dd7-almacen-guia |
+| con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen | funcional | `flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen` | factory_almacen_guia.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen, factory_almacen_guia.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-161316-dd7-almacen-guia |
 
 ### ide
 
@@ -1893,6 +1895,10 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261111-135546-t8q-almacen-sincronizar) codex (gpt-6-luna): Corrí py_compile con PYTHONPYCACHEPREFIX=/tmp/codex-pycache: OK. No hice mutaciones en el checkout.
 - (20261111-135546-t8q-almacen-sincronizar) codex (gpt-6-luna): tests/datos/ayuda-cli.json quitó dos líneas dentro del texto de ayuda esperado; el diff sólo actualiza ese snapshot para reflejar el nuevo subcomando sincronizar, por lo que la edición está justificada por este cambio.
 - (20261111-135546-t8q-almacen-sincronizar) codex (gpt-6-luna): El paquete excluye 17 archivos de registros/evidencia de Factory por indicación del pedido; no los revisé. No hubo omisiones binarias.
+- (20261111-161316-dd7-almacen-guia) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261111-161316-dd7-almacen-guia) codex (gpt-6-luna): Revisé la spec, las rutas de diff del paquete, la implementación y los escenarios de tests/test_almacen_guia.py; el paquete no declara omisiones binarias.
+- (20261111-161316-dd7-almacen-guia) codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_almacen_guia -v </dev/null`: los 6 casos pasaron. No ejecuté la suite completa.
+- (20261111-161316-dd7-almacen-guia) codex (gpt-6-luna): La ronda 1 R1 no se reproduce: las tres rutas escritas en info/exclude son constantes relativas a la raíz; el test de raíz `prod a[b]*?` pasó y git status quedó limpio.
 
 ### Históricos
 
