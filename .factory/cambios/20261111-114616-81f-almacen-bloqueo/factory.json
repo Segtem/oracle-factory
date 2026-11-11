@@ -126,19 +126,46 @@
         "flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio",
         "flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T12:01:12.788965+00:00",
+      "requisito": "flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio",
+      "medidas": [
+        "factory_almacen_bloqueo.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio",
+        "factory_almacen_bloqueo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T12:01:12.991565+00:00",
+      "requisito": "flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto",
+      "medidas": [
+        "factory_almacen_bloqueo.el_commit_del_almacen_se_hace_con_un_bloqueo_corto",
+        "factory_almacen_bloqueo.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio": "funcional",
     "flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T12:01:12.735863+00:00",
       "sha256": "54b8bf445af56e614b2d03ee919f495435c270a23de053df77f883028e9d0f7e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T11:55:39.441682+00:00",
       "catalogos": {
         "factory_almacen_bloqueo.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio": "db15ba28caba8f0e78f9276a3da8e01d2cb517519010057b54d0bce6fdae7c8d",
         "factory_almacen_bloqueo.corrida_completa": "60f93888e4e34a89a028d7497e154c9d63ffb8fb704480bc361d800dbffcde5c"
@@ -149,10 +176,12 @@
       }
     },
     "flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T12:01:12.938141+00:00",
       "sha256": "f9a49bafcfd7c8c4961f6604c830f8a839895239c1a5885ba1eaf0be424688fc",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T11:55:41.575453+00:00",
       "catalogos": {
         "factory_almacen_bloqueo.el_commit_del_almacen_se_hace_con_un_bloqueo_corto": "827c361f77122a7c9a754005f2684d060b4f459c53f23edc4ef623ee55c4c3f8",
         "factory_almacen_bloqueo.corrida_completa": "60f93888e4e34a89a028d7497e154c9d63ffb8fb704480bc361d800dbffcde5c"
@@ -162,5 +191,6 @@
         "factory_almacen_bloqueo.corrida_completa": "catalogos/factory_almacen_bloqueo.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
