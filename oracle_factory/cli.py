@@ -723,16 +723,19 @@ LLAMADA_POST_COMMIT = "git rev-parse -q --verify HEAD^2 >/dev/null && " + LLAMAD
 GENERADO_KB = ("kb/README.md", "kb/cambios", "kb/requisitos")
 
 
-def instalar_union() -> str:
-    """Los drivers de merge (en la configuración del clon), sus atributos (en .gitattributes, versionado) y el post-merge
-    que rehace lo generado. Un post-merge ajeno no se pisa."""
+def drivers_de_union() -> list[tuple[str, str]]:
+    """[(clave de configuración de Git, valor)] de los drivers de unión de Factory: `hooks` los escribe en el clon; `sincronizar`
+    los pasa con `git -c` en cada orden."""
     py = shlex.quote(sys.executable)
     codigo = "'import sys; from oracle_factory.cli import main; sys.exit(main())'"
-    for nombre, orden, que in (("oracle-factory-registro", "unir-registro %O %A %B %P", "une el registro de un cambio"),
-                               ("oracle-factory-generado", "unir-generado %O %A %B %P", "deja lo generado para rehacerlo")):
-        ejecutar(["git", "config", f"merge.{nombre}.name", f"Factory: {que}"])
-        ejecutar(["git", "config", f"merge.{nombre}.driver", f"{py} -c {codigo} {orden}"])
-    atributos = ROOT / ".gitattributes"
+    return [par for nombre, orden, que in (("oracle-factory-registro", "unir-registro %O %A %B %P", "une el registro de un cambio"),
+                                           ("oracle-factory-generado", "unir-generado %O %A %B %P", "deja lo generado para rehacerlo"))
+            for par in ((f"merge.{nombre}.name", f"Factory: {que}"), (f"merge.{nombre}.driver", f"{py} -c {codigo} {orden}"))]
+
+
+def escribir_atributos(raiz: Path) -> bool:
+    """Agrega al .gitattributes de `raiz` las líneas de ATRIBUTOS que falten; True si escribió algo."""
+    atributos = raiz / ".gitattributes"
     actual = atributos.read_text(encoding="utf-8") if atributos.is_file() else ""
     presentes = {" ".join(linea.split()) for linea in actual.splitlines()}  # otro espaciado es la misma línea
     faltan = [linea for linea in ATRIBUTOS if linea not in presentes]
@@ -740,6 +743,16 @@ def instalar_union() -> str:
         bloque = ([ATRIBUTOS_MARCA] if ATRIBUTOS_MARCA not in actual else []) + faltan
         atributos.write_text(actual + ("\n" if actual and not actual.endswith("\n") else "") + "\n".join(bloque) + "\n",
                              encoding="utf-8")
+    return bool(faltan)
+
+
+def instalar_union() -> str:
+    """Los drivers de merge (en la configuración del clon), sus atributos (en .gitattributes, versionado) y el post-merge
+    que rehace lo generado. Un post-merge ajeno no se pisa."""
+    py = shlex.quote(sys.executable)
+    for clave, valor in drivers_de_union():
+        ejecutar(["git", "config", clave, valor])
+    escribir_atributos(ROOT)
     p = ejecutar(["git", "rev-parse", "--git-path", "hooks"])
     avisos = []
     for nombre, llamada in (("post-merge", LLAMADA_POST_MERGE), ("post-commit", LLAMADA_POST_COMMIT)):
@@ -2291,6 +2304,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)
         elif args.comando == "unir-generado": return 0  # lo generado se queda como está y se rehace en el post-merge
         elif args.comando == "rehacer-generado": rehacer_generado()
+        elif args.comando == "sincronizar": return almacenes.sincronizar(sys.modules[__name__])
         elif args.comando == "decidir-union": decidir_union(args.id, args.campo, args.cual)
         elif args.comando == "trailer": poner_trailer(args.archivo)
         elif args.comando == "tablero": imprimir_json(tablero_mod.armar(sys.modules[__name__]))

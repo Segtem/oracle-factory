@@ -9,6 +9,8 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -108,7 +110,45 @@ def conectado(cli) -> Path | None:
     return Path(almacen)
 
 
-def comando(cli, nombre: str, almacen: Path | None) -> int:
+def es_url(texto: str) -> bool:
+    """¿Una URL de Git (esquema://… o usuario@host:ruta) y no una carpeta que existe?"""
+    return not Path(texto).expanduser().exists() and bool(re.match(r"[a-zA-Z][\w+.-]*://|[^/:\s]+@[^/:\s]+:", texto))
+
+
+def carpeta_de_clones() -> Path:
+    base = os.environ.get("XDG_DATA_HOME") or str(Path.home() / ".local" / "share")
+    return Path(base) / "oracle-factory" / "almacenes"
+
+
+def clonar(cli, url: str) -> Path:
+    """La carpeta del clon de `url` en la carpeta de datos del usuario: la reusa si ya es un clon de esa URL, se niega si es otra
+    cosa y, si no existe, clona en un temporal al lado y lo renombra (un clon que falla no deja nada)."""
+    nombre = url.rstrip("/").rsplit("/", 1)[-1].rsplit(":", 1)[-1].removesuffix(".git")
+    if not nombre or nombre in (".", ".."):
+        raise cli.FactoryError(f"no sé qué nombre darle al clon de {url}. No cambié nada")
+    destino = carpeta_de_clones() / nombre
+    if destino.exists() or destino.is_symlink():
+        origen = _git_almacen(destino, "remote", "get-url", "origin") if destino.is_dir() else None
+        if raiz_git(destino) == destino.resolve() and origen is not None and origen.returncode == 0 \
+                and os.fsdecode(origen.stdout).strip() == url:
+            return destino
+        raise cli.FactoryError(f"{destino} ya existe y no es un clon de {url}: no lo toco. Movelo o conectá esa carpeta con "
+                               "oracle-factory conectar RUTA. No cambié nada")
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    temporal = Path(tempfile.mkdtemp(dir=destino.parent, prefix=f".{nombre}."))
+    try:
+        hecho = _git_almacen(destino.parent, "clone", "-q", url, str(temporal))
+        if hecho.returncode:
+            raise cli.FactoryError(f"no pude clonar {url}: {os.fsdecode(hecho.stderr).strip()}. No cambié nada")
+        temporal.rename(destino)
+    except BaseException:
+        shutil.rmtree(temporal, ignore_errors=True)
+        raise
+    print(f"Cloné el almacén {url} en {destino}.")
+    return destino
+
+
+def comando(cli, nombre: str, almacen: str | None) -> int:
     """conectar [ALMACÉN] / desconectar: la conexión del producto de `cli.ROOT` vive en la configuración personal del usuario."""
     if cli.AGENTE:
         raise cli.FactoryError(f"{nombre} es una decisión de una persona (dónde van los registros): corrélo sin --agente; {cli.AGENTE} no puede")
@@ -134,7 +174,7 @@ def comando(cli, nombre: str, almacen: Path | None) -> int:
     if almacen is None:
         print(f"El producto está conectado al almacén {actual}." if actual else "El producto no está conectado a ningún almacén.")
         return 0
-    destino = almacen.expanduser().resolve()
+    destino = (clonar(cli, almacen) if es_url(almacen) else Path(almacen)).expanduser().resolve()
     if not destino.is_dir() or raiz_git(destino) != destino:
         raise cli.FactoryError(f"{destino} no es la raíz de un repo Git existente: el almacén es un repo Git propio. No cambié nada")
     if destino.is_relative_to(producto) or producto.is_relative_to(destino):
@@ -343,3 +383,70 @@ def _commitear(cli, almacen: Path, antes: dict[str, str | None], comando: str, i
         paso = _git_almacen(almacen, "commit", "-q", "--only", "-m", f"Factory: {comando}{' ' + ident if ident else ''}", "-m", pie,
                             "--pathspec-from-file=-", "--pathspec-file-nul", entrada=rutas)
     return "" if paso.returncode == 0 else (os.fsdecode(paso.stderr + paso.stdout).strip() or f"git terminó con código {paso.returncode}")
+
+
+# --- etapa 4b2: sincronizar el almacén con su remoto ------------------------------------------------------------------
+def sincronizar(cli) -> int:
+    """Trae lo del remoto del almacén y lo une con lo local con los drivers de Factory pasados con `git -c` (no se escribe
+    configuración de Git), rehace lo generado y, si es una persona, sube. Todo bajo el bloqueo del almacén; si algo falla
+    antes de terminar la unión, el almacén vuelve a como estaba."""
+    almacen = cli.ROOT
+    if cli.PRODUCTO is None:
+        raise cli.FactoryError("sincronizar es del almacén de registros aparte: conectá el producto (oracle-factory conectar URL) "
+                               "o indicá --registros. No cambié nada")
+    rama = os.fsdecode(_git_almacen(almacen, "symbolic-ref", "-q", "--short", "HEAD").stdout).strip()
+    remoto = next(iter(sorted(os.fsdecode(_git_almacen(almacen, "remote").stdout).split(), key=lambda r: r != "origin")), None)
+    if not rama or remoto is None:
+        raise cli.FactoryError(f"el almacén ({almacen}) " + ("no tiene remoto" if rama else "no está en una rama")
+                               + ": no hay con qué sincronizar. No cambié nada")
+    with bloqueo(almacen, PLAZO_DEL_BLOQUEO) as tomado:
+        if not tomado:
+            raise cli.FactoryError(f"otro comando de Factory tiene tomado el bloqueo del almacén desde hace más de {PLAZO_DEL_BLOQUEO} s; "
+                                   "probá de nuevo cuando termine. No cambié nada")
+        vista = foto(almacen) or {}
+        if FALLA in vista:
+            raise cli.FactoryError(f"no pude ver el estado del almacén: {vista[FALLA]}. No cambié nada")
+        sucios = sorted(n for n in vista if not n.startswith(IGNORADO))
+        if sucios:
+            raise cli.FactoryError(f"el almacén ({almacen}) tiene cambios sin commitear: " + ", ".join(sucios[:10])
+                                   + (" …" if len(sucios) > 10 else "") + ". Commitealos o descartalos antes de sincronizar. No cambié nada")
+        inicio = os.fsdecode(_git_almacen(almacen, "rev-parse", "HEAD").stdout).strip()
+        try:
+            _unir(cli, almacen, remoto, rama)
+        except BaseException:
+            _git_almacen(almacen, "merge", "--abort")
+            _git_almacen(almacen, "reset", "-q", "--hard", inicio)  # el árbol estaba limpio: no se pierde nada
+            raise
+        if cli.AGENTE:
+            print(f"Traje y uní lo de {remoto}/{rama} en el almacén; no lo subí: subir el almacén es de una persona "
+                  "(oracle-factory sincronizar, sin --agente).")
+            return 0
+        hecho = _git_almacen(almacen, "push", "-q", remoto, f"HEAD:{rama}")
+    if hecho.returncode:
+        raise cli.FactoryError(f"uní lo de {remoto}/{rama} pero no pude subirlo: {os.fsdecode(hecho.stderr).strip()}. "
+                               "La unión quedó commiteada en el almacén; volvé a sincronizar")
+    print(f"Almacén sincronizado con {remoto}/{rama}: traje, uní y subí.")
+    return 0
+
+
+def _unir(cli, almacen: Path, remoto: str, rama: str) -> None:
+    def git(*args: str) -> None:
+        hecho = _git_almacen(almacen, *args)
+        if hecho.returncode:
+            raise cli.FactoryError(f"git {args[0]} falló en el almacén: {os.fsdecode(hecho.stderr + hecho.stdout).strip()}. "
+                                   "Dejé el almacén como estaba")
+
+    if cli.escribir_atributos(almacen):  # contenido versionado, no configuración: va en su propio commit, antes de unir
+        git("add", "--", ".gitattributes")
+        git("commit", "-q", "--only", "-m", "Factory: sincronizar (.gitattributes)", "--", ".gitattributes")
+    git("fetch", "-q", remoto)
+    if _git_almacen(almacen, "rev-parse", "-q", "--verify", f"refs/remotes/{remoto}/{rama}").returncode:
+        return  # el remoto todavía no tiene la rama: sólo hay que subir
+    drivers = [x for clave, valor in cli.drivers_de_union() for x in ("-c", f"{clave}={valor}")]
+    hecho = _git_almacen(almacen, *drivers, "merge", "-q", "--no-edit", f"{remoto}/{rama}")
+    if hecho.returncode:
+        chocaron = os.fsdecode(_git_almacen(almacen, "diff", "--name-only", "--diff-filter=U").stdout).split()
+        raise cli.FactoryError((f"la unión con {remoto}/{rama} chocó en " + ", ".join(chocaron) if chocaron else
+                                f"git merge falló: {os.fsdecode(hecho.stderr + hecho.stdout).strip()}")
+                               + ". La deshice y dejé el almacén como estaba; resolvelo a mano en el almacén y volvé a sincronizar")
+    cli.rehacer_generado()

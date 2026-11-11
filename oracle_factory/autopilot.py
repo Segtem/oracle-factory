@@ -13,7 +13,7 @@ import shlex
 # Decisiones que son sólo de una persona (docs/agentes.md): el conductor las pide, nunca las toma.
 PERSONA = frozenset({"aprobar-spec", "revisar", "cerrar", "abandonar", "modo", "autonomia", "soltar", "decidir-union", "conectar", "desconectar"})
 # Comandos mecánicos de Factory: un agente los corre con `--agente NOMBRE`.
-MECANICO = frozenset({"importar", "juzgar", "pedir-revision", "revision-preparar", "tomar", "mensaje"})
+MECANICO = frozenset({"importar", "juzgar", "pedir-revision", "revision-preparar", "tomar", "mensaje", "sincronizar"})  # sincronizar con --agente no sube
 # Un paso en prosa que `estado` da cuando hay trabajo creativo: corregir, commitear, resolver.
 PROSA = ("corregí", "commiteá", "resolvé")
 MARCADOR = re.compile(r"^RUTA_\w*$")  # un comando que estado deja por completar: «--con RUTA_DE_HECHOS»

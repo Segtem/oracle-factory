@@ -139,8 +139,11 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('--casos', type=Path, help='con --evaluar: sumar casos de registro, generación o abstención sin reemplazar las preguntas existentes')
     q.add_argument('--salida', type=Path, help='con --evaluar: carpeta nueva para hechos.json y detalle.json')
     q = sub.add_parser('conectar', help='conectar el producto con su almacén de registros (un repo Git aparte), o ver a cuál está conectado; sólo de una persona')
-    q.add_argument('almacen', nargs='?', type=Path, help='carpeta del almacén; sin ella, dice a cuál está conectado el producto')
+    q.add_argument('almacen', nargs='?', help='carpeta del almacén, o la URL de Git de su repo (lo clona en la carpeta de datos del usuario); '
+                                              'sin ella, dice a cuál está conectado el producto')
     sub.add_parser('desconectar', help='quitar la conexión del producto con su almacén (no toca ni el almacén ni el producto); sólo de una persona')
+    sub.add_parser('sincronizar', help='traer el almacén del remoto, unirlo con lo local y, si lo corre una persona, subir el resultado; '
+                                       'con --agente no sube')
     q = sub.add_parser('modo', help='cambiar el modo de trabajo de un cambio')
     q.add_argument('id'); q.add_argument('nuevo_modo', choices=modos.MODOS)
     q = sub.add_parser('medir', help='listar y asociar medidas explícitas sin editar requisitos a mano')
