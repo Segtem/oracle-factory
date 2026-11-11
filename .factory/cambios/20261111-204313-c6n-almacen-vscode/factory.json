@@ -240,6 +240,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "f11a89287961"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-11T21:32:52.786717+00:00",
+      "decision": "aprobar",
+      "candidato": "4311756"
     }
   ],
   "tipos": {
@@ -281,5 +291,14 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "av1–av2 y las pruebas de la extensión de antes; suite completa verde en 4311756 (1441 pruebas); el código es el de ab0ba9b, donde las mutaciones propias murieron salvo una equivalente que se quitó; codex sin hallazgos en los dos candidatos",
+      "candidato": "4311756",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-11T21:32:52.786702+00:00"
+    }
+  }
 }
