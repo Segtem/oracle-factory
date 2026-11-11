@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-almacen-guia/.factory/local/revisiones/70bb078-codex-1",
+  "base": "009c30468bc4c406d8897735a815db54006cf6ad",
+  "head": "70bb07849cdcb4d2bd53f97b62355cc6d87651f0",
+  "diff_sha256": "bde01134c0ccdb666bc496ca27f84007af5ba354dfc8f5f8d1b9e2e34a33ab2a",
+  "context_sha256": "01160491b26fee63668bcfd0d0865c856a68888e07dbeba208cf33d09f65bee5",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Las rutas con metacaracteres de Git no quedan excluidas literalmente",
+      "explanation": "_excluir escribe cada ruta como un patrón gitignore sin escapar sus metacaracteres. Para una ruta válida como `a[b].md`, el patrón `/a[b].md` interpreta `[b]` como una clase de caracteres: el archivo literal no queda ignorado y otro nombre como `ab.md` sí. Lo mismo puede ocurrir con `*` y `?`; los espacios finales también necesitan tratamiento especial. El archivo de la skill o una guía bajo un nombre/directorio de producto con esos caracteres puede quedar como untracked, incumpliendo que las rutas nuevas no ensucien `git status`.",
+      "location": {
+        "file": "oracle_factory/almacenes.py",
+        "start_line": 409,
+        "end_line": 409,
+        "side": "head"
+      },
+      "trigger": "Conectar un almacén aparte a un repo producto con una ruta afectada que contenga `[` y `]` (por ejemplo raíz de producto `a[b]` al generar `AGENTS.md`), o una ruta de skill equivalente; ejecutar `agentes`/`skill --instalar` y luego consultar `git status`.",
+      "evidence": "Reproducción en un repo Git temporal: con `.git/info/exclude` que contiene `/a[b].md`, `git check-ignore --no-index -- a[b].md` devuelve 1 (no ignorado), mientras `git check-ignore --no-index -- ab.md` devuelve 0 (ignorado). El código del diff concatena `f\"/{r}\"` directamente en `faltan` y escribe ese texto en info/exclude (líneas 404 y 409).",
+      "related_requirement": "con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar",
+      "status": "pendiente",
+      "verification": "Reproducción manual sobre copia temporal, sin modificar el checkout. No se ejecutó la suite del proyecto."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec indicada, el diff del paquete y el código/pruebas incluidos; el paquete no declara omisiones binarias.",
+    "No ejecuté la suite de tests ni los comandos CLI sobre un checkout de prueba; reproduje manualmente la semántica de exclusión de Git en un repo temporal.",
+    "Guardé la extracción del paquete y los diffs largos en paquete_resumen.txt y codigo_diff.txt dentro del directorio de revisión."
+  ]
+}
