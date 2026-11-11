@@ -35,3 +35,11 @@ Medidas de flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_co
 ### Nota (2026-11-11 21:20:23 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: conectar --json y la extensión con producto conectado probados en av1–av2 (y las pruebas de la extensión de antes); suite completa verde en ab0ba9b; mutaciones propias muertas salvo una equivalente que se quitó; codex sin hallazgos); 0 abiertos derivados; commit c8bba869b62b54e8c4167c8351cf20feb527a981; informe tareas/20261111-204313-c6n-almacen-vscode/revisiones/registro-ew46bczh/informe.json; decisiones tareas/20261111-204313-c6n-almacen-vscode/revisiones/registro-ew46bczh/decisiones.json.
+
+### Nota (2026-11-11 21:20:52 UTC)
+
+Medidas de flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json: factory_almacen_vscode.conectar_dice_la_conexion_como_json, factory_almacen_vscode.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-11 21:20:54 UTC)
+
+Medidas de flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado: factory_almacen_vscode.la_extension_reconoce_y_vigila_un_producto_conectado, factory_almacen_vscode.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
