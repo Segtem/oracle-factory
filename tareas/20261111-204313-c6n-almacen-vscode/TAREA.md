@@ -43,3 +43,11 @@ Medidas de flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json: factory_
 ### Nota (2026-11-11 21:20:54 UTC)
 
 Medidas de flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado: factory_almacen_vscode.la_extension_reconoce_y_vigila_un_producto_conectado, factory_almacen_vscode.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-11 21:21:26 UTC)
+
+Medidas de flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-11 21:21:26 UTC)
+
+Medidas de flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado: Brian Hollweg (persona, confirmo, modo confirmacion).

@@ -188,19 +188,46 @@
         "factory_almacen_vscode.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T21:21:26.461004+00:00",
+      "requisito": "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json",
+      "medidas": [
+        "factory_almacen_vscode.conectar_dice_la_conexion_como_json",
+        "factory_almacen_vscode.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T21:21:26.667033+00:00",
+      "requisito": "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado",
+      "medidas": [
+        "factory_almacen_vscode.la_extension_reconoce_y_vigila_un_producto_conectado",
+        "factory_almacen_vscode.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json": "funcional",
     "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T21:21:26.405597+00:00",
       "sha256": "ac04f35be302d261af561a852d94a7a86b521996bcd9abb26128924d2eeb9f61",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T21:20:52.446233+00:00",
       "catalogos": {
         "factory_almacen_vscode.conectar_dice_la_conexion_como_json": "ecd837e149f113a0223772307d4908151b884d31094380284ac7e59cbcd0ca7e",
         "factory_almacen_vscode.corrida_completa": "a8d41aab5d01b1b08014291a2a03c725bfc57f673ef65bb7cdb1d3de9f966338"
@@ -211,10 +238,12 @@
       }
     },
     "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T21:21:26.613060+00:00",
       "sha256": "a39900616598333d20b0012dd773f02fd273c7c16e95499d2d1a697892f90cf4",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T21:20:54.725250+00:00",
       "catalogos": {
         "factory_almacen_vscode.la_extension_reconoce_y_vigila_un_producto_conectado": "c0ddbf6798c2d0966d5a496df2795c40b745aa254ae716225679d05dc9639e7a",
         "factory_almacen_vscode.corrida_completa": "a8d41aab5d01b1b08014291a2a03c725bfc57f673ef65bb7cdb1d3de9f966338"
@@ -225,5 +254,6 @@
       }
     }
   },
+  "medidas_pendientes": {},
   "motivos_propuestos": {}
 }
