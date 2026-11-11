@@ -46,6 +46,8 @@ capacidad: "flujo"
 - `6d1aaf1` almacen-sincronizar: evidencia del candidato (trailer)
 - `3e8cf90` almacen-sincronizar: docs/estructura.md explica conectar URL y sincronizar (trailer)
 - `1704447` almacen-sincronizar: evidencia del candidato (trailer)
+- `1a1c920` almacen-sincronizar: no une si lo que trae el remoto pisaría un archivo local ignorado o sin versionar (hallazgo codex-01); prueba de que el push corre con el bloqueo tomado (codex-02, falso positivo) (trailer)
+- `50b3444` almacen-sincronizar: evidencia del candidato tras codex-01 (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261111-135546-t8q-almacen-sincronizar`.
 
 ## Mensajes
