@@ -47,6 +47,8 @@ capacidad: "flujo"
 - `5931ab0` almacen-commits: evidencia del candidato tras F1 (aviso) (trailer)
 - `57017da` almacen-commits: lo local de cada máquina no entra nunca, aunque esté versionado (hallazgo F1 de codex, ronda 3) (trailer)
 - `f31b46b` almacen-commits: evidencia del candidato tras F1 (local versionado) (trailer)
+- `758f789` almacen-commits: el modo de los archivos cuenta en la foto y una falla de git al sacarla se avisa (hallazgos F1 y F2 de codex, ronda 4) (trailer)
+- `0b4caff` almacen-commits: evidencia del candidato tras la ronda 4 (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-230858-stu-almacen-commits`.
 
 ## Mensajes

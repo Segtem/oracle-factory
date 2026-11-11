@@ -250,6 +250,32 @@
       "resultado": "ok",
       "hallazgos": 2,
       "lanzamiento": "678cbaf2b44d"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T11:17:06.232648+00:00",
+      "revisor": "codex",
+      "candidato": "758f789",
+      "lanzamiento": "162410891cab"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T11:20:20.606863+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "758f789",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "162410891cab"
     }
   ],
   "tipos": {
