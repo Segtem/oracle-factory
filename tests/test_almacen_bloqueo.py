@@ -110,6 +110,10 @@ class AlmacenBloqueo(unittest.TestCase):
             finally:
                 f.AGENTE = otro
             (f.ROOT / 'tareas' / b / 'notas-de-b.md').write_text('B escribe a mano\n', encoding='utf-8')
+            (f.ROOT / 'openspec/changes' / b / 'notas-de-b.md').write_text('B anota su propuesta\n', encoding='utf-8')  # también en openspec/
+            comun = f.ROOT / 'tareas/plantillas/comun.md'  # una carpeta común que no tiene forma de ID: no es de ningún cambio
+            comun.parent.mkdir(parents=True, exist_ok=True)
+            comun.write_text('común a todos\n', encoding='utf-8')
             return resultado
         return patch.object(f, comando, envuelto)
 
@@ -150,7 +154,8 @@ class AlmacenBloqueo(unittest.TestCase):
         self.assertIn(f'.factory/cambios/{a}/factory.json', del_ultimo)
         self.assertEqual({n for n in del_ultimo if _de_cambio(n, b)}, set())
         # lo de B quedó sin commitear: su registro (por Factory), su nota de kb (rehecha por el comando de A) y lo escrito a mano
-        de_b = {f'.factory/cambios/{b}/factory.json', f'kb/cambios/{b}.md', f'tareas/{b}/notas-de-b.md'}
+        de_b = {f'.factory/cambios/{b}/factory.json', f'kb/cambios/{b}.md', f'tareas/{b}/notas-de-b.md', f'openspec/changes/{b}/notas-de-b.md'}
+        self.assertIn('tareas/plantillas/comun.md', del_ultimo)  # lo común escrito mientras tanto sí entra
         self.assertEqual(self.pendientes(), de_b)
         self.assertIn('B escribe mientras tanto', self.registro(b))
         # y lo commitea el comando de B, aunque ya estuviera cambiado antes de empezar
