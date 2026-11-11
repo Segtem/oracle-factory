@@ -1891,6 +1891,8 @@ def comando_skill(instalar: bool, forzar: bool) -> int:
     if not instalar:
         print(skill_mod.texto(), end="")
         return 0
+    if PRODUCTO:
+        return almacenes.skill_en_producto(sys.modules[__name__], forzar)
     try:
         estado, ruta = skill_mod.instalar(ROOT, forzar)
     except skill_mod.SkillError as e:
@@ -1902,6 +1904,8 @@ def comando_skill(instalar: bool, forzar: bool) -> int:
 
 def comando_agentes(verificar: bool) -> None:
     """El bloque para agentes de AGENTS.md (y la línea @AGENTS.md de CLAUDE.md), o --verificar que estén al día."""
+    if PRODUCTO:  # con almacén aparte, en el producto y sin versionar
+        return almacenes.guia_en_producto(sys.modules[__name__], verificar)
     nuevo = agentes_mod.bloque(config_proyecto()["modo_por_defecto"])
     rutas = [ruta_segura(ROOT / "AGENTS.md"), ruta_segura(ROOT / "CLAUDE.md")]
     actuales = [r.read_text(encoding="utf-8") if r.is_file() else "" for r in rutas]

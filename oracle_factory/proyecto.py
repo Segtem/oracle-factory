@@ -125,7 +125,10 @@ def inicializar(oracle: str | None = None) -> None:
     print('Conservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.')
     print('Si el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.')
     print(cli.instalar_hook())
-    cli.comando_agentes(False)
+    if cli.PRODUCTO:  # preparando un almacén: la guía va al producto con `agentes`, no al almacén (conectar no toca el producto)
+        print("La guía para agentes va en el producto, sin versionar: corré oracle-factory agentes (y skill --instalar) desde el producto.")
+    else:
+        cli.comando_agentes(False)
     if cli.PRODUCTO:  # los drivers de merge van en la configuración de Git del clon, y en un almacén Factory no la escribe
         print("Almacén de registros: Factory no escribe su configuración de Git, así que no instala la unión de registros al integrar.")
     elif not cli.ejecutar(["git", "rev-parse", "--git-dir"]).returncode:

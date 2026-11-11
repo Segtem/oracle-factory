@@ -16,6 +16,7 @@ import sys
 import tempfile
 import time
 
+from . import agentes
 from . import estructura
 
 try:
@@ -383,6 +384,77 @@ def _commitear(cli, almacen: Path, antes: dict[str, str | None], comando: str, i
         paso = _git_almacen(almacen, "commit", "-q", "--only", "-m", f"Factory: {comando}{' ' + ident if ident else ''}", "-m", pie,
                             "--pathspec-from-file=-", "--pathspec-file-nul", entrada=rutas)
     return "" if paso.returncode == 0 else (os.fsdecode(paso.stderr + paso.stdout).strip() or f"git terminó con código {paso.returncode}")
+
+
+# --- etapa 5a: la guía de agentes y la skill van al producto, sin versionar ------------------------------------------
+GUIA = ("AGENTS.md", "CLAUDE.md")
+SKILL = ".claude/skills/oracle-factory/SKILL.md"
+MARCA_EXCLUIR = "# oracle-factory: la guía de agentes y la skill, que no se versionan (los registros viven en un almacén aparte)"
+
+
+def _ya_versionados(cli, rutas) -> list[str]:
+    return [r for r in rutas if cli.git_producto(["git", "ls-files", "--error-unmatch", "--", r]).returncode == 0]
+
+
+def _excluir(cli, rutas) -> None:
+    """Agrega `rutas` al archivo de exclusiones local de Git del producto (común a sus worktrees), salvo las que ya ignora;
+    no toca .gitignore ni la configuración de Git."""
+    dice = cli.git_producto(["git", "rev-parse", "--git-common-dir"]).stdout.strip()
+    archivo = (cli.PRODUCTO / dice if not Path(dice).is_absolute() else Path(dice)) / "info" / "exclude"
+    faltan = [f"/{r}" for r in rutas if cli.git_producto(["git", "check-ignore", "-q", "--no-index", "--", r]).returncode != 0]
+    if not faltan:
+        return
+    actual = archivo.read_text(encoding="utf-8") if archivo.is_file() else ""
+    archivo.parent.mkdir(parents=True, exist_ok=True)
+    bloque = ([MARCA_EXCLUIR] if MARCA_EXCLUIR not in actual else []) + faltan
+    archivo.write_text(actual + ("\n" if actual and not actual.endswith("\n") else "") + "\n".join(bloque) + "\n", encoding="utf-8")
+
+
+def guia_en_producto(cli, verificar: bool) -> None:
+    """`agentes` con almacén aparte: el bloque de la guía en AGENTS.md y CLAUDE.md del producto, excluidos de Git."""
+    versionados = _ya_versionados(cli, GUIA)
+    if versionados and not verificar:
+        raise cli.FactoryError(f"el producto ya versiona {', '.join(versionados)}: no lo modifico (ensuciaría el repo del producto). "
+                               "Agregá a mano el bloque de `oracle-factory agentes` o sacalo del repo. No escribí nada")
+    rutas = [cli.PRODUCTO / n for n in GUIA]
+    enlaces = [r.name for r in rutas if r.is_symlink()]
+    if enlaces:
+        raise cli.FactoryError(f"no escribo sobre enlaces simbólicos: {', '.join(enlaces)}. No escribí nada")
+    actuales = [r.read_text(encoding="utf-8") if r.is_file() else "" for r in rutas]
+    try:
+        esperados = [agentes.con_bloque(actuales[0], agentes.bloque(cli.config_proyecto()["modo_por_defecto"], con_almacen=True)),
+                     agentes.con_claude(actuales[1])]
+    except agentes.MarcasRotas as e:
+        raise cli.FactoryError(str(e)) from e
+    if verificar:
+        viejos = [r.name for r, a, e in zip(rutas, actuales, esperados) if a != e]
+        if viejos:
+            raise cli.FactoryError(f"la guía para agentes no está al día en {', '.join(viejos)} del producto; corré oracle-factory agentes")
+        print(f"La guía para agentes está al día en AGENTS.md del producto ({cli.PRODUCTO}), y CLAUDE.md la incluye.")
+        return
+    for ruta, actual, esperado in zip(rutas, actuales, esperados):
+        if actual != esperado:
+            descriptor, nombre = tempfile.mkstemp(dir=ruta.parent, prefix=f".{ruta.name}.", suffix=".tmp")  # escritura atómica
+            with os.fdopen(descriptor, "w", encoding="utf-8") as temporal:
+                temporal.write(esperado)
+            os.replace(nombre, ruta)
+    _excluir(cli, GUIA)
+    print(f"Guía para agentes en AGENTS.md del producto ({cli.PRODUCTO}), con CLAUDE.md que la incluye; no se versionan "
+          "(van en .git/info/exclude).")
+
+
+def skill_en_producto(cli, forzar: bool) -> int:
+    """`skill --instalar` con almacén aparte: la skill en el producto, excluida de Git."""
+    if _ya_versionados(cli, [SKILL]):
+        raise cli.FactoryError(f"el producto ya versiona {SKILL}: no lo modifico (ensuciaría el repo del producto). No escribí nada")
+    try:
+        estado, ruta = cli.skill_mod.instalar(cli.PRODUCTO, forzar)
+    except cli.skill_mod.SkillError as e:
+        raise cli.FactoryError(str(e)) from e
+    _excluir(cli, [SKILL])
+    print({"instalada": "Skill instalada", "reemplazada": "Skill reemplazada", "igual": "La skill ya estaba instalada"}[estado]
+          + f" en {SKILL} del producto; no se versiona (va en .git/info/exclude).")
+    return 0
 
 
 # --- etapa 4b2: sincronizar el almacén con su remoto ------------------------------------------------------------------

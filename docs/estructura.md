@@ -85,6 +85,8 @@ Con `oracle-factory conectar ALMACEN` (una persona, desde una carpeta del produc
 
 Para un equipo, el almacén es un repo Git compartido: `oracle-factory conectar URL` (una URL de Git, no una carpeta) lo clona en `~/.local/share/oracle-factory/almacenes/NOMBRE` (o bajo `$XDG_DATA_HOME`) y lo conecta; si ese clon ya existe, lo reusa. Cada comando que escribe registros deja su propio commit en el almacén, y `oracle-factory sincronizar` (desde el producto) trae lo del remoto del almacén y lo une con lo local: el registro de un cambio que editaron dos personas se une sin perder eventos y lo generado se rehace. Los drivers de unión de Factory se pasan en esa misma orden (`git -c`), sin escribir configuración de Git. Si lo corre una persona, sube el resultado; con `--agente` sólo trae y une. Con cambios sin commitear, sin remoto o con un conflicto que los drivers no resuelven, `sincronizar` no deja nada a medias y dice por qué.
 
+Con el almacén aparte, `oracle-factory agentes` y `oracle-factory skill --instalar` escriben la guía para agentes (`AGENTS.md`, `CLAUDE.md`) y la skill en la carpeta del producto, para que un agente que trabaja ahí las lea, pero no se versionan: Factory las agrega al archivo de exclusiones local de Git del producto (`.git/info/exclude`, el común a sus worktrees), sin tocar el `.gitignore` ni la configuración de Git, y `git status` queda limpio. Si el producto ya versiona su propio `AGENTS.md`, `CLAUDE.md` o esa skill, Factory no los modifica y lo dice.
+
 ## Encontrar las cosas
 
 | Comando | Para qué |
