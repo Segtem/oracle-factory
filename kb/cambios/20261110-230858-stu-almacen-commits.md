@@ -38,6 +38,9 @@ capacidad: "flujo"
 - `8f8ffdd` almacen-commits: pruebas de los escenarios (antes del código), catálogos y medidas propuestas (trailer)
 - `9a72af6` almacen-commits: medidas confirmadas por Brian (trailer)
 - `74d8f7b` almacen-commits: Factory commitea en el almacén lo que escribió cada comando (trailer)
+- `7504e5d` almacen-commits: evidencia del candidato (trailer)
+- `4010151` almacen-commits: casos de las mutaciones propias (GIT\_DIR ajeno, almacén dentro de otro repo o sin repo, archivo editado dos veces, error de sistema al commitear) (trailer)
+- `4537091` almacen-commits: evidencia del candidato tras las mutaciones propias (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-230858-stu-almacen-commits`.
 
 ## Mensajes

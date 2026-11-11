@@ -146,6 +146,32 @@
       "forma": "mensaje",
       "cuando": "2026-11-10T23:44:52.227395+00:00",
       "texto": "autopilot se detuvo: el paso falló (código 1): La suite entera corre en segundo plano; no edito nada hasta que termine.\n\nYou've hit your 5-hour limit · resets 12am (America/Argentina/Salta)"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T10:21:58.949786+00:00",
+      "revisor": "codex",
+      "candidato": "4010151",
+      "lanzamiento": "5f644d77454c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T10:25:54.822997+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "4010151",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "5f644d77454c"
     }
   ],
   "tipos": {

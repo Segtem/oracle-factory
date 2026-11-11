@@ -192,6 +192,14 @@ class AlmacenCommits(unittest.TestCase):
         self.assertIn(f'.factory/cambios/{ident}/factory.json', tocados)
         self.assertIn(f'.factory/cambios/{ident}/factory.json', self.archivos_del_ultimo())
         self.assertIn('nota_a_mano', self.git_en(self.almacen, 'show', f'HEAD:.factory/cambios/{ident}/factory.json'))
+        # lo que el almacén ignora (.factory/local/, los paquetes de Clue) es de cada máquina: no entra en la foto ni en ningún commit
+        local = self.almacen / '.factory/local/revisores/copia.txt'
+        local.parent.mkdir(parents=True, exist_ok=True)
+        local.write_text('copia de un revisor\n', encoding='utf-8')
+        self.assertNotIn('.factory/local/revisores/copia.txt', f.almacenes.foto(self.almacen))
+        self.bien('mensaje', ident, 'con algo local', agente='claude-code')
+        self.assertNotIn('.factory/local/revisores/copia.txt', self.archivos_del_ultimo())
+        self.assertEqual(self.git_en(self.almacen, 'ls-files', '.factory/local'), '')
 
     def test_ac1_un_comando_que_solo_lee_no_commitea(self):
         ident = self.conectado_con_un_cambio()
