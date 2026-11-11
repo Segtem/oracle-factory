@@ -2,7 +2,7 @@
   "id": "20261111-161316-dd7-almacen-guia",
   "titulo": "Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261111-161316-dd7-almacen-guia/specs/flujo/spec.md",
   "spec_sha256": "94225d27c01284ae952707d9054df8383100e326dd8ff03057ee2ab5af19d691",
   "spec_aprobada": {
@@ -16,7 +16,10 @@
       "openspec/changes/20261111-161316-dd7-almacen-guia/specs/flujo/spec.md": "94225d27c01284ae952707d9054df8383100e326dd8ff03057ee2ab5af19d691"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen",
+    "flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +44,24 @@
         "openspec/changes/20261111-161316-dd7-almacen-guia/proposal.md": "0eea51a2055034992084beb49a86b82c7affa5a0c2e03033036953ca45a47de1",
         "openspec/changes/20261111-161316-dd7-almacen-guia/specs/flujo/spec.md": "94225d27c01284ae952707d9054df8383100e326dd8ff03057ee2ab5af19d691"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T16:14:37.352160+00:00",
+      "ids": [
+        "flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen",
+        "flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen": "funcional",
+    "flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

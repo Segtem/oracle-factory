@@ -136,7 +136,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261110-230858-stu-almacen-commits]] — Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros (cerrada)
 - [[cambios/20261111-114616-81f-almacen-bloqueo]] — Registros fuera del repo del producto, etapa 4b1: cada comando commitea sólo lo de su cambio, con un bloqueo corto (cerrada)
 - [[cambios/20261111-135546-t8q-almacen-sincronizar]] — Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas (cerrada)
-- [[cambios/20261111-161316-dd7-almacen-guia]] — Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar (spec_aprobada)
+- [[cambios/20261111-161316-dd7-almacen-guia]] — Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar (requisitos_importados)
 
 ## Requisitos
 
@@ -333,6 +333,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_c93a1d23e9668d672.entorno_explicito_por_corrida]]
 - [[requisitos/flujo_c93a1d23e9668d672.la_guia_de_permisos_no_abre_python]]
 - [[requisitos/flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse]]
+- [[requisitos/flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen]]
+- [[requisitos/flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli]]
 - [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza]]
 - [[requisitos/flujo_cbe1c0ee48f2ba730.autopilot_ejecutar_solo_actua_como_agente_y_nunca_decide_por_una_persona]]
