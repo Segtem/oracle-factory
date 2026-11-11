@@ -207,7 +207,7 @@ def foto(almacen: Path) -> dict[str, str | None] | None:
         return None
     vista: dict[str, str | None] = {}
     for entrada in estado.stdout.split(b"\0"):
-        if len(entrada) > 3:
+        if len(entrada) > 3 and not _es_local(os.fsdecode(entrada[3:])):  # lo local de cada máquina no entra nunca, aunque esté versionado
             vista[os.fsdecode(entrada[3:])] = _huella(almacen / os.fsdecode(entrada[3:]))
     # Lo que el .gitignore del almacén deja afuera no se commitea (manda el almacén), pero si es un registro y no algo local de
     # Factory, se avisa: va en la foto con la marca IGNORADO delante.

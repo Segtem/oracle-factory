@@ -43,6 +43,8 @@ capacidad: "flujo"
 - `4537091` almacen-commits: evidencia del candidato tras las mutaciones propias (trailer)
 - `618b9de` almacen-commits: lo que el almacén ignora (.factory/local/, paquetes) no entra en ningún commit (fijado por el hallazgo F1 de codex) (trailer)
 - `f8260e0` almacen-commits: evidencia del candidato tras F1 (trailer)
+- `7dd111d` almacen-commits: avisa de los registros que el .gitignore del almacén deja afuera, salvo lo local de Factory (hallazgo F1 de codex) (trailer)
+- `5931ab0` almacen-commits: evidencia del candidato tras F1 (aviso) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-230858-stu-almacen-commits`.
 
 ## Mensajes

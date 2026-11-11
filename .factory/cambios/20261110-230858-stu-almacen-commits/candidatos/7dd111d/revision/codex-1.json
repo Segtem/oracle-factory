@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-almacen-commits/.factory/local/revisiones/7dd111d-codex-1",
+  "base": "3b7a508da3e4bf15fbc52db34c154b8c80fff0bc",
+  "head": "7dd111db0e97a96aaea9bb561ee231cc3b232b67",
+  "diff_sha256": "538433a5bc92493ab0a05f45abd8cf1dda11e497fd7a33fcde1e8acc167c0bd0",
+  "context_sha256": "bd311dd6a8ed194f57ff1d51cf33cecff5d6a08fc52f0de6ee5bcd745438eaca",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El commit automático puede incluir archivos locales de cada máquina",
+      "explanation": "foto() filtra con _es_local() sólo las rutas que aparecen como ignoradas. Las entradas normales de git status se copian a vista sin ese filtro, y commitear() las agrega a tocados. Si .factory/local/ o un paquete clue/ está versionado (por ejemplo, se agregó forzadamente) o dejó de estar ignorado, un comando que cambie esos archivos puede incluirlos en el commit compartido del almacén. La revisión reprodujo el caso en un repo Git temporal: tras modificar un .factory/local/revisores/informe.json versionado, foto() lo listó y commitear() creó un commit que lo contenía. Esto contradice la exclusión local por diseño aplicada en el propio código y los escenarios de pruebas que afirman que lo local no entra en ningún commit.",
+      "location": {
+        "file": "oracle_factory/almacenes.py",
+        "start_line": 209,
+        "end_line": 211,
+        "side": "head"
+      },
+      "trigger": "En un almacén conectado, versionar .factory/local/revisores/informe.json (o dejar de ignorar esa ruta) y ejecutar un comando Factory que lo modifique; el commit automático incluye ese archivo local.",
+      "evidence": "En las líneas 209–211, cada entrada de status normal se agrega a vista sin consultar _es_local(). El único filtro aparece después, en las líneas 214–218, al procesar entradas !!. Reproducción guardada en repro-local.log: “tracked local listed in regular photo: True”; “tracked local in commit: .factory/local/revisores/informe.json”; el árbol queda limpio tras ese commit.",
+      "related_requirement": "con_almacen_cada_comando_que_escribe_deja_su_commit",
+      "status": "pendiente",
+      "verification": "Reproducido con un repo Git temporal y llamada a foto()/commitear(); además, ejecuté las 10 pruebas de tests/test_almacen_commits.py, que pasaron. No modifiqué el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff completo de los 13 archivos incluidos y las dos revisiones anteriores; el paquete declara omissions: [] y no omite archivos binarios.",
+    "Corrí las 10 pruebas de tests/test_almacen_commits.py con Python del sistema; .venv/bin/python no está presente en el checkout de revisión. No corrí unittest discover completo ni la evidencia de Oracle.",
+    "Reproduje en un repo temporal que una ruta .factory/local versionada y modificada se incluye en el commit automático; no probé todas las variantes de rutas locales ni hice mutaciones al checkout.",
+    "F2 anterior (actor sin identificar para invocación no interactiva) permanece como riesgo aceptado por las indicaciones de esta ronda y no se reporta como defecto de código."
+  ]
+}
