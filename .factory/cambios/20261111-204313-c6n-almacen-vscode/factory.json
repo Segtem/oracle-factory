@@ -214,6 +214,32 @@
         "factory_almacen_vscode.la_extension_reconoce_y_vigila_un_producto_conectado",
         "factory_almacen_vscode.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T21:31:46.507154+00:00",
+      "revisor": "codex",
+      "candidato": "4311756",
+      "lanzamiento": "f11a89287961"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T21:32:43.352664+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "4311756",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "f11a89287961"
     }
   ],
   "tipos": {
