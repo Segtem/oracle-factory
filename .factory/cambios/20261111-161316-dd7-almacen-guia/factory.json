@@ -2,7 +2,7 @@
   "id": "20261111-161316-dd7-almacen-guia",
   "titulo": "Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261111-161316-dd7-almacen-guia/specs/flujo/spec.md",
   "spec_sha256": "94225d27c01284ae952707d9054df8383100e326dd8ff03057ee2ab5af19d691",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen",
     "flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261111-161316-dd7-almacen-guia/revisiones/registro-ssf009np/informe.json",
+    "sha256": "d1a0116ab54c7397c07774807cbed6e4caf6fc7ae4d002537c67ef5a79c2dae0",
+    "decisiones": "tareas/20261111-161316-dd7-almacen-guia/revisiones/registro-ssf009np/decisiones.json",
+    "decisiones_sha256": "4752d641d215085281a62aa93d94de63d8bb534942ff5d6b38a33a275f769946",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-11T18:37:56.537936+00:00",
+    "motivo": "Propuesta del agente claude-code. Etapa 5a de «registros fuera del repo del producto»: la guía de agentes y la skill van al producto sin versionar. Candidato 9e4c901 (camino completo: 195 líneas y toca cli.py): evidencia verde (1436 pruebas, 6 casos de contrato). LO HICE YO, no el agente lanzado (se quedó sin cuota en las dos etapas anteriores). QUÉ HACE: con almacén aparte, agentes y skill --instalar escriben AGENTS.md (con una sección que dice que los registros viven en un almacén aparte y que se comparten con sincronizar), CLAUDE.md y la skill en el producto, y los excluyen en info/exclude del directorio común de Git del producto (vale para todos sus worktrees), salvo lo que ya ignora; nunca .gitignore ni configuración de Git; git status queda limpio. Si el producto ya versiona alguno, se niega (también con --forzar). No sigue enlaces simbólicos. Sin almacén nada cambia. ENCONTRADO EN EL CAMINO: conectar llama a init, y init escribía la guía: con este cambio la habría escrito en el producto durante conectar, que promete no tocarlo; ahora, al preparar un almacén, init sólo avisa que hay que correr agentes. MUTACIONES: 18, todas detectadas. REVISIÓN: sólo codex, 2 rondas: R1 (medio: rutas con metacaracteres de Git) NO SE REPRODUCE: las rutas excluidas son tres constantes sin metacaracteres y el patrón es relativo a la raíz del repo; lo comprobé con un producto en la carpeta 'prod a[b]*?' y quedó fijado con una prueba; propongo DESCARTARLO; la ronda 2 no trajo hallazgos. DECIDE BRIAN: (1) camino completo con un solo proveedor revisor (agy sin cuota). (2) Decisión por defecto, ya dicha en la spec: si el producto versiona su propio AGENTS.md, CLAUDE.md o la skill, Factory se niega en vez de modificarlos. (3) La única escritura en el .git del producto es info/exclude, y sólo cuando se piden agentes o skill --instalar. No edité ninguna prueba existente.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "1cb1b0951ee75be73c2264d189c4e483be15dbec",
+      "archivos_sha256": "c676a453ffb5158eafca42fc2e719afaac9778a739b517ce0e4147364d03f44f"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -172,6 +192,20 @@
       "cuando": "2026-11-11T17:25:58.407357+00:00",
       "decision": "aprobar",
       "candidato": "9e4c901"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T18:37:56.537966+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "d1a0116ab54c7397c07774807cbed6e4caf6fc7ae4d002537c67ef5a79c2dae0",
+      "decisiones_sha256": "4752d641d215085281a62aa93d94de63d8bb534942ff5d6b38a33a275f769946"
     }
   ],
   "tipos": {
@@ -213,14 +247,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Propuesta del agente claude-code. Etapa 5a de «registros fuera del repo del producto»: la guía de agentes y la skill van al producto sin versionar. Candidato 9e4c901 (camino completo: 195 líneas y toca cli.py): evidencia verde (1436 pruebas, 6 casos de contrato). LO HICE YO, no el agente lanzado (se quedó sin cuota en las dos etapas anteriores). QUÉ HACE: con almacén aparte, agentes y skill --instalar escriben AGENTS.md (con una sección que dice que los registros viven en un almacén aparte y que se comparten con sincronizar), CLAUDE.md y la skill en el producto, y los excluyen en info/exclude del directorio común de Git del producto (vale para todos sus worktrees), salvo lo que ya ignora; nunca .gitignore ni configuración de Git; git status queda limpio. Si el producto ya versiona alguno, se niega (también con --forzar). No sigue enlaces simbólicos. Sin almacén nada cambia. ENCONTRADO EN EL CAMINO: conectar llama a init, y init escribía la guía: con este cambio la habría escrito en el producto durante conectar, que promete no tocarlo; ahora, al preparar un almacén, init sólo avisa que hay que correr agentes. MUTACIONES: 18, todas detectadas. REVISIÓN: sólo codex, 2 rondas: R1 (medio: rutas con metacaracteres de Git) NO SE REPRODUCE: las rutas excluidas son tres constantes sin metacaracteres y el patrón es relativo a la raíz del repo; lo comprobé con un producto en la carpeta 'prod a[b]*?' y quedó fijado con una prueba; propongo DESCARTARLO; la ronda 2 no trajo hallazgos. DECIDE BRIAN: (1) camino completo con un solo proveedor revisor (agy sin cuota). (2) Decisión por defecto, ya dicha en la spec: si el producto versiona su propio AGENTS.md, CLAUDE.md o la skill, Factory se niega en vez de modificarlos. (3) La única escritura en el .git del producto es info/exclude, y sólo cuando se piden agentes o skill --instalar. No edité ninguna prueba existente.",
-      "candidato": "9e4c901",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T17:25:58.407343+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
