@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:3f56bb591e757e7b6bd327eb12df9692e6a65e975218c59a8d60dc9d4abecd25 -->
+<!-- oracle-factory resumen sha256:a3cf3774f825ffd3802077db9f13575fc48f1bf11905f4fc4aca1f36254be981 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 375 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 377 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -308,6 +308,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | lo_mudado_a_proyecto_sigue_igual | no funcional | `flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual` | factory_partir_cli.lo_mudado_a_proyecto_sigue_igual, factory_partir_cli.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-203907-qfp-partir-cli |
 | con_almacen_cada_comando_que_escribe_deja_su_commit | funcional | `flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit` | factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit, factory_almacen_commits.corrida_completa | verde al cerrar el 2026-11-11 | 20261110-230858-stu-almacen-commits |
 | el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar | funcional | `flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar` | factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar, factory_almacen_commits.corrida_completa | verde al cerrar el 2026-11-11 | 20261110-230858-stu-almacen-commits |
+| con_almacen_cada_comando_commitea_solo_lo_de_su_cambio | funcional | `flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio` | factory_almacen_bloqueo.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio, factory_almacen_bloqueo.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-114616-81f-almacen-bloqueo |
+| el_commit_del_almacen_se_hace_con_un_bloqueo_corto | funcional | `flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto` | factory_almacen_bloqueo.el_commit_del_almacen_se_hace_con_un_bloqueo_corto, factory_almacen_bloqueo.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-114616-81f-almacen-bloqueo |
 
 ### ide
 
@@ -1876,6 +1878,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261110-230858-stu-almacen-commits) codex (gpt-6-luna): Verifiqué que `_huella` cambió respecto de la ronda 4 para incluir el modo ejecutable, y reproduje que un cambio de modo altera la huella. Verifiqué que `foto` mantiene la clave FALLA al fallar `git status` y que `commitear` avisa sin intentar commit; la prueba del índice corrupto del candidato también pasó.
 - (20261110-230858-stu-almacen-commits) codex (gpt-6-luna): Confirmé en la prueba de registros ignorados que el aviso de `.gitignore` se produce, y en el caso de `.factory/local` versionado a la fuerza que la ruta sigue fuera del commit. No reporto regresión de esos hallazgos previos.
 - (20261110-230858-stu-almacen-commits) codex (gpt-6-luna): La reproducción de concurrencia usó comandos reales `nuevo` y una barrera de sincronización en el cierre para fijar el intercalado; no ensayé todas las combinaciones de comandos concurrentes.
+- (20261111-114616-81f-almacen-bloqueo) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261111-114616-81f-almacen-bloqueo) codex (gpt-6-luna): Leí la propuesta y la spec indicadas, el diff completo de los 11 archivos de texto del paquete, la implementación de oracle_factory/almacenes.py, las pruebas tests/test_almacen_bloqueo.py y tests/test_almacen_commits.py, y la revisión previa H-01. El paquete declara omissions vacías.
+- (20261111-114616-81f-almacen-bloqueo) codex (gpt-6-luna): Corrí `python -m unittest tests.test_almacen_bloqueo </dev/null`: 7 pruebas, OK. No corrí la suite completa ni tools/verify_*.py.
+- (20261111-114616-81f-almacen-bloqueo) codex (gpt-6-luna): La prueba test_ab2_el_bloqueo_no_se_toma_mientras_el_comando_trabaja crea un worktree enlazado del almacén y verifica que archivo_del_bloqueo coincide para ambos worktrees; la prueba de dos comandos concurrentes comprueba commits separados y ausencia de index.lock.
+- (20261111-114616-81f-almacen-bloqueo) codex (gpt-6-luna): En una copia temporal de oracle_factory y tests, muté archivo_del_bloqueo para usar `git rev-parse --git-path factory-commit.lock`; el conjunto focalizado falló en la aserción de igualdad entre rutas del worktree y el principal. La mutación sobrevivió en las otras 6 pruebas, que no ejercitan esa propiedad específica.
+- (20261111-114616-81f-almacen-bloqueo) codex (gpt-6-luna): No hice cambios en el checkout. No encontré defectos reproducibles en el diff; H-01 se considera corregido por la ruta común y por la prueba de regresión.
 
 ### Históricos
 

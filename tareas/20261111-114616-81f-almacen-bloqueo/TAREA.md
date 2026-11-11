@@ -1,6 +1,6 @@
 # Registros fuera del repo del producto, etapa 4b1: cada comando commitea sólo lo de su cambio, con un bloqueo corto
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-11 13:16:04 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261111-114616-81f-almacen-bloqueo/oracle-veredicto.txt.
+
+### Nota (2026-11-11 13:37:29 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
