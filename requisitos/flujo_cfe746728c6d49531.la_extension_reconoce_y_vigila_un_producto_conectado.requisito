@@ -1,0 +1,4 @@
+requisito flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado:
+    texto "Tipo: funcional El sistema DEBE hacer que la extensión de VS Code se active también con `onStartupFinished` y trate como proyecto de Factory una carpeta con `.factory/` o un producto conectado a un almacén (según `conectar --json`): con un producto conectado DEBE mostrar los cambios y sus pasos como con `.factory/` en la carpeta, leer `destinos.json` del almacén y vigilar los `factory.json` de los cambios y los registros de despliegue en el almacén; sin `.factory/` ni conexión DEBE seguir diciendo que la carpeta no es un proyecto de Factory."
+    fuente "openspec/changes/20261111-204313-c6n-almacen-vscode/specs/flujo/spec.md#la_extension_reconoce_y_vigila_un_producto_conectado"
+    sin_medir "sin medida todavía; escenarios: «un producto conectado», «una carpeta sin Factory», «la activación»"

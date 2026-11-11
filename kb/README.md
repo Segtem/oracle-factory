@@ -137,7 +137,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261111-114616-81f-almacen-bloqueo]] — Registros fuera del repo del producto, etapa 4b1: cada comando commitea sólo lo de su cambio, con un bloqueo corto (cerrada)
 - [[cambios/20261111-135546-t8q-almacen-sincronizar]] — Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas (cerrada)
 - [[cambios/20261111-161316-dd7-almacen-guia]] — Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar (cerrada)
-- [[cambios/20261111-204313-c6n-almacen-vscode]] — Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén (spec_aprobada)
+- [[cambios/20261111-204313-c6n-almacen-vscode]] — Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén (requisitos_importados)
 
 ## Requisitos
 
@@ -361,6 +361,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cf63459721e7fb9ac.los_frenos_salen_de_los_datos_del_cambio]]
 - [[requisitos/flujo_cf9d3b25ba991cfbd.leer_ignora_los_eventos_que_no_son_objetos]]
 - [[requisitos/flujo_cf9d3b25ba991cfbd.los_comandos_de_lectura_siguen_funcionando_con_eventos_raros]]
+- [[requisitos/flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json]]
+- [[requisitos/flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado]]
 - [[requisitos/ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse]]
 - [[requisitos/ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos]]
 - [[requisitos/ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista]]

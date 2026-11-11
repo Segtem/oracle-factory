@@ -2,7 +2,7 @@
   "id": "20261111-204313-c6n-almacen-vscode",
   "titulo": "Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261111-204313-c6n-almacen-vscode/specs/flujo/spec.md",
   "spec_sha256": "bfce717453fd710b50bf3b567c788b225aeabb8513bc4da121f0765ff3546bf4",
   "spec_aprobada": {
@@ -16,7 +16,10 @@
       "openspec/changes/20261111-204313-c6n-almacen-vscode/specs/flujo/spec.md": "bfce717453fd710b50bf3b567c788b225aeabb8513bc4da121f0765ff3546bf4"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json",
+    "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +44,24 @@
         "openspec/changes/20261111-204313-c6n-almacen-vscode/proposal.md": "16752d23963b84d8fbcc66e4993f5ea6cb371ad723d89ded25a2c728e8cec85b",
         "openspec/changes/20261111-204313-c6n-almacen-vscode/specs/flujo/spec.md": "bfce717453fd710b50bf3b567c788b225aeabb8513bc4da121f0765ff3546bf4"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T20:51:40.317583+00:00",
+      "ids": [
+        "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json",
+        "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json": "funcional",
+    "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

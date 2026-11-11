@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261111-204313-c6n-almacen-vscode. Modo de trabajo: 
 ### Nota (2026-11-11 20:50:18 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261111-204313-c6n-almacen-vscode/specs/flujo/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-11 20:51:40 UTC)
+
+Requisitos importados: flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json (funcional), flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
