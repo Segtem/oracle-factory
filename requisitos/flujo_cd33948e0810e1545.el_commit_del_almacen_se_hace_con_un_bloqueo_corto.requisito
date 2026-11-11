@@ -1,0 +1,4 @@
+requisito flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto:
+    texto "Tipo: funcional El sistema DEBE, con almacén aparte, hacer la foto final, el `add` y el `commit` de cada comando bajo un bloqueo exclusivo del almacén que se toma sólo para eso, de modo que dos comandos que terminan a la vez commiteen uno después del otro sin fallar por el `index.lock` de Git; NO DEBE tener tomado ese bloqueo mientras el comando trabaja; y si no lo consigue en un plazo, NO DEBE fallar: DEBE avisar y dejar los registros en el disco."
+    fuente "openspec/changes/20261111-114616-81f-almacen-bloqueo/specs/flujo/spec.md#el_commit_del_almacen_se_hace_con_un_bloqueo_corto"
+    medido_por factory_almacen_bloqueo.el_commit_del_almacen_se_hace_con_un_bloqueo_corto, factory_almacen_bloqueo.corrida_completa

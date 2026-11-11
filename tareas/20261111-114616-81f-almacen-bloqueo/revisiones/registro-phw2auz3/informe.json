@@ -1,0 +1,54 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261111-114616-81f-almacen-bloqueo",
+  "contexto": {
+    "head": "dc765c5c0d57b59772836942d3fa6bb4f96b24d8",
+    "archivos_sha256": "db188fd4ee8ee1b581aca1476ab8352fcee97c796f0eed17e767b1e6ac646986"
+  },
+  "documentos": {
+    "openspec/changes/20261111-114616-81f-almacen-bloqueo/proposal.md": "8bfbac82e0b625b07acace4ab9da470e68122586a3a96df5a6f07759ea008943",
+    "openspec/changes/20261111-114616-81f-almacen-bloqueo/specs/flujo/spec.md": "c94658c491d4d1e26186cad2b47c2100817398946057b0af12af31ee539c1e20"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_almacen_bloqueo.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio.oracle",
+    "catalogos/factory_almacen_bloqueo.corrida_completa.oracle",
+    "catalogos/factory_almacen_bloqueo.el_commit_del_almacen_se_hace_con_un_bloqueo_corto.oracle",
+    "openspec/changes/20261111-114616-81f-almacen-bloqueo/design.md",
+    "openspec/changes/20261111-114616-81f-almacen-bloqueo/proposal.md",
+    "openspec/changes/20261111-114616-81f-almacen-bloqueo/specs/flujo/spec.md",
+    "openspec/changes/20261111-114616-81f-almacen-bloqueo/tasks.md",
+    "oracle_factory/almacenes.py",
+    "requisitos/flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio.requisito",
+    "requisitos/flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto.requisito",
+    "tests/test_almacen_bloqueo.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1416 pruebas, 7 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261111-114616-81f-almacen-bloqueo/candidatos/a1c3b35/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261111-114616-81f-almacen-bloqueo/candidatos/a1c3b35/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7af6a25: codex (gpt-6-luna), 1 hallazgo: H-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261111-114616-81f-almacen-bloqueo/candidatos/7af6a25/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Leí la propuesta y la spec indicadas, el diff completo de los 11 archivos de texto del paquete, la implementación de oracle_factory/almacenes.py, las pruebas tests/test_almacen_bloqueo.py y tests/test_almacen_commits.py, y la revisión previa H-01. El paquete declara omissions vacías.",
+    "codex (gpt-6-luna): Corrí `python -m unittest tests.test_almacen_bloqueo </dev/null`: 7 pruebas, OK. No corrí la suite completa ni tools/verify_*.py.",
+    "codex (gpt-6-luna): La prueba test_ab2_el_bloqueo_no_se_toma_mientras_el_comando_trabaja crea un worktree enlazado del almacén y verifica que archivo_del_bloqueo coincide para ambos worktrees; la prueba de dos comandos concurrentes comprueba commits separados y ausencia de index.lock.",
+    "codex (gpt-6-luna): En una copia temporal de oracle_factory y tests, muté archivo_del_bloqueo para usar `git rev-parse --git-path factory-commit.lock`; el conjunto focalizado falló en la aserción de igualdad entre rutas del worktree y el principal. La mutación sobrevivió en las otras 6 pruebas, que no ejercitan esa propiedad específica.",
+    "codex (gpt-6-luna): No hice cambios en el checkout. No encontré defectos reproducibles en el diff; H-01 se considera corregido por la ruta común y por la prueba de regresión."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

@@ -12,6 +12,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import time
 
 from . import estructura
 
@@ -240,41 +241,105 @@ def _huella(ruta: Path) -> str | None:
     return None if contenido is None else hashlib.sha256(contenido).hexdigest()  # el bit de ejecución también es un cambio para Git
 
 
+PLAZO_DEL_BLOQUEO = 30  # segundos que un comando espera el bloqueo del commit antes de avisar y dejar los registros en el disco
+
+
+def archivo_del_bloqueo(almacen: Path) -> Path:
+    """El archivo del bloqueo, en la carpeta COMÚN de Git del almacén: el mismo para todos sus worktrees (H-01 de codex)."""
+    hecho = _git_almacen(almacen, "rev-parse", "--path-format=absolute", "--git-common-dir")
+    if hecho.returncode or not hecho.stdout.strip():
+        raise OSError(os.fsdecode(hecho.stderr).strip() or "no encontré la carpeta de Git del almacén")
+    return Path(os.fsdecode(hecho.stdout).strip()) / "factory-commit.lock"
+
+
+@contextlib.contextmanager
+def bloqueo(almacen: Path, plazo: float | None = None):
+    """El bloqueo exclusivo del commit del almacén (flock sobre un archivo de su carpeta de Git): da True si se consiguió dentro
+    del `plazo` (sin plazo, espera hasta conseguirlo) y False si no. Sin fcntl (Windows) da True sin bloquear."""
+    with open(archivo_del_bloqueo(almacen), "a", encoding="utf-8") as candado:
+        limite = None if plazo is None else time.monotonic() + plazo
+        tomado = fcntl is None
+        while not tomado:
+            try:
+                fcntl.flock(candado, fcntl.LOCK_EX | (0 if limite is None else fcntl.LOCK_NB))
+                tomado = True
+            except BlockingIOError:
+                if time.monotonic() >= limite:
+                    break
+                time.sleep(0.05)
+        try:
+            yield tomado
+        finally:
+            if tomado and fcntl:
+                fcntl.flock(candado, fcntl.LOCK_UN)
+
+
+def _cambio_de(ruta: str) -> str | None:
+    """El cambio al que pertenece una ruta del almacén (su carpeta en .factory/cambios/, tareas/ u openspec/changes/, o su nota
+    kb/cambios/ID.md); None si es común."""
+    p = ruta.split("/")
+    if len(p) > 3 and p[:2] in ([estructura.DIR, "cambios"], ["openspec", "changes"]):
+        ident = p[2]
+    elif len(p) > 2 and p[0] == "tareas":
+        ident = p[1]
+    elif len(p) == 3 and p[:2] == ["kb", "cambios"] and p[2].endswith(".md"):
+        ident = p[2][:-3]
+    else:
+        return None
+    return ident if estructura.ID_RE.fullmatch(ident) else None
+
+
 def commitear(cli, almacen: Path, antes: dict[str, str | None] | None, comando: str, ident: str | None = None) -> None:
-    """Commitea en el almacén exactamente lo que cambió desde `antes` (una `foto`); lo que ya estaba cambiado y sigue igual
-    no entra. No escribe configuración de Git, no sube nada y no falla: si Git no puede, avisa y los archivos quedan en el disco.
+    """Commitea en el almacén lo que cambió desde `antes` (una `foto`); lo que ya estaba cambiado y sigue igual no entra. Con un
+    cambio, entra lo suyo (también lo que ya estaba cambiado: otro comando pudo dejarlo) y lo común que cambió; lo de otro cambio
+    queda para el comando de ese cambio. La foto final, el add y el commit van bajo `bloqueo`, que no se toma mientras el comando
+    trabaja. No escribe configuración de Git, no sube nada y no falla: si no puede, avisa y los archivos quedan en el disco.
 
     ponytail: un archivo que ya estaba cambiado a mano y que el comando volvió a cambiar entra entero (no se separan las dos
-    ediciones); si hiciera falta, habría que commitear por trozos."""
+    ediciones); si hiciera falta, habría que commitear por trozos. Dos comandos sobre el MISMO cambio a la vez pueden compartir
+    archivos en un commit (límite declarado de la etapa 4b1)."""
     if antes is None:
         return
     try:
-        despues = foto(almacen) if FALLA not in antes else antes
-        if FALLA in (despues or {}):
-            raise OSError(f"no pude ver qué cambió en el almacén: {despues[FALLA]}")
-        cambiados = sorted(n for n, huella in (despues or {}).items() if n not in antes or antes[n] != huella)
-        tocados = [n for n in cambiados if not n.startswith(IGNORADO)]
-        ignorados = [n[len(IGNORADO):] for n in cambiados if n.startswith(IGNORADO)]
-        if ignorados:
-            print("Aviso: el .gitignore del almacén deja afuera registros que este comando escribió, así que no se commitearon: "
-                  + ", ".join(ignorados[:10]) + (" …" if len(ignorados) > 10 else "") + ". Si son registros del equipo, sacá esa regla del .gitignore.",
-                  file=sys.stderr)
-        if not tocados:
-            return
-        if not (ident and cli.estructura.ID_RE.fullmatch(ident)):  # `nuevo` no recibe el ID: sale de lo que escribió
-            ids = {p[2] for p in (Path(n).parts for n in tocados)
-                   if len(p) > 3 and p[:2] in ((cli.estructura.DIR, "cambios"), ("openspec", "changes")) and cli.estructura.ID_RE.fullmatch(p[2])}
-            ident = ids.pop() if len(ids) == 1 else None
-        quien = cli.actor()
-        pie = "\n".join([*([f"Cambio: {ident}"] if ident else []), f"Comando: {comando}", f"Actor: {quien['actor']} ({quien['tipo_actor']})"])
-        rutas = b"\0".join(os.fsencode(n) for n in tocados)
-        paso = _git_almacen(almacen, "add", "--pathspec-from-file=-", "--pathspec-file-nul", entrada=rutas)
-        if paso.returncode == 0:  # --only: lo que ya estaba en el índice se queda en el índice, sin entrar al commit
-            paso = _git_almacen(almacen, "commit", "-q", "--only", "-m", f"Factory: {comando}{' ' + ident if ident else ''}", "-m", pie,
-                                "--pathspec-from-file=-", "--pathspec-file-nul", entrada=rutas)
-        motivo = "" if paso.returncode == 0 else (os.fsdecode(paso.stderr + paso.stdout).strip() or f"git terminó con código {paso.returncode}")
+        with bloqueo(almacen, PLAZO_DEL_BLOQUEO) as tomado:
+            motivo = (_commitear(cli, almacen, antes, comando, ident) if tomado else
+                      f"otro comando de Factory tiene tomado el bloqueo del commit desde hace más de {PLAZO_DEL_BLOQUEO} s")
     except OSError as e:
         motivo = str(e)
     if motivo:
         print(f"Aviso: no se pudo commitear en el almacén ({almacen}): {motivo}\nLos registros quedaron escritos en el disco; "
-              "arreglá la causa y commitealos a mano en el almacén.", file=sys.stderr)
+              "arreglá la causa y commitealos a mano en el almacén, o el próximo comando de ese cambio los commitea.", file=sys.stderr)
+
+
+def _commitear(cli, almacen: Path, antes: dict[str, str | None], comando: str, ident: str | None) -> str:
+    """El commit, ya con el bloqueo tomado: devuelve el motivo si Git no pudo, o ""."""
+    despues = foto(almacen) if FALLA not in antes else antes
+    if FALLA in (despues or {}):
+        raise OSError(f"no pude ver qué cambió en el almacén: {despues[FALLA]}")
+    despues = despues or {}
+    cambiados = {n for n, huella in despues.items() if n not in antes or antes[n] != huella}
+    if not (ident and cli.estructura.ID_RE.fullmatch(ident)):  # `nuevo` no recibe el ID: es el del cambio que creó (sin versionar todavía)
+        nuevos = {_cambio_de(n) for n in cambiados if n not in antes and n.startswith(f"{cli.estructura.DIR}/cambios/")} - {None}
+        if nuevos:
+            versionados = _git_almacen(almacen, "ls-files", "-z", "--", *(f"{cli.estructura.DIR}/cambios/{i}/" for i in sorted(nuevos)))
+            nuevos = set() if versionados.returncode else nuevos - {_cambio_de(os.fsdecode(n)) for n in versionados.stdout.split(b"\0")}
+        ident = nuevos.pop() if len(nuevos) == 1 else None
+    if ident:  # lo suyo entra aunque ya estuviera cambiado; lo de otro cambio, no
+        cambiados = ({n for n in cambiados if _cambio_de(n.removeprefix(IGNORADO)) in (None, ident)}
+                     | {n for n in despues if _cambio_de(n) == ident})  # lo ignorado ya avisado no se vuelve a avisar
+    tocados = sorted(n for n in cambiados if not n.startswith(IGNORADO))
+    ignorados = sorted(n[len(IGNORADO):] for n in cambiados if n.startswith(IGNORADO))
+    if ignorados:
+        print("Aviso: el .gitignore del almacén deja afuera registros que este comando escribió, así que no se commitearon: "
+              + ", ".join(ignorados[:10]) + (" …" if len(ignorados) > 10 else "") + ". Si son registros del equipo, sacá esa regla del .gitignore.",
+              file=sys.stderr)
+    if not tocados:
+        return ""
+    quien = cli.actor()
+    pie = "\n".join([*([f"Cambio: {ident}"] if ident else []), f"Comando: {comando}", f"Actor: {quien['actor']} ({quien['tipo_actor']})"])
+    rutas = b"\0".join(os.fsencode(n) for n in tocados)
+    paso = _git_almacen(almacen, "add", "--pathspec-from-file=-", "--pathspec-file-nul", entrada=rutas)
+    if paso.returncode == 0:  # --only: lo que ya estaba en el índice se queda en el índice, sin entrar al commit
+        paso = _git_almacen(almacen, "commit", "-q", "--only", "-m", f"Factory: {comando}{' ' + ident if ident else ''}", "-m", pie,
+                            "--pathspec-from-file=-", "--pathspec-file-nul", entrada=rutas)
+    return "" if paso.returncode == 0 else (os.fsdecode(paso.stderr + paso.stdout).strip() or f"git terminó con código {paso.returncode}")

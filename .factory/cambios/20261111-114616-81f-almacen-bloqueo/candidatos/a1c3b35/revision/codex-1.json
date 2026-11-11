@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-almacen-bloqueo/.factory/local/revisiones/a1c3b35-codex-1",
+  "base": "0ba91898fb868a12068227c6cbe6c444766d08d7",
+  "head": "a1c3b35c56d67183b3d53114f005c12610c6aed5",
+  "diff_sha256": "334af1287aacd1a4a7a28c381d7ca74a77fdeb8d7cddc818c27a3d2a96979c2c",
+  "context_sha256": "02e0992ae2cd7d52b55a34668b18c5857a7a630b0fc4e498e6e1621d03aecd91",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta y la spec indicadas, el diff completo de los 11 archivos de texto del paquete, la implementación de oracle_factory/almacenes.py, las pruebas tests/test_almacen_bloqueo.py y tests/test_almacen_commits.py, y la revisión previa H-01. El paquete declara omissions vacías.",
+    "Corrí `python -m unittest tests.test_almacen_bloqueo </dev/null`: 7 pruebas, OK. No corrí la suite completa ni tools/verify_*.py.",
+    "La prueba test_ab2_el_bloqueo_no_se_toma_mientras_el_comando_trabaja crea un worktree enlazado del almacén y verifica que archivo_del_bloqueo coincide para ambos worktrees; la prueba de dos comandos concurrentes comprueba commits separados y ausencia de index.lock.",
+    "En una copia temporal de oracle_factory y tests, muté archivo_del_bloqueo para usar `git rev-parse --git-path factory-commit.lock`; el conjunto focalizado falló en la aserción de igualdad entre rutas del worktree y el principal. La mutación sobrevivió en las otras 6 pruebas, que no ejercitan esa propiedad específica.",
+    "No hice cambios en el checkout. No encontré defectos reproducibles en el diff; H-01 se considera corregido por la ruta común y por la prueba de regresión."
+  ]
+}
