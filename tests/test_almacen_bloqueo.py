@@ -91,7 +91,10 @@ class AlmacenBloqueo(unittest.TestCase):
         return a, b
 
     def pendientes(self, repo=None):
-        return {linea[3:] for linea in self.estado_git(repo).splitlines()}
+        # en crudo y con -z: git_en recorta la salida, y eso le comía el espacio de « M» a la primera línea (y el «.» de .factory)
+        salida = subprocess.run([*_commits.GIT, 'status', '--porcelain', '-z', '--untracked-files=all'], cwd=repo or self.almacen, check=True,
+                                capture_output=True).stdout
+        return {os.fsdecode(e[3:]) for e in salida.split(b'\0') if len(e) > 3}
 
     def b_escribe_durante(self, comando, b):
         """Envuelve la función de un comando de la CLI: antes de que termine, «otro» escribe en el cambio B (su registro, por

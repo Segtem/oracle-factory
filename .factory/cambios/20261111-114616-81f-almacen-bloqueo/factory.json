@@ -152,6 +152,59 @@
         "factory_almacen_bloqueo.el_commit_del_almacen_se_hace_con_un_bloqueo_corto",
         "factory_almacen_bloqueo.corrida_completa"
       ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-11T12:02:24.980390+00:00",
+      "texto": "autopilot delegar_al_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261111-114616-81f-almacen-bloqueo --a agy"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-11T12:35:18.838574+00:00",
+      "texto": "autopilot actuar: «pedir-revision» es un comando mecánico de Factory: lo corre un agente con --agente. Comando: oracle-factory pedir-revision 20261111-114616-81f-almacen-bloqueo --a agy"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T12:35:21.274709+00:00",
+      "revisor": "agy",
+      "candidato": "ff50da2",
+      "lanzamiento": "cf21634e053f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T12:35:29.123995+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "ff50da2",
+      "resultado": "sin_informe",
+      "hallazgos": 0,
+      "lanzamiento": "cf21634e053f"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-11T12:35:29.218665+00:00",
+      "texto": "autopilot se detuvo: el paso falló (código 1): Antes de pedir la revisión, mirá la lista previa (no bloquea; está en docs/lista-previa.md):\n1. ¿Buscaste en el código el ayudante que ya existe (por ejemplo para rutas, nombres o lectura de la spec)…"
     }
   ],
   "tipos": {
