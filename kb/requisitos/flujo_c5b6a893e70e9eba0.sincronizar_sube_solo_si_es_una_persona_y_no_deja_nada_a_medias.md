@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias`
 - Vigente: sí
 - Cambio: [[cambios/20261111-135546-t8q-almacen-sincronizar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias`, `factory_almacen_sincronizar.corrida_completa`
 - Fuente: openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md#sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias
 

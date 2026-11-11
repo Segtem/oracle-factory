@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion`
 - Vigente: sí
 - Cambio: [[cambios/20261111-135546-t8q-almacen-sincronizar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion`, `factory_almacen_sincronizar.corrida_completa`
 - Fuente: openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md#sincronizar_une_los_registros_de_todos_sin_escribir_configuracion
 

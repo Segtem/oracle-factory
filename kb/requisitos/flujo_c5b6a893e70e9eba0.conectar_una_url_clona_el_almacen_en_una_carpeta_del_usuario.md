@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario`
 - Vigente: sí
 - Cambio: [[cambios/20261111-135546-t8q-almacen-sincronizar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario`, `factory_almacen_sincronizar.corrida_completa`
 - Fuente: openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md#conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario
 
