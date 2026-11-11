@@ -128,6 +128,24 @@
         "factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar",
         "factory_almacen_commits.corrida_completa"
       ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-10T23:28:23.115352+00:00",
+      "texto": "autopilot delegar_al_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261110-230858-stu-almacen-commits --a agy"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-10T23:44:52.227395+00:00",
+      "texto": "autopilot se detuvo: el paso falló (código 1): La suite entera corre en segundo plano; no edito nada hasta que termine.\n\nYou've hit your 5-hour limit · resets 12am (America/Argentina/Salta)"
     }
   ],
   "tipos": {

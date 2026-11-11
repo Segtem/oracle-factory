@@ -36,9 +36,13 @@ capacidad: "flujo"
 - `53d3845` almacen-commits: propuesta y spec (etapa 4a) (trailer)
 - `07d0668` almacen-commits: spec aprobada por Brian (trailer)
 - `8f8ffdd` almacen-commits: pruebas de los escenarios (antes del código), catálogos y medidas propuestas (trailer)
+- `9a72af6` almacen-commits: medidas confirmadas por Brian (trailer)
+- `74d8f7b` almacen-commits: Factory commitea en el almacén lo que escribió cada comando (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-230858-stu-almacen-commits`.
 
 ## Mensajes
 
 - 2026-11-10 23:19 · claude-code: autopilot delegar\_al\_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación
 - 2026-11-10 23:23 · claude-code: autopilot se detuvo: confirmar las medidas es sólo de una persona. Comando para una persona: oracle-factory medir 20261110-230858-stu-almacen-commits --confirmar
+- 2026-11-10 23:28 · claude-code: autopilot delegar\_al\_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261110-230858-stu-almacen-commits --a agy
+- 2026-11-10 23:44 · claude-code: autopilot se detuvo: el paso falló (código 1): La suite entera corre en segundo plano; no edito nada hasta que termine. You've hit your 5-hour limit · resets 12am (America/Argentina/Salta)
