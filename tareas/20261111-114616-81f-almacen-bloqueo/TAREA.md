@@ -15,3 +15,11 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-11 11:49:35 UTC)
 
 Requisitos importados: flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio (funcional), flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-11-11 11:55:39 UTC)
+
+Medidas de flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio: factory_almacen_bloqueo.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio, factory_almacen_bloqueo.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-11 11:55:41 UTC)
+
+Medidas de flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto: factory_almacen_bloqueo.el_commit_del_almacen_se_hace_con_un_bloqueo_corto, factory_almacen_bloqueo.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
