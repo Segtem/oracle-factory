@@ -2,7 +2,7 @@
   "id": "20261111-161316-dd7-almacen-guia",
   "titulo": "Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar",
   "capacidad": "flujo",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261111-161316-dd7-almacen-guia/specs/flujo/spec.md",
   "spec_sha256": "94225d27c01284ae952707d9054df8383100e326dd8ff03057ee2ab5af19d691",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "c676a453ffb5158eafca42fc2e719afaac9778a739b517ce0e4147364d03f44f"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261111-161316-dd7-almacen-guia/candidatos/9e4c901/evidencia/hechos.json",
+    "hechos_sha256": "ac77101ea0305cc0526669c9ac6dc715581e2938ff8262abad1996c2ba97041c",
+    "informe": ".factory/cambios/20261111-161316-dd7-almacen-guia/oracle-veredicto.txt",
+    "informe_sha256": "611838676095bf448966c7084aeae6a2435e2de628ca39d98e2bf85c071aafc7",
+    "cuando": "2026-11-11T19:52:47.099336+00:00",
+    "contexto": {
+      "head": "21ddf2f6c4447ae72113ae22a1e1099bdd40c8fb",
+      "archivos_sha256": "c676a453ffb5158eafca42fc2e719afaac9778a739b517ce0e4147364d03f44f"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -206,6 +218,17 @@
       "abiertos": 0,
       "sha256": "d1a0116ab54c7397c07774807cbed6e4caf6fc7ae4d002537c67ef5a79c2dae0",
       "decisiones_sha256": "4752d641d215085281a62aa93d94de63d8bb534942ff5d6b38a33a275f769946"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T19:52:47.099353+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "ac77101ea0305cc0526669c9ac6dc715581e2938ff8262abad1996c2ba97041c"
     }
   ],
   "tipos": {

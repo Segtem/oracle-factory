@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen`
 - Vigente: sí
 - Cambio: [[cambios/20261111-161316-dd7-almacen-guia]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_almacen_guia.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen`, `factory_almacen_guia.corrida_completa`
 - Fuente: openspec/changes/20261111-161316-dd7-almacen-guia/specs/flujo/spec.md#con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen
 
