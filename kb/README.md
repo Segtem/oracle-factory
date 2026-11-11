@@ -133,7 +133,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261110-095631-0w3-entorno-agente]] — Autopilot: el agente lanzado recibe un entorno filtrado y una guía de permisos sin Python abierto (cerrada)
 - [[cambios/20261110-140719-h7t-registros-candidato]] — Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes (cerrada)
 - [[cambios/20261110-203907-qfp-partir-cli]] — cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope (cerrada)
-- [[cambios/20261110-230858-stu-almacen-commits]] — Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros (requisitos_importados)
+- [[cambios/20261110-230858-stu-almacen-commits]] — Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros (oracle_verde)
 
 ## Requisitos
 

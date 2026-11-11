@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar`
 - Vigente: sí
 - Cambio: [[cambios/20261110-230858-stu-almacen-commits]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar`, `factory_almacen_commits.corrida_completa`
 - Fuente: openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md#el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar
 

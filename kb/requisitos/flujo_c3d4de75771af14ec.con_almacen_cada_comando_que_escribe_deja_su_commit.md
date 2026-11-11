@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit`
 - Vigente: sí
 - Cambio: [[cambios/20261110-230858-stu-almacen-commits]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit`, `factory_almacen_commits.corrida_completa`
 - Fuente: openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md#con_almacen_cada_comando_que_escribe_deja_su_commit
 
