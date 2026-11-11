@@ -13,6 +13,8 @@ import subprocess
 import sys
 import tempfile
 
+from . import estructura
+
 try:
     import fcntl
 except ImportError:  # sin fcntl (Windows) no hay bloqueo: dos conectar a la vez podrían pisarse
@@ -200,19 +202,39 @@ def foto(almacen: Path) -> dict[str, str | None] | None:
         estado = _git_almacen(almacen, "status", "--porcelain", "-z", "--no-renames", "--untracked-files=all")
     except OSError:
         return None
-    if estado.returncode:
+    ignorado = _git_almacen(almacen, "status", "--porcelain", "-z", "--ignored=traditional", "--untracked-files=all")
+    if estado.returncode or ignorado.returncode:
         return None
     vista: dict[str, str | None] = {}
     for entrada in estado.stdout.split(b"\0"):
         if len(entrada) > 3:
-            nombre = os.fsdecode(entrada[3:])
-            ruta = almacen / nombre
-            try:
-                contenido = os.fsencode(os.readlink(ruta)) if ruta.is_symlink() else ruta.read_bytes() if ruta.is_file() else None
-            except OSError:
-                contenido = None
-            vista[nombre] = None if contenido is None else hashlib.sha256(contenido).hexdigest()
+            vista[os.fsdecode(entrada[3:])] = _huella(almacen / os.fsdecode(entrada[3:]))
+    # Lo que el .gitignore del almacén deja afuera no se commitea (manda el almacén), pero si es un registro y no algo local de
+    # Factory, se avisa: va en la foto con la marca IGNORADO delante.
+    for entrada in ignorado.stdout.split(b"\0"):
+        if entrada.startswith(b"!! "):
+            nombre = os.fsdecode(entrada[3:])  # con --untracked-files=all Git nombra cada archivo, también dentro de una carpeta ignorada
+            if not _es_local(nombre):
+                vista[IGNORADO + nombre] = _huella(almacen / nombre)
     return vista
+
+
+IGNORADO = "\0ignorado:"  # ninguna ruta de Git empieza con NUL
+
+
+def _es_local(ruta: str) -> bool:
+    """Lo que es de cada máquina por diseño (no se comparte): .factory/local/ y los paquetes de Clue de cada candidato."""
+    partes = ruta.split("/")
+    return (ruta.startswith(estructura.IGNORAR_LOCAL)
+            or (len(partes) > 5 and partes[:2] == [estructura.DIR, "cambios"] and partes[3] == "candidatos" and partes[5] == "clue"))
+
+
+def _huella(ruta: Path) -> str | None:
+    try:
+        contenido = os.fsencode(os.readlink(ruta)) if ruta.is_symlink() else ruta.read_bytes() if ruta.is_file() else None
+    except OSError:
+        contenido = None
+    return None if contenido is None else hashlib.sha256(contenido).hexdigest()
 
 
 def commitear(cli, almacen: Path, antes: dict[str, str | None] | None, comando: str, ident: str | None = None) -> None:
@@ -225,7 +247,13 @@ def commitear(cli, almacen: Path, antes: dict[str, str | None] | None, comando: 
         return
     try:
         despues = foto(almacen)
-        tocados = sorted(n for n, huella in (despues or {}).items() if n not in antes or antes[n] != huella)
+        cambiados = sorted(n for n, huella in (despues or {}).items() if n not in antes or antes[n] != huella)
+        tocados = [n for n in cambiados if not n.startswith(IGNORADO)]
+        ignorados = [n[len(IGNORADO):] for n in cambiados if n.startswith(IGNORADO)]
+        if ignorados:
+            print("Aviso: el .gitignore del almacén deja afuera registros que este comando escribió, así que no se commitearon: "
+                  + ", ".join(ignorados[:10]) + (" …" if len(ignorados) > 10 else "") + ". Si son registros del equipo, sacá esa regla del .gitignore.",
+                  file=sys.stderr)
         if not tocados:
             return
         if not (ident and cli.estructura.ID_RE.fullmatch(ident)):  # `nuevo` no recibe el ID: sale de lo que escribió

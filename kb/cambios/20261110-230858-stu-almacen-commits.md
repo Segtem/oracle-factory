@@ -41,6 +41,8 @@ capacidad: "flujo"
 - `7504e5d` almacen-commits: evidencia del candidato (trailer)
 - `4010151` almacen-commits: casos de las mutaciones propias (GIT\_DIR ajeno, almacén dentro de otro repo o sin repo, archivo editado dos veces, error de sistema al commitear) (trailer)
 - `4537091` almacen-commits: evidencia del candidato tras las mutaciones propias (trailer)
+- `618b9de` almacen-commits: lo que el almacén ignora (.factory/local/, paquetes) no entra en ningún commit (fijado por el hallazgo F1 de codex) (trailer)
+- `f8260e0` almacen-commits: evidencia del candidato tras F1 (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261110-230858-stu-almacen-commits`.
 
 ## Mensajes

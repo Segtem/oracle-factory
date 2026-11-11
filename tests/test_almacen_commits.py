@@ -200,6 +200,22 @@ class AlmacenCommits(unittest.TestCase):
         self.bien('mensaje', ident, 'con algo local', agente='claude-code')
         self.assertNotIn('.factory/local/revisores/copia.txt', self.archivos_del_ultimo())
         self.assertEqual(self.git_en(self.almacen, 'ls-files', '.factory/local'), '')
+        # pero si el .gitignore del almacén deja afuera un registro de verdad, Factory no lo commitea (manda el almacén) y avisa (F1 de codex)
+        (self.almacen / '.gitignore').write_text((self.almacen / '.gitignore').read_text(encoding='utf-8') + 'openspec/changes/*/proposal.md\ntareas/\n',
+                                                 encoding='utf-8')
+        self.git_en(self.almacen, 'commit', '-q', '-am', 'ignora las propuestas')
+        tocados, impreso = self.comando_que_escribe('nuevo', 'Otra', '--capacidad', 'notas', '--sufijo', 'ig', agente='claude-code')
+        otro = next(n.split('/')[2] for n in tocados if n.startswith('openspec/changes/') and n.endswith('/proposal.md'))
+        self.assertIn(f'openspec/changes/{otro}/proposal.md', impreso)
+        self.assertIn('.gitignore', impreso)
+        self.assertNotIn(f'openspec/changes/{otro}/proposal.md', self.archivos_del_ultimo())
+        self.assertIn(f'.factory/cambios/{otro}/factory.json', self.archivos_del_ultimo())  # lo demás sí se commitea
+        self.assertNotIn('.factory/local', impreso)  # lo local de Factory no se avisa
+        self.assertIn(f'tareas/{otro}/TAREA.md', impreso)  # una carpeta entera ignorada se recorre: se avisa cada registro que tiene
+        for local in ('.factory/local/revisores/x/pedido.md', f'.factory/cambios/{otro}/candidatos/abc1234/clue/paquete.json'):
+            self.assertTrue(f.almacenes._es_local(local), local)
+        for registro in (f'openspec/changes/{otro}/proposal.md', f'.factory/cambios/{otro}/candidatos/abc1234/evidencia/hechos.json', '.factory/localx'):
+            self.assertFalse(f.almacenes._es_local(registro), registro)
 
     def test_ac1_un_comando_que_solo_lee_no_commitea(self):
         ident = self.conectado_con_un_cambio()
