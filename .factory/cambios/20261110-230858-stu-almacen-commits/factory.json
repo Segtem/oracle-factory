@@ -2,7 +2,7 @@
   "id": "20261110-230858-stu-almacen-commits",
   "titulo": "Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261110-230858-stu-almacen-commits/specs/flujo/spec.md",
   "spec_sha256": "9b23d563e3420ca6bf826ef387c6b47feeabb7bcb945a34eb3c011b93906796a",
   "spec_aprobada": {
@@ -343,6 +343,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "deafbed615af2cd8628b220aa7d59f802e667969844ee7d66c36c1185d1c31a7"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T11:28:26.387807+00:00",
+      "oracle": ".factory/cambios/20261110-230858-stu-almacen-commits/oracle-veredicto.txt",
+      "revision": "tareas/20261110-230858-stu-almacen-commits/revisiones/registro-wbkns3vi/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T11:28:26.438045+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -395,5 +415,17 @@
       "fecha": "2026-11-11T11:27:20.726107+00:00",
       "candidato": "758f789"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-11T11:28:26.324290+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-11T11:28:26.438035+00:00"
+  }
 }

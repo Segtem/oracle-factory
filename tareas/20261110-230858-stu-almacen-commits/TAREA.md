@@ -1,6 +1,6 @@
 # Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-11 11:27:51 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261110-230858-stu-almacen-commits/oracle-veredicto.txt.
+
+### Nota (2026-11-11 11:28:26 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
