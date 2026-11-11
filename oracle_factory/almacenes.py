@@ -194,17 +194,18 @@ def _git_almacen(almacen: Path, *args: str, entrada: bytes | None = None) -> sub
 def foto(almacen: Path) -> dict[str, str | None] | None:
     """Lo que Git ve cambiado en el almacén: {ruta: sha256 del contenido, o None si el archivo no está}.
 
-    None si el almacén no es la raíz de un repo Git: ahí no hay dónde commitear."""
+    None si el almacén no es la raíz de un repo Git: ahí no hay dónde commitear. Si es un repo pero Git falla, la foto trae sólo
+    la clave FALLA con el motivo: el commit no se intenta y se avisa."""
     try:
         arriba = _git_almacen(almacen, "rev-parse", "--show-toplevel")
         if arriba.returncode or Path(os.fsdecode(arriba.stdout).strip()).resolve() != almacen.resolve():
             return None
         estado = _git_almacen(almacen, "status", "--porcelain", "-z", "--no-renames", "--untracked-files=all")
-    except OSError:
-        return None
-    ignorado = _git_almacen(almacen, "status", "--porcelain", "-z", "--ignored=traditional", "--untracked-files=all")
+        ignorado = _git_almacen(almacen, "status", "--porcelain", "-z", "--ignored=traditional", "--untracked-files=all")
+    except OSError as e:
+        return {FALLA: str(e)}
     if estado.returncode or ignorado.returncode:
-        return None
+        return {FALLA: os.fsdecode(estado.stderr + ignorado.stderr).strip() or "git status falló"}
     vista: dict[str, str | None] = {}
     for entrada in estado.stdout.split(b"\0"):
         if len(entrada) > 3 and not _es_local(os.fsdecode(entrada[3:])):  # lo local de cada máquina no entra nunca, aunque esté versionado
@@ -220,6 +221,7 @@ def foto(almacen: Path) -> dict[str, str | None] | None:
 
 
 IGNORADO = "\0ignorado:"  # ninguna ruta de Git empieza con NUL
+FALLA = "\0falla"
 
 
 def _es_local(ruta: str) -> bool:
@@ -231,10 +233,11 @@ def _es_local(ruta: str) -> bool:
 
 def _huella(ruta: Path) -> str | None:
     try:
-        contenido = os.fsencode(os.readlink(ruta)) if ruta.is_symlink() else ruta.read_bytes() if ruta.is_file() else None
+        contenido = (b"enlace:" + os.fsencode(os.readlink(ruta)) if ruta.is_symlink()
+                     else (b"x:" if ruta.stat().st_mode & 0o111 else b"-:") + ruta.read_bytes() if ruta.is_file() else None)
     except OSError:
         contenido = None
-    return None if contenido is None else hashlib.sha256(contenido).hexdigest()
+    return None if contenido is None else hashlib.sha256(contenido).hexdigest()  # el bit de ejecución también es un cambio para Git
 
 
 def commitear(cli, almacen: Path, antes: dict[str, str | None] | None, comando: str, ident: str | None = None) -> None:
@@ -246,7 +249,9 @@ def commitear(cli, almacen: Path, antes: dict[str, str | None] | None, comando: 
     if antes is None:
         return
     try:
-        despues = foto(almacen)
+        despues = foto(almacen) if FALLA not in antes else antes
+        if FALLA in (despues or {}):
+            raise OSError(f"no pude ver qué cambió en el almacén: {despues[FALLA]}")
         cambiados = sorted(n for n, huella in (despues or {}).items() if n not in antes or antes[n] != huella)
         tocados = [n for n in cambiados if not n.startswith(IGNORADO)]
         ignorados = [n[len(IGNORADO):] for n in cambiados if n.startswith(IGNORADO)]

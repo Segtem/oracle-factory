@@ -313,6 +313,25 @@ class AlmacenCommits(unittest.TestCase):
             impreso = self.bien('mensaje', ident, 'hola sin git', agente='claude-code')
         self.assertIn('no se pudo commitear', impreso)
         self.assertIn('git no está', impreso)
+        # un índice de Git roto antes del comando: no se commitea, pero se avisa y el comando termina bien (F2 de codex, ronda 4)
+        indice = self.almacen / '.git/index'
+        sano = indice.read_bytes()
+        indice.write_bytes(b'esto no es un indice')
+        impreso = self.bien('mensaje', ident, 'hola con el índice roto', agente='claude-code')
+        self.assertIn('no se pudo commitear', impreso)
+        self.assertIn('hola con el índice roto', self.registro(ident))
+        indice.write_bytes(sano)
+        # el bit de ejecución cuenta como cambio, como para Git (F1 de codex, ronda 4)
+        script = self.almacen / 'notas.md'
+        original = script.read_bytes()
+        script.write_bytes(original + b'editado\n')  # ya cambiado: está en las dos fotos, y sólo cambia el modo entre una y otra
+        antes = f.almacenes.foto(self.almacen)
+        script.chmod(0o755)
+        despues = f.almacenes.foto(self.almacen)
+        self.assertIn('notas.md', antes)
+        self.assertNotEqual(despues['notas.md'], antes['notas.md'])
+        script.chmod(0o644)
+        script.write_bytes(original)
 
     def test_ac2_no_sube_nada_al_remoto(self):
         remoto = self.base / 'remoto.git'
