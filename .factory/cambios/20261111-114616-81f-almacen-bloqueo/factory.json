@@ -2,7 +2,7 @@
   "id": "20261111-114616-81f-almacen-bloqueo",
   "titulo": "Registros fuera del repo del producto, etapa 4b1: cada comando commitea sólo lo de su cambio, con un bloqueo corto",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261111-114616-81f-almacen-bloqueo/specs/flujo/spec.md",
   "spec_sha256": "c94658c491d4d1e26186cad2b47c2100817398946057b0af12af31ee539c1e20",
   "spec_aprobada": {
@@ -20,8 +20,40 @@
     "flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio",
     "flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261111-114616-81f-almacen-bloqueo/revisiones/registro-phw2auz3/informe.json",
+    "sha256": "18db6cdbaf7bc311070869a4ac4087c3e25c379ac9443b46dd1a9270f539543d",
+    "decisiones": "tareas/20261111-114616-81f-almacen-bloqueo/revisiones/registro-phw2auz3/decisiones.json",
+    "decisiones_sha256": "211e322dc4a2b077454dc55c5752db6f4708948725ff892d295f04aba75af94d",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-11T13:15:10.086407+00:00",
+    "motivo": "Propuesta del agente claude-code. Etapa 4b1 de «registros fuera del repo del producto»: cada comando commitea sólo lo de su cambio, con un bloqueo corto. Candidato a1c3b35 (camino completo): evidencia verde (1416 pruebas, 7 casos de contrato), corrida SIN FACTORY_AGENTE en el entorno (ver abajo). QUIÉN LO HIZO: un agente lanzado por el conductor escribió las 7 pruebas e implementó en almacenes.py (_cambio_de clasifica cada ruta por cambio; con cambio entra lo suyo y lo común, y lo de otro cambio queda para el comando de ese cambio; bloqueo() es un flock exclusivo sólo durante foto final, add y commit, con 30 s de plazo y aviso si no se consigue); yo corregí una ayuda de la prueba que leía mal git status (le comía el punto de .factory), hice las mutaciones (17; reales detectadas; equivalente: soltar el flock explícitamente, porque cerrar el archivo ya lo suelta) y pedí las revisiones. REVISIÓN: sólo codex, 2 rondas: H-01 (medio: el bloqueo quedaba separado entre worktrees del almacén) corregido: el archivo del bloqueo vive en la carpeta común de Git, con prueba; ronda 2 sin hallazgos. QUÉ TENÉS QUE SABER: (1) para que lo de B quede para el comando de B, LO PENDIENTE DEL PROPIO CAMBIO ENTRA AUNQUE YA ESTUVIERA EDITADO ANTES del comando: afloja la regla de la 4a para los archivos del propio cambio (una edición a mano en un archivo del cambio A la commitea el próximo comando de A). (2) Límite declarado: dos comandos sobre el MISMO cambio a la vez pueden compartir archivos en un commit. (3) Encontré la causa de los errores de test_guided que aparecían en la etapa 3 y en esta evidencia del agente: con FACTORY_AGENTE puesto (como lo tiene el agente lanzado), una prueba anterior llama a f.main sin --agente y deja cli.AGENTE puesto, y test_guided aprueba la spec «como agente»; lo reproduje; es de la suite, no de este cambio: queda para otro cambio, y esta evidencia la corrí sin esa variable. Camino completo con un solo proveedor revisor (agy sin cuota). No edité ninguna prueba existente.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "dc765c5c0d57b59772836942d3fa6bb4f96b24d8",
+      "archivos_sha256": "db188fd4ee8ee1b581aca1476ab8352fcee97c796f0eed17e767b1e6ac646986"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261111-114616-81f-almacen-bloqueo/candidatos/a1c3b35/evidencia/hechos.json",
+    "hechos_sha256": "8679fe0bd20175ebfc1dd33ef18e954063ac78bb20b67808db7690d59de9c85c",
+    "informe": ".factory/cambios/20261111-114616-81f-almacen-bloqueo/oracle-veredicto.txt",
+    "informe_sha256": "6dac714d93b5dda955ceb705e4a8a47d1fc38b28ab4baa8222f8b3eafd4bb2fb",
+    "cuando": "2026-11-11T13:16:04.074182+00:00",
+    "contexto": {
+      "head": "dc765c5c0d57b59772836942d3fa6bb4f96b24d8",
+      "archivos_sha256": "db188fd4ee8ee1b581aca1476ab8352fcee97c796f0eed17e767b1e6ac646986"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -267,6 +299,31 @@
       "cuando": "2026-11-11T13:12:13.834521+00:00",
       "decision": "aprobar",
       "candidato": "a1c3b35"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T13:15:10.086436+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "18db6cdbaf7bc311070869a4ac4087c3e25c379ac9443b46dd1a9270f539543d",
+      "decisiones_sha256": "211e322dc4a2b077454dc55c5752db6f4708948725ff892d295f04aba75af94d"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T13:16:04.074198+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "8679fe0bd20175ebfc1dd33ef18e954063ac78bb20b67808db7690d59de9c85c"
     }
   ],
   "tipos": {
@@ -308,14 +365,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Propuesta del agente claude-code. Etapa 4b1 de «registros fuera del repo del producto»: cada comando commitea sólo lo de su cambio, con un bloqueo corto. Candidato a1c3b35 (camino completo): evidencia verde (1416 pruebas, 7 casos de contrato), corrida SIN FACTORY_AGENTE en el entorno (ver abajo). QUIÉN LO HIZO: un agente lanzado por el conductor escribió las 7 pruebas e implementó en almacenes.py (_cambio_de clasifica cada ruta por cambio; con cambio entra lo suyo y lo común, y lo de otro cambio queda para el comando de ese cambio; bloqueo() es un flock exclusivo sólo durante foto final, add y commit, con 30 s de plazo y aviso si no se consigue); yo corregí una ayuda de la prueba que leía mal git status (le comía el punto de .factory), hice las mutaciones (17; reales detectadas; equivalente: soltar el flock explícitamente, porque cerrar el archivo ya lo suelta) y pedí las revisiones. REVISIÓN: sólo codex, 2 rondas: H-01 (medio: el bloqueo quedaba separado entre worktrees del almacén) corregido: el archivo del bloqueo vive en la carpeta común de Git, con prueba; ronda 2 sin hallazgos. QUÉ TENÉS QUE SABER: (1) para que lo de B quede para el comando de B, LO PENDIENTE DEL PROPIO CAMBIO ENTRA AUNQUE YA ESTUVIERA EDITADO ANTES del comando: afloja la regla de la 4a para los archivos del propio cambio (una edición a mano en un archivo del cambio A la commitea el próximo comando de A). (2) Límite declarado: dos comandos sobre el MISMO cambio a la vez pueden compartir archivos en un commit. (3) Encontré la causa de los errores de test_guided que aparecían en la etapa 3 y en esta evidencia del agente: con FACTORY_AGENTE puesto (como lo tiene el agente lanzado), una prueba anterior llama a f.main sin --agente y deja cli.AGENTE puesto, y test_guided aprueba la spec «como agente»; lo reproduje; es de la suite, no de este cambio: queda para otro cambio, y esta evidencia la corrí sin esa variable. Camino completo con un solo proveedor revisor (agy sin cuota). No edité ninguna prueba existente.",
-      "candidato": "a1c3b35",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T13:12:13.834507+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
