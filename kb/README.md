@@ -134,7 +134,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261110-140719-h7t-registros-candidato]] — Registros fuera del repo del producto, etapa 3: el candidato y la huella con dos fuentes (cerrada)
 - [[cambios/20261110-203907-qfp-partir-cli]] — cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope (cerrada)
 - [[cambios/20261110-230858-stu-almacen-commits]] — Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros (cerrada)
-- [[cambios/20261111-114616-81f-almacen-bloqueo]] — Registros fuera del repo del producto, etapa 4b1: cada comando commitea sólo lo de su cambio, con un bloqueo corto (spec_aprobada)
+- [[cambios/20261111-114616-81f-almacen-bloqueo]] — Registros fuera del repo del producto, etapa 4b1: cada comando commitea sólo lo de su cambio, con un bloqueo corto (requisitos_importados)
 
 ## Requisitos
 
@@ -340,6 +340,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_decide_el_siguiente_paso_por_reglas]]
 - [[requisitos/flujo_cc3cbaf2da9e917bd.el_conductor_frena_ante_un_freno_o_un_paso_que_no_conoce]]
 - [[requisitos/flujo_ccaf484f1fb333be3.el_freno_de_pruebas_editadas_cede_ante_una_revision_aprobada]]
+- [[requisitos/flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio]]
+- [[requisitos/flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto]]
 - [[requisitos/flujo_cda949385dec880b1.el_segundo_revisor_no_es_uno_que_no_dejo_resultado]]
 - [[requisitos/flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio]]
 - [[requisitos/flujo_ce4aba0f609f14b30.con_registros_aparte_lo_que_necesita_candidato_no_inventa_uno]]
