@@ -84,19 +84,46 @@
         "factory_almacen_guia.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T17:01:39.259371+00:00",
+      "requisito": "flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen",
+      "medidas": [
+        "factory_almacen_guia.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen",
+        "factory_almacen_guia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T17:01:39.465606+00:00",
+      "requisito": "flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar",
+      "medidas": [
+        "factory_almacen_guia.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar",
+        "factory_almacen_guia.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen": "funcional",
     "flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T17:01:39.205371+00:00",
       "sha256": "077ac9d26c9acf0ad7ccf1122147ab5e5d253a38d2124810bd96efb2808c7cbd",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T16:21:22.380630+00:00",
       "catalogos": {
         "factory_almacen_guia.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen": "dad6be76cc6a77f8cee0d9d718b981d775762bdaac9beaaa5c5c64a637b754aa",
         "factory_almacen_guia.corrida_completa": "447715289d8e8f6e49ab1a4a2ff521dc3f8c5fc566c12b4afa38c43e926358bb"
@@ -107,10 +134,12 @@
       }
     },
     "flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T17:01:39.412030+00:00",
       "sha256": "7f82526af115c7ca03afeb04b9b268b757e4fd155aa6ca6a5aecf2af8dfdb768",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T16:21:24.593339+00:00",
       "catalogos": {
         "factory_almacen_guia.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar": "0d00b17e241d10bc9cd6d5f2b94a58f0f6c29d824ba828dacf77e2cba9732241",
         "factory_almacen_guia.corrida_completa": "447715289d8e8f6e49ab1a4a2ff521dc3f8c5fc566c12b4afa38c43e926358bb"
@@ -120,5 +149,6 @@
         "factory_almacen_guia.corrida_completa": "catalogos/factory_almacen_guia.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
