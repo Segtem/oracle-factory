@@ -136,6 +136,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "417530c6885b"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-11T21:19:40.840700+00:00",
+      "decision": "aprobar",
+      "candidato": "ab0ba9b"
     }
   ],
   "tipos": {
@@ -176,5 +186,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "conectar --json y la extensión con producto conectado probados en av1–av2 (y las pruebas de la extensión de antes); suite completa verde en ab0ba9b; mutaciones propias muertas salvo una equivalente que se quitó; codex sin hallazgos",
+      "candidato": "ab0ba9b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-11T21:19:40.840687+00:00"
+    }
+  }
 }
