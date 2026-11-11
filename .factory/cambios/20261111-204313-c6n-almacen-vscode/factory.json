@@ -84,19 +84,46 @@
         "factory_almacen_vscode.corrida_completa"
       ],
       "sin_medir": "sin medida todavía; escenarios: «un producto conectado», «una carpeta sin Factory», «la activación»"
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T21:06:59.437994+00:00",
+      "requisito": "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json",
+      "medidas": [
+        "factory_almacen_vscode.conectar_dice_la_conexion_como_json",
+        "factory_almacen_vscode.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T21:06:59.651036+00:00",
+      "requisito": "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado",
+      "medidas": [
+        "factory_almacen_vscode.la_extension_reconoce_y_vigila_un_producto_conectado",
+        "factory_almacen_vscode.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json": "funcional",
     "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T21:06:59.383047+00:00",
       "sha256": "31c4b1c0f6aaf1fed9a44c2df2f3e904d4e0e1a0b0716c6b11c7c8bf1c2fb7a7",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T21:05:36.764609+00:00",
       "catalogos": {
         "factory_almacen_vscode.conectar_dice_la_conexion_como_json": "ecd837e149f113a0223772307d4908151b884d31094380284ac7e59cbcd0ca7e",
         "factory_almacen_vscode.corrida_completa": "a8d41aab5d01b1b08014291a2a03c725bfc57f673ef65bb7cdb1d3de9f966338"
@@ -107,10 +134,12 @@
       }
     },
     "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T21:06:59.596140+00:00",
       "sha256": "fe705c9bd771872aaed574704b9ba739c7a87e131a62d37ed463cfac2f051280",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T21:05:39.039942+00:00",
       "catalogos": {
         "factory_almacen_vscode.la_extension_reconoce_y_vigila_un_producto_conectado": "c0ddbf6798c2d0966d5a496df2795c40b745aa254ae716225679d05dc9639e7a",
         "factory_almacen_vscode.corrida_completa": "a8d41aab5d01b1b08014291a2a03c725bfc57f673ef65bb7cdb1d3de9f966338"
@@ -120,5 +149,6 @@
         "factory_almacen_vscode.corrida_completa": "catalogos/factory_almacen_vscode.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
