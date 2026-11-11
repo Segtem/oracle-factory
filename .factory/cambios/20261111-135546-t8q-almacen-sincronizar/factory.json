@@ -2,7 +2,7 @@
   "id": "20261111-135546-t8q-almacen-sincronizar",
   "titulo": "Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md",
   "spec_sha256": "c8b07b4df34adb6df086c448f1e1d6a029bc9c160776f6cb70013a3f4a393ad5",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md": "c8b07b4df34adb6df086c448f1e1d6a029bc9c160776f6cb70013a3f4a393ad5"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+    "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+    "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261111-135546-t8q-almacen-sincronizar/proposal.md": "5ded8b6b070e56ace8d4faca10c8ea5d51567d7f13b86204d0dcae8959780815",
         "openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md": "c8b07b4df34adb6df086c448f1e1d6a029bc9c160776f6cb70013a3f4a393ad5"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T13:57:47.516017+00:00",
+      "ids": [
+        "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+        "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+        "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario": "funcional",
+    "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias": "funcional",
+    "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
