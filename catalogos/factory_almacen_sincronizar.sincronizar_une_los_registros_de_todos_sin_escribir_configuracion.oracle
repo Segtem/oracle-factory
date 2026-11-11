@@ -1,0 +1,8 @@
+medida factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion:
+    de almacen_sincronizar_caso c
+    donde c.requisito == "sincronizar_une_los_registros_de_todos_sin_escribir_configuracion" y c.codigo == 0
+    resumen contar(1)
+    umbral == 3 segun contrato porque "deben pasar los 3 casos enumerados para este requisito en tests/test_almacen_sincronizar.py; asociar junto a corrida_completa"
+    requiere almacen_sincronizar_caso
+    ambito universal
+    alcance "escenarios as1–as3 con repos Git temporales y un remoto bare local (sin red), Linux"

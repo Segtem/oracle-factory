@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:a3cf3774f825ffd3802077db9f13575fc48f1bf11905f4fc4aca1f36254be981 -->
+<!-- oracle-factory resumen sha256:8c845fe53679f6e3f6378adf841d94dc49d2d560789869981028feb810c94372 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 377 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 380 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -310,6 +310,9 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar | funcional | `flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar` | factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar, factory_almacen_commits.corrida_completa | verde al cerrar el 2026-11-11 | 20261110-230858-stu-almacen-commits |
 | con_almacen_cada_comando_commitea_solo_lo_de_su_cambio | funcional | `flujo_cd33948e0810e1545.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio` | factory_almacen_bloqueo.con_almacen_cada_comando_commitea_solo_lo_de_su_cambio, factory_almacen_bloqueo.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-114616-81f-almacen-bloqueo |
 | el_commit_del_almacen_se_hace_con_un_bloqueo_corto | funcional | `flujo_cd33948e0810e1545.el_commit_del_almacen_se_hace_con_un_bloqueo_corto` | factory_almacen_bloqueo.el_commit_del_almacen_se_hace_con_un_bloqueo_corto, factory_almacen_bloqueo.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-114616-81f-almacen-bloqueo |
+| conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario | funcional | `flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario` | factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario, factory_almacen_sincronizar.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-135546-t8q-almacen-sincronizar |
+| sincronizar_une_los_registros_de_todos_sin_escribir_configuracion | funcional | `flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion` | factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion, factory_almacen_sincronizar.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-135546-t8q-almacen-sincronizar |
+| sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias | funcional | `flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias` | factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias, factory_almacen_sincronizar.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-135546-t8q-almacen-sincronizar |
 
 ### ide
 
@@ -1884,6 +1887,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261111-114616-81f-almacen-bloqueo) codex (gpt-6-luna): La prueba test_ab2_el_bloqueo_no_se_toma_mientras_el_comando_trabaja crea un worktree enlazado del almacén y verifica que archivo_del_bloqueo coincide para ambos worktrees; la prueba de dos comandos concurrentes comprueba commits separados y ausencia de index.lock.
 - (20261111-114616-81f-almacen-bloqueo) codex (gpt-6-luna): En una copia temporal de oracle_factory y tests, muté archivo_del_bloqueo para usar `git rev-parse --git-path factory-commit.lock`; el conjunto focalizado falló en la aserción de igualdad entre rutas del worktree y el principal. La mutación sobrevivió en las otras 6 pruebas, que no ejercitan esa propiedad específica.
 - (20261111-114616-81f-almacen-bloqueo) codex (gpt-6-luna): No hice cambios en el checkout. No encontré defectos reproducibles en el diff; H-01 se considera corregido por la ruta común y por la prueba de regresión.
+- (20261111-135546-t8q-almacen-sincronizar) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261111-135546-t8q-almacen-sincronizar) codex (gpt-6-luna): Sin hallazgos: inspeccioné los flujos y rangos del diff, contrasté los tres requisitos y escenarios con el código y las pruebas, y confirmé que las dos observaciones previas están cerradas.
+- (20261111-135546-t8q-almacen-sincronizar) codex (gpt-6-luna): Corrí `PYTHONPATH=<checkout> PYTHONPYCACHEPREFIX=/tmp/codex-pycache python -m unittest tests.test_almacen_sincronizar`: 14 pruebas, OK. Sin PYTHONPATH, una prueba falla porque el proceso hijo del driver no puede importar oracle_factory; repetida con el entorno de importación del checkout, pasa.
+- (20261111-135546-t8q-almacen-sincronizar) codex (gpt-6-luna): Corrí py_compile con PYTHONPYCACHEPREFIX=/tmp/codex-pycache: OK. No hice mutaciones en el checkout.
+- (20261111-135546-t8q-almacen-sincronizar) codex (gpt-6-luna): tests/datos/ayuda-cli.json quitó dos líneas dentro del texto de ayuda esperado; el diff sólo actualiza ese snapshot para reflejar el nuevo subcomando sincronizar, por lo que la edición está justificada por este cambio.
+- (20261111-135546-t8q-almacen-sincronizar) codex (gpt-6-luna): El paquete excluye 17 archivos de registros/evidencia de Factory por indicación del pedido; no los revisé. No hubo omisiones binarias.
 
 ### Históricos
 

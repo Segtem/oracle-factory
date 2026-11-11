@@ -1,0 +1,388 @@
+{
+  "id": "20261111-135546-t8q-almacen-sincronizar",
+  "titulo": "Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas",
+  "capacidad": "flujo",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md",
+  "spec_sha256": "c8b07b4df34adb6df086c448f1e1d6a029bc9c160776f6cb70013a3f4a393ad5",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-11T13:57:24.344729+00:00",
+    "documentos": {
+      "openspec/changes/20261111-135546-t8q-almacen-sincronizar/proposal.md": "5ded8b6b070e56ace8d4faca10c8ea5d51567d7f13b86204d0dcae8959780815",
+      "openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md": "c8b07b4df34adb6df086c448f1e1d6a029bc9c160776f6cb70013a3f4a393ad5"
+    }
+  },
+  "requisitos": [
+    "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+    "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+    "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261111-135546-t8q-almacen-sincronizar/revisiones/registro-zo3iuahp/informe.json",
+    "sha256": "5515f29cdb5e393d9084fa248a99185c433741a3e568e3ef8f79d5258b3595fb",
+    "decisiones": "tareas/20261111-135546-t8q-almacen-sincronizar/revisiones/registro-zo3iuahp/decisiones.json",
+    "decisiones_sha256": "7124e5c5e5759e117310dd3f13a99ed493db993cd949a7c2556dc529b4ed3c40",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-11T15:50:08.500234+00:00",
+    "motivo": "Propuesta del agente claude-code. Etapa 4b2 de «registros fuera del repo del producto»: conectar desde una URL y sincronizar el almacén entre personas. Candidato 1a1c920 (camino completo): evidencia verde (1430 pruebas, 14 casos de contrato). QUIÉN LO HIZO: el agente lanzado escribió las pruebas (se quedó sin cuota a los 3 minutos y dejó un error en su setUp, que corregí) y después implementó (almacenes.es_url, clonar en un temporal que se renombra, sincronizar bajo el bloqueo de la 4b1 con los drivers de unión pasados con git -c, rehacer lo generado, merge --abort y reset --hard al punto de partida si algo falla, push sólo si es una persona). Yo regeneré la ayuda del CLI, documenté conectar URL y sincronizar en docs/estructura.md (dos pruebas existentes lo exigían y la primera evidencia falló por eso), hice las mutaciones (21 sobre el código del agente, reales detectadas; equivalentes declaradas: merge --abort redundante con reset --hard, y la lista de archivos que chocaron, que igual nombra la salida de git merge; un error de mi script mutaba el bloqueo de la 4b1 en vez del de sincronizar: lo corregí) y corregí el hallazgo. REVISIÓN: sólo codex, 2 rondas: codex-01 (ALTO, real): un archivo local ignorado o sin versionar que el remoto agrega versionado se perdía porque Git lo pisa sin avisar: ahora no se une, se nombra y el almacén queda como estaba; codex-02 (medio): la subida fuera del bloqueo era un FALSO POSITIVO (el push está dentro del with): propongo DESCARTARLO; quedó fijado con una prueba que intenta tomar el bloqueo durante el push y no puede; ronda 2 sin hallazgos. PRUEBA EXISTENTE EDITADA (declarada, motivo del freno): tests/datos/ayuda-cli.json regenerado por el subcomando sincronizar y la ayuda nueva de conectar. DECIDE BRIAN: (1) camino completo con un solo proveedor revisor (agy sin cuota). (2) sincronizar no escribe configuración de Git en ningún repo; el .gitattributes del almacén sí lo escribe y commitea (es contenido versionado). (3) Con --agente, sincronizar trae y une pero no sube; el conductor lo puede correr como paso mecánico.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "1cdd575800956974f5abb089296afdf454639f39",
+      "archivos_sha256": "2e9deb5ba479bbd7641c4d02ab612b36924e42411df29dac39f51b1f0f996d74"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261111-135546-t8q-almacen-sincronizar/candidatos/1a1c920/evidencia/hechos.json",
+    "hechos_sha256": "84b83287da493d953f86c7bd640c65229fb6078570de9a00eb594110b17ad2ea",
+    "informe": ".factory/cambios/20261111-135546-t8q-almacen-sincronizar/oracle-veredicto.txt",
+    "informe_sha256": "346495f972ba7f4fb77c8c6c9d14769b19ef7d9fec554e783f4a6eb5389bfd69",
+    "cuando": "2026-11-11T15:50:24.973670+00:00",
+    "contexto": {
+      "head": "1cdd575800956974f5abb089296afdf454639f39",
+      "archivos_sha256": "2e9deb5ba479bbd7641c4d02ab612b36924e42411df29dac39f51b1f0f996d74"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T13:55:46.202598+00:00",
+      "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T13:57:24.344753+00:00",
+      "documentos": {
+        "openspec/changes/20261111-135546-t8q-almacen-sincronizar/proposal.md": "5ded8b6b070e56ace8d4faca10c8ea5d51567d7f13b86204d0dcae8959780815",
+        "openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md": "c8b07b4df34adb6df086c448f1e1d6a029bc9c160776f6cb70013a3f4a393ad5"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T13:57:47.516017+00:00",
+      "ids": [
+        "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+        "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+        "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-11T13:57:59.174134+00:00",
+      "texto": "autopilot delegar_al_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-11T14:01:02.246351+00:00",
+      "texto": "autopilot se detuvo: el paso falló (código 1): You've hit your 5-hour limit · resets 11:50am (America/Argentina/Salta)"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-11T14:52:57.581324+00:00",
+      "requisito": "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+      "medidas": [
+        "factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+        "factory_almacen_sincronizar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-11T14:52:59.788685+00:00",
+      "requisito": "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+      "medidas": [
+        "factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+        "factory_almacen_sincronizar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-11T14:53:02.003951+00:00",
+      "requisito": "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion",
+      "medidas": [
+        "factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion",
+        "factory_almacen_sincronizar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T14:59:47.878522+00:00",
+      "requisito": "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+      "medidas": [
+        "factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+        "factory_almacen_sincronizar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T14:59:48.080336+00:00",
+      "requisito": "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+      "medidas": [
+        "factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+        "factory_almacen_sincronizar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T14:59:48.285145+00:00",
+      "requisito": "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion",
+      "medidas": [
+        "factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion",
+        "factory_almacen_sincronizar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-11T15:00:18.058093+00:00",
+      "texto": "autopilot delegar_al_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261111-135546-t8q-almacen-sincronizar --a agy"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-11T15:06:02.579138+00:00",
+      "texto": "autopilot se detuvo: se llegó al tope de 1 pasos"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T15:33:34.903740+00:00",
+      "revisor": "codex",
+      "candidato": "3e8cf90",
+      "lanzamiento": "d946ebf469db"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T15:35:13.847590+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "3e8cf90",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "d946ebf469db"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T15:47:09.063554+00:00",
+      "revisor": "codex",
+      "candidato": "1a1c920",
+      "lanzamiento": "e182c2fed670"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T15:49:24.834857+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "1a1c920",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "e182c2fed670"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-11T15:49:43.666858+00:00",
+      "decision": "aprobar",
+      "candidato": "1a1c920"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T15:50:08.500258+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "5515f29cdb5e393d9084fa248a99185c433741a3e568e3ef8f79d5258b3595fb",
+      "decisiones_sha256": "7124e5c5e5759e117310dd3f13a99ed493db993cd949a7c2556dc529b4ed3c40"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T15:50:24.973686+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "84b83287da493d953f86c7bd640c65229fb6078570de9a00eb594110b17ad2ea"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T15:50:40.996606+00:00",
+      "oracle": ".factory/cambios/20261111-135546-t8q-almacen-sincronizar/oracle-veredicto.txt",
+      "revision": "tareas/20261111-135546-t8q-almacen-sincronizar/revisiones/registro-zo3iuahp/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T15:50:41.044653+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
+    }
+  ],
+  "tipos": {
+    "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario": "funcional",
+    "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias": "funcional",
+    "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion": "funcional"
+  },
+  "medidas": {
+    "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T14:59:47.824761+00:00",
+      "sha256": "6e18d6d9bebd7d9a834ab1647add5a72feba52bf66a1c2c0cb3628653e38771b",
+      "catalogos": {
+        "factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario": "3433903fe55b960ccfc2faa777d600b88c95b3d5be02044facab8f5d367c02eb",
+        "factory_almacen_sincronizar.corrida_completa": "ace8353d865671808414a6ec061e7fd16a394fda1a5eb58a0ecf971dbf0b896d"
+      },
+      "archivos_catalogo": {
+        "factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario": "catalogos/factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario.oracle",
+        "factory_almacen_sincronizar.corrida_completa": "catalogos/factory_almacen_sincronizar.corrida_completa.oracle"
+      }
+    },
+    "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T14:59:48.025668+00:00",
+      "sha256": "72d090052d67c6950ad9a86e884cd668a75e33d66f2647449063ec41a969cd1a",
+      "catalogos": {
+        "factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias": "4cfc244359189d7d4022b79e75254f4a5c5319d4c456858994c11340d181c203",
+        "factory_almacen_sincronizar.corrida_completa": "ace8353d865671808414a6ec061e7fd16a394fda1a5eb58a0ecf971dbf0b896d"
+      },
+      "archivos_catalogo": {
+        "factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias": "catalogos/factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias.oracle",
+        "factory_almacen_sincronizar.corrida_completa": "catalogos/factory_almacen_sincronizar.corrida_completa.oracle"
+      }
+    },
+    "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T14:59:48.228404+00:00",
+      "sha256": "06d8194c0c8119266baf6c68929cfe203e0dcdbcc408d6bf42f47478a9b88d7e",
+      "catalogos": {
+        "factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion": "be61d455c2077546e0a2a6c574ea19425b354ac2daa9bc257c700862842bd9a1",
+        "factory_almacen_sincronizar.corrida_completa": "ace8353d865671808414a6ec061e7fd16a394fda1a5eb58a0ecf971dbf0b896d"
+      },
+      "archivos_catalogo": {
+        "factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion": "catalogos/factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion.oracle",
+        "factory_almacen_sincronizar.corrida_completa": "catalogos/factory_almacen_sincronizar.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-11T15:50:40.929562+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-11T15:50:41.044641+00:00"
+  }
+}

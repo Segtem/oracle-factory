@@ -135,6 +135,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261110-203907-qfp-partir-cli]] — cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope (cerrada)
 - [[cambios/20261110-230858-stu-almacen-commits]] — Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros (cerrada)
 - [[cambios/20261111-114616-81f-almacen-bloqueo]] — Registros fuera del repo del producto, etapa 4b1: cada comando commitea sólo lo de su cambio, con un bloqueo corto (cerrada)
+- [[cambios/20261111-135546-t8q-almacen-sincronizar]] — Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas (cerrada)
 
 ## Requisitos
 
@@ -318,6 +319,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_c47a7d33c8e5ed925.con_almacen_aparte_el_ciclo_completo_funciona_sin_tocar_el_producto]]
 - [[requisitos/flujo_c47a7d33c8e5ed925.con_almacen_aparte_la_huella_es_el_producto_y_este_cambio]]
 - [[requisitos/flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto]]
+- [[requisitos/flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario]]
+- [[requisitos/flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias]]
+- [[requisitos/flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion]]
 - [[requisitos/flujo_c7819789b58cf6ed1.el_conductor_delega_la_propuesta_antes_de_pedir_la_revision]]
 - [[requisitos/flujo_c7819789b58cf6ed1.estado_dice_la_ultima_propuesta_de_revision_de_un_agente]]
 - [[requisitos/flujo_c92ca9731e38f72e0.con_el_producto_conectado_los_comandos_usan_el_almacen]]

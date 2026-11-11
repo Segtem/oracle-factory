@@ -1,0 +1,61 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261111-135546-t8q-almacen-sincronizar",
+  "contexto": {
+    "head": "1cdd575800956974f5abb089296afdf454639f39",
+    "archivos_sha256": "2e9deb5ba479bbd7641c4d02ab612b36924e42411df29dac39f51b1f0f996d74"
+  },
+  "documentos": {
+    "openspec/changes/20261111-135546-t8q-almacen-sincronizar/proposal.md": "5ded8b6b070e56ace8d4faca10c8ea5d51567d7f13b86204d0dcae8959780815",
+    "openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md": "c8b07b4df34adb6df086c448f1e1d6a029bc9c160776f6cb70013a3f4a393ad5"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario.oracle",
+    "catalogos/factory_almacen_sincronizar.corrida_completa.oracle",
+    "catalogos/factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias.oracle",
+    "catalogos/factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion.oracle",
+    "docs/estructura.md",
+    "openspec/changes/20261111-135546-t8q-almacen-sincronizar/design.md",
+    "openspec/changes/20261111-135546-t8q-almacen-sincronizar/proposal.md",
+    "openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md",
+    "openspec/changes/20261111-135546-t8q-almacen-sincronizar/tasks.md",
+    "oracle_factory/almacenes.py",
+    "oracle_factory/autopilot.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/parser.py",
+    "requisitos/flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario.requisito",
+    "requisitos/flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias.requisito",
+    "requisitos/flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion.requisito",
+    "tests/datos/ayuda-cli.json",
+    "tests/test_almacen_sincronizar.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1430 pruebas, 14 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261111-135546-t8q-almacen-sincronizar/candidatos/1a1c920/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261111-135546-t8q-almacen-sincronizar/candidatos/1a1c920/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 3e8cf90: codex (gpt-6-luna), 2 hallazgos: codex-01 (alta), codex-02 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261111-135546-t8q-almacen-sincronizar/candidatos/3e8cf90/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Sin hallazgos: inspeccioné los flujos y rangos del diff, contrasté los tres requisitos y escenarios con el código y las pruebas, y confirmé que las dos observaciones previas están cerradas.",
+    "codex (gpt-6-luna): Corrí `PYTHONPATH=<checkout> PYTHONPYCACHEPREFIX=/tmp/codex-pycache python -m unittest tests.test_almacen_sincronizar`: 14 pruebas, OK. Sin PYTHONPATH, una prueba falla porque el proceso hijo del driver no puede importar oracle_factory; repetida con el entorno de importación del checkout, pasa.",
+    "codex (gpt-6-luna): Corrí py_compile con PYTHONPYCACHEPREFIX=/tmp/codex-pycache: OK. No hice mutaciones en el checkout.",
+    "codex (gpt-6-luna): tests/datos/ayuda-cli.json quitó dos líneas dentro del texto de ayuda esperado; el diff sólo actualiza ese snapshot para reflejar el nuevo subcomando sincronizar, por lo que la edición está justificada por este cambio.",
+    "codex (gpt-6-luna): El paquete excluye 17 archivos de registros/evidencia de Factory por indicación del pedido; no los revisé. No hubo omisiones binarias."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
