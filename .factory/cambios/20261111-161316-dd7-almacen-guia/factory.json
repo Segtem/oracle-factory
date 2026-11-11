@@ -110,6 +110,32 @@
         "factory_almacen_guia.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar",
         "factory_almacen_guia.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T17:12:44.378890+00:00",
+      "revisor": "codex",
+      "candidato": "70bb078",
+      "lanzamiento": "9db6999b970a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T17:14:23.127052+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "70bb078",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "9db6999b970a"
     }
   ],
   "tipos": {

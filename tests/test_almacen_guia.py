@@ -113,6 +113,22 @@ class AlmacenGuia(unittest.TestCase):
         self.assertIn('AGENTS.md', self.mal('agentes', '--verificar'))
         self.bien('agentes')
         self.bien('agentes', '--verificar')
+        # un producto en una carpeta con metacaracteres de Git en el nombre: las rutas excluidas son fijas y relativas a su raíz
+        # (R1 de codex: no se reproduce; queda fijado)
+        raro = self.base / 'prod a[b]*?'
+        raro.mkdir()
+        self.git_en(raro, 'init', '-q', '-b', 'main')
+        (raro / 'README.md').write_text('raro\n', encoding='utf-8')
+        self.git_en(raro, 'add', '-A')
+        self.git_en(raro, 'commit', '-q', '-m', 'inicial')
+        otro_almacen = self.base / 'almacen-raro'
+        otro_almacen.mkdir()
+        self.git_en(otro_almacen, 'init', '-q', '-b', 'main')
+        self.git_en(otro_almacen, 'commit', '-q', '--allow-empty', '-m', 'almacén')
+        self.bien('conectar', str(otro_almacen), raiz=raro)
+        self.bien('agentes', raiz=raro)
+        self.bien('skill', '--instalar', raiz=raro)
+        self.assertEqual(self.estado(raro), '')
 
     def test_ag1_sin_almacen_aparte_escribe_donde_siempre(self):
         self.bien('init')
