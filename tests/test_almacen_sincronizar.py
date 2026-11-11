@@ -136,6 +136,13 @@ class AlmacenSincronizar(unittest.TestCase):
         self.assertTrue(any(p.name.endswith('-ur') for p in (clon / 'openspec/changes').iterdir()))
         self.assertEqual(self.estado_git(self.producto), '')  # el producto no recibe nada
         self.assertEqual(self.commits(self.producto), 1)
+        # qué cuenta como URL: esquema://… y usuario@host:ruta; una carpeta que existe nunca, aunque su nombre lo parezca
+        os.chdir(self.base)
+        (self.base / 'yo@maquina:almacen').mkdir()
+        self.assertFalse(f.almacenes.es_url('yo@maquina:almacen'))
+        for url in ('git@ejemplo.com:equipo/almacen.git', 'https://ejemplo.com/equipo/almacen.git', 'ssh://git@ejemplo.com/almacen'):
+            self.assertTrue(f.almacenes.es_url(url), url)
+        self.assertFalse(f.almacenes.es_url('/no/existe/almacen'))
 
     def test_as1_sin_xdg_data_home_clona_en_la_carpeta_local_del_usuario(self):
         with patch.dict(os.environ):
@@ -284,6 +291,9 @@ class AlmacenSincronizar(unittest.TestCase):
         self.assertTrue((clon / 'de-tercero.md').is_file())
         self.assertEqual(self.estado_git(clon), '')
         self.assertRegex(impreso.casefold(), r'no (lo )?(se )?sub')  # y lo dice
+        from oracle_factory import autopilot  # el conductor lo corre como paso mecánico (con --agente, que no sube)
+        d = autopilot.decidir({'fase': 'requisitos_importados', 'proximo_paso': 'oracle-factory sincronizar', 'frenos': [], 'candidato': None})
+        self.assertEqual(d['accion'], 'actuar')
 
     def test_as3_una_persona_sincroniza_y_el_remoto_queda_con_la_union(self):
         clon, ident, del_remoto = self.divergidos()
@@ -308,6 +318,15 @@ class AlmacenSincronizar(unittest.TestCase):
         impreso = self.mal(self.producto, 'sincronizar')
         self.assertIn('remoto', impreso.casefold())
         self.assertEqual((self.head(clon), self.estado_git(clon), self.arbol(clon)), antes)
+        # un remoto nuevo y vacío: no hay nada que traer, sólo se sube
+        vacio = self.base / 'remotos' / 'vacio.git'
+        self.git_en(self.base, 'init', '-q', '--bare', '-b', 'main', str(vacio))
+        self.git_en(clon, 'remote', 'add', 'origin', str(vacio))
+        self.bien(self.producto, 'sincronizar')
+        self.assertEqual(self.git_en(vacio, 'rev-parse', 'main'), self.head(clon))
+        # un producto sin almacén aparte no tiene qué sincronizar
+        suelto = self.producto_nuevo('suelto')
+        self.assertIn('conect', self.mal(suelto, 'sincronizar').casefold())
 
     def test_as3_un_conflicto_sin_driver_deshace_la_union_y_nombra_los_archivos(self):
         clon, _ = self.uno_con_un_cambio()  # sin .gitattributes todavía: sincronizar lo escribe, y al deshacer no queda
