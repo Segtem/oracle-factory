@@ -48,6 +48,7 @@ capacidad: "flujo"
 - `1704447` almacen-sincronizar: evidencia del candidato (trailer)
 - `1a1c920` almacen-sincronizar: no une si lo que trae el remoto pisaría un archivo local ignorado o sin versionar (hallazgo codex-01); prueba de que el push corre con el bloqueo tomado (codex-02, falso positivo) (trailer)
 - `50b3444` almacen-sincronizar: evidencia del candidato tras codex-01 (trailer)
+- `493bf6a` almacen-sincronizar: informe de codex (ronda 2, sin hallazgos) (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261111-135546-t8q-almacen-sincronizar`.
 
 ## Mensajes
