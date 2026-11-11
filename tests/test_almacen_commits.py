@@ -152,6 +152,21 @@ class AlmacenCommits(unittest.TestCase):
         self.assertEqual(self.commits(), cuenta + 1)
         self.assertEqual(self.archivos_del_ultimo(), tocados)
         self.assertEqual(self.estado_git(), '')
+        # un almacén que es una subcarpeta de otro repo, o una carpeta que no es repo: no se commitea nada ni falla
+        externo = self.base / 'externo'
+        (externo / 'registros').mkdir(parents=True)
+        self.git_en(externo, 'init', '-q', '-b', 'main')
+        self.git_en(externo, 'commit', '-q', '--allow-empty', '-m', 'externo')
+        suelta = self.base / 'suelta'
+        suelta.mkdir()
+        for carpeta, repo in ((externo / 'registros', externo), (suelta, None)):
+            with self.subTest(almacen=str(carpeta)):
+                impreso = self.bien('--registros', str(carpeta), 'init')
+                impreso += self.bien('--registros', str(carpeta), 'nuevo', 'Notas', '--capacidad', 'notas', '--sufijo', 'ad')
+                self.assertNotIn('no se pudo commitear', impreso)
+                self.assertNotIn('Traceback', impreso)
+                if repo is not None:
+                    self.assertEqual(self.commits(repo), 1)  # el repo de afuera no recibe nada
 
     def test_ac1_lo_que_ya_estaba_cambiado_no_entra(self):
         ident = self.conectado_con_un_cambio()
@@ -168,13 +183,23 @@ class AlmacenCommits(unittest.TestCase):
         self.assertFalse(self.archivos_del_ultimo() & {'notas.md', 'suelto.txt', 'preparado.txt'})
         self.assertEqual(self.estado_git(), pendiente)  # siguen como estaban: modificado, sin versionar y en el índice
         self.assertEqual((self.almacen / 'notas.md').read_text(encoding='utf-8'), 'notas a medio escribir\n')
+        # un archivo cambiado a mano que el comando también cambia entra entero, con las dos ediciones (límite declarado en el código)
+        import json
+        registro = self.almacen / '.factory/cambios' / ident / 'factory.json'
+        datos = json.loads(registro.read_text(encoding='utf-8'))
+        registro.write_text(json.dumps({**datos, 'nota_a_mano': 'sí'}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        tocados, _ = self.comando_que_escribe('mensaje', ident, 'otra vez', agente='claude-code')
+        self.assertIn(f'.factory/cambios/{ident}/factory.json', tocados)
+        self.assertIn(f'.factory/cambios/{ident}/factory.json', self.archivos_del_ultimo())
+        self.assertIn('nota_a_mano', self.git_en(self.almacen, 'show', f'HEAD:.factory/cambios/{ident}/factory.json'))
 
     def test_ac1_un_comando_que_solo_lee_no_commitea(self):
         ident = self.conectado_con_un_cambio()
         cuenta, cabeza = self.commits(), self.git_en(self.almacen, 'rev-parse', 'HEAD')
         for comando in (('estado', ident), ('listar',), ('estado', ident, '--json'), ('conectar',)):
             with self.subTest(comando=comando):
-                tocados, _ = self.comando_que_escribe(*comando)
+                tocados, impreso = self.comando_que_escribe(*comando)
+                self.assertNotIn('no se pudo commitear', impreso)
                 self.assertEqual(tocados, set())
                 self.assertEqual((self.commits(), self.git_en(self.almacen, 'rev-parse', 'HEAD')), (cuenta, cabeza))
                 self.assertEqual(self.estado_git(), '')
@@ -238,6 +263,23 @@ class AlmacenCommits(unittest.TestCase):
         self.assertIn('RECHAZADO-POR-EL-HOOK', impreso)
         self.assertNotIn('Traceback', impreso)
         self.assertEqual(self.configuraciones(), antes)
+        hook.unlink()
+        # con GIT_DIR del producto en el entorno (Factory corriendo dentro de un hook del producto), el commit va igual al almacén
+        cuenta_producto, cuenta = self.commits(self.producto), self.commits()
+        with patch.dict(os.environ, {'GIT_DIR': str(self.producto / '.git'), 'GIT_WORK_TREE': str(self.producto)}):
+            self.bien('mensaje', ident, 'hola con GIT_DIR', agente='claude-code')
+        self.assertEqual((self.commits(self.producto), self.commits()), (cuenta_producto, cuenta + 1))
+        # un error del sistema al commitear (por ejemplo, git que desaparece) tampoco hace fallar al comando
+        real = f.almacenes.subprocess.run
+
+        def sin_git_para_commit(argumentos, *a, **k):
+            if 'commit' in argumentos:
+                raise FileNotFoundError('git no está')
+            return real(argumentos, *a, **k)
+        with patch.object(f.almacenes.subprocess, 'run', side_effect=sin_git_para_commit):
+            impreso = self.bien('mensaje', ident, 'hola sin git', agente='claude-code')
+        self.assertIn('no se pudo commitear', impreso)
+        self.assertIn('git no está', impreso)
 
     def test_ac2_no_sube_nada_al_remoto(self):
         remoto = self.base / 'remoto.git'
