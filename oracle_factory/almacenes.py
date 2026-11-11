@@ -149,8 +149,20 @@ def clonar(cli, url: str) -> Path:
     return destino
 
 
-def comando(cli, nombre: str, almacen: str | None) -> int:
-    """conectar [ALMACÉN] / desconectar: la conexión del producto de `cli.ROOT` vive en la configuración personal del usuario."""
+def comando(cli, nombre: str, almacen: str | None, como_json: bool = False) -> int:
+    """conectar [ALMACÉN] / desconectar: la conexión del producto de `cli.ROOT` vive en la configuración personal del usuario.
+    `conectar --json` sólo lee: es lo que pregunta la extensión de VS Code para encontrar los registros."""
+    if como_json:
+        if almacen is not None:
+            raise cli.FactoryError("--json sólo dice la conexión: no va con un ALMACÉN. No cambié nada")
+        producto, llave = raiz_git(cli.ROOT), clave(cli.ROOT)
+        try:
+            actual = leer().get(llave) if llave is not None else None
+        except ValueError as e:
+            raise cli.FactoryError(str(e)) from e
+        print(json.dumps({"conectado": actual is not None, "almacen": actual, "producto": str(producto) if producto else None},
+                         ensure_ascii=False))
+        return 0
     if cli.AGENTE:
         raise cli.FactoryError(f"{nombre} es una decisión de una persona (dónde van los registros): corrélo sin --agente; {cli.AGENTE} no puede")
     producto, llave = raiz_git(cli.ROOT), clave(cli.ROOT)

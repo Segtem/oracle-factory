@@ -9,7 +9,8 @@
     },
     "main": "./extension.js",
     "activationEvents": [
-        "workspaceContains:.factory"
+        "workspaceContains:.factory",
+        "onStartupFinished"
     ],
     "capabilities": {
         "virtualWorkspaces": true,

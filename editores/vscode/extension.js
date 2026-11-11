@@ -30,6 +30,18 @@ function correr(raiz, args) {
     }));
 }
 
+// Dónde están los registros de la carpeta: ella misma si tiene .factory/, o el almacén al que está conectado el producto
+// (lo dice `conectar --json`). null si no es un proyecto de Factory. Se pregunta una vez por carpeta.
+const conexiones = new Map();
+function registros(raiz) {
+    if (!raiz) return Promise.resolve(null);
+    if (fs.existsSync(path.join(raiz, '.factory'))) return Promise.resolve(raiz);
+    if (!conexiones.has(raiz))
+        conexiones.set(raiz, correr(raiz, ['conectar', '--json']).then(
+            c => c.conectado && c.almacen && fs.existsSync(path.join(c.almacen, '.factory')) ? c.almacen : null, () => null));
+    return conexiones.get(raiz);
+}
+
 function tipo(raiz) {
     return ruta => {
         try {
@@ -54,7 +66,7 @@ class Vista {
     async getChildren(nodo) {
         if (nodo && nodo.hijos) return nodo.hijos;
         const raiz = carpeta();
-        if (!raiz || !fs.existsSync(path.join(raiz, '.factory')))
+        if (!await registros(raiz))
             return aviso('Esta carpeta no es un proyecto de Factory (no tiene .factory/)', 'info');
         try {
             if (!nodo) return modelo.raiz(await correr(raiz, ['resumen', '--json']));
@@ -162,8 +174,9 @@ function olvidarConsulta() { generacion++; destinosConsultados = null; }
 // respuesta, así la pintura que sigue es la más nueva y la ve.
 async function consultarLosDestinos() {
     const raiz = carpeta();
-    if (!raiz || !fs.existsSync(path.join(raiz, '.factory', 'destinos.json'))) return;
     const desde = ++generacion;  // una consulta más nueva (o una invalidación) deja vieja a ésta: sólo la última guarda su respuesta
+    const dir = await registros(raiz);  // antes de esperar se toma el número: la espera no puede adelantar a una consulta vieja
+    if (!dir || !fs.existsSync(path.join(dir, '.factory', 'destinos.json'))) return;
     try {
         const datos = await correr(raiz, ['destinos', '--json']);
         if (desde === generacion) destinosConsultados = {raiz, datos};
@@ -177,7 +190,8 @@ async function consultarLosDestinos() {
 // Los destinos del proyecto, sin correr nada de ellos: lo registrado (o la última consulta de este proyecto).
 // {destinos} o {destinos: null, destinos_error}.
 async function destinosLocales(raiz) {
-    if (!fs.existsSync(path.join(raiz, '.factory', 'destinos.json'))) return {destinos: null, destinos_error: null};
+    const dir = await registros(raiz);
+    if (!dir || !fs.existsSync(path.join(dir, '.factory', 'destinos.json'))) return {destinos: null, destinos_error: null};
     try {
         const consultados = destinosConsultados && destinosConsultados.raiz === raiz ? destinosConsultados.datos : null;
         return {destinos: consultados || await correr(raiz, ['destinos', '--json', '--sin-consultar']), destinos_error: null};
@@ -188,7 +202,7 @@ async function destinosLocales(raiz) {
 
 async function datosLocales() {
     const raiz = carpeta();
-    if (!raiz || !fs.existsSync(path.join(raiz, '.factory')))
+    if (!await registros(raiz))
         throw new Error('Esta carpeta no es un proyecto de Factory (no tiene .factory/).');
     return {...await correr(raiz, ['tablero', '--json']), ...await destinosLocales(raiz)};
 }
@@ -375,7 +389,7 @@ function activate(context) {
     const despliegue = () => { olvidarConsulta(); refrescar(); };  // un despliegue nuevo vuelve viejas las versiones consultadas
     context.subscriptions.push(
         vscode.window.registerTreeDataProvider('factory.cambios', vista),
-        vscode.commands.registerCommand('factory.refrescar', () => vista.refrescar()),
+        vscode.commands.registerCommand('factory.refrescar', () => { conexiones.clear(); vista.refrescar(); }),
         vscode.commands.registerCommand('factory.escribirPaso', escribirPaso),
         vscode.commands.registerCommand('factory.tablero', abrirTablero),
         vscode.commands.registerCommand('factory.porQue', porQue),
@@ -383,6 +397,15 @@ function activate(context) {
         vigiaDespliegues, vigiaDespliegues.onDidChange(despliegue), vigiaDespliegues.onDidCreate(despliegue),
         vigia, vigia.onDidChange(() => refrescar()), vigia.onDidCreate(() => refrescar()),
         vigia.onDidDelete(() => refrescar()));
+    // Con los registros en un almacén aparte, se vigilan también allá (fuera del espacio de trabajo).
+    const raiz = carpeta();
+    listos = registros(raiz).then(dir => {
+        if (!dir || dir === raiz) return;
+        const cambios = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(dir, '.factory/cambios/**/factory.json'));
+        const despliegues = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(dir, '.factory/despliegues/**/registro.json'));
+        context.subscriptions.push(cambios, cambios.onDidChange(() => refrescar()), cambios.onDidCreate(() => refrescar()),
+            cambios.onDidDelete(() => refrescar()), despliegues, despliegues.onDidChange(despliegue), despliegues.onDidCreate(despliegue));
+    });
 
     function refrescar() {
         vista.refrescar();
@@ -391,4 +414,5 @@ function activate(context) {
     }
 }
 
-module.exports = {activate, deactivate() {}, escribirComando};  // escribirComando, para probar lo que ve quien lo pide
+let listos = Promise.resolve();
+module.exports = {activate, deactivate() {}, escribirComando, vigilando: () => listos};  // escribirComando, para probar lo que ve quien lo pide
