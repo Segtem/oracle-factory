@@ -2,7 +2,7 @@
   "id": "20261111-135546-t8q-almacen-sincronizar",
   "titulo": "Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md",
   "spec_sha256": "c8b07b4df34adb6df086c448f1e1d6a029bc9c160776f6cb70013a3f4a393ad5",
   "spec_aprobada": {
@@ -294,6 +294,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "84b83287da493d953f86c7bd640c65229fb6078570de9a00eb594110b17ad2ea"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T15:50:40.996606+00:00",
+      "oracle": ".factory/cambios/20261111-135546-t8q-almacen-sincronizar/oracle-veredicto.txt",
+      "revision": "tareas/20261111-135546-t8q-almacen-sincronizar/revisiones/registro-zo3iuahp/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-11T15:50:41.044653+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -352,5 +372,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-11T15:50:40.929562+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-11T15:50:41.044641+00:00"
+  }
 }

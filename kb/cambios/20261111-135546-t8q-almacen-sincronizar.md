@@ -1,7 +1,7 @@
 ---
 generado: oracle-factory kb
 id: "20261111-135546-t8q-almacen-sincronizar"
-fase: "oracle_verde"
+fase: "cerrada"
 capacidad: "flujo"
 ---
 
@@ -9,7 +9,7 @@ capacidad: "flujo"
 
 > Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
 
-- Fase: oracle_verde
+- Fase: cerrada
 - Capacidad: flujo
 - Responsable: nadie
 - Spec: [openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md](../../openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md)
@@ -30,6 +30,8 @@ capacidad: "flujo"
 - 2026-11-11 14:59 · Medidas confirmadas · Brian Hollweg (persona)
 - 2026-11-11 15:50 · Revisión registrada · Brian Hollweg (persona) — aprobar: Propuesta del agente claude-code. Etapa 4b2 de «registros fuera del repo del producto»: conectar desde una URL y sincronizar el almacén entre personas. Candidato 1a1c920 (camino completo): evidencia verde (1430 pruebas, 14 casos de contrato). QUIÉN LO HIZO: el agente lanzado escribió las pruebas (se quedó sin cuota a los 3 minutos y dejó un error en su setUp, que corregí) y después implementó (almacenes.es\_url, clonar en un temporal que se renombra, sincronizar bajo el bloqueo de la 4b1 con los drivers de unión pasados con git -c, rehacer lo generado, merge --abort y reset --hard al punto de partida si algo falla, push sólo si es una persona). Yo regeneré la ayuda del CLI, documenté conectar URL y sincronizar en docs/estructura.md (dos pruebas existentes lo exigían y la primera evidencia falló por eso), hice las mutaciones (21 sobre el código del agente, reales detectadas; equivalentes declaradas: merge --abort redundante con reset --hard, y la lista de archivos que chocaron, que igual nombra la salida de git merge; un error de mi script mutaba el bloqueo de la 4b1 en vez del de sincronizar: lo corregí) y corregí el hallazgo. REVISIÓN: sólo codex, 2 rondas: codex-01 (ALTO, real): un archivo local ignorado o sin versionar que el remoto agrega versionado se perdía porque Git lo pisa sin avisar: ahora no se une, se nombra y el almacén queda como estaba; codex-02 (medio): la subida fuera del bloqueo era un FALSO POSITIVO (el push está dentro del with): propongo DESCARTARLO; quedó fijado con una prueba que intenta tomar el bloqueo durante el push y no puede; ronda 2 sin hallazgos. PRUEBA EXISTENTE EDITADA (declarada, motivo del freno): tests/datos/ayuda-cli.json regenerado por el subcomando sincronizar y la ayuda nueva de conectar. DECIDE BRIAN: (1) camino completo con un solo proveedor revisor (agy sin cuota). (2) sincronizar no escribe configuración de Git en ningún repo; el .gitattributes del almacén sí lo escribe y commitea (es contenido versionado). (3) Con --agente, sincronizar trae y une pero no sube; el conductor lo puede correr como paso mecánico.
 - 2026-11-11 15:50 · Juicio de Oracle · claude-code (agente)
+- 2026-11-11 15:50 · Cerrado · Brian Hollweg (persona)
+- 2026-11-11 15:50 · Archivado · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -52,6 +54,7 @@ capacidad: "flujo"
 - `50b3444` almacen-sincronizar: evidencia del candidato tras codex-01 (trailer)
 - `493bf6a` almacen-sincronizar: informe de codex (ronda 2, sin hallazgos) (trailer)
 - `1cdd575` almacen-sincronizar: propuesta de revisión (trailer)
+- `9321f66` almacen-sincronizar: revisión aprobada por Brian y veredicto de Oracle (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261111-135546-t8q-almacen-sincronizar`.
 
 ## Mensajes

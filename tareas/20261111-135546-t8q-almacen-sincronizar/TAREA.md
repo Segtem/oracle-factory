@@ -1,6 +1,6 @@
 # Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-11 15:50:25 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261111-135546-t8q-almacen-sincronizar/oracle-veredicto.txt.
+
+### Nota (2026-11-11 15:50:40 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
