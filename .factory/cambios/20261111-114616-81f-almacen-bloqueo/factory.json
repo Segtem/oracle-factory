@@ -205,6 +205,32 @@
       "forma": "mensaje",
       "cuando": "2026-11-11T12:35:29.218665+00:00",
       "texto": "autopilot se detuvo: el paso falló (código 1): Antes de pedir la revisión, mirá la lista previa (no bloquea; está en docs/lista-previa.md):\n1. ¿Buscaste en el código el ayudante que ya existe (por ejemplo para rutas, nombres o lectura de la spec)…"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T12:55:26.135030+00:00",
+      "revisor": "codex",
+      "candidato": "7af6a25",
+      "lanzamiento": "8a15c8a9f78d"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T12:58:31.212191+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "7af6a25",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "8a15c8a9f78d"
     }
   ],
   "tipos": {

@@ -244,14 +244,19 @@ def _huella(ruta: Path) -> str | None:
 PLAZO_DEL_BLOQUEO = 30  # segundos que un comando espera el bloqueo del commit antes de avisar y dejar los registros en el disco
 
 
+def archivo_del_bloqueo(almacen: Path) -> Path:
+    """El archivo del bloqueo, en la carpeta COMÚN de Git del almacén: el mismo para todos sus worktrees (H-01 de codex)."""
+    hecho = _git_almacen(almacen, "rev-parse", "--path-format=absolute", "--git-common-dir")
+    if hecho.returncode or not hecho.stdout.strip():
+        raise OSError(os.fsdecode(hecho.stderr).strip() or "no encontré la carpeta de Git del almacén")
+    return Path(os.fsdecode(hecho.stdout).strip()) / "factory-commit.lock"
+
+
 @contextlib.contextmanager
 def bloqueo(almacen: Path, plazo: float | None = None):
     """El bloqueo exclusivo del commit del almacén (flock sobre un archivo de su carpeta de Git): da True si se consiguió dentro
     del `plazo` (sin plazo, espera hasta conseguirlo) y False si no. Sin fcntl (Windows) da True sin bloquear."""
-    hecho = _git_almacen(almacen, "rev-parse", "--git-path", "factory-commit.lock")
-    if hecho.returncode:
-        raise OSError(os.fsdecode(hecho.stderr).strip() or "no encontré la carpeta de Git del almacén")
-    with open(almacen / os.fsdecode(hecho.stdout).strip(), "a", encoding="utf-8") as candado:
+    with open(archivo_del_bloqueo(almacen), "a", encoding="utf-8") as candado:
         limite = None if plazo is None else time.monotonic() + plazo
         tomado = fcntl is None
         while not tomado:

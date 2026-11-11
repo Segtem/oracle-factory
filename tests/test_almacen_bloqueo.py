@@ -240,6 +240,12 @@ class AlmacenBloqueo(unittest.TestCase):
         self.assertEqual(self.estado_git(), '')
 
     def test_ab2_el_bloqueo_no_se_toma_mientras_el_comando_trabaja(self):
+        # el archivo del bloqueo es el mismo desde cualquier worktree del almacén: está en su carpeta común de Git (H-01 de codex)
+        otro = self.base / 'almacen-wt'
+        self.git_en(self.almacen, 'worktree', 'add', '-q', '-b', 'otra-rama', str(otro))
+        self.assertEqual(f.almacenes.archivo_del_bloqueo(otro), f.almacenes.archivo_del_bloqueo(self.almacen))
+        self.assertEqual(f.almacenes.archivo_del_bloqueo(self.almacen), (self.almacen / '.git/factory-commit.lock').resolve())
+        self.git_en(self.almacen, 'worktree', 'remove', '--force', str(otro))
         a, b = self.conectado_con_dos()
         sinc = self.base / 'sinc'
         sinc.mkdir()
