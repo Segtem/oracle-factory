@@ -118,6 +118,45 @@
         "factory_almacen_sincronizar.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T14:59:47.878522+00:00",
+      "requisito": "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+      "medidas": [
+        "factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario",
+        "factory_almacen_sincronizar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T14:59:48.080336+00:00",
+      "requisito": "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+      "medidas": [
+        "factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias",
+        "factory_almacen_sincronizar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-11T14:59:48.285145+00:00",
+      "requisito": "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion",
+      "medidas": [
+        "factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion",
+        "factory_almacen_sincronizar.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -125,13 +164,14 @@
     "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias": "funcional",
     "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T14:59:47.824761+00:00",
       "sha256": "6e18d6d9bebd7d9a834ab1647add5a72feba52bf66a1c2c0cb3628653e38771b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T14:52:57.527038+00:00",
       "catalogos": {
         "factory_almacen_sincronizar.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario": "3433903fe55b960ccfc2faa777d600b88c95b3d5be02044facab8f5d367c02eb",
         "factory_almacen_sincronizar.corrida_completa": "ace8353d865671808414a6ec061e7fd16a394fda1a5eb58a0ecf971dbf0b896d"
@@ -142,10 +182,12 @@
       }
     },
     "flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T14:59:48.025668+00:00",
       "sha256": "72d090052d67c6950ad9a86e884cd668a75e33d66f2647449063ec41a969cd1a",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T14:52:59.733347+00:00",
       "catalogos": {
         "factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias": "4cfc244359189d7d4022b79e75254f4a5c5319d4c456858994c11340d181c203",
         "factory_almacen_sincronizar.corrida_completa": "ace8353d865671808414a6ec061e7fd16a394fda1a5eb58a0ecf971dbf0b896d"
@@ -156,10 +198,12 @@
       }
     },
     "flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-11T14:59:48.228404+00:00",
       "sha256": "06d8194c0c8119266baf6c68929cfe203e0dcdbcc408d6bf42f47478a9b88d7e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T14:53:01.949530+00:00",
       "catalogos": {
         "factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion": "be61d455c2077546e0a2a6c574ea19425b354ac2daa9bc257c700862842bd9a1",
         "factory_almacen_sincronizar.corrida_completa": "ace8353d865671808414a6ec061e7fd16a394fda1a5eb58a0ecf971dbf0b896d"
@@ -169,5 +213,6 @@
         "factory_almacen_sincronizar.corrida_completa": "catalogos/factory_almacen_sincronizar.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

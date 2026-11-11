@@ -25,6 +25,9 @@ capacidad: "flujo"
 - 2026-11-11 13:55 · Cambio creado · claude-code (agente)
 - 2026-11-11 13:57 · Spec aprobada · Brian Hollweg (persona)
 - 2026-11-11 13:57 · Requisitos importados · claude-code (agente)
+- 2026-11-11 14:59 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-11 14:59 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-11-11 14:59 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
@@ -35,6 +38,7 @@ capacidad: "flujo"
 - `d5468da` almacen-sincronizar: propuesta y spec (etapa 4b2) (trailer)
 - `397687f` almacen-sincronizar: spec aprobada por Brian (trailer)
 - `808e7ba` almacen-sincronizar: requisitos importados (trailer)
+- `e76535d` almacen-sincronizar: pruebas de los escenarios (del agente, completadas: el setUp usaba un nombre que el módulo borra al final), catálogos y propuesta de medidas (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261111-135546-t8q-almacen-sincronizar`.
 
 ## Mensajes

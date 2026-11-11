@@ -27,3 +27,15 @@ Medidas de flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_
 ### Nota (2026-11-11 14:53:02 UTC)
 
 Medidas de flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion: factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion, factory_almacen_sincronizar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-11 14:59:47 UTC)
+
+Medidas de flujo_c5b6a893e70e9eba0.conectar_una_url_clona_el_almacen_en_una_carpeta_del_usuario: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-11 14:59:48 UTC)
+
+Medidas de flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-11 14:59:48 UTC)
+
+Medidas de flujo_c5b6a893e70e9eba0.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion: Brian Hollweg (persona, confirmo, modo confirmacion).
