@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261111-135546-t8q-almacen-sincronizar]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un agente sincroniza», «una persona sincroniza», «no se puede sincronizar»
+- Medidas: `factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias`, `factory_almacen_sincronizar.corrida_completa`
 - Fuente: openspec/changes/20261111-135546-t8q-almacen-sincronizar/specs/flujo/spec.md#sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias
 
 Tipo: funcional El sistema DEBE, al terminar `sincronizar`, subir el resultado al remoto sólo si lo corre una persona; con `--agente` DEBE traer y unir pero NO subir, y decirlo; DEBE negarse sin cambiar nada si el almacén tiene cambios sin commitear o no tiene remoto; y si la unión deja un conflicto que los drivers no resuelven, DEBE deshacerla, dejar el almacén como estaba antes de sincronizar y nombrar los archivos que chocaron, con código de salida distinto de cero.

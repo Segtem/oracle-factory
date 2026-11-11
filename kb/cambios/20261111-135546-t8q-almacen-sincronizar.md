@@ -34,8 +34,10 @@ capacidad: "flujo"
 
 - `d5468da` almacen-sincronizar: propuesta y spec (etapa 4b2) (trailer)
 - `397687f` almacen-sincronizar: spec aprobada por Brian (trailer)
+- `808e7ba` almacen-sincronizar: requisitos importados (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261111-135546-t8q-almacen-sincronizar`.
 
 ## Mensajes
 
-- Ninguno.
+- 2026-11-11 13:57 · claude-code: autopilot delegar\_al\_agente: elegir medidas es trabajo del agente; confirmarlas es de una persona. Instrucción: construí primero lo que falte: las pruebas de cada escenario (antes que el código) y los catálogos de medidas de los requisitos, sin correr todavía la evidencia completa; después elegí las medidas de cada requisito (oracle-factory medir ... --requisito R --medida M) y proponelas; confirmarlas es de una persona, y la evidencia se hace después de su confirmación
+- 2026-11-11 14:01 · claude-code: autopilot se detuvo: el paso falló (código 1): You've hit your 5-hour limit · resets 11:50am (America/Argentina/Salta)
