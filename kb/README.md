@@ -135,7 +135,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261110-203907-qfp-partir-cli]] — cli.py: mudar los comandos del proyecto a su módulo para volver a tener margen bajo el tope (cerrada)
 - [[cambios/20261110-230858-stu-almacen-commits]] — Registros fuera del repo del producto, etapa 4a: Factory commitea en el almacén tras cada comando que escribe registros (cerrada)
 - [[cambios/20261111-114616-81f-almacen-bloqueo]] — Registros fuera del repo del producto, etapa 4b1: cada comando commitea sólo lo de su cambio, con un bloqueo corto (cerrada)
-- [[cambios/20261111-135546-t8q-almacen-sincronizar]] — Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas (espera_aprobacion_spec)
+- [[cambios/20261111-135546-t8q-almacen-sincronizar]] — Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas (spec_aprobada)
 
 ## Requisitos
 
