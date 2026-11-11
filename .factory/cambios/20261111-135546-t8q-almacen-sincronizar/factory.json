@@ -175,6 +175,32 @@
       "forma": "mensaje",
       "cuando": "2026-11-11T15:06:02.579138+00:00",
       "texto": "autopilot se detuvo: se llegó al tope de 1 pasos"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T15:33:34.903740+00:00",
+      "revisor": "codex",
+      "candidato": "3e8cf90",
+      "lanzamiento": "d946ebf469db"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-11T15:35:13.847590+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "3e8cf90",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "d946ebf469db"
     }
   ],
   "tipos": {

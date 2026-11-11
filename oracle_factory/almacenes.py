@@ -442,6 +442,15 @@ def _unir(cli, almacen: Path, remoto: str, rama: str) -> None:
     git("fetch", "-q", remoto)
     if _git_almacen(almacen, "rev-parse", "-q", "--verify", f"refs/remotes/{remoto}/{rama}").returncode:
         return  # el remoto todavía no tiene la rama: sólo hay que subir
+    # Git pisa sin avisar un archivo ignorado (o sin versionar) si la unión trae uno versionado en esa ruta: eso perdería trabajo
+    # local. Si lo que agrega el remoto choca con algo que hay en el disco y no está versionado, no se une.
+    agregados = os.fsdecode(_git_almacen(almacen, "diff", "--name-only", "-z", "--no-renames", "--diff-filter=A",
+                                         f"HEAD...{remoto}/{rama}").stdout).split("\0")
+    versionados = set(os.fsdecode(_git_almacen(almacen, "ls-files", "-z").stdout).split("\0"))
+    chocan = sorted(n for n in agregados if n and n not in versionados and ((almacen / n).exists() or (almacen / n).is_symlink()))
+    if chocan:
+        raise cli.FactoryError(f"lo que trae {remoto}/{rama} pisaría archivos locales sin versionar o ignorados: " + ", ".join(chocan[:10])
+                               + (" …" if len(chocan) > 10 else "") + ". Movelos o versionalos y volvé a sincronizar. No uní nada")
     drivers = [x for clave, valor in cli.drivers_de_union() for x in ("-c", f"{clave}={valor}")]
     hecho = _git_almacen(almacen, *drivers, "merge", "-q", "--no-edit", f"{remoto}/{rama}")
     if hecho.returncode:

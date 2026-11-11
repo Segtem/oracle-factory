@@ -41,6 +41,11 @@ capacidad: "flujo"
 - `e76535d` almacen-sincronizar: pruebas de los escenarios (del agente, completadas: el setUp usaba un nombre que el módulo borra al final), catálogos y propuesta de medidas (trailer)
 - `0e8166c` almacen-sincronizar: medidas confirmadas por Brian (trailer)
 - `e750cae` almacen-sincronizar: conectar URL clona el almacén y sincronizar lo une con el remoto (trailer)
+- `afa8956` almacen-sincronizar: ayuda del CLI regenerada (subcomando sincronizar y conectar URL) (trailer)
+- `a9b2605` almacen-sincronizar: casos de las mutaciones propias (qué es una URL, producto sin almacén, remoto vacío, el conductor) (trailer)
+- `6d1aaf1` almacen-sincronizar: evidencia del candidato (trailer)
+- `3e8cf90` almacen-sincronizar: docs/estructura.md explica conectar URL y sincronizar (trailer)
+- `1704447` almacen-sincronizar: evidencia del candidato (trailer)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261111-135546-t8q-almacen-sincronizar`.
 
 ## Mensajes

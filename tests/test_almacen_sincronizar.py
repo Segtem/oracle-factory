@@ -341,6 +341,35 @@ class AlmacenSincronizar(unittest.TestCase):
         self.assertFalse((clon / '.git/MERGE_HEAD').exists())
         self.assertEqual(self.refs(), refs)
         self.assertEqual((clon / 'notas.md').read_text(encoding='utf-8'), 'notas de la persona uno\n')
+        # un archivo ignorado local que el remoto agrega versionado: no se une, porque Git lo pisaría sin avisar (codex-01)
+        self.git_en(clon, 'reset', '-q', '--hard', 'HEAD~1')  # sin el cambio de las notas: que no choque por eso
+        (clon / '.git/info/exclude').write_text('secreto.txt\n', encoding='utf-8')
+        (clon / 'secreto.txt').write_text('trabajo local que no está versionado\n', encoding='utf-8')
+        self.tercero_sube('secreto.txt', 'lo del remoto\n')
+        antes, refs = (self.head(clon), self.arbol(clon)), self.refs()
+        impreso = self.mal(self.producto, 'sincronizar')
+        self.assertIn('secreto.txt', impreso)
+        self.assertEqual((clon / 'secreto.txt').read_text(encoding='utf-8'), 'trabajo local que no está versionado\n')
+        self.assertEqual((self.head(clon), self.arbol(clon), self.refs()), (*antes, refs))
+        # la subida pasa con el bloqueo del almacén tomado (codex-02 decía que no: queda fijado)
+        (clon / 'secreto.txt').unlink()
+        real, visto = f.almacenes._git_almacen, []
+
+        def espiar(almacen, *args, **kw):
+            if args[:1] == ('push',):
+                with f.almacenes.bloqueo(almacen, 0) as libre:  # otro intento de tomarlo, sin esperar
+                    visto.append(libre)
+            return real(almacen, *args, **kw)
+        with patch.object(f.almacenes, '_git_almacen', side_effect=espiar):
+            self.bien(self.producto, 'sincronizar')
+        self.assertEqual(visto, [False])  # cuando corrió el push, el bloqueo estaba tomado por sincronizar
+        # un archivo que las dos partes agregaron versionado (igual) no es un choque con algo local: se une
+        (clon / 'mismo.md').write_text('lo mismo\n', encoding='utf-8')
+        self.git_en(clon, 'add', 'mismo.md')
+        self.git_en(clon, 'commit', '-q', '-m', 'la persona uno agrega mismo.md')
+        self.tercero_sube('mismo.md', 'lo mismo\n')
+        self.bien(self.producto, 'sincronizar')
+        self.assertEqual(self.git_en(self.remoto, 'rev-parse', 'main'), self.head(clon))
 
 
 del _Base  # que el cargador no vuelva a correr las pruebas de la etapa 4a desde este módulo
