@@ -157,6 +157,24 @@
         "factory_almacen_sincronizar.sincronizar_une_los_registros_de_todos_sin_escribir_configuracion",
         "factory_almacen_sincronizar.corrida_completa"
       ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-11T15:00:18.058093+00:00",
+      "texto": "autopilot delegar_al_agente: no hay candidato vigente: antes de revisar hay que construir. Instrucción: construí el cambio según la spec aprobada: pruebas primero, evidencia y commit del candidato; después: oracle-factory pedir-revision 20261111-135546-t8q-almacen-sincronizar --a agy"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-11-11T15:06:02.579138+00:00",
+      "texto": "autopilot se detuvo: se llegó al tope de 1 pasos"
     }
   ],
   "tipos": {
