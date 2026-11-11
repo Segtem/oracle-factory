@@ -2242,7 +2242,7 @@ def main(argv: list[str] | None = None) -> int:
         ROOT = actual if args.comando == "init" else (estructura.raiz_del_proyecto(actual) or actual)
         if ROOT != actual:
             print(f"Proyecto: {ROOT} (encontrado desde {actual})", file=sys.stderr)
-    PRODUCTO = None
+    PRODUCTO = previo = None
     AGENTE = (args.agente or "").strip() or None
     try:
         if args.comando in ("conectar", "desconectar"):  # operan sobre el producto: no se redirigen a su almacén
@@ -2260,6 +2260,7 @@ def main(argv: list[str] | None = None) -> int:
                                "se deducen de sus candidatos (oracle-factory log ID). No se escribió nada.")
         if args.comando != "init" and not ROOT.is_dir():
             raise FactoryError("el proyecto no existe; ejecutá primero init")
+        previo = almacenes.foto(ROOT) if PRODUCTO else None  # con almacén aparte, lo que el comando escriba se commitea al terminar
         if (args.comando != "init" and not (ROOT / estructura.DIR).is_symlink()
                 and (ROOT / estructura.DIR / "config.json").is_file()):
             proyecto_oracle()  # una carpeta de Oracle mal configurada falla antes de que el comando escriba nada
@@ -2348,6 +2349,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"FACTORY BLOQUEADA: {e}", file=sys.stderr)
         return 1
     finally:
+        if PRODUCTO:
+            almacenes.commitear(sys.modules[__name__], ROOT, previo, args.comando, getattr(args, "id", None))
         PRODUCTO = None
 
 

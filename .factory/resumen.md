@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:ae9d2788a14e3c93dd1e3541884e8fb8db8a47b3a3bb8bd06afd0c8cb9357c67 -->
+<!-- oracle-factory resumen sha256:3f56bb591e757e7b6bd327eb12df9692e6a65e975218c59a8d60dc9d4abecd25 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 373 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 375 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -306,6 +306,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | con_almacen_aparte_no_hay_hook_en_el_producto | funcional | `flujo_c47a7d33c8e5ed925.con_almacen_aparte_no_hay_hook_en_el_producto` | factory_registros_candidato.con_almacen_aparte_no_hay_hook_en_el_producto, factory_registros_candidato.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-140719-h7t-registros-candidato |
 | cli_py_queda_con_margen_bajo_su_tope | no funcional | `flujo_cc3654ad164ff3899.cli_py_queda_con_margen_bajo_su_tope` | factory_partir_cli.cli_py_queda_con_margen_bajo_su_tope, factory_partir_cli.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-203907-qfp-partir-cli |
 | lo_mudado_a_proyecto_sigue_igual | no funcional | `flujo_cc3654ad164ff3899.lo_mudado_a_proyecto_sigue_igual` | factory_partir_cli.lo_mudado_a_proyecto_sigue_igual, factory_partir_cli.corrida_completa | verde al cerrar el 2026-11-10 | 20261110-203907-qfp-partir-cli |
+| con_almacen_cada_comando_que_escribe_deja_su_commit | funcional | `flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit` | factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit, factory_almacen_commits.corrida_completa | verde al cerrar el 2026-11-11 | 20261110-230858-stu-almacen-commits |
+| el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar | funcional | `flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar` | factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar, factory_almacen_commits.corrida_completa | verde al cerrar el 2026-11-11 | 20261110-230858-stu-almacen-commits |
 
 ### ide
 
@@ -668,6 +670,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **F1** (20261108-115714-ohv-noaplica): El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~. Aceptado por Brian Hollweg: Acepto el riesgo: El lector de excepciones puede interpretar una línea Pruebas dentro de un bloque ~~~
 - **C1** (20261108-124048-rv2-marcas): Una pareja duplicada con marcadores no canónicos pasa inadvertida. Aceptado por Brian Hollweg: Acepto el riesgo: Una pareja duplicada con marcadores no canónicos pasa inadvertida
 - **origen-9** (20261108-133915-l4v-origen): Una acción de revisión mal escrita sigue produciendo un falso cero silencioso. Aceptado por Brian Hollweg: Acepto el riesgo: Una acción de revisión mal escrita sigue produciendo un falso cero silencioso
+- **F1** (20261110-230858-stu-almacen-commits): Comandos concurrentes pueden compartir el commit y dejar uno sin commit. Aceptado por Brian Hollweg: Acepto el riesgo: Comandos concurrentes pueden compartir el commit y dejar uno sin commit
 
 ### Históricos
 
@@ -1867,6 +1870,12 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261110-203907-qfp-partir-cli) codex (gpt-6-luna): La modificación de dos líneas de tests/test_cli_modulos.py (importar proyecto y agregarlo a MODULOS) está justificada por el requisito de vigilancia.
 - (20261110-203907-qfp-partir-cli) codex (gpt-6-luna): No hice mutaciones manuales.
 - (20261110-203907-qfp-partir-cli) codex (gpt-6-luna): El paquete declara omissions vacío; no hubo archivos binarios omitidos que abrir.
+- (20261110-230858-stu-almacen-commits) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261110-230858-stu-almacen-commits) codex (gpt-6-luna): Leí la propuesta, la spec, el diff completo de 13 archivos y las cuatro revisiones anteriores. El paquete no omite archivos binarios.
+- (20261110-230858-stu-almacen-commits) codex (gpt-6-luna): Corrí `python -m unittest tests.test_almacen_commits </dev/null` en el checkout candidato: 10 pruebas pasaron. No ejecuté `unittest discover` completo ni evidencia automatizada de Oracle.
+- (20261110-230858-stu-almacen-commits) codex (gpt-6-luna): Verifiqué que `_huella` cambió respecto de la ronda 4 para incluir el modo ejecutable, y reproduje que un cambio de modo altera la huella. Verifiqué que `foto` mantiene la clave FALLA al fallar `git status` y que `commitear` avisa sin intentar commit; la prueba del índice corrupto del candidato también pasó.
+- (20261110-230858-stu-almacen-commits) codex (gpt-6-luna): Confirmé en la prueba de registros ignorados que el aviso de `.gitignore` se produce, y en el caso de `.factory/local` versionado a la fuerza que la ruta sigue fuera del commit. No reporto regresión de esos hallazgos previos.
+- (20261110-230858-stu-almacen-commits) codex (gpt-6-luna): La reproducción de concurrencia usó comandos reales `nuevo` y una barrera de sincronización en el cierre para fijar el intercalado; no ensayé todas las combinaciones de comandos concurrentes.
 
 ### Históricos
 

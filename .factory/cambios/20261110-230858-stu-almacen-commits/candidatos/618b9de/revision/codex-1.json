@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-almacen-commits/.factory/local/revisiones/618b9de-codex-1",
+  "base": "3b7a508da3e4bf15fbc52db34c154b8c80fff0bc",
+  "head": "618b9dedbac609ef2d878d9467430e9065bdf6a4",
+  "diff_sha256": "186d340e5744a22841769da1646fb0e7e6ceffb715cd5607b25b0f8a5c7623ab",
+  "context_sha256": "5ed03d23b0779523a8954d7130bfa8b6cb8a8f138f4f1f46856ef7493f16c352",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Un .gitignore puede dejar fuera registros generados sin aviso",
+      "explanation": "La excepción propuesta para .factory/local no cubre archivos que Factory sí genera y que el almacén ignore por otra regla. foto() toma sólo rutas de `git status`; Git omite los ignorados. Por ejemplo, si el almacén ignora `openspec/changes/*/proposal.md`, `nuevo` escribe una propuesta y otros registros visibles, pero la propuesta no aparece en la foto ni en `tocados`: se commitean los otros archivos y la propuesta queda sin seguimiento, sin aviso. Esto incumple el requisito de incluir exactamente los archivos que el comando creó. La prueba nueva fija correctamente que `.factory/local` no se comparte, pero no prueba la exclusión inadvertida de un archivo de registro generado.",
+      "location": {
+        "file": "oracle_factory/almacenes.py",
+        "start_line": 200,
+        "end_line": 200,
+        "side": "head"
+      },
+      "trigger": "En un almacén conectado, agregar a .gitignore la regla `openspec/changes/*/proposal.md` y ejecutar `nuevo`. La propuesta nueva queda ignorada, mientras que los demás archivos del cambio pueden aparecer en el commit.",
+      "evidence": "foto() ejecuta `git status --porcelain -z --no-renames --untracked-files=all` (línea 200) y construye su mapa sólo desde esa salida (líneas 205–214). Git omite archivos ignorados en esa salida; por eso commitear() no puede detectar que la propuesta cambió. Reproducción en un repositorio temporal: con esa regla, `git status --porcelain --untracked-files=all` mostró sólo `?? .../factory.json` y no mostró `.../proposal.md`; `git check-ignore -v` confirmó que la propuesta coincidía con la regla. No se modificó el checkout.",
+      "related_requirement": "con_almacen_cada_comando_que_escribe_deja_su_commit",
+      "status": "pendiente",
+      "verification": "Reproducido el comportamiento de Git en un repo temporal con un archivo proposal.md ignorado y un factory.json visible. Inspeccioné la ruta foto→commitear que consume esa salida; no ejecuté la suite."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff completo del paquete y el informe de la ronda anterior; el paquete declara omissions: [] y no omite archivos binarios.",
+    "Revisé el caso F1 en su forma acotada: `.factory/local` ignorado es material local; el hallazgo de esta ronda es para una ruta generada de registro ignorada por regla distinta.",
+    "F2 de la ronda anterior es la rama no interactiva que atribuye `Actor: sin identificar (sin_identificar)`. La implementación mantiene esa salida veraz; la discrepancia se debe al formato demasiado restrictivo de la spec y no la considero un defecto de código independiente en esta ronda.",
+    "Reproduje en un repositorio Git temporal que status omite proposal.md cuando .gitignore lo excluye y deja visible factory.json. No ejecuté unittest discover ni los comandos de evidencia Oracle; no hice mutaciones al código ni al checkout.",
+    "El diff revisado corresponde al HEAD del paquete. El checkout mostró cambios preexistentes fuera del producto (.factory y kb); no los leí ni modifiqué."
+  ]
+}

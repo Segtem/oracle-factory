@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-almacen-commits/.factory/local/revisiones/57017da-codex-1",
+  "base": "3b7a508da3e4bf15fbc52db34c154b8c80fff0bc",
+  "head": "57017da9ff5e137fa8d441ddbcd108f53e0298e5",
+  "diff_sha256": "894b83984aadc738516287b582162b061f69b3e17df6a2f1904e36ce2239746e",
+  "context_sha256": "9bbd301d28b2ea2fa0dedb0b0415a7ae3220d30768f3d4bd089100eceb82b597",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "La foto no detecta cambios de modo de archivo",
+      "explanation": "_huella() calcula la huella sólo con los bytes (o el destino de un symlink), pero Git también considera cambio una variación del bit ejecutable. Si un comando Factory cambia 100644 a 100755, las fotos anterior y posterior producen el mismo valor y commitear() lo omite sin aviso. Así, el commit no contiene todos los cambios que hizo el comando.",
+      "location": {
+        "file": "oracle_factory/almacenes.py",
+        "start_line": 234,
+        "end_line": 237,
+        "side": "head"
+      },
+      "trigger": "En un almacén conectado, ejecutar un comando que cambie el modo de un archivo de registro sin cambiar sus bytes (por ejemplo, 100644 → 100755).",
+      "evidence": "En _huella(), las líneas 234–237 sólo leen contenido y retornan SHA-256; no incorporan st_mode. Lo reproduje en un repo Git temporal: chmod 0644→0755 conservó el hash calculado por esa lógica, mientras git status mostró M y git diff --summary mostró «mode change 100644 => 100755». La prueba tests/test_almacen_commits.py no comprueba cambios de modo.",
+      "related_requirement": "con_almacen_cada_comando_que_escribe_deja_su_commit",
+      "status": "pendiente",
+      "verification": "Reproducido en un repositorio Git temporal; no modifiqué el checkout."
+    },
+    {
+      "id": "F2",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Un fallo al tomar la foto inicial desactiva el commit sin avisar",
+      "explanation": "foto() devuelve None si falla git status. main() pasa ese resultado como foto previa y commitear() retorna enseguida cuando antes es None. Por lo tanto, ante un error de Git previo al comando (por ejemplo, un índice corrupto), el comando puede escribir registros y terminar sin commit ni el aviso que exige la spec para errores de Git.",
+      "location": {
+        "file": "oracle_factory/almacenes.py",
+        "start_line": 205,
+        "end_line": 207,
+        "side": "head"
+      },
+      "trigger": "Conectar un almacén cuyo índice de Git esté corrupto y ejecutar un comando que escriba registros; `git status` falla al tomar la foto previa.",
+      "evidence": "Las líneas 205–207 convierten cualquier retorno distinto de cero de `git status` en None. En cli.py:2263 ese None se guarda como `previo`; commitear() (almacenes.py:246–247) retorna sin aviso si lo recibe. En un repo temporal con `.git/index` inválido, `git status --porcelain` terminó con código 128 y «index file smaller than expected». La suite prueba fallo en el propio commit (hook, identidad, git ausente en esa etapa), pero no fallo al tomar la foto previa.",
+      "related_requirement": "el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar",
+      "status": "pendiente",
+      "verification": "Reproduje el error de `git status` con un índice temporal corrupto y seguí el flujo foto→main→commitear en el diff del paquete; no ejecuté la suite."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, los 13 archivos de texto del diff y las revisiones anteriores; el paquete declara omissions: [] y no omite binarios.",
+    "Reproduje en repositorios Git temporales el cambio de modo que el hash de contenido no detecta y el error de status con un índice corrupto. Guardé la salida extendida en repro.log.",
+    "No ejecuté unittest discover ni la suite nueva: el checkout presente corresponde a otro HEAD que el candidato 57017da, así que no habría verificado este diff. Revisé los casos declarados en tests/test_almacen_commits.py por inspección.",
+    "Confirmé por inspección que la regresión de ronda 3 para .factory/local versionado está filtrada en las entradas visibles y probada con git add -f; la detección y aviso de archivos ignorados también tiene caso de prueba. No reporto F2 anterior (actor sin identificar) conforme al riesgo aceptado en las indicaciones de esta ronda."
+  ]
+}

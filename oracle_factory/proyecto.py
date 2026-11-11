@@ -126,7 +126,9 @@ def inicializar(oracle: str | None = None) -> None:
     print('Si el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.')
     print(cli.instalar_hook())
     cli.comando_agentes(False)
-    if not cli.ejecutar(["git", "rev-parse", "--git-dir"]).returncode:
+    if cli.PRODUCTO:  # los drivers de merge van en la configuración de Git del clon, y en un almacén Factory no la escribe
+        print("Almacén de registros: Factory no escribe su configuración de Git, así que no instala la unión de registros al integrar.")
+    elif not cli.ejecutar(["git", "rev-parse", "--git-dir"]).returncode:
         print(cli.instalar_union())
     print('Próximo paso: oracle-factory nuevo --con-ejemplo notas "Comprobar el título de una nota"')
     print('Para recuperar cambios existentes: oracle-factory listar')
