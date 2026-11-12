@@ -214,7 +214,7 @@ class GuiaVersionada(Conectado):
         guia = (self.producto / 'AGENTS.md').read_text(encoding='utf-8')
         self.assertTrue(guia.startswith(self.PROPIO))
         self.assertNotIn('una guía vieja', guia)
-        self.assertIn(agentes_mod.bloque(f.config_proyecto()['modo_por_defecto'], con_almacen=True).strip(), guia)
+        self.assertIn(agentes_mod.bloque(f.config_proyecto()['modo_por_defecto'], con_almacen=True, versionada=True).strip(), guia)
         claude = (self.producto / 'CLAUDE.md').read_text(encoding='utf-8')
         self.assertIn('Notas propias.', claude)
         self.assertIn('@AGENTS.md', claude)
