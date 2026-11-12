@@ -1,0 +1,62 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261112-121837-6bu-pmr",
+  "contexto": {
+    "head": "f33e65de15d499ad9c4f29351855be699489a65b",
+    "archivos_sha256": "ae195ac27c58b64a2871de364b74b2f5254092a691a070f339f7f49b85b675e9"
+  },
+  "documentos": {
+    "openspec/changes/20261112-121837-6bu-pmr/proposal.md": "8285fc032fcad0e1e90b2bace8b0cbd9e6e35502c457a249add8ae4b85a0374b",
+    "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md": "05feef584b4017342538b976f1477db7647405d04e6996721acf9cf0e39e77ed"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_preparar_migracion.agentes_en_el_repo_mantiene_una_guia_versionada.oracle",
+    "catalogos/factory_preparar_migracion.corrida_completa.oracle",
+    "catalogos/factory_preparar_migracion.la_puerta_funciona_con_el_producto_conectado.oracle",
+    "catalogos/factory_preparar_migracion.las_pruebas_y_herramientas_leen_los_registros_del_almacen.oracle",
+    "catalogos/factory_preparar_migracion.migrar_limpia_lo_de_factory_del_producto.oracle",
+    "docs/estructura.md",
+    "docs/tests.md",
+    "openspec/changes/20261112-121837-6bu-pmr/design.md",
+    "openspec/changes/20261112-121837-6bu-pmr/ensayo-factory.md",
+    "openspec/changes/20261112-121837-6bu-pmr/proposal.md",
+    "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md",
+    "openspec/changes/20261112-121837-6bu-pmr/tasks.md",
+    "oracle_factory/almacenes.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/parser.py",
+    "requisitos/flujo_c281f4f7154afdb2f.agentes_en_el_repo_mantiene_una_guia_versionada.requisito",
+    "requisitos/flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado.requisito",
+    "requisitos/flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen.requisito",
+    "requisitos/flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto.requisito",
+    "tests/datos/ayuda-cli.json",
+    "tests/datos/nombres-cli.json",
+    "tests/test_almacen_migrar.py",
+    "tests/test_portabilidad.py",
+    "tests/test_preparar_migracion.py",
+    "tests/test_verificador_generico.py",
+    "tools/verificar_cambio.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1478 pruebas, 13 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-121837-6bu-pmr/candidatos/1c29dfa/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-121837-6bu-pmr/candidatos/1c29dfa/revision/codex-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Revisé la propuesta y la spec, el diff del paquete y el código/pruebas del checkout para cada requisito; no ejecuté pruebas ni mutaciones.",
+    "codex (gpt-6-luna): Las cinco modificaciones declaradas de pruebas existentes son pertinentes: p6/vg3 consultan requisitos y catálogos del almacén conectado; mg1 admite la limpieza añadida que cubre pm2; ayuda-cli.json y nombres-cli.json reflejan --en-el-repo.",
+    "codex (gpt-6-luna): No encontré defectos reproducibles ni promesas incumplidas en el código revisado."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

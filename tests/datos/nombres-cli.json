@@ -260,7 +260,7 @@
   "tipo": "funcion"
  },
  "comando_agentes": {
-  "firma": "(verificar: 'bool') -> 'None'",
+  "firma": "(verificar: 'bool', en_el_repo: 'bool' = False) -> 'None'",
   "tipo": "funcion"
  },
  "comando_buscar": {

@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-preparar-migracion/.factory/local/revisiones/1c29dfa-codex-1",
+  "base": "e1ecfd51954009628156b32529f92a540d2df314",
+  "head": "1c29dfa6a481faa40341f951940f06bd7f7178ea",
+  "diff_sha256": "fb821fece5008f5cae2585228234bfbd4f68210753af0cf523b95ba4109c64dc",
+  "context_sha256": "d033586ff3f8f7821b36e08a387a849f7f943b1ba6e616562dd55eebfc5bf123",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta y la spec, el diff del paquete y el código/pruebas del checkout para cada requisito; no ejecuté pruebas ni mutaciones.",
+    "Las cinco modificaciones declaradas de pruebas existentes son pertinentes: p6/vg3 consultan requisitos y catálogos del almacén conectado; mg1 admite la limpieza añadida que cubre pm2; ayuda-cli.json y nombres-cli.json reflejan --en-el-repo.",
+    "No encontré defectos reproducibles ni promesas incumplidas en el código revisado."
+  ]
+}

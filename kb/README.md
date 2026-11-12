@@ -139,6 +139,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261111-161316-dd7-almacen-guia]] — Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar (cerrada)
 - [[cambios/20261111-204313-c6n-almacen-vscode]] — Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén (cerrada)
 - [[cambios/20261112-005922-f5r-almacen-migrar]] — Registros fuera del repo del producto, etapa 6: migrar los registros de un proyecto a un almacén (cerrada)
+- [[cambios/20261112-121837-6bu-pmr]] — Registros fuera del repo del producto: preparar la migración real de Factory (cerrada)
 
 ## Requisitos
 
@@ -308,6 +309,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos]]
 - [[requisitos/estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto]]
 - [[requisitos/flujo_c0d820474143ed460.ante_medir_listar_el_conductor_manda_construir_antes_de_elegir_medidas]]
+- [[requisitos/flujo_c281f4f7154afdb2f.agentes_en_el_repo_mantiene_una_guia_versionada]]
+- [[requisitos/flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado]]
+- [[requisitos/flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen]]
+- [[requisitos/flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto]]
 - [[requisitos/flujo_c350dc50b9b6cde6a.el_conductor_pide_el_segundo_revisor_antes_de_la_revision]]
 - [[requisitos/flujo_c350dc50b9b6cde6a.estado_dice_que_segundo_revisor_falta_en_el_camino_completo]]
 - [[requisitos/flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos]]

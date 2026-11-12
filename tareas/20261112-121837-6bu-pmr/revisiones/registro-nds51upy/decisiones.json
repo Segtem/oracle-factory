@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "445468400f0b551d80cd401d015b2957b348afd1012fcdf3e3722a92d512ca81",
+  "actor": "Brian Hollweg",
+  "motivo": "Codex, una vuelta, sin hallazgos. Evidencia de 1c29dfa: 1478 pruebas, 13 casos de contrato, éxito. 18 mutaciones a mano, todas detectadas. Ensayo sobre una copia de Factory (4f9beb71): 6672 archivos migrados, listar igual, .gitignore y .gitattributes limpiados, y las 1478 pruebas bien antes y después de migrar (en la etapa 6 fallaban 17). Arreglo de paso: la puerta con el producto conectado buscaba secretos en el almacén y dejaba pasar en silencio. Pruebas existentes editadas, declaradas y aceptadas por codex: p6, vg3, mg1 y los dos dorados de la ayuda. Los drivers de unión que hooks dejó en .git/config quedan (sacarlos sería cambiar la configuración de Git). La migración real de ~/Dev/factory queda como decisión aparte.",
+  "decisiones": []
+}

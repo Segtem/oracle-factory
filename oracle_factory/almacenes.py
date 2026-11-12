@@ -111,6 +111,16 @@ def conectado(cli) -> Path | None:
     return Path(almacen)
 
 
+def registros_de(producto: Path) -> Path:
+    """Dónde están los registros de `producto` (o de una carpeta suya): su almacén si está conectado; si no, el producto mismo.
+    Para las herramientas y las pruebas que leen los registros sin pasar por la CLI."""
+    try:
+        almacen = leer().get(clave(producto) or "")
+    except ValueError:
+        almacen = None
+    return Path(almacen) if almacen else producto
+
+
 def es_url(texto: str) -> bool:
     """¿Una URL de Git (esquema://… o usuario@host:ruta) y no una carpeta que existe?"""
     return not Path(texto).expanduser().exists() and bool(re.match(r"[a-zA-Z][\w+.-]*://|[^/:\s]+@[^/:\s]+:", texto))
@@ -431,12 +441,14 @@ def _excluir(cli, rutas) -> None:
     archivo.write_text(actual + ("\n" if actual and not actual.endswith("\n") else "") + "\n".join(bloque) + "\n", encoding="utf-8")
 
 
-def guia_en_producto(cli, verificar: bool) -> None:
-    """`agentes` con almacén aparte: el bloque de la guía en AGENTS.md y CLAUDE.md del producto, excluidos de Git."""
+def guia_en_producto(cli, verificar: bool, en_el_repo: bool = False) -> None:
+    """`agentes` con almacén aparte: el bloque de la guía en AGENTS.md y CLAUDE.md del producto, excluidos de Git; con `en_el_repo`,
+    en los que el producto ya versiona (para un producto cuya guía es parte de él, como Factory), sin excluirlos."""
     versionados = _ya_versionados(cli, GUIA)
-    if versionados and not verificar:
+    if versionados and not verificar and not en_el_repo:
         raise cli.FactoryError(f"el producto ya versiona {', '.join(versionados)}: no lo modifico (ensuciaría el repo del producto). "
-                               "Agregá a mano el bloque de `oracle-factory agentes` o sacalo del repo. No escribí nada")
+                               "Si la guía es parte del producto, mantenela ahí con oracle-factory agentes --en-el-repo; si no, "
+                               "sacala del repo. No escribí nada")
     rutas = [cli.PRODUCTO / n for n in GUIA]
     enlaces = [r.name for r in rutas if r.is_symlink()]
     if enlaces:
@@ -459,6 +471,10 @@ def guia_en_producto(cli, verificar: bool) -> None:
             with os.fdopen(descriptor, "w", encoding="utf-8") as temporal:
                 temporal.write(esperado)
             os.replace(nombre, ruta)
+    if en_el_repo:
+        print(f"Guía para agentes en AGENTS.md del producto ({cli.PRODUCTO}), con CLAUDE.md que la incluye, en el repo: commiteala "
+              "con el producto.")
+        return
     _excluir(cli, GUIA)
     print(f"Guía para agentes en AGENTS.md del producto ({cli.PRODUCTO}), con CLAUDE.md que la incluye; no se versionan "
           "(van en .git/info/exclude).")
@@ -593,9 +609,43 @@ def _remoto_sin_registros(cli, url: str) -> None:
                                "proyectos. Usá un repo sin ellos. No cambié nada")
 
 
-def _deshacer_copia(destino: Path, rutas: list[str], ignore_antes: bytes | None, ignore_indice: str) -> None:
+LIMPIAR = (".gitignore", ".gitattributes")  # los archivos del producto donde Factory escribe líneas suyas
+
+
+def _sin_lo_de_factory(cli, producto: Path) -> dict[str, bytes | None]:
+    """{archivo: contenido sin las líneas de Factory, o None si no queda nada} de los de LIMPIAR que tienen alguna."""
+    de_factory = {".gitignore": {estructura.IGNORAR_LOCAL, estructura.IGNORAR_CLUE},
+                  ".gitattributes": {cli.ATRIBUTOS_MARCA, *cli.ATRIBUTOS}}  # todas las líneas del bloque se van: la marca también
+    cambios: dict[str, bytes | None] = {}
+    for nombre, lineas in de_factory.items():
+        ruta = producto / nombre
+        if not ruta.is_file() or ruta.is_symlink():
+            continue
+        todas = ruta.read_text(encoding="utf-8").splitlines()
+        quedan = [l for l in todas if " ".join(l.split()) not in lineas]  # otro espaciado es la misma línea (escribir_atributos)
+        if len(quedan) != len(todas):
+            cambios[nombre] = ("\n".join(quedan) + "\n").encode("utf-8") if any(l.strip() for l in quedan) else None
+    return cambios
+
+
+def _hooks_de_factory(cli, producto: Path) -> list[Path]:
+    """Los hooks del trailer y de rehacer lo generado que instaló Factory (por su marca): sin registros en el producto, sobran.
+    La puerta pre-push no está entre ellos."""
+    dice = _git(producto, "rev-parse", "--path-format=absolute", "--git-path", "hooks")
+    carpeta = Path(dice) if dice else None
+    return [carpeta / n for n in (*cli.HOOKS, "post-commit", "post-merge") if carpeta and (carpeta / n).is_file()
+            and not (carpeta / n).is_symlink() and cli.HOOK_MARCA in (carpeta / n).read_text(encoding="utf-8", errors="replace")]
+
+
+def _foto_de(destino: Path, nombres: tuple[str, ...]) -> dict[str, tuple[bytes | None, str]]:
+    """{nombre: (contenido o None si no está, su entrada del índice)} de archivos del almacén, para devolverlos si algo falla."""
+    return {n: ((destino / n).read_bytes() if (destino / n).is_file() else None,
+                os.fsdecode(_git_almacen(destino, "ls-files", "-s", "--", n).stdout).strip()) for n in nombres}
+
+
+def _deshacer_copia(destino: Path, rutas: list[str], antes: dict[str, tuple[bytes | None, str]]) -> None:
     """Deja el almacén como estaba antes de copiar: borra las rutas copiadas (no tenía ninguna, ver _destino_sin_registros) y
-    devuelve el .gitignore y su entrada del índice."""
+    devuelve los archivos de `antes` (.gitignore, .gitattributes) y sus entradas del índice."""
     _git_almacen(destino, "rm", "-r", "-q", "--cached", "--ignore-unmatch", "--", *rutas)
     for r in rutas:
         camino = destino / r
@@ -603,16 +653,16 @@ def _deshacer_copia(destino: Path, rutas: list[str], ignore_antes: bytes | None,
             shutil.rmtree(camino, ignore_errors=True)
         elif camino.exists() or camino.is_symlink():
             camino.unlink()
-    ignore = destino / ".gitignore"
-    if ignore_antes is None:
-        ignore.unlink(missing_ok=True)
-    else:
-        ignore.write_bytes(ignore_antes)
-    if ignore_indice:
-        modo, sha = ignore_indice.split()[:2]
-        _git_almacen(destino, "update-index", "--cacheinfo", f"{modo},{sha},.gitignore")
-    else:
-        _git_almacen(destino, "rm", "-q", "--cached", "--ignore-unmatch", "--", ".gitignore")
+    for nombre, (contenido, indice) in antes.items():
+        if contenido is None:
+            (destino / nombre).unlink(missing_ok=True)
+        else:
+            (destino / nombre).write_bytes(contenido)
+        if indice:
+            modo, sha = indice.split()[:2]
+            _git_almacen(destino, "update-index", "--cacheinfo", f"{modo},{sha},{nombre}")
+        else:
+            _git_almacen(destino, "rm", "-q", "--cached", "--ignore-unmatch", "--", nombre)
 
 
 def migrar(cli, almacen: str, verificar: bool) -> int:
@@ -651,6 +701,13 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
     if sueltos:
         raise cli.FactoryError(f"hay archivos sin versionar en los registros del producto que Git no ignora ({_resumen(sueltos)}): "
                                "commitealos, ignoralos o sacalos antes. No cambié nada")
+    limpieza, hooks = _sin_lo_de_factory(cli, producto), _hooks_de_factory(cli, producto)
+    if limpieza:
+        propios = _lista(_git_almacen(producto, "status", "--porcelain", "-z", "--untracked-files=all", "--", *limpieza).stdout)
+        if propios:
+            raise cli.FactoryError(f"{', '.join(n[3:] for n in propios)} del producto tiene cambios sin commitear o no está versionado: "
+                                   "migrar le saca las líneas de Factory y deja eso en el índice, y se llevaría lo tuyo. Commitealo antes. "
+                                   "No cambié nada")
     versionados = _lista(_git_almacen(producto, "ls-files", "-z", "--", *rutas).stdout)
     locales = _lista(_git_almacen(producto, "ls-files", "-z", "--others", "--ignored", "--exclude-standard", "--", *rutas).stdout)
     if es_url(almacen):
@@ -673,17 +730,20 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
         print(f"Copiaría al almacén {destino} {len(versionados)} archivos versionados ("
               + ", ".join(f"{c}: {k}" for c, k in sorted(por_carpeta.items())) + ") en un commit, "
               f"y movería {len(locales)} archivos sin versionar" + (f": {_resumen(locales, 20)}" if locales else "") + ".")
+        if limpieza:
+            print("Sacaría las líneas de Factory de " + ", ".join(
+                f"{n} (se borraría: no le queda otra)" if c is None else n for n, c in limpieza.items()) + " del producto.")
+        if hooks:
+            print(f"Sacaría los hooks de Factory {', '.join(h.name for h in hooks)} (el pre-push queda).")
         print("Después conectaría el producto y borraría sus registros dejando la baja sin commitear. No escribí nada.")
         return 0
     cabeza = _git(producto, "rev-parse", "HEAD") or "sin commits"
     quien = cli.actor()
-    ignore = destino / ".gitignore"
     with bloqueo(destino, PLAZO_DEL_BLOQUEO) as tomado:  # MIG-004: el bloqueo antes de copiar; sin él no se copia nada
         if not tomado:
             raise cli.FactoryError(f"otro comando de Factory tiene tomado el bloqueo del almacén {destino}: volvé a intentar cuando "
                                    "termine. No cambié nada")
-        ignore_antes = ignore.read_bytes() if ignore.exists() else None
-        ignore_indice = os.fsdecode(_git_almacen(destino, "ls-files", "-s", "--", ".gitignore").stdout).strip()
+        antes = _foto_de(destino, LIMPIAR)
         previo = _git(destino, "rev-parse", "-q", "--verify", "HEAD")  # None si el almacén no tiene commits
         falla = None
         try:  # se copia también lo de la máquina (.factory/local/, paquetes de Clue): el producto no cambia hasta el final
@@ -691,12 +751,14 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                 copia = destino / n
                 copia.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(producto / n, copia, follow_symlinks=False)
-            contenido = (ignore_antes or b"").decode("utf-8")
+            contenido = (antes[".gitignore"][0] or b"").decode("utf-8")
             faltan = [r for r in (estructura.IGNORAR_LOCAL, estructura.IGNORAR_CLUE) if r not in contenido.splitlines()]
             if faltan:
-                ignore.write_text(contenido + ("\n" if contenido and not contenido.endswith("\n") else "") + "\n".join(faltan) + "\n",
-                                  encoding="utf-8")
-            rutas_nul = b"\0".join(os.fsencode(n) for n in [*versionados, *([".gitignore"] if faltan else [])])
+                (destino / ".gitignore").write_text(contenido + ("\n" if contenido and not contenido.endswith("\n") else "")
+                                                    + "\n".join(faltan) + "\n", encoding="utf-8")
+            atributos = cli.escribir_atributos(destino)  # los drivers de unión siguen a los registros
+            rutas_nul = b"\0".join(os.fsencode(n) for n in [*versionados, *([".gitignore"] if faltan else []),
+                                                              *([".gitattributes"] if atributos else [])])
             paso = _git_almacen(destino, "add", "-f", "--pathspec-from-file=-", "--pathspec-file-nul", entrada=rutas_nul)
             if paso.returncode == 0:
                 paso = _git_almacen(destino, "commit", "-q", "--only", "-m", f"Factory: migrar los registros del producto ({cabeza[:12]})",
@@ -719,7 +781,7 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                     raise cli.FactoryError(f"{falla}; tampoco pude deshacer el commit {hecho} del almacén {destino} "
                                            f"({os.fsdecode(vuelta.stderr).strip()}). El producto sigue como estaba") from e
         if falla:
-            _deshacer_copia(destino, rutas, ignore_antes, ignore_indice)
+            _deshacer_copia(destino, rutas, antes)
             raise cli.FactoryError(f"{falla}. Deshice lo copiado en el almacén {destino}: no cambié nada en el producto ni en el almacén")
     baja = _git_almacen(producto, "rm", "-r", "-q", "--cached", "--pathspec-from-file=-", "--pathspec-file-nul",
                         entrada=b"\0".join(os.fsencode(n) for n in versionados))
@@ -738,7 +800,24 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
     except OSError as e:  # todo está ya en el almacén y la baja en el índice: sólo falta terminar de borrar
         raise cli.FactoryError(f"no pude borrar los registros del producto ({e}). Ya están commiteados en el almacén {destino}, el "
                                "producto quedó conectado y la baja está en su índice; terminá con: rm -rf -- " + " ".join(rutas)) from e
+    try:  # lo último: las líneas y los hooks de Factory que sobran en el producto
+        for nombre, contenido in limpieza.items():
+            if contenido is None:
+                (producto / nombre).unlink()
+            else:
+                (producto / nombre).write_bytes(contenido)
+        if limpieza:
+            hecho = _git_almacen(producto, "add", "-A", "--", *limpieza)
+            if hecho.returncode:
+                raise OSError(os.fsdecode(hecho.stderr).strip())
+        for hook in hooks:
+            hook.unlink()
+    except OSError as e:
+        raise cli.FactoryError(f"migré los registros al almacén {destino} y el producto quedó conectado, pero no pude sacar lo de "
+                               f"Factory de {', '.join([*limpieza, *(h.name for h in hooks)])} ({e}); sacalo a mano y preparalo con git add") from e
     print(f"Migré {len(versionados)} archivos versionados al almacén {destino} (commit «Factory: migrar…») y moví {len(locales)} "
           "sin versionar; el producto quedó conectado a él.")
+    if limpieza or hooks:
+        print("Saqué lo de Factory del producto: " + ", ".join([*limpieza, *(f"el hook {h.name}" for h in hooks)]) + ".")
     print("No commiteé en el producto: la baja de los registros quedó preparada en su índice. Revisala con git status y commiteala.")
     return 0
