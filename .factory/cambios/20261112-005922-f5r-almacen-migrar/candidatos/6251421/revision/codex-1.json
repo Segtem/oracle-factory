@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-almacen-migrar/.factory/local/revisiones/6251421-codex-1",
+  "base": "feb32228fb162dd3e43f42b0d03fbba0fe4e2fe7",
+  "head": "6251421e4db4ac6f166e587c49bc025605843b2e",
+  "diff_sha256": "0b3ca064370da4eb3b2010580e09b34f403240bd2e2b37f7433e180192952a90",
+  "context_sha256": "e705981f0fdaae663884b0fa61a563bfb15b9456b5519a9baaf0798762f11e57",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Contrasté el paquete con la spec, revisé los umbrales y los casos de tests/test_almacen_migrar.py, comparé el candidato con bc3d969 y leí el informe sin hallazgos de esa vuelta. No ejecuté las pruebas ni mutaciones: el pedido indica checkout de sólo lectura y este checkout sólo es una copia de revisión.",
+    "Entre bc3d969 y 6251421, fuera de .factory, kb y tareas excluidos, sólo cambiaron cuatro catálogos: corrida_completa y tres requisitos. No cambió código ni tests en ese intervalo.",
+    "Los umbrales coinciden con los métodos de prueba por requisito: mg1/copia-conecta-baja 4; mg2/verificar 4; mg3/negativas 12; mg4/ensayo 3. Total: 23 casos; corrida_completa exige 23.",
+    "tests/datos/ayuda-cli.json: la línea quitada documentaba el uso anterior de migrar sin --almacen; su sustitución refleja la CLI nueva introducida por este cambio y está justificada.",
+    "tests/test_almacen_vscode.py: no se borraron pruebas; se importó os, se permitió pasar variables de entorno al proceso node y se agregó un caso para la falta de RelativePattern. Está justificado por la nueva compatibilidad de vigilancia.",
+    "tests/vscode_en_node.cjs: no se borró una prueba; el stub fijo RelativePattern se volvió opcional mediante SIN_RELATIVE_PATTERN para ejercer el caso sin esa API. Está justificado.",
+    "tests/terminal_en_node.cjs: el paquete agrega RelativePattern al stub porque la extensión ahora puede usarlo al vigilar el almacén; es consistente con VS Code y está justificado por el cambio."
+  ]
+}

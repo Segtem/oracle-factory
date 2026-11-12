@@ -465,6 +465,32 @@
       "cuando": "2026-11-12T11:40:54.923148+00:00",
       "decision": "aprobar",
       "candidato": "6251421"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-12T11:45:13.269138+00:00",
+      "revisor": "codex",
+      "candidato": "6251421",
+      "lanzamiento": "991a1de4fcbd"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-12T11:46:30.835555+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "6251421",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "991a1de4fcbd"
     }
   ],
   "tipos": {
