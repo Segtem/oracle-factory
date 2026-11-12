@@ -194,6 +194,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "8f6c1ebcebb5"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-12T13:12:13.997431+00:00",
+      "decision": "aprobar",
+      "candidato": "1c29dfa"
     }
   ],
   "tipos": {
@@ -268,5 +278,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Codex, una vuelta, sin hallazgos. Evidencia de 1c29dfa: 1478 pruebas, 13 casos de contrato, éxito. 18 mutaciones a mano, todas detectadas. Ensayo sobre una copia de Factory (4f9beb71): 6672 archivos migrados, listar igual, .gitignore y .gitattributes limpiados, y las 1478 pruebas bien antes y después de migrar (en la etapa 6 fallaban 17). Arreglo de paso: la puerta con el producto conectado buscaba secretos en el almacén y dejaba pasar en silencio. Pruebas existentes editadas, declaradas y aceptadas por codex: p6, vg3, mg1 y los dos dorados de la ayuda. Los drivers de unión que hooks dejó en .git/config quedan (sacarlos sería cambiar la configuración de Git). La migración real de ~/Dev/factory queda como decisión aparte.",
+      "candidato": "1c29dfa",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-12T13:12:13.997420+00:00"
+    }
+  }
 }
