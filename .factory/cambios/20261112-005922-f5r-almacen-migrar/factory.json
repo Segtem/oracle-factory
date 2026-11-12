@@ -284,6 +284,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "595f9be928ce"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-12T10:53:19.069914+00:00",
+      "decision": "aprobar",
+      "candidato": "bc3d969"
     }
   ],
   "tipos": {
@@ -358,5 +368,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Cuatro vueltas de codex: MIG-001 a MIG-005 (una alta, cuatro medias: la migración dejaba estados a medias o declaraba éxito falso al fallar git rm, la copia de lo local, el bloqueo, el commit, la conexión o --verificar con una URL) corregidos con su prueba y su mutación; la cuarta vuelta, sin hallazgos. Evidencia de bc3d969: 1465 pruebas, 23 casos de contrato, éxito. Ensayo sobre una copia de Factory: 6607 archivos migrados y listar igual. Se editaron dos ayudantes de prueba existentes (tests/terminal_en_node.cjs, tests/vscode_en_node.cjs), declarados y aceptados por el revisor. Migrar Factory mismo queda como decisión aparte.",
+      "candidato": "bc3d969",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-12T10:53:19.069902+00:00"
+    }
+  }
 }
