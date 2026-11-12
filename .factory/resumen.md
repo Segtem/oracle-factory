@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:3f3f81e7bb604ed7e54fd3e66254d0b23623ebe3153ee69edc623f2be8eb85c4 -->
+<!-- oracle-factory resumen sha256:1c5ea66f95793ac26db1814c6dd1e6114f272dee2f7c9d0249d9d8801e906710 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 388 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 392 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -321,6 +321,10 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | migrar_verificar_no_escribe | funcional | `flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe` | factory_almacen_migrar.migrar_verificar_no_escribe, factory_almacen_migrar.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-005922-f5r-almacen-migrar |
 | migrar_al_almacen_se_niega_sin_tocar_nada | funcional | `flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada` | factory_almacen_migrar.migrar_al_almacen_se_niega_sin_tocar_nada, factory_almacen_migrar.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-005922-f5r-almacen-migrar |
 | el_ensayo_sobre_una_copia | funcional | `flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia` | factory_almacen_migrar.el_ensayo_sobre_una_copia, factory_almacen_migrar.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-005922-f5r-almacen-migrar |
+| las_pruebas_y_herramientas_leen_los_registros_del_almacen | funcional | `flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen` | factory_preparar_migracion.las_pruebas_y_herramientas_leen_los_registros_del_almacen, factory_preparar_migracion.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-121837-6bu-pmr |
+| migrar_limpia_lo_de_factory_del_producto | funcional | `flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto` | factory_preparar_migracion.migrar_limpia_lo_de_factory_del_producto, factory_preparar_migracion.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-121837-6bu-pmr |
+| la_puerta_funciona_con_el_producto_conectado | funcional | `flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado` | factory_preparar_migracion.la_puerta_funciona_con_el_producto_conectado, factory_preparar_migracion.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-121837-6bu-pmr |
+| agentes_en_el_repo_mantiene_una_guia_versionada | funcional | `flujo_c281f4f7154afdb2f.agentes_en_el_repo_mantiene_una_guia_versionada` | factory_preparar_migracion.agentes_en_el_repo_mantiene_una_guia_versionada, factory_preparar_migracion.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-121837-6bu-pmr |
 
 ### ide
 
@@ -1918,6 +1922,10 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): tests/test_almacen_vscode.py: no se borraron pruebas; se importó os, se permitió pasar variables de entorno al proceso node y se agregó un caso para la falta de RelativePattern. Está justificado por la nueva compatibilidad de vigilancia.
 - (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): tests/vscode_en_node.cjs: no se borró una prueba; el stub fijo RelativePattern se volvió opcional mediante SIN_RELATIVE_PATTERN para ejercer el caso sin esa API. Está justificado.
 - (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): tests/terminal_en_node.cjs: el paquete agrega RelativePattern al stub porque la extensión ahora puede usarlo al vigilar el almacén; es consistente con VS Code y está justificado por el cambio.
+- (20261112-121837-6bu-pmr) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261112-121837-6bu-pmr) codex (gpt-6-luna): Revisé la propuesta y la spec, el diff del paquete y el código/pruebas del checkout para cada requisito; no ejecuté pruebas ni mutaciones.
+- (20261112-121837-6bu-pmr) codex (gpt-6-luna): Las cinco modificaciones declaradas de pruebas existentes son pertinentes: p6/vg3 consultan requisitos y catálogos del almacén conectado; mg1 admite la limpieza añadida que cubre pm2; ayuda-cli.json y nombres-cli.json reflejan --en-el-repo.
+- (20261112-121837-6bu-pmr) codex (gpt-6-luna): No encontré defectos reproducibles ni promesas incumplidas en el código revisado.
 
 ### Históricos
 

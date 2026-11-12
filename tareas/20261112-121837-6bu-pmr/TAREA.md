@@ -1,6 +1,6 @@
 # Registros fuera del repo del producto: preparar la migración real de Factory
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -55,3 +55,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-12 13:23:25 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261112-121837-6bu-pmr/oracle-veredicto.txt.
+
+### Nota (2026-11-12 13:34:41 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

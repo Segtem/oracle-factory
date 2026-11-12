@@ -2,7 +2,7 @@
   "id": "20261112-121837-6bu-pmr",
   "titulo": "Registros fuera del repo del producto: preparar la migración real de Factory",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md",
   "spec_sha256": "05feef584b4017342538b976f1477db7647405d04e6996721acf9cf0e39e77ed",
   "spec_aprobada": {
@@ -261,6 +261,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "5f8e35eca956fb152e75261d2a055e0c57c3919ddcc0fe9eb9bf5aeadaa034d3"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T13:34:41.619696+00:00",
+      "oracle": ".factory/cambios/20261112-121837-6bu-pmr/oracle-veredicto.txt",
+      "revision": "tareas/20261112-121837-6bu-pmr/revisiones/registro-nds51upy/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T13:34:41.663935+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -336,5 +356,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-12T13:34:41.556338+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-11-12T13:34:41.663926+00:00"
+  }
 }
