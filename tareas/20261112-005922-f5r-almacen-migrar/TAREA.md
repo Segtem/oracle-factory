@@ -95,3 +95,7 @@ Medidas de flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe: Brian Hollweg (p
 ### Nota (2026-11-12 11:54:01 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Desde bc3d969 (revisado por codex en la cuarta vuelta, sin hallazgos, y aprobado por Brian) sólo cambiaron 4 líneas de catálogos: los umbrales de casos pasan de 15 a 23 (2→4, 8→12, 2→4) por las pruebas que se sumaron con MIG-001…005; ninguna línea de código ni de pruebas. Medidas confirmadas de nuevo por Brian. Evidencia de 6251421: 1465 pruebas, 23 casos de contrato, éxito. Ensayo con el código final sobre una copia de Factory (567c4f8): 6637 archivos migrados, listar igual; fuera de las 2 pruebas ya conocidas (p6, vg3), la suite de la copia pasa después de migrar. Se editaron dos ayudantes de prueba existentes (tests/terminal_en_node.cjs, tests/vscode_en_node.cjs), declarados y aceptados por codex. Migrar Factory mismo queda como decisión aparte.); 0 abiertos derivados; commit e8987e2c246f36a905f7702205cdb31e5ecd8c3c; informe tareas/20261112-005922-f5r-almacen-migrar/revisiones/registro-tlo7iapk/informe.json; decisiones tareas/20261112-005922-f5r-almacen-migrar/revisiones/registro-tlo7iapk/decisiones.json.
+
+### Nota (2026-11-12 11:54:31 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261112-005922-f5r-almacen-migrar/oracle-veredicto.txt.

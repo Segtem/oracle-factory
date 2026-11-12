@@ -166,10 +166,10 @@
 ? flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos   sin juicio · factory_avisos.reimportar_no_deja_requisitos_huerfanos no aplicada, factory_avisos.corrida_completa no aplicada
 ? flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo   sin juicio · factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo no aplicada, factory_avisos.corrida_completa no aplicada
 ? flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio   sin juicio · factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio no aplicada, factory_avisos.corrida_completa no aplicada
-✗ flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia   no cumple · factory_almacen_migrar.el_ensayo_sobre_una_copia cumple, factory_almacen_migrar.corrida_completa falla
-✗ flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja   no cumple · factory_almacen_migrar.migrar_al_almacen_copia_conecta_y_deja_la_baja falla, factory_almacen_migrar.corrida_completa falla
-✗ flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada   no cumple · factory_almacen_migrar.migrar_al_almacen_se_niega_sin_tocar_nada falla, factory_almacen_migrar.corrida_completa falla
-✗ flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe   no cumple · factory_almacen_migrar.migrar_verificar_no_escribe falla, factory_almacen_migrar.corrida_completa falla
+✓ flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia   cumple · factory_almacen_migrar.el_ensayo_sobre_una_copia cumple, factory_almacen_migrar.corrida_completa cumple
+✓ flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja   cumple · factory_almacen_migrar.migrar_al_almacen_copia_conecta_y_deja_la_baja cumple, factory_almacen_migrar.corrida_completa cumple
+✓ flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada   cumple · factory_almacen_migrar.migrar_al_almacen_se_niega_sin_tocar_nada cumple, factory_almacen_migrar.corrida_completa cumple
+✓ flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe   cumple · factory_almacen_migrar.migrar_verificar_no_escribe cumple, factory_almacen_migrar.corrida_completa cumple
 ? flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit   sin juicio · factory_almacen_commits.con_almacen_cada_comando_que_escribe_deja_su_commit no aplicada, factory_almacen_commits.corrida_completa no aplicada
 ? flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar   sin juicio · factory_almacen_commits.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar no aplicada, factory_almacen_commits.corrida_completa no aplicada
 ? flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion   sin juicio · factory_hechos.dos_sensores_no_emiten_la_misma_relacion no aplicada, factory_hechos.corrida_completa no aplicada
@@ -396,4 +396,4 @@
 ? web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo   sin juicio · factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo no aplicada, factory_modos_web.corrida_completa no aplicada
 ? web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados   sin juicio · factory_modos_web.los_modos_de_trabajo_estan_explicados no aplicada, factory_modos_web.corrida_completa no aplicada
 
-397 requisitos: 0 se cumplen (0 sólo en lo medido) · 4 no se cumplen · 390 sin juicio · 3 sin medir · 0 con medidas inexistentes
+397 requisitos: 4 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 390 sin juicio · 3 sin medir · 0 con medidas inexistentes
