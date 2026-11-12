@@ -1,0 +1,115 @@
+{
+  "almacen_migrar_caso": [
+    {
+      "requisito": "migrar_al_almacen_copia_conecta_y_deja_la_baja",
+      "caso": "AlmacenMigrar.test_mg1_migrar_a_una_url_clona_y_migra_ahi",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_copia_conecta_y_deja_la_baja",
+      "caso": "AlmacenMigrar.test_mg1_migrar_copia_conecta_y_deja_la_baja_sin_commitear",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_copia_conecta_y_deja_la_baja",
+      "caso": "AlmacenMigrar.test_mg1_si_git_rm_falla_no_borra_nada_del_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_verificar_no_escribe",
+      "caso": "AlmacenMigrar.test_mg2_verificar_dice_lo_que_haria_y_no_escribe",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_verificar_no_escribe",
+      "caso": "AlmacenMigrar.test_mg2_verificar_falla_con_una_url_que_no_se_clona_o_ya_tiene_registros",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_verificar_no_escribe",
+      "caso": "AlmacenMigrar.test_mg2_verificar_falla_si_migrar_se_negaria",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_verificar_no_escribe",
+      "caso": "AlmacenMigrar.test_mg2_verificar_una_url_sin_clon_la_comprueba_y_no_escribe",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_almacen_y_producto_uno_dentro_del_otro",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_con_el_bloqueo_tomado_no_copia_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_el_formato_anterior_no_migra",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_registros_sin_commitear_no_migran",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_si_el_commit_del_almacen_falla_deshace_la_copia",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_si_una_copia_falla_a_mitad_no_queda_nada_a_medias",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_un_agente_no_migra",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_un_almacen_con_registros_no_sirve",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_un_almacen_que_no_es_un_repo_no_sirve",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_un_archivo_sin_versionar_en_los_registros_no_migra",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_al_almacen_se_niega_sin_tocar_nada",
+      "caso": "AlmacenMigrar.test_mg3_un_producto_ya_conectado_no_migra",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_ensayo_sobre_una_copia",
+      "caso": "AlmacenMigrar.test_mg4_con_pruebas_dice_cuales_fallan_con_los_registros_afuera",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_ensayo_sobre_una_copia",
+      "caso": "AlmacenMigrar.test_mg4_el_ensayo_migra_una_copia_y_no_toca_el_original",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_ensayo_sobre_una_copia",
+      "caso": "AlmacenMigrar.test_mg4_si_los_cambios_no_coinciden_lo_dice_y_sale_con_1",
+      "codigo": 0
+    }
+  ],
+  "almacen_migrar_corrida": [
+    {
+      "completa": 1,
+      "casos": 21
+    }
+  ]
+}
