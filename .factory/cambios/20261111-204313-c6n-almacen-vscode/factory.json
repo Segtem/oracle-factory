@@ -2,7 +2,7 @@
   "id": "20261111-204313-c6n-almacen-vscode",
   "titulo": "Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén",
   "capacidad": "flujo",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261111-204313-c6n-almacen-vscode/specs/flujo/spec.md",
   "spec_sha256": "bfce717453fd710b50bf3b567c788b225aeabb8513bc4da121f0765ff3546bf4",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "570c05cf03a308e7873eac41735b50d24672dbcf207aa2cbc1c5f1f741c4368b"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261111-204313-c6n-almacen-vscode/candidatos/4311756/evidencia/hechos.json",
+    "hechos_sha256": "ca93ff9939cfe6d44bb2e5dfb75422debba82d9160188641ef61ac34ea53ddb8",
+    "informe": ".factory/cambios/20261111-204313-c6n-almacen-vscode/oracle-veredicto.txt",
+    "informe_sha256": "4d8b06a6b5b3db4179595f6b0267c95a80cfdcd78bf0d0b80eee69cefcde566a",
+    "cuando": "2026-11-12T00:05:30.806269+00:00",
+    "contexto": {
+      "head": "81f28e5b92bdb28dfda220105509533e1d867b8c",
+      "archivos_sha256": "570c05cf03a308e7873eac41735b50d24672dbcf207aa2cbc1c5f1f741c4368b"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -284,6 +296,17 @@
       "abiertos": 0,
       "sha256": "d762ad34df9439c5fcc95f5ea9cfb9d61473ca68083c88a9591e788361da4db5",
       "decisiones_sha256": "de860b798e6e8a895bd7eb541a5b931feede5b7cb8dccbd18981c7fee06486ca"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T00:05:30.806284+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "ca93ff9939cfe6d44bb2e5dfb75422debba82d9160188641ef61ac34ea53ddb8"
     }
   ],
   "tipos": {
