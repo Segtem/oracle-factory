@@ -2,10 +2,20 @@
   "id": "20261112-005922-f5r-almacen-migrar",
   "titulo": "Registros fuera del repo del producto, etapa 6: migrar los registros de un proyecto a un almacén",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-12T01:04:44.642657+00:00",
+    "documentos": {
+      "openspec/changes/20261112-005922-f5r-almacen-migrar/proposal.md": "443bc7d019422c8d76214ce15181248f630d59e26ec10430d5a5c40e23b14506",
+      "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,31 @@
       "forma": "decidio",
       "cuando": "2026-11-12T00:59:22.059516+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T01:04:34.130639+00:00",
+      "documentos": {
+        "openspec/changes/20261112-005922-f5r-almacen-migrar/proposal.md": "443bc7d019422c8d76214ce15181248f630d59e26ec10430d5a5c40e23b14506",
+        "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T01:04:44.642676+00:00",
+      "documentos": {
+        "openspec/changes/20261112-005922-f5r-almacen-migrar/proposal.md": "443bc7d019422c8d76214ce15181248f630d59e26ec10430d5a5c40e23b14506",
+        "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
