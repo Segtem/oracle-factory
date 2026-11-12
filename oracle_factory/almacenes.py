@@ -666,19 +666,22 @@ def _deshacer_copia(destino: Path, rutas: list[str], antes: dict[str, tuple[byte
             _git_almacen(destino, "rm", "-q", "--cached", "--ignore-unmatch", "--", nombre)
 
 
-def _anidados(producto: Path, nombres: list[str]) -> list[str]:
-    """Las carpetas entre `nombres` (un repo anidado o un submódulo que Git lista como una entrada) y los repos anidados que
-    contienen a alguno (si Git lista sus archivos sueltos, según la versión): lo que migrar no copia. Sin repetir, en orden."""
+def _anidados(producto: Path, rutas: list[str], nombres: list[str]) -> list[str]:
+    """Lo que migrar no copia y su borrado final se llevaría: los repos Git anidados (un `.git`, carpeta o archivo de un
+    worktree) en cualquier lugar de las `rutas` de registros, aunque estén vacíos o Git no liste sus archivos (MA1-001, MA1-002),
+    y las entradas de `nombres` que son carpetas (un submódulo). Recorre el disco sin seguir enlaces. Sin repetir, en orden."""
     vistos: dict[str, None] = {}
     for n in nombres:
         ruta = producto / n.rstrip("/")
         if ruta.is_dir() and not ruta.is_symlink():
             vistos[n.rstrip("/")] = None
-        for padre in ruta.parents:
-            if padre == producto or producto not in padre.parents:
-                break
-            if (padre / ".git").exists():
-                vistos[padre.relative_to(producto).as_posix()] = None
+    for r in rutas:
+        for carpeta, subcarpetas, archivos in os.walk(producto / r):
+            if ".git" in subcarpetas or ".git" in archivos:
+                vistos[Path(carpeta).relative_to(producto).as_posix()] = None
+                subcarpetas.clear()  # lo de adentro es de ese repo
+            else:
+                subcarpetas.sort()
     return list(vistos)
 
 
@@ -727,7 +730,7 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                                    "No cambié nada")
     versionados = _lista(_git_almacen(producto, "ls-files", "-z", "--", *rutas).stdout)
     locales = _lista(_git_almacen(producto, "ls-files", "-z", "--others", "--ignored", "--exclude-standard", "--", *rutas).stdout)
-    carpetas = _anidados(producto, [*versionados, *locales])
+    carpetas = _anidados(producto, rutas, [*versionados, *locales])
     if carpetas:  # un repo anidado (clon, worktree) o un submódulo: Git lo lista como una sola entrada, y moverlo lo rompe
         raise cli.FactoryError(f"hay repos Git anidados (o submódulos) en los registros del producto ({_resumen(carpetas)}): migrar "
                                "no los copia ni los mueve. Sacalos o borralos antes (un worktree, con git worktree remove desde su "

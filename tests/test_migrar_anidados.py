@@ -42,8 +42,34 @@ class Anidados(_migrar.AlmacenMigrar):
     def test_ma1_si_git_lista_los_archivos_del_repo_anidado_tambien_lo_ve(self):  # MA1-001: según la versión de Git
         from oracle_factory import almacenes
         nombres = ['.factory/local/nota.txt', '.factory/local/revision/checkout/x.txt', '.factory/local/revision/checkout/sub/y.txt']
-        self.assertEqual(almacenes._anidados(self.producto, nombres), ['.factory/local/revision/checkout'])
-        self.assertEqual(almacenes._anidados(self.producto, ['.factory/local/nota.txt']), [])
+        self.assertEqual(almacenes._anidados(self.producto, [], nombres), [])  # sin rutas que recorrer, sólo mira las carpetas listadas
+        self.assertEqual(almacenes._anidados(self.producto, ['.factory'], nombres), ['.factory/local/revision/checkout'])
+        self.assertEqual(almacenes._anidados(self.producto, ['openspec'], ['.factory/local/nota.txt']), [])
+
+    def test_ma1_un_repo_anidado_vacio_tambien_frena(self):  # MA1-002: Git no lista nada de él
+        import shutil
+        shutil.rmtree(self.anidado)
+        vacio = self.producto / '.factory/local/vacio'
+        vacio.mkdir()
+        self.git_en(vacio, 'init', '-q')
+        self.assertIn('.factory/local/vacio', self.negado())
+        self.assertTrue((vacio / '.git').is_dir())
+        from oracle_factory import almacenes
+        self.assertEqual(almacenes._anidados(self.producto, ['.factory'], []), ['.factory/local/vacio'])  # aunque Git no liste nada
+        original = almacenes._git_almacen
+
+        def sin_listar_lo_ignorado(carpeta, *args, **kw):  # un Git que no lista nada del repo vacío (MA1-002)
+            hecho = original(carpeta, *args, **kw)
+            if '--others' in args:
+                hecho.stdout = b''
+            return hecho
+        with _migrar._commits.patch.object(almacenes, '_git_almacen', sin_listar_lo_ignorado):
+            self.assertIn('.factory/local/vacio', self.negado())
+
+    def test_ma1_un_submodulo_sin_inicializar_es_una_carpeta_listada(self):
+        from oracle_factory import almacenes
+        (self.producto / 'openspec/sub').mkdir()  # sin .git: sólo la entrada que lista Git
+        self.assertEqual(almacenes._anidados(self.producto, [], ['openspec/sub']), ['openspec/sub'])
 
     def test_ma1_un_worktree_de_otro_repo_sigue_registrado(self):
         import shutil
