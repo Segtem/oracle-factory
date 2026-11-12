@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "3d7d57d2c50329b7cd1404be77d47957b7952f20dd80df19ad5a328c759f21a8",
+  "actor": "Brian Hollweg",
+  "motivo": "Desde bc3d969 (revisado por codex en la cuarta vuelta, sin hallazgos, y aprobado por Brian) sólo cambiaron 4 líneas de catálogos: los umbrales de casos pasan de 15 a 23 (2→4, 8→12, 2→4) por las pruebas que se sumaron con MIG-001…005; ninguna línea de código ni de pruebas. Medidas confirmadas de nuevo por Brian. Evidencia de 6251421: 1465 pruebas, 23 casos de contrato, éxito. Ensayo con el código final sobre una copia de Factory (567c4f8): 6637 archivos migrados, listar igual; fuera de las 2 pruebas ya conocidas (p6, vg3), la suite de la copia pasa después de migrar. Se editaron dos ayudantes de prueba existentes (tests/terminal_en_node.cjs, tests/vscode_en_node.cjs), declarados y aceptados por codex. Migrar Factory mismo queda como decisión aparte.",
+  "decisiones": []
+}

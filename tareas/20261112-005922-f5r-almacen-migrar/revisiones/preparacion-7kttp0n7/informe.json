@@ -1,0 +1,85 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261112-005922-f5r-almacen-migrar",
+  "contexto": {
+    "head": "e8987e2c246f36a905f7702205cdb31e5ecd8c3c",
+    "archivos_sha256": "9398416260a2c0a176f3232591929d771b430c18294e7b181b3421b0f8771d80"
+  },
+  "documentos": {
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/proposal.md": "443bc7d019422c8d76214ce15181248f630d59e26ec10430d5a5c40e23b14506",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_almacen_migrar.corrida_completa.oracle",
+    "catalogos/factory_almacen_migrar.el_ensayo_sobre_una_copia.oracle",
+    "catalogos/factory_almacen_migrar.migrar_al_almacen_copia_conecta_y_deja_la_baja.oracle",
+    "catalogos/factory_almacen_migrar.migrar_al_almacen_se_niega_sin_tocar_nada.oracle",
+    "catalogos/factory_almacen_migrar.migrar_verificar_no_escribe.oracle",
+    "docs/estructura.md",
+    "editores/vscode/extension.js",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/design.md",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/ensayo-factory.md",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/proposal.md",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/tasks.md",
+    "oracle_factory/almacenes.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/parser.py",
+    "requisitos/flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia.requisito",
+    "requisitos/flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja.requisito",
+    "requisitos/flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada.requisito",
+    "requisitos/flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe.requisito",
+    "tests/datos/ayuda-cli.json",
+    "tests/terminal_en_node.cjs",
+    "tests/test_almacen_migrar.py",
+    "tests/test_almacen_vscode.py",
+    "tests/vscode_en_node.cjs",
+    "tools/ensayar_migracion.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1465 pruebas, 23 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/6251421/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/6251421/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7c8cdcd: codex (gpt-6-luna), 2 hallazgos: MIG-001 (alta), MIG-002 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/7c8cdcd/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato de026c8: codex (gpt-6-luna), 2 hallazgos: MIG-003 (media), MIG-004 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/de026c8/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d0af4a5: codex (gpt-6-luna), 1 hallazgo: MIG-005 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/d0af4a5/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bc3d969: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/bc3d969/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Contrasté el paquete con la spec, revisé los umbrales y los casos de tests/test_almacen_migrar.py, comparé el candidato con bc3d969 y leí el informe sin hallazgos de esa vuelta. No ejecuté las pruebas ni mutaciones: el pedido indica checkout de sólo lectura y este checkout sólo es una copia de revisión.",
+    "codex (gpt-6-luna): Entre bc3d969 y 6251421, fuera de .factory, kb y tareas excluidos, sólo cambiaron cuatro catálogos: corrida_completa y tres requisitos. No cambió código ni tests en ese intervalo.",
+    "codex (gpt-6-luna): Los umbrales coinciden con los métodos de prueba por requisito: mg1/copia-conecta-baja 4; mg2/verificar 4; mg3/negativas 12; mg4/ensayo 3. Total: 23 casos; corrida_completa exige 23.",
+    "codex (gpt-6-luna): tests/datos/ayuda-cli.json: la línea quitada documentaba el uso anterior de migrar sin --almacen; su sustitución refleja la CLI nueva introducida por este cambio y está justificada.",
+    "codex (gpt-6-luna): tests/test_almacen_vscode.py: no se borraron pruebas; se importó os, se permitió pasar variables de entorno al proceso node y se agregó un caso para la falta de RelativePattern. Está justificado por la nueva compatibilidad de vigilancia.",
+    "codex (gpt-6-luna): tests/vscode_en_node.cjs: no se borró una prueba; el stub fijo RelativePattern se volvió opcional mediante SIN_RELATIVE_PATTERN para ejercer el caso sin esa API. Está justificado.",
+    "codex (gpt-6-luna): tests/terminal_en_node.cjs: el paquete agrega RelativePattern al stub porque la extensión ahora puede usarlo al vigilar el almacén; es consistente con VS Code y está justificado por el cambio."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
