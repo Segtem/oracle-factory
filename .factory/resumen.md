@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:db4136ac8b7ee9a7be8ee5b695b879f419deaf5bef32924d396df50657aaff79 -->
+<!-- oracle-factory resumen sha256:3f3f81e7bb604ed7e54fd3e66254d0b23623ebe3153ee69edc623f2be8eb85c4 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 384 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 388 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -317,6 +317,10 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen | funcional | `flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen` | factory_almacen_guia.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen, factory_almacen_guia.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-161316-dd7-almacen-guia |
 | conectar_dice_la_conexion_como_json | funcional | `flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json` | factory_almacen_vscode.conectar_dice_la_conexion_como_json, factory_almacen_vscode.corrida_completa | verde al cerrar el 2026-11-12 | 20261111-204313-c6n-almacen-vscode |
 | la_extension_reconoce_y_vigila_un_producto_conectado | funcional | `flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado` | factory_almacen_vscode.la_extension_reconoce_y_vigila_un_producto_conectado, factory_almacen_vscode.corrida_completa | verde al cerrar el 2026-11-12 | 20261111-204313-c6n-almacen-vscode |
+| migrar_al_almacen_copia_conecta_y_deja_la_baja | funcional | `flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja` | factory_almacen_migrar.migrar_al_almacen_copia_conecta_y_deja_la_baja, factory_almacen_migrar.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-005922-f5r-almacen-migrar |
+| migrar_verificar_no_escribe | funcional | `flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe` | factory_almacen_migrar.migrar_verificar_no_escribe, factory_almacen_migrar.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-005922-f5r-almacen-migrar |
+| migrar_al_almacen_se_niega_sin_tocar_nada | funcional | `flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada` | factory_almacen_migrar.migrar_al_almacen_se_niega_sin_tocar_nada, factory_almacen_migrar.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-005922-f5r-almacen-migrar |
+| el_ensayo_sobre_una_copia | funcional | `flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia` | factory_almacen_migrar.el_ensayo_sobre_una_copia, factory_almacen_migrar.corrida_completa | verde al cerrar el 2026-11-12 | 20261112-005922-f5r-almacen-migrar |
 
 ### ide
 
@@ -1906,6 +1910,14 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261111-204313-c6n-almacen-vscode) codex (gpt-6-luna): No corrí pruebas ni mutaciones manuales; contrasté las pruebas nuevas con el código y los escenarios declarados.
 - (20261111-204313-c6n-almacen-vscode) codex (gpt-6-luna): tests/datos/ayuda-cli.json: la línea anterior de ayuda de conectar fue sustituida por la ayuda actualizada que incluye --json; el cambio corresponde a la nueva opción.
 - (20261111-204313-c6n-almacen-vscode) codex (gpt-6-luna): tests/vscode_en_node.cjs: las líneas retiradas del harness fueron sustituidas por captura de watchers y espera a que se instalen; el cambio permite verificar watchers en el almacén externo.
+- (20261112-005922-f5r-almacen-migrar) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): Contrasté el paquete con la spec, revisé los umbrales y los casos de tests/test_almacen_migrar.py, comparé el candidato con bc3d969 y leí el informe sin hallazgos de esa vuelta. No ejecuté las pruebas ni mutaciones: el pedido indica checkout de sólo lectura y este checkout sólo es una copia de revisión.
+- (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): Entre bc3d969 y 6251421, fuera de .factory, kb y tareas excluidos, sólo cambiaron cuatro catálogos: corrida_completa y tres requisitos. No cambió código ni tests en ese intervalo.
+- (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): Los umbrales coinciden con los métodos de prueba por requisito: mg1/copia-conecta-baja 4; mg2/verificar 4; mg3/negativas 12; mg4/ensayo 3. Total: 23 casos; corrida_completa exige 23.
+- (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): tests/datos/ayuda-cli.json: la línea quitada documentaba el uso anterior de migrar sin --almacen; su sustitución refleja la CLI nueva introducida por este cambio y está justificada.
+- (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): tests/test_almacen_vscode.py: no se borraron pruebas; se importó os, se permitió pasar variables de entorno al proceso node y se agregó un caso para la falta de RelativePattern. Está justificado por la nueva compatibilidad de vigilancia.
+- (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): tests/vscode_en_node.cjs: no se borró una prueba; el stub fijo RelativePattern se volvió opcional mediante SIN_RELATIVE_PATTERN para ejercer el caso sin esa API. Está justificado.
+- (20261112-005922-f5r-almacen-migrar) codex (gpt-6-luna): tests/terminal_en_node.cjs: el paquete agrega RelativePattern al stub porque la extensión ahora puede usarlo al vigilar el almacén; es consistente con VS Code y está justificado por el cambio.
 
 ### Históricos
 
