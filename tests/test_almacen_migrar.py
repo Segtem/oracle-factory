@@ -168,13 +168,28 @@ class AlmacenMigrar(unittest.TestCase):
             '    def test_hay_factory(self):\n'
             '        self.assertTrue((pathlib.Path(__file__).parents[1] / ".factory").is_dir())\n'
             '    def test_otra(self):\n'
-            '        pass\n', encoding='utf-8')
+            '        pass\n'
+            '    def test_siempre_falla(self):\n'
+            '        self.fail("ya fallaba")\n', encoding='utf-8')
         self.git_en(self.producto, 'add', 'tests')
         self.git_en(self.producto, 'commit', '-q', '-m', 'pruebas')
         datos = self.ensayo('--pruebas')
         self.assertNotEqual(datos['pruebas']['codigo'], 0)
         self.assertEqual([n for n in datos['pruebas']['fallan'] if 'test_hay_factory' in n], datos['pruebas']['fallan'])
         self.assertEqual(len(datos['pruebas']['fallan']), 1)
+        self.assertEqual([n for n in datos['pruebas']['antes']['fallan'] if 'test_siempre_falla' in n], datos['pruebas']['antes']['fallan'])
+        self.assertEqual(len(datos['pruebas']['antes']['fallan']), 1)  # la que ya fallaba antes no cuenta como de la migración
+
+    def test_mg4_si_los_cambios_no_coinciden_lo_dice_y_sale_con_1(self):
+        sys.path.insert(0, str(SOURCE / 'tools'))
+        self.addCleanup(sys.path.remove, str(SOURCE / 'tools'))
+        import ensayar_migracion
+        vistas = iter(['cambio A', 'cambio A y otro'])
+        informe = self.base / 'informe.json'
+        with _commits.patch.object(ensayar_migracion, 'listado', lambda copia, entorno: next(vistas)):
+            codigo = ensayar_migracion.main([str(self.producto), '--informe', str(informe)])
+        datos = json.loads(informe.read_text(encoding='utf-8'))
+        self.assertEqual((codigo, datos['coinciden']), (1, False))
 
 
 if __name__ == '__main__':
