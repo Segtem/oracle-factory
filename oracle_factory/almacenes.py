@@ -684,6 +684,7 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                                    "termine. No cambié nada")
         ignore_antes = ignore.read_bytes() if ignore.exists() else None
         ignore_indice = os.fsdecode(_git_almacen(destino, "ls-files", "-s", "--", ".gitignore").stdout).strip()
+        previo = _git(destino, "rev-parse", "-q", "--verify", "HEAD")  # None si el almacén no tiene commits
         falla = None
         try:  # se copia también lo de la máquina (.factory/local/, paquetes de Clue): el producto no cambia hasta el final
             for n in [*versionados, *locales]:
@@ -705,15 +706,21 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                 falla = f"no pude commitear: {os.fsdecode(paso.stderr + paso.stdout).strip()}"
         except (OSError, UnicodeDecodeError) as e:
             falla = f"no pude copiar los registros: {e}"
+        if not falla:
+            try:
+                with actualizando() as vigentes:
+                    vigentes[llave] = str(destino)
+            except (OSError, ValueError) as e:  # MIG-005: se deshace el commit recién hecho (bajo el bloqueo, sin publicar)
+                falla = f"no pude guardar la conexión del producto: {e}"
+                hecho = _git(destino, "rev-parse", "HEAD")
+                vuelta = _git_almacen(destino, "update-ref", "HEAD", previo, hecho) if previo else \
+                    _git_almacen(destino, "update-ref", "-d", "HEAD", hecho)
+                if vuelta.returncode:
+                    raise cli.FactoryError(f"{falla}; tampoco pude deshacer el commit {hecho} del almacén {destino} "
+                                           f"({os.fsdecode(vuelta.stderr).strip()}). El producto sigue como estaba") from e
         if falla:
             _deshacer_copia(destino, rutas, ignore_antes, ignore_indice)
             raise cli.FactoryError(f"{falla}. Deshice lo copiado en el almacén {destino}: no cambié nada en el producto ni en el almacén")
-    try:
-        with actualizando() as vigentes:
-            vigentes[llave] = str(destino)
-    except ValueError as e:
-        raise cli.FactoryError(f"{e}. Los registros ya están en el almacén {destino}; conectalo a mano con oracle-factory conectar "
-                               f"{destino} después de sacar {estructura.DIR}/ del producto") from e
     baja = _git_almacen(producto, "rm", "-r", "-q", "--cached", "--pathspec-from-file=-", "--pathspec-file-nul",
                         entrada=b"\0".join(os.fsencode(n) for n in versionados))
     if baja.returncode:  # sin la baja en el índice no se borra nada del disco: el producto queda conectado y entero
@@ -721,12 +728,16 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                                f"commiteados en el almacén {destino} y el producto quedó conectado a él, pero no borré nada del "
                                "producto. Arreglá la causa y terminá con: git rm -r -q --cached -- " + " ".join(rutas)
                                + "; rm -rf -- " + " ".join(rutas))
-    for r in rutas:
-        camino = producto / r
-        if camino.is_dir() and not camino.is_symlink():
-            shutil.rmtree(camino)
-        else:
-            camino.unlink()
+    try:
+        for r in rutas:
+            camino = producto / r
+            if camino.is_dir() and not camino.is_symlink():
+                shutil.rmtree(camino)
+            else:
+                camino.unlink()
+    except OSError as e:  # todo está ya en el almacén y la baja en el índice: sólo falta terminar de borrar
+        raise cli.FactoryError(f"no pude borrar los registros del producto ({e}). Ya están commiteados en el almacén {destino}, el "
+                               "producto quedó conectado y la baja está en su índice; terminá con: rm -rf -- " + " ".join(rutas)) from e
     print(f"Migré {len(versionados)} archivos versionados al almacén {destino} (commit «Factory: migrar…») y moví {len(locales)} "
           "sin versionar; el producto quedó conectado a él.")
     print("No commiteé en el producto: la baja de los registros quedó preparada en su índice. Revisala con git status y commiteala.")

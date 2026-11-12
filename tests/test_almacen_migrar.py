@@ -89,6 +89,13 @@ class AlmacenMigrar(unittest.TestCase):
         (self.producto / '.git/index.lock').unlink()
         self.assertEqual(self.git_en(self.producto, 'diff', '--cached', '--name-status'), indice)
 
+    def test_mg1_si_no_puede_borrar_del_producto_dice_como_terminar(self):
+        with _commits.patch.object(f.almacenes.shutil, 'rmtree', side_effect=PermissionError('sin permiso')):
+            codigo, salida, error = self.corre('migrar', '--almacen', str(self.almacen))
+        self.assertNotEqual(codigo, 0, salida + error)
+        self.assertIn('rm -rf -- ', error)
+        self.assertEqual(json.loads(self.bien('conectar', '--json').split('\n')[0])['almacen'], str(self.almacen))
+
     # --- mg2: --verificar no escribe ----------------------------------------------------------------------------------------
     def test_mg2_verificar_dice_lo_que_haria_y_no_escribe(self):
         antes = self.todo()
@@ -216,6 +223,21 @@ class AlmacenMigrar(unittest.TestCase):
         gancho.chmod(0o755)
         self.assertIn('no cambié nada en el producto ni en el almacén', self.negado())
         self.assertEqual(self.estado_git(), '')
+
+    @unittest.skipIf(hasattr(_commits.os, 'geteuid') and _commits.os.geteuid() == 0, 'root escribe en una carpeta sin permisos')
+    def test_mg3_si_no_se_puede_guardar_la_conexion_deshace_el_commit(self):  # MIG-005
+        config = self.casa / '.config/oracle-factory'
+        config.mkdir(parents=True, exist_ok=True)
+        vacio = self.base / 'vacio'
+        self.git_en(self.base, 'init', '-q', str(vacio))
+        for destino in (self.almacen, vacio):  # con commits y sin ninguno (HEAD no existe)
+            config.chmod(0o500)
+            self.addCleanup(config.chmod, 0o755)
+            self.assertIn('no cambié nada en el producto ni en el almacén', self.negado(destino=destino))
+            config.chmod(0o755)
+            self.assertEqual(self.estado_git(destino), '')
+        self.assertEqual(self.arbol(vacio), {})
+        self.assertEqual(self.git_en(vacio, 'for-each-ref'), '')  # sin commits, como antes
 
     # --- mg4: el ensayo sobre una copia -------------------------------------------------------------------------------------
     def ensayo(self, *args):
