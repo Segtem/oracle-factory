@@ -2262,6 +2262,8 @@ def main(argv: list[str] | None = None) -> int:
     PRODUCTO = previo = None
     AGENTE = (args.agente or "").strip() or None
     try:
+        if args.comando == "migrar" and args.almacen is not None:  # también opera sobre el producto, que todavía tiene sus registros
+            return almacenes.migrar(sys.modules[__name__], args.almacen, args.verificar)
         if args.comando in ("conectar", "desconectar"):  # operan sobre el producto: no se redirigen a su almacén
             return almacenes.comando(sys.modules[__name__], args.comando, getattr(args, "almacen", None), getattr(args, "json", False))
         registros = args.registros.expanduser().resolve() if args.registros is not None else almacenes.conectado(sys.modules[__name__])

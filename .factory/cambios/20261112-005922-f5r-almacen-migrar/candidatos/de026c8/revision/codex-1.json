@@ -1,0 +1,48 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-almacen-migrar/.factory/local/revisiones/de026c8-codex-1",
+  "base": "feb32228fb162dd3e43f42b0d03fbba0fe4e2fe7",
+  "head": "de026c893e54706c4b4d2fe18a246b62762f7271",
+  "diff_sha256": "87f19a2f6afc782263c259672efd9bcf1a3a5b08ebb4a3db506ab5caa6f17382",
+  "context_sha256": "37f91d238811aa9c50b300a59a2d30ea51cc970f88cf92eb17cbe479ae67b473",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "MIG-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "--verificar acepta URLs que la migración no podría usar",
+      "explanation": "Al verificar un almacén dado por URL, el flujo sólo valida el clon local esperado cuando esa carpeta ya existe. Si no existe, omite por completo la validación del destino y devuelve éxito. Una URL inválida, inaccesible o que apunte a un repo remoto con registros previos supera --verificar, aunque la ejecución real fallaría al clonar o al comprobar el almacén. Esto incumple que verificar salga con error cuando la migración se negaría.",
+      "location": {"file": "oracle_factory/almacenes.py", "start_line": 612, "end_line": 617, "side": "head"},
+      "trigger": "Ejecutar `migrar --almacen https://host/inexistente.git --verificar` cuando el clon local correspondiente no existe; también ocurre con una URL válida que apunta a un remoto que no está vacío.",
+      "evidence": "En la rama URL, con `verificar` verdadero, sólo se llama a `_destino_sin_registros` dentro de `if destino.exists()`. Si no existe, se llega al resumen de éxito de las líneas 621-629. La rama de migración normal sí llama a `clonar` y valida el destino clonado.",
+      "related_requirement": "migrar_verificar_no_escribe",
+      "status": "pendiente",
+      "verification": "Inspección estática del flujo; no se realizó acceso de red ni una mutación."
+    },
+    {
+      "id": "MIG-004",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Un fallo de bloqueo deja registros copiados y el destino inutilizable para reintentar",
+      "explanation": "El código copia los registros locales y versionados al almacén y modifica su `.gitignore` antes de pedir el bloqueo. Si otro comando mantiene el bloqueo, aborta expresamente sin hacer commit y deja el producto igual, pero los registros ya quedaron en el destino sin commit. Un nuevo intento trata ese destino como ocupado porque encontró rutas de registros y se niega a migrar. Así, un paso tardío de la migración deja el almacén a medio preparar y exige limpieza manual, pese a que no se completó la operación. La corrección de MIG-002 cubre fallos durante la copia, pero no esta salida posterior a la copia.",
+      "location": {"file": "oracle_factory/almacenes.py", "start_line": 653, "end_line": 656, "side": "head"},
+      "trigger": "Con `.factory/local/` presente, mantener tomado el bloqueo del almacén durante `migrar --almacen RUTA` y dejar que el flujo alcance el bloque de `bloqueo`.",
+      "evidence": "Las líneas 631-649 copian archivos al almacén y escriben `.gitignore`; las líneas 653-656, al no obtener el bloqueo, levantan error sin limpiar lo copiado. En una repetición, `_destino_sin_registros` detecta `.factory/` y rechaza el destino.",
+      "related_requirement": "migrar_al_almacen_copia_conecta_y_deja_la_baja",
+      "status": "pendiente",
+      "verification": "Inspección estática; no se inyectó contención del bloqueo ni se modificó el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, la propuesta, el diff del paquete y el informe anterior; no ejecuté la suite ni mutaciones. No abrí archivos binarios omitidos porque el paquete declara `omissions` vacío.",
+    "MIG-001 queda corregido para el caso probado: si falla `git rm --cached`, el código conserva intactos los archivos del árbol del producto, informa el error y no devuelve éxito. MIG-002 queda corregido para el fallo durante `copy2`: limpia las rutas copiadas y conserva el producto. No cubre todos los pasos posteriores a la copia; ver MIG-004.",
+    "tests/datos/ayuda-cli.json: se quitó una línea de ayuda anterior y se agregó la forma nueva de `migrar`; edición justificada por el nuevo argumento.",
+    "tests/test_almacen_vscode.py: se quitaron dos líneas del llamado de `subprocess.run` para permitir pasar un entorno de prueba y se agregó el caso cuando no hay `RelativePattern`; edición justificada por el comportamiento de vigilancia opcional.",
+    "tests/vscode_en_node.cjs: se quitó una línea del stub fijo de `RelativePattern` y se reemplazó por uno configurable para el escenario sin esa API; edición justificada por el caso nuevo.",
+    "tests/terminal_en_node.cjs: se agregó el stub de `RelativePattern` que faltaba para reflejar la API usada por la extensión al vigilar el almacén; justificado por el escenario conectado mencionado en el ensayo."
+  ]
+}

@@ -5,6 +5,7 @@ con el `vscode` falso de tests/vscode_en_node.cjs y la CLI de verdad."""
 import contextlib
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -44,9 +45,9 @@ class AlmacenVscode(unittest.TestCase):
     def todo(self):
         return self.arbol(self.producto), self.arbol(self.almacen), self.arbol(self.casa)
 
-    def vista(self, proyecto):
+    def vista(self, proyecto, **entorno):
         r = subprocess.run([NODE, str(SOURCE / 'tests/vscode_en_node.cjs'), str(EXTENSION), str(proyecto), str(self.cli)],
-                           capture_output=True, text=True, timeout=180)
+                           capture_output=True, text=True, timeout=180, env={**os.environ, **entorno})
         self.assertEqual(r.returncode, 0, r.stderr)
         return json.loads(r.stdout)
 
@@ -89,6 +90,14 @@ class AlmacenVscode(unittest.TestCase):
         self.assertIn((str(self.almacen), '.factory/cambios/**/factory.json'), bases)
         self.assertIn((str(self.almacen), '.factory/despliegues/**/registro.json'), bases)
         self.assertFalse((self.producto / '.factory').exists())
+
+    @unittest.skipUnless(NODE, 'hace falta node')
+    def test_av2_si_no_se_puede_vigilar_el_almacen_la_vista_sigue(self):  # lo encontró el ensayo de la etapa 6
+        self.bien('conectar', str(self.almacen))
+        self.bien('nuevo', 'Notas compartidas', '--capacidad', 'notas', '--sufijo', 'vs')
+        vista = self.vista(self.producto, SIN_RELATIVE_PATTERN='1')
+        self.assertEqual([c['etiqueta'] for c in vista['arbol']], ['Notas compartidas'])
+        self.assertFalse([v for v in vista['vigias'] if isinstance(v, dict)])
 
     @unittest.skipUnless(NODE, 'hace falta node')
     def test_av2_una_carpeta_sin_factory_sigue_igual_y_no_vigila_otra_cosa(self):

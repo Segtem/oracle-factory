@@ -102,6 +102,8 @@ def construir_parser() -> argparse.ArgumentParser:
     sub.add_parser('archivar', help='fusionar en openspec/specs/ la spec de los cambios cerrados que todavía no lo están')
     q = sub.add_parser('migrar', help='pasar el estado de cada cambio y la configuración a .factory/ (fase 2 de la estructura)')
     q.add_argument('--verificar', action='store_true', help='listar lo que movería sin escribir; falla si hay algo por migrar')
+    q.add_argument('--almacen', help='pasar los registros del producto a un almacén aparte (carpeta de un repo Git o URL de Git) y '
+                                     'conectarlo; deja la baja en el producto sin commitear; sólo de una persona')
     q = sub.add_parser('donde', help='listar los artefactos de un cambio, su ruta y el gate que respaldan (sólo lectura)')
     q.add_argument('id'); q.add_argument('--candidato', help='limitarse a los artefactos de este commit (prefijo del SHA)')
     q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado (para IDE, paneles y MCP)')

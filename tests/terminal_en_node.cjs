@@ -42,6 +42,7 @@ const vscode = {
     EventEmitter: class { constructor() { this.event = nada; } fire() {} },
     TreeItem: class {}, TreeItemCollapsibleState: {None: 0, Collapsed: 1}, ThemeIcon: class {},
     Uri: {file: p => ({fsPath: p})},
+    RelativePattern: class { constructor(base, patron) { this.base = base; this.pattern = patron; } },  // como en VS Code (etapa 6)
     workspace: {
         workspaceFolders: [{uri: {fsPath: proyecto}}],
         getConfiguration: () => ({get: clave => (clave === 'esperaTerminalMs' ? escenario.espera : undefined)}),

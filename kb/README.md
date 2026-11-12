@@ -138,6 +138,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261111-135546-t8q-almacen-sincronizar]] — Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas (cerrada)
 - [[cambios/20261111-161316-dd7-almacen-guia]] — Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar (cerrada)
 - [[cambios/20261111-204313-c6n-almacen-vscode]] — Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén (cerrada)
+- [[cambios/20261112-005922-f5r-almacen-migrar]] — Registros fuera del repo del producto, etapa 6: migrar los registros de un proyecto a un almacén (cerrada)
 
 ## Requisitos
 
@@ -312,6 +313,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos]]
 - [[requisitos/flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo]]
 - [[requisitos/flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio]]
+- [[requisitos/flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia]]
+- [[requisitos/flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja]]
+- [[requisitos/flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada]]
+- [[requisitos/flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe]]
 - [[requisitos/flujo_c3d4de75771af14ec.con_almacen_cada_comando_que_escribe_deja_su_commit]]
 - [[requisitos/flujo_c3d4de75771af14ec.el_commit_del_almacen_no_escribe_configuracion_ni_hace_fallar]]
 - [[requisitos/flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion]]
