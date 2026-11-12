@@ -47,3 +47,7 @@ Medidas de flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros
 ### Nota (2026-11-12 12:58:15 UTC)
 
 Medidas de flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-12 13:23:05 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Codex, una vuelta, sin hallazgos. Evidencia de 1c29dfa: 1478 pruebas, 13 casos de contrato, éxito. 18 mutaciones a mano, todas detectadas. Ensayo sobre una copia de Factory (4f9beb71): 6672 archivos migrados, listar igual, .gitignore y .gitattributes limpiados, y las 1478 pruebas bien antes y después de migrar (en la etapa 6 fallaban 17). Arreglo de paso: la puerta con el producto conectado buscaba secretos en el almacén y dejaba pasar en silencio. Pruebas existentes editadas, declaradas y aceptadas por codex: p6, vg3, mg1 y los dos dorados de la ayuda. Los drivers de unión que hooks dejó en .git/config quedan (sacarlos sería cambiar la configuración de Git). La migración real de ~/Dev/factory queda como decisión aparte.); 0 abiertos derivados; commit f33e65de15d499ad9c4f29351855be699489a65b; informe tareas/20261112-121837-6bu-pmr/revisiones/registro-nds51upy/informe.json; decisiones tareas/20261112-121837-6bu-pmr/revisiones/registro-nds51upy/decisiones.json.
