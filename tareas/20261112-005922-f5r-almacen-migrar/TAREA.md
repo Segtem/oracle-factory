@@ -35,3 +35,19 @@ Medidas de flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada: fa
 ### Nota (2026-11-12 01:53:59 UTC)
 
 Medidas de flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe: factory_almacen_migrar.migrar_verificar_no_escribe, factory_almacen_migrar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-12 09:57:24 UTC)
+
+Medidas de flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-12 09:57:24 UTC)
+
+Medidas de flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-12 09:57:25 UTC)
+
+Medidas de flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-12 09:57:25 UTC)
+
+Medidas de flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe: Brian Hollweg (persona, confirmo, modo confirmacion).
