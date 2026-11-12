@@ -59,3 +59,19 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-12 11:27:40 UTC)
 
 Juicio Factory: incompleto/rojo; salida Oracle 1; informe .factory/cambios/20261112-005922-f5r-almacen-migrar/oracle-veredicto.txt.
+
+### Nota (2026-11-12 11:28:25 UTC)
+
+Medidas de flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-12 11:28:28 UTC)
+
+Medidas de flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-12 11:28:30 UTC)
+
+Medidas de flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-11-12 11:28:32 UTC)
+
+Medidas de flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
