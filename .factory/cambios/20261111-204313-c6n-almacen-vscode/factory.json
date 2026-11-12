@@ -2,7 +2,7 @@
   "id": "20261111-204313-c6n-almacen-vscode",
   "titulo": "Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261111-204313-c6n-almacen-vscode/specs/flujo/spec.md",
   "spec_sha256": "bfce717453fd710b50bf3b567c788b225aeabb8513bc4da121f0765ff3546bf4",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json",
     "flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261111-204313-c6n-almacen-vscode/revisiones/registro-kgyli9uu/informe.json",
+    "sha256": "d762ad34df9439c5fcc95f5ea9cfb9d61473ca68083c88a9591e788361da4db5",
+    "decisiones": "tareas/20261111-204313-c6n-almacen-vscode/revisiones/registro-kgyli9uu/decisiones.json",
+    "decisiones_sha256": "de860b798e6e8a895bd7eb541a5b931feede5b7cb8dccbd18981c7fee06486ca",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-12T00:05:21.707189+00:00",
+    "motivo": "av1–av2 y las pruebas de la extensión de antes; suite completa verde en 4311756 (1441 pruebas); el código es el de ab0ba9b, donde las mutaciones propias murieron salvo una equivalente que se quitó; codex sin hallazgos en los dos candidatos",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "2d0f4dfa20da2085432384fccf223025c87907bf",
+      "archivos_sha256": "570c05cf03a308e7873eac41735b50d24672dbcf207aa2cbc1c5f1f741c4368b"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -250,6 +270,20 @@
       "cuando": "2026-11-11T21:32:52.786717+00:00",
       "decision": "aprobar",
       "candidato": "4311756"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-12T00:05:21.707218+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "d762ad34df9439c5fcc95f5ea9cfb9d61473ca68083c88a9591e788361da4db5",
+      "decisiones_sha256": "de860b798e6e8a895bd7eb541a5b931feede5b7cb8dccbd18981c7fee06486ca"
     }
   ],
   "tipos": {
@@ -291,14 +325,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "av1–av2 y las pruebas de la extensión de antes; suite completa verde en 4311756 (1441 pruebas); el código es el de ab0ba9b, donde las mutaciones propias murieron salvo una equivalente que se quitó; codex sin hallazgos en los dos candidatos",
-      "candidato": "4311756",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-11T21:32:52.786702+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

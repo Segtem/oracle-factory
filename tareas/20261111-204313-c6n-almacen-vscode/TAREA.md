@@ -51,3 +51,7 @@ Medidas de flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json: Brian Ho
 ### Nota (2026-11-11 21:21:26 UTC)
 
 Medidas de flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-12 00:05:21 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: av1–av2 y las pruebas de la extensión de antes; suite completa verde en 4311756 (1441 pruebas); el código es el de ab0ba9b, donde las mutaciones propias murieron salvo una equivalente que se quitó; codex sin hallazgos en los dos candidatos); 0 abiertos derivados; commit 2d0f4dfa20da2085432384fccf223025c87907bf; informe tareas/20261111-204313-c6n-almacen-vscode/revisiones/registro-kgyli9uu/informe.json; decisiones tareas/20261111-204313-c6n-almacen-vscode/revisiones/registro-kgyli9uu/decisiones.json.
