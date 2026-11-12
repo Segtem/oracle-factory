@@ -2,10 +2,20 @@
   "id": "20261112-121837-6bu-pmr",
   "titulo": "Registros fuera del repo del producto: preparar la migración real de Factory",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "05feef584b4017342538b976f1477db7647405d04e6996721acf9cf0e39e77ed",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-11-12T12:26:16.671708+00:00",
+    "documentos": {
+      "openspec/changes/20261112-121837-6bu-pmr/proposal.md": "8285fc032fcad0e1e90b2bace8b0cbd9e6e35502c457a249add8ae4b85a0374b",
+      "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md": "05feef584b4017342538b976f1477db7647405d04e6996721acf9cf0e39e77ed"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-11-12T12:18:37.106180+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T12:26:16.671729+00:00",
+      "documentos": {
+        "openspec/changes/20261112-121837-6bu-pmr/proposal.md": "8285fc032fcad0e1e90b2bace8b0cbd9e6e35502c457a249add8ae4b85a0374b",
+        "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md": "05feef584b4017342538b976f1477db7647405d04e6996721acf9cf0e39e77ed"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }

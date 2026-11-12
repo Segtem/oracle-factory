@@ -139,7 +139,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261111-161316-dd7-almacen-guia]] — Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar (cerrada)
 - [[cambios/20261111-204313-c6n-almacen-vscode]] — Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén (cerrada)
 - [[cambios/20261112-005922-f5r-almacen-migrar]] — Registros fuera del repo del producto, etapa 6: migrar los registros de un proyecto a un almacén (cerrada)
-- [[cambios/20261112-121837-6bu-pmr]] — Registros fuera del repo del producto: preparar la migración real de Factory (espera_aprobacion_spec)
+- [[cambios/20261112-121837-6bu-pmr]] — Registros fuera del repo del producto: preparar la migración real de Factory (spec_aprobada)
 
 ## Requisitos
 
