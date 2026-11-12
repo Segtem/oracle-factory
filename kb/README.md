@@ -137,7 +137,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261111-114616-81f-almacen-bloqueo]] — Registros fuera del repo del producto, etapa 4b1: cada comando commitea sólo lo de su cambio, con un bloqueo corto (cerrada)
 - [[cambios/20261111-135546-t8q-almacen-sincronizar]] — Registros fuera del repo del producto, etapa 4b2: conectar desde una URL y sincronizar el almacén entre personas (cerrada)
 - [[cambios/20261111-161316-dd7-almacen-guia]] — Registros fuera del repo del producto, etapa 5a: la guía de agentes y la skill van al producto sin versionar (cerrada)
-- [[cambios/20261111-204313-c6n-almacen-vscode]] — Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén (oracle_verde)
+- [[cambios/20261111-204313-c6n-almacen-vscode]] — Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén (cerrada)
 
 ## Requisitos
 

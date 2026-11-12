@@ -1,6 +1,6 @@
 # Registros fuera del repo del producto, etapa 5b: la extensión de VS Code reconoce un producto conectado a un almacén
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -59,3 +59,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-11-12 00:05:30 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261111-204313-c6n-almacen-vscode/oracle-veredicto.txt.
+
+### Nota (2026-11-12 00:34:39 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

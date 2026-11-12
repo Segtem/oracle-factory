@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:94a9b9fb550c2d645529dd4cd299ad34e04c4aa3bda7ce6cf68fec9a38d0fe34 -->
+<!-- oracle-factory resumen sha256:db4136ac8b7ee9a7be8ee5b695b879f419deaf5bef32924d396df50657aaff79 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-32 capacidades · 382 requisitos vigentes · 0 cambios abiertos
+32 capacidades · 384 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -315,6 +315,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias | funcional | `flujo_c5b6a893e70e9eba0.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias` | factory_almacen_sincronizar.sincronizar_sube_solo_si_es_una_persona_y_no_deja_nada_a_medias, factory_almacen_sincronizar.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-135546-t8q-almacen-sincronizar |
 | con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar | funcional | `flujo_cb87b2b390ceaef68.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar` | factory_almacen_guia.con_almacen_la_guia_y_la_skill_van_al_producto_sin_versionar, factory_almacen_guia.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-161316-dd7-almacen-guia |
 | con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen | funcional | `flujo_cb87b2b390ceaef68.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen` | factory_almacen_guia.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen, factory_almacen_guia.corrida_completa | verde al cerrar el 2026-11-11 | 20261111-161316-dd7-almacen-guia |
+| conectar_dice_la_conexion_como_json | funcional | `flujo_cfe746728c6d49531.conectar_dice_la_conexion_como_json` | factory_almacen_vscode.conectar_dice_la_conexion_como_json, factory_almacen_vscode.corrida_completa | verde al cerrar el 2026-11-12 | 20261111-204313-c6n-almacen-vscode |
+| la_extension_reconoce_y_vigila_un_producto_conectado | funcional | `flujo_cfe746728c6d49531.la_extension_reconoce_y_vigila_un_producto_conectado` | factory_almacen_vscode.la_extension_reconoce_y_vigila_un_producto_conectado, factory_almacen_vscode.corrida_completa | verde al cerrar el 2026-11-12 | 20261111-204313-c6n-almacen-vscode |
 
 ### ide
 
@@ -1899,6 +1901,11 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261111-161316-dd7-almacen-guia) codex (gpt-6-luna): Revisé la spec, las rutas de diff del paquete, la implementación y los escenarios de tests/test_almacen_guia.py; el paquete no declara omisiones binarias.
 - (20261111-161316-dd7-almacen-guia) codex (gpt-6-luna): Ejecuté `python -m unittest tests.test_almacen_guia -v </dev/null`: los 6 casos pasaron. No ejecuté la suite completa.
 - (20261111-161316-dd7-almacen-guia) codex (gpt-6-luna): La ronda 1 R1 no se reproduce: las tres rutas escritas en info/exclude son constantes relativas a la raíz; el test de raíz `prod a[b]*?` pasó y git status quedó limpio.
+- (20261111-204313-c6n-almacen-vscode) Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.
+- (20261111-204313-c6n-almacen-vscode) codex (gpt-6-luna): Revisé la propuesta, la spec, las 18 entradas textuales del diff y el registro de la vuelta anterior; no encontré un defecto reproducible con la evidencia inspeccionada.
+- (20261111-204313-c6n-almacen-vscode) codex (gpt-6-luna): No corrí pruebas ni mutaciones manuales; contrasté las pruebas nuevas con el código y los escenarios declarados.
+- (20261111-204313-c6n-almacen-vscode) codex (gpt-6-luna): tests/datos/ayuda-cli.json: la línea anterior de ayuda de conectar fue sustituida por la ayuda actualizada que incluye --json; el cambio corresponde a la nueva opción.
+- (20261111-204313-c6n-almacen-vscode) codex (gpt-6-luna): tests/vscode_en_node.cjs: las líneas retiradas del harness fueron sustituidas por captura de watchers y espera a que se instalen; el cambio permite verificar watchers en el almacén externo.
 
 ### Históricos
 
