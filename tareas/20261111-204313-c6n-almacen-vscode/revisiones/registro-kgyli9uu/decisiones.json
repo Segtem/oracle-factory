@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "d762ad34df9439c5fcc95f5ea9cfb9d61473ca68083c88a9591e788361da4db5",
+  "actor": "Brian Hollweg",
+  "motivo": "av1–av2 y las pruebas de la extensión de antes; suite completa verde en 4311756 (1441 pruebas); el código es el de ab0ba9b, donde las mutaciones propias murieron salvo una equivalente que se quitó; codex sin hallazgos en los dos candidatos",
+  "decisiones": []
+}

@@ -141,6 +141,8 @@ def construir_parser() -> argparse.ArgumentParser:
     q = sub.add_parser('conectar', help='conectar el producto con su almacén de registros (un repo Git aparte), o ver a cuál está conectado; sólo de una persona')
     q.add_argument('almacen', nargs='?', help='carpeta del almacén, o la URL de Git de su repo (lo clona en la carpeta de datos del usuario); '
                                               'sin ella, dice a cuál está conectado el producto')
+    q.add_argument('--json', action='store_true', help='sin ALMACÉN: decir la conexión como JSON ({"conectado", "almacen", "producto"}), '
+                                                       'sin cambiar nada; también con --agente')
     sub.add_parser('desconectar', help='quitar la conexión del producto con su almacén (no toca ni el almacén ni el producto); sólo de una persona')
     sub.add_parser('sincronizar', help='traer el almacén del remoto, unirlo con lo local y, si lo corre una persona, subir el resultado; '
                                        'con --agente no sube')

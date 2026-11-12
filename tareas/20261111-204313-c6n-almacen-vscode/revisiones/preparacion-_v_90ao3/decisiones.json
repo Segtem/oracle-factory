@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "ac82306a84cab5e3719620610cafe7f8c0bd77ba7196ace698b9636001dd41ce",
+  "actor": "Brian Hollweg",
+  "motivo": "conectar --json y la extensión con producto conectado probados en av1–av2 (y las pruebas de la extensión de antes); suite completa verde en ab0ba9b; mutaciones propias muertas salvo una equivalente que se quitó; codex sin hallazgos",
+  "decisiones": []
+}

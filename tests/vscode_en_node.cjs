@@ -6,7 +6,7 @@ const Module = require('module');
 const path = require('path');
 const [extension, proyecto, comando] = process.argv.slice(2);
 
-const terminal = [], comandos = {};
+const terminal = [], comandos = {}, vigias = [];  // vigias: lo que la extensión pidió vigilar (etapa 5b)
 let vista = null;
 const nada = () => ({dispose() {}});
 const vscode = {
@@ -15,10 +15,12 @@ const vscode = {
     TreeItemCollapsibleState: {None: 0, Collapsed: 1},
     ThemeIcon: class { constructor(id) { this.id = id; } },
     Uri: {file: p => ({fsPath: p})},
+    RelativePattern: class { constructor(base, patron) { this.base = base && base.fsPath ? base.fsPath : base; this.pattern = patron; } },
     workspace: {
         workspaceFolders: [{uri: {fsPath: proyecto}}],
         getConfiguration: () => ({get: clave => (clave === 'comando' ? comando || '' : clave === 'esperaTerminalMs' ? 0 : undefined)}),
-        createFileSystemWatcher: () => ({onDidChange: nada, onDidCreate: nada, onDidDelete: nada, dispose() {}}),
+        createFileSystemWatcher: patron => { vigias.push(typeof patron === 'string' ? patron : {base: patron.base, patron: patron.pattern});
+                                             return {onDidChange: nada, onDidCreate: nada, onDidDelete: nada, dispose() {}}; },
     },
     window: {
         terminals: [],
@@ -52,7 +54,9 @@ async function desplegar(nodo) {
 }
 
 (async () => {
-    require(path.resolve(extension, 'extension.js')).activate({subscriptions: []});
+    const modulo = require(path.resolve(extension, 'extension.js'));
+    modulo.activate({subscriptions: []});
     const arbol = await desplegar(undefined);
-    process.stdout.write(JSON.stringify({arbol, terminal, terminales: vscode.window.terminals.length}));
+    if (modulo.vigilando) await modulo.vigilando();  // los vigías del almacén se arman cuando se sabe dónde está
+    process.stdout.write(JSON.stringify({arbol, terminal, terminales: vscode.window.terminals.length, vigias}));
 })().catch(e => { console.error(e); process.exit(1); });

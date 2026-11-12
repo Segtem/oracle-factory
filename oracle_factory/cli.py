@@ -2263,7 +2263,7 @@ def main(argv: list[str] | None = None) -> int:
     AGENTE = (args.agente or "").strip() or None
     try:
         if args.comando in ("conectar", "desconectar"):  # operan sobre el producto: no se redirigen a su almacén
-            return almacenes.comando(sys.modules[__name__], args.comando, getattr(args, "almacen", None))
+            return almacenes.comando(sys.modules[__name__], args.comando, getattr(args, "almacen", None), getattr(args, "json", False))
         registros = args.registros.expanduser().resolve() if args.registros is not None else almacenes.conectado(sys.modules[__name__])
         if registros is not None and registros != ROOT:
             PRODUCTO, ROOT = almacenes.raiz_git(ROOT) or ROOT, registros  # ROOT sigue siendo «donde están los registros»

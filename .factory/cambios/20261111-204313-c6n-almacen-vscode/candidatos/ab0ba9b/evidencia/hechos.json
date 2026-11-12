@@ -1,0 +1,35 @@
+{
+  "almacen_vscode_caso": [
+    {
+      "requisito": "conectar_dice_la_conexion_como_json",
+      "caso": "AlmacenVscode.test_av1_conectar_json_dice_la_conexion_sin_escribir_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "conectar_dice_la_conexion_como_json",
+      "caso": "AlmacenVscode.test_av1_json_con_una_ruta_se_rechaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_extension_reconoce_y_vigila_un_producto_conectado",
+      "caso": "AlmacenVscode.test_av2_se_activa_tambien_al_arrancar",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_extension_reconoce_y_vigila_un_producto_conectado",
+      "caso": "AlmacenVscode.test_av2_un_producto_conectado_muestra_su_cambio_y_vigila_el_almacen",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_extension_reconoce_y_vigila_un_producto_conectado",
+      "caso": "AlmacenVscode.test_av2_una_carpeta_sin_factory_sigue_igual_y_no_vigila_otra_cosa",
+      "codigo": 0
+    }
+  ],
+  "almacen_vscode_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}

@@ -87,6 +87,8 @@ Para un equipo, el almacén es un repo Git compartido: `oracle-factory conectar 
 
 Con el almacén aparte, `oracle-factory agentes` y `oracle-factory skill --instalar` escriben la guía para agentes (`AGENTS.md`, `CLAUDE.md`) y la skill en la carpeta del producto, para que un agente que trabaja ahí las lea, pero no se versionan: Factory las agrega al archivo de exclusiones local de Git del producto (`.git/info/exclude`, el común a sus worktrees), sin tocar el `.gitignore` ni la configuración de Git, y `git status` queda limpio. Si el producto ya versiona su propio `AGENTS.md`, `CLAUDE.md` o esa skill, Factory no los modifica y lo dice.
 
+La extensión de VS Code abre un producto conectado como un proyecto de Factory aunque no tenga `.factory/`: pregunta `oracle-factory conectar --json` (que sólo lee y dice `{"conectado", "almacen", "producto"}`), muestra los cambios y sus pasos, lee los destinos del almacén y vigila allá los registros de los cambios y de los despliegues. Si se conecta con VS Code ya abierto, **Factory: Refrescar** lo vuelve a preguntar.
+
 ## Encontrar las cosas
 
 | Comando | Para qué |
