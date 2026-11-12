@@ -105,6 +105,36 @@ class AlmacenMigrar(unittest.TestCase):
         self.assertNotEqual(codigo, 0)
         self.assertEqual(self.todo(), antes)
 
+    def remoto(self, con_registros=False):
+        remoto = self.base / 'remoto.git'
+        self.git_en(self.base, 'init', '-q', '--bare', str(remoto))
+        if con_registros:
+            trabajo = self.base / 'trabajo'
+            self.git_en(self.base, 'clone', '-q', str(remoto), str(trabajo))
+            (trabajo / 'requisitos').mkdir()
+            (trabajo / 'requisitos/x.requisito').write_text('x\n', encoding='utf-8')
+            self.git_en(trabajo, 'add', '-A')
+            self.git_en(trabajo, 'commit', '-q', '-m', 'con registros')
+            self.git_en(trabajo, 'push', '-q', 'origin', 'HEAD')
+        return remoto.as_uri()
+
+    def test_mg2_verificar_una_url_sin_clon_la_comprueba_y_no_escribe(self):  # MIG-003
+        clones = self.casa / '.local/share/oracle-factory/almacenes'
+        url = self.remoto()
+        antes = self.todo()
+        self.assertIn('archivos versionados', self.bien('migrar', '--almacen', url, '--verificar'))
+        self.assertEqual(self.todo(), antes)
+        self.assertFalse(clones.exists())
+
+    def test_mg2_verificar_falla_con_una_url_que_no_se_clona_o_ya_tiene_registros(self):  # MIG-003
+        clones = self.casa / '.local/share/oracle-factory/almacenes'
+        for url in ((self.base / 'no-existe.git').as_uri(), self.remoto(con_registros=True)):
+            antes = self.todo()
+            codigo, salida, error = self.corre('migrar', '--almacen', url, '--verificar')
+            self.assertNotEqual(codigo, 0, (url, salida + error))
+            self.assertEqual(self.todo(), antes)
+            self.assertFalse(clones.exists())
+
     # --- mg3: se niega sin tocar nada ---------------------------------------------------------------------------------------
     def negado(self, *args, agente=None, destino=None):
         antes = self.todo()
@@ -167,8 +197,25 @@ class AlmacenMigrar(unittest.TestCase):
         codigo, salida, error = self.corre('migrar', '--almacen', str(self.almacen))
         cerrado.chmod(0o644)
         self.assertNotEqual(codigo, 0, salida + error)
-        self.assertIn('No cambié nada', error)
+        self.assertIn('no cambié nada en el producto ni en el almacén', error)
         self.assertEqual(self.todo(), antes)
+
+    def test_mg3_con_el_bloqueo_tomado_no_copia_nada(self):  # MIG-004
+        import fcntl
+        with open(f.almacenes.archivo_del_bloqueo(self.almacen), 'a', encoding='utf-8') as candado:
+            fcntl.flock(candado, fcntl.LOCK_EX)
+            with _commits.patch.object(f.almacenes, 'PLAZO_DEL_BLOQUEO', 0.3):
+                self.assertIn('bloqueo', self.negado())
+
+    def test_mg3_si_el_commit_del_almacen_falla_deshace_la_copia(self):  # MIG-004
+        (self.almacen / '.gitignore').write_text('*.tmp\n', encoding='utf-8')
+        self.git_en(self.almacen, 'add', '.gitignore')
+        self.git_en(self.almacen, 'commit', '-q', '-m', 'ignore propio')
+        gancho = self.almacen / '.git/hooks/pre-commit'
+        gancho.write_text('#!/bin/sh\necho no quiero >&2\nexit 1\n', encoding='utf-8')
+        gancho.chmod(0o755)
+        self.assertIn('no cambié nada en el producto ni en el almacén', self.negado())
+        self.assertEqual(self.estado_git(), '')
 
     # --- mg4: el ensayo sobre una copia -------------------------------------------------------------------------------------
     def ensayo(self, *args):
