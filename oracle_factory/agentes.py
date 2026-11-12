@@ -46,7 +46,7 @@ LECTURA = ("estado ID", "autopilot ID", "preguntar \"PREGUNTA\"", "por-que ARCHI
 QUE = {"decide": "decide", "propone": "propone", "rechaza": "no puede"}
 
 
-def bloque(modo_por_defecto: str, con_almacen: bool = False) -> str:
+def bloque(modo_por_defecto: str, con_almacen: bool = False, versionada: bool = False) -> str:
     filas = []
     for modo in modos.MODOS:
         celdas = []
@@ -97,9 +97,11 @@ def bloque(modo_por_defecto: str, con_almacen: bool = False) -> str:
         "(o `codex mcp add …`).", "",
         *(["### Registros en un almacén aparte", "",
             "- Este proyecto guarda sus registros en un almacén aparte (un repo Git propio, conectado con `oracle-factory conectar`): "
-            "el repo del producto no recibe nada de Factory, y esta guía y la skill están excluidas de Git en este clon. Cada comando "
-            "commitea lo suyo en el almacén; lo de todos se junta con `oracle-factory sincronizar` (con `--agente` sólo trae y une, "
-            "no sube).", ""] if con_almacen else []),
+            + ("el repo del producto no recibe registros de Factory; esta guía (AGENTS.md y CLAUDE.md) es parte del producto: se "
+               "commitea con él y se mantiene al día con `oracle-factory agentes --en-el-repo`. " if versionada else
+               "el repo del producto no recibe nada de Factory, y esta guía y la skill están excluidas de Git en este clon. ")
+            + "Cada comando commitea lo suyo en el almacén; lo de todos se junta con `oracle-factory sincronizar` (con `--agente` "
+            "sólo trae y une, no sube).", ""] if con_almacen else []),
         FIN,
     ]
     return "\n".join(lineas) + "\n"

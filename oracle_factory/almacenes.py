@@ -455,7 +455,8 @@ def guia_en_producto(cli, verificar: bool, en_el_repo: bool = False) -> None:
         raise cli.FactoryError(f"no escribo sobre enlaces simbólicos: {', '.join(enlaces)}. No escribí nada")
     actuales = [r.read_text(encoding="utf-8") if r.is_file() else "" for r in rutas]
     try:
-        esperados = [agentes.con_bloque(actuales[0], agentes.bloque(cli.config_proyecto()["modo_por_defecto"], con_almacen=True)),
+        esperados = [agentes.con_bloque(actuales[0], agentes.bloque(cli.config_proyecto()["modo_por_defecto"], con_almacen=True,
+                                                                  versionada="AGENTS.md" in versionados)),
                      agentes.con_claude(actuales[1])]
     except agentes.MarcasRotas as e:
         raise cli.FactoryError(str(e)) from e
@@ -710,6 +711,12 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                                    "No cambié nada")
     versionados = _lista(_git_almacen(producto, "ls-files", "-z", "--", *rutas).stdout)
     locales = _lista(_git_almacen(producto, "ls-files", "-z", "--others", "--ignored", "--exclude-standard", "--", *rutas).stdout)
+    carpetas = [n.rstrip("/") for n in [*versionados, *locales]
+                if (producto / n.rstrip("/")).is_dir() and not (producto / n.rstrip("/")).is_symlink()]
+    if carpetas:  # un repo anidado (clon, worktree) o un submódulo: Git lo lista como una sola entrada, y moverlo lo rompe
+        raise cli.FactoryError(f"hay repos Git anidados (o submódulos) en los registros del producto ({_resumen(carpetas)}): migrar "
+                               "no los copia ni los mueve. Sacalos o borralos antes (un worktree, con git worktree remove desde su "
+                               "repo). No cambié nada")
     if es_url(almacen):
         if verificar:  # MIG-003: lo mismo que comprobaría la migración, sin escribir en la carpeta de los clones
             destino, existe = _clon_de(cli, almacen)
