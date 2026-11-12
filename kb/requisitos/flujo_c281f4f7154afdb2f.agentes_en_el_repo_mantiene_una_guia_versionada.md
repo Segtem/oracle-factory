@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261112-121837-6bu-pmr]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «Factory con su guía versionada», «sin la opción»
+- Medidas: `factory_preparar_migracion.agentes_en_el_repo_mantiene_una_guia_versionada`, `factory_preparar_migracion.corrida_completa`
 - Fuente: openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md#agentes_en_el_repo_mantiene_una_guia_versionada
 
 Tipo: funcional El sistema DEBE, con el producto conectado a un almacén, hacer que `agentes --en-el-repo` (sólo una persona) escriba el bloque generado en el `AGENTS.md` del producto y deje un `CLAUDE.md` que lo incluya, aunque el producto ya los versione, sin agregarlos a las exclusiones de Git y sin tocar lo que el archivo tiene fuera del bloque; sin `--en-el-repo`, `agentes` DEBE seguir negándose a tocar una guía versionada; y `agentes --verificar` DEBE decir si la guía del producto, versionada o no, está al día.

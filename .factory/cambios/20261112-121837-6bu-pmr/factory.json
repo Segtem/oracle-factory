@@ -60,6 +60,62 @@
         "flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen",
         "flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-12T12:56:43.183101+00:00",
+      "requisito": "flujo_c281f4f7154afdb2f.agentes_en_el_repo_mantiene_una_guia_versionada",
+      "medidas": [
+        "factory_preparar_migracion.agentes_en_el_repo_mantiene_una_guia_versionada",
+        "factory_preparar_migracion.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-12T12:56:45.382108+00:00",
+      "requisito": "flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado",
+      "medidas": [
+        "factory_preparar_migracion.la_puerta_funciona_con_el_producto_conectado",
+        "factory_preparar_migracion.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-12T12:56:47.532605+00:00",
+      "requisito": "flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen",
+      "medidas": [
+        "factory_preparar_migracion.las_pruebas_y_herramientas_leen_los_registros_del_almacen",
+        "factory_preparar_migracion.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-11-12T12:56:49.705169+00:00",
+      "requisito": "flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto",
+      "medidas": [
+        "factory_preparar_migracion.migrar_limpia_lo_de_factory_del_producto",
+        "factory_preparar_migracion.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -69,5 +125,62 @@
     "flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "flujo_c281f4f7154afdb2f.agentes_en_el_repo_mantiene_una_guia_versionada": {
+      "sha256": "ebcfa8dfa69be2a4e000df5f185c9c5b2ba4fe798778a82e5049e6e777ac904e",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-12T12:56:43.128363+00:00",
+      "catalogos": {
+        "factory_preparar_migracion.agentes_en_el_repo_mantiene_una_guia_versionada": "6e07670fc913a1d646d6be5ffe3877006cfff35e3b771e411846371348ddfc64",
+        "factory_preparar_migracion.corrida_completa": "812e0bc28552e6371f57896f9ed24e7275869a706085e8a77103eaa2096cd5ac"
+      },
+      "archivos_catalogo": {
+        "factory_preparar_migracion.agentes_en_el_repo_mantiene_una_guia_versionada": "catalogos/factory_preparar_migracion.agentes_en_el_repo_mantiene_una_guia_versionada.oracle",
+        "factory_preparar_migracion.corrida_completa": "catalogos/factory_preparar_migracion.corrida_completa.oracle"
+      }
+    },
+    "flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado": {
+      "sha256": "4ad5210e6d81064ac1a77df9265bcadfa0c03b8c3375a1279622ad20993e72e6",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-12T12:56:45.327458+00:00",
+      "catalogos": {
+        "factory_preparar_migracion.la_puerta_funciona_con_el_producto_conectado": "5b695f0b81d396525b3d191c7de078d3ace2016f07c64707f5289e926aa54ab2",
+        "factory_preparar_migracion.corrida_completa": "812e0bc28552e6371f57896f9ed24e7275869a706085e8a77103eaa2096cd5ac"
+      },
+      "archivos_catalogo": {
+        "factory_preparar_migracion.la_puerta_funciona_con_el_producto_conectado": "catalogos/factory_preparar_migracion.la_puerta_funciona_con_el_producto_conectado.oracle",
+        "factory_preparar_migracion.corrida_completa": "catalogos/factory_preparar_migracion.corrida_completa.oracle"
+      }
+    },
+    "flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen": {
+      "sha256": "fc281b11b3995faa38be188bbf7c8b390f0e5c2f72ac91388ec6447b8a56cd5e",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-12T12:56:47.476986+00:00",
+      "catalogos": {
+        "factory_preparar_migracion.las_pruebas_y_herramientas_leen_los_registros_del_almacen": "36d5c1bf4a13f39a55325ab17c0a1a9d1ade18957c4f6df602708c0f24b2cf29",
+        "factory_preparar_migracion.corrida_completa": "812e0bc28552e6371f57896f9ed24e7275869a706085e8a77103eaa2096cd5ac"
+      },
+      "archivos_catalogo": {
+        "factory_preparar_migracion.las_pruebas_y_herramientas_leen_los_registros_del_almacen": "catalogos/factory_preparar_migracion.las_pruebas_y_herramientas_leen_los_registros_del_almacen.oracle",
+        "factory_preparar_migracion.corrida_completa": "catalogos/factory_preparar_migracion.corrida_completa.oracle"
+      }
+    },
+    "flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto": {
+      "sha256": "8dd3e7f8c2c470e4ca66e289804d745d3d578cf18cc720a7cf694ce2ba8c76e1",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-11-12T12:56:49.650257+00:00",
+      "catalogos": {
+        "factory_preparar_migracion.migrar_limpia_lo_de_factory_del_producto": "9b405f196478cfe6465c997d58487664eaf8ca2eb1d816e1778fc6bf764e1fcf",
+        "factory_preparar_migracion.corrida_completa": "812e0bc28552e6371f57896f9ed24e7275869a706085e8a77103eaa2096cd5ac"
+      },
+      "archivos_catalogo": {
+        "factory_preparar_migracion.migrar_limpia_lo_de_factory_del_producto": "catalogos/factory_preparar_migracion.migrar_limpia_lo_de_factory_del_producto.oracle",
+        "factory_preparar_migracion.corrida_completa": "catalogos/factory_preparar_migracion.corrida_completa.oracle"
+      }
+    }
+  }
 }
