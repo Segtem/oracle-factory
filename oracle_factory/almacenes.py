@@ -666,6 +666,22 @@ def _deshacer_copia(destino: Path, rutas: list[str], antes: dict[str, tuple[byte
             _git_almacen(destino, "rm", "-q", "--cached", "--ignore-unmatch", "--", nombre)
 
 
+def _anidados(producto: Path, nombres: list[str]) -> list[str]:
+    """Las carpetas entre `nombres` (un repo anidado o un submódulo que Git lista como una entrada) y los repos anidados que
+    contienen a alguno (si Git lista sus archivos sueltos, según la versión): lo que migrar no copia. Sin repetir, en orden."""
+    vistos: dict[str, None] = {}
+    for n in nombres:
+        ruta = producto / n.rstrip("/")
+        if ruta.is_dir() and not ruta.is_symlink():
+            vistos[n.rstrip("/")] = None
+        for padre in ruta.parents:
+            if padre == producto or producto not in padre.parents:
+                break
+            if (padre / ".git").exists():
+                vistos[padre.relative_to(producto).as_posix()] = None
+    return list(vistos)
+
+
 def migrar(cli, almacen: str, verificar: bool) -> int:
     """migrar --almacen ALMACÉN (etapa 6): copia los registros versionados del producto al almacén en un commit, mueve lo no
     versionado de esas carpetas, conecta el producto y borra sus registros dejando la baja en el índice sin commitear."""
@@ -711,8 +727,7 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                                    "No cambié nada")
     versionados = _lista(_git_almacen(producto, "ls-files", "-z", "--", *rutas).stdout)
     locales = _lista(_git_almacen(producto, "ls-files", "-z", "--others", "--ignored", "--exclude-standard", "--", *rutas).stdout)
-    carpetas = [n.rstrip("/") for n in [*versionados, *locales]
-                if (producto / n.rstrip("/")).is_dir() and not (producto / n.rstrip("/")).is_symlink()]
+    carpetas = _anidados(producto, [*versionados, *locales])
     if carpetas:  # un repo anidado (clon, worktree) o un submódulo: Git lo lista como una sola entrada, y moverlo lo rompe
         raise cli.FactoryError(f"hay repos Git anidados (o submódulos) en los registros del producto ({_resumen(carpetas)}): migrar "
                                "no los copia ni los mueve. Sacalos o borralos antes (un worktree, con git worktree remove desde su "

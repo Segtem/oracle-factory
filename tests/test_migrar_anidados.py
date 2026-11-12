@@ -39,6 +39,12 @@ class Anidados(_migrar.AlmacenMigrar):
     def test_ma1_verificar_lo_anuncia_y_no_escribe(self):
         self.assertIn('.factory/local/revision/checkout', self.negado('--verificar'))
 
+    def test_ma1_si_git_lista_los_archivos_del_repo_anidado_tambien_lo_ve(self):  # MA1-001: según la versión de Git
+        from oracle_factory import almacenes
+        nombres = ['.factory/local/nota.txt', '.factory/local/revision/checkout/x.txt', '.factory/local/revision/checkout/sub/y.txt']
+        self.assertEqual(almacenes._anidados(self.producto, nombres), ['.factory/local/revision/checkout'])
+        self.assertEqual(almacenes._anidados(self.producto, ['.factory/local/nota.txt']), [])
+
     def test_ma1_un_worktree_de_otro_repo_sigue_registrado(self):
         import shutil
         shutil.rmtree(self.anidado)
