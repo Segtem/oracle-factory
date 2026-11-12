@@ -1,0 +1,47 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-almacen-migrar/.factory/local/revisiones/7c8cdcd-codex-1",
+  "base": "feb32228fb162dd3e43f42b0d03fbba0fe4e2fe7",
+  "head": "7c8cdcdce269edc9dd076bb607fb476bb04079e6",
+  "diff_sha256": "b72037d292e1008936d6c8c4b223275f2b99bc6c26365caa179832789d170c51",
+  "context_sha256": "ab0eb8fa6ef2c50d2d61c30e8e7464a35fc4a65dcd4b08b582a5c1e1df4a8900",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "MIG-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.99,
+      "title": "La migración puede declarar éxito sin dejar preparada la baja",
+      "explanation": "Si `git rm --cached` falla (por ejemplo, porque el índice tiene un lock o Git no puede escribirlo), el flujo continúa borrando los directorios del producto, imprime que la baja quedó preparada y retorna 0. En realidad los archivos siguen en el índice sin cambios, así que la baja no está staged y la promesa de dejarla lista no se cumple; el usuario recibe un falso éxito tras desaparecer los archivos del árbol de trabajo.",
+      "location": {"file": "oracle_factory/almacenes.py", "start_line": 665, "end_line": 672, "side": "head"},
+      "trigger": "Hacer que `git rm --cached` falle en el producto, por ejemplo creando `.git/index.lock`, y ejecutar `migrar --almacen RUTA`.",
+      "evidence": "El resultado de `git rm` se guarda en `baja`, pero no se comprueba hasta después de `shutil.rmtree`/`unlink`; incluso ante error el flujo imprime el mensaje de éxito y retorna 0. La advertencia posterior admite que los archivos ya no están en disco y pide al usuario preparar la baja manualmente.",
+      "related_requirement": "migrar_al_almacen_copia_conecta_y_deja_la_baja",
+      "status": "pendiente",
+      "verification": "Inspección estática del flujo; no se ejecutó una mutación porque se pidió mantener el checkout de solo lectura."
+    },
+    {
+      "id": "MIG-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Un error al mover los archivos locales deja la migración a medio camino",
+      "explanation": "Los archivos no versionados/ignorados se mueven uno por uno después de crear el commit del almacén. Si un movimiento falla a mitad (por ejemplo, falta de espacio al cruzar sistemas de archivos o un error de permisos), no hay rollback ni recuperación del lote: algunos datos locales ya no están en el producto, otros siguen allí, la conexión aún no se escribió y la baja no se preparó. El comando termina con excepción, dejando estado parcial difícil de reintentar porque el almacén ya contiene registros y se rechazará como destino ocupado.",
+      "location": {"file": "oracle_factory/almacenes.py", "start_line": 655, "end_line": 658, "side": "head"},
+      "trigger": "Con archivos bajo `.factory/local/` en varios subdirectorios, provocar un fallo de `shutil.move` a partir de un elemento del listado (p. ej. destino sin espacio o sin permisos) y correr `migrar --almacen`.",
+      "evidence": "El código ejecuta `shutil.move` en un bucle sin registrar los elementos ya movidos ni restaurarlos ante excepción. La conexión y `git rm --cached` suceden después, de modo que el fallo interrumpe la operación entre el commit del almacén y la modificación del producto.",
+      "related_requirement": "migrar_al_almacen_copia_conecta_y_deja_la_baja",
+      "status": "pendiente",
+      "verification": "Inspección estática; no se ejecutaron fallos inyectados ni mutaciones para respetar la instrucción de no editar el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, la propuesta, el diff completo del paquete, las pruebas nuevas y los cambios a pruebas existentes; no ejecuté la suite ni mutaciones de archivos.",
+    "tests/datos/ayuda-cli.json: la línea del uso de `migrar` se actualiza para reflejar `--almacen`; edición justificada por el cambio.",
+    "tests/test_almacen_vscode.py: el ajuste del entorno del subproceso y el nuevo caso para `SIN_RELATIVE_PATTERN` prueban que la vista siga disponible si no se puede vigilar el almacén; no se observó una edición que elimine una aserción existente.",
+    "tests/vscode_en_node.cjs: se reemplaza el stub de `RelativePattern` por una variante configurable para simular que no existe; edición justificada por el nuevo escenario.",
+    "tests/terminal_en_node.cjs agrega el stub de `RelativePattern` que faltaba al VS Code falso; justificado para que las pruebas de terminal representen la API usada al conectar un almacén."
+  ]
+}
