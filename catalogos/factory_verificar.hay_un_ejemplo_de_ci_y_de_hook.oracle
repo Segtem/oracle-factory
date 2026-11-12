@@ -1,8 +1,0 @@
-medida factory_verificar.hay_un_ejemplo_de_ci_y_de_hook:
-    de verificar_caso c
-    donde c.requisito == "hay_un_ejemplo_de_ci_y_de_hook" y c.codigo == 0
-    resumen contar(1)
-    umbral == 1 segun contrato porque "deben pasar los 1 casos enumerados para este requisito en tests/test_verificar.py; asociar junto a corrida_completa"
-    requiere verificar_caso
-    ambito universal
-    alcance "escenarios ci1–ci5 sobre oracle-factory verificar: dice si los cambios están consistentes y sale con 0 o 1, sólo lee, el cierre lo decide una persona, no exige lo que otra máquina no tiene, y la plantilla de CI y su guía; con cambios reales en repositorios temporales, sin red ni terminal"

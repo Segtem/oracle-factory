@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "75260155ba2b91d25ee33294b78d2bfc29929104135123e9d42cd200454c599b",
-  "actor": "Brian Hollweg",
-  "motivo": "Siete rondas con revisores independientes (agy2-flash y codex), la última con 0 y 0 sobre el candidato c41e9ce. Hallazgos por ronda, sumando los dos revisores: 9, 6, 5, 2, 1, 2 y 0. Todos los de las rondas 1 a 6 eran reales y se corrigieron con prueba y mutación: alcance con comillas y caracteres no imprimibles, nombres de requisitos pasados a slug, requisitos repetidos, secciones REMOVED y bloques de código con cercas como CommonMark, salida relativa, lecturas ilegibles, herencia y mixins, cláusulas del éxito aisladas, hora de modificación de las fuentes, retiro de catálogos obsoletos y rechazo de enlaces simbólicos. Evidencia con éxito, producida por la propia herramienta: 1041 pruebas y 46 casos de contrato. En cada ronda se corrió una tanda de mutaciones sobre los arreglos; los mutantes que sobrevivían se cerraron con pruebas nuevas y los equivalentes se eliminaron simplificando el código. Límite declarado en docs/tests.md: un requisito con Pruebas: no aplica sigue necesitando un caso con esta herramienta, porque soportarlo cambiaría la spec aprobada.",
-  "decisiones": []
-}

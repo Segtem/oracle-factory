@@ -1,8 +1,0 @@
-medida factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real:
-    de puerta_verificar_caso c
-    donde c.requisito == "la_guia_y_el_hook_cuentan_la_politica_real" y c.codigo == 0
-    resumen contar(1)
-    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tests/test_puerta_verificar.py; asociar junto a corrida_completa"
-    requiere puerta_verificar_caso
-    ambito universal
-    alcance "Pruebas nuevas en tests/test_puerta_verificar.py (pv1–pv4). Ediciones a pruebas existentes de tests/test_puerta.py, todas aditivas por sumar la verificación «verificar» a VERIFICACIONES: las listas de llamadas y argumentos esperadas ahora incluyen verificar (sin --verificar); el conteo «omitidas» y el «al día» la incluyen; el chequeo de docs exime del flag a verificar; y el texto del hook en el test del hook suma «o un cambio inconsistente (`verificar`)». Ningún caso se debilitó."

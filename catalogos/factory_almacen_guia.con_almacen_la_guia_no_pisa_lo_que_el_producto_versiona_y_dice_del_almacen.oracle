@@ -1,8 +1,0 @@
-medida factory_almacen_guia.con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen:
-    de almacen_guia_caso c
-    donde c.requisito == "con_almacen_la_guia_no_pisa_lo_que_el_producto_versiona_y_dice_del_almacen" y c.codigo == 0
-    resumen contar(1)
-    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tests/test_almacen_guia.py; asociar junto a corrida_completa"
-    requiere almacen_guia_caso
-    ambito universal
-    alcance "escenarios ag1–ag2 con producto y almacén como repos Git temporales, Linux"

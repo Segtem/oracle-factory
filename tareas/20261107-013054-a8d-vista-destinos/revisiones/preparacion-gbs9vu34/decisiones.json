@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "e81f505c2302594be31ba25e6cbb4ba88e727814f7fb14dfb4415b32f794e9ef",
-  "actor": "Brian Hollweg",
-  "motivo": "Tres rondas de codex: la última sin hallazgos. Cerrados la pintura concurrente que descartaba la consulta, la caché compartida entre proyectos y las consultas simultáneas fuera de orden: la consulta se hace en su propio manejador, guarda {raiz, datos} y una generación invalida las anteriores. Evidencia: 1200 pruebas, 10 casos de contrato, éxito. Declarado: tres pruebas existentes editadas de forma aditiva (tests/contrato_en_node.cjs, tests/tablero_en_node.cjs, tests/test_contrato_vscode.py). Límites: el cambio de raíz con el panel abierto y la guarda de consultar-destinos para invitados no tienen prueba propia. agy no pudo revisar: su wrapper pide un modelo que ya no existe.",
-  "decisiones": []
-}

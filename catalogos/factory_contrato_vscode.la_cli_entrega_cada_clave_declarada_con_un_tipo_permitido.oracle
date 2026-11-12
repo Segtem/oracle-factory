@@ -1,8 +1,0 @@
-medida factory_contrato_vscode.la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido:
-    de contrato_vscode_caso c
-    donde c.requisito == "la_cli_entrega_cada_clave_declarada_con_un_tipo_permitido" y c.codigo == 0
-    resumen contar(1)
-    umbral == 9 segun contrato porque "deben pasar los 9 casos enumerados para este requisito en tests/test_contrato_vscode.py; asociar junto a corrida_completa"
-    requiere contrato_vscode_caso
-    ambito universal
-    alcance "escenarios cv1–cv3 con proyectos temporales de Factory, la CLI de verdad y node, Linux"

@@ -1,3 +1,0 @@
-# Diseño
-
-`alcance` es una lista no vacía de textos que se pasan a `git diff --name-only <antes>..<commit> -- <rutas>` como rutas de Git (carpetas o patrones). La versión anterior de un destino es la `version_despues` de la última corrida que lo dejó `desplegado` o `probado` (el registro que ya guarda Factory); si no hay ninguna, o Git no la conoce, el destino entra con ese motivo. `elegir_por_cambios` devuelve los nombres elegidos y un motivo por destino; `armar_plan` los usa como si vinieran de `--destino` (por lo tanto `orden` arrastra las dependencias) y el plan guarda los motivos y los omitidos para que `texto_plan` los muestre. Un plan sin destinos afectados lleva `orden` vacío y el comando se detiene antes de ejecutar.

@@ -1,6 +1,0 @@
-# Frente B fixture
-
-- ESTADO: ABIERTA
-- PRIORIDAD: 50
-- ETIQUETAS: 
-

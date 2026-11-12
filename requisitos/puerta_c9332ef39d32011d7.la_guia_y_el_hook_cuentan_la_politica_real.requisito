@@ -1,4 +1,0 @@
-requisito puerta_c9332ef39d32011d7.la_guia_y_el_hook_cuentan_la_politica_real:
-    texto "Tipo: funcional El sistema DEBE contar en `docs/puerta.md` y en el mensaje del hook que un cambio inconsistente sólo avisa, junto a lo que bloquea (un secreto y la guía para agentes vencida) y lo que ya sólo avisaba (kb y resumen)."
-    fuente "openspec/changes/20261107-173514-2fx-verificar/specs/puerta/spec.md#la_guia_y_el_hook_cuentan_la_politica_real"
-    medido_por factory_puerta_verificar.la_guia_y_el_hook_cuentan_la_politica_real, factory_puerta_verificar.corrida_completa

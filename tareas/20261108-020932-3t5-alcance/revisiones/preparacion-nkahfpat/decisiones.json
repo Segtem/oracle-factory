@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "62b6e9f629ff92bfc8c3579dc6eaab9af19cb9b1628b9ff5f259f3cf93c0385e",
-  "actor": "Brian Hollweg",
-  "motivo": "Codex sin hallazgos. Evidencia 1245 pruebas OK. 8 mutaciones propias sobre despliegue.py y cli.py detectadas; una sobrevive y es equivalente (invertir el rango del diff: --name-only es simétrico). Incluye un arreglo no pedido por la spec: despliegue.registros desempata por el momento en que se escribió el registro (dos corridas del mismo segundo quedaban en orden arbitrario), con prueba determinista; también corrige estados. Sin ediciones a pruebas existentes salvo el golden de la ayuda (sólo desplegar). Toca cli.py: camino completo.",
-  "decisiones": []
-}

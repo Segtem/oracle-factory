@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "6405e6f2411c6c0abfb97fc2cb058b60da89a1b1b351bd940e3f6769b8f2bc6d",
-  "actor": "Brian Hollweg",
-  "motivo": "Propuesta del agente claude-code. Candidato 1428214: evidencia verde (1343 pruebas, 4 casos de contrato), 40 mutaciones propias detectadas con la base verde. Rondas: codex 1 (SR-1 medio, informe ilegible: corregido), agy2 sobre 5e2f1c8 (SR-2 medio, un solo proveedor configurado: corregido; SR-3 bajo, huecos de prueba: corregido), codex 2 sin hallazgos, codex 3 sin hallazgos sobre 1428214. DECIDE BRIAN: (1) agy y agy2 quedaron sin cuota (se reinicia en unas 150 horas): el candidato final no lo revisó un segundo proveedor, aunque agy2 revisó el candidato anterior y sus tres hallazgos están corregidos; es justo la regla que este cambio le da al conductor, así que te lo digo aquí. (2) La spec decía nombre de revisor con letras, dígitos, punto, guion y guion bajo; lo ajusté a que empiece con letra o dígito para que --a no se lea como opción (más estricto que lo aprobado). (3) Un informe ilegible o un solo proveedor configurado dejan segundo_revisor en null y el conductor sigue como antes. Limite: el conductor no cuenta como proveedor que informó a un revisor que falló sin dejar informe, así que repetiría el pedido; lo frena la regla de sin progreso. No edité ningún test existente.",
-  "decisiones": []
-}

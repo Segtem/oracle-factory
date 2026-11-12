@@ -1,3 +1,0 @@
-# Diseño
-
-El workflow es una copia de la plantilla con dos diferencias: instala con `uv tool install .` (el checkout) y su último paso aplica la política en un bloque `run` de shell: corre `oracle-factory verificar`; si sale con error y la referencia no es `refs/heads/main`, imprime `::warning::` y sale con 0; en `main`, sale con el mismo código. La política vive en ese bloque, no en `continue-on-error`, para que el aviso diga qué pasó y la prueba pueda ejecutar el bloque tal cual con un `oracle-factory` falso y `GITHUB_REF` distintos. El checkout trae el historial mínimo: se comprobó en un clon superficial (`--depth 1`) que `verificar` da el mismo resultado.

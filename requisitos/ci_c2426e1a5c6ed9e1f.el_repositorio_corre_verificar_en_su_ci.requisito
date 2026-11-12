@@ -1,4 +1,0 @@
-requisito ci_c2426e1a5c6ed9e1f.el_repositorio_corre_verificar_en_su_ci:
-    texto "Tipo: funcional El sistema DEBE tener un workflow de GitHub Actions que corra `oracle-factory verificar` en cada push y pull request, con permisos de sólo lectura, sin secretos y con Factory instalado desde el checkout."
-    fuente "openspec/changes/20261108-003501-eqd-activar/specs/ci/spec.md#el_repositorio_corre_verificar_en_su_ci"
-    medido_por factory_ci_activar.el_repositorio_corre_verificar_en_su_ci, factory_ci_activar.corrida_completa

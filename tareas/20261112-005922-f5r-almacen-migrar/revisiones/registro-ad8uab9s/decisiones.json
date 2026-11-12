@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "0dc668315d3c39896b359e3d73f05f0d397e0bad7037241888fee26f9a7081b5",
-  "actor": "Brian Hollweg",
-  "motivo": "Cuatro vueltas de codex: MIG-001 a MIG-005 (una alta, cuatro medias: la migración dejaba estados a medias o declaraba éxito falso al fallar git rm, la copia de lo local, el bloqueo, el commit, la conexión o --verificar con una URL) corregidos con su prueba y su mutación; la cuarta vuelta, sin hallazgos. Evidencia de bc3d969: 1465 pruebas, 23 casos de contrato, éxito. Ensayo sobre una copia de Factory: 6607 archivos migrados y listar igual. Se editaron dos ayudantes de prueba existentes (tests/terminal_en_node.cjs, tests/vscode_en_node.cjs), declarados y aceptados por el revisor. Migrar Factory mismo queda como decisión aparte.",
-  "decisiones": []
-}

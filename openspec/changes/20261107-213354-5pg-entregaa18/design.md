@@ -1,6 +1,0 @@
-# Diseño
-
-- Los lugares donde está la versión son los que la a17 cambió: `pyproject.toml`, `oracle_factory/__init__.py`, `uv.lock`, `README.md`, `docs/colaboracion.md`, `NOTAS-DE-RELEASE.md`, las páginas de `site/` y `tests/datos/guias-texto.json` con `tests/test_docs.py`. Una prueba nueva busca la versión vieja en ellos, y otra comprueba que todos dicen la nueva.
-- `tools/probar_entrega_a18.py` es autocontenido (no importa de las herramientas de la a17): construye con `uv build` en una carpeta nueva, crea un venv con `uv venv`, instala el wheel con `uv pip install` y corre cada comprobación con el `PYTHONPATH` limpio y fuera del checkout. Cada comprobación es una función chica que devuelve lo que observó; el juicio (`validar`) es aparte, para poder probarlo con datos armados.
-- El registro es un JSON con los hashes (sha256 del wheel y del sdist), las versiones de Python y de las herramientas, lo observado y los límites. No es reproducible bit a bit entre construcciones y el registro lo dice.
-- Las pruebas que ya existían y dependen de qué versión es la última se actualizan, no se borran, salvo las que sólo existían para la a17 (`tests/test_entrega_a17.py`, `tests/test_publicada_a17.py`), que se reemplazan por sus equivalentes de la a18; quien revisa recibe la lista.

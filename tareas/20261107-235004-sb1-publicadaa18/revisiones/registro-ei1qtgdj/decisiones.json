@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "f7897e65a729a812d1f3fbf463d0283d9920762793ec36837a61e6ec44e5c32b",
-  "actor": "Brian Hollweg",
-  "motivo": "Codex sin hallazgos. Sólo textos y pruebas, sin código de producto. Evidencia 1222 pruebas OK. La línea Publicada se apoya en lo verificado: hashes de PyPI iguales a los del release y la instalación desde PyPI dice 0.1.0a18. Pruebas editadas (test_entrega_a18, test_docs): sólo pasan del estado en preparación al publicado, como en publicada-a17.",
-  "decisiones": []
-}

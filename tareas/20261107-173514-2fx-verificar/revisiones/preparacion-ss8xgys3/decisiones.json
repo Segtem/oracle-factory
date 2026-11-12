@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "6221fe6e2d277d23956a45718a91885988ca4a30939ddb4861e805e9b7899451",
-  "actor": "Brian Hollweg",
-  "motivo": "Codex sin hallazgos (el informe declara si pudo correr pruebas; lo cubrí con 5 mutaciones propias sobre puerta.py, todas rojas). Evidencia 1222 pruebas OK. Cambio de reglas de decisión (puerta.py): avisa y no bloquea, como declara la spec. Ediciones a tests/test_puerta.py: sólo adaptaciones por la nueva verificación.",
-  "decisiones": []
-}

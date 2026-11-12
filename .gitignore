@@ -7,6 +7,4 @@ node_modules/
 dist/
 build/
 *.egg-info/
-.factory/local/
-.factory/cambios/*/candidatos/*/clue/
 *.vsix

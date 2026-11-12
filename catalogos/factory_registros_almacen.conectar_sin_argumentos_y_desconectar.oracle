@@ -1,8 +1,0 @@
-medida factory_registros_almacen.conectar_sin_argumentos_y_desconectar:
-    de registros_almacen_caso c
-    donde c.requisito == "conectar_sin_argumentos_y_desconectar" y c.codigo == 0
-    resumen contar(1)
-    umbral == 4 segun contrato porque "deben pasar los 4 casos enumerados para este requisito en tests/test_registros_almacen.py; asociar junto a corrida_completa"
-    requiere registros_almacen_caso
-    ambito universal
-    alcance "escenarios ra1 a ra4 sobre conectar, la configuración personal y el almacén, con Git de verdad en repositorios temporales con HOME y XDG_CONFIG_HOME temporales, Linux"

@@ -1,8 +1,0 @@
-medida factory_freno_visto.corrida_completa:
-    de freno_visto_corrida c
-    donde c.completa == 1 y c.casos == 3
-    resumen contar(1)
-    umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
-    requiere freno_visto_corrida
-    ambito universal
-    alcance "integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana"

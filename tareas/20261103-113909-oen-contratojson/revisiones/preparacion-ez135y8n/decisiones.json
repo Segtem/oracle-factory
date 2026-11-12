@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "185c91b37c35eba9728efa3d3d90d6136ef907ab8bcebd07e50182452a461d9a",
-  "actor": "Brian Hollweg",
-  "motivo": "Cuatro rondas con revisores independientes (agy2-flash y codex), la última con 0 y 0 sobre el candidato 0a8e4fd. Hallazgos por ronda, sumando los dos revisores: 14, 10, 1 y 0. La mayoría de las rondas 1 y 2 fueron de cobertura del contrato (el primer contrato salió sólo de lo que los estados de prueba hacían leer a la extensión): se enriquecieron los estados (cerrado con revisión, abierto con candidato y hallazgos de dos revisores, con propuesta de un agente, sin avanzar, con responsable y mensajes, abandonado), se completó el contrato con tipos tomados del código de la CLI y una nota donde son más anchos de lo observado, se agregó una revisión estática del texto de modelo.js y tablero.js por archivo y por comando (con accesos encadenados y nombres de archivo con o sin carpetas), el registrador intercepta in y lee varias instantáneas, y esperando y sesion se tratan como cosas de la extensión. Evidencia con éxito, producida por tools/verificar_cambio.py: 1082 pruebas y 20 casos de contrato. En cada ronda se corrió una tanda de mutaciones sobre los arreglos; los sobrevivientes se cerraron con pruebas o se simplificó el código si eran equivalentes. Límite declarado en docs/tablero.md: la revisión estática compara por nombre, no por ruta, así que una clave con un nombre ya declarado bajo otro padre puede pasar sin que su ruta esté declarada.",
-  "decisiones": []
-}

@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "6bd587a1cbf6b300379ff98213d3c0370b7ae5baea628743aa28dcd959c78e08",
-  "actor": "Brian Hollweg",
-  "motivo": "Tres rondas con codex y agy2-flash; la tercera cerró con 0 hallazgos de ambos. La ronda 1 trajo 4 hallazgos (razones de binario de Clue, prefijos, negaciones, cableado) y la 2 mostró que leer frases no se cierra por rondas, así que se reemplazó por la declaración fija «abierto: RUTA» con igualdad exacta (spec reaprobada por Brian). Evidencia: 1135 pruebas, 13 casos de contrato, éxito. Límite declarado: Factory no comprueba que el revisor abrió el binario; queda listado en los límites del informe. Tests existentes: ninguno editado. agy y agy2 no pudieron revisar: el wrapper pasa --effort a un modelo que no lo admite.",
-  "decisiones": []
-}

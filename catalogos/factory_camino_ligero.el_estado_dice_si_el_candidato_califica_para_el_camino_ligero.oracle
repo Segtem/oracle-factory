@@ -1,8 +1,0 @@
-medida factory_camino_ligero.el_estado_dice_si_el_candidato_califica_para_el_camino_ligero:
-    de camino_ligero_caso c
-    donde c.requisito == "el_estado_dice_si_el_candidato_califica_para_el_camino_ligero" y c.codigo == 0
-    resumen contar(1)
-    umbral == 15 segun contrato porque "deben pasar los 15 casos enumerados para este requisito en tests/test_camino_ligero.py; asociar junto a corrida_completa"
-    requiere camino_ligero_caso
-    ambito universal
-    alcance "escenarios cl1–cl3 con repositorios Git temporales y la CLI de verdad, Linux"

@@ -1,4 +1,0 @@
-requisito web_c3777bed32379e332.cada_pagina_lleva_a_la_siguiente:
-    texto "Tipo: funcional El sistema DEBE ordenar la lectura así: Desde cero, Modos, En equipo, Simulación, Documentación; cada una de esas páginas DEBE terminar con «Seguí leyendo», con enlace a la anterior y a la siguiente (la primera vuelve a la portada y la última a la portada), y la portada DEBE tener «Por dónde seguir» con las cinco páginas, una frase cada una, en ese orden; el pie DEBE enlazar todas las páginas."
-    fuente "openspec/changes/20261106-002754-jzt-paginas/specs/web/spec.md#cada_pagina_lleva_a_la_siguiente"
-    medido_por factory_web_paginas.cada_pagina_lleva_a_la_siguiente, factory_web_paginas.corrida_completa

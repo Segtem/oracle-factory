@@ -1,4 +1,0 @@
-requisito flujo_cf63459721e7fb9ac.estado_muestra_los_frenos:
-    texto "Tipo: funcional El sistema DEBE mostrar los frenos en `estado --json` como la clave `frenos` (lista de objetos con `id` y `motivo`, vacía si no hay) y en `estado` como avisos que empiezan con «FRENO:», sin cambiar el próximo paso, los pendientes ni ningún otro dato del estado."
-    fuente "openspec/changes/20261108-203356-puy-frenos/specs/flujo/spec.md#estado_muestra_los_frenos"
-    medido_por factory_frenos.estado_muestra_los_frenos, factory_frenos.corrida_completa

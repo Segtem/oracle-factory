@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "243cc92e748ae7fa2f030611443eb34bc055112b224760d341f0c89afcc9e062",
-  "actor": "Brian Hollweg",
-  "motivo": "Tres rondas de codex: la última sin hallazgos. Cerrados DPL-01 a DPL-06 con prueba y mutaciones: versión obligatoria, tope del conjunto validado, rollback también con seguir, el tope mata el grupo de procesos, --destino arrastra sus dependencias y el conjunto es obligatorio. Evidencia: 1190 pruebas, 23 casos de contrato, éxito. Declarado: tests/datos/ayuda-cli.json (entradas nuevas) y el conteo de guías de test_web_paginas.py (12 a 13). Fuera: 'alcance' del diseño no se implementó.",
-  "decisiones": []
-}

@@ -1,6 +1,0 @@
-# Frente A fixture
-
-- ESTADO: ABIERTA
-- PRIORIDAD: 50
-- ETIQUETAS: 
-

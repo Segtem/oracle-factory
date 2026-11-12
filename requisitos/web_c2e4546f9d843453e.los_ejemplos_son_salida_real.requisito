@@ -1,4 +1,0 @@
-requisito web_c2e4546f9d843453e.los_ejemplos_son_salida_real:
-    texto "Tipo: funcional El sistema DEBE mostrar en las guías ejemplos de salida de los comandos que coinciden palabra por palabra con lo que la CLI contestó sobre el proyecto de ejemplo, registrado en `tests/datos/ejemplos-demo.json`, y DEBE existir una forma reproducible de regenerar capturas y ejemplos (`tools/capturas_vscode.py`)."
-    fuente "openspec/changes/20261104-115430-dnr-vscode/specs/web/spec.md#los_ejemplos_son_salida_real"
-    medido_por factory_web_vscode.los_ejemplos_son_salida_real, factory_web_vscode.corrida_completa

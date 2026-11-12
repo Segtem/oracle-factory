@@ -1,4 +1,0 @@
-requisito distribucion_c4b4c8c6521232d76.la_entrega_a17_registra_sus_hashes_y_sus_limites:
-    texto "Tipo: funcional El sistema DEBE dejar un registro de la entrega con los hashes del wheel y del sdist, las versiones de las herramientas y lo observado, y DEBE declarar sus límites: que no publica nada, que la construcción no es reproducible bit a bit y qué no se comprobó."
-    fuente "openspec/changes/20261103-232202-jo3-entregaa17/specs/distribucion/spec.md#la_entrega_a17_registra_sus_hashes_y_sus_limites"
-    medido_por factory_entrega_a17.la_entrega_a17_registra_sus_hashes_y_sus_limites, factory_entrega_a17.corrida_completa

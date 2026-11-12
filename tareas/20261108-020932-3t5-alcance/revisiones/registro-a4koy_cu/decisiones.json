@@ -1,7 +1,0 @@
-{
-  "schema_version": "oracle-factory.decisiones-revision/v1",
-  "informe_sha256": "26c8cead8df8a0e6db0f4826946cdb9b18edef2f531ff0c7bbf6e32e2ca38d11",
-  "actor": "Brian Hollweg",
-  "motivo": "Segunda ronda tras corregir los catálogos (14 casos; cambios_elige 6). Codex sin hallazgos sobre d1b6a74. Evidencia 1245 pruebas OK, 14 casos. Código y pruebas sin cambios desde la primera ronda: 8 mutaciones detectadas, una equivalente (invertir el rango del diff). Incluye el arreglo de despliegue.registros (desempate por momento de escritura) con prueba determinista. Toca cli.py: camino completo.",
-  "decisiones": []
-}

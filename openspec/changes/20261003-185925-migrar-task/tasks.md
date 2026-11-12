@@ -1,4 +1,0 @@
-- [x] Migrar dependencia, comandos y guía.
-- [x] Verificar suite, web e instalación aislada.
-- [x] Preparar wheel/sdist y registrar la publicación pendiente.
-- [ ] Publicar y verificar desde PyPI.

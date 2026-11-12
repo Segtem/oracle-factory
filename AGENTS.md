@@ -71,4 +71,8 @@ Con `--agente` se niegan o dejan sólo una propuesta. Pedíselos a la persona, c
 - `preguntar` devuelve pasajes vigentes del conocimiento del proyecto con su cita: úsalo antes de suponer por qué algo es como es.
 - Por MCP, las mismas consultas como herramientas: `claude mcp add factory -- oracle-factory --proyecto RUTA mcp` (o `codex mcp add …`).
 
+### Registros en un almacén aparte
+
+- Este proyecto guarda sus registros en un almacén aparte (un repo Git propio, conectado con `oracle-factory conectar`): el repo del producto no recibe nada de Factory, y esta guía y la skill están excluidas de Git en este clon. Cada comando commitea lo suyo en el almacén; lo de todos se junta con `oracle-factory sincronizar` (con `--agente` sólo trae y une, no sube).
+
 <!-- oracle-factory agentes: fin -->

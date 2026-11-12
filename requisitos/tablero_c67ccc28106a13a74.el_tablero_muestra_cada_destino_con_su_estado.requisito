@@ -1,4 +1,0 @@
-requisito tablero_c67ccc28106a13a74.el_tablero_muestra_cada_destino_con_su_estado:
-    texto "Tipo: funcional El tablero DEBE mostrar una sección «Destinos» con, por cada destino, su nombre, tipo, estado, versión desplegada y esperada, si está al día, desactualizado o con versión desconocida, de qué otros depende y su última prueba, más el resumen de la última corrida (quién la autorizó, resultado y motivo), todo escapado como texto."
-    fuente "openspec/changes/20261107-013054-a8d-vista-destinos/specs/tablero/spec.md#el_tablero_muestra_cada_destino_con_su_estado"
-    medido_por factory_tablero_destinos.el_tablero_muestra_cada_destino_con_su_estado, factory_tablero_destinos.corrida_completa

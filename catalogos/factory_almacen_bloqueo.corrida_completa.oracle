@@ -1,8 +1,0 @@
-medida factory_almacen_bloqueo.corrida_completa:
-    de almacen_bloqueo_corrida c
-    donde c.completa == 1 y c.casos == 7
-    resumen contar(1)
-    umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
-    requiere almacen_bloqueo_corrida
-    ambito universal
-    alcance "integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana"

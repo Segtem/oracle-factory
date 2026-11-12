@@ -1,7 +1,0 @@
-# Diseño
-
-- El archivo vive en `oracle_factory/data/skill/SKILL.md` y se agrega a `package-data`, así que viaja en el wheel. `oracle-factory skill` lo lee con `importlib.resources`.
-- El encabezado es el de las skills de Claude Code (`---`, `name: oracle-factory`, `description: …`, `---`); Codex y agy leen el cuerpo como texto.
-- Contenido, en este orden: (1) antes de empezar —`git worktree list`, `oracle-factory listar`, `buscar`, `tareas/`, no abrir un cambio que ya existe—; (2) preparar el worktree —`git worktree add -b tarea/X ../factory-X main`, entorno propio, `node_modules`, y usar `.venv/bin/oracle-factory` dentro del worktree—; (3) los pasos de un cambio, con quién decide cada uno; (4) escribir las pruebas primero y las mutaciones; (5) la evidencia: regenerar los catálogos antes de proponer medidas, correr la suite completa antes de pedir revisión, leer la última línea; (6) las rondas de revisión y el camino ligero; (7) integrar —verificar `resumen`, `kb` y `agentes`, la suite en `main`, el escaneo de secretos—; (8) condiciones de parada; (9) no afirmar lo que no se contó.
-- La prueba extrae de la skill los comandos escritos como `oracle-factory VERBO` y los compara con los subcomandos del analizador de argumentos; extrae los números de los umbrales y los compara con las constantes de `alarmas.py`; extrae los enlaces a `docs/` y comprueba que existan.
-- `skill --instalar` es de sólo lectura para el proyecto salvo el archivo que escribe: no refresca el conocimiento generado.

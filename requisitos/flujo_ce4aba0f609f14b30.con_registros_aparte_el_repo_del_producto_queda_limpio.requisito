@@ -1,4 +1,0 @@
-requisito flujo_ce4aba0f609f14b30.con_registros_aparte_el_repo_del_producto_queda_limpio:
-    texto "Tipo: funcional El sistema DEBE, con `--registros RUTA`, guardar bajo RUTA todo lo que hoy guarda como registro (configuración, carpetas de los cambios, tareas, acuerdos de `openspec/`, conocimiento generado y proyecto Oracle con sus requisitos y catálogos), con las mismas rutas relativas que hoy bajo la raíz del proyecto, y DEBE no crear ni modificar ningún archivo en la raíz del producto con `init`, `nuevo`, `aprobar-spec`, `importar`, `medir`, `mensaje`, `tomar`, `soltar`, `listar` ni `estado`."
-    fuente "openspec/changes/20261109-212224-xo0-registros-raiz/specs/flujo/spec.md#con_registros_aparte_el_repo_del_producto_queda_limpio"
-    medido_por factory_registros_raiz.con_registros_aparte_el_repo_del_producto_queda_limpio, factory_registros_raiz.corrida_completa
