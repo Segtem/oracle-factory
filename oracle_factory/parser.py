@@ -128,6 +128,8 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('texto'); q.add_argument('--max', type=int, default=200, dest='maximo', help='máximo de líneas a mostrar')
     q = sub.add_parser('agentes', help='escribir en AGENTS.md la guía para agentes, armada desde la CLI (o --verificar)')
     q.add_argument('--verificar', action='store_true', help='no escribe; falla si la guía falta o quedó vieja')
+    q.add_argument('--en-el-repo', action='store_true', dest='en_el_repo',
+                   help='con almacén aparte, mantener la guía en un AGENTS.md y un CLAUDE.md que el producto ya versiona (sólo una persona)')
     q = sub.add_parser('skill', help='mostrar la skill de agente con el flujo de Factory, o --instalar en el proyecto (.claude/skills/)')
     q.add_argument('--instalar', action='store_true', help='escribirla en .claude/skills/oracle-factory/SKILL.md del proyecto')
     q.add_argument('--forzar', action='store_true', help='con --instalar, reemplazar un archivo distinto')

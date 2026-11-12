@@ -60,7 +60,8 @@ class AlmacenMigrar(unittest.TestCase):
         self.assertFalse((self.producto / '.factory').exists())
         self.assertEqual(self.git_en(self.producto, 'rev-parse', 'HEAD'), cabeza)  # Factory no commitea en el producto
         baja = self.git_en(self.producto, 'diff', '--cached', '--name-status').splitlines()
-        self.assertEqual(sorted(baja), sorted(f'D\t{n}' for n in antes))
+        limpieza = {f'{e}\t{n}' for e in 'DM' for n in ('.gitignore', '.gitattributes')}  # las líneas de Factory: tests/test_preparar_migracion.py pm2
+        self.assertEqual(sorted(l for l in baja if l not in limpieza), sorted(f'D\t{n}' for n in antes))
         self.assertTrue(all(not (self.producto / n).exists() for n in antes))
         self.assertEqual(json.loads(self.bien('conectar', '--json').split('\n')[0])['almacen'], str(self.almacen))
         self.assertEqual(self.listado(), listado)

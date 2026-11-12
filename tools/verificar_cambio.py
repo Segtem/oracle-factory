@@ -21,7 +21,7 @@ import unittest
 AQUI = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(AQUI))
 from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
-from oracle_factory import archivo, modos, pruebas, trazabilidad  # noqa: E402
+from oracle_factory import almacenes, archivo, modos, pruebas, trazabilidad  # noqa: E402
 
 CASO = re.compile(r"test_[a-z]{2,3}(\d+)_")
 REQUISITO = archivo.CABECERA_REQ  # la misma cabecera que lee Factory al importar
@@ -101,8 +101,10 @@ def contrato(requisitos: list[str], casos: dict[int, list[str]], exceptuados: fr
 
 
 def leer_contrato(raiz: Path, cambio: str, modulo: str) -> tuple[dict[str, list[str]], dict[str, str]]:
-    """(contrato por nombre de requisito, {nombre: id completo del registro}) del cambio en `raiz`."""
-    carpeta = raiz / "openspec" / "changes" / cambio
+    """(contrato por nombre de requisito, {nombre: id completo del registro}) del cambio: la spec y el registro donde estén los
+    registros de `raiz` (su almacén si está conectado), las pruebas en `raiz`."""
+    registros = almacenes.registros_de(raiz)
+    carpeta = registros / "openspec" / "changes" / cambio
     specs = sorted((carpeta / "specs").glob("*/spec.md"))
     if not specs:
         raise ContratoInvalido(f"no encuentro la spec del cambio {cambio} en {carpeta}")
@@ -114,7 +116,7 @@ def leer_contrato(raiz: Path, cambio: str, modulo: str) -> tuple[dict[str, list[
         raise ContratoInvalido(f"no puedo leer la spec del cambio {cambio}: {e}") from e
     except pruebas.PruebasInvalidas as e:
         raise ContratoInvalido(str(e)) from e
-    registro = raiz / ".factory" / "cambios" / cambio / "factory.json"
+    registro = registros / ".factory" / "cambios" / cambio / "factory.json"
     try:
         ids = {i.rsplit(".", 1)[-1]: i for i in json.loads(registro.read_text(encoding="utf-8")).get("requisitos") or []}
     except (OSError, ValueError, AttributeError) as e:
@@ -201,12 +203,12 @@ def catalogo_de_corrida(x: str, casos: int) -> str:
 
 
 def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> list[str]:
-    """Escribe los catálogos del cambio en `raiz/catalogos`; devuelve los nombres de los que cambiaron o se retiraron (los que ya estaban igual no se tocan)."""
+    """Escribe los catálogos del cambio en `catalogos/` de los registros de `raiz` (su almacén si está conectado); devuelve los nombres de los que cambiaron o se retiraron (los que ya estaban igual no se tocan)."""
     if any(c in '"\\' or not c.isprintable() for c in alcance):  # el catálogo lo escribe entre comillas dobles, con la sintaxis de cadenas de JSON
         raise ContratoInvalido("el alcance no puede llevar comillas dobles, barras invertidas ni caracteres que no se imprimen (tabulaciones, saltos de línea, separadores de línea Unicode)")
     por_nombre, _ = leer_contrato(raiz, cambio, modulo)
     x = modulo.removeprefix("test_")
-    destino = raiz / "catalogos"
+    destino = almacenes.registros_de(raiz) / "catalogos"
     textos = {f"factory_{x}.corrida_completa.oracle": catalogo_de_corrida(x, sum(len(v) for v in por_nombre.values())),
               **{f"factory_{x}.{r}.oracle": catalogo_de_requisito(x, r, len(c), alcance) for r, c in por_nombre.items()}}
     # Nada de seguir enlaces simbólicos: escribir sobre uno modificaría un archivo fuera de catalogos/ (o del repositorio). Se mira todo antes de escribir.
@@ -238,7 +240,8 @@ def main(argv=None) -> int:
     parser.add_argument("--catalogos", action="store_true", help="escribir los catálogos Oracle del cambio en catalogos/")
     parser.add_argument("--alcance", default="escenarios del cambio con Git de verdad y repositorios temporales, Linux",
                         help="el texto de «alcance» de los catálogos")
-    parser.add_argument("--raiz", type=Path, default=AQUI, help="raíz del proyecto (por omisión, este repositorio)")
+    parser.add_argument("--raiz", type=Path, default=AQUI, help="raíz del producto (por omisión, este repositorio); con el producto "
+                        "conectado, la spec, el registro y los catálogos están en su almacén")
     args = parser.parse_args(argv)
     if not args.salida and not args.catalogos:
         parser.error("indicá --salida, --catalogos o los dos")

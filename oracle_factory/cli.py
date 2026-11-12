@@ -923,19 +923,25 @@ def verificar_en_proceso(argv: list[str]) -> tuple[int, str]:
 
 
 def comando_puerta(en_hook: bool, rango: list[str]) -> int:
-    """La puerta local de salida. Sale con CODIGO_BLOQUEO si encuentra algo; con otro código distinto de cero, si no pudo mirar."""
+    """La puerta local de salida. Sale con CODIGO_BLOQUEO si encuentra algo; con otro código distinto de cero, si no pudo mirar.
+
+    Con almacén aparte, lo que se empuja es del producto (git_producto) y las verificaciones miran los registros del almacén, salvo
+    la guía de agentes, que está en el producto."""
+    def existe(archivo: str) -> bool:
+        return ((PRODUCTO or ROOT) if archivo in almacenes.GUIA else ROOT).joinpath(archivo).exists()
+
     try:
         if en_hook:
-            rangos = puerta_mod.rangos_del_hook(sys.stdin.read(), ejecutar)
+            rangos = puerta_mod.rangos_del_hook(sys.stdin.read(), git_producto)
         elif rango:
             rangos = [rango]
         else:
-            arriba = ejecutar(["git", "rev-parse", "--verify", "--quiet", "@{upstream}"])
+            arriba = git_producto(["git", "rev-parse", "--verify", "--quiet", "@{upstream}"])
             rangos = [["@{upstream}..HEAD"] if arriba.returncode == 0 else ["HEAD", "--not", "--remotes"]]
         if not rangos:
             print("Puerta local de salida: nada nuevo que publicar.")
             return 0
-        codigo, texto = puerta_mod.correr(ejecutar, rangos, verificar_en_proceso, lambda archivo: (ROOT / archivo).exists())
+        codigo, texto = puerta_mod.correr(git_producto, rangos, verificar_en_proceso, existe)
         print(texto, end="")
         return codigo
     except Exception as e:  # noqa: BLE001 — una puerta rota avisa y deja pasar; sólo bloquea cuando encuentra algo
@@ -1902,10 +1908,13 @@ def comando_skill(instalar: bool, forzar: bool) -> int:
     return 0
 
 
-def comando_agentes(verificar: bool) -> None:
+def comando_agentes(verificar: bool, en_el_repo: bool = False) -> None:
     """El bloque para agentes de AGENTS.md (y la línea @AGENTS.md de CLAUDE.md), o --verificar que estén al día."""
-    if PRODUCTO:  # con almacén aparte, en el producto y sin versionar
-        return almacenes.guia_en_producto(sys.modules[__name__], verificar)
+    if en_el_repo and AGENTE:
+        raise FactoryError(f"agentes --en-el-repo es una decisión de una persona (versionar la guía en el repo del producto); "
+                           f"{AGENTE} no puede. No escribí nada")
+    if PRODUCTO:  # con almacén aparte, en el producto: sin versionar, o en la guía que ya versiona con --en-el-repo
+        return almacenes.guia_en_producto(sys.modules[__name__], verificar, en_el_repo)
     nuevo = agentes_mod.bloque(config_proyecto()["modo_por_defecto"])
     rutas = [ruta_segura(ROOT / "AGENTS.md"), ruta_segura(ROOT / "CLAUDE.md")]
     actuales = [r.read_text(encoding="utf-8") if r.is_file() else "" for r in rutas]
@@ -2327,7 +2336,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)
         elif args.comando == "procedencia": comando_procedencia(args)
         elif args.comando == "preguntar": comando_preguntar(args)
-        elif args.comando == "agentes": comando_agentes(args.verificar)
+        elif args.comando == "agentes": comando_agentes(args.verificar, args.en_el_repo)
         elif args.comando == "skill": return comando_skill(args.instalar, args.forzar)
         elif args.comando == "mcp": return mcp_mod.servir(ROOT, sys.stdin, sys.stdout, __version__)
         elif args.comando == "medir" and args.confirmar:

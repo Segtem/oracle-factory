@@ -172,7 +172,8 @@ class Portabilidad(unittest.TestCase):
         self.assertEqual(con_ruta, [])
 
     def test_p6_los_requisitos_de_este_repositorio_no_llevan_rutas_privadas(self):
-        propios = sorted((Path(__file__).resolve().parents[1] / 'requisitos').glob('portabilidad_*.requisito'))
+        registros = f.almacenes.registros_de(Path(__file__).resolve().parents[1])  # el almacén, si este repositorio está conectado
+        propios = sorted((registros / 'requisitos').glob('portabilidad_*.requisito'))
         self.assertTrue(propios)
         self.assertEqual([p.name for p in propios if re.search(r'(?m)^\s*fuente "/', p.read_text(encoding='utf-8'))], [])
 

@@ -488,7 +488,8 @@ class Catalogos(ProyectoTemporal):
 
     def test_vg3_los_catalogos_escritos_tienen_la_misma_forma_que_los_que_ya_usa_factory(self):
         self.correr('--catalogos')
-        real = ((SOURCE / 'catalogos/factory_alarmas_flujo.corrida_completa.oracle').read_text()
+        registros = vc.almacenes.registros_de(SOURCE)  # el almacén, si este repositorio está conectado
+        real = ((registros / 'catalogos/factory_alarmas_flujo.corrida_completa.oracle').read_text()
                 .replace('alarmas_flujo', 'demo').replace('c.casos == 26', 'c.casos == 5'))
         self.assertEqual((self.carpeta() / 'factory_demo.corrida_completa.oracle').read_text(), real)
 
