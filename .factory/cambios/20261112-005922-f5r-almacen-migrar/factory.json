@@ -403,6 +403,58 @@
         "factory_almacen_migrar.migrar_verificar_no_escribe",
         "factory_almacen_migrar.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-12T11:29:50.084858+00:00",
+      "requisito": "flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia",
+      "medidas": [
+        "factory_almacen_migrar.el_ensayo_sobre_una_copia",
+        "factory_almacen_migrar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-12T11:29:50.297648+00:00",
+      "requisito": "flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja",
+      "medidas": [
+        "factory_almacen_migrar.migrar_al_almacen_copia_conecta_y_deja_la_baja",
+        "factory_almacen_migrar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-12T11:29:50.499120+00:00",
+      "requisito": "flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada",
+      "medidas": [
+        "factory_almacen_migrar.migrar_al_almacen_se_niega_sin_tocar_nada",
+        "factory_almacen_migrar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-12T11:29:50.708204+00:00",
+      "requisito": "flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe",
+      "medidas": [
+        "factory_almacen_migrar.migrar_verificar_no_escribe",
+        "factory_almacen_migrar.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -411,13 +463,14 @@
     "flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada": "funcional",
     "flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-12T11:29:50.027518+00:00",
       "sha256": "d2f64c1cf512579c33f8bf5955dac3ddebefe2ded044b0edfe192236c97d4758",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-12T11:28:25.759684+00:00",
       "catalogos": {
         "factory_almacen_migrar.el_ensayo_sobre_una_copia": "69e43c978d3e87e602dd96687b0a402a7b9ae1e535ca3b84992328b648d5cc06",
         "factory_almacen_migrar.corrida_completa": "654a7123352febc60f9104111bdcaf945919682c581a7cf374ae273caa3ee5c8"
@@ -428,10 +481,12 @@
       }
     },
     "flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-12T11:29:50.239676+00:00",
       "sha256": "ed2a28d72a5e2c5f2aaa3e7b386a576fdc41c2936b8f72f1427fafdb1001927d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-12T11:28:27.918961+00:00",
       "catalogos": {
         "factory_almacen_migrar.migrar_al_almacen_copia_conecta_y_deja_la_baja": "aa9fd7487b8929e05c2775590327cc897e2a9db9fa5063618d6c1c136a1be6a7",
         "factory_almacen_migrar.corrida_completa": "654a7123352febc60f9104111bdcaf945919682c581a7cf374ae273caa3ee5c8"
@@ -442,10 +497,12 @@
       }
     },
     "flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-12T11:29:50.444257+00:00",
       "sha256": "97b3e28bf70b0c47b0cc1ec30637874d939e76bb65352f4fa6946d26d6064bac",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-12T11:28:30.079347+00:00",
       "catalogos": {
         "factory_almacen_migrar.migrar_al_almacen_se_niega_sin_tocar_nada": "12269ad5cc8724d5df2e015c5aa33e46e5200299c656ad5dda0427d1b4b7a7e2",
         "factory_almacen_migrar.corrida_completa": "654a7123352febc60f9104111bdcaf945919682c581a7cf374ae273caa3ee5c8"
@@ -456,10 +513,12 @@
       }
     },
     "flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-11-12T11:29:50.651820+00:00",
       "sha256": "714d023e660c1de56b63e4776e7353b871aba41c194347af1b877893a3d61aa2",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-12T11:28:32.235465+00:00",
       "catalogos": {
         "factory_almacen_migrar.migrar_verificar_no_escribe": "9cd1a491cd6b85aa1fd8a882694e5d1c9569bcba9cfa5bee335c00104c3b6210",
         "factory_almacen_migrar.corrida_completa": "654a7123352febc60f9104111bdcaf945919682c581a7cf374ae273caa3ee5c8"
@@ -470,5 +529,6 @@
       }
     }
   },
+  "medidas_pendientes": {},
   "motivos_propuestos": {}
 }
