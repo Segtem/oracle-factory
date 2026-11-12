@@ -168,6 +168,32 @@
         "factory_preparar_migracion.migrar_limpia_lo_de_factory_del_producto",
         "factory_preparar_migracion.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-12T13:10:33.933179+00:00",
+      "revisor": "codex",
+      "candidato": "1c29dfa",
+      "lanzamiento": "8f6c1ebcebb5"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-11-12T13:11:58.457642+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "1c29dfa",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "8f6c1ebcebb5"
     }
   ],
   "tipos": {
