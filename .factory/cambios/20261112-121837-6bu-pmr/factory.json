@@ -2,7 +2,7 @@
   "id": "20261112-121837-6bu-pmr",
   "titulo": "Registros fuera del repo del producto: preparar la migración real de Factory",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md",
   "spec_sha256": "05feef584b4017342538b976f1477db7647405d04e6996721acf9cf0e39e77ed",
   "spec_aprobada": {
@@ -16,7 +16,12 @@
       "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md": "05feef584b4017342538b976f1477db7647405d04e6996721acf9cf0e39e77ed"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_c281f4f7154afdb2f.agentes_en_el_repo_mantiene_una_guia_versionada",
+    "flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado",
+    "flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen",
+    "flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +46,28 @@
         "openspec/changes/20261112-121837-6bu-pmr/proposal.md": "8285fc032fcad0e1e90b2bace8b0cbd9e6e35502c457a249add8ae4b85a0374b",
         "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md": "05feef584b4017342538b976f1477db7647405d04e6996721acf9cf0e39e77ed"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T12:29:20.178196+00:00",
+      "ids": [
+        "flujo_c281f4f7154afdb2f.agentes_en_el_repo_mantiene_una_guia_versionada",
+        "flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado",
+        "flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen",
+        "flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_c281f4f7154afdb2f.agentes_en_el_repo_mantiene_una_guia_versionada": "funcional",
+    "flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado": "funcional",
+    "flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen": "funcional",
+    "flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
