@@ -77,6 +77,18 @@ class AlmacenMigrar(unittest.TestCase):
         self.assertEqual(json.loads(self.bien('conectar', '--json').split('\n')[0])['almacen'], str(clon))
         self.assertFalse((self.producto / '.factory').exists())
 
+    def test_mg1_si_git_rm_falla_no_borra_nada_del_producto(self):  # MIG-001
+        antes, indice = self.registros_versionados(), self.git_en(self.producto, 'diff', '--cached', '--name-status')
+        (self.producto / '.git/index.lock').write_text('', encoding='utf-8')
+        self.addCleanup((self.producto / '.git/index.lock').unlink, missing_ok=True)
+        codigo, salida, error = self.corre('migrar', '--almacen', str(self.almacen))
+        self.assertNotEqual(codigo, 0, salida + error)
+        self.assertIn('git rm -r -q --cached', error)
+        self.assertEqual(self.registros_versionados(), antes)
+        self.assertEqual((self.producto / '.factory/local/nota.txt').read_text(encoding='utf-8'), 'mía, no versionada\n')
+        (self.producto / '.git/index.lock').unlink()
+        self.assertEqual(self.git_en(self.producto, 'diff', '--cached', '--name-status'), indice)
+
     # --- mg2: --verificar no escribe ----------------------------------------------------------------------------------------
     def test_mg2_verificar_dice_lo_que_haria_y_no_escribe(self):
         antes = self.todo()
@@ -143,6 +155,20 @@ class AlmacenMigrar(unittest.TestCase):
         adentro.mkdir()
         self.git_en(adentro, 'init', '-q')
         self.negado(destino=adentro)
+
+    @unittest.skipIf(hasattr(_commits.os, 'geteuid') and _commits.os.geteuid() == 0, 'root lee un archivo sin permisos')
+    def test_mg3_si_una_copia_falla_a_mitad_no_queda_nada_a_medias(self):  # MIG-002
+        (self.producto / '.factory/local/zz').mkdir()
+        cerrado = self.producto / '.factory/local/zz/cerrado.txt'
+        cerrado.write_text('sin permiso\n', encoding='utf-8')
+        antes = self.todo()  # la foto se saca con el archivo legible
+        cerrado.chmod(0)
+        self.addCleanup(cerrado.chmod, 0o644)
+        codigo, salida, error = self.corre('migrar', '--almacen', str(self.almacen))
+        cerrado.chmod(0o644)
+        self.assertNotEqual(codigo, 0, salida + error)
+        self.assertIn('No cambié nada', error)
+        self.assertEqual(self.todo(), antes)
 
     # --- mg4: el ensayo sobre una copia -------------------------------------------------------------------------------------
     def ensayo(self, *args):

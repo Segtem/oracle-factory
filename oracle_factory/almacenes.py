@@ -628,10 +628,20 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
         print("Después conectaría el producto y borraría sus registros dejando la baja sin commitear. No escribí nada.")
         return 0
     cabeza = _git(producto, "rev-parse", "HEAD") or "sin commits"
-    for n in versionados:
-        origen, copia = producto / n, destino / n
-        copia.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(origen, copia, follow_symlinks=False)
+    try:  # se copia también lo de la máquina (.factory/local/, paquetes de Clue): el producto no cambia hasta el final
+        for n in [*versionados, *locales]:
+            copia = destino / n
+            copia.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(producto / n, copia, follow_symlinks=False)
+    except OSError as e:
+        for r in rutas:  # el almacén no tenía ninguna de estas rutas (_destino_sin_registros): lo copiado se borra entero
+            camino = destino / r
+            if camino.is_dir() and not camino.is_symlink():
+                shutil.rmtree(camino, ignore_errors=True)
+            elif camino.exists() or camino.is_symlink():
+                camino.unlink()
+        raise cli.FactoryError(f"no pude copiar los registros al almacén {destino} ({e}): borré la copia a medias. No cambié nada "
+                               "en el producto ni en el almacén") from e
     ignore = destino / ".gitignore"
     contenido = ignore.read_text(encoding="utf-8") if ignore.exists() else ""
     faltan = [r for r in (estructura.IGNORAR_LOCAL, estructura.IGNORAR_CLUE) if r not in contenido.splitlines()]
@@ -652,10 +662,6 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
     if paso.returncode:
         raise cli.FactoryError(f"no pude commitear en el almacén {destino}: {os.fsdecode(paso.stderr + paso.stdout).strip()}. "
                                "Los registros quedaron copiados ahí sin commitear y el producto sigue como estaba")
-    for n in locales:  # lo de la máquina (.factory/local/, paquetes de Clue) se lleva antes de borrar nada del producto
-        llevado = destino / n
-        llevado.parent.mkdir(parents=True, exist_ok=True)
-        shutil.move(str(producto / n), str(llevado))
     try:
         with actualizando() as vigentes:
             vigentes[llave] = str(destino)
@@ -664,6 +670,11 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                                f"{destino} después de sacar {estructura.DIR}/ del producto") from e
     baja = _git_almacen(producto, "rm", "-r", "-q", "--cached", "--pathspec-from-file=-", "--pathspec-file-nul",
                         entrada=b"\0".join(os.fsencode(n) for n in versionados))
+    if baja.returncode:  # sin la baja en el índice no se borra nada del disco: el producto queda conectado y entero
+        raise cli.FactoryError(f"git rm --cached falló en el producto ({os.fsdecode(baja.stderr).strip()}). Los registros ya están "
+                               f"commiteados en el almacén {destino} y el producto quedó conectado a él, pero no borré nada del "
+                               "producto. Arreglá la causa y terminá con: git rm -r -q --cached -- " + " ".join(rutas)
+                               + "; rm -rf -- " + " ".join(rutas))
     for r in rutas:
         camino = producto / r
         if camino.is_dir() and not camino.is_symlink():
@@ -672,8 +683,5 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
             camino.unlink()
     print(f"Migré {len(versionados)} archivos versionados al almacén {destino} (commit «Factory: migrar…») y moví {len(locales)} "
           "sin versionar; el producto quedó conectado a él.")
-    if baja.returncode:
-        print(f"Aviso: git rm --cached falló en el producto ({os.fsdecode(baja.stderr).strip()}): los archivos ya no están en el disco; "
-              "preparalos para el commit con git add -A -- " + " ".join(rutas), file=sys.stderr)
     print("No commiteé en el producto: la baja de los registros quedó preparada en su índice. Revisala con git status y commiteala.")
     return 0
