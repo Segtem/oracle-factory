@@ -2,7 +2,7 @@
   "id": "20261112-005922-f5r-almacen-migrar",
   "titulo": "Registros fuera del repo del producto, etapa 6: migrar los registros de un proyecto a un almacén",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md",
   "spec_sha256": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6",
   "spec_aprobada": {
@@ -22,7 +22,27 @@
     "flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada",
     "flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261112-005922-f5r-almacen-migrar/revisiones/registro-ad8uab9s/informe.json",
+    "sha256": "0dc668315d3c39896b359e3d73f05f0d397e0bad7037241888fee26f9a7081b5",
+    "decisiones": "tareas/20261112-005922-f5r-almacen-migrar/revisiones/registro-ad8uab9s/decisiones.json",
+    "decisiones_sha256": "304dc8a6178ac6d0df14dc3ee5d20a4e009ca87d45d154d54a4ec2c63fb59325",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-11-12T11:25:26.627712+00:00",
+    "motivo": "Cuatro vueltas de codex: MIG-001 a MIG-005 (una alta, cuatro medias: la migración dejaba estados a medias o declaraba éxito falso al fallar git rm, la copia de lo local, el bloqueo, el commit, la conexión o --verificar con una URL) corregidos con su prueba y su mutación; la cuarta vuelta, sin hallazgos. Evidencia de bc3d969: 1465 pruebas, 23 casos de contrato, éxito. Ensayo sobre una copia de Factory: 6607 archivos migrados y listar igual. Se editaron dos ayudantes de prueba existentes (tests/terminal_en_node.cjs, tests/vscode_en_node.cjs), declarados y aceptados por el revisor. Migrar Factory mismo queda como decisión aparte.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "567c4f8a6c21ebc2e6fe930ba4e9427aef57b43a",
+      "archivos_sha256": "e6359af8739db941384505cbc2841a656197eb6f1734e7624ac4ec533b1cb62b"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -294,6 +314,20 @@
       "cuando": "2026-11-12T10:53:19.069914+00:00",
       "decision": "aprobar",
       "candidato": "bc3d969"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-11-12T11:25:26.627741+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "0dc668315d3c39896b359e3d73f05f0d397e0bad7037241888fee26f9a7081b5",
+      "decisiones_sha256": "304dc8a6178ac6d0df14dc3ee5d20a4e009ca87d45d154d54a4ec2c63fb59325"
     }
   ],
   "tipos": {
@@ -369,14 +403,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Cuatro vueltas de codex: MIG-001 a MIG-005 (una alta, cuatro medias: la migración dejaba estados a medias o declaraba éxito falso al fallar git rm, la copia de lo local, el bloqueo, el commit, la conexión o --verificar con una URL) corregidos con su prueba y su mutación; la cuarta vuelta, sin hallazgos. Evidencia de bc3d969: 1465 pruebas, 23 casos de contrato, éxito. Ensayo sobre una copia de Factory: 6607 archivos migrados y listar igual. Se editaron dos ayudantes de prueba existentes (tests/terminal_en_node.cjs, tests/vscode_en_node.cjs), declarados y aceptados por el revisor. Migrar Factory mismo queda como decisión aparte.",
-      "candidato": "bc3d969",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-11-12T10:53:19.069902+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

@@ -1,0 +1,80 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261112-005922-f5r-almacen-migrar",
+  "contexto": {
+    "head": "567c4f8a6c21ebc2e6fe930ba4e9427aef57b43a",
+    "archivos_sha256": "e6359af8739db941384505cbc2841a656197eb6f1734e7624ac4ec533b1cb62b"
+  },
+  "documentos": {
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/proposal.md": "443bc7d019422c8d76214ce15181248f630d59e26ec10430d5a5c40e23b14506",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_almacen_migrar.corrida_completa.oracle",
+    "catalogos/factory_almacen_migrar.el_ensayo_sobre_una_copia.oracle",
+    "catalogos/factory_almacen_migrar.migrar_al_almacen_copia_conecta_y_deja_la_baja.oracle",
+    "catalogos/factory_almacen_migrar.migrar_al_almacen_se_niega_sin_tocar_nada.oracle",
+    "catalogos/factory_almacen_migrar.migrar_verificar_no_escribe.oracle",
+    "docs/estructura.md",
+    "editores/vscode/extension.js",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/design.md",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/ensayo-factory.md",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/proposal.md",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md",
+    "openspec/changes/20261112-005922-f5r-almacen-migrar/tasks.md",
+    "oracle_factory/almacenes.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/parser.py",
+    "requisitos/flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia.requisito",
+    "requisitos/flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja.requisito",
+    "requisitos/flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada.requisito",
+    "requisitos/flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe.requisito",
+    "tests/datos/ayuda-cli.json",
+    "tests/terminal_en_node.cjs",
+    "tests/test_almacen_migrar.py",
+    "tests/test_almacen_vscode.py",
+    "tests/vscode_en_node.cjs",
+    "tools/ensayar_migracion.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 1465 pruebas, 23 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/bc3d969/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/bc3d969/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7c8cdcd: codex (gpt-6-luna), 2 hallazgos: MIG-001 (alta), MIG-002 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/7c8cdcd/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato de026c8: codex (gpt-6-luna), 2 hallazgos: MIG-003 (media), MIG-004 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/de026c8/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d0af4a5: codex (gpt-6-luna), 1 hallazgo: MIG-005 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/d0af4a5/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
+    "codex (gpt-6-luna): Leí la spec, propuesta, diff del paquete, pruebas nuevas y modificadas, y las tres revisiones previas. No ejecuté mutaciones: el checkout indicado no contiene el árbol del proyecto, solo pedido.md/salida.log; no hay copia de fuentes modificable en esta carpeta.",
+    "codex (gpt-6-luna): Intenté ejecutar ` .venv/bin/python -m unittest tests.test_almacen_migrar </dev/null`; no fue posible porque no existe .venv. `python -m unittest tests.test_almacen_migrar </dev/null` también falló porque este checkout de revisión no tiene el paquete tests. La suite no fue ejecutada.",
+    "codex (gpt-6-luna): Sin hallazgos tras inspeccionar los pasos posteriores a las comprobaciones: copia, commit, escritura de conexión bajo bloqueo, rollback condicionado por el HEAD nuevo, baja del índice y borrado. Los fallos de conexión revierten ref y copia; si falla la baja o el borrado, se informa cómo terminar. MIG-001 a MIG-005 anteriores no muestran regresión en el código del paquete.",
+    "codex (gpt-6-luna): tests/datos/ayuda-cli.json: se quitó la línea del uso antiguo de `migrar`; queda reemplazada por la forma actual con `--almacen`, edición justificada.",
+    "codex (gpt-6-luna): tests/test_almacen_vscode.py: se quitaron dos líneas del entorno fijo de subprocess para permitir construir el entorno de prueba correspondiente a la API opcional de vigilancia; edición justificada por el caso nuevo.",
+    "codex (gpt-6-luna): tests/vscode_en_node.cjs: se quitó el stub fijo de `RelativePattern` y se reemplazó por uno configurable para probar la ausencia de esa API; edición justificada. `tests/terminal_en_node.cjs` también agrega ese stub para el test de terminal conectado; justificado.",
+    "codex (gpt-6-luna): Las omisiones del paquete están vacías; no hay archivos binarios omitidos que declarar."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

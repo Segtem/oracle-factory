@@ -51,3 +51,7 @@ Medidas de flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada: Br
 ### Nota (2026-11-12 09:57:25 UTC)
 
 Medidas de flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-12 11:25:26 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Cuatro vueltas de codex: MIG-001 a MIG-005 (una alta, cuatro medias: la migración dejaba estados a medias o declaraba éxito falso al fallar git rm, la copia de lo local, el bloqueo, el commit, la conexión o --verificar con una URL) corregidos con su prueba y su mutación; la cuarta vuelta, sin hallazgos. Evidencia de bc3d969: 1465 pruebas, 23 casos de contrato, éxito. Ensayo sobre una copia de Factory: 6607 archivos migrados y listar igual. Se editaron dos ayudantes de prueba existentes (tests/terminal_en_node.cjs, tests/vscode_en_node.cjs), declarados y aceptados por el revisor. Migrar Factory mismo queda como decisión aparte.); 0 abiertos derivados; commit 567c4f8a6c21ebc2e6fe930ba4e9427aef57b43a; informe tareas/20261112-005922-f5r-almacen-migrar/revisiones/registro-ad8uab9s/informe.json; decisiones tareas/20261112-005922-f5r-almacen-migrar/revisiones/registro-ad8uab9s/decisiones.json.
