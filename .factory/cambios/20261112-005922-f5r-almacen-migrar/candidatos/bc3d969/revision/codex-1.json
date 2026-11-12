@@ -1,0 +1,23 @@
+{
+  "repo": "/home/workstation/Dev/factory-almacen-migrar/.factory/local/revisiones/bc3d969-codex-1",
+  "base": "feb32228fb162dd3e43f42b0d03fbba0fe4e2fe7",
+  "head": "bc3d969b99cd6c1fdee6735945511ec460438fb3",
+  "diff_sha256": "35db3184de3d50bf8836966cd24779cb659606a8d6c6265c644241fe150eabfe",
+  "context_sha256": "eeec5cfb0796b0649c04cc6eaf89e4aabe933cbf4dda1a1fed62efa0d1a2ffdd",
+  "schema_version": "oracle-clue.review/v1",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, propuesta, diff del paquete, pruebas nuevas y modificadas, y las tres revisiones previas. No ejecuté mutaciones: el checkout indicado no contiene el árbol del proyecto, solo pedido.md/salida.log; no hay copia de fuentes modificable en esta carpeta.",
+    "Intenté ejecutar ` .venv/bin/python -m unittest tests.test_almacen_migrar </dev/null`; no fue posible porque no existe .venv. `python -m unittest tests.test_almacen_migrar </dev/null` también falló porque este checkout de revisión no tiene el paquete tests. La suite no fue ejecutada.",
+    "Sin hallazgos tras inspeccionar los pasos posteriores a las comprobaciones: copia, commit, escritura de conexión bajo bloqueo, rollback condicionado por el HEAD nuevo, baja del índice y borrado. Los fallos de conexión revierten ref y copia; si falla la baja o el borrado, se informa cómo terminar. MIG-001 a MIG-005 anteriores no muestran regresión en el código del paquete.",
+    "tests/datos/ayuda-cli.json: se quitó la línea del uso antiguo de `migrar`; queda reemplazada por la forma actual con `--almacen`, edición justificada.",
+    "tests/test_almacen_vscode.py: se quitaron dos líneas del entorno fijo de subprocess para permitir construir el entorno de prueba correspondiente a la API opcional de vigilancia; edición justificada por el caso nuevo.",
+    "tests/vscode_en_node.cjs: se quitó el stub fijo de `RelativePattern` y se reemplazó por uno configurable para probar la ausencia de esa API; edición justificada. `tests/terminal_en_node.cjs` también agrega ese stub para el test de terminal conectado; justificado.",
+    "Las omisiones del paquete están vacías; no hay archivos binarios omitidos que declarar."
+  ]
+}
