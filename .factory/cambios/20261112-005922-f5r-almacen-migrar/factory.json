@@ -2,7 +2,7 @@
   "id": "20261112-005922-f5r-almacen-migrar",
   "titulo": "Registros fuera del repo del producto, etapa 6: migrar los registros de un proyecto a un almacén",
   "capacidad": "flujo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md",
   "spec_sha256": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6",
   "spec_aprobada": {
@@ -16,7 +16,12 @@
       "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia",
+    "flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja",
+    "flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada",
+    "flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -53,7 +58,28 @@
         "openspec/changes/20261112-005922-f5r-almacen-migrar/proposal.md": "443bc7d019422c8d76214ce15181248f630d59e26ec10430d5a5c40e23b14506",
         "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T01:04:57.757797+00:00",
+      "ids": [
+        "flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia",
+        "flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja",
+        "flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada",
+        "flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia": "funcional",
+    "flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja": "funcional",
+    "flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada": "funcional",
+    "flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

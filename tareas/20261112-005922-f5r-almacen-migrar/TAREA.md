@@ -15,3 +15,7 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-11-12 01:04:44 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-11-12 01:04:57 UTC)
+
+Requisitos importados: flujo_c3b7c8e521b99f547.el_ensayo_sobre_una_copia (funcional), flujo_c3b7c8e521b99f547.migrar_al_almacen_copia_conecta_y_deja_la_baja (funcional), flujo_c3b7c8e521b99f547.migrar_al_almacen_se_niega_sin_tocar_nada (funcional), flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

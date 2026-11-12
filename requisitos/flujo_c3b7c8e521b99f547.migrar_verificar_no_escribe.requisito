@@ -1,0 +1,4 @@
+requisito flujo_c3b7c8e521b99f547.migrar_verificar_no_escribe:
+    texto "Tipo: funcional El sistema DEBE, con `migrar --almacen ALMACÉN --verificar`, decir cuántos archivos versionados copiaría y qué no versionado movería, sin escribir nada en el producto, el almacén ni la configuración del usuario, y salir con error si la migración se negaría."
+    fuente "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md#migrar_verificar_no_escribe"
+    sin_medir "sin medida todavía; escenarios: «verificar antes de migrar»"
