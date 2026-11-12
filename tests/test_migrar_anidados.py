@@ -66,6 +66,22 @@ class Anidados(_migrar.AlmacenMigrar):
         with _migrar._commits.patch.object(almacenes, '_git_almacen', sin_listar_lo_ignorado):
             self.assertIn('.factory/local/vacio', self.negado())
 
+    @unittest.skipIf(hasattr(_migrar._commits.os, 'geteuid') and _migrar._commits.os.geteuid() == 0, 'root recorre una carpeta sin permisos')
+    def test_ma1_una_carpeta_que_no_se_puede_recorrer_frena(self):  # MA1-003: no pude mirar no es «no hay repo»
+        import shutil
+        shutil.rmtree(self.anidado)
+        cerrada = self.producto / '.factory/local/cerrada'
+        (cerrada / 'revision').mkdir(parents=True)
+        self.git_en(cerrada / 'revision', 'init', '-q')
+        antes = self.todo()
+        cerrada.chmod(0)
+        self.addCleanup(cerrada.chmod, 0o755)
+        codigo, salida, error = self.corre('migrar', '--almacen', str(self.almacen))
+        cerrada.chmod(0o755)
+        self.assertNotEqual(codigo, 0, salida + error)
+        self.assertIn('no pude recorrer', error)
+        self.assertEqual(self.todo(), antes)
+
     def test_ma1_un_submodulo_sin_inicializar_es_una_carpeta_listada(self):
         from oracle_factory import almacenes
         (self.producto / 'openspec/sub').mkdir()  # sin .git: sólo la entrada que lista Git

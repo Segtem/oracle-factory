@@ -666,6 +666,10 @@ def _deshacer_copia(destino: Path, rutas: list[str], antes: dict[str, tuple[byte
             _git_almacen(destino, "rm", "-q", "--cached", "--ignore-unmatch", "--", nombre)
 
 
+def _no_pude_recorrer(error: OSError) -> None:
+    raise error
+
+
 def _anidados(producto: Path, rutas: list[str], nombres: list[str]) -> list[str]:
     """Lo que migrar no copia y su borrado final se llevaría: los repos Git anidados (un `.git`, carpeta o archivo de un
     worktree) en cualquier lugar de las `rutas` de registros, aunque estén vacíos o Git no liste sus archivos (MA1-001, MA1-002),
@@ -675,8 +679,8 @@ def _anidados(producto: Path, rutas: list[str], nombres: list[str]) -> list[str]
         ruta = producto / n.rstrip("/")
         if ruta.is_dir() and not ruta.is_symlink():
             vistos[n.rstrip("/")] = None
-    for r in rutas:
-        for carpeta, subcarpetas, archivos in os.walk(producto / r):
+    for r in [r for r in rutas if (producto / r).is_dir() and not (producto / r).is_symlink()]:  # un archivo no se recorre
+        for carpeta, subcarpetas, archivos in os.walk(producto / r, onerror=_no_pude_recorrer):  # MA1-003: no callar un error
             if ".git" in subcarpetas or ".git" in archivos:
                 vistos[Path(carpeta).relative_to(producto).as_posix()] = None
                 subcarpetas.clear()  # lo de adentro es de ese repo
@@ -730,7 +734,11 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                                    "No cambié nada")
     versionados = _lista(_git_almacen(producto, "ls-files", "-z", "--", *rutas).stdout)
     locales = _lista(_git_almacen(producto, "ls-files", "-z", "--others", "--ignored", "--exclude-standard", "--", *rutas).stdout)
-    carpetas = _anidados(producto, rutas, [*versionados, *locales])
+    try:
+        carpetas = _anidados(producto, rutas, [*versionados, *locales])
+    except OSError as e:  # sin mirar todo no se sabe si un repo ajeno quedaría adentro de lo que se borra
+        raise cli.FactoryError(f"no pude recorrer los registros del producto para buscar repos anidados ({e}): arreglá los permisos "
+                               "o sacá esa carpeta antes. No cambié nada") from e
     if carpetas:  # un repo anidado (clon, worktree) o un submódulo: Git lo lista como una sola entrada, y moverlo lo rompe
         raise cli.FactoryError(f"hay repos Git anidados (o submódulos) en los registros del producto ({_resumen(carpetas)}): migrar "
                                "no los copia ni los mueve. Sacalos o borralos antes (un worktree, con git worktree remove desde su "
