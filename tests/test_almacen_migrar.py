@@ -22,6 +22,7 @@ class AlmacenMigrar(unittest.TestCase):
 
     def setUp(self):
         _commits.AlmacenCommits.setUp(self)
+        p = _commits.patch.dict(_commits.os.environ, {'XDG_DATA_HOME': str(self.casa / '.local/share')}); p.start(); self.addCleanup(p.stop)
         self.bien('init')
         self.bien('nuevo', 'Notas compartidas', '--capacidad', 'notas', '--sufijo', 'mg')
         self.git_en(self.producto, 'add', '-A')

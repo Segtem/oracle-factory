@@ -405,7 +405,7 @@ function activate(context) {
         const despliegues = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(dir, '.factory/despliegues/**/registro.json'));
         context.subscriptions.push(cambios, cambios.onDidChange(() => refrescar()), cambios.onDidCreate(() => refrescar()),
             cambios.onDidDelete(() => refrescar()), despliegues, despliegues.onDidChange(despliegue), despliegues.onDidCreate(despliegue));
-    });
+    }).catch(e => anotar(`No pude vigilar los registros del almacén: ${e.message}`));  // vigilar es una comodidad: la vista sigue
 
     function refrescar() {
         vista.refrescar();

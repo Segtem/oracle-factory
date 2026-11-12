@@ -15,7 +15,9 @@ const vscode = {
     TreeItemCollapsibleState: {None: 0, Collapsed: 1},
     ThemeIcon: class { constructor(id) { this.id = id; } },
     Uri: {file: p => ({fsPath: p})},
-    RelativePattern: class { constructor(base, patron) { this.base = base && base.fsPath ? base.fsPath : base; this.pattern = patron; } },
+    // SIN_RELATIVE_PATTERN=1: un editor que no deja vigilar fuera del espacio de trabajo (como el vscode falso de terminal_en_node.cjs)
+    RelativePattern: process.env.SIN_RELATIVE_PATTERN ? undefined
+        : class { constructor(base, patron) { this.base = base && base.fsPath ? base.fsPath : base; this.pattern = patron; } },
     workspace: {
         workspaceFolders: [{uri: {fsPath: proyecto}}],
         getConfiguration: () => ({get: clave => (clave === 'comando' ? comando || '' : clave === 'esperaTerminalMs' ? 0 : undefined)}),
