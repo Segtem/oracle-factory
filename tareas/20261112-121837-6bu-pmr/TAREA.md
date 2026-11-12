@@ -31,3 +31,19 @@ Medidas de flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros
 ### Nota (2026-11-12 12:56:49 UTC)
 
 Medidas de flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto: factory_preparar_migracion.migrar_limpia_lo_de_factory_del_producto, factory_preparar_migracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-11-12 12:58:14 UTC)
+
+Medidas de flujo_c281f4f7154afdb2f.agentes_en_el_repo_mantiene_una_guia_versionada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-12 12:58:15 UTC)
+
+Medidas de flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-12 12:58:15 UTC)
+
+Medidas de flujo_c281f4f7154afdb2f.las_pruebas_y_herramientas_leen_los_registros_del_almacen: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-11-12 12:58:15 UTC)
+
+Medidas de flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto: Brian Hollweg (persona, confirmo, modo confirmacion).
