@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c281f4f7154afdb2f.migrar_limpia_lo_de_factory_del_producto`
 - Vigente: sí
 - Cambio: [[cambios/20261112-121837-6bu-pmr]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_preparar_migracion.migrar_limpia_lo_de_factory_del_producto`, `factory_preparar_migracion.corrida_completa`
 - Fuente: openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md#migrar_limpia_lo_de_factory_del_producto
 

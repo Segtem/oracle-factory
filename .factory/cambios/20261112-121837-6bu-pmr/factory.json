@@ -2,7 +2,7 @@
   "id": "20261112-121837-6bu-pmr",
   "titulo": "Registros fuera del repo del producto: preparar la migración real de Factory",
   "capacidad": "flujo",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md",
   "spec_sha256": "05feef584b4017342538b976f1477db7647405d04e6996721acf9cf0e39e77ed",
   "spec_aprobada": {
@@ -43,7 +43,19 @@
       "archivos_sha256": "ae195ac27c58b64a2871de364b74b2f5254092a691a070f339f7f49b85b675e9"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261112-121837-6bu-pmr/candidatos/1c29dfa/evidencia/hechos.json",
+    "hechos_sha256": "5f8e35eca956fb152e75261d2a055e0c57c3919ddcc0fe9eb9bf5aeadaa034d3",
+    "informe": ".factory/cambios/20261112-121837-6bu-pmr/oracle-veredicto.txt",
+    "informe_sha256": "d3255b09368870783e5e0d0a7caf0c8f5f06ecdbd7f7b78e874970b9f56749fe",
+    "cuando": "2026-11-12T13:23:25.294325+00:00",
+    "contexto": {
+      "head": "db970a86e1eff5b77a9d0df2c5d9b43e0345e8b8",
+      "archivos_sha256": "ae195ac27c58b64a2871de364b74b2f5254092a691a070f339f7f49b85b675e9"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -238,6 +250,17 @@
       "abiertos": 0,
       "sha256": "445468400f0b551d80cd401d015b2957b348afd1012fcdf3e3722a92d512ca81",
       "decisiones_sha256": "2a0fd559b43c734ef2a77ebd98c2fc6c878c573ffb45835474e415b152a8594e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T13:23:25.294340+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "5f8e35eca956fb152e75261d2a055e0c57c3919ddcc0fe9eb9bf5aeadaa034d3"
     }
   ],
   "tipos": {

@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_c281f4f7154afdb2f.la_puerta_funciona_con_el_producto_conectado`
 - Vigente: sí
 - Cambio: [[cambios/20261112-121837-6bu-pmr]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_preparar_migracion.la_puerta_funciona_con_el_producto_conectado`, `factory_preparar_migracion.corrida_completa`
 - Fuente: openspec/changes/20261112-121837-6bu-pmr/specs/flujo/spec.md#la_puerta_funciona_con_el_producto_conectado
 
