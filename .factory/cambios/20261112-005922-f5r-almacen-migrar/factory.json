@@ -2,7 +2,7 @@
   "id": "20261112-005922-f5r-almacen-migrar",
   "titulo": "Registros fuera del repo del producto, etapa 6: migrar los registros de un proyecto a un almacén",
   "capacidad": "flujo",
-  "fase": "revision_aprobada",
+  "fase": "oracle_rojo",
   "spec": "openspec/changes/20261112-005922-f5r-almacen-migrar/specs/flujo/spec.md",
   "spec_sha256": "ce005a0430881ee6fc396c85ac81a09ec49817f4b2bb18beed00f1ba00020cc6",
   "spec_aprobada": {
@@ -43,7 +43,19 @@
       "archivos_sha256": "e6359af8739db941384505cbc2841a656197eb6f1734e7624ac4ec533b1cb62b"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 1,
+    "codigo_oracle": 1,
+    "hechos": ".factory/cambios/20261112-005922-f5r-almacen-migrar/candidatos/bc3d969/evidencia/hechos.json",
+    "hechos_sha256": "c42ec4c4f6b7299c06bedd95b3d3fddc734a886e7c38f786720ed6795be9156a",
+    "informe": ".factory/cambios/20261112-005922-f5r-almacen-migrar/oracle-veredicto.txt",
+    "informe_sha256": "bb4fd4b7b6a4a7a8a2d8036b1601cc8b535eb9dac96505a016a6ce59bd2ee1ba",
+    "cuando": "2026-11-12T11:27:40.877858+00:00",
+    "contexto": {
+      "head": "c526174ecde4896842aa05bae05e1fd30f8bd918",
+      "archivos_sha256": "e6359af8739db941384505cbc2841a656197eb6f1734e7624ac4ec533b1cb62b"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -328,6 +340,17 @@
       "abiertos": 0,
       "sha256": "0dc668315d3c39896b359e3d73f05f0d397e0bad7037241888fee26f9a7081b5",
       "decisiones_sha256": "304dc8a6178ac6d0df14dc3ee5d20a4e009ca87d45d154d54a4ec2c63fb59325"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-11-12T11:27:40.877874+00:00",
+      "codigo": 1,
+      "codigo_oracle": 1,
+      "hechos_sha256": "c42ec4c4f6b7299c06bedd95b3d3fddc734a886e7c38f786720ed6795be9156a"
     }
   ],
   "tipos": {
