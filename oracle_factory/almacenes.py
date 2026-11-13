@@ -125,7 +125,10 @@ def marca(producto: Path) -> str | None:
     ruta = producto / MARCA
     if ruta.is_symlink() or not ruta.is_file():
         return None
-    lineas = ruta.read_text(encoding="utf-8", errors="replace").split()
+    try:
+        lineas = ruta.read_text(encoding="utf-8", errors="replace").split()
+    except OSError:
+        return None
     return lineas[0] if lineas else None
 
 
@@ -135,7 +138,10 @@ def marcar(producto: Path, almacen: Path) -> str | None:
     if url is None:
         return (f"No marqué el producto: el almacén {almacen} no tiene remoto origin, y la ruta de una carpeta de esta máquina no "
                 f"sirve en otra. Cuando tenga uno, corré oracle-factory conectar {almacen} para escribir {MARCA}.")
-    if marca(producto) is not None or (producto / MARCA).is_symlink():
+    if (producto / MARCA).is_symlink():
+        return (f"No marqué el producto: {MARCA} es un enlace simbólico y no lo sigo ni lo piso. Reemplazalo por un archivo con "
+                f"una línea, {url}, y commitealo.")
+    if marca(producto) is not None:
         return None  # una marca distinta se avisa en cada comando; no se pisa
     (producto / MARCA).write_text(url + "\n", encoding="utf-8")
     return (f"Marqué el producto: {MARCA} dice que sus registros están en {url}. Commitealo, así un clon sin conectar se niega a "
@@ -145,15 +151,24 @@ def marcar(producto: Path, almacen: Path) -> str | None:
 def exigir_conexion(cli) -> None:
     """Un producto marcado y sin conexión no trabaja: crearía registros vacíos adentro del producto (H4 de la auditoría)."""
     producto = raiz_git(cli.ROOT) or cli.ROOT
+    ruta = producto / MARCA
+    if not (ruta.exists() or ruta.is_symlink()):
+        return
     url = marca(producto)
-    if url is not None:
-        raise cli.FactoryError(f"este producto guarda sus registros en el almacén {url} (lo dice {MARCA}) y en esta carpeta no está "
-                               f"conectado a él: conectalo con oracle-factory conectar {url} (o con la carpeta de un clon suyo). "
-                               "No cambié nada")
+    if url is None:  # MK-001: una marca vacía, ilegible o que es un enlace sigue diciendo que hay un almacén
+        raise cli.FactoryError(f"este producto tiene {MARCA} pero está vacía o es un enlace simbólico: dice que sus registros están en "
+                               "un almacén aparte y no dice cuál. Restaurala (git checkout -- " + MARCA + ") y conectá el producto "
+                               "con oracle-factory conectar URL. No cambié nada")
+    raise cli.FactoryError(f"este producto guarda sus registros en el almacén {url} (lo dice {MARCA}) y en esta carpeta no está "
+                           f"conectado a él: conectalo con oracle-factory conectar {url} (o con la carpeta de un clon suyo). "
+                           "No cambié nada")
 
 
 def avisar_si_no_coincide(producto: Path, almacen: Path) -> None:
-    url = marca(producto)
+    url, ruta = marca(producto), producto / MARCA
+    if url is None and (ruta.exists() or ruta.is_symlink()):
+        print(f"Aviso: {MARCA} del producto está vacía o es un enlace simbólico: corré oracle-factory conectar {almacen} para "
+              "reescribirla.", file=sys.stderr)
     if url is not None and origen(almacen) != url:
         print(f"Aviso: la marca del producto ({MARCA}) dice {url}, pero el almacén conectado ({almacen}) tiene otro origin "
               f"({origen(almacen) or 'ninguno'}): no coincide. Revisá la conexión (oracle-factory conectar).", file=sys.stderr)

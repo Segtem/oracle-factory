@@ -113,6 +113,29 @@ class SinConexion(ConOrigen):
         self.assertIn(self.url, self.mal('estado', 'x', raiz=copia))
         self.assertEqual(self.todo(copia), antes)
 
+    def test_mk2_una_marca_vacia_o_que_es_un_enlace_tambien_se_niega(self):  # MK-001
+        marca = self.clon / MARCA
+        for preparar in (lambda: marca.write_text('', encoding='utf-8'),
+                         lambda: (marca.unlink(), marca.symlink_to(self.base / 'no-existe')),
+                         lambda: (marca.unlink(), (self.base / 'otra').write_text(self.url + '\n', encoding='utf-8'),
+                                  marca.symlink_to(self.base / 'otra'))):
+            preparar()
+            for comando in (['listar'], ['init'], ['nuevo', '--capacidad', 'x', '--sufijo', 'pr', 'Prueba']):
+                antes = self.todo(self.clon)
+                self.assertIn('vacía o es un enlace', self.mal(*comando, raiz=self.clon), comando)
+                self.assertEqual(self.todo(self.clon), antes, comando)
+                self.assertFalse((self.clon / '.factory').exists(), comando)
+
+    def test_mk2_conectar_reescribe_una_marca_vacia_y_no_pisa_un_enlace(self):  # MK-001
+        marca = self.clon / MARCA
+        marca.write_text('', encoding='utf-8')
+        self.bien('conectar', str(self.almacen), raiz=self.clon)
+        self.assertEqual(marca.read_text(encoding='utf-8'), self.url + '\n')
+        marca.unlink()
+        marca.symlink_to(self.base / 'no-existe')
+        self.assertIn('enlace', self.bien('conectar', str(self.almacen), raiz=self.clon))
+        self.assertTrue(marca.is_symlink())
+
     def test_mk2_conectar_sigue_funcionando(self):
         self.bien('conectar', str(self.almacen), raiz=self.clon)
         self.bien('listar', raiz=self.clon)
