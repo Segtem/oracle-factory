@@ -764,7 +764,7 @@
   "Revisar el trabajo del otro.",
   "Lo ideal es que revise alguien distinto de quien escribió: otra persona, u otro agente de una familia de modelo distinta a la del que escribió el código. Son dos herramientas separadas. Oracle Clue prepara el contexto de un candidato para el revisor y después valida su informe:",
   "oracle-clue preparar --repo . --base BASE_DE_REVISION --salida /ruta/fuera/del/repo/contexto.json",
-  "Factory no llama a Clue: deja preparada la revisión guiada, un informe y un documento de decisiones por completar con lo que surgió de la revisión.",
+  "Factory valida con Clue los informes de los revisores (al pedirlos con pedir-revision y al preparar la revisión) y deja preparada la revisión guiada, un informe y un documento de decisiones por completar con lo que surgió de la revisión.",
   "oracle-factory revision-preparar ID_DEL_CAMBIO",
   "El revisor completa el informe con lo que realmente revisó, sus comprobaciones y sus límites; una persona decide cada hallazgo —corregido, descartado o riesgo aceptado— en un documento aparte, y registra la revisión:",
   "oracle-factory revision ID_DEL_CAMBIO --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor \"Bruno\" --decision aprobar",
