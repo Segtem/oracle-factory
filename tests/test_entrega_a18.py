@@ -1,6 +1,7 @@
 """La entrega 0.1.0a18: escenarios ea1–ea3, con el repositorio, el wheel construido e instalado de verdad y datos armados para el juicio."""
 from copy import deepcopy
 from pathlib import Path
+import re
 import shutil
 import sys
 import tempfile
@@ -47,7 +48,7 @@ class Version(unittest.TestCase):
         self.assertEqual(docs_al_dia.problemas(ROOT), [])
         notas = (ROOT / "NOTAS-DE-RELEASE.md").read_text(encoding="utf-8")
         # La a18 pasó de «en preparación» a publicada (publicada-a18): el estado de cada una lo fija test_publicada_a18.
-        self.assertTrue(notas.startswith("# Oracle Factory 0.1.0a18\n"))
+        self.assertEqual(re.findall(r"(?m)^# Oracle Factory (\S+)$", notas)[0], "0.1.0a18")  # la primera versión (antes puede ir «Sin publicar»)
         self.assertIn("\n# Oracle Factory 0.1.0a17\n", "\n" + notas)
         self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a17`", notas)
         self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a18`", notas)
