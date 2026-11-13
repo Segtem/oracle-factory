@@ -28,6 +28,11 @@ AFIRMACIONES = [  # (archivo, frase vieja, frase que la reemplaza)
      'Factory no corre las pruebas del producto: lanza a los revisores que declara el proyecto y, si se lo piden, al agente.'),
     ('site/index.html', 'la coordinación automática de agentes es una capacidad prevista',
      'Factory lanza a los revisores y, con autopilot, al agente, con topes'),
+    ('site/index.html', 'El alpha no elige, invoca ni coordina esos agentes.',
+     'Factory no escribe ese código: lanza a los revisores que declara el proyecto y, si se lo piden, al agente, con topes de pasos y minutos.'),
+    ('site/index.html', 'Coordinación automática prevista', 'pedir-revision · autopilot --ejecutar --lanzar'),
+    ('site/factory.js', 'La coordinación automática de agentes y la revisión con IA de Clue son capacidades previstas.',
+     'Factory lanza a los revisores con IA que declara el proyecto y, con autopilot, al agente; Clue valida sus informes.'),
     ('site/factory.js', 'La coordinación automática de agentes es una capacidad prevista. Hoy Factory no escribe ni ejecuta ese código.',
      'Factory no escribe ese código: lo escribe una persona, o el agente que lanza autopilot con topes.'),
     ('site/desde-cero.html', '<span>Windows · macOS · Linux</span>', '<span>Verificado en Linux · Windows y macOS sin prueba automatizada</span>'),
@@ -70,6 +75,15 @@ class Afirmaciones(unittest.TestCase):
             [vieja, falta] = problemas(Path(tmp), [a for a in AFIRMACIONES if a[0] == 'docs/despliegue.md'])
         self.assertIn('docs/despliegue.md: todavía dice', vieja)
         self.assertIn('docs/despliegue.md: falta', falta)
+
+
+    def test_fh1_ninguna_pagina_presenta_como_prevista_la_coordinacion_de_agentes(self):  # la clase, no sólo las frases de la lista
+        patron = re.compile(r'(coordinaci[oó]n[^.<"]{0,40}previst|no (?:elige|invoca|coordina|lanza)[^.<"]{0,40}agentes|'
+                            r'no ejecuta (?:agentes|revisores))', re.I)
+        hallados = [f'{p.relative_to(SOURCE)}: {m.group(0)}' for p in sorted([*(SOURCE / 'site').glob('*.html'), *(SOURCE / 'site').glob('*.js'),
+                                                                            SOURCE / 'README.md', *(SOURCE / 'docs').rglob('*.md')])
+                    for m in patron.finditer(plano(p.read_text(encoding='utf-8')))]
+        self.assertEqual(hallados, [])
 
 
 # --- fh2: la mutación documental muere ------------------------------------------------------------------------------------

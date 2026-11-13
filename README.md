@@ -170,8 +170,7 @@ comando de la CLI, sólo comandos que existen y la versión de `pyproject.toml`.
 **[Abrir la web](https://segtem.github.io/oracle-factory/) · [Guía desde cero](https://segtem.github.io/oracle-factory/desde-cero.html)**
 
 La [portada](site/index.html) compara vibe coding, el ciclo de desarrollo, el trabajo guiado por especificaciones y
-Oracle Factory con un mismo ejemplo, en pixel art y con un minijuego para decidir como persona. Es una demostración: no
-ejecuta agentes ni registra aprobaciones. GitHub Actions publica `site/` en GitHub Pages desde `main`; localmente,
+Oracle Factory con un mismo ejemplo, en pixel art y con un minijuego para decidir como persona. Es una demostración en el navegador: la página no corre nada ni registra aprobaciones. GitHub Actions publica `site/` en GitHub Pages desde `main`; localmente,
 `python3 -m http.server 8765 --directory site`. Para comprobarla en Chromium: `npm install --no-save
 --package-lock=false playwright@1.62.1` y `node tests/test_site.cjs` (la portada viva: `node tests/test_web_viva.cjs`;
 el minijuego, sin navegador: `node tests/test_juego.cjs`).
