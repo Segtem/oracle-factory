@@ -4,7 +4,7 @@
   "Factory,",
   "desde cero.",
   "Instalá el kit, acordá un comportamiento y recorré el flujo completo hasta el cierre. Vas a comprobar una regla pequeña: una nota necesita un título con texto.",
-  "Windows · macOS · Linux",
+  "Verificado en Linux · Windows y macOS sin prueba automatizada",
   "Instalación con uv desde wheel",
   "Ejemplo local, sin cuenta de IA",
   "Antes de empezar",
