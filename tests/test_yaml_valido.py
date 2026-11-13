@@ -10,8 +10,9 @@ import yaml
 SOURCE = Path(__file__).resolve().parents[1]
 
 
-def workflows() -> list[Path]:
-    return sorted([*(SOURCE / '.github/workflows').glob('*.yml'), *(SOURCE / 'docs/plantillas').glob('*.yml')])
+def workflows(raiz: Path = SOURCE) -> list[Path]:
+    """Los workflows y las plantillas de CI de `raiz`, con las dos extensiones que acepta GitHub Actions (yv1-001)."""
+    return sorted(r for carpeta in ('.github/workflows', 'docs/plantillas') for ext in ('*.yml', '*.yaml') for r in (raiz / carpeta).glob(ext))
 
 
 def problemas(ruta: Path) -> list[str]:
@@ -35,6 +36,14 @@ class Workflows(unittest.TestCase):
     def test_yv1_los_workflows_y_las_plantillas_del_repositorio_son_yaml_valido(self):
         self.assertGreaterEqual(len(workflows()), 4)  # verificar y pages, y las plantillas verificar y verificar-almacen
         self.assertEqual([p for r in workflows() for p in problemas(r)], [])
+
+    def test_yv1_un_workflow_con_extension_yaml_tambien_se_revisa(self):  # yv1-001
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            (raiz / '.github/workflows').mkdir(parents=True)
+            (raiz / '.github/workflows/nuevo.yaml').write_text('on:\n  push:\njobs:\n  a:\n    steps: [\n', encoding='utf-8')
+            self.assertEqual([r.name for r in workflows(raiz)], ['nuevo.yaml'])
+            self.assertIn('nuevo.yaml: no es YAML válido', problemas(workflows(raiz)[0])[0])
 
     def test_yv1_un_valor_con_dos_puntos_sin_comillas_se_rechaza(self):
         with tempfile.TemporaryDirectory() as tmp:
