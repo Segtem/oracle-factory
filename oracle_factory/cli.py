@@ -2343,7 +2343,8 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "preguntar": comando_preguntar(args)
         elif args.comando == "agentes": comando_agentes(args.verificar, args.en_el_repo)
         elif args.comando == "skill": return comando_skill(args.instalar, args.forzar)
-        elif args.comando == "mcp": return mcp_mod.servir(ROOT, sys.stdin, sys.stdout, __version__)
+        elif args.comando == "mcp": return mcp_mod.servir(PRODUCTO or ROOT, sys.stdin, sys.stdout, __version__,
+                                                          registros=ROOT if args.registros is not None else None)
         elif args.comando == "medir" and args.confirmar:
             if args.requisito or args.medida or args.listar:
                 raise FactoryError("--confirmar no se combina con --requisito, --medida ni --listar")

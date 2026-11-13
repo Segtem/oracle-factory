@@ -1,5 +1,8 @@
 """La puerta local corre `verificar`: escenarios pv1–pv4 (la puerta se prueba con un `verificar` falso y con el de verdad)."""
+import contextlib
+import io
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -45,12 +48,17 @@ class PuertaVerificar(unittest.TestCase):
         self.assertIn('agentes, kb, resumen, verificar al día', texto)
 
     def test_pv1_el_verificar_de_verdad_acepta_el_argumento_que_le_pasa_la_puerta(self):
-        guardado = cli.ROOT, cli.CHANGES  # otras pruebas de la suite dejan su carpeta temporal en el módulo: se apunta a este proyecto
-        cli.ROOT, cli.CHANGES = SOURCE, SOURCE / 'openspec' / 'changes'
-        try:
-            codigo, salida = cli.verificar_en_proceso(['verificar'])
-        finally:
-            cli.ROOT, cli.CHANGES = guardado
+        guardado = cli.ROOT, cli.CHANGES  # otras pruebas de la suite dejan su carpeta temporal en el módulo: se apunta a un proyecto propio
+        with tempfile.TemporaryDirectory() as tmp:  # no este repositorio: marcado y sin conectar (un clon limpio) se niega a trabajar
+            proyecto = Path(tmp).resolve()
+            subprocess.run(['git', 'init', '-q'], cwd=proyecto, check=True)
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(cli.main(['--proyecto', str(proyecto), 'init']), 0)
+            cli.ROOT, cli.CHANGES = proyecto, proyecto / 'openspec' / 'changes'
+            try:
+                codigo, salida = cli.verificar_en_proceso(['verificar'])
+            finally:
+                cli.ROOT, cli.CHANGES = guardado
         self.assertIn(codigo, (0, 1))
         self.assertIn('Miré ', salida)
 

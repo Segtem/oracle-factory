@@ -68,14 +68,14 @@ def orden(nombre: str, argumentos) -> list[str]:
             "listar": lambda: ["listar"]}[nombre]()
 
 
-def llamar(raiz: Path, nombre: str, argumentos) -> dict:
+def llamar(raiz: Path, nombre: str, argumentos, registros: Path | None = None) -> dict:
     try:
         args = orden(nombre, argumentos)
     except ValueError as e:
         return {"content": [{"type": "text", "text": str(e)}], "isError": True}
     try:
         p = subprocess.run([sys.executable, "-c", "import sys; from oracle_factory.cli import main; sys.exit(main())",
-                            "--proyecto", str(raiz), *args], cwd=raiz, capture_output=True, text=True,
+                            "--proyecto", str(raiz), *(["--registros", str(registros)] if registros else []), *args], cwd=raiz, capture_output=True, text=True,
                            stdin=subprocess.DEVNULL, timeout=600)
     except (OSError, ValueError, subprocess.SubprocessError) as e:  # un plazo vencido, un proceso que no arranca
         return {"content": [{"type": "text", "text": f"{nombre} no se pudo correr: {e}"}], "isError": True}
@@ -83,7 +83,7 @@ def llamar(raiz: Path, nombre: str, argumentos) -> dict:
     return {"content": [{"type": "text", "text": texto}], "isError": p.returncode != 0}
 
 
-def responder(raiz: Path, mensaje, version: str) -> dict | None:
+def responder(raiz: Path, mensaje, version: str, registros: Path | None = None) -> dict | None:
     """La respuesta a un mensaje JSON-RPC, o None si es una notificación."""
     if not isinstance(mensaje, dict) or mensaje.get("jsonrpc") != "2.0" or not isinstance(mensaje.get("method"), str):
         return {"jsonrpc": "2.0", "id": None, "error": {"code": -32600, "message": "pedido JSON-RPC inválido"}}
@@ -99,7 +99,7 @@ def responder(raiz: Path, mensaje, version: str) -> dict | None:
         resultado = {"tools": HERRAMIENTAS}
     elif metodo == "tools/call" and isinstance(params, dict) and isinstance(params.get("name"), str) \
             and params["name"] in {h["name"] for h in HERRAMIENTAS}:
-        resultado = llamar(raiz, params["name"], params.get("arguments", {}))
+        resultado = llamar(raiz, params["name"], params.get("arguments", {}), registros)
     elif metodo == "tools/call":
         return {"jsonrpc": "2.0", "id": mensaje["id"], "error": {"code": -32602, "message": f"herramienta desconocida: {params.get('name') if isinstance(params, dict) else params}"}}
     else:
@@ -107,7 +107,8 @@ def responder(raiz: Path, mensaje, version: str) -> dict | None:
     return {"jsonrpc": "2.0", "id": mensaje["id"], "result": resultado}
 
 
-def servir(raiz: Path, entrada, salida, version: str) -> int:
+def servir(raiz: Path, entrada, salida, version: str, registros: Path | None = None) -> int:
+    """`raiz` es el producto (con un almacén conectado, sus registros los resuelve la CLI); `registros`, el --registros explícito."""
     for linea in entrada:
         try:
             mensaje = json.loads(linea)
@@ -115,7 +116,7 @@ def servir(raiz: Path, entrada, salida, version: str) -> int:
             respuesta = {"jsonrpc": "2.0", "id": None, "error": {"code": -32700, "message": f"JSON inválido: {e}"}}
         else:
             try:
-                respuesta = responder(raiz, mensaje, version)
+                respuesta = responder(raiz, mensaje, version, registros)
             except Exception as e:  # noqa: BLE001 — un pedido raro no corta el servidor: se contesta con un error
                 pedido = mensaje.get("id") if isinstance(mensaje, dict) else None
                 respuesta = {"jsonrpc": "2.0", "id": pedido, "error": {"code": -32603, "message": f"error interno: {e}"}}

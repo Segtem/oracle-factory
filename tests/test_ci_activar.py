@@ -20,13 +20,15 @@ def paso_de_verificacion(texto: str) -> str:
     return textwrap.dedent(m.group(2))
 
 
-def correr_paso(paso: str, salida_de_verificar: int, ref: str) -> subprocess.CompletedProcess:
+def correr_paso(paso: str, salida_de_verificar: int, ref: str, carpeta: Path | None = None) -> subprocess.CompletedProcess:
+    """Corre el paso en `carpeta` (por omisión, una vacía: sin la marca del almacén de este repositorio)."""
     with tempfile.TemporaryDirectory() as tmp:
         falso = Path(tmp) / 'oracle-factory'
         falso.write_text(f'#!/bin/sh\necho "Miré 3 cambios: 1 con problemas."\nexit {salida_de_verificar}\n')
         falso.chmod(0o755)
         env = {**os.environ, 'PATH': f'{tmp}:{os.environ["PATH"]}', 'GITHUB_REF': ref}
-        return subprocess.run(['bash', '-e', '-o', 'pipefail', '-c', paso], capture_output=True, text=True, env=env, timeout=30)
+        return subprocess.run(['bash', '-e', '-o', 'pipefail', '-c', paso], capture_output=True, text=True, env=env, timeout=30,
+                              cwd=carpeta or tmp)
 
 
 class Workflow(unittest.TestCase):

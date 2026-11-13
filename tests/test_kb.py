@@ -97,7 +97,7 @@ class Conocimiento(unittest.TestCase):
         datos = json.loads(registro.read_text())
         datos['cierre']['cuando'] = self.despues_del_ultimo_commit()
         registro.write_text(json.dumps(datos))
-        subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', f'Integrar {cerrado}',
+        subprocess.run(['git', '-c', 'user.name=Persona fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', f'Integrar {cerrado}',
                         '-m', f'Cambio: {cerrado}'], cwd=self.root, check=True,
                        env={**f.os.environ, 'GIT_AUTHOR_DATE': self.en(30), 'GIT_COMMITTER_DATE': self.en(30)})
         self.assertEqual(self.correr('kb')[0], 0)
@@ -106,7 +106,7 @@ class Conocimiento(unittest.TestCase):
         self.assertNotIn(f'Integrar {cerrado}', nota)
         # Una rama con un commit sin trailer y un candidato, integrada con un merge: el candidato entra, el que sólo se
         # deduce del merge no (no estaba antes de integrar, y la nota de un cambio cerrado no cambia por integrarlo).
-        sin_hooks = ['git', '-c', 'core.hooksPath=/dev/null']
+        sin_hooks = ['git', '-c', 'user.name=Persona fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=/dev/null']
         subprocess.run([*sin_hooks, 'checkout', '-q', '-b', 'rama-cerrada'], cwd=self.root, check=True)
         subprocess.run([*sin_hooks, 'commit', '-q', '--allow-empty', '-m', 'rama: sin trailer'], cwd=self.root, check=True)
         subprocess.run([*sin_hooks, 'commit', '-q', '--allow-empty', '-m', 'rama: el candidato'], cwd=self.root, check=True)
@@ -132,13 +132,13 @@ class Conocimiento(unittest.TestCase):
         self.assertIn(f"`{candidato['corto']}` {candidato['asunto']}", abierta)
         # Un commit con su trailer después de la última decisión entra recién con la decisión siguiente: el vault no se
         # desfasa por commitear.
-        subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', 'abierto: después de decidir',
+        subprocess.run(['git', '-c', 'user.name=Persona fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', 'abierto: después de decidir',
                         '-m', f'Cambio: {abierto}'], cwd=self.root, check=True,
                        env={**f.os.environ, 'GIT_AUTHOR_DATE': self.en(10), 'GIT_COMMITTER_DATE': self.en(10)})
         self.assertEqual(self.correr('kb')[0], 0)
         self.assertNotIn('abierto: después de decidir', (self.root / 'kb/cambios' / f'{abierto}.md').read_text())
         # Uno con fecha de autor vieja (un cherry-pick) que entró después de la decisión tampoco entra.
-        subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', 'abierto: retrodatado',
+        subprocess.run(['git', '-c', 'user.name=Persona fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', 'abierto: retrodatado',
                         '-m', f'Cambio: {abierto}'], cwd=self.root, check=True,
                        env={**f.os.environ, 'GIT_AUTHOR_DATE': '2001-01-01T00:00:00+00:00', 'GIT_COMMITTER_DATE': self.en(12)})
         self.assertEqual(self.correr('kb')[0], 0)

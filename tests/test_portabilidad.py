@@ -173,6 +173,8 @@ class Portabilidad(unittest.TestCase):
 
     def test_p6_los_requisitos_de_este_repositorio_no_llevan_rutas_privadas(self):
         registros = f.almacenes.registros_de(Path(__file__).resolve().parents[1])  # el almacén, si este repositorio está conectado
+        if not (registros / 'requisitos').is_dir():
+            self.skipTest('los requisitos de este repositorio no están a mano: está marcado y sin conectar a su almacén (un clon limpio, el CI)')
         propios = sorted((registros / 'requisitos').glob('portabilidad_*.requisito'))
         self.assertTrue(propios)
         self.assertEqual([p.name for p in propios if re.search(r'(?m)^\s*fuente "/', p.read_text(encoding='utf-8'))], [])

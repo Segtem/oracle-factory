@@ -24,7 +24,13 @@ La plantilla `docs/plantillas/verificar.yml` corre `oracle-factory verificar` en
 
 **La política: falla en `main`, avisa en las demás.** Si `verificar` encuentra un cambio inconsistente, el workflow falla cuando corre en `main` y, en cualquier otra rama o pull request, avisa con una anotación `::warning::` y sale con 0: una revisión desactualizada es normal en una rama de trabajo mientras se sigue editando. El detalle de qué cambio falla queda en el registro del job (`oracle-factory verificar` lo imprime). Para que un fallo en `main` impida integrar, marcá el check como obligatorio en las reglas de ramas de GitHub (eso es configuración del repositorio, no del workflow).
 
-Este repositorio usa el mismo workflow en `.github/workflows/verificar.yml`, con una diferencia: instala Factory desde el checkout (`uv tool install .`) en vez de PyPI, para probar el código que se está integrando.
+Este repositorio usa el mismo workflow en `.github/workflows/verificar.yml`, con dos diferencias: instala Factory desde el checkout (`uv tool install .`) en vez de PyPI, para probar el código que se está integrando, y suma un trabajo `pruebas` que corre la suite (`.venv/bin/python -m unittest discover -s tests`). La suite pasa en un clon limpio, sin la configuración de quien la corre: las pruebas que leen los registros del propio repositorio se omiten diciendo por qué si no están a mano.
+
+## Con los registros en un almacén aparte
+
+Un producto marcado con `.oracle-factory-almacen` (ver `docs/estructura.md`) no tiene sus registros en el checkout del CI: ahí `verificar` se negaría. Por eso el paso de verificación de la plantilla, si ve la marca, avisa con `::notice::` que los registros se verifican en el CI del almacén y sale con 0.
+
+Los registros se verifican en el repo del almacén, con la plantilla `docs/plantillas/verificar-almacen.yml`: copiala a `.github/workflows/verificar.yml` del almacén y poné en `PRODUCTO` el repo del producto (`dueño/nombre`). Clona el almacén y el producto, este con toda su historia para ver los candidatos, instala Factory desde el producto y corre `oracle-factory --proyecto producto --registros almacen verificar`, con la misma política: falla en `main` y avisa en las demás ramas. Sólo lee y no usa secretos mientras el producto sea público; si es privado, el almacén necesita una clave de lectura del producto (una deploy key guardada como secreto, pasada a `actions/checkout` con `ssh-key`). Los minutos de Actions de un repo privado cuentan contra el cupo de la cuenta. El almacén de Factory usa esta plantilla con `Segtem/oracle-factory`.
 
 ## En un hook pre-push
 
