@@ -24,6 +24,10 @@ AFIRMACIONES = [  # (archivo, frase vieja, frase que la reemplaza)
      'no cambia nada versionado, pero `preguntar` escribe su caché local y puede llamar al modelo configurado'),
     ('docs/agentes.md', 'sirve el proyecto por MCP (stdio), de sólo lectura.',
      'no cambia nada versionado, pero `preguntar` escribe su caché local y puede llamar al modelo configurado'),
+    ('site/index.html', 'deja que un agente consulte el proyecto sin poder cambiarlo',
+     'deja que un agente consulte el proyecto sin cambiar nada versionado (<code>preguntar</code> escribe su caché local)'),
+    ('README.md', 'un servidor MCP de sólo lectura para que un agente consulte el proyecto.',
+     'un servidor MCP para que un agente consulte el proyecto sin cambiar nada versionado (`preguntar` escribe su caché local).'),
     ('site/index.html', 'Factory no ejecuta agentes, pruebas ni revisores automáticamente.',
      'Factory no corre las pruebas del producto: lanza a los revisores que declara el proyecto y, si se lo piden, al agente.'),
     ('site/index.html', 'la coordinación automática de agentes es una capacidad prevista',
@@ -83,6 +87,17 @@ class Afirmaciones(unittest.TestCase):
         hallados = [f'{p.relative_to(SOURCE)}: {m.group(0)}' for p in sorted([*(SOURCE / 'site').glob('*.html'), *(SOURCE / 'site').glob('*.js'),
                                                                             SOURCE / 'README.md', *(SOURCE / 'docs').rglob('*.md')])
                     for m in patron.finditer(plano(p.read_text(encoding='utf-8')))]
+        self.assertEqual(hallados, [])
+
+
+    def test_fh1_ninguna_frase_dice_que_el_mcp_no_escribe_nada(self):  # la clase del MCP: preguntar escribe su caché (Fable H14)
+        archivos = sorted([*(SOURCE / 'site').glob('*.html'), *(SOURCE / 'site').glob('*.js'), SOURCE / 'README.md',
+                           *(SOURCE / 'docs').rglob('*.md'), SOURCE / 'oracle_factory/parser.py', SOURCE / 'oracle_factory/mcp.py'])
+        hallados = []
+        for p in archivos:
+            for frase in re.findall(r'[^.]{0,160}\bmcp\b[^.]{0,200}', plano(p.read_text(encoding='utf-8')), re.I):
+                if re.search(r'sólo lectura|solo lectura|sin poder cambiar', frase, re.I) and 'caché' not in frase:
+                    hallados.append(f'{p.relative_to(SOURCE)}: {frase.strip()[:120]}')
         self.assertEqual(hallados, [])
 
 

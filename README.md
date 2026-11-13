@@ -6,8 +6,8 @@ tarea (**Oracle Task**), requisitos medidos con evidencia (**Oracle**) y revisio
 **Oracle Clue**. La persona decide el alcance, resuelve los hallazgos y acepta la entrega; los agentes trabajan, proponen
 y quedan registrados como agentes.
 
-Es una CLI local con un flujo visible en Git, una extensión de VS Code con un tablero de comando, y un servidor MCP de
-sólo lectura para que un agente consulte el proyecto. No empuja el producto ni publica ramas: sólo `sincronizar`, corrido por una persona, sube el almacén de registros. El código y las
+Es una CLI local con un flujo visible en Git, una extensión de VS Code con un tablero de comando, y un servidor MCP para que un agente consulte el
+proyecto sin cambiar nada versionado (`preguntar` escribe su caché local). No empuja el producto ni publica ramas: sólo `sincronizar`, corrido por una persona, sube el almacén de registros. El código y las
 pruebas del producto los escribe quien trabaja (una persona o un agente); Factory registra qué se acordó, quién decidió
 qué y qué evidencia lo respalda.
 
