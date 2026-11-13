@@ -111,6 +111,54 @@ def conectado(cli) -> Path | None:
     return Path(almacen)
 
 
+MARCA = ".oracle-factory-almacen"  # lo único de Factory que versiona el producto: la URL de su almacén
+
+
+def origen(almacen: Path) -> str | None:
+    """La URL del remoto `origin` del almacén, o None si no tiene."""
+    hecho = _git_almacen(almacen, "remote", "get-url", "origin")
+    return (os.fsdecode(hecho.stdout).strip() or None) if hecho.returncode == 0 else None
+
+
+def marca(producto: Path) -> str | None:
+    """La URL que dice la marca del producto, o None si no tiene (una marca que es un enlace no vale)."""
+    ruta = producto / MARCA
+    if ruta.is_symlink() or not ruta.is_file():
+        return None
+    lineas = ruta.read_text(encoding="utf-8", errors="replace").split()
+    return lineas[0] if lineas else None
+
+
+def marcar(producto: Path, almacen: Path) -> str | None:
+    """Escribe la marca del producto si falta, con el `origin` del almacén; devuelve qué decirle a la persona (None: nada)."""
+    url = origen(almacen)
+    if url is None:
+        return (f"No marqué el producto: el almacén {almacen} no tiene remoto origin, y la ruta de una carpeta de esta máquina no "
+                f"sirve en otra. Cuando tenga uno, corré oracle-factory conectar {almacen} para escribir {MARCA}.")
+    if marca(producto) is not None or (producto / MARCA).is_symlink():
+        return None  # una marca distinta se avisa en cada comando; no se pisa
+    (producto / MARCA).write_text(url + "\n", encoding="utf-8")
+    return (f"Marqué el producto: {MARCA} dice que sus registros están en {url}. Commitealo, así un clon sin conectar se niega a "
+            "trabajar en vez de empezar registros vacíos.")
+
+
+def exigir_conexion(cli) -> None:
+    """Un producto marcado y sin conexión no trabaja: crearía registros vacíos adentro del producto (H4 de la auditoría)."""
+    producto = raiz_git(cli.ROOT) or cli.ROOT
+    url = marca(producto)
+    if url is not None:
+        raise cli.FactoryError(f"este producto guarda sus registros en el almacén {url} (lo dice {MARCA}) y en esta carpeta no está "
+                               f"conectado a él: conectalo con oracle-factory conectar {url} (o con la carpeta de un clon suyo). "
+                               "No cambié nada")
+
+
+def avisar_si_no_coincide(producto: Path, almacen: Path) -> None:
+    url = marca(producto)
+    if url is not None and origen(almacen) != url:
+        print(f"Aviso: la marca del producto ({MARCA}) dice {url}, pero el almacén conectado ({almacen}) tiene otro origin "
+              f"({origen(almacen) or 'ninguno'}): no coincide. Revisá la conexión (oracle-factory conectar).", file=sys.stderr)
+
+
 def registros_de(producto: Path) -> Path:
     """Dónde están los registros de `producto` (o de una carpeta suya): su almacén si está conectado; si no, el producto mismo.
     Para las herramientas y las pruebas que leen los registros sin pasar por la CLI."""
@@ -212,7 +260,8 @@ def comando(cli, nombre: str, almacen: str | None, como_json: bool = False) -> i
     if destino.is_relative_to(producto) or producto.is_relative_to(destino):
         raise cli.FactoryError(f"el almacén ({destino}) y el producto ({producto}) no pueden estar uno dentro del otro. No cambié nada")
     if actual == str(destino):
-        print(f"El producto ya está conectado al almacén {destino}; no cambié nada.")
+        dicho = marcar(producto, destino)
+        print(f"El producto ya está conectado al almacén {destino}" + (f". {dicho}" if dicho else "; no cambié nada."))
         return 0
     antes, cwd = (cli.ROOT, cli.CHANGES), os.getcwd()
     cli.ROOT, cli.CHANGES = destino, destino / "openspec" / "changes"
@@ -236,6 +285,9 @@ def comando(cli, nombre: str, almacen: str | None, como_json: bool = False) -> i
     except ValueError as e:
         raise cli.FactoryError(str(e)) from e
     print(f"Producto conectado al almacén {destino}: desde cualquier carpeta o worktree del producto, Factory usa sus registros.")
+    dicho = marcar(producto, destino)
+    if dicho:
+        print(dicho)
     return 0
 
 
@@ -768,6 +820,9 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
                 f"{n} (se borraría: no le queda otra)" if c is None else n for n, c in limpieza.items()) + " del producto.")
         if hooks:
             print(f"Sacaría los hooks de Factory {', '.join(h.name for h in hooks)} (el pre-push queda).")
+        url = origen(destino) if destino.is_dir() else None
+        print(f"Escribiría {MARCA} con {url} en el producto." if url else
+              f"No escribiría {MARCA}: el almacén no tiene remoto origin (o todavía no está clonado).")
         print("Después conectaría el producto y borraría sus registros dejando la baja sin commitear. No escribí nada.")
         return 0
     cabeza = _git(producto, "rev-parse", "HEAD") or "sin commits"
@@ -852,5 +907,10 @@ def migrar(cli, almacen: str, verificar: bool) -> int:
           "sin versionar; el producto quedó conectado a él.")
     if limpieza or hooks:
         print("Saqué lo de Factory del producto: " + ", ".join([*limpieza, *(f"el hook {h.name}" for h in hooks)]) + ".")
+    dicho = marcar(producto, destino)
+    if dicho:
+        print(dicho)
+    if (producto / MARCA).is_file() and _git_almacen(producto, "add", "--", MARCA).returncode:
+        print(f"Aviso: no pude agregar {MARCA} al índice del producto: agregalo con git add {MARCA}.", file=sys.stderr)
     print("No commiteé en el producto: la baja de los registros quedó preparada en su índice. Revisala con git status y commiteala.")
     return 0
