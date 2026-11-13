@@ -7,7 +7,7 @@ tarea (**Oracle Task**), requisitos medidos con evidencia (**Oracle**) y revisio
 y quedan registrados como agentes.
 
 Es una CLI local con un flujo visible en Git, una extensión de VS Code con un tablero de comando, y un servidor MCP de
-sólo lectura para que un agente consulte el proyecto. No hace push ni publica ramas por su cuenta. El código y las
+sólo lectura para que un agente consulte el proyecto. No empuja el producto ni publica ramas: sólo `sincronizar`, corrido por una persona, sube el almacén de registros. El código y las
 pruebas del producto los escribe quien trabaja (una persona o un agente); Factory registra qué se acordó, quién decidió
 qué y qué evidencia lo respalda.
 
@@ -114,8 +114,9 @@ requisito) y lo rehace con cada decisión; las notas de personas vencen cuando c
 azar?"` responde con los pasajes vigentes y su cita, por palabras, embeddings (Ollama local por defecto) y el grafo del vault. Ver [el conocimiento del proyecto](docs/conocimiento.md).
 
 **Para agentes.** `oracle-factory agentes` escribe en `AGENTS.md` la guía para agentes, armada desde la CLI y verificada;
-`oracle-factory --proyecto RUTA mcp` sirve el proyecto por MCP, de sólo lectura. Una decisión de persona nunca la toma un
-agente. Ver [trabajar con agentes](docs/agentes.md).
+`oracle-factory --proyecto RUTA mcp` sirve el proyecto por MCP: no cambia nada versionado, pero `preguntar` escribe su caché local
+y puede llamar al modelo configurado. Con `--agente`, un agente nunca queda registrado como persona; sin él, Factory no puede
+saberlo. Ver [trabajar con agentes](docs/agentes.md).
 
 **Revisión, trazabilidad y lo vigente.** `revision-preparar` arma el informe desde los de los revisores y `revision`
 registra una revisión libre o guiada; `trazabilidad <id>` cruza cada requisito con las líneas que lo prueban;
@@ -125,10 +126,9 @@ registra una revisión libre o guiada; `trazabilidad <id>` cruza cada requisito 
 
 ## Alcance y límites
 
-**En desarrollo en esta rama:** `preguntar` incorpora consultas al registro para cantidades/listados y respuestas
-elaboradas con un modelo generativo explícitamente configurado, con fuentes y herramientas de sólo lectura. El JSON
-pasa a `oracle-factory.preguntar/2`. Sin modelo conserva las consultas directas y la recuperación, indicando sus límites.
-Ver [preguntar al proyecto](docs/conocimiento.md#preguntar). Esta ampliación aún no está en el paquete publicado.
+`preguntar` hace consultas al registro para cantidades y listados, y respuestas elaboradas con un modelo generativo configurado
+explícitamente, con fuentes y herramientas de sólo lectura (JSON `oracle-factory.preguntar/2`). Sin modelo conserva las consultas
+directas y la recuperación, indicando sus límites. Ver [preguntar al proyecto](docs/conocimiento.md#preguntar).
 
 - Usa Oracle, Oracle Task y Oracle Clue instalados con Factory; no copia sus reglas.
 - Factory no ejecuta el sensor ni las pruebas del producto, ni certifica que un JSON de hechos provenga de la versión
@@ -138,7 +138,7 @@ Ver [preguntar al proyecto](docs/conocimiento.md#preguntar). Esta ampliación a�
   una persona.
 - No autentica a nadie: una persona es un comando que corre en una terminal sin `--agente`. Los modos son un protocolo
   entre quienes trabajan juntos, no un control de acceso.
-- No hace push ni publica ramas. Verificado en Linux; los comandos para Windows y macOS se revisaron pero no tienen
+- No empuja el producto ni publica ramas; `sincronizar`, corrido por una persona, sube el almacén de registros. Verificado en Linux; los comandos para Windows y macOS se revisaron pero no tienen
   ejecución automatizada.
 
 

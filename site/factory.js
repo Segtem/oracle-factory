@@ -46,7 +46,7 @@
     "input": "El acuerdo y las medidas elegidas",
     "output": "Código y pruebas revisables",
     "decision": "La intención acompaña al código.",
-    "why": "La coordinación automática de agentes es una capacidad prevista. Hoy Factory no escribe ni ejecuta ese código.",
+    "why": "Factory no escribe ese código: lo escribe una persona, o el agente que lanza autopilot con topes.",
     "tracker": "Construyendo el cambio"
   },
   {

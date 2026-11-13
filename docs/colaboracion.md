@@ -115,7 +115,7 @@ Conserven paquete, informe y triage originales con sus hashes. El paquete incluy
 
 Para registrar la revisión en Factory, la forma preferida es la guiada: `oracle-factory revision-preparar ID_COMPLETO` deja un `informe.json` y un `decisiones.json` por completar; el revisor completa el informe (lo revisado, las comprobaciones, los límites y los hallazgos) y una persona decide cada hallazgo en `decisiones.json`. Factory valida la estructura y calcula los hallazgos abiertos al registrarla. Cuando se puede, conviene que revise un agente de una familia de modelo distinta a la del que escribió el código, además de una persona.
 
-Una corrección cambia el candidato: vuelvan a preparar y revisar. Clue valida la integridad del triage, no autentica a su actor ni decide que la resolución sea suficiente. Factory tampoco valida automáticamente los schemas de Clue; registrar un informe en Factory es un paso posterior y humano.
+Una corrección cambia el candidato: vuelvan a preparar y revisar. Clue valida la integridad del triage, no autentica a su actor ni decide que la resolución sea suficiente. Factory valida con Clue los informes de los revisores: al pedirlos (`pedir-revision`) y al preparar la revisión (`revision-preparar`); registrar la decisión de la revisión sigue siendo un paso humano.
 
 ## 5. Integrar una entrega por vez
 

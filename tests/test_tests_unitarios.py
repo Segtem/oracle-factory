@@ -109,7 +109,8 @@ class DocumentoDeTests(unittest.TestCase):
         self.assertIn('cuando sea posible', plantillas.TEXTOS['es']['tareas'])
         self.assertIn('when possible', plantillas.TEXTOS['en']['tareas'])
         self.assertIn('cuando sea posible', self.texto)
-        self.assertIn('no bloquea', self.texto)
+        self.assertIn('El paso no bloquea:', self.texto)  # la frase exacta: «no bloquea» aparece también en otras (Astra H10)
+        self.assertNotIn('El paso bloquea:', self.texto)
         self.assertIn('`importar`, `medir`, `revisar`, `juzgar` y `cerrar` no lo miran', self.texto)
 
     def test_tu3_dice_que_hacer_cuando_no_se_puede_y_nombra_la_excepcion_de_la_spec(self):
