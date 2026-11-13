@@ -134,7 +134,8 @@ class AlmacenSincronizar(unittest.TestCase):
         self.assertEqual(self.estado_git(clon), '')
         self.bien(self.producto, 'nuevo', 'Notas', '--capacidad', 'notas', '--sufijo', 'ur', agente='claude-code')
         self.assertTrue(any(p.name.endswith('-ur') for p in (clon / 'openspec/changes').iterdir()))
-        self.assertEqual(self.estado_git(self.producto), '')  # el producto no recibe nada
+        self.assertEqual(self.estado_git(self.producto), '?? .oracle-factory-almacen')  # sólo la marca con la URL del almacén
+        self.assertEqual((self.producto / '.oracle-factory-almacen').read_text(encoding='utf-8'), self.url + '\n')
         self.assertEqual(self.commits(self.producto), 1)
         # qué cuenta como URL: esquema://… y usuario@host:ruta; una carpeta que existe nunca, aunque su nombre lo parezca
         os.chdir(self.base)

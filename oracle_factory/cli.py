@@ -2276,6 +2276,11 @@ def main(argv: list[str] | None = None) -> int:
         if args.comando in ("conectar", "desconectar"):  # operan sobre el producto: no se redirigen a su almacén
             return almacenes.comando(sys.modules[__name__], args.comando, getattr(args, "almacen", None), getattr(args, "json", False))
         registros = args.registros.expanduser().resolve() if args.registros is not None else almacenes.conectado(sys.modules[__name__])
+        if args.registros is None:
+            if registros is None:
+                almacenes.exigir_conexion(sys.modules[__name__])  # un producto marcado sin conexión no trabaja
+            else:
+                almacenes.avisar_si_no_coincide(almacenes.raiz_git(ROOT) or ROOT, registros)
         if registros is not None and registros != ROOT:
             PRODUCTO, ROOT = almacenes.raiz_git(ROOT) or ROOT, registros  # ROOT sigue siendo «donde están los registros»
         REGISTROS = ROOT
