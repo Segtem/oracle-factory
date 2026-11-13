@@ -489,6 +489,8 @@ class Catalogos(ProyectoTemporal):
     def test_vg3_los_catalogos_escritos_tienen_la_misma_forma_que_los_que_ya_usa_factory(self):
         self.correr('--catalogos')
         registros = vc.almacenes.registros_de(SOURCE)  # el almacén, si este repositorio está conectado
+        if not (registros / 'catalogos').is_dir():
+            self.skipTest('los catálogos de este repositorio no están a mano: está marcado y sin conectar a su almacén (un clon limpio, el CI)')
         real = ((registros / 'catalogos/factory_alarmas_flujo.corrida_completa.oracle').read_text()
                 .replace('alarmas_flujo', 'demo').replace('c.casos == 26', 'c.casos == 5'))
         self.assertEqual((self.carpeta() / 'factory_demo.corrida_completa.oracle').read_text(), real)

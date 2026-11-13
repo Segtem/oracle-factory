@@ -16,6 +16,10 @@ jobs:
       - run: uv tool install oracle-factory
       - name: Verificar los cambios (falla en main, avisa en las demás ramas)
         run: |
+          if [ -f .oracle-factory-almacen ]; then
+            echo "::notice title=verificar::Los registros de este producto están en el almacén $(head -n 1 .oracle-factory-almacen): se verifican en el CI de ese repo (docs/plantillas/verificar-almacen.yml)."
+            exit 0
+          fi
           rc=0
           oracle-factory verificar || rc=$?
           if [ "$rc" -eq 0 ]; then exit 0; fi

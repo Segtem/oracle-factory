@@ -83,7 +83,7 @@ def comandos_nombrados(fragmento):
             tokens, sub, opciones, i = m[1].split(), None, [], 0
             while i < len(tokens):
                 t = tokens[i]
-                if sub is None and t in ('--proyecto', '--agente'):
+                if sub is None and t in ('--proyecto', '--agente', '--registros'):  # las opciones globales que llevan un valor
                     i += 2
                     continue
                 if sub is None and t.startswith('-'):
@@ -137,6 +137,7 @@ class Web(unittest.TestCase):
     def test_w3_la_comprobacion_detecta_un_comando_inexistente(self):
         self.assertEqual(comandos_nombrados('oracle-factory --proyecto x comando-inexistente --opcion'),
                          [('comando-inexistente', ['--opcion'])])
+        self.assertEqual(comandos_nombrados('oracle-factory --proyecto p --registros a verificar'), [('verificar', [])])
         self.assertEqual(comandos_nombrados('oracle-factory \\\n  --proyecto . nuevo --capacidad notas'),
                          [('nuevo', ['--capacidad'])])  # continuada con barra invertida
 

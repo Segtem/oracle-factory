@@ -1,4 +1,5 @@
-# Corre `oracle-factory verificar` (de sólo lectura) con el código de este checkout. Sin secretos, sin escribir nada.
+# Corre la suite y `oracle-factory verificar` (de sólo lectura) con el código de este checkout. Sin secretos, sin escribir nada.
+# Este producto tiene sus registros en un almacén aparte (.oracle-factory-almacen): ahí se verifican, en el CI del almacén.
 # Política: si algún cambio está inconsistente, falla en main y avisa (sin fallar) en las demás ramas y pull requests.
 name: Verificar los cambios de Factory
 on:
@@ -15,8 +16,20 @@ jobs:
       - run: uv tool install .
       - name: Verificar los cambios (falla en main, avisa en las demás ramas)
         run: |
+          if [ -f .oracle-factory-almacen ]; then
+            echo "::notice title=verificar::Los registros de este producto están en el almacén $(head -n 1 .oracle-factory-almacen): se verifican en el CI de ese repo (docs/plantillas/verificar-almacen.yml)."
+            exit 0
+          fi
           rc=0
           oracle-factory verificar || rc=$?
           if [ "$rc" -eq 0 ]; then exit 0; fi
           if [ "$GITHUB_REF" = refs/heads/main ]; then exit "$rc"; fi
           echo "::warning title=verificar::Hay cambios inconsistentes (el detalle está arriba). En main esto falla; en una rama de trabajo es esperable hasta que se renueve la revisión."
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v6
+      - run: uv venv .venv && uv pip install -p .venv -e .
+      - name: La suite (con </dev/null: algunas pruebas leen la terminal)
+        run: .venv/bin/python -m unittest discover -s tests </dev/null
