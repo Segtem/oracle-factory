@@ -135,18 +135,27 @@ class McpConAlmacen(_marca.ConOrigen):
         self.bien('--agente', 'claude-code', 'nuevo', '--capacidad', 'notas', '--sufijo', 'mc', 'Un cambio')
         self.ident = next(p.name for p in (self.almacen / 'openspec/changes').iterdir() if p.name.endswith('-mc'))
 
-    def pedir(self, *llamadas):
+    def pedir(self, *llamadas, raices=None):
         lineas = [json.dumps({'jsonrpc': '2.0', 'id': i, 'method': 'tools/call', 'params': {'name': n, 'arguments': a}})
                   for i, (n, a) in enumerate(llamadas, 1)]
         salida = io.StringIO()
         with patch('sys.stdin', io.StringIO('\n'.join(lineas) + '\n')), patch('sys.stdout', salida):
-            self.assertEqual(f.main(['--proyecto', str(self.producto), 'mcp']), 0)
+            self.assertEqual(f.main([*(raices or ['--proyecto', str(self.producto)]), 'mcp']), 0)
         return [json.loads(l)['result'] for l in salida.getvalue().splitlines() if l.strip()]
 
     def test_ci4_por_que_de_un_archivo_del_producto(self):
         [resultado] = self.pedir(('por_que', {'archivo': 'README.md', 'linea': 1}))
         self.assertFalse(resultado['isError'], resultado)
         self.assertIn('README.md', resultado['content'][0]['text'])
+
+    def test_ci4_con_registros_explicito_las_herramientas_reciben_las_dos_raices(self):  # hallazgo bajo de codex
+        self.bien('desconectar')  # sin conexión: sólo --registros dice dónde están los registros
+        resultados = self.pedir(('estado', {'id': self.ident}), ('por_que', {'archivo': 'README.md', 'linea': 1}),
+                                raices=['--proyecto', str(self.producto), '--registros', str(self.almacen)])
+        for resultado in resultados:
+            self.assertFalse(resultado['isError'], resultado)
+        self.assertIn(self.ident, resultados[0]['content'][0]['text'])
+        self.assertIn('README.md', resultados[1]['content'][0]['text'])
 
     def test_ci4_las_herramientas_de_consulta_contestan_sin_error(self):
         argumentos = {'listar': {}, 'estado': {'id': self.ident}, 'log': {'id': self.ident}, 'resumen': {},
