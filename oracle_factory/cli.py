@@ -1405,6 +1405,9 @@ def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
         catalogo_del_proyecto()
     except (OSError, ValueError):
         pass
+    conflictos = conflictos_de_union(estado, salvo="oracle_ejecutado")  # los del juicio y de la fase los resuelve juzgar
+    if conflictos:
+        raise FactoryError("no se puede juzgar: " + "; ".join(conflictos))
     if estado.get("medidas_pendientes"):
         raise FactoryError("hay medidas sin confirmar por una persona; no cuentan para el juicio: "
                            + ", ".join(estado["medidas_pendientes"]))
@@ -1524,8 +1527,17 @@ def problemas_de_revision(estado: dict) -> list[str]:
 DESACTUALIZADO = " desactualizado respecto del producto"
 
 
+def conflictos_de_union(estado: dict, salvo: str | None = None) -> list[str]:
+    """Lo que dos ramas decidieron distinto y nadie eligió todavía (H5 de la auditoría): frena hasta que una persona lo
+    resuelva. Con `salvo`, una acción, se dejan afuera los conflictos que esa misma acción resuelve."""
+    caminos = unir_mod.resueltos_por(salvo) if salvo else ()
+    return [f"al unir dos ramas, {x.get('campo')} quedó con dos valores y nadie eligió: "
+            f"{unir_mod.como_resolver(x.get('campo', ''), estado.get('id', 'ID'))}"
+            for x in estado.get("pendientes_de_union") or [] if not (caminos and unir_mod.resuelto(x, caminos))]
+
+
 def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
-    faltan = pendientes(estado)
+    faltan = pendientes(estado) + conflictos_de_union(estado)
     faltan += [f"medidas de {rid}: {motivo}" for rid, motivo in medidas_sin_decision(estado)]
     try:
         exigir_spec(carpeta, estado)
