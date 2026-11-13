@@ -15,10 +15,23 @@ def workflows(raiz: Path = SOURCE) -> list[Path]:
     return sorted(r for carpeta in ('.github/workflows', 'docs/plantillas') for ext in ('*.yml', '*.yaml') for r in (raiz / carpeta).glob(ext))
 
 
+class SinRepetidas(yaml.SafeLoader):
+    """Como safe_load, pero una clave repetida en un mapa es un error (PyYAML se queda con la última sin avisar: yv1-002)."""
+
+    def construct_mapping(self, node, deep=False):
+        vistas = set()
+        for clave, _ in node.value:
+            texto = self.construct_object(clave, deep=deep)
+            if texto in vistas:
+                raise yaml.constructor.ConstructorError(None, None, f'clave repetida: {texto}', clave.start_mark)
+            vistas.add(texto)
+        return super().construct_mapping(node, deep=deep)
+
+
 def problemas(ruta: Path) -> list[str]:
     """Lo que le falta a `ruta` para ser un workflow: que se parsee como YAML y tenga on, jobs, y runs-on y steps por trabajo."""
     try:
-        datos = yaml.safe_load(ruta.read_text(encoding='utf-8'))
+        datos = yaml.load(ruta.read_text(encoding='utf-8'), Loader=SinRepetidas)  # noqa: S506 — SafeLoader con una regla más
     except yaml.YAMLError as e:
         return [f'{ruta.name}: no es YAML válido ({str(e).splitlines()[0]})']
     if not isinstance(datos, dict):
@@ -44,6 +57,15 @@ class Workflows(unittest.TestCase):
             (raiz / '.github/workflows/nuevo.yaml').write_text('on:\n  push:\njobs:\n  a:\n    steps: [\n', encoding='utf-8')
             self.assertEqual([r.name for r in workflows(raiz)], ['nuevo.yaml'])
             self.assertIn('nuevo.yaml: no es YAML válido', problemas(workflows(raiz)[0])[0])
+
+    def test_yv1_una_clave_repetida_se_rechaza(self):  # yv1-002
+        with tempfile.TemporaryDirectory() as tmp:
+            doble = Path(tmp) / 'doble.yml'
+            doble.write_text('on:\n  push:\njobs:\n  a:\n    runs-on: ubuntu-latest\n    runs-on: windows-latest\n    steps: []\n',
+                             encoding='utf-8')
+            [problema] = problemas(doble)
+            self.assertIn('doble.yml: no es YAML válido', problema)
+            self.assertIn('runs-on', problema)
 
     def test_yv1_un_valor_con_dos_puntos_sin_comillas_se_rechaza(self):
         with tempfile.TemporaryDirectory() as tmp:
