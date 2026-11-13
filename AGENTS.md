@@ -1,7 +1,7 @@
 # Oracle Factory
 
 Este repositorio es Factory mismo, y se desarrolla con Factory: cada cambio va en su worktree
-(`git worktree add -b tarea/<x> ../factory-<x> main`) con su propio `.venv` (`uv venv .venv; uv pip install -p .venv -e .`).
+(`git worktree add -b tarea/<x> ../factory-<x> main`) con su propio `.venv` (`uv venv .venv; uv pip install -p .venv -e '.[dev]'`: el extra `dev` trae lo que usan las pruebas).
 
 - Las pruebas: `.venv/bin/python -m unittest discover -s tests </dev/null` (con `</dev/null`: algunas leen la terminal).
 - La evidencia de cada cambio la produce su `tools/verify_<x>.py --salida $(oracle-factory ruta ID evidencia)`, con las

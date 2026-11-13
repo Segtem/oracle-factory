@@ -17,6 +17,9 @@ classifiers = [
   "Topic :: Software Development :: Quality Assurance",
 ]
 
+[project.optional-dependencies]
+dev = ["pyyaml==6.0.3"]  # sólo para las pruebas (validan los workflows de CI); no lo instala el paquete
+
 [project.scripts]
 oracle-factory = "oracle_factory.cli:main"
 

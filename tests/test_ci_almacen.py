@@ -71,7 +71,7 @@ class WorkflowDelProducto(unittest.TestCase):
     def test_ci2_hay_un_trabajo_que_corre_la_suite_con_el_checkout(self):
         texto = self.texto()
         self.assertIn('python -m unittest discover -s tests', texto)
-        self.assertIn('uv pip install -p .venv -e .', texto)
+        self.assertRegex(texto, r"uv pip install -p \.venv -e '?\.(\[dev\])?'?")  # el checkout, con el extra de las pruebas
 
     def test_ci2_un_producto_marcado_avisa_que_los_registros_se_verifican_en_el_almacen(self):
         paso = _ci.paso_de_verificacion(self.texto())
