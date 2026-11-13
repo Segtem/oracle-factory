@@ -9,13 +9,14 @@ import os
 
 from . import __version__
 from . import modos
+from . import version as version_mod
 from . import rag as rag_mod
 
 
 def construir_parser() -> argparse.ArgumentParser:
     """La interfaz de la CLI; también la usan las pruebas que comprueban que la web sólo nombra comandos que existen."""
     parser = argparse.ArgumentParser(prog="oracle-factory", description="Factory local con gates humanos, OpenSpec, oracle-task y Oracle")
-    parser.add_argument("--version", action="version", version=f"oracle-factory {__version__}")
+    parser.add_argument("--version", action=version_mod.Version)
     parser.add_argument("--proyecto", type=Path, default=None, help="carpeta del proyecto; por defecto se busca .factory/ subiendo desde la carpeta actual y, si no hay, se usa la actual; colocar antes del subcomando")
     parser.add_argument("--registros", type=Path, default=None, help="EXPERIMENTAL (etapa 1 de 6): carpeta aparte para los registros de Factory (.factory/, tareas/, openspec/, kb/, requisitos/, catálogos); el producto no se toca; sin ella, los registros viven en el proyecto; colocar antes del subcomando")
     parser.add_argument("--agente", default=os.environ.get("FACTORY_AGENTE"), help="actuar como agente con este nombre (o FACTORY_AGENTE); queda registrado como agente, nunca como persona")

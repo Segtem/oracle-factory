@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
       - run: uv tool install .
       - name: Verificar los cambios (falla en main, avisa en las demás ramas)
         run: |
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
       - run: uv venv .venv && uv pip install -p .venv -e '.[dev]'
       - name: "La suite (con </dev/null: algunas pruebas leen la terminal)"
         run: .venv/bin/python -m unittest discover -s tests </dev/null

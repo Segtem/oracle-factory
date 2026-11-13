@@ -1,3 +1,29 @@
+# Sin publicar
+
+Lo que está en `main` y todavía no en una versión publicada. Desde un checkout, `oracle-factory --version` lo dice con el commit:
+`0.1.0a18+SHA (checkout, sin publicar)`.
+
+- **Registros en un almacén aparte.** El repo del producto ya no recibe los registros de Factory: viven en un repo Git propio.
+  `oracle-factory conectar ALMACEN` (una carpeta o una URL de Git, que se clona) conecta el producto; cada comando commitea lo
+  suyo en el almacén y `oracle-factory sincronizar` lo junta con lo de los demás y, si lo corre una persona, lo sube.
+  `oracle-factory migrar --almacen ALMACEN` pasa al almacén los registros de un proyecto que ya los tenía adentro; se niega
+  sin tocar nada ante cambios sin commitear, un repo anidado o un almacén con registros, y deshace lo hecho si algo falla. Ver
+  `docs/estructura.md`.
+- **El producto marca su almacén.** `conectar` y `migrar --almacen` escriben `.oracle-factory-almacen`, una línea con la URL
+  del almacén; un clon o una copia sin conectar se niega a trabajar y dice `oracle-factory conectar URL`, en vez de empezar
+  registros vacíos adentro del producto.
+- **CI con almacén.** El workflow del producto corre la suite, que pasa en un clon limpio; los registros se verifican en el CI
+  del almacén con la plantilla `docs/plantillas/verificar-almacen.yml`. El MCP sirve sobre el producto también con almacén.
+  Ver `docs/ci.md`.
+- **Un conflicto de unión frena.** Lo que dos ramas decidieron distinto (`pendientes_de_union`) es un pendiente: `verificar`
+  falla y `juzgar` y `cerrar` se niegan hasta que una persona lo resuelva. Ver `docs/colaboracion.md`.
+- **Las pruebas usan un extra.** El `.venv` de desarrollo se prepara con `uv pip install -p .venv -e '.[dev]'` (PyYAML, para
+  validar los workflows); el paquete no lo exige.
+- **La guía versionada.** `oracle-factory agentes --en-el-repo` mantiene la guía para agentes en un `AGENTS.md` que el producto
+  versiona.
+- La extensión de VS Code del repositorio sigue diciendo 0.5.0, pero la que ve un almacén se arma desde el checkout
+  (`python3 editores/vscode/empaquetar.py`).
+
 # Oracle Factory 0.1.0a18
 
 - **`oracle-factory verificar` para CI.** De sólo lectura: sale con 0 si los cambios del proyecto están consistentes y con 1 si no, y con `--json` entrega el contrato `oracle-factory.verificar/1`. Una plantilla de workflow está en `docs/plantillas/verificar.yml` (ver `docs/ci.md`).

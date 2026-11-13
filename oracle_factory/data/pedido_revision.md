@@ -13,6 +13,8 @@ $vueltas
 Cómo trabajar: leé la spec y el diff; contrastá cada promesa con el código y con las pruebas; buscá casos que fallen, afirmaciones que el
 código no cumple y pruebas que no prueban lo que dicen. Si podés, hacé mutaciones a mano sobre copias en tu carpeta y decí cuáles sobreviven.
 Mandá la salida larga a archivos de tu carpeta y leé sólo el resumen.
+Mientras revisás, Factory escribe en el registro del cambio (su factory.json y su nota de kb/cambios/) los eventos de este pedido
+(revision_lanzada, revision_pedida): si los ves cambiar, no son de las pruebas ni tuyos, y no son un hallazgo.
 
 Entregable: un informe JSON en $informe con este formato (schema oracle-clue.review/v1):
 - schema_version "oracle-clue.review/v1"; repo, base, head, diff_sha256 y context_sha256 copiados del paquete;
