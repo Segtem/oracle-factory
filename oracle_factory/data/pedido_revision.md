@@ -10,6 +10,10 @@ Qué revisar:
 - Paquete de Oracle Clue con el diff y el contexto: $paquete
 Trabajá en el checkout ($checkout): ahí están los archivos del candidato y ahí se corren las pruebas. Tu carpeta de trabajo, donde
 arrancás, sólo tiene este pedido y tu salida: no es el checkout, y que esté casi vacía no quiere decir que falte el candidato.
+Si las pruebas del producto son de Python, corrélas con el intérprete con que corre Factory, que tiene sus dependencias: $python, desde
+el checkout y con PYTHONPATH apuntando a él (así se importa el código del candidato), por ejemplo `cd $checkout; PYTHONPATH=. $python -m
+unittest ...`. Una prueba que se omite porque necesita algo que el checkout no tiene (por ejemplo, los registros del almacén) no hace
+incompleta la revisión: anotala en limitations.
 
 $vueltas
 Cómo trabajar: leé la spec y el diff; contrastá cada promesa con el código y con las pruebas; buscá casos que fallen, afirmaciones que el
