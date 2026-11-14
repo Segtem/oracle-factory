@@ -321,7 +321,8 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
                     f"{len(datos_paquete['excluded_files'])} archivos de registros y evidencia de Factory; no los revises.\n")
     valores = {"id": identificador, "titulo": estado.get("titulo", ""), "propuesta": str(carpeta / "proposal.md"),
                "spec": str(cli.ROOT / estado["spec"]), "candidato": sha, "checkout": str(checkout), "paquete": str(paquete),
-               "informe": str(informe), "proveedor": revisor["proveedor"], "modelo": revisor["modelo"], "vueltas": vueltas}
+               "informe": str(informe), "proveedor": revisor["proveedor"], "modelo": revisor["modelo"], "vueltas": vueltas,
+               "python": sys.executable}  # el intérprete de Factory, con sus dependencias: el checkout del revisor no trae uno
     texto = revisores_mod.pedido(revisores_mod.plantilla(cli.ROOT), valores, extra)
     pedido_archivo.write_text(texto, encoding="utf-8")
     argv = revisores_mod.argumentos(revisor["comando"], {"pedido": texto, "pedido_archivo": pedido_archivo, "carpeta": trabajo,
