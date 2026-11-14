@@ -24,6 +24,7 @@ from importlib import metadata, resources
 
 from . import __version__
 from . import archivo
+from . import robusto
 from . import resumen
 from . import revisores as revisores_mod
 from . import estructura
@@ -133,7 +134,14 @@ def leer(identificador: str) -> tuple[Path, dict]:
         print(f"Aviso: el estado de {identificador} está en el lugar anterior a la fase 2 (openspec/changes/); "
               "oracle-factory migrar lo pasa a .factory/cambios/.", file=sys.stderr)
     LEIDOS[archivo] = datos = archivo.read_bytes()
-    return carpeta, sin_eventos_raros(json.loads(datos.decode("utf-8")), identificador)
+    try:
+        estado = json.loads(datos.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as e:
+        raise FactoryError(f"el registro {archivo} no es JSON válido ({e}): restauralo desde Git (git restore)") from e
+    problema = robusto.forma_invalida(estado)
+    if problema:
+        raise FactoryError(f"el registro {archivo} {problema}: restauralo desde Git (git restore)")
+    return carpeta, sin_eventos_raros(estado, identificador)
 
 
 def sin_eventos_raros(estado, identificador: str):
@@ -1637,6 +1645,13 @@ def escribir_archivo(capacidad: str, indice: dict) -> str:
     return spec.relative_to(ROOT).as_posix()
 
 
+def fusionar_capacidad(estado: dict) -> tuple[str, str]:
+    """(capacidad, spec consolidada): fusiona la spec del cambio leyendo el índice recién, bajo el bloqueo de la capacidad."""
+    with robusto.bloqueo_capacidad(ROOT, capacidad_destino(estado["capacidad"])):
+        capacidad, indice = plan_archivo(estado)
+        return capacidad, escribir_archivo(capacidad, indice)
+
+
 def marcar_archivado(estado: dict, capacidad: str, spec: str, forma: str) -> None:
     estado["archivo"] = {"capacidad": capacidad, "spec": spec, "cuando": ahora()}
     evento(estado, "archivado", forma=forma, capacidad=capacidad, spec=spec)
@@ -1663,8 +1678,7 @@ def archivar() -> None:
         return
     for _, identificador in sorted(pendientes, key=lambda x: (unir_mod.hora({"cuando": x[0]}), x[1])):
         carpeta, estado = leer(identificador)
-        capacidad, indice = plan_archivo(estado)
-        spec = escribir_archivo(capacidad, indice)
+        capacidad, spec = fusionar_capacidad(estado)
         marcar_archivado(estado, capacidad, spec, "migracion")
         guardar(carpeta, estado)
         print(f"Archivado {identificador} en {spec}.")
@@ -1704,8 +1718,7 @@ def cerrar(identificador: str) -> None:
     guardar(carpeta, estado)
     # Se fusiona después de cerrar: si se corta antes, nada quedó fusionado y el cierre se reintenta; si se corta
     # después, el cambio queda cerrado sin archivar y `archivar` lo completa.
-    capacidad, indice = plan_archivo(estado)
-    spec_consolidada = escribir_archivo(capacidad, indice)
+    capacidad, spec_consolidada = fusionar_capacidad(estado)
     marcar_archivado(estado, capacidad, spec_consolidada, forma)
     guardar(carpeta, estado)
     print(f"Spec fusionada en {spec_consolidada}.")
@@ -2258,7 +2271,12 @@ def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = Fal
         ruta_segura(carpeta)
         if not (ruta_registro(carpeta)).exists():
             continue
-        _, estado = leer(carpeta.name)
+        try:
+            _, estado = leer(carpeta.name)
+        except FactoryError as e:  # uno roto no deja sin lista a los demás
+            print(f"{carpeta.name}  ilegible: {e}")
+            encontrados += 1
+            continue
         if (fase and estado['fase'] != fase) or (abiertos and estado['fase'] in ('cerrada', 'abandonada')) \
                 or (cerrados and estado['fase'] != 'cerrada'):
             continue
@@ -2271,6 +2289,20 @@ def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = Fal
 
 
 def main(argv: list[str] | None = None) -> int:
+    """La CLI. Si la salida estándar se cierra a mitad (`oracle-factory listar | head -1`), sale con 141 en silencio."""
+    try:
+        codigo = _main(argv)
+        sys.stdout.flush()  # adentro: una tubería rota se ve acá y no al cerrar Python («Exception ignored…»)
+        return codigo
+    except BrokenPipeError:
+        try:  # lo que quede en el búfer va a /dev/null: al salir, Python no vuelve a fallar al vaciarlo
+            os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
+        except (OSError, ValueError, AttributeError):
+            pass
+        return 141
+
+
+def _main(argv: list[str] | None = None) -> int:
     global ROOT, CHANGES, AGENTE, PRODUCTO, REGISTROS
     args = construir_parser().parse_args(argv)
     if args.proyecto is not None:
@@ -2392,6 +2424,8 @@ def main(argv: list[str] | None = None) -> int:
               "su entorno: .venv/bin/oracle-factory (en cualquier shell) o python fabrica.py; en otro proyecto, instalá Factory con "
               "uv tool install --with-executables-from oracle-metalenguaje,oracle-task oracle-factory", file=sys.stderr)
         return 1
+    except BrokenPipeError:
+        raise  # no es un error de Factory: lo resuelve main
     except (FactoryError, OSError, json.JSONDecodeError, EOFError) as e:
         print(f"FACTORY BLOQUEADA: {e}", file=sys.stderr)
         return 1

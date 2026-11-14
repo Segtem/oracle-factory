@@ -17,6 +17,9 @@ Lo que está en `main` y todavía no en una versión publicada. Desde un checkou
   Ver `docs/ci.md`.
 - **Un conflicto de unión frena.** Lo que dos ramas decidieron distinto (`pendientes_de_union`) es un pendiente: `verificar`
   falla y `juzgar` y `cerrar` se niegan hasta que una persona lo resuelva. Ver `docs/colaboracion.md`.
+- **Registros robustos.** Un `factory.json` roto (que no es un objeto, truncado o con `id`, `titulo` o `fase` de otro tipo) se
+  nombra con su archivo en vez de tumbar la CLI, y `listar` sigue con los demás; cortar la salida (`listar | head -1`) sale en
+  silencio con 141; dos cierres a la vez de la misma capacidad conservan las dos specs.
 - **Las pruebas usan un extra.** El `.venv` de desarrollo se prepara con `uv pip install -p .venv -e '.[dev]'` (PyYAML, para
   validar los workflows); el paquete no lo exige.
 - **La guía versionada.** `oracle-factory agentes --en-el-repo` mantiene la guía para agentes en un `AGENTS.md` que el producto
