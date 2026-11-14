@@ -24,6 +24,7 @@ from importlib import metadata, resources
 
 from . import __version__
 from . import archivo
+from . import robusto
 from . import resumen
 from . import revisores as revisores_mod
 from . import estructura
@@ -137,23 +138,10 @@ def leer(identificador: str) -> tuple[Path, dict]:
         estado = json.loads(datos.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as e:
         raise FactoryError(f"el registro {archivo} no es JSON válido ({e}): restauralo desde Git (git restore)") from e
-    problema = forma_invalida(estado)
+    problema = robusto.forma_invalida(estado)
     if problema:
         raise FactoryError(f"el registro {archivo} {problema}: restauralo desde Git (git restore)")
     return carpeta, sin_eventos_raros(estado, identificador)
-
-
-def forma_invalida(estado) -> str | None:
-    """Qué le falta a un registro para leerse sin romper nada (Astra H7, Fable H11), o None. Un «eventos» raro se tolera aparte
-    (sin_eventos_raros); la capacidad puede faltar: los cambios abandonados antes de que existiera no la tienen."""
-    if not isinstance(estado, dict):
-        return f"no es un objeto JSON (es {type(estado).__name__})"
-    for campo in ("id", "titulo", "fase"):
-        if not isinstance(estado.get(campo), str):
-            return f"no tiene «{campo}» como texto" if campo in estado else f"no tiene «{campo}»"
-    if "capacidad" in estado and not isinstance(estado["capacidad"], str):
-        return "tiene una «capacidad» que no es texto"
-    return None
 
 
 def sin_eventos_raros(estado, identificador: str):
@@ -1657,23 +1645,9 @@ def escribir_archivo(capacidad: str, indice: dict) -> str:
     return spec.relative_to(ROOT).as_posix()
 
 
-@contextmanager
-def bloqueo_capacidad(capacidad: str):
-    """Un bloqueo de archivo por capacidad (flock), para que calcular el índice fusionado y escribirlo no se intercalen con otro
-    cierre o archivado de la misma capacidad (Astra H1)."""
-    # Fuera del proyecto: un intento rechazado no deja nada en él. El nombre sale de la ruta de los registros y de la capacidad.
-    clave = hashlib.sha256(f"{ROOT.resolve()}\0{capacidad}".encode("utf-8")).hexdigest()[:24]
-    with open(Path(tempfile.gettempdir()) / f"oracle-factory-fusion-{clave}.lock", "a", encoding="utf-8") as candado:
-        fcntl.flock(candado, fcntl.LOCK_EX)
-        try:
-            yield
-        finally:
-            fcntl.flock(candado, fcntl.LOCK_UN)
-
-
 def fusionar_capacidad(estado: dict) -> tuple[str, str]:
     """(capacidad, spec consolidada): fusiona la spec del cambio leyendo el índice recién, bajo el bloqueo de la capacidad."""
-    with bloqueo_capacidad(capacidad_destino(estado["capacidad"])):
+    with robusto.bloqueo_capacidad(ROOT, capacidad_destino(estado["capacidad"])):
         capacidad, indice = plan_archivo(estado)
         return capacidad, escribir_archivo(capacidad, indice)
 
