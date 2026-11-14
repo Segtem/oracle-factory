@@ -2424,6 +2424,7 @@ from .flujo_revision import (  # noqa: E402
     base_vacia,
     base_vacia_en,
     bytes_json,
+    como_seguir,
     corte_del_candidato,
     exclusiones_del_paquete,
     guardar_par_revision,

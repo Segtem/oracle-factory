@@ -8,6 +8,8 @@ Qué tiene que hacer el cambio:
 Qué revisar:
 - Checkout del candidato $candidato (sólo lectura): $checkout
 - Paquete de Oracle Clue con el diff y el contexto: $paquete
+Trabajá en el checkout ($checkout): ahí están los archivos del candidato y ahí se corren las pruebas. Tu carpeta de trabajo, donde
+arrancás, sólo tiene este pedido y tu salida: no es el checkout, y que esté casi vacía no quiere decir que falte el candidato.
 
 $vueltas
 Cómo trabajar: leé la spec y el diff; contrastá cada promesa con el código y con las pruebas; buscá casos que fallen, afirmaciones que el

@@ -511,6 +511,19 @@ def proponer_revision(identificador: str, decision: str, motivo: str) -> None:
           f"La persona la ve como opción con oracle-factory revisar {identificador}.")
 
 
+def como_seguir(comprobacion: dict, informe: dict, identificador: str) -> str:
+    """Para la revisión de un revisor que quedó incompleta: su primer límite declarado y cómo pedirle otra vuelta, para que la
+    persona sepa por qué no puede aprobar y qué hacer (la «Revisión de PROVEEDOR: …» la arma preparacion.completar)."""
+    descripcion = comprobacion.get("descripcion") or ""
+    if not descripcion.startswith("Revisión de ") or ":" not in descripcion:  # las de un revisor son cumple o no_ejecutada
+        return ""
+    proveedor = descripcion[len("Revisión de "):descripcion.index(":")]  # «codex (gpt-6-luna)»
+    revisor = proveedor.split(" (")[0]
+    limite = next((l[len(proveedor) + 2:] for l in informe.get("limites") or [] if isinstance(l, str) and l.startswith(proveedor + ": ")),
+                  "no declaró por qué")
+    return f": {revisor} dejó su revisión incompleta ({limite}); pedile otra vuelta con oracle-factory pedir-revision {identificador} --a {revisor}"
+
+
 def revisar_paso_a_paso(identificador: str) -> None:
     """La revisión del candidato vigente, guiada: prepara, muestra, pregunta y registra sin editar JSON.
 
@@ -717,7 +730,8 @@ def _revisar_paso_a_paso(identificador: str, intento: dict) -> None:
         informe["limites"] = [limite]
     # Los números no se corren: «Aprobar» es siempre la 1, y cuando no se puede dice por qué.
     causas = ([f"{abiertos} hallazgo(s) abiertos"] if abiertos else []) + ([] if completa else ["la revisión está incompleta"]) + [
-        f"{c['descripcion']} ({c['resultado']})" for c in informe["comprobaciones"] if c["resultado"] != "cumple"]
+        f"{c['descripcion']} ({c['resultado']})" + cli.como_seguir(c, informe, identificador)
+        for c in informe["comprobaciones"] if c["resultado"] != "cumple"]
     aprobar = ("NO DISPONIBLE: " + "; ".join(causas)) if causas else "la revisión queda aprobada; después corre juzgar y se puede cerrar"
     i = cli.elegir(f"Decisión sobre el candidato {sha}:", [("Aprobar", aprobar),
                                                          ("Pedir cambios", "la revisión queda registrada pidiendo cambios"),
