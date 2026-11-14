@@ -151,9 +151,9 @@ class Bucle(unittest.TestCase):
         self.assertEqual(lanzar([sys.executable, '-c', 'import sys; sys.exit(0)'], -5)[0], 124)
         with patch.object(conductor.subprocess, 'run', side_effect=AssertionError('sin tiempo no arranca')):  # y sin tiempo ni siquiera arranca
             self.assertEqual(lanzar(['x'], 0)[0], 124)
-        with patch.object(conductor.subprocess, 'run', side_effect=conductor.subprocess.TimeoutExpired('x', 0.2)) as run:  # el plazo llega exacto
+        with patch.object(conductor.procesos, 'correr_en_grupo', return_value=(124, '', 'plazo')) as correr:  # el plazo llega exacto
             self.assertEqual(lanzar(['x'], 0.2)[0], 124)
-            self.assertEqual(run.call_args.kwargs['timeout'], 0.2)
+            self.assertEqual(correr.call_args.args[2], 0.2)
 
     def test_co2_sin_lanzar_el_trabajo_creativo_detiene_el_bucle_y_deja_la_instruccion(self):
         paso = 'corregí lo que pidió la revisión y commitealo'

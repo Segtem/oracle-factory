@@ -12,11 +12,12 @@ import json
 import os
 from pathlib import Path
 import re
-import signal
 import subprocess
 import tempfile
 import time
 from typing import Callable
+
+from . import procesos
 
 ARCHIVO = Path(".factory") / "destinos.json"
 DIR_REGISTROS = Path(".factory") / "despliegues"
@@ -248,22 +249,13 @@ def faltan_secretos(decl: dict, plan: dict) -> list[str]:
 def _correr(comando: str, raiz: Path, env: dict, tope: int) -> tuple[int, str, float]:
     """(código, salida, segundos). Un comando que se pasa del tope o no arranca es un fallo, no un cuelgue."""
     inicio = time.monotonic()
-    try:
-        # Su propia sesión: si se pasa del tope se mata todo el grupo, no sólo el shell (un hijo en segundo plano seguiría tocando el destino).
-        p = subprocess.Popen(["sh", "-c", comando], cwd=raiz, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
-                             stdin=subprocess.DEVNULL, start_new_session=True)
-    except OSError as e:
-        return 127, f"no se pudo ejecutar: {e}", time.monotonic() - inicio
-    try:
-        salida, _ = p.communicate(timeout=tope)
-        return p.returncode, salida or "", time.monotonic() - inicio
-    except subprocess.TimeoutExpired:
-        try:
-            os.killpg(p.pid, signal.SIGKILL)
-        except ProcessLookupError:
-            pass
-        salida, _ = p.communicate()
-        return 124, (salida or "") + f"\n[se pasó del tope de {tope} s y se mató el grupo de procesos]", time.monotonic() - inicio
+    # Su propio grupo: si se pasa del tope se detiene todo el grupo, no sólo el shell (un hijo en segundo plano seguiría tocando el destino).
+    codigo, salida, motivo = procesos.correr_en_grupo(["sh", "-c", comando], raiz, tope, env)
+    if motivo == "no_arranca":
+        return 127, f"no se pudo ejecutar: {salida}", time.monotonic() - inicio
+    if motivo == "plazo":
+        salida += f"\n[se pasó del tope de {tope} s y se mató el grupo de procesos]"
+    return codigo, salida, time.monotonic() - inicio
 
 
 def _tapar(texto: str, secretos: dict[str, str]) -> str:

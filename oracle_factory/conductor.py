@@ -12,6 +12,7 @@ import sys
 import time
 
 from . import autopilot
+from . import procesos
 
 MAX_MENSAJE = 2000  # el largo de un mensaje del registro
 PLAZO_FINAL = 10  # segundos para dejar el mensaje final: el rastro de por qué se detuvo se deja aunque el tope ya esté agotado; no es actuar
@@ -26,13 +27,10 @@ def _proceso(argv, cwd, plazo: float, env=None) -> tuple[int, str]:
     arranca son un código distinto de cero."""
     if plazo <= 0:
         return 124, "no quedaba tiempo"
-    try:
-        p = subprocess.run(argv, cwd=cwd, capture_output=True, text=True, stdin=subprocess.DEVNULL, timeout=plazo, env=env)
-    except subprocess.TimeoutExpired:
+    codigo, salida, motivo = procesos.correr_en_grupo(argv, cwd, plazo, env)  # el plazo alcanza también a lo que el paso lanzó
+    if motivo == "plazo":
         return 124, "se acabó el plazo"
-    except (OSError, ValueError) as e:
-        return 127, str(e)
-    return p.returncode, (p.stdout + p.stderr).strip()
+    return codigo, salida.strip()
 
 
 # Lo único que un agente lanzado ve del entorno de la persona (más lo que ella entregue con --entorno): lo que hace falta para correr herramientas de

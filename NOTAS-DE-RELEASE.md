@@ -20,6 +20,9 @@ Lo que está en `main` y todavía no en una versión publicada. Desde un checkou
 - **Registros robustos.** Un `factory.json` roto (que no es un objeto, truncado o con `id`, `titulo` o `fase` de otro tipo) se
   nombra con su archivo en vez de tumbar la CLI, y `listar` sigue con los demás; cortar la salida (`listar | head -1`) sale en
   silencio con 141; dos cierres a la vez de la misma capacidad conservan las dos specs.
+- **El plazo detiene a todo el grupo.** Cuando vence el plazo de un paso de `autopilot --ejecutar` o el tope de un comando de
+  despliegue, se detiene al proceso y a los que lanzó (SIGTERM y, tras unos segundos, SIGKILL), con una función común
+  (`oracle_factory/procesos.py`).
 - **Las pruebas usan un extra.** El `.venv` de desarrollo se prepara con `uv pip install -p .venv -e '.[dev]'` (PyYAML, para
   validar los workflows); el paquete no lo exige.
 - **La guía versionada.** `oracle-factory agentes --en-el-repo` mantiene la guía para agentes en un `AGENTS.md` que el producto
