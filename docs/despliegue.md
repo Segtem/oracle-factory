@@ -2,7 +2,8 @@
 
 Un producto rara vez es un solo lugar: un VPS, una app, un ESP32, un contenedor. Factory los llama **destinos** y no sabe nada de
 ninguno: el proyecto declara los comandos y Factory los ordena, los ejecuta cuando una persona lo autoriza, prueba cada destino y
-el conjunto, y deja un registro. Nada se despliega solo: ni por CI, ni por un agente.
+el conjunto, y deja un registro. Nada se despliega solo ni por CI, y un agente despliega sólo si una persona le dio autonomía en producción
+(`oracle-factory autonomia produccion autonomo`).
 
 ## Declarar los destinos
 

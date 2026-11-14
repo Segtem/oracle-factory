@@ -34,4 +34,4 @@ Los registros se verifican en el repo del almacén, con la plantilla `docs/plant
 
 ## En un hook pre-push
 
-Para correrlo antes de empujar, agregá `oracle-factory verificar || exit 1` al hook `pre-push` de tu proyecto (el de la puerta local, `oracle-factory hooks`, no lo incluye). Como cualquier hook, se saltea con `git push --no-verify`: revisá antes lo que publicás.
+Para correrlo antes de empujar, agregá `oracle-factory verificar || exit 1` al hook `pre-push` de tu proyecto: la puerta local de `oracle-factory hooks` ya corre `verificar`, pero sólo avisa; con esta línea, un cambio inconsistente bloquea el push. Como cualquier hook, se saltea con `git push --no-verify`: revisá antes lo que publicás.

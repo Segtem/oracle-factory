@@ -1,4 +1,4 @@
-"""Servidor MCP de sólo lectura sobre un proyecto de Factory: `oracle-factory --proyecto RUTA mcp`.
+"""Servidor MCP de consultas sobre un proyecto de Factory, sin cambiar nada versionado (`preguntar` escribe su caché local): `oracle-factory --proyecto RUTA mcp`.
 
 JSON-RPC por stdio, un mensaje por línea (el transporte stdio de MCP, sin cabeceras), sin dependencias. Cada herramienta
 corre una consulta de la CLI en un proceso aparte y devuelve su salida tal cual: lo mismo que ve una persona, y nada que
