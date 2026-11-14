@@ -157,6 +157,28 @@ class InterrupcionDv2(Base):
         r = registro_unico(raiz)
         self.assertEqual((r['resultado'], r['en_curso']), ('en_curso', {'destino': None, 'paso': 'conjunto'}))
 
+    def test_dv2_lo_que_termino_queda_guardado_aunque_el_proceso_muera_antes_de_cerrar(self):
+        # Muere de golpe (os._exit) justo después de la prueba de humo y la de conjunto, antes de cerrar la corrida.
+        raiz = proyecto(self.tmp, {'api': destino('api')})
+        guion = ('import os, sys; from pathlib import Path; from oracle_factory import despliegue as d; r = Path(sys.argv[1]); '
+                 'd._cerrar = lambda *a: os._exit(3); '
+                 'decl = d.cargar(r); d.ejecutar(r, decl, d.armar_plan(r, decl), autorizo="Brian", planeo="claude-code")')
+        p = subprocess.run([sys.executable, '-c', guion, str(raiz)], cwd=raiz, env={**os.environ, 'PYTHONPATH': str(SOURCE)},
+                           capture_output=True, text=True, timeout=60)
+        self.assertEqual(p.returncode, 3, p.stderr)
+        r = registro_unico(raiz)
+        self.assertEqual(r['destinos']['api']['estado'], 'probado')
+        self.assertEqual(r['destinos']['api']['pasos']['probar']['codigo'], 0)
+        self.assertEqual(r['conjunto']['resultado'], 'ok')
+        # Un destino sin «volver» que falla su prueba: después de ese paso no corre ningún otro comando.
+        sub = Path(self.tmp) / 'sin_volver'
+        sub.mkdir()
+        raiz = proyecto(sub, {'api': sin(destino('api', probar='false'), 'volver')})
+        p = subprocess.run([sys.executable, '-c', guion, str(raiz)], cwd=raiz, env={**os.environ, 'PYTHONPATH': str(SOURCE)},
+                           capture_output=True, text=True, timeout=60)
+        self.assertEqual(p.returncode, 3, p.stderr)
+        self.assertEqual(registro_unico(raiz)['destinos']['api']['pasos']['probar']['codigo'], 1)
+
     def test_dv2_una_corrida_que_termino_no_deja_aviso(self):
         raiz = proyecto(self.tmp, {'api': destino('api', probar='false')})
         desplegar(raiz)  # falla, pero terminó: no es una interrupción

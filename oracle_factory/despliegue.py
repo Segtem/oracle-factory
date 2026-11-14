@@ -292,6 +292,7 @@ def ejecutar(raiz: Path, decl: dict, plan: dict, autorizo: str, planeo: str, cor
         codigo, salida, seg = correr(comando, raiz, env, d["tope_segundos"])
         salida = _tapar(salida, todos)
         registro["destinos"][n]["pasos"][nombre] = {"comando": _tapar(comando, todos), "codigo": codigo, "segundos": round(seg, 2), "salida": salida[-MAX_SALIDA:]}
+        _guardar(raiz, registro)  # y después: lo que terminó queda escrito aunque el proceso muera antes del próximo paso
         return codigo, salida.strip()
 
     try:
@@ -314,6 +315,7 @@ def ejecutar(raiz: Path, decl: dict, plan: dict, autorizo: str, planeo: str, cor
                 registro["en_curso"] = {"destino": None, "paso": "conjunto"}
                 _guardar(raiz, registro)
                 _conjunto(registro, decl, raiz, commit, plan, correr, todos)
+                _guardar(raiz, registro)
         _cerrar(registro, decl, plan, paso)
     except BaseException as e:  # Ctrl-C o un error: el registro dice hasta dónde llegó, y la interrupción sigue su camino
         _interrumpido(registro, e)
