@@ -76,7 +76,7 @@ Resultado de la corrida: `todo_funciona`, `incompleto` (algo quedó sin probar),
 
 Cada corrida deja `.factory/despliegues/<ID>/registro.json` con el commit, quién planeó y quién autorizó, y por destino las
 versiones antes y después, los comandos, su salida (con los secretos tapados) y los tiempos. El registro se escribe antes del primer
-comando, con resultado `en_curso`, y otra vez después de cada paso. Si la corrida se interrumpe (Ctrl-C, un error), queda
+comando, con resultado `en_curso`, y otra vez antes de cada paso, con lo que dejó el anterior. Si la corrida se interrumpe (Ctrl-C, un error), queda
 `interrumpido`, con el destino y el paso en que se cortó, y ese destino `interrumpido`; no se vuelve atrás nada por una interrupción.
 Si se mató el proceso, queda `en_curso`. En los dos casos, el próximo `oracle-factory desplegar` lo avisa antes del plan, con los
 destinos que pudo haber tocado, y arma el plan igual: mirá esos destinos antes de autorizar.

@@ -288,10 +288,10 @@ def ejecutar(raiz: Path, decl: dict, plan: dict, autorizo: str, planeo: str, cor
         d = decl["destinos"][n]
         env = {**os.environ, "FACTORY_COMMIT": commit, "FACTORY_DESTINO": n, "FACTORY_RAMA": plan["rama"]}
         registro["en_curso"] = {"destino": n, "paso": nombre}
+        _guardar(raiz, registro)  # antes de correrlo: si se mata el proceso a mitad del paso, el registro nombra a éste y no al anterior
         codigo, salida, seg = correr(comando, raiz, env, d["tope_segundos"])
         salida = _tapar(salida, todos)
         registro["destinos"][n]["pasos"][nombre] = {"comando": _tapar(comando, todos), "codigo": codigo, "segundos": round(seg, 2), "salida": salida[-MAX_SALIDA:]}
-        _guardar(raiz, registro)
         return codigo, salida.strip()
 
     try:
@@ -312,8 +312,8 @@ def ejecutar(raiz: Path, decl: dict, plan: dict, autorizo: str, planeo: str, cor
             sin_probar = [n for n in plan["orden"] if registro["destinos"][n]["estado"] != "probado"]
             if not sin_probar and decl["conjunto"]:
                 registro["en_curso"] = {"destino": None, "paso": "conjunto"}
-                _conjunto(registro, decl, raiz, commit, plan, correr, todos)
                 _guardar(raiz, registro)
+                _conjunto(registro, decl, raiz, commit, plan, correr, todos)
         _cerrar(registro, decl, plan, paso)
     except BaseException as e:  # Ctrl-C o un error: el registro dice hasta dónde llegó, y la interrupción sigue su camino
         _interrumpido(registro, e)

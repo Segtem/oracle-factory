@@ -138,6 +138,7 @@ class InterrupcionDv2(Base):
         self.assertEqual(p.returncode, -9, p.stderr)
         r = registro_unico(raiz)
         self.assertEqual(r['resultado'], 'en_curso')
+        self.assertEqual(r['en_curso'], {'destino': 'app', 'paso': 'desplegar'})  # guardado antes de correrlo, no el paso anterior
         self.assertEqual(r['destinos']['api']['estado'], 'probado')
         salida = correr(raiz, 'desplegar', '--simular')
         self.assertEqual(salida.returncode, 0, salida.stderr)
@@ -145,6 +146,16 @@ class InterrupcionDv2(Base):
         self.assertIn('en_curso', aviso)
         self.assertIn('api', aviso)
         self.assertIn('app', aviso)
+
+    def test_dv2_una_corrida_matada_en_la_prueba_de_conjunto_lo_dice(self):
+        raiz = proyecto(self.tmp, {'api': destino('api')}, conjunto={'probar': 'kill -9 $PPID; sleep 5'})
+        guion = ('import sys; from pathlib import Path; from oracle_factory import despliegue as d; r = Path(sys.argv[1]); '
+                 'decl = d.cargar(r); d.ejecutar(r, decl, d.armar_plan(r, decl), autorizo="Brian", planeo="claude-code")')
+        p = subprocess.run([sys.executable, '-c', guion, str(raiz)], cwd=raiz, env={**os.environ, 'PYTHONPATH': str(SOURCE)},
+                           capture_output=True, text=True, timeout=60)
+        self.assertEqual(p.returncode, -9, p.stderr)
+        r = registro_unico(raiz)
+        self.assertEqual((r['resultado'], r['en_curso']), ('en_curso', {'destino': None, 'paso': 'conjunto'}))
 
     def test_dv2_una_corrida_que_termino_no_deja_aviso(self):
         raiz = proyecto(self.tmp, {'api': destino('api', probar='false')})
