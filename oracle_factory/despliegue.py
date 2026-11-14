@@ -29,6 +29,8 @@ NOMBRE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*")
 VARIABLE = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 TOPE = 900  # segundos por comando si el destino no declara otro
 MAX_SALIDA = 4000  # caracteres de salida que se guardan por paso
+ESTADOS = ("sin_desplegar", "desplegado", "probado", "fallido", "revertido", "inalcanzable", "interrumpido")
+RESULTADOS = ("en_curso", "todo_funciona", "incompleto", "fallido", "interrumpido")
 
 
 class DeclaracionInvalida(ValueError):
@@ -276,38 +278,71 @@ def ejecutar(raiz: Path, decl: dict, plan: dict, autorizo: str, planeo: str, cor
     cuando = (ahora or _ahora)()
     registro: dict = {"id": _id_nuevo(raiz, cuando, commit), "commit": commit, "rama": plan["rama"], "cuando": cuando, "planeo": planeo,
                       "autorizo": autorizo, "politica": decl["politica"], "orden": list(plan["orden"]), "destinos": {}, "conjunto": {"resultado": "no_corrio"},
-                      "resultado": "fallido", "motivo": "", "aviso": ""}
+                      "resultado": "en_curso", "motivo": "", "aviso": "", "en_curso": None}
     for n in plan["orden"]:
-        registro["destinos"][n] = {"estado": "sin_desplegar", "motivo": "", "version_antes": None, "version_despues": None, "ultima_prueba": None, "pasos": {}, "sin_volver": False}
+        registro["destinos"][n] = {"estado": "sin_desplegar", "motivo": "", "version_antes": None, "version_despues": None, "ultima_prueba": None, "pasos": {},
+                                   "sin_volver": False, "desplego": False}
+    _guardar(raiz, registro)  # antes del primer comando: si la corrida se corta, queda dicho que empezó
 
     def paso(n: str, nombre: str, comando: str) -> tuple[int, str]:
         d = decl["destinos"][n]
         env = {**os.environ, "FACTORY_COMMIT": commit, "FACTORY_DESTINO": n, "FACTORY_RAMA": plan["rama"]}
+        registro["en_curso"] = {"destino": n, "paso": nombre}
         codigo, salida, seg = correr(comando, raiz, env, d["tope_segundos"])
         salida = _tapar(salida, todos)
         registro["destinos"][n]["pasos"][nombre] = {"comando": _tapar(comando, todos), "codigo": codigo, "segundos": round(seg, 2), "salida": salida[-MAX_SALIDA:]}
+        _guardar(raiz, registro)
         return codigo, salida.strip()
 
-    corte = False
-    for n in plan["orden"]:
-        d, r = decl["destinos"][n], registro["destinos"][n]
-        if corte:
-            r["motivo"] = "no se tocó: la corrida se cortó antes"
-            continue
-        caidos = [dep for dep in d["depende_de"] if dep in registro["destinos"] and registro["destinos"][dep]["estado"] != "probado"]
-        if caidos:
-            r["motivo"] = f"no se tocó: depende de {', '.join(caidos)}, que no quedó probado"
-            continue
-        if not _destino_en_marcha(paso, n, d, r, commit):
-            if decl["politica"] == "cortar":
-                corte = True
-    if not corte:
-        sin_probar = [n for n in plan["orden"] if registro["destinos"][n]["estado"] != "probado"]
-        if not sin_probar and decl["conjunto"]:
-            _conjunto(registro, decl, raiz, commit, plan, correr, todos)
-    _cerrar(registro, decl, raiz, plan, correr, todos, corte)
+    try:
+        corte = False
+        for n in plan["orden"]:
+            d, r = decl["destinos"][n], registro["destinos"][n]
+            if corte:
+                r["motivo"] = "no se tocó: la corrida se cortó antes"
+                continue
+            caidos = [dep for dep in d["depende_de"] if dep in registro["destinos"] and registro["destinos"][dep]["estado"] != "probado"]
+            if caidos:
+                r["motivo"] = f"no se tocó: depende de {', '.join(caidos)}, que no quedó probado"
+                continue
+            if not _destino_en_marcha(paso, n, d, r, commit):
+                if decl["politica"] == "cortar":
+                    corte = True
+        if not corte:
+            sin_probar = [n for n in plan["orden"] if registro["destinos"][n]["estado"] != "probado"]
+            if not sin_probar and decl["conjunto"]:
+                registro["en_curso"] = {"destino": None, "paso": "conjunto"}
+                _conjunto(registro, decl, raiz, commit, plan, correr, todos)
+                _guardar(raiz, registro)
+        _cerrar(registro, decl, plan, paso)
+    except BaseException as e:  # Ctrl-C o un error: el registro dice hasta dónde llegó, y la interrupción sigue su camino
+        _interrumpido(registro, e)
+        _guardar(raiz, registro)
+        raise
+    registro["en_curso"] = None
     _guardar(raiz, registro)
     return registro
+
+
+def _interrumpido(registro: dict, e: BaseException) -> None:
+    en = registro.get("en_curso") or {}
+    n, nombre = en.get("destino"), en.get("paso")
+    donde = "la prueba de conjunto" if nombre == "conjunto" else f"«{nombre}» de {n}" if n else "antes del primer comando"
+    registro["resultado"] = "interrumpido"
+    registro["motivo"] = f"se interrumpió ({type(e).__name__}) durante {donde}; no se volvió atrás nada"
+    if n in registro["destinos"]:
+        registro["destinos"][n].update(estado="interrumpido", motivo=f"se interrumpió durante «{nombre}»: revisalo antes de volver a desplegar")
+
+
+def sin_terminar(raiz: Path) -> dict | None:
+    """La última corrida, si quedó `interrumpido` o `en_curso` (se mató el proceso): {id, resultado, tocados}. None si terminó o no hay."""
+    historia = registros(raiz)
+    if not historia or historia[-1].get("resultado") not in ("interrumpido", "en_curso"):
+        return None
+    r = historia[-1]
+    en = (r.get("en_curso") or {}).get("destino")
+    tocados = [n for n, d in r.get("destinos", {}).items() if d.get("desplego") or n == en]
+    return {"id": r.get("id"), "resultado": r["resultado"], "tocados": tocados}
 
 
 def _ahora() -> str:
@@ -368,36 +403,41 @@ def _conjunto(registro: dict, decl: dict, raiz: Path, commit: str, plan: dict, c
                             "segundos": round(seg, 2), "salida": _tapar(salida, secretos)[-MAX_SALIDA:]}
 
 
-def _cerrar(registro: dict, decl: dict, raiz: Path, plan: dict, correr: Callable, secretos: dict, corte: bool) -> None:
-    """Vuelve atrás lo que corresponde y fija el resultado."""
+def _cerrar(registro: dict, decl: dict, plan: dict, paso: Callable) -> None:
+    """Ante un fallo (de un destino o del conjunto), vuelve atrás todo lo que llegó a correr «desplegar», también el que falló, del último
+    al primero; después fija el resultado."""
     destinos = registro["destinos"]
-    fallo = any(destinos[n]["estado"] in ("fallido", "inalcanzable") for n in plan["orden"])
+    conjunto_fallo = registro["conjunto"]["resultado"] == "fallo"
+    caidos = {n: destinos[n]["motivo"] for n in plan["orden"] if destinos[n]["estado"] in ("fallido", "inalcanzable")}
     avisos = []
-    if fallo:  # con «cortar» o con «seguir»: la corrida no se queda a medias, se vuelve atrás lo desplegado
-        for n in reversed(plan["orden"]):  # lo ya desplegado en esta corrida (menos lo que falló), del último al primero
+    if caidos or conjunto_fallo:  # con «cortar» o con «seguir»: la corrida no se queda a medias
+        for n in reversed(plan["orden"]):
             r, d = destinos[n], decl["destinos"][n]
-            if r["estado"] not in ("probado", "desplegado"):
+            if not r["desplego"]:
                 continue
             if "volver" not in d:
                 r["sin_volver"] = True
-                r.update(estado="desplegado", motivo="quedó desplegado: la corrida falló y no tiene comando «volver»")
                 avisos.append(n)
+                if n in caidos:
+                    r["motivo"] += "; no tiene comando «volver»: quedó así"
+                else:
+                    r.update(estado="desplegado", motivo="quedó desplegado: la corrida falló y no tiene comando «volver»")
                 continue
-            env = {**os.environ, "FACTORY_COMMIT": registro["commit"], "FACTORY_DESTINO": n, "FACTORY_RAMA": plan["rama"]}
-            codigo, salida, seg = correr(d["volver"], raiz, env, d["tope_segundos"])
-            r["pasos"]["volver"] = {"comando": _tapar(d["volver"], secretos), "codigo": codigo, "segundos": round(seg, 2), "salida": _tapar(salida, secretos)[-MAX_SALIDA:]}
-            if codigo == 0:
-                r.update(estado="revertido", motivo="vuelto atrás tras el fallo de otro destino")
-            else:
+            codigo, _ = paso(n, "volver", d["volver"])
+            if codigo != 0:
                 r.update(estado="fallido", motivo=f"hubo que volverlo atrás y «volver» falló (código {codigo}): revisalo a mano")
+            elif n in caidos:
+                r.update(estado="revertido", motivo=f"{caidos[n]}; se volvió atrás")
+            else:
+                r.update(estado="revertido", motivo="vuelto atrás tras el fallo de " + ("la prueba de conjunto" if conjunto_fallo else "otro destino"))
     if avisos:
         registro["aviso"] = "quedaron desplegados sin poder volver atrás: " + ", ".join(avisos)
-    caidos = [n for n in plan["orden"] if destinos[n]["estado"] in ("fallido", "inalcanzable")]
+    malos = [n for n in plan["orden"] if n in caidos or destinos[n]["estado"] in ("fallido", "inalcanzable")]
     sin_probar = [n for n in plan["orden"] if destinos[n]["estado"] != "probado"]
-    if registro["conjunto"]["resultado"] == "fallo":
-        registro["resultado"], registro["motivo"] = "fallido", "falló la prueba de conjunto; los destinos conservan su estado"
-    elif caidos:
-        registro["resultado"], registro["motivo"] = "fallido", "; ".join(f"{n}: {destinos[n]['motivo']}" for n in caidos)
+    if conjunto_fallo:
+        registro["resultado"], registro["motivo"] = "fallido", "falló la prueba de conjunto; se volvió atrás lo que se desplegó"
+    elif malos:
+        registro["resultado"], registro["motivo"] = "fallido", "; ".join(f"{n}: {caidos.get(n, destinos[n]['motivo'])}" for n in malos)
     elif sin_probar:
         registro["resultado"] = "incompleto"
         registro["motivo"] = "no quedaron probados: " + ", ".join(sin_probar)

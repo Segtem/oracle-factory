@@ -33,7 +33,7 @@ comprueba que existan y tapa su valor en lo que registra.
 | `construir`, `desplegar` | lo que hace el despliegue |
 | `version` (obligatorio) | imprime el commit que corre; si no es el del plan, el destino queda «fallido» |
 | `probar` | prueba de humo; sin ella el destino queda «desplegado», no «probado» |
-| `volver` | cómo volver atrás si otro destino falla |
+| `volver` | cómo volver atrás este destino si la corrida falla (un destino, también este, o la prueba de conjunto) |
 | `depende_de` | destinos que tienen que estar probados antes |
 | `alcance` | (opcional) rutas de Git de las que depende el destino; las usa `desplegar --cambios` |
 | `conjunto.probar` (obligatorio) | prueba de que todo anda junto; corre al final, sólo si cada destino quedó probado |
@@ -62,11 +62,21 @@ Con `alcance` en un destino —una lista de rutas de Git, carpetas o patrones—
 **Límite:** sólo se miran las rutas declaradas. Si un destino depende de algo que no está en su `alcance` (una dependencia de compilación, una variable de entorno), un cambio ahí no lo detecta: declará esas rutas o desplegá sin `--cambios`.
 
 El plan se niega si la puerta local no está en verde o si el commit no está en la rama de despliegue. Con `cortar` (por defecto) el
-primer fallo detiene la corrida y vuelve atrás, del último al primero, lo que ya se desplegó; con `seguir` se continúa con los
-destinos que no dependen del caído, para ver todo lo que falla, y al final se vuelve atrás igual lo que se desplegó. Lo que no tiene `volver` queda «desplegado» con un aviso.
+primer fallo detiene la corrida; con `seguir` se continúa con los destinos que no dependen del caído, para ver todo lo que falla.
+En los dos casos, y también si falla la prueba de conjunto, la corrida no se queda a medias: se vuelve atrás, del último al primero,
+todo lo que llegó a correr su `desplegar`, también el que falló. Un destino que falló antes de `desplegar` (en `alcanzable` o
+`construir`) no se toca. Lo que no tiene `volver` queda como estaba —«desplegado», o «fallido» si fue el que falló— con el aviso
+«sin poder volver atrás».
 
-Estados: `sin_desplegar`, `desplegado`, `probado`, `fallido`, `revertido`, `inalcanzable`. «Desactualizado» se calcula comparando
-la versión que el destino dice que corre con la punta de la rama; si no responde, es «desconocido».
+Estados de un destino (dónde quedó): `sin_desplegar`, `desplegado`, `probado`, `fallido`, `revertido` (se volvió atrás; su motivo
+dice por qué falló), `inalcanzable` e `interrumpido`. «Desactualizado» se calcula comparando la versión que el destino dice que corre
+con la punta de la rama; si no responde, es «desconocido».
+
+Resultado de la corrida: `todo_funciona`, `incompleto` (algo quedó sin probar), `fallido`, `en_curso` e `interrumpido`.
 
 Cada corrida deja `.factory/despliegues/<ID>/registro.json` con el commit, quién planeó y quién autorizó, y por destino las
-versiones antes y después, los comandos, su salida (con los secretos tapados) y los tiempos.
+versiones antes y después, los comandos, su salida (con los secretos tapados) y los tiempos. El registro se escribe antes del primer
+comando, con resultado `en_curso`, y otra vez después de cada paso. Si la corrida se interrumpe (Ctrl-C, un error), queda
+`interrumpido`, con el destino y el paso en que se cortó, y ese destino `interrumpido`; no se vuelve atrás nada por una interrupción.
+Si se mató el proceso, queda `en_curso`. En los dos casos, el próximo `oracle-factory desplegar` lo avisa antes del plan, con los
+destinos que pudo haber tocado, y arma el plan igual: mirá esos destinos antes de autorizar.

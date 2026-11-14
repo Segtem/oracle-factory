@@ -136,8 +136,8 @@ function metricas(m) {
 </div>`;
 }
 
-const ESTADOS_DESTINO = {sin_desplegar: 'sin desplegar', desplegado: 'desplegado', probado: 'probado', fallido: 'fallido', revertido: 'revertido', inalcanzable: 'inalcanzable'};
-const MALOS = new Set(['fallido', 'revertido', 'inalcanzable']);
+const ESTADOS_DESTINO = {sin_desplegar: 'sin desplegar', desplegado: 'desplegado', probado: 'probado', fallido: 'fallido', revertido: 'revertido', inalcanzable: 'inalcanzable', interrumpido: 'interrumpido'};
+const MALOS = new Set(['fallido', 'revertido', 'inalcanzable', 'interrumpido']);
 
 // Un destino está al día, atrás de la rama o no se sabe: sin consultar, `desactualizado` es «desconocido» y no se pinta como «al día».
 function frescura(d) {
