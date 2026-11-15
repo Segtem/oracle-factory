@@ -70,12 +70,12 @@ def producir(identificador: str, extra: list[str]) -> None:
     if salida.exists():
         raise cli.FactoryError(f"ya hay evidencia del candidato {sha} ({salida.relative_to(cli.ROOT)}): un commit nuevo es un candidato "
                                "nuevo; si querés repetirla sobre este, borrá esa carpeta primero")
-    base = cli.ruta_segura(cli.ROOT / estructura.DIR / "local" / "sensores")  # local/: Git la ignora, como los checkouts de los revisores
-    base.mkdir(parents=True, exist_ok=True)
     registros = cli.ROOT.resolve()
-    with tempfile.TemporaryDirectory(prefix=f"{sha}-", dir=base) as tmp:
+    # En la carpeta temporal del sistema: fuera del producto y del almacén (un producto dentro de sus registros no corre). --shared toma
+    # prestados los objetos del repositorio en lugar de copiarlos, aunque la carpeta temporal esté en otro disco; dura lo que la corrida.
+    with tempfile.TemporaryDirectory(prefix=f"oracle-factory-sensor-{sha}-") as tmp:
         checkout = Path(tmp) / "producto"
-        p = cli.ejecutar(["git", "clone", "--quiet", "--local", "--no-checkout", str(cli.PRODUCTO or cli.ROOT), str(checkout)])
+        p = cli.ejecutar(["git", "clone", "--quiet", "--shared", "--no-checkout", str(cli.PRODUCTO or cli.ROOT), str(checkout)])
         if not p.returncode:
             p = cli.ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--detach", head])
         for remoto in cli.ejecutar(["git", "-C", str(checkout), "remote"]).stdout.split() if not p.returncode else []:

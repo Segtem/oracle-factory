@@ -158,7 +158,7 @@ Los submódulos no están soportados.
 ### Factory produce los hechos
 
 El proyecto declara su sensor en `.factory/config.json` y `oracle-factory evidencia ID` lo corre sobre un checkout limpio del
-commit (sin remoto, en `.factory/local/sensores/`, que se borra al terminar), con su tope y deteniendo a todo su grupo de procesos si
+commit (sin remoto, en una carpeta temporal del sistema, fuera del producto y del almacén, que se borra al terminar), con su tope y deteniendo a todo su grupo de procesos si
 vence. Se niega si el producto tiene cambios sin commitear. Los hechos quedan en la carpeta de evidencia del candidato y la corrida,
 en el registro del cambio (`evidencia_producida`: comando, commit, código, huella de los hechos, quién).
 
