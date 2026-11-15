@@ -60,6 +60,7 @@ Con `--agente` se niegan o dejan sólo una propuesta. Pedíselos a la persona, c
 - `oracle-factory --agente NOMBRE pedir-revision ID --a REVISOR`: pedir una revisión independiente del candidato
 - `oracle-factory --agente NOMBRE revision-preparar ID`: preparar el informe para que una persona revise
 - `oracle-factory --agente NOMBRE revisar ID --decision aprobar|cambios --motivo M`: proponer la decisión de la revisión
+- `oracle-factory --agente NOMBRE evidencia ID`: producir los hechos: correr el sensor del proyecto sobre un checkout limpio del commit
 - `oracle-factory --agente NOMBRE juzgar ID`: correr Oracle sobre la evidencia del candidato
 - `oracle-factory --agente NOMBRE mensaje ID "TEXTO"`: dejar un mensaje en el registro del cambio
 - `oracle-factory --agente NOMBRE tomar ID`: sumarse como agente al cambio
