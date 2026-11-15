@@ -30,7 +30,8 @@ def definidos(ruta: Path) -> set[str]:
 
 class Tamano(unittest.TestCase):
     def test_pc1_cli_py_mide_145000_bytes_o_menos_y_nada_pasa_su_tope(self):
-        self.assertLessEqual((SOURCE / 'oracle_factory/cli.py').stat().st_size, 145_000)
+        # El tope bajó a 100 000 con el cambio partir-cli-clue (para que un cambio que lo toca entre en el paquete de Clue); lo mide pk1.
+        self.assertLessEqual((SOURCE / 'oracle_factory/cli.py').stat().st_size, 100_000)
         self.assertEqual(tamanos.problemas(SOURCE), [])
 
 
