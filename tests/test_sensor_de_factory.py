@@ -176,7 +176,6 @@ class OrigenSf2(Base):
         self.assertIn(f'Hechos: producidos por Factory (oracle-factory evidencia, commit {corto})', self.salida())
         f.mostrar(ident)
         self.assertIn(f'producidos por Factory (oracle-factory evidencia, commit {corto})', self.salida())
-        self.assertEqual(f.datos_estado(ident)['hechos_de']['producidos_por_factory'], True)
 
     def test_sf2_hechos_escritos_a_mano(self):
         ident = self.medido()
@@ -184,7 +183,6 @@ class OrigenSf2(Base):
         self.assertIn('Hechos: declarados: no los produjo Factory', self.salida())
         f.mostrar(ident)
         self.assertIn('declarados: no los produjo Factory', self.salida())
-        self.assertEqual(f.datos_estado(ident)['hechos_de']['producidos_por_factory'], False)
 
     def test_sf2_hechos_producidos_y_despues_editados(self):
         ident = self.medido()
@@ -231,7 +229,9 @@ class OrigenSf2(Base):
             f.juzgar(ident, [f.hechos_del_candidato(ident), otro])
         except f.FactoryError:
             pass  # el veredicto puede no salir verde; lo que importa es de dónde dice que salen
-        self.assertEqual(f.datos_estado(ident)['hechos_de']['producidos_por_factory'], False)
+        self.salida()
+        f.mostrar(ident)
+        self.assertIn('Hechos: declarados: no los produjo Factory', self.salida())
 
 
 class ExigirSf3(Base):
