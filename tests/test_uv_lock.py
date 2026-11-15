@@ -144,9 +144,10 @@ class UvLockEntorno(unittest.TestCase):
         marcas = {(c["name"], c["version"]): self.prop(c, "factory:instalado") for c in self.bom()["components"]}
         self.assertEqual(marcas, {("alfa", "1.0.0"): "false", ("alfa", "1.2.3"): "true", ("beta", "2.0.1"): "true"})
 
-    def test_ul3_lo_instalado_que_no_esta_en_el_lock_no_es_una_diferencia(self):
+    def test_ul3_lo_instalado_que_no_esta_en_el_lock_es_una_diferencia(self):
+        # Antes fijaba lo contrario (no era una diferencia); el cambio evidencia-honesta (Astra H8) lo invierte: lo instalado también se usa.
         self.proyecto(instalado={"alfa": "1.2.3", "beta": "2.0.1", "pip": "24.0"})
-        self.assertEqual(self.diferencias(self.bom()), [])
+        self.assertEqual(self.diferencias(self.bom()), ["pip: está instalada la 24.0 y el lock no la fija"])
 
 
 if __name__ == "__main__":

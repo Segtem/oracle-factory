@@ -181,6 +181,12 @@ def inventario(raiz: Path, python: Path | None = None) -> tuple[dict, list[str],
                 exigida = directas[n][1] if n in directas else None
                 puesto = None if puestos is None else (n in puestos and puestos[n][1] == p["version"])
                 componentes.append(_componente(p["nombre"], p["version"], p["origen"], p["hashes"], "uv.lock", exigida, bool(p["hashes"]), puesto))
+        # Lo instalado que el lock no tiene también se usa: entra en el inventario, sin fijar, y lo hace no confiable.
+        propio = normal(proyecto.get("nombre", ""))
+        for n, (nombre, version) in sorted((puestos or {}).items()):
+            if n not in paquetes and n != propio:
+                diferencias.append(f"{nombre}: está instalada la {version} y el lock no la fija")
+                componentes.append(_componente(nombre, version, "desconocido", [], "instalado", directas[n][1] if n in directas else None, False, True))
     componentes.sort(key=lambda c: (normal(c["name"]), c["version"]))
     confiable = not diferencias  # sin lock siempre hay una diferencia
     propiedades = [{"name": "factory:confiable", "value": "true" if confiable else "false"},

@@ -23,6 +23,22 @@ from . import tablero as tablero_mod
 from . import trazabilidad as trazabilidad_mod
 
 
+def aviso_ignorados() -> list[str]:
+    """Archivos de código o configuración que Git ignora dentro del producto (no las carpetas ignoradas enteras): quedan fuera de la
+    huella de la revisión y del juicio, y pueden cambiar el comportamiento sin vencer nada."""
+    codigo = {".py", ".js", ".mjs", ".cjs", ".ts", ".sh", ".json", ".toml", ".yml", ".yaml", ".cfg", ".ini"}
+    p = cli.git_producto(["git", "ls-files", "-z", "--others", "--ignored", "--exclude-standard", "--directory"])
+    if p.returncode:
+        return []
+    sueltos = sorted(n for n in p.stdout.split("\0") if n and not n.endswith("/") and Path(n).suffix.lower() in codigo
+                     and cli.es_producto(n))
+    if not sueltos:
+        return []
+    return [f"Git ignora {len(sueltos)} archivo{'s' if len(sueltos) != 1 else ''} de código dentro del producto: "
+            + ", ".join(sueltos[:10]) + (f" y {len(sueltos) - 10} más" if len(sueltos) > 10 else "")
+            + ". Quedan fuera de la huella de la revisión y del juicio: si cambian el comportamiento, no vencen nada"]
+
+
 def situacion_requisitos(estado: dict) -> list[tuple[str, str, str | None]]:
     """[(requisito, 'vigente'|'reemplazado'|'ausente', cambio que lo reemplazó)] de un cambio archivado."""
     if not estado.get("archivo"):
@@ -419,7 +435,7 @@ def datos_estado(identificador: str) -> dict:
                        cli.juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
         "avisos": cli.aviso_union(identificador, estado) if abandonado else (cli.avisos_head(estado) + cli.aviso_revision(estado) + cli.aviso_lanzamientos(estado)
-                                         + cli.aviso_sin_autor(estado) + cli.aviso_sin_medir(identificador, estado)
+                                         + cli.aviso_sin_autor(estado) + cli.aviso_sin_medir(identificador, estado) + cli.aviso_ignorados()
                                          + cli.aviso_notas(identificador, estado) + cli.aviso_union(identificador, estado)
                                          + cli.pruebas_mod.avisos(prueba) + alarmas.avisos(editados) + alarmas.avisos_del_flujo(flujo)
                                          + [f"FRENO: {x['motivo']}" for x in frenos_]),

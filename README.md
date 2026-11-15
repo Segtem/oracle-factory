@@ -147,7 +147,13 @@ directas y la recuperación, indicando sus límites. Ver [preguntar al proyecto]
 Antes de registrar la revisión, se terminan los cambios y se commitea el producto. Factory guarda HEAD y una huella de
 los archivos del producto (versionados y nuevos no ignorados; sin `.factory/`, `tareas/` ni lo que genera). Si cambia el
 código, la spec, las medidas o la evidencia, hay que repetir la revisión y el juicio. Un commit que sólo toca registros no
-invalida: `estado` avisa cuando el HEAD es otro con el mismo producto. Los submódulos no están soportados.
+invalida: `estado` avisa cuando el HEAD es otro con el mismo producto. Lo que Git ignora queda fuera de la huella: `estado` avisa
+de cada archivo de código o configuración ignorado dentro del producto, porque puede cambiar el comportamiento sin vencer nada.
+Los submódulos no están soportados.
+
+La preparación de la revisión no da por buena una evidencia que se contradice: si `resultado.json` dice `exitoso` y a la vez cero
+pruebas, fuentes que cambiaron, otro commit o artefactos con otro hash, la comprobación queda «falla» y nombra la contradicción.
+Si sólo trae `exitoso`, el informe dice que el éxito lo declara el sensor y Factory no pudo comprobarlo.
 
 Renovar la aprobación de la spec invalida la importación, la revisión y el veredicto anteriores; otra asociación de
 medidas invalida la revisión y el juicio, y una decisión de medidas deja de valer si cambia el archivo de alguna de sus

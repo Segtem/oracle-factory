@@ -79,10 +79,15 @@ def completar(informe: dict, decisiones: dict, revisores: list[dict], evidencia:
         limites += [f'{_proveedor(datos)}: {l}' for l in datos.get('limitations') or [] if isinstance(l, str)]
     if evidencia:
         r = evidencia['resultado']
+        contra = contradicciones(r, evidencia.get('candidato'), evidencia.get('artefactos'))
         comprobaciones.insert(0, {'descripcion': f"Evidencia del candidato: {r.get('tests', '?')} pruebas, "
-                                                 f"{r.get('casos_contrato', '?')} casos de contrato",
-                                  'resultado': 'cumple' if r.get('exitoso') is True else 'falla',
+                                                 f"{r.get('casos_contrato', '?')} casos de contrato"
+                                                 + (f"; se contradice: {'; '.join(contra)}" if contra else ''),
+                                  'resultado': 'cumple' if r.get('exitoso') is True and not contra else 'falla',
                                   'evidencia': evidencia['ruta']})
+        if r.get('exitoso') is True and not any(c in r for c in COMPROBABLES):
+            limites.insert(0, 'Evidencia: éxito declarado por el sensor; Factory no pudo comprobar su coherencia (el resultado no trae '
+                              'pruebas, estabilidad, origen ni hashes de artefactos)')
         if isinstance(r.get('limites'), str):
             limites.insert(0, f"Evidencia: {r['limites']}")
     informe = {**informe, 'archivos_revisados': archivos or None, 'comprobaciones': comprobaciones or None,
@@ -91,6 +96,37 @@ def completar(informe: dict, decisiones: dict, revisores: list[dict], evidencia:
                    'Los revisores no reportaron hallazgos.' if revisores else None)}
     borrador = [{'hallazgo_id': h['id'], 'estado': None, 'motivo': None, 'actor': None, 'fecha': None} for h in hallazgos]
     return informe, {**decisiones, 'decisiones': borrador}
+
+
+COMPROBABLES = ('tests', 'fuentes_estables', 'casos_exactos_sin_omisiones_duplicados_ni_fallas', 'origen', 'artefactos_sha256')
+
+
+def contradicciones(r: dict, candidato: str | None, artefactos: dict | None) -> list[str]:
+    """Lo que un resultado que dice `exitoso: true` declara en su contra. Sólo se mira lo que trae: un verificador propio puede no traerlo.
+    `artefactos`: {nombre: sha256 del archivo de la carpeta, o None si falta o sale de ella}, como lo calcula `flujo_revision.artefactos_de`."""
+    if r.get('exitoso') is not True:
+        return []
+    salida = []
+    if 'tests' in r and not (type(r['tests']) is int and r['tests'] > 0):
+        salida.append(f"tests es {r['tests']!r}, no un número positivo de pruebas")
+    for campo in ('fuentes_estables', 'casos_exactos_sin_omisiones_duplicados_ni_fallas'):
+        if campo in r and r[campo] is not True:
+            salida.append(f"{campo} es {r[campo]!r}")
+    if 'origen' in r:
+        head = r['origen'].get('head') if isinstance(r['origen'], dict) else None
+        if not isinstance(head, str) or not candidato or not head.startswith(candidato):
+            salida.append(f"origen.head es {str(head)[:12]} y el candidato es {str(candidato)[:12]}")
+    if 'artefactos_sha256' in r:
+        declarados = r['artefactos_sha256'] if isinstance(r['artefactos_sha256'], dict) else {}
+        if not declarados:
+            salida.append('artefactos_sha256 no lista ningún artefacto')
+        for nombre, h in sorted(declarados.items()):
+            real = (artefactos or {}).get(nombre)
+            if real is None:
+                salida.append(f"el artefacto {nombre} no está en la carpeta de la evidencia")
+            elif real != h:
+                salida.append(f"el artefacto {nombre} tiene otro hash que el declarado")
+    return salida
 
 
 def vueltas_anteriores(vueltas: list[dict]) -> list[dict]:
