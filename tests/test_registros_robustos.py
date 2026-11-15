@@ -77,7 +77,8 @@ class Robustos(_archivo.Archivo):
         registros = f.almacenes.registros_de(SOURCE)
         if not (registros / '.factory/cambios').is_dir():
             self.skipTest('los registros de este repositorio no están a mano (un clon limpio, el CI)')
-        r = subprocess.run([*CLI, '--proyecto', str(SOURCE), '--agente', 'claude-code', 'listar'], capture_output=True, text=True,
+        # Con --registros: en el checkout limpio de `oracle-factory evidencia` los registros llegan por el entorno, no por la conexión.
+        r = subprocess.run([*CLI, '--proyecto', str(SOURCE), '--registros', str(registros), '--agente', 'claude-code', 'listar'], capture_output=True, text=True,
                            stdin=subprocess.DEVNULL, timeout=300)
         self.assertEqual(r.returncode, 0, r.stderr[-2000:])
         self.assertNotIn('ilegible', r.stdout)

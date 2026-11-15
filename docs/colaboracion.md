@@ -155,7 +155,7 @@ Un candidato integrado suele tener un sensor por frente. No los combinen a mano:
 
 Al cerrar, la spec del cambio se fusiona en `openspec/specs/<capacidad>/spec.md` y se regenera `.factory/resumen.md`; con eso, quien hace `git pull` ve lo vigente y el estado de los demás cambios sin leer cada propuesta.
 
-Si quedan hallazgos, registren `--decision cambios` y corrijan antes de repetir el ciclo. No usen `tasks close` para saltar los gates de Factory. Oracle sólo juzga hechos y requisitos medidos; un verde de seguimiento de Task no prueba que el producto funcione. Factory todavía no ejecuta el sensor ni demuestra automáticamente que un JSON venga del candidato actual.
+Si quedan hallazgos, registren `--decision cambios` y corrijan antes de repetir el ciclo. No usen `tasks close` para saltar los gates de Factory. Oracle sólo juzga hechos y requisitos medidos; un verde de seguimiento de Task no prueba que el producto funcione. Con `oracle-factory evidencia ID`, Factory corre el sensor del proyecto sobre el commit y `juzgar` dice si los hechos son los que produjo; unos hechos dejados a mano quedan como «declarados».
 
 El commit que archiva el cierre puede ser posterior al commit del producto juzgado. Registren ambos en la entrega sin presentarlos como idénticos. Si el producto vuelve a cambiar, corresponde otro ciclo; el historial de cierre anterior no aprueba código nuevo.
 

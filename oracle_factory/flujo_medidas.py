@@ -9,6 +9,8 @@ from pathlib import Path
 import contextlib
 import json
 import os
+import sys
+import re
 
 from . import estructura
 from . import modos
@@ -400,6 +402,90 @@ def confirmar_medidas(identificador: str) -> None:
                 elegidos.append(rid)
     for rid in elegidos:
         cli.medir(identificador, requisito_id=rid, medidas=list(requisitos[rid].medido_por))
+
+
+def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
+    """Juzga con los hechos de uno o varios sensores (un archivo por sensor, `--con` repetido)."""
+    hechos = [hechos] if isinstance(hechos, Path) else list(hechos)
+    carpeta, estado = cli.abierto(identificador)
+    try:  # escalares sin declarar o que no cargan: su causa antes que nada; lo demás lo dicen las comprobaciones que siguen
+        cli.catalogo_del_proyecto()
+    except (OSError, ValueError):
+        pass
+    conflictos = cli.conflictos_de_union(estado, salvo="oracle_ejecutado")  # los del juicio y de la fase los resuelve juzgar
+    if conflictos:
+        raise cli.FactoryError("no se puede juzgar: " + "; ".join(conflictos))
+    if estado.get("medidas_pendientes"):
+        raise cli.FactoryError("hay medidas sin confirmar por una persona; no cuentan para el juicio: "
+                           + ", ".join(estado["medidas_pendientes"]))
+    if cli.medidas_sin_decision(estado):
+        raise cli.FactoryError("hay medidas sin una decisión vigente; no cuentan para el juicio: "
+                           + "; ".join(f"{rid} ({motivo})" for rid, motivo in cli.medidas_sin_decision(estado)))
+    # Una corrida fallida nunca debe dejar disponible el verde de la anterior.
+    estado.update(oracle=None, fase="juicio_pendiente")
+    cli.guardar(carpeta, estado)
+    cli.exigir_spec(carpeta, estado)
+    if not estado.get("requisitos"):
+        raise cli.FactoryError("importá primero los requisitos de la spec aprobada")
+    hechos = [h.resolve() for h in hechos]
+    rutas = []
+    for archivo in hechos:
+        if not archivo.is_file():
+            raise cli.FactoryError(f"no encuentro los hechos del sensor: {archivo}")
+        # Con ruta relativa al proyecto, el registro vale en cualquier clon; fuera de él, sólo en esta máquina.
+        try:
+            rutas.append(archivo.relative_to(cli.ROOT).as_posix())
+        except ValueError:
+            rutas.append(str(archivo))
+            print(f"Aviso: los hechos están fuera del proyecto ({archivo}); otra máquina no podrá verificarlos. "
+                  "Guardalos dentro de tareas/ para que viajen con el repositorio.", file=sys.stderr)
+        else:
+            if cli.ejecutar(["git", "check-ignore", "-q", str(archivo)]).returncode == 0:
+                print(f"Aviso: los hechos ({rutas[-1]}) están ignorados por Git y no viajan con el repositorio; otra máquina "
+                      "no podrá verificarlos. Guardalos fuera de las carpetas ignoradas, por ejemplo en tareas/.", file=sys.stderr)
+    contexto = cli.contexto_del_cambio(identificador)
+    huellas = [cli.sha256(archivo.read_bytes()) for archivo in hechos]
+    huella = huellas[0]
+    cobertura = cli.ejecutar(["oracle", "cobertura", "--proyecto", str(cli.proyecto_oracle()), *cli.con_escalares()])
+    if cobertura.returncode or not cli.requisitos_verdes(cobertura.stdout, estado["requisitos"]):
+        detalle = (cobertura.stderr or cobertura.stdout).strip() if cobertura.returncode else ""
+        faltan = cli.sin_medir_con_medidas(estado)
+        raise cli.FactoryError("Oracle todavía no tiene cobertura completa de cada requisito importado"
+                           + (f": {detalle[:500]}" if detalle else "")
+                           + (f". Todavía dicen «sin medir»: {', '.join(faltan)} (proponé sus medidas con --quitar-sin-medir)"
+                              if faltan else ""))
+    p = cli.ejecutar(["oracle", "cobertura", *(a for archivo in hechos for a in ("--con", str(archivo))),
+                  "--proyecto", str(cli.proyecto_oracle()), *cli.con_escalares()])
+    sys.stdout.write(p.stdout)
+    if p.stderr:
+        sys.stderr.write(p.stderr)
+    # Sin ninguna fila de requisito, Oracle no juzgó (por ejemplo, dos sensores con la misma relación): no hay veredicto.
+    if not any(re.search(r"^[✓◐·✗?]\s+" + re.escape(rid) + r"\s", p.stdout, re.M) for rid in estado["requisitos"]):
+        raise cli.FactoryError("Oracle no pudo juzgar estos hechos; no registré un veredicto: "
+                           + (p.stdout + p.stderr).strip()[:800])
+    if not cli.mismo_producto(contexto, cli.contexto_del_cambio(identificador)) or [cli.sha256(a.read_bytes()) for a in hechos] != huellas:
+        raise cli.FactoryError("el producto o los hechos cambiaron durante el juicio; repetí la corrida")
+    cli.exigir_spec(carpeta, estado)
+    informe = cli.dir_estado(carpeta) / 'oracle-veredicto.txt'
+    informe.write_text(p.stdout + p.stderr, encoding="utf-8")
+    ok = p.returncode == 0 and cli.requisitos_verdes(p.stdout, estado["requisitos"])
+    estado["oracle"] = {
+        "codigo": 0 if ok else 1, "codigo_oracle": p.returncode,
+        "hechos": rutas[0], "hechos_sha256": huella,
+        # Más de un sensor: los demás archivos, cada uno con su huella. Con uno solo, el registro es el de siempre.
+        **({"hechos_mas": [{"ruta": r, "sha256": h} for r, h in zip(rutas[1:], huellas[1:])]} if len(hechos) > 1 else {}),
+        "informe": str(informe.relative_to(cli.ROOT)), "informe_sha256": cli.sha256(informe.read_bytes()),
+        "cuando": cli.ahora(), "contexto": contexto,
+    }
+    estado["fase"] = "oracle_verde" if ok else "oracle_rojo"
+    cli.evento(estado, "oracle_ejecutado", codigo=estado["oracle"]["codigo"], codigo_oracle=p.returncode, hechos_sha256=huella)
+    cli.guardar(carpeta, estado)
+    cli.nota_tarea(identificador, f"Juicio Factory: {'verde' if ok else 'incompleto/rojo'}; salida Oracle {p.returncode}; informe {informe.relative_to(cli.ROOT)}.")
+    print(f"Informe Oracle: {informe}")
+    print("Hechos: " + cli.sensor_mod.hechos_de(identificador, estado)["texto"])
+    cli.siguiente(identificador, estado["fase"])
+    if not ok:
+        raise cli.FactoryError("Oracle no confirmó cada requisito: puede faltar evidencia o haber fallas en sombra")
 
 
 # Al final a propósito: `cli` importa este módulo, y así se puede importar cualquiera de los dos primero. Acá `cli` sólo se usa

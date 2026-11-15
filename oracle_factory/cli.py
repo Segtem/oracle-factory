@@ -27,6 +27,7 @@ from . import archivo
 from . import robusto
 from . import resumen
 from . import revisores as revisores_mod
+from . import sensor as sensor_mod
 from . import estructura
 from . import migracion
 from . import preparacion
@@ -248,7 +249,11 @@ def config_proyecto() -> dict:
               "confiar_escalares": datos.get("confiar_escalares", False),
               "rag": datos.get("rag", {}),
               "idioma": datos.get("idioma", plantillas.POR_DEFECTO),
-              "autonomia": datos.get("autonomia", {})}
+              "autonomia": datos.get("autonomia", {}), "sensor": datos.get("sensor")}
+    try:
+        config["sensor"] = sensor_mod.validar(config["sensor"])
+    except ValueError as e:
+        raise FactoryError(f"{ruta}: {e}; por ejemplo: {sensor_mod.EJEMPLO}") from e
     try:
         config["autonomia"] = modos.autonomia(config["autonomia"])
     except ValueError as e:
@@ -269,7 +274,7 @@ def config_proyecto() -> dict:
                                                       for k, v in alias.items())):
         raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}), tipos_obligatorios (true/false), "
                            "capacidades (alias → capacidad, sin cadenas de alias), revisores, oracle (la carpeta del proyecto Oracle) "
-                           "confiar_escalares (true/false), rag (sus embeddings, ver oracle-factory preguntar) e idioma (es o en, el de las plantillas de un cambio nuevo)")
+                           "confiar_escalares (true/false), rag (sus embeddings, ver oracle-factory preguntar) idioma (es o en, el de las plantillas de un cambio nuevo) y sensor")
     return config
 
 
@@ -1405,87 +1410,6 @@ def firma_revision(formato, informe_sha, decisiones_sha, revisor, decision, cont
             "revisor": revisor, "decision": decision, "producto": contexto["archivos_sha256"]}
 
 
-def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
-    """Juzga con los hechos de uno o varios sensores (un archivo por sensor, `--con` repetido)."""
-    hechos = [hechos] if isinstance(hechos, Path) else list(hechos)
-    carpeta, estado = abierto(identificador)
-    try:  # escalares sin declarar o que no cargan: su causa antes que nada; lo demás lo dicen las comprobaciones que siguen
-        catalogo_del_proyecto()
-    except (OSError, ValueError):
-        pass
-    conflictos = conflictos_de_union(estado, salvo="oracle_ejecutado")  # los del juicio y de la fase los resuelve juzgar
-    if conflictos:
-        raise FactoryError("no se puede juzgar: " + "; ".join(conflictos))
-    if estado.get("medidas_pendientes"):
-        raise FactoryError("hay medidas sin confirmar por una persona; no cuentan para el juicio: "
-                           + ", ".join(estado["medidas_pendientes"]))
-    if medidas_sin_decision(estado):
-        raise FactoryError("hay medidas sin una decisión vigente; no cuentan para el juicio: "
-                           + "; ".join(f"{rid} ({motivo})" for rid, motivo in medidas_sin_decision(estado)))
-    # Una corrida fallida nunca debe dejar disponible el verde de la anterior.
-    estado.update(oracle=None, fase="juicio_pendiente")
-    guardar(carpeta, estado)
-    exigir_spec(carpeta, estado)
-    if not estado.get("requisitos"):
-        raise FactoryError("importá primero los requisitos de la spec aprobada")
-    hechos = [h.resolve() for h in hechos]
-    rutas = []
-    for archivo in hechos:
-        if not archivo.is_file():
-            raise FactoryError(f"no encuentro los hechos del sensor: {archivo}")
-        # Con ruta relativa al proyecto, el registro vale en cualquier clon; fuera de él, sólo en esta máquina.
-        try:
-            rutas.append(archivo.relative_to(ROOT).as_posix())
-        except ValueError:
-            rutas.append(str(archivo))
-            print(f"Aviso: los hechos están fuera del proyecto ({archivo}); otra máquina no podrá verificarlos. "
-                  "Guardalos dentro de tareas/ para que viajen con el repositorio.", file=sys.stderr)
-        else:
-            if ejecutar(["git", "check-ignore", "-q", str(archivo)]).returncode == 0:
-                print(f"Aviso: los hechos ({rutas[-1]}) están ignorados por Git y no viajan con el repositorio; otra máquina "
-                      "no podrá verificarlos. Guardalos fuera de las carpetas ignoradas, por ejemplo en tareas/.", file=sys.stderr)
-    contexto = contexto_del_cambio(identificador)
-    huellas = [sha256(archivo.read_bytes()) for archivo in hechos]
-    huella = huellas[0]
-    cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(proyecto_oracle()), *con_escalares()])
-    if cobertura.returncode or not requisitos_verdes(cobertura.stdout, estado["requisitos"]):
-        detalle = (cobertura.stderr or cobertura.stdout).strip() if cobertura.returncode else ""
-        faltan = sin_medir_con_medidas(estado)
-        raise FactoryError("Oracle todavía no tiene cobertura completa de cada requisito importado"
-                           + (f": {detalle[:500]}" if detalle else "")
-                           + (f". Todavía dicen «sin medir»: {', '.join(faltan)} (proponé sus medidas con --quitar-sin-medir)"
-                              if faltan else ""))
-    p = ejecutar(["oracle", "cobertura", *(a for archivo in hechos for a in ("--con", str(archivo))),
-                  "--proyecto", str(proyecto_oracle()), *con_escalares()])
-    sys.stdout.write(p.stdout)
-    if p.stderr:
-        sys.stderr.write(p.stderr)
-    # Sin ninguna fila de requisito, Oracle no juzgó (por ejemplo, dos sensores con la misma relación): no hay veredicto.
-    if not any(re.search(r"^[✓◐·✗?]\s+" + re.escape(rid) + r"\s", p.stdout, re.M) for rid in estado["requisitos"]):
-        raise FactoryError("Oracle no pudo juzgar estos hechos; no registré un veredicto: "
-                           + (p.stdout + p.stderr).strip()[:800])
-    if not mismo_producto(contexto, contexto_del_cambio(identificador)) or [sha256(a.read_bytes()) for a in hechos] != huellas:
-        raise FactoryError("el producto o los hechos cambiaron durante el juicio; repetí la corrida")
-    exigir_spec(carpeta, estado)
-    informe = dir_estado(carpeta) / 'oracle-veredicto.txt'
-    informe.write_text(p.stdout + p.stderr, encoding="utf-8")
-    ok = p.returncode == 0 and requisitos_verdes(p.stdout, estado["requisitos"])
-    estado["oracle"] = {
-        "codigo": 0 if ok else 1, "codigo_oracle": p.returncode,
-        "hechos": rutas[0], "hechos_sha256": huella,
-        # Más de un sensor: los demás archivos, cada uno con su huella. Con uno solo, el registro es el de siempre.
-        **({"hechos_mas": [{"ruta": r, "sha256": h} for r, h in zip(rutas[1:], huellas[1:])]} if len(hechos) > 1 else {}),
-        "informe": str(informe.relative_to(ROOT)), "informe_sha256": sha256(informe.read_bytes()),
-        "cuando": ahora(), "contexto": contexto,
-    }
-    estado["fase"] = "oracle_verde" if ok else "oracle_rojo"
-    evento(estado, "oracle_ejecutado", codigo=estado["oracle"]["codigo"], codigo_oracle=p.returncode, hechos_sha256=huella)
-    guardar(carpeta, estado)
-    nota_tarea(identificador, f"Juicio Factory: {'verde' if ok else 'incompleto/rojo'}; salida Oracle {p.returncode}; informe {informe.relative_to(ROOT)}.")
-    print(f"Informe Oracle: {informe}")
-    siguiente(identificador, estado["fase"])
-    if not ok:
-        raise FactoryError("Oracle no confirmó cada requisito: puede faltar evidencia o haber fallas en sombra")
 
 def pendientes(estado: dict) -> list[str]:
     faltan = []
@@ -1560,7 +1484,7 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
                     faltan.append(nombre + DESACTUALIZADO)
         except (FactoryError, OSError) as e:
             faltan.append(str(e))
-    faltan += problemas_de_revision(estado)
+    faltan += problemas_de_revision(estado) + sensor_mod.pendientes(carpeta.name, estado)
     oracle = estado.get("oracle") or {}
     registrados = hechos_registrados(oracle)
     for etiqueta, ruta, huella in (
@@ -1699,7 +1623,7 @@ def cerrar(identificador: str) -> None:
     print(f"Spec aceptada por {quien(estado['spec_aprobada'])}; revisión registrada por {quien(estado['revision'])}.")
     for linea in commits_registrados(estado):
         print(linea + ".")
-    for aviso in avisos_head(estado):
+    for aviso in avisos_head(estado) + sensor_mod.avisos(identificador, estado):
         print("Aviso: " + aviso + ".")
     forma = decidir(estado, "cierre", [], None, (f"Cerrar {identificador}", "Cerrar el cambio",
                     "fusiona la spec en openspec/specs/ y cierra la tarea"), "cierre cancelado; la tarea sigue abierta", None)
@@ -2021,6 +1945,8 @@ def mostrar(identificador: str) -> None:
                                                  else '; declaración humana sin validación estructural'))
     oracle = estado.get("oracle")
     print("Oracle: " + (f"código {oracle['codigo']} ({oracle['informe']})" if oracle else "pendiente"))
+    if (origen := sensor_mod.hechos_de(identificador, estado)):
+        print("Hechos: " + origen["texto"])
     if rev:
         print("Revisión registrada por: " + quien(rev))
     for rid, medida in (estado.get("medidas") or {}).items():
@@ -2409,6 +2335,7 @@ def _main(argv: list[str] | None = None) -> int:
         elif args.comando == "revision": revisar(args.id, ROOT / args.informe, args.revisor, args.decision, args.hallazgos_abiertos,
                                                 formato=args.formato, decisiones=ROOT / args.decisiones if args.decisiones else None)
         elif args.comando == "juzgar": juzgar(args.id, [ROOT / c for c in args.con] if args.con else [hechos_del_candidato(args.id)])
+        elif args.comando == "evidencia": sensor_mod.producir(args.id, args.extra[1:] if args.extra[:1] == ["--"] else args.extra)
         elif args.comando == "cerrar": cerrar(args.id)
         elif args.comando == "abandonar": abandonar(args.id, args.motivo)
         elif args.comando == "estado" and args.json: imprimir_json(datos_estado(args.id))
@@ -2488,6 +2415,7 @@ from .flujo_medidas import (  # noqa: E402
     describir_cambios,
     huellas_de_catalogo,
     inventario_medidas,
+    juzgar,
     medidas_en_uso,
     medidas_sin_decision,
     medir,

@@ -176,7 +176,11 @@ def avisar_si_no_coincide(producto: Path, almacen: Path) -> None:
 
 def registros_de(producto: Path) -> Path:
     """Dónde están los registros de `producto` (o de una carpeta suya): su almacén si está conectado; si no, el producto mismo.
-    Para las herramientas y las pruebas que leen los registros sin pasar por la CLI."""
+    Para las herramientas y las pruebas que leen los registros sin pasar por la CLI. En el checkout limpio donde `oracle-factory evidencia`
+    corre el sensor, los dice el entorno (ORACLE_FACTORY_CHECKOUT y ORACLE_FACTORY_REGISTROS), y sólo para ese checkout."""
+    checkout, registros = os.environ.get("ORACLE_FACTORY_CHECKOUT"), os.environ.get("ORACLE_FACTORY_REGISTROS")
+    if checkout and registros and raiz_git(producto) == Path(checkout).resolve():
+        return Path(registros)
     try:
         almacen = leer().get(clave(producto) or "")
     except ValueError:
