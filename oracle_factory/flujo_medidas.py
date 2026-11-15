@@ -482,6 +482,7 @@ def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
     cli.guardar(carpeta, estado)
     cli.nota_tarea(identificador, f"Juicio Factory: {'verde' if ok else 'incompleto/rojo'}; salida Oracle {p.returncode}; informe {informe.relative_to(cli.ROOT)}.")
     print(f"Informe Oracle: {informe}")
+    print("Hechos: " + cli.sensor_mod.hechos_de(identificador, estado)["texto"])
     cli.siguiente(identificador, estado["fase"])
     if not ok:
         raise cli.FactoryError("Oracle no confirmó cada requisito: puede faltar evidencia o haber fallas en sombra")

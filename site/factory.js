@@ -76,11 +76,11 @@
     "tool": "ORACLE",
     "maturity": "Integrado en el alpha",
     "title": "Contrastamos lo prometido con lo observado.",
-    "copy": "Oracle evalúa el JSON que le entregás contra las medidas elegidas. Un verde describe esas reglas y esos hechos. No certifica toda la aplicación ni demuestra de dónde salió la evidencia.",
+    "copy": "Oracle evalúa el JSON que le entregás contra las medidas elegidas. Un verde describe esas reglas y esos hechos. No certifica toda la aplicación; dice si los hechos los produjo Factory o los declaró alguien.",
     "input": "Hechos, medidas y requisitos asociados",
     "output": "Juicio de los requisitos medidos",
     "decision": "El resultado tiene límites.",
-    "why": "Factory registra huellas y detecta cambios posteriores. No ejecuta el sensor ni garantiza que el JSON provenga del código actual: esa comprobación sigue siendo responsabilidad humana.",
+    "why": "Con oracle-factory evidencia, Factory corre el sensor del proyecto sobre el commit y registra la huella de los hechos; si no, juzgar los muestra como declarados. Que el sensor mida lo que debe sigue siendo responsabilidad humana: es código del proyecto.",
     "tracker": "Evaluando evidencia"
   },
   {

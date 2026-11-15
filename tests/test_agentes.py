@@ -198,6 +198,7 @@ class Agentes(unittest.TestCase):
                    'importar ID': ['importar', ident], 'pedir-revision ID --a REVISOR': ['pedir-revision', ident, '--a', 'nadie'],
                    'revision-preparar ID': ['revision-preparar', ident],
                    'revisar ID --decision aprobar|cambios --motivo M': ['revisar', ident, '--decision', 'aprobar', '--motivo', 'm'],
+                   'evidencia ID': ['evidencia', ident],  # sumado por el cambio sensor-de-factory
                    'juzgar ID': ['juzgar', ident], 'mensaje ID "TEXTO"': ['mensaje', ident, 'hola'], 'tomar ID': ['tomar', ident],
                    'abandonar ID --motivo M': ['abandonar', ident, '--motivo', 'ya no hace falta']}
         self.assertEqual(set(ordenes), {c for c, _ in agentes.AGENTE})

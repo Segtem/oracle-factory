@@ -4,7 +4,9 @@ Oracle Factory coordina a personas y agentes para producir software con direcci�
 hasta código, pruebas, revisión y entrega. Cada cambio tiene su acuerdo (propuesta y spec en formato **OpenSpec**), su
 tarea (**Oracle Task**), requisitos medidos con evidencia (**Oracle**) y revisiones independientes validadas con
 **Oracle Clue**. La persona decide el alcance, resuelve los hallazgos y acepta la entrega; los agentes trabajan, proponen
-y quedan registrados como agentes.
+y quedan registrados como agentes. Los hechos que juzga Oracle los produce el sensor del proyecto: con `oracle-factory evidencia`,
+Factory lo corre sobre un checkout limpio del commit y registra lo que dio, así `juzgar` dice si los hechos salieron de ahí o los
+declaró alguien a mano. El sensor sigue siendo código del proyecto, escrito por quien trabaja: no es una medida independiente.
 
 Es una CLI local con un flujo visible en Git, una extensión de VS Code con un tablero de comando, y un servidor MCP para que un agente consulte el
 proyecto sin cambiar nada versionado (`preguntar` escribe su caché local). No empuja el producto ni publica ramas: sólo `sincronizar`, corrido por una persona, sube el almacén de registros. El código y las
@@ -131,8 +133,10 @@ explícitamente, con fuentes y herramientas de sólo lectura (JSON `oracle-facto
 directas y la recuperación, indicando sus límites. Ver [preguntar al proyecto](docs/conocimiento.md#preguntar).
 
 - Usa Oracle, Oracle Task y Oracle Clue instalados con Factory; no copia sus reglas.
-- Factory no ejecuta el sensor ni las pruebas del producto, ni certifica que un JSON de hechos provenga de la versión
-  actual: guarda su huella, y la evidencia de otro candidato no vale. La cobertura completa de una spec requiere criterio
+- Factory corre el sensor del proyecto sólo con `oracle-factory evidencia` (sobre un checkout limpio del commit) y entonces
+  registra la huella de lo que produjo; con hechos dejados a mano, `juzgar` y `estado` lo dicen («declarados»), y el proyecto puede
+  exigir hechos de Factory para cerrar (`"sensor": {"hechos": "exigir"}` en `.factory/config.json`). Que el sensor mida lo que debe
+  no lo comprueba nadie más que quien lo revisa: es código del proyecto. La evidencia de otro candidato no vale. La cobertura completa de una spec requiere criterio
   humano y medidas defendibles.
 - Lanza los revisores que declara cada proyecto (`pedir-revision`), pero el revisor no decide: los hallazgos los resuelve
   una persona.
@@ -150,6 +154,24 @@ código, la spec, las medidas o la evidencia, hay que repetir la revisión y el 
 invalida: `estado` avisa cuando el HEAD es otro con el mismo producto. Lo que Git ignora queda fuera de la huella: `estado` avisa
 de cada archivo de código o configuración ignorado dentro del producto, porque puede cambiar el comportamiento sin vencer nada.
 Los submódulos no están soportados.
+
+### Factory produce los hechos
+
+El proyecto declara su sensor en `.factory/config.json` y `oracle-factory evidencia ID` lo corre sobre un checkout limpio del
+commit (sin remoto, en `.factory/local/sensores/`, que se borra al terminar), con su tope y deteniendo a todo su grupo de procesos si
+vence. Se niega si el producto tiene cambios sin commitear. Los hechos quedan en la carpeta de evidencia del candidato y la corrida,
+en el registro del cambio (`evidencia_producida`: comando, commit, código, huella de los hechos, quién).
+
+```json
+"sensor": {"comando": ["{python}", "tools/sensor.py", "--salida", "{salida}"], "tope_minutos": 60, "hechos": "avisar"}
+```
+
+Los marcadores del comando: `{python}` (el Python de Factory), `{cambio}`, `{salida}` (la carpeta de evidencia, que el sensor crea y
+donde deja `hechos.json`), `{registros}` (dónde están los registros) y `{producto}` (la carpeta del producto, para lo que no se
+versiona, como `node_modules`); los argumentos que se escriben después de un `--` al final de la línea se agregan al comando. En el checkout,
+`almacenes.registros_de` devuelve los registros del proyecto aunque el checkout no esté conectado al almacén. Con `"hechos": "exigir"`,
+`cerrar` se niega si los hechos del veredicto no los produjo Factory para el candidato vigente; con `"avisar"` (el valor por defecto),
+sólo se avisa.
 
 La preparación de la revisión no da por buena una evidencia que se contradice: si `resultado.json` dice `exitoso` y a la vez cero
 pruebas, fuentes que cambiaron, otro commit o artefactos con otro hash, la comprobación queda «falla» y nombra la contradicción.

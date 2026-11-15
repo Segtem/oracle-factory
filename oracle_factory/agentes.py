@@ -37,6 +37,7 @@ AGENTE = (
     ("pedir-revision ID --a REVISOR", "pedir una revisión independiente del candidato"),
     ("revision-preparar ID", "preparar el informe para que una persona revise"),
     ("revisar ID --decision aprobar|cambios --motivo M", "proponer la decisión de la revisión"),
+    ("evidencia ID", "producir los hechos: correr el sensor del proyecto sobre un checkout limpio del commit"),
     ("juzgar ID", "correr Oracle sobre la evidencia del candidato"),
     ("mensaje ID \"TEXTO\"", "dejar un mensaje en el registro del cambio"),
     ("tomar ID", "sumarse como agente al cambio"),

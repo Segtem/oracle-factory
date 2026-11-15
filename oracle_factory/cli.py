@@ -27,6 +27,7 @@ from . import archivo
 from . import robusto
 from . import resumen
 from . import revisores as revisores_mod
+from . import sensor as sensor_mod
 from . import estructura
 from . import migracion
 from . import preparacion
@@ -248,7 +249,11 @@ def config_proyecto() -> dict:
               "confiar_escalares": datos.get("confiar_escalares", False),
               "rag": datos.get("rag", {}),
               "idioma": datos.get("idioma", plantillas.POR_DEFECTO),
-              "autonomia": datos.get("autonomia", {})}
+              "autonomia": datos.get("autonomia", {}), "sensor": datos.get("sensor")}
+    try:
+        config["sensor"] = sensor_mod.validar(config["sensor"])
+    except ValueError as e:
+        raise FactoryError(f"{ruta}: {e}; por ejemplo: {sensor_mod.EJEMPLO}") from e
     try:
         config["autonomia"] = modos.autonomia(config["autonomia"])
     except ValueError as e:
@@ -269,7 +274,7 @@ def config_proyecto() -> dict:
                                                       for k, v in alias.items())):
         raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}), tipos_obligatorios (true/false), "
                            "capacidades (alias → capacidad, sin cadenas de alias), revisores, oracle (la carpeta del proyecto Oracle) "
-                           "confiar_escalares (true/false), rag (sus embeddings, ver oracle-factory preguntar) e idioma (es o en, el de las plantillas de un cambio nuevo)")
+                           "confiar_escalares (true/false), rag (sus embeddings, ver oracle-factory preguntar) idioma (es o en, el de las plantillas de un cambio nuevo) y sensor")
     return config
 
 
@@ -1479,7 +1484,7 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
                     faltan.append(nombre + DESACTUALIZADO)
         except (FactoryError, OSError) as e:
             faltan.append(str(e))
-    faltan += problemas_de_revision(estado)
+    faltan += problemas_de_revision(estado) + sensor_mod.pendientes(carpeta.name, estado)
     oracle = estado.get("oracle") or {}
     registrados = hechos_registrados(oracle)
     for etiqueta, ruta, huella in (
@@ -1618,7 +1623,7 @@ def cerrar(identificador: str) -> None:
     print(f"Spec aceptada por {quien(estado['spec_aprobada'])}; revisión registrada por {quien(estado['revision'])}.")
     for linea in commits_registrados(estado):
         print(linea + ".")
-    for aviso in avisos_head(estado):
+    for aviso in avisos_head(estado) + sensor_mod.avisos(identificador, estado):
         print("Aviso: " + aviso + ".")
     forma = decidir(estado, "cierre", [], None, (f"Cerrar {identificador}", "Cerrar el cambio",
                     "fusiona la spec en openspec/specs/ y cierra la tarea"), "cierre cancelado; la tarea sigue abierta", None)
@@ -1940,6 +1945,8 @@ def mostrar(identificador: str) -> None:
                                                  else '; declaración humana sin validación estructural'))
     oracle = estado.get("oracle")
     print("Oracle: " + (f"código {oracle['codigo']} ({oracle['informe']})" if oracle else "pendiente"))
+    if (origen := sensor_mod.hechos_de(identificador, estado)):
+        print("Hechos: " + origen["texto"])
     if rev:
         print("Revisión registrada por: " + quien(rev))
     for rid, medida in (estado.get("medidas") or {}).items():
@@ -2328,6 +2335,7 @@ def _main(argv: list[str] | None = None) -> int:
         elif args.comando == "revision": revisar(args.id, ROOT / args.informe, args.revisor, args.decision, args.hallazgos_abiertos,
                                                 formato=args.formato, decisiones=ROOT / args.decisiones if args.decisiones else None)
         elif args.comando == "juzgar": juzgar(args.id, [ROOT / c for c in args.con] if args.con else [hechos_del_candidato(args.id)])
+        elif args.comando == "evidencia": sensor_mod.producir(args.id, args.extra[1:] if args.extra[:1] == ["--"] else args.extra)
         elif args.comando == "cerrar": cerrar(args.id)
         elif args.comando == "abandonar": abandonar(args.id, args.motivo)
         elif args.comando == "estado" and args.json: imprimir_json(datos_estado(args.id))
