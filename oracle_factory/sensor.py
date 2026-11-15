@@ -108,14 +108,16 @@ def producir(identificador: str, extra: list[str]) -> None:
 
 def hechos_de(identificador: str, estado: dict) -> dict | None:
     """De dónde salen los hechos del veredicto: producidos por Factory si cada huella juzgada es la de una producción registrada para el
-    candidato vigente. None si todavía no hay veredicto."""
+    candidato vigente que terminó bien (código 0: una corrida que falló o se pasó del tope no respalda sus hechos). None si todavía no
+    hay veredicto."""
     oracle = estado.get("oracle") or {}
     huellas = [h for _, h in cli.hechos_registrados(oracle)]
     if not oracle or not huellas:
         return None
     candidato = cli.candidato_vigente(identificador)
     producidas = {e.get("hechos_sha256") for e in estado.get("eventos") or []
-                  if e.get("accion") == "evidencia_producida" and candidato and str(e.get("commit") or "").startswith(candidato)}
+                  if e.get("accion") == "evidencia_producida" and e.get("codigo") == 0 and candidato
+                  and str(e.get("commit") or "").startswith(candidato)}
     propios = all(h and h in producidas for h in huellas)
     return {"producidos_por_factory": propios, "commit": candidato if propios else None,
             "texto": f"producidos por Factory (oracle-factory evidencia, commit {candidato})" if propios

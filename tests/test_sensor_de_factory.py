@@ -247,6 +247,23 @@ class ExigirSf3(Base):
             f.cerrar(ident)
         self.assertNotEqual(f.leer(ident)[1]['fase'], 'cerrada')
 
+    def test_sf3_exigir_con_hechos_de_un_sensor_que_fallo(self):
+        # Escribe hechos verdes y después termina con error: la corrida no respalda nada, aunque los hechos sean suyos.
+        ident = self.medido()
+        self.declarar(['sh', '-c', NOTAS[2] + ' && exit 1'], hechos='exigir')
+        self.git('add', '.')
+        self.git('commit', '-qm', 'sensor')
+        self.revisado(ident)
+        with self.assertRaisesRegex(f.FactoryError, 'código 1'):
+            sensor.producir(ident, [])
+        [p] = self.producciones(ident)
+        self.assertEqual(p['codigo'], 1)
+        self.salida()
+        f.juzgar(ident, f.hechos_del_candidato(ident))
+        self.assertIn('Hechos: declarados: no los produjo Factory', self.salida())
+        with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, f'oracle-factory evidencia {ident}'):
+            f.cerrar(ident)
+
     def test_sf3_exigir_con_hechos_de_factory(self):
         ident = self.medido()
         self.declarar(hechos='exigir')

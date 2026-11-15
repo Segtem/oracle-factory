@@ -170,8 +170,8 @@ Los marcadores del comando: `{python}` (el Python de Factory), `{cambio}`, `{sal
 donde deja `hechos.json`), `{registros}` (dónde están los registros) y `{producto}` (la carpeta del producto, para lo que no se
 versiona, como `node_modules`); los argumentos que se escriben después de un `--` al final de la línea se agregan al comando. En el checkout,
 `almacenes.registros_de` devuelve los registros del proyecto aunque el checkout no esté conectado al almacén. Con `"hechos": "exigir"`,
-`cerrar` se niega si los hechos del veredicto no los produjo Factory para el candidato vigente; con `"avisar"` (el valor por defecto),
-sólo se avisa.
+`cerrar` se niega si los hechos del veredicto no los produjo Factory para el candidato vigente, en una corrida que terminó bien (una
+que falló o se pasó del tope queda registrada, pero no respalda sus hechos); con `"avisar"` (el valor por defecto), sólo se avisa.
 
 La preparación de la revisión no da por buena una evidencia que se contradice: si `resultado.json` dice `exitoso` y a la vez cero
 pruebas, fuentes que cambiaron, otro commit o artefactos con otro hash, la comprobación queda «falla» y nombra la contradicción.
