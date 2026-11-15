@@ -75,6 +75,15 @@ class EvidenciaEh1(unittest.TestCase):
         fuera.write_text('x\n')
         r = preparar(self.carpeta, evidencia_en(self.carpeta, artefactos_sha256={'../fuera.txt': hashlib.sha256(b'x\n').hexdigest()}))
         self.assertEqual(r['comprobacion']['resultado'], 'falla')
+        r = preparar(self.carpeta, evidencia_en(self.carpeta, artefactos_sha256={str(fuera): hashlib.sha256(b'x\n').hexdigest()}))  # ni absoluta
+        self.assertEqual(r['comprobacion']['resultado'], 'falla')
+        (self.carpeta / 'real').mkdir()  # un enlace en una carpeta intermedia tampoco se sigue, aunque apunte adentro
+        (self.carpeta / 'real' / 'a.txt').write_text('x\n')
+        (self.carpeta / 'alias').symlink_to(self.carpeta / 'real')
+        r = preparar(self.carpeta, evidencia_en(self.carpeta, artefactos_sha256={'alias/a.txt': hashlib.sha256(b'x\n').hexdigest()}))
+        self.assertEqual(r['comprobacion']['resultado'], 'falla')
+        r = preparar(self.carpeta, evidencia_en(self.carpeta, artefactos_sha256={'real/a.txt': hashlib.sha256(b'x\n').hexdigest()}))
+        self.assertEqual(r['comprobacion']['resultado'], 'cumple')  # la misma ruta sin enlace, sí
         r = preparar(self.carpeta, evidencia_en(self.carpeta, artefactos_sha256={}))  # declarar que no hay artefactos no es coherente
         self.assertEqual(r['comprobacion']['resultado'], 'falla')
 
@@ -116,6 +125,12 @@ class IgnoradosEh2(unittest.TestCase):
         [aviso] = self.avisos(ident)
         self.assertIn('paquete/secreto.py', aviso)
         self.assertIn('fuera de la huella', aviso)
+        for i in range(12):  # con muchos, se nombran todos
+            (self.root / 'paquete' / f'm{i:02d}.py').write_text('X = 1\n')
+        (self.root / '.git' / 'info' / 'exclude').write_text('secreto.py\nm*.py\n')
+        [aviso] = self.avisos(ident)
+        for i in range(12):
+            self.assertIn(f'paquete/m{i:02d}.py', aviso)
 
     def test_eh2_lo_ignorado_que_no_es_codigo(self):
         ident = f.nuevo('Ignorados', 'uno')

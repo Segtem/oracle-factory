@@ -35,7 +35,7 @@ def aviso_ignorados() -> list[str]:
     if not sueltos:
         return []
     return [f"Git ignora {len(sueltos)} archivo{'s' if len(sueltos) != 1 else ''} de código dentro del producto: "
-            + ", ".join(sueltos[:10]) + (f" y {len(sueltos) - 10} más" if len(sueltos) > 10 else "")
+            + ", ".join(sueltos)
             + ". Quedan fuera de la huella de la revisión y del juicio: si cambian el comportamiento, no vencen nada"]
 
 

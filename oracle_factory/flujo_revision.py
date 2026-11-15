@@ -203,12 +203,13 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
 
 def artefactos_de(carpeta: Path, resultado: dict) -> dict:
     """{nombre: sha256} de los artefactos que declara `resultado` (artefactos_sha256), leídos de la carpeta de la evidencia; None si el
-    archivo falta, es un enlace o su nombre sale de la carpeta."""
+    archivo falta, su ruta pasa por un enlace o su nombre sale de la carpeta."""
     declarados = resultado.get("artefactos_sha256") if isinstance(resultado, dict) else None
     salida = {}
     for nombre in declarados if isinstance(declarados, dict) else {}:
         p = carpeta / str(nombre)
-        dentro = p.resolve().is_relative_to(carpeta.resolve()) and not p.is_symlink()
+        # Relativa y, resuelta, la misma ruta: así no sale de la carpeta (.. o absoluta) ni pasa por un enlace, ni al final ni en el medio.
+        dentro = not Path(str(nombre)).is_absolute() and p.resolve() == carpeta.resolve() / str(nombre)
         salida[nombre] = hashlib.sha256(p.read_bytes()).hexdigest() if dentro and p.is_file() else None
     return salida
 
