@@ -272,6 +272,10 @@ def comando_desplegar(simular: bool, autorizar: bool, commit: str | None, destin
         plan = despliegue_mod.armar_plan(cli.ROOT, decl, commit, destinos or None, puerta=lambda: (codigo_puerta == 0, texto_puerta), cambios=cambios)
     except (despliegue_mod.DeclaracionInvalida, despliegue_mod.DespliegueNegado) as e:
         raise cli.FactoryError(str(e)) from e
+    previa = despliegue_mod.sin_terminar(cli.ROOT)
+    if previa:  # avisa y no bloquea: quien autoriza mira esos destinos
+        print(f"Aviso: la corrida anterior ({previa['id']}) no terminó: quedó «{previa['resultado']}»; pudo haber tocado "
+              + (", ".join(previa["tocados"]) or "ningún destino") + f". Mirá su registro (.factory/despliegues/{previa['id']}/registro.json) antes de autorizar.")
     print(despliegue_mod.texto_plan(decl, plan))
     if cambios and not plan["orden"]:
         return 0

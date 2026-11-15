@@ -61,7 +61,7 @@ class Base(unittest.TestCase):
             return d
         sub = Path(self.tmp) / carpeta
         sub.mkdir()
-        raiz = _dd.proyecto(sub, {'api': destino('api'), 'app': destino('app', tipo='app', depende_de=['api'], desplegar='false'),
+        raiz = _dd.proyecto(sub, {'api': destino('api'), 'app': {k: v for k, v in destino('app', tipo='app', depende_de=['api'], desplegar='false').items() if k != 'volver'},  # sin volver: queda «fallido»
                                   'nodo': destino('nodo', tipo='esp32', depende_de=['api'])})
         _dd.desplegar(raiz, destinos=['app'])  # falla: se vuelve atrás también api, de la que depende
         _dd.desplegar(raiz, destinos=['api'])  # api queda probado; app sigue en su fallo

@@ -204,7 +204,7 @@ class PruebasDd3(Base):
     def test_dd3_desplego_pero_corre_otra_version_queda_fallido_sin_probarlo(self):
         raiz = proyecto(self.tmp, {'api': destino('api', version='echo otra-version', probar='touch humo_corrio')})
         r = desplegar(raiz)
-        self.assertEqual(r['destinos']['api']['estado'], 'fallido')
+        self.assertEqual(r['destinos']['api']['estado'], 'revertido')  # llegó a desplegar: se vuelve atrás (cambio despliegue-durable)
         self.assertIn('versión', r['destinos']['api']['motivo'])
         self.assertFalse((raiz / 'humo_corrio').exists())
 
@@ -212,7 +212,7 @@ class PruebasDd3(Base):
         raiz = proyecto(self.tmp, {'api': destino('api')}, conjunto={'probar': 'false'})
         r = desplegar(raiz)
         self.assertEqual(r['resultado'], 'fallido')
-        self.assertEqual(r['destinos']['api']['estado'], 'probado')
+        self.assertEqual(r['destinos']['api']['estado'], 'revertido')  # antes «probado»: ahora se vuelve atrás todo (cambio despliegue-durable)
         self.assertEqual(r['conjunto']['resultado'], 'fallo')
         self.assertIn('conjunto', r['motivo'])
 
@@ -231,7 +231,7 @@ class FalloDd4(Base):
     def test_dd4_falla_el_segundo_se_corta_el_tercero_no_se_toca_y_el_primero_se_vuelve_atras(self):
         raiz = self.plan_tres()
         r = desplegar(raiz)
-        self.assertEqual({n: d['estado'] for n, d in r['destinos'].items()}, {'api': 'revertido', 'app': 'fallido', 'nodo': 'sin_desplegar'})
+        self.assertEqual({n: d['estado'] for n, d in r['destinos'].items()}, {'api': 'revertido', 'app': 'revertido', 'nodo': 'sin_desplegar'})  # app desplegó y falló: también se vuelve atrás
         self.assertFalse((raiz / 'srv' / 'api').exists())  # lo volvió atrás
         self.assertFalse((raiz / 'srv' / 'nodo').exists())
         self.assertEqual(r['resultado'], 'fallido')
@@ -243,7 +243,7 @@ class FalloDd4(Base):
         self.assertEqual(estados['c'], 'revertido')  # siguió con el independiente, pero la corrida no queda a medias
         self.assertFalse((raiz / 'srv' / 'c').exists())
         self.assertEqual(estados['b'], 'sin_desplegar')
-        self.assertEqual(estados['a'], 'fallido')
+        self.assertEqual(estados['a'], 'revertido')  # desplegó y falló su prueba: también se vuelve atrás
 
     def test_dd4_sin_comando_de_volver_queda_desplegado_con_el_aviso(self):
         raiz = proyecto(self.tmp, {'api': {k: v for k, v in destino('api').items() if k != 'volver'},
@@ -264,7 +264,8 @@ class FalloDd4(Base):
         inicio = time.monotonic()
         r = desplegar(colgado)
         self.assertLess(time.monotonic() - inicio, 20)  # no esperó al hijo de 60 s
-        self.assertEqual(r['destinos']['api']['estado'], 'fallido')
+        self.assertEqual(r['destinos']['api']['estado'], 'revertido')  # su «desplegar» corrió, aunque se colgó: se vuelve atrás
+        self.assertIn('falló «desplegar»', r['destinos']['api']['motivo'])
         self.assertEqual(r['destinos']['api']['pasos']['desplegar']['codigo'], 124)
         self.assertIn('tope', r['destinos']['api']['pasos']['desplegar']['salida'])
         pid = int((colgado / 'hijo.pid').read_text())
