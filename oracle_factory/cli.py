@@ -2451,6 +2451,7 @@ from .parser import (  # noqa: E402
 from .flujo_revision import (  # noqa: E402
     _revisar_paso_a_paso,
     anotar_intento,
+    artefactos_de,
     aviso_lanzamientos,
     aviso_revision,
     aviso_sin_autor,
@@ -2501,6 +2502,7 @@ from .lecturas import (  # noqa: E402
     actualizar_kb,
     actualizar_resumen,
     archivos_de,
+    aviso_ignorados,
     aviso_notas,
     comando_donde,
     comando_kb,

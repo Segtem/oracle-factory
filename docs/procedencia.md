@@ -23,8 +23,8 @@ Se arma con las dependencias de Python del proyecto: el lock (`uv.lock`), lo que
 - el índice de donde sale (`factory:origen`) y los hashes SHA-256 de sus archivos, tal como los registra el lock;
 - si la versión está fijada (`factory:fijada`), si es una dependencia directa (`factory:directa`) y qué pide el proyecto
   (`factory:exigida`);
-- de dónde sale cada dato (`factory:fuente`): `uv.lock`, o `instalado` cuando no hay lock y entonces no hay hashes ni origen
-  que se puedan verificar;
+- de dónde sale cada dato (`factory:fuente`): `uv.lock`, o `instalado` cuando no hay lock, o cuando el paquete está instalado y
+  el lock no lo tiene: entonces no hay hashes ni origen que se puedan verificar;
 - si el paquete está instalado en el entorno consultado y en esa versión (`factory:instalado`: `true`, `false`, o ausente si no se
   consultó el entorno);
 - si es una versión corregida por Lightwell (`factory:corregida`): las que llevan el sufijo `+rhlw…` o `.rhlw-…`.
@@ -40,7 +40,9 @@ El inventario se declara **no confiable** (`factory:confiable: false`) y lista l
 - no hay `uv.lock`;
 - el lock es de otra versión del proyecto que la de `pyproject.toml`;
 - `pyproject.toml` exige una dependencia que el lock no tiene, o exige una versión fija distinta de la del lock;
-- el entorno tiene instalada una versión que el lock no fija.
+- el entorno tiene instalada una versión que el lock no fija;
+- el entorno tiene instalado un paquete que el lock no tiene (salvo el proyecto mismo): aparece en el inventario, sin fijar, porque
+  también se usa.
 
 Si no se pudo consultar el entorno, el inventario lo dice (`factory:entorno: no consultado`) y se apoya en el lock y en
 `pyproject.toml`. Una especificación no fijada (`>=2`) no es una diferencia: se registra como no fijada.

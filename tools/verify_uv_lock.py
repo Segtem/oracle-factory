@@ -34,7 +34,7 @@ CONTRACTS = {
         'UvLockEntorno.test_ul3_sin_consultar_el_entorno_no_hay_marca_de_instalado',
         'UvLockEntorno.test_ul3_sin_lock_lo_instalado_se_marca_instalado',
         'UvLockEntorno.test_ul3_con_dos_versiones_en_el_lock_la_instalada_es_la_unica_marcada',
-        'UvLockEntorno.test_ul3_lo_instalado_que_no_esta_en_el_lock_no_es_una_diferencia'],
+        'UvLockEntorno.test_ul3_lo_instalado_que_no_esta_en_el_lock_es_una_diferencia'],
 }
 PREFIX = 'test_uv_lock.'
 LIMITES = ('Escenarios ul1–ul3 sobre el uv.lock y el pyproject.toml versionados de Factory, copias temporales con cambios y un «python» de '

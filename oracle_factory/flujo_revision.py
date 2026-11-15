@@ -9,6 +9,7 @@ from pathlib import Path
 import contextlib
 import fcntl
 import io
+import hashlib
 import json
 import os
 import re
@@ -195,8 +196,22 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
     if resultado.is_file():
         datos = cargar(resultado)
         if datos is not None:
-            evidencia = {"ruta": resultado.relative_to(cli.ROOT).as_posix(), "resultado": datos}
+            evidencia = {"ruta": resultado.relative_to(cli.ROOT).as_posix(), "resultado": datos, "candidato": sha,
+                         "artefactos": cli.artefactos_de(resultado.parent, datos)}
     return revisores, evidencia, archivos, avisos
+
+
+def artefactos_de(carpeta: Path, resultado: dict) -> dict:
+    """{nombre: sha256} de los artefactos que declara `resultado` (artefactos_sha256), leídos de la carpeta de la evidencia; None si el
+    archivo falta, su ruta pasa por un enlace o su nombre sale de la carpeta."""
+    declarados = resultado.get("artefactos_sha256") if isinstance(resultado, dict) else None
+    salida = {}
+    for nombre in declarados if isinstance(declarados, dict) else {}:
+        p = carpeta / str(nombre)
+        # Relativa y, resuelta, la misma ruta: así no sale de la carpeta (.. o absoluta) ni pasa por un enlace, ni al final ni en el medio.
+        dentro = not Path(str(nombre)).is_absolute() and p.resolve() == carpeta.resolve() / str(nombre)
+        salida[nombre] = hashlib.sha256(p.read_bytes()).hexdigest() if dentro and p.is_file() else None
+    return salida
 
 
 def exclusiones_del_paquete(base: str, head: str) -> list[str]:
