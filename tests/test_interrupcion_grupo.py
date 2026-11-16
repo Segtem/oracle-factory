@@ -104,6 +104,12 @@ procesos.correr_en_grupo(['sh', '-c', f"trap '' TERM; echo $$ > {r}/sh.pid; whil
         self.no_vuelve(int((self.raiz / 'sh.pid').read_text()))
         self.assertIn('KeyboardInterrupt', (self.raiz / 'errores.txt').read_text())
 
+    def test_ig1_el_plazo_sigue_dando_124_con_lo_que_alcanzo_a_escribir(self):
+        # La rama del plazo se reordenó junto con la de la interrupción: sigue devolviendo 124, la salida y el motivo.
+        sys.path.insert(0, str(SOURCE))
+        from oracle_factory import procesos
+        self.assertEqual(procesos.correr_en_grupo(['sh', '-c', 'echo hola; sleep 30'], self.raiz, 0.5, gracia=0.2), (124, 'hola\n', 'plazo'))
+
 
 if __name__ == '__main__':
     unittest.main()
