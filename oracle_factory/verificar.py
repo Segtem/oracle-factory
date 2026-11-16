@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import json
 
+from . import contexto
+
 ESQUEMA = "oracle-factory.verificar/1"
 HECHOS_AUSENTES = "hechos ausentes"
 
@@ -40,21 +42,18 @@ def del_cambio(cli, ident: str) -> tuple[list[str], list[str]]:
 
 
 def datos(cli) -> dict:
-    ids = [c.name for c in sorted(cli.CHANGES.iterdir()) if cli.ID_RE.fullmatch(c.name) and cli.ruta_registro(c).is_file()] if cli.CHANGES.is_dir() else []
+    cambios = contexto.actual(cli).registros / "openspec" / "changes"
+    ids = [c.name for c in sorted(cambios.iterdir()) if cli.ID_RE.fullmatch(c.name) and cli.ruta_registro(c).is_file()] if cambios.is_dir() else []
     problemas, avisos = [], []
-    original = cli.contexto_producto
     try:
-        actual = original()
-        cli.contexto_producto = lambda: actual  # el producto es el mismo para todos: se hashea una vez, no una por cambio
+        huella = cli.contexto_producto()  # el producto es el mismo para todos: se hashea una vez, no una por cambio
     except (cli.FactoryError, OSError):
-        pass  # sin Git o sin commits: sólo falla, con su motivo, el cambio que necesita compararse con el producto
-    try:
+        huella = None  # sin Git o sin commits: sólo falla, con su motivo, el cambio que necesita compararse con el producto
+    with contexto.producto_fijo(huella):
         for ident in ids:
             malos, leves = del_cambio(cli, ident)
             problemas += [{"cambio": ident, "problema": p} for p in malos]
             avisos += [{"cambio": ident, "aviso": a} for a in leves]
-    finally:
-        cli.contexto_producto = original
     return {"esquema": ESQUEMA, "ok": not problemas, "cambios": len(ids), "problemas": problemas, "avisos": avisos}
 
 
