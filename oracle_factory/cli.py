@@ -28,6 +28,7 @@ from . import robusto
 from . import resumen
 from . import revisores as revisores_mod
 from . import sensor as sensor_mod
+from . import contexto as contexto_mod
 from . import estructura
 from . import migracion
 from . import preparacion
@@ -638,8 +639,10 @@ def contexto_producto() -> dict:
     """Vincula revisión y juicio con HEAD y archivos no ignorados, incluidos los nuevos.
 
     Los registros generados del flujo no son código del producto; las specs y las
-    medidas Oracle sí forman parte de lo revisado. No sigue enlaces simbólicos.
+    medidas Oracle sí forman parte de lo revisado. No sigue enlaces simbólicos. Dentro de `contexto.producto_fijo` vale la huella fijada.
     """
+    if (fija := contexto_mod.huella_fija()) is not None:
+        return fija
     head = git_producto(["git", "rev-parse", "--verify", "HEAD"])
     lista = git_producto(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"])
     if head.returncode or lista.returncode:
