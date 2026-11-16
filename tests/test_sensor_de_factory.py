@@ -80,7 +80,7 @@ class EvidenciaSf1(Base):
         self.assertEqual(p['hechos_sha256'], f.sha256(hechos.read_bytes()))
         self.assertIn('{salida}', ' '.join(p['comando']))  # el comando declarado, sin las rutas de esta máquina
         self.assertEqual(p['tipo_actor'], 'persona')
-        self.assertFalse(list((self.root / '.factory/local/sensores').glob('*')))  # el checkout no queda
+        self.assertFalse((self.root / '.factory/local/sensores').exists())  # el checkout no va adentro (cambio sensor-fuera: lo mide sx1)
         with self.assertRaisesRegex(f.FactoryError, 'ya hay evidencia'):  # sobre el mismo commit no se pisa la que hay
             sensor.producir(ident, [])
         self.assertEqual(len(self.producciones(ident)), 1)
