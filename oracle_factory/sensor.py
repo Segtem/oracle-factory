@@ -71,6 +71,11 @@ def producir(identificador: str, extra: list[str]) -> None:
         raise cli.FactoryError(f"ya hay evidencia del candidato {sha} ({salida.relative_to(cli.ROOT)}): un commit nuevo es un candidato "
                                "nuevo; si querés repetirla sobre este, borrá esa carpeta primero")
     registros = cli.ROOT.resolve()
+    temporal = Path(tempfile.gettempdir()).resolve()
+    for nombre, raiz in (("del producto", (cli.PRODUCTO or cli.ROOT).resolve()), ("de los registros", registros)):
+        if temporal.is_relative_to(raiz):
+            raise cli.FactoryError(f"la carpeta temporal del sistema ({temporal}) está dentro de la carpeta {nombre} ({raiz}): el checkout "
+                                   "no puede ir ahí. Elegí otra con TMPDIR (o TEMP, TMP). No se corrió nada")
     # En la carpeta temporal del sistema: fuera del producto y del almacén (un producto dentro de sus registros no corre). --shared toma
     # prestados los objetos del repositorio en lugar de copiarlos, aunque la carpeta temporal esté en otro disco; dura lo que la corrida.
     with tempfile.TemporaryDirectory(prefix=f"oracle-factory-sensor-{sha}-") as tmp:

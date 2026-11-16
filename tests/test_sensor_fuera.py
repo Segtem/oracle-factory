@@ -1,7 +1,9 @@
 """El checkout del sensor va fuera del producto y del almacén: escenarios sx1, con la CLI en proceso y el ejemplo de notas."""
 from pathlib import Path
 import sys
+import tempfile
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import test_sensor_de_factory as _sf  # noqa: E402
@@ -36,6 +38,16 @@ class Fuera(_sf.Base):
             sensor.producir(ident, [])
         self.fuera(Path((self.evidencia(ident) / 'hechos.json').read_text().strip()))
 
+    def test_sx1_una_carpeta_temporal_dentro_del_producto(self):
+        # TMPDIR (o TEMP, TMP) puede apuntar adentro del producto: entonces no se arma el checkout, y se dice por qué.
+        ident = self.corrida(DONDE)
+        adentro = self.root / 'tmp-local'
+        adentro.mkdir()
+        with patch.object(tempfile, 'tempdir', str(adentro)), self.assertRaisesRegex(f.FactoryError, 'TMPDIR'):
+            sensor.producir(ident, [])
+        self.assertEqual(list(adentro.iterdir()), [])
+        self.assertFalse(self.evidencia(ident).exists())
+        self.assertEqual(self.producciones(ident), [])
 
 if __name__ == '__main__':
     unittest.main()
