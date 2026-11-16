@@ -50,8 +50,8 @@ def subcomandos() -> list[str]:
     return list(sub.choices)
 
 
-class Matriz(unittest.TestCase):
-    """Dos proyectos —uno sin almacén y uno conectado a un almacén— con un cambio cada uno."""
+class Proyectos(unittest.TestCase):
+    """Dos proyectos —uno sin almacén y uno conectado a un almacén— con un cambio cada uno. Sin pruebas: la base de Matriz y Contexto."""
 
     @classmethod
     def setUpClass(cls):
@@ -100,6 +100,7 @@ class Matriz(unittest.TestCase):
         ident = next(l.rstrip('/').split('/')[-2] for l in salida.splitlines() if l.rstrip().endswith('TAREA.md'))
         return producto, ident
 
+class Matriz(Proyectos):
     # --- cx1: cada subcomando se comporta igual con y sin almacén ------------------------------------------------------------
     def test_cx1_un_subcomando_nuevo(self):
         self.assertEqual(sorted(subcomandos()), sorted(MATRIZ))
@@ -119,7 +120,9 @@ class Matriz(unittest.TestCase):
         self.assertEqual(sorted(distintos), sorted(c for c, (_, motivo) in MATRIZ.items() if motivo), distintos)
 
 
-class Verificar(_archivo.Archivo):
+class Verificar(unittest.TestCase):
+    setUp, git = _archivo.Archivo.setUp, _archivo.Archivo.git  # su proyecto temporal, no sus pruebas
+
     # --- cx2: verificar no reemplaza funciones de cli -----------------------------------------------------------------------
     def test_cx2_varios_cambios(self):
         for i in range(3):
@@ -127,8 +130,10 @@ class Verificar(_archivo.Archivo):
             carpeta, estado = f.leer(ident)  # con una revisión registrada, verificar compara cada cambio con el producto
             estado['revision'] = {'decision': 'aprobar', 'contexto': {'head': '0' * 40, 'archivos_sha256': '0' * 64}}
             f.guardar(carpeta, estado)
+        (self.root / 'openspec/changes' / '20990101-000000-abc-sin-registro').mkdir()  # nombre de cambio, pero sin registro: no cuenta
         self.git('add', '-A')
         self.git('commit', '-qm', 'tres cambios')
+        self.assertEqual(verificar.datos(f)['cambios'], 3)
         original = f.contexto_producto
         vistos, listas = [], []
         real_del_cambio, real_git = verificar.del_cambio, f.git_producto
@@ -162,7 +167,7 @@ class Verificar(_archivo.Archivo):
         self.assertNotEqual(f.contexto_producto(), antes)
 
 
-class Contexto(Matriz):
+class Contexto(Proyectos):
     # --- cx3: hay un contexto explícito -------------------------------------------------------------------------------------
     def leer(self, modo):
         producto, _ = self.proyectos[modo]
@@ -187,9 +192,8 @@ class Contexto(Matriz):
         self.assertTrue(con['con_almacen'])
         self.assertEqual(Path(con['producto']), self.proyectos['con'][0])
         self.assertEqual(Path(con['registros']), self.proyectos['con'][0].parent / 'almacen')
-
-    # Contexto hereda la fixture de Matriz, no sus pruebas: se repetirían.
-    test_cx1_un_subcomando_nuevo = test_cx1_los_dos_modos = None
+        with self.assertRaises(AttributeError):  # inmutable: lo arma la CLI, nadie lo cambia por el camino
+            contexto.Contexto(producto=Path('a'), registros=Path('a'), agente=None).agente = 'otro'
 
 
 if __name__ == '__main__':
