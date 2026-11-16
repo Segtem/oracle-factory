@@ -3,6 +3,8 @@
 Lo que necesita de cli.py lo lee de `cli` en el momento de usarlo (`cli.NOMBRE`), no lo copia: así un valor
 cambiado en `cli` (la raíz del proyecto en las pruebas, por ejemplo) vale también acá."""
 from __future__ import annotations
+import datetime as dt
+import shlex
 
 from pathlib import Path
 import json
@@ -554,6 +556,229 @@ def comando_donde(identificador: str, candidato: str | None) -> None:
         marca = ("no válido" if fila.get("invalida") else "histórico" if fila["gate"] == "histórico"
                  else "existe" if fila["existe"] else "AUSENTE")
         print(f"{fila['gate']:<10} {marca:<9} {fila['ruta']}" + (f"  — {fila['nota']}" if fila["nota"] else ""))
+
+
+def quien_del_cambio(estado: dict) -> dict:
+    """Quién trabaja en el cambio, sólo con su registro: la persona responsable, sus agentes (declarados, sumados o
+    que actuaron en las últimas 24 horas, con su última acción) y los revisores lanzados sin resultado."""
+    responsable = estado.get("responsable") or None
+    eventos = estado.get("eventos") or []
+    hoy = dt.datetime.now(dt.timezone.utc)
+    declarados = set((responsable or {}).get("con") or [])
+    declarados |= {e.get("agente") for e in eventos if e.get("accion") == "agente_sumado" and e.get("agente")}
+    ultimas: dict[str, dict] = {}
+    for e in eventos:  # una migración de registros (limpiar rutas, archivar viejos) no es trabajar en el cambio
+        if e.get("tipo_actor") == "agente" and e.get("actor") and e.get("forma") != "migracion":
+            ultimas[e["actor"]] = e
+    agentes = []
+    for nombre in sorted(declarados | set(ultimas)):
+        ultima = ultimas.get(nombre)
+        try:
+            cuando = dt.datetime.fromisoformat(ultima["cuando"]) if ultima else None
+        except (KeyError, TypeError, ValueError):
+            cuando = None
+        if cuando and cuando.tzinfo is None:
+            cuando = cuando.replace(tzinfo=dt.timezone.utc)  # un registro viejo sin zona: Factory escribe en UTC
+        # Una fecha futura (otro reloj) no es «hace poco»: cuenta hasta cinco minutos de diferencia.
+        reciente = bool(cuando) and hoy - cli.ACTIVIDAD_RECIENTE <= cuando <= hoy + dt.timedelta(minutes=5)
+        if nombre in declarados or reciente:
+            agentes.append({"nombre": nombre, "declarado": nombre in declarados,
+                            "ultima_accion": (ultima or {}).get("accion"), "cuando": (ultima or {}).get("cuando")})
+    return {"responsable": responsable, "agentes": agentes,
+            "revisores_en_curso": [{"revisor": e.get("revisor"), "candidato": e.get("candidato"), "cuando": e.get("cuando")}
+                                   for e in cli.lanzamientos_abiertos(estado)],
+            "ultima_actividad": ({k: eventos[-1].get(k) for k in ("actor", "tipo_actor", "accion", "cuando")}
+                                 if eventos else None)}
+
+
+def linea_quien(q: dict) -> str:
+    r = q["responsable"]
+    partes = [f"Responsable: {r['persona']} desde {str(r.get('desde', ''))[:16].replace('T', ' ')}" if r
+              else "Responsable: nadie (oracle-factory tomar ID)"]
+    if q["agentes"]:
+        partes.append("agentes: " + ", ".join(
+            a["nombre"] + (f" ({a['ultima_accion']} {str(a['cuando'])[:16].replace('T', ' ')})" if a["ultima_accion"] else "")
+            for a in q["agentes"]))
+    if q["revisores_en_curso"]:
+        partes.append("revisando: " + ", ".join(f"{v['revisor']} sobre {v['candidato']}" for v in q["revisores_en_curso"]))
+    return "; ".join(partes)
+
+
+def mostrar(identificador: str) -> None:
+    carpeta, estado = cli.leer(identificador)
+    if estado.get("fase") == "abandonada":  # sin pendientes ni próximo paso; un registro mínimo no tiene spec
+        print(f"{estado['id']} — {estado['titulo']}\nFase: abandonada\nAbandonado por: {cli.quien(estado.get('abandono'))}")
+        quitados = (estado.get("abandono") or {}).get("requisitos_quitados") or []
+        print("Requisitos quitados de requisitos/: " + (", ".join(quitados) or "ninguno"))
+        for aviso in cli.aviso_union(identificador, estado):  # dos ramas pudieron decidir distinto también sobre esto
+            print(f"Aviso: {aviso}.")
+        return
+    print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {cli.modo_de(estado)}")
+    print("Requisitos Oracle: " + (", ".join(estado.get("requisitos", [])) or "todavía no importados"))
+    print("Pendiente: " + ("; ".join(cli.pendientes_actuales(carpeta, estado)) or "ninguno"))
+    for linea in cli.commits_registrados(estado):
+        print(linea + ".")
+    print(cli.linea_commits(cli.commits_del_cambio(identificador, estado)) + ".")
+    print(cli.linea_quien(cli.quien_del_cambio(estado)) + ".")
+    vigente = cli.candidato_vigente(identificador)
+    prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, vigente, cli.documentos_o_nada(carpeta, estado))
+    editados = cli.alarmas_mod.del_candidato(cli.git_producto, vigente, es_producto=cli.es_producto) if vigente else None
+    flujo = cli.alarmas_mod.del_flujo(cli.git_producto, estado, vigente, es_producto=cli.es_producto)
+    camino = cli.alarmas_mod.linea_camino(cli.alarmas_mod.camino_del_candidato(cli.git_producto, vigente, es_producto=cli.es_producto))
+    try:
+        actual = cli.contexto_del_cambio(identificador)
+    except (cli.FactoryError, OSError):
+        actual = None
+    for aviso in (cli.avisos_head(estado) + cli.aviso_revision(estado) + cli.aviso_lanzamientos(estado) + cli.aviso_sin_autor(estado)
+                  + cli.aviso_sin_medir(identificador, estado) + cli.aviso_notas(identificador, estado) + cli.aviso_union(identificador, estado)
+                  + cli.pruebas_mod.avisos(prueba) + cli.alarmas_mod.avisos(editados) + cli.alarmas_mod.avisos_del_flujo(flujo)
+                  + [f"FRENO: {x['motivo']}" for x in cli.frenos_del_cambio(identificador, estado, vigente, actual, editados, flujo)]):
+        print("Aviso: " + aviso + ".")
+    if camino:
+        print(camino + ".")
+    for linea in cli.pruebas_mod.lineas(prueba):
+        print(linea + ".")
+    print("Aprobación spec: " + (f"sí, {cli.quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
+    rev = estado.get("revision")
+    print("Revisión: " + (f"{rev['revisor']} / {rev['decision']} / {rev['hallazgos_abiertos']} abiertos" if rev else "pendiente"))
+    if rev:
+        formato = rev.get('formato', 'libre histórico')
+        print('Formato de revisión: ' + formato + ('; consistencia estructural, no calidad del análisis' if formato == 'guiado'
+                                                 else '; declaración humana sin validación estructural'))
+    oracle = estado.get("oracle")
+    print("Oracle: " + (f"código {oracle['codigo']} ({oracle['informe']})" if oracle else "pendiente"))
+    if (origen := cli.sensor_mod.hechos_de(identificador, estado)):
+        print("Hechos: " + origen["texto"])
+    if rev:
+        print("Revisión registrada por: " + cli.quien(rev))
+    for rid, medida in (estado.get("medidas") or {}).items():
+        print(f"Medidas de {rid}: {cli.quien(medida)}")
+    if estado.get("cierre"):
+        print("Cierre: " + cli.quien(estado["cierre"]))
+    if estado.get("archivo"):
+        print(f"Archivo: {estado['archivo']['spec']}")
+        for rid, situacion, por in cli.situacion_requisitos(estado):
+            print(f"  {rid}: {situacion}" + (f" por {por}" if por else ""))
+    cli.siguiente(identificador, estado["fase"])
+
+
+def archivos_faltantes(carpeta: Path, estado: dict) -> list[str]:
+    """Los archivos que el registro del cambio referencia y no están en el disco, relativos a la raíz."""
+    rev, oracle = estado.get("revision") or {}, estado.get("oracle") or {}
+    rutas = [carpeta / "proposal.md", carpeta / "tasks.md", *([cli.ROOT / estado["spec"]] if estado.get("spec") else []),
+             *(cli.requisitos_dir() / f"{r}.requisito" for r in estado.get("requisitos") or []),
+             # Un valor que no es una ruta no es un archivo que recuperar: lo nombran pendientes y se rehace su gate.
+             *(r for r in map(cli.ruta_del_registro, (rev.get("informe"), rev.get("decisiones"), oracle.get("informe"),
+                                                  *(ruta for ruta, _ in cli.hechos_registrados(oracle)))) if r)]
+    return [str(p.relative_to(cli.ROOT)) if p.is_relative_to(cli.ROOT) else str(p) for p in rutas if not p.is_file()]
+
+
+def proximo_paso(identificador: str) -> str | None:
+    """El próximo paso según lo que está vigente, en el orden del flujo.
+
+    Un comando completo («oracle-factory …» sin MAYÚSCULAS por completar) se puede ofrecer para ejecutar; un texto que
+    empieza con otra cosa indica algo que la persona tiene que hacer antes.
+    """
+    return (cli.pasos(identificador) or [None])[0]
+
+
+def pasos(identificador: str) -> list[str]:
+    """El próximo paso seguido de las alternativas que también valen; vacía si el cambio terminó."""
+    paso = cli._pasos(identificador)
+    return [paso] if isinstance(paso, str) else paso or []
+
+
+def _pasos(identificador: str) -> str | list[str] | None:
+    carpeta, estado = cli.leer(identificador)
+    ident = identificador
+    if estado.get("fase") in ("cerrada", "abandonada"):
+        return None
+    # Un archivo que el registro referencia y falta no se arregla con un comando de Factory: se recupera.
+    faltan = cli.archivos_faltantes(carpeta, estado)
+    if faltan:
+        # Con varios sensores, recuperados sus hechos, lo que sigue es juzgar otra vez con todos.
+        varios = cli.hechos_registrados(estado.get("oracle") or {})
+        despues = cli.comando_juzgar(ident, varios) if len(varios) > 1 else f"oracle-factory estado {ident}"
+        return f"faltan archivos del cambio ({', '.join(faltan)}): recuperalos desde Git; después: {despues}"
+    try:  # sin aprobar, o la propuesta/spec cambió después de aprobarla
+        cli.exigir_spec(carpeta, estado)
+    except cli.FactoryError:
+        return f"oracle-factory aprobar-spec {ident}"
+    if not estado.get("requisitos"):
+        return f"oracle-factory importar {ident}"
+    if cli.propuestas_confirmables(estado):
+        return f"oracle-factory medir {ident} --confirmar"
+    medidas = estado.get("medidas") or {}
+    if (any(rid not in medidas for rid in estado["requisitos"]) or cli.medidas_sin_decision(estado)
+            or estado.get("medidas_pendientes")):  # propuestas que ya no se pueden confirmar tal cual: se deciden
+        return f"oracle-factory medir {ident} --listar"
+    # ¿La revisión vale para el producto actual?
+    rev = estado.get("revision") or {}
+    revisado = (bool(rev) and cli.mismo_producto(rev.get("contexto"), cli.contexto_del_cambio(ident))
+                and not cli.problemas_de_revision(estado))  # mismas reglas que pendientes_actuales
+    if not revisado:
+        if cli.cambios_locales_de_producto():
+            return f"commiteá los cambios del producto; después: {cli.pedido_de_revision(ident)}"
+        sha = cli.candidato_vigente(ident)
+        # revisar necesita informes de revisores que la preparación pueda usar (mismas reglas), no sólo evidencia.
+        corte = cli.corte_del_candidato(ident, sha, estado) if sha else None
+        if corte and corte[0]:  # o la persona los acepta como riesgo o los descarta, con motivo
+            return [f"corregí los {len(corte[0])} hallazgos medios o más del candidato {sha} y commitealo; después: "
+                    f"{cli.pedido_de_revision(ident)}", f"oracle-factory revisar {ident}"]
+        if corte is not None:
+            return f"oracle-factory revisar {ident}"
+        return cli.pedido_de_revision(ident)
+    if rev.get("decision") != "aprobar" or rev.get("hallazgos_abiertos") != 0:
+        return f"corregí lo que pidió la revisión y commitealo; después: {cli.pedido_de_revision(ident)}"
+    # Revisión vigente y aprobada: ¿se juzgaron estos hechos?
+    oracle = estado.get("oracle") or {}
+    juzgados = cli.ruta_del_registro(oracle.get("hechos"))
+    varios = cli.hechos_registrados(oracle)
+    if len(varios) > 1 and not cli.juicio_vigente(oracle, cli.contexto_del_cambio(ident)):
+        return cli.comando_juzgar(ident, varios)
+    try:  # hechos del candidato que no son los juzgados: juzgarlos
+        del_candidato = cli.hechos_del_candidato(ident)
+        # También si los hechos registrados no son una ruta: los del candidato se juzgan sin pedir otra.
+        if juzgados is None or cli.sha256(cli.ruta_segura(del_candidato).read_bytes()) != oracle.get("hechos_sha256"):
+            return f"oracle-factory juzgar {ident}"
+    except cli.FactoryError:
+        pass
+    if cli.juicio_vigente(oracle, cli.contexto_del_cambio(ident)):
+        if oracle.get("codigo") != 0:
+            return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
+        if not cli.pendientes_actuales(carpeta, estado):
+            return f"oracle-factory cerrar {ident}"
+        return f"resolvé lo pendiente que lista estado; después: oracle-factory cerrar {ident}"
+    if juzgados is not None and juzgados.is_file():  # hechos que siguen ahí, con un juicio que ya no vale: juzgar de nuevo
+        try:
+            if juzgados.resolve() == cli.hechos_del_candidato(ident).resolve():
+                return f"oracle-factory juzgar {ident}"
+        except cli.FactoryError:
+            pass
+        return f"oracle-factory juzgar {ident} --con {shlex.quote(oracle['hechos'])}"
+    return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS"
+
+
+def siguiente(identificador: str, fase: str | None = None) -> None:
+    paso, *alternativas = cli.pasos(identificador) or [None]
+    if paso:
+        print("Próximo paso: " + paso)
+    for alternativa in alternativas:
+        print(f"También: {alternativa}" + (" — para aceptarlos como riesgo o descartarlos, con motivo"
+                                          if alternativa.startswith("oracle-factory revisar ") else ""))
+
+
+def ofrecer_siguiente(identificador: str) -> int:
+    """En una terminal y sin --agente, ofrece ejecutar el próximo paso si es un comando completo."""
+    comandos = [p for p in cli.pasos(identificador)
+                if p.startswith("oracle-factory ") and not re.search(r"\b[A-Z][A-Z_]{2,}\b", p)]
+    if not comandos or cli.AGENTE or not cli.terminal_interactiva() or not sys.stdout.isatty():
+        return 0
+    eleccion = cli.elegir("¿Seguís?", [*((f"Ejecutar «{p}»", "como si lo escribieras; si es una decisión, abre su propio menú")
+                                    for p in comandos), ("Salir", "no ejecuta nada")])
+    if eleccion is None or eleccion >= len(comandos):
+        return 0
+    return cli.main([*cli.argumentos_de_raiz(), *shlex.split(comandos[eleccion])[1:]])
 
 
 # Al final a propósito: `cli` importa este módulo, y así se puede importar cualquiera de los dos primero. Acá `cli` sólo se usa

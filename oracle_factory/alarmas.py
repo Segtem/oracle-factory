@@ -196,7 +196,7 @@ def avisos_del_flujo(flujo: dict) -> list[str]:
 UMBRAL_LIGERO = 150
 REGLAS_DE_DECISION = ("oracle_factory/cli.py", "oracle_factory/modos.py", "oracle_factory/flujo_revision.py", "oracle_factory/flujo_medidas.py",
                       "oracle_factory/revision.py", "oracle_factory/preparacion.py", "oracle_factory/puerta.py", "oracle_factory/unir.py",
-                      "oracle_factory/alarmas.py")  # esta lista y el umbral viven acá: tocarlos no puede ser «ligero»
+                      "oracle_factory/alarmas.py", "oracle_factory/acciones.py", "oracle_factory/ganchos.py")  # esta lista y el umbral viven acá: tocarlos no puede ser «ligero»
 
 
 def archivos_tocados(ejecutar: Callable, base: str, candidato: str) -> set[str] | None:

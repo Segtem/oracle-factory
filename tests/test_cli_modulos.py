@@ -13,12 +13,13 @@ from unittest.mock import patch
 
 SOURCE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SOURCE))
-from oracle_factory import cli, flujo_medidas, flujo_revision, lecturas, parser, proyecto  # noqa: E402
+from oracle_factory import acciones, cli, flujo_medidas, flujo_revision, ganchos, lecturas, parser, proyecto  # noqa: E402
 from tools import tamanos  # noqa: E402
 
 DATOS = SOURCE / "tests/datos"
 MODULOS = {"parser": parser, "flujo_revision": flujo_revision, "flujo_medidas": flujo_medidas, "lecturas": lecturas,
-           "proyecto": proyecto}  # proyecto: sumado al partir cli.py (cambio partir-cli, 2026-11-10)
+           "proyecto": proyecto,  # proyecto: sumado al partir cli.py (cambio partir-cli, 2026-11-10)
+           "ganchos": ganchos, "acciones": acciones}  # sumados por el cambio partir-cli-clue (2026-11-15)
 
 
 def firma(obj):

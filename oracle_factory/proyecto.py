@@ -348,6 +348,126 @@ def comando_autopilot(ident: str, como_json: bool, ejecutar: bool = False, lanza
     return 1 if resultado["fallo"] else 0
 
 
+def comando_ruta(identificador: str, tipo: str) -> None:
+    cli.leer(identificador)  # el cambio tiene que existir
+    head = cli.git_producto(["git", "rev-parse", "HEAD"])
+    if head.returncode:
+        raise cli.FactoryError("ruta necesita un repositorio Git con al menos un commit")
+    try:
+        # El candidato vigente, como pedir-revision y juzgar: un commit que sólo guarda registros no es un candidato nuevo.
+        # Si no hay, HEAD con los 7 primeros del hash completo (--short=7 lo alarga si es ambiguo y la carpeta cambiaría).
+        sha = cli.candidato_vigente(identificador) or head.stdout.strip()[:7]
+        print(cli.estructura.ruta_canonica(cli.ROOT, identificador, tipo, sha))
+    except ValueError as e:
+        raise cli.FactoryError(str(e)) from e
+
+
+def comando_buscar(texto: str, maximo: int) -> None:
+    if not texto.strip():
+        raise cli.FactoryError("indicá el texto a buscar")
+    # Un .factory enlazado no es nuestra carpeta y no se lee a través de él: entonces se busca en la raíz. Una carpeta de
+    # Oracle mal configurada, en cambio, falla y dice la causa.
+    oracle = "" if (cli.ROOT / cli.estructura.DIR).is_symlink() else cli.oracle_rel()
+    lineas, total, omitidos = cli.estructura.buscar(cli.ROOT, texto, maximo, oracle)
+    for linea in lineas:
+        print(linea)
+    print(f"{total} coincidencia(s)" + (f"; se muestran {len(lineas)}, usá --max para ver más" if total > len(lineas) else ""))
+    if omitidos:
+        print(f"Aviso: {omitidos} archivo(s) omitido(s) por superar {cli.estructura.LIMITE_ARCHIVO // 1_000_000} MB; el texto podría estar ahí.")
+
+
+def comando_skill(instalar: bool, forzar: bool) -> int:
+    """Muestra la skill de agente o, con --instalar, la escribe en el proyecto (nunca fuera de él)."""
+    if forzar and not instalar:
+        raise cli.FactoryError("--forzar sólo vale con --instalar")
+    if not instalar:
+        print(cli.skill_mod.texto(), end="")
+        return 0
+    if cli.PRODUCTO:
+        return cli.almacenes.skill_en_producto(cli, forzar)
+    try:
+        estado, ruta = cli.skill_mod.instalar(cli.ROOT, forzar)
+    except cli.skill_mod.SkillError as e:
+        raise cli.FactoryError(str(e)) from e
+    print({"instalada": f"Skill instalada en {ruta.relative_to(cli.ROOT)}.", "reemplazada": f"Skill reemplazada en {ruta.relative_to(cli.ROOT)}.",
+           "igual": f"La skill ya estaba instalada en {ruta.relative_to(cli.ROOT)}: sin cambios."}[estado])
+    return 0
+
+
+def comando_agentes(verificar: bool, en_el_repo: bool = False) -> None:
+    """El bloque para agentes de AGENTS.md (y la línea @AGENTS.md de CLAUDE.md), o --verificar que estén al día."""
+    if en_el_repo and cli.AGENTE:
+        raise cli.FactoryError(f"agentes --en-el-repo es una decisión de una persona (versionar la guía en el repo del producto); "
+                           f"{cli.AGENTE} no puede. No escribí nada")
+    if cli.PRODUCTO:  # con almacén aparte, en el producto: sin versionar, o en la guía que ya versiona con --en-el-repo
+        return cli.almacenes.guia_en_producto(cli, verificar, en_el_repo)
+    nuevo = cli.agentes_mod.bloque(cli.config_proyecto()["modo_por_defecto"])
+    rutas = [cli.ruta_segura(cli.ROOT / "AGENTS.md"), cli.ruta_segura(cli.ROOT / "CLAUDE.md")]
+    actuales = [r.read_text(encoding="utf-8") if r.is_file() else "" for r in rutas]
+    try:
+        esperados = [cli.agentes_mod.con_bloque(actuales[0], nuevo), cli.agentes_mod.con_claude(actuales[1])]
+    except cli.agentes_mod.MarcasRotas as e:
+        raise cli.FactoryError(str(e)) from e
+    if verificar:
+        viejos = [r.name for r, a, e in zip(rutas, actuales, esperados) if a != e]
+        if viejos:
+            raise cli.FactoryError(f"la guía para agentes no está al día en {', '.join(viejos)}; corré oracle-factory agentes")
+        print("La guía para agentes está al día en AGENTS.md (y CLAUDE.md la incluye).")
+        return
+    for ruta, actual, esperado in zip(rutas, actuales, esperados):
+        if actual != esperado:
+            cli.escribir_atomico(ruta, esperado.encode("utf-8"))
+    print("Guía para agentes en AGENTS.md (CLAUDE.md la incluye con @AGENTS.md): quién decide qué, los comandos de una "
+          "persona y de un agente, y cómo consultar el proyecto.")
+
+
+def comando_preguntar(args) -> None:
+    if args.evaluar:
+        if not args.salida:
+            raise cli.FactoryError("--evaluar necesita --salida CARPETA (nueva)")
+        c = cli.rag_mod.evaluar(cli, args.salida.resolve(), casos=args.casos)
+        print(f"{c['aciertos']} de {c['preguntas']} preguntas de oro con un archivo esperado entre los {cli.rag_mod.PRIMEROS} "
+              f"primeros (MRR {c['mrr']}, modo {c['modo']}, modelo {c['modelo']}). Hechos: {args.salida / 'hechos.json'}")
+        hechos = json.loads((args.salida / 'hechos.json').read_text(encoding='utf-8'))
+        for grupo in hechos['preguntar_grupo']:
+            print(f"{grupo['grupo']}: {grupo['aciertos']}/{grupo['preguntas']}; errores: {grupo['errores']}; "
+                  f"abstenciones incorrectas: {grupo['abstenciones_incorrectas']}; simulado: {bool(grupo['simulado'])}")
+        return
+    if args.casos:
+        raise cli.FactoryError('--casos se usa junto a --evaluar')
+    datos = cli.rag_mod.preguntar(cli, args.texto, args.maximo)
+    print(json.dumps(datos, ensure_ascii=False, indent=2) if args.json else cli.rag_mod.texto(datos))
+
+
+def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = False) -> None:
+    cli.ruta_segura(cli.CHANGES)
+    if not cli.CHANGES.exists():
+        print('No hay cambios Factory. Empezá con oracle-factory init.')
+        return
+    encontrados = 0
+    for carpeta in sorted(cli.CHANGES.iterdir()):
+        if not cli.ID_RE.fullmatch(carpeta.name):
+            continue
+        cli.ruta_segura(carpeta)
+        if not (cli.ruta_registro(carpeta)).exists():
+            continue
+        try:
+            _, estado = cli.leer(carpeta.name)
+        except cli.FactoryError as e:  # uno roto no deja sin lista a los demás
+            print(f"{carpeta.name}  ilegible: {e}")
+            encontrados += 1
+            continue
+        if (fase and estado['fase'] != fase) or (abiertos and estado['fase'] in ('cerrada', 'abandonada')) \
+                or (cerrados and estado['fase'] != 'cerrada'):
+            continue
+        print(f"{carpeta.name}  {estado['fase']}{' (archivado)' if estado.get('archivo') else ''}  {estado['titulo']}")
+        encontrados += 1
+    if not encontrados:
+        print('No hay cambios que coincidan con el filtro.' if (fase or abiertos or cerrados)
+              else 'No hay cambios Factory; las tareas del tracker por sí solas no son cambios Factory.')
+    print(f'Acuerdos: {cli.CHANGES}')
+
+
 # Al final a propósito: `cli` importa este módulo, y así se puede importar cualquiera de los dos primero. Acá `cli` sólo
 # cuando se llama a una función, no al importar.
 from . import cli  # noqa: E402

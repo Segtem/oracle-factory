@@ -110,7 +110,7 @@ class CaminoPuro(unittest.TestCase):
         self.assertEqual(set(alarmas.REGLAS_DE_DECISION), {
             'oracle_factory/cli.py', 'oracle_factory/modos.py', 'oracle_factory/flujo_revision.py', 'oracle_factory/flujo_medidas.py',
             'oracle_factory/revision.py', 'oracle_factory/preparacion.py', 'oracle_factory/puerta.py', 'oracle_factory/unir.py',
-            'oracle_factory/alarmas.py'})
+            'oracle_factory/alarmas.py', 'oracle_factory/acciones.py', 'oracle_factory/ganchos.py'})  # los dos últimos: partir-cli-clue
         for regla in alarmas.REGLAS_DE_DECISION:
             self.assertTrue((SOURCE / regla).is_file(), regla)  # la lista no apunta a un archivo que ya no existe
 

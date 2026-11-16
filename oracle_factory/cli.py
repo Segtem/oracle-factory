@@ -746,174 +746,7 @@ def drivers_de_union() -> list[tuple[str, str]]:
             for par in ((f"merge.{nombre}.name", f"Factory: {que}"), (f"merge.{nombre}.driver", f"{py} -c {codigo} {orden}"))]
 
 
-def escribir_atributos(raiz: Path) -> bool:
-    """Agrega al .gitattributes de `raiz` las líneas de ATRIBUTOS que falten; True si escribió algo."""
-    atributos = raiz / ".gitattributes"
-    actual = atributos.read_text(encoding="utf-8") if atributos.is_file() else ""
-    presentes = {" ".join(linea.split()) for linea in actual.splitlines()}  # otro espaciado es la misma línea
-    faltan = [linea for linea in ATRIBUTOS if linea not in presentes]
-    if faltan:
-        bloque = ([ATRIBUTOS_MARCA] if ATRIBUTOS_MARCA not in actual else []) + faltan
-        atributos.write_text(actual + ("\n" if actual and not actual.endswith("\n") else "") + "\n".join(bloque) + "\n",
-                             encoding="utf-8")
-    return bool(faltan)
-
-
-def instalar_union() -> str:
-    """Los drivers de merge (en la configuración del clon), sus atributos (en .gitattributes, versionado) y el post-merge
-    que rehace lo generado. Un post-merge ajeno no se pisa."""
-    py = shlex.quote(sys.executable)
-    for clave, valor in drivers_de_union():
-        ejecutar(["git", "config", clave, valor])
-    escribir_atributos(ROOT)
-    p = ejecutar(["git", "rev-parse", "--git-path", "hooks"])
-    avisos = []
-    for nombre, llamada in (("post-merge", LLAMADA_POST_MERGE), ("post-commit", LLAMADA_POST_COMMIT)):
-        hook = ROOT / p.stdout.strip() / nombre
-        if hook.exists() and HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
-            avisos.append(f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué. Para que lo generado se rehaga al "
-                          f"integrar, agregale esta línea antes de su final:\n{llamada.format(py=py)}")
-            continue
-        hook.parent.mkdir(parents=True, exist_ok=True)
-        hook.write_text(f"#!/bin/sh\n{HOOK_MARCA} (rehace lo generado después de integrar). Lo instaló oracle-factory hooks.\n"
-                        f"{llamada.format(py=py)}\nexit 0\n", encoding="utf-8")
-        hook.chmod(0o755)
-    if avisos:
-        return "\n".join(avisos)
-    return ("Al integrar, el registro de un cambio editado en dos ramas se une con Factory (sin perder eventos) y lo generado "
-            "se rehace después del merge (.gitattributes, post-merge y post-commit).")
-
-
-def unir_registro(base: str, nuestro: str, suyo: str) -> int:
-    """El merge driver del registro: Git pasa la versión común (%O), la de la rama actual (%A, donde va el resultado) y
-    la de la otra (%B). Un registro que no se puede leer queda como conflicto para una persona."""
-    try:
-        leidos = [json.loads(Path(x).read_text(encoding="utf-8") or "{}") for x in (base, nuestro, suyo)]
-    except (OSError, ValueError):
-        return 1
-    unido = unir_mod.unir(*leidos)
-    Path(nuestro).write_text(json.dumps(unido, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return 0
-
-
-def rehacer_generado() -> None:
-    """Lo llama el post-merge: rehace resumen.md y kb/ y, si cambiaron, los commitea aparte."""
-    if not (ROOT / estructura.DIR).is_dir():
-        return
-    escribir_atomico(ruta_resumen(), texto_resumen().encode("utf-8"))
-    if (ROOT / kb_mod.DIR).is_dir():
-        notas = kb_mod.armar(sys.modules[__name__])
-        escribir_kb(notas)
-        for rel in generadas_en_disco() - set(notas):
-            (ROOT / rel).unlink()
-    rutas = [str(ruta_resumen().relative_to(ROOT))] + [r for r in GENERADO_KB if (ROOT / r).exists()]
-    if ejecutar(["git", "status", "--porcelain", "--", *rutas]).stdout.strip():
-        # Dentro del post-merge Git todavía tiene MERGE_HEAD y no deja commitear rutas sueltas: el commit se arma a mano,
-        # con el índice que dejó el merge más lo rehecho, y con un solo padre.
-        ejecutar(["git", "add", "-A", "--", *rutas])
-        arbol = ejecutar(["git", "write-tree"]).stdout.strip()
-        hecho = ejecutar(["git", "commit-tree", arbol, "-p", "HEAD", "-m", "Rehacer lo generado después de integrar (oracle-factory)"])
-        if hecho.returncode or ejecutar(["git", "update-ref", "HEAD", hecho.stdout.strip()]).returncode:
-            raise FactoryError(f"no pude commitear lo rehecho después de integrar: {(hecho.stderr or '').strip()}")
-        print("Rehice resumen.md y kb/ después de integrar, en un commit aparte.")
-
-
-def decidir_union(identificador: str, campo: str, cual: str) -> None:
-    """Una persona elige cuál de las dos versiones vale de algo que dos ramas decidieron distinto (también en un cambio
-    cerrado: dos cierres se eligen acá)."""
-    carpeta, estado = leer(identificador)
-    pendiente = next((x for x in estado.get("pendientes_de_union") or [] if x.get("campo") == campo), None)
-    if pendiente is None:
-        raise FactoryError(f"{identificador} no tiene nada pendiente de unir en {campo}; no cambié nada")
-    valor = pendiente[cual]
-    confirmar_persona((f"¿Vale la versión {cual} de {campo} en {identificador}?",
-                       f"Sí, la {cual}: {json.dumps(valor, ensure_ascii=False)[:120]}", "queda esa y se borra el aviso"),
-                      "no elegí nada")
-    destino, camino = estado, pendiente.get("camino") or campo.split(".")
-    for k in camino[:-1]:
-        destino = destino.setdefault(k, {})
-    if valor is None:
-        destino.pop(camino[-1], None)
-    else:
-        destino[camino[-1]] = valor
-    estado["pendientes_de_union"] = [x for x in estado["pendientes_de_union"] if x is not pendiente]
-    if not estado["pendientes_de_union"]:
-        estado.pop("pendientes_de_union")
-    evento(estado, "union_decidida", campo=campo, eligio=cual)
-    guardar(carpeta, estado)
-    print(f"En {identificador}, {campo} quedó con la versión {cual}.")
-
-
-def aviso_union(identificador: str, estado: dict) -> list[str]:
-    return [f"al unir dos ramas, {x.get('campo')} quedó con dos valores ({json.dumps(x.get('nuestro'), ensure_ascii=False)[:80]} y "
-            f"{json.dumps(x.get('suyo'), ensure_ascii=False)[:80]}); Factory no eligió: "
-            f"{unir_mod.como_resolver(x.get('campo', ''), identificador)}" for x in estado.get("pendientes_de_union") or []]
-
-
 LLAMADA_PUERTA = ("{py} -c 'import sys; from oracle_factory.cli import main; sys.exit(main())' puerta --hook")
-
-
-def hook_pre_push() -> str:
-    """El pre-push de la puerta local: bloquea sólo con el código propio de la puerta; todo lo demás avisa y deja pasar."""
-    py = shlex.quote(sys.executable)
-    return (f"#!/bin/sh\n{puerta_mod.HOOK_MARCA} (secretos y verificaciones antes de publicar). Lo instaló oracle-factory hooks; "
-            "git push --no-verify la saltea.\n"
-            f'if [ ! -x {py} ]; then\n  echo "Aviso: no encuentro el intérprete de oracle-factory ({sys.executable}); la puerta local de salida no corrió." >&2\n'
-            "  exit 0\nfi\n"
-            f"{LLAMADA_PUERTA.format(py=py)}\nrc=$?\n"
-            f'[ "$rc" -eq {puerta_mod.CODIGO_BLOQUEO} ] && exit 1\n'
-            '[ "$rc" -ne 0 ] && echo "Aviso: la puerta local de salida no pudo comprobar (código $rc); el push sigue." >&2\n'
-            "exit 0\n")
-
-
-def lineas_para_encadenar(llamada: str) -> str:
-    """Las líneas para un hook ajeno: sólo el código de bloqueo frena el push, y valen con `set -e` y como última línea del script."""
-    return f'rc=0\n{llamada} || rc=$?\nif [ "$rc" -eq {puerta_mod.CODIGO_BLOQUEO} ]; then exit 1; fi'
-
-
-def instalar_pre_push(carpeta: Path) -> str:
-    """El hook pre-push de la puerta, aparte de los de commits; nunca pisa uno ajeno."""
-    hook = carpeta / "pre-push"
-    if hook.exists() and puerta_mod.HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
-        return ("Aviso: ya hay un hook pre-push que no es de Factory; no lo toqué. Para tener la puerta local de salida (secretos y "
-                f"verificaciones antes de publicar), agregale estas líneas antes de su final (la puerta bloquea con el código {puerta_mod.CODIGO_BLOQUEO}; "
-                f"cualquier otro código es un aviso y el push sigue):\n{lineas_para_encadenar(LLAMADA_PUERTA.format(py=shlex.quote(sys.executable)))}")
-    hook.parent.mkdir(parents=True, exist_ok=True)
-    hook.write_text(hook_pre_push(), encoding="utf-8")
-    hook.chmod(0o755)
-    return f"Puerta local de salida en {hook}: un push con un secreto o con la guía para agentes vencida se bloquea; un kb o un resumen vencidos, o un cambio inconsistente (`verificar`), sólo avisan (git push --no-verify la saltea)."
-
-
-def instalar_hook() -> str:
-    """Instala los hooks de Factory en la carpeta de hooks de Git (la comparten los worktrees); nunca pisa uno ajeno."""
-    p = ejecutar(["git", "rev-parse", "--git-path", "hooks"])
-    if p.returncode:
-        return ("Hook de commits: este proyecto todavía no usa Git; después de git init, instalalo con "
-                "oracle-factory hooks.")
-    carpeta = ROOT / p.stdout.strip()
-    llamada = LLAMADA_HOOK.format(py=shlex.quote(sys.executable))
-    # Con un hook ajeno, en cualquiera de los dos, Factory no pone ninguno (y saca el suyo): la persona decide si
-    # encadena la línea en el suyo.
-    ajenos = [carpeta / n for n in HOOKS if (carpeta / n).exists()
-              and HOOK_MARCA not in (carpeta / n).read_text(encoding="utf-8", errors="replace")]
-    if ajenos:
-        for nombre in HOOKS:
-            if carpeta / nombre not in ajenos and (carpeta / nombre).exists():
-                (carpeta / nombre).unlink()
-        avisos = "\n".join(f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué ni instalé los de Factory. Para "
-                           f"que tus commits digan de qué cambio son, agregale esta línea antes de su final:\n{llamada}"
-                           for hook in ajenos)
-        return avisos + "\n" + instalar_pre_push(carpeta)
-    instalados = []
-    for nombre in HOOKS:
-        hook = carpeta / nombre
-        hook.parent.mkdir(parents=True, exist_ok=True)
-        hook.write_text(f"#!/bin/sh\n{HOOK_MARCA} (trailer «Cambio: ID»). Lo instaló oracle-factory hooks; nunca "
-                        f"impide un commit.\n{llamada}\nexit 0\n", encoding="utf-8")
-        hook.chmod(0o755)
-        instalados.append(nombre)
-    return (f"Hook de commits en {carpeta} ({', '.join(instalados)}): un commit hecho con un solo cambio abierto lleva "
-            f"«Cambio: ID».\n{instalar_pre_push(carpeta)}")
 
 
 def argumentos_de_raiz() -> list[str]:
@@ -1069,146 +902,11 @@ def mensaje(identificador: str, texto: str, de: str | None = None) -> None:
 ACTIVIDAD_RECIENTE = dt.timedelta(hours=24)
 
 
-def quien_del_cambio(estado: dict) -> dict:
-    """Quién trabaja en el cambio, sólo con su registro: la persona responsable, sus agentes (declarados, sumados o
-    que actuaron en las últimas 24 horas, con su última acción) y los revisores lanzados sin resultado."""
-    responsable = estado.get("responsable") or None
-    eventos = estado.get("eventos") or []
-    hoy = dt.datetime.now(dt.timezone.utc)
-    declarados = set((responsable or {}).get("con") or [])
-    declarados |= {e.get("agente") for e in eventos if e.get("accion") == "agente_sumado" and e.get("agente")}
-    ultimas: dict[str, dict] = {}
-    for e in eventos:  # una migración de registros (limpiar rutas, archivar viejos) no es trabajar en el cambio
-        if e.get("tipo_actor") == "agente" and e.get("actor") and e.get("forma") != "migracion":
-            ultimas[e["actor"]] = e
-    agentes = []
-    for nombre in sorted(declarados | set(ultimas)):
-        ultima = ultimas.get(nombre)
-        try:
-            cuando = dt.datetime.fromisoformat(ultima["cuando"]) if ultima else None
-        except (KeyError, TypeError, ValueError):
-            cuando = None
-        if cuando and cuando.tzinfo is None:
-            cuando = cuando.replace(tzinfo=dt.timezone.utc)  # un registro viejo sin zona: Factory escribe en UTC
-        # Una fecha futura (otro reloj) no es «hace poco»: cuenta hasta cinco minutos de diferencia.
-        reciente = bool(cuando) and hoy - ACTIVIDAD_RECIENTE <= cuando <= hoy + dt.timedelta(minutes=5)
-        if nombre in declarados or reciente:
-            agentes.append({"nombre": nombre, "declarado": nombre in declarados,
-                            "ultima_accion": (ultima or {}).get("accion"), "cuando": (ultima or {}).get("cuando")})
-    return {"responsable": responsable, "agentes": agentes,
-            "revisores_en_curso": [{"revisor": e.get("revisor"), "candidato": e.get("candidato"), "cuando": e.get("cuando")}
-                                   for e in lanzamientos_abiertos(estado)],
-            "ultima_actividad": ({k: eventos[-1].get(k) for k in ("actor", "tipo_actor", "accion", "cuando")}
-                                 if eventos else None)}
-
-
-def linea_quien(q: dict) -> str:
-    r = q["responsable"]
-    partes = [f"Responsable: {r['persona']} desde {str(r.get('desde', ''))[:16].replace('T', ' ')}" if r
-              else "Responsable: nadie (oracle-factory tomar ID)"]
-    if q["agentes"]:
-        partes.append("agentes: " + ", ".join(
-            a["nombre"] + (f" ({a['ultima_accion']} {str(a['cuando'])[:16].replace('T', ' ')})" if a["ultima_accion"] else "")
-            for a in q["agentes"]))
-    if q["revisores_en_curso"]:
-        partes.append("revisando: " + ", ".join(f"{v['revisor']} sobre {v['candidato']}" for v in q["revisores_en_curso"]))
-    return "; ".join(partes)
-
-
 def cambios_abiertos() -> list[str]:
     if not CHANGES.is_dir():
         return []
     return [c.name for c in sorted(CHANGES.iterdir()) if ID_RE.fullmatch(c.name) and ruta_registro(c).exists()
             and leer(c.name)[1].get("fase") not in ("cerrada", "abandonada")]
-
-
-def cambio_del_commit(mensaje: str) -> str | None:
-    """El cambio de un commit: el que nombra su mensaje (si nombra uno solo del proyecto); si no, el único abierto; con
-    varios abiertos, el único que tiene como responsable a quien commitea (su user.name de Git). Si no, ninguno."""
-    nombrados = {i for i in re.findall(r"\b\d{8}-\d{6}-[a-z0-9_]+(?:-[a-z0-9_]+)*", mensaje)
-                 if (CHANGES / i).is_dir() and ruta_registro(CHANGES / i).exists()}
-    if nombrados:
-        return nombrados.pop() if len(nombrados) == 1 else None
-    abiertos = cambios_abiertos()
-    if len(abiertos) == 1:
-        return abiertos[0]
-    yo = subprocess.run(["git", "config", "user.name"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
-    mios = [i for i in abiertos if yo and (leer(i)[1].get("responsable") or {}).get("persona") == yo]
-    return mios[0] if len(mios) == 1 else None
-
-
-def poner_trailer(archivo: str) -> None:
-    """Lo llama el hook: agrega «Cambio: ID» al mensaje si no lo tiene, con el cambio que elige cambio_del_commit."""
-    # Un mensaje todavía vacío (sólo comentarios, con el carácter de comentario que use este Git): se deja así, para
-    # que cerrar el editor sin escribir siga abortando el commit; commit-msg lo completa después.
-    vacio = subprocess.run(["git", "stripspace", "--strip-comments"], cwd=ROOT, input=Path(archivo).read_bytes(),
-                           capture_output=True, check=False)
-    if vacio.returncode or not vacio.stdout.strip():
-        return
-    # Sólo cuenta un Cambio: del bloque de trailers, no una línea del cuerpo que empiece igual.
-    trailers = ejecutar(["git", "interpret-trailers", "--parse", archivo]).stdout
-    if re.search(r"^Cambio:", trailers, re.M | re.I):
-        return
-    cambio = cambio_del_commit(vacio.stdout.decode("utf-8", errors="replace"))
-    if cambio:
-        ejecutar(["git", "interpret-trailers", "--in-place", "--trailer", f"Cambio: {cambio}", archivo])
-
-
-def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
-    """Los commits del cambio, del más nuevo al más viejo: los que llevan su trailer y los deducidos de sus candidatos y
-    del merge que los integró (para lo de antes del trailer)."""
-    formato = "--format=%H%x1f%an%x1f%aI%x1f%cI%x1f%s"  # la fecha de autor y la de cuando se hizo el commit
-
-    def git_log(*args: str) -> list[list[str]]:
-        p = git_producto(["git", "log", formato, *args])
-        return [] if p.returncode else [linea.split("\x1f") for linea in p.stdout.splitlines() if linea.count("\x1f") == 4]
-
-    def completo(ref: str) -> str | None:
-        p = git_producto(["git", "rev-parse", "--verify", "--quiet", ref + "^{commit}"])
-        return p.stdout.strip() if p.returncode == 0 else None
-
-    base = ROOT / estructura.DIR / "cambios" / identificador / "candidatos"
-    carpetas = {c.name: c for c in base.iterdir() if c.is_dir() and not c.is_symlink()} if base.is_dir() else {}
-    pedidos = {e.get("candidato") for e in estado.get("eventos") or [] if e.get("candidato")}  # pedidos, no informes
-    candidatos = {}  # sha completo -> nombre corto
-    for corto_ in sorted(set(carpetas) | pedidos):
-        sha = completo(str(corto_))
-        if sha:
-            candidatos[sha] = str(corto_)
-    # --grep encuentra la línea en cualquier parte del mensaje; cuenta sólo si está en el bloque de trailers.
-    con_trailer = set(git_producto(["git", "log", "--all", f"--grep=^Cambio: {identificador}$",
-                                "--format=%H %(trailers:key=Cambio,valueonly,separator=%x20)"]).stdout.splitlines())
-    propios = {linea.split()[0] for linea in con_trailer if identificador in linea.split()[1:]}
-    unidos = {c[0]: (c, "trailer") for c in git_log(*propios, "--no-walk")} if propios else {}
-    deducidos = git_log("--no-walk", *candidatos) if candidatos else []
-    # El merge que integró la rama, en un cambio cerrado (uno abierto no se integró: no se busca): el primer commit de
-    # la línea principal (primeros padres de main, master o HEAD) que contiene un candidato. Si lo trae por su segundo
-    # padre, es el merge que integró la rama; si lo trae por el primero, el cambio ya estaba en main sin merge propio
-    # (directo, fast-forward, squash) y quedan sólo los candidatos. Un merge de otras ramas nunca está en esa línea.
-    principal = next((r for r in ("main", "master") if completo(r)), "HEAD")
-
-    def contiene(ref: str, sha: str) -> bool:
-        return git_producto(["git", "merge-base", "--is-ancestor", sha, ref]).returncode == 0
-
-    for sha in candidatos if estado.get("fase") == "cerrada" else ():
-        if not contiene(principal, sha):
-            continue  # un candidato de una vuelta descartada: no está en la historia
-        merge = next((m for m in git_producto(["git", "rev-list", "--first-parent", "--merges", "--reverse",
-                                           f"{sha}..{principal}"]).stdout.split() if contiene(m, sha)), None)
-        if merge and not contiene(merge + "^1", sha):
-            deducidos += git_log(f"{merge}^1..{merge}^2")
-        break
-    for c in deducidos:
-        unidos.setdefault(c[0], (c, "deducido"))
-    salida = []
-    for sha, ((_, autor, fecha, fecha_commit, asunto), union) in unidos.items():
-        carpeta = carpetas.get(candidatos.get(sha, ""))
-        revisado = bool(carpeta and any((carpeta / "revision").glob("*.json")))  # con un informe, no sólo pedido
-        salida.append({"sha": sha, "corto": sha[:7], "autor": autor, "fecha": fecha, "fecha_commit": fecha_commit,
-                       "asunto": asunto, "union": union,
-                       "candidato": sha in candidatos, "revisado": revisado,
-                       "evidencia": bool(carpeta and (carpeta / "evidencia").is_dir())})
-    return sorted(salida, key=lambda c: dt.datetime.fromisoformat(c["fecha"]), reverse=True)
 
 
 def linea_commits(commits: list[dict]) -> str:
@@ -1652,147 +1350,6 @@ def cerrar(identificador: str) -> None:
         print(f"El cierre lo decidió el agente {cierre['actor']} en modo autónomo; las demás decisiones, como indica estado.")
 
 
-def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
-    """Abandonar descarta las promesas del cambio: lo decide una persona en cualquier modo; un agente sólo propone el motivo."""
-    carpeta = ruta_cambio(identificador)
-    if ruta_segura(ruta_registro(carpeta)).is_file():
-        _, previo = leer(identificador)
-        quedan = [r for r in ((previo.get("abandono") or {}).get("requisitos_quitados") or [])
-                  if (requisitos_dir() / f"{r}.requisito").is_file()] if previo.get("fase") == "abandonada" else []
-        if quedan:  # un corte entre el registro y el borrado: la decisión ya está tomada, sólo falta completarla
-            for rid in quedan:
-                (requisitos_dir() / f"{rid}.requisito").unlink()
-            actualizar_resumen()
-            print(f"{identificador} ya estaba abandonado; quité de requisitos/ lo que había quedado: {', '.join(quedan)}.")
-            return
-        carpeta, estado = abierto(identificador)
-    elif (carpeta / "proposal.md").is_file():  # una carpeta anterior al flujo: el abandono le da un registro mínimo
-        primera = (carpeta / "proposal.md").read_text(encoding="utf-8").strip().splitlines()[:1]
-        estado = {"id": identificador, "titulo": primera[0].lstrip("# ").strip() if primera else identificador,
-                  "fase": "sin registro"}
-    else:
-        raise FactoryError(f"no encuentro el cambio {identificador}: ni su registro ni su propuesta")
-    if AGENTE:
-        if not (motivo_agente and motivo_agente.strip()):
-            raise FactoryError("con --agente, abandonar propone el motivo: indicá --motivo; abandonar lo decide una persona")
-        if estado["fase"] == "sin registro":
-            raise FactoryError("una carpeta sin registro no guarda propuestas: la persona elige o escribe el motivo al abandonarla")
-        # Fuera de «propuestas»: ésas son las decisiones canónicas de modos.DECISIONES.
-        estado.setdefault("motivos_propuestos", {})["abandono"] = {"motivo": motivo_agente.strip(), **actor(), "cuando": ahora()}
-        evento(estado, "abandono_propuesto", forma="propuso")
-        guardar(carpeta, estado)
-        print(f"Motivo propuesto por {AGENTE}: «{motivo_agente.strip()}». Abandonar lo decide una persona: "
-              f"oracle-factory abandonar {identificador}")
-        return
-    if motivo_agente:
-        raise FactoryError("--motivo es la propuesta de un agente; una persona elige el motivo en el menú")
-    requisitos = [r for r in estado.get("requisitos", []) if (requisitos_dir() / f"{r}.requisito").is_file()]
-    tarea = ROOT / "tareas" / identificador / "TAREA.md"
-    print(f"{identificador} — {estado['titulo']} (fase {estado['fase']}).")
-    print("Se quitan de requisitos/ (quedan en la historia de Git): " + (", ".join(requisitos) or "ninguno") + ".")
-    print("La propuesta y la spec del cambio quedan como están; nada se fusiona en openspec/specs/.")
-    confirmar_persona((f"Abandonar {identificador}", "Abandonar el cambio",
-                       "pasa a abandonado, quita sus requisitos de requisitos/ y cierra su tarea"),
-                      "abandono cancelado; el cambio sigue como estaba")
-    propuesto = ((estado.get("motivos_propuestos") or {}).get("abandono") or {}).get("motivo")
-    motivo = elegir_motivo(f"no se va a terminar: queda abandonado en la fase {estado['fase']}"
-                           + (f" con {len(requisitos)} requisitos sin cerrar" if requisitos else "")
-                           + "; lo que siga va en un cambio nuevo.", propuesto)
-    if tarea.is_file():
-        # El tracker antes que Factory: si falla, el cambio sigue abierto y repetir abandonar lo completa (una tarea ya
-        # cerrada no se vuelve a cerrar y la nota no se repite). Cerrar va primero para no dejar la nota en una tarea abierta.
-        if "ESTADO: CERRADA" not in tarea.read_text(encoding="utf-8"):
-            p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
-            if p.returncode:
-                raise FactoryError(p.stderr.strip() or "oracle-task no pudo cerrar la tarea")
-        nota = f"Abandonado por una persona; motivo: {motivo[0]}"
-        if nota not in tarea.read_text(encoding="utf-8"):
-            nota_tarea(identificador, nota)
-    else:
-        print(f"Aviso: {identificador} no tiene tarea en tareas/; no hay nada que cerrar en el tracker.", file=sys.stderr)
-    forma = "confirmo" if motivo[1] == "agente" else "decidio"
-    estado["fase"] = "abandonada"
-    estado["abandono"] = {**registro_decision(estado, forma, motivo), "requisitos_quitados": requisitos}
-    (estado.get("motivos_propuestos") or {}).pop("abandono", None)
-    evento(estado, "abandono", forma=forma, requisitos_quitados=requisitos)
-    guardar(carpeta, estado)
-    for rid in requisitos:  # después del registro: lo que se quitó queda dicho aunque se corte acá
-        (requisitos_dir() / f"{rid}.requisito").unlink(missing_ok=True)
-    actualizar_resumen()
-    print(f"Abandonado: {identificador}; {quien(estado['abandono'])}.")
-
-
-def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
-    carpeta, estado = abierto(identificador)
-    actual = modo_de(estado)
-    if nuevo_modo not in modos.MODOS:
-        raise FactoryError("modo desconocido; usá " + ", ".join(modos.MODOS))
-    if nuevo_modo == actual:
-        print(f"El cambio ya está en modo {actual}.")
-        return
-    if modos.baja_intervencion(actual, nuevo_modo):
-        if AGENTE:
-            raise FactoryError(f"pasar de {actual} a {nuevo_modo} reduce la intervención humana: lo decide una persona, sin --agente")
-        confirmar_persona((f"Pasar {identificador} de {actual} a {nuevo_modo}", f"Pasar a {nuevo_modo}",
-                           "reduce la intervención humana; las propuestas que dejen de valer se invalidan"),
-                          "cambio de modo cancelado; el modo sigue igual")
-    estado["modo"] = nuevo_modo
-    tipos = tipos_cambio(estado)
-    propuestas, invalidadas = estado.setdefault("propuestas", {}), []
-
-    def via_nueva(registro, decision, tipos_):
-        # None: sigue valiendo. 'propone': pasa a propuesta. 'rechaza': se descarta, la decide una persona.
-        if not registro or registro.get("tipo_actor") != "agente":
-            return None
-        via = modos.via_agente(nuevo_modo, decision, tipos_)
-        return None if via == "decide" else via
-
-    via = via_nueva(estado.get("spec_aprobada"), "spec", tipos)
-    if via:
-        sa = estado["spec_aprobada"]
-        if via == "propone":
-            propuestas["spec"] = {"firma": sa["documentos"], "actor": sa["actor"], "tipo_actor": "agente", "cuando": sa["cuando"]}
-        estado.update(spec_aprobada=None, revision=None, oracle=None, fase="espera_aprobacion_spec")
-        invalidadas.append(("spec", via))
-    rev = estado.get("revision")
-    via = via_nueva(rev, "revision", tipos)
-    if via:
-        if via == "propone":
-            firma = firma_revision(rev["formato"], rev["sha256"], rev.get("decisiones_sha256"), rev["revisor"], rev["decision"], rev["contexto"])
-            if rev["formato"] == "libre":
-                firma["abiertos"] = rev["hallazgos_abiertos"]
-            propuestas["revision"] = {"firma": firma, "actor": rev["actor"], "tipo_actor": "agente", "cuando": rev["cuando"]}
-        estado.update(revision=None, oracle=None)
-        invalidadas.append(("revision", via))
-    for rid, medida in list((estado.get("medidas") or {}).items()):
-        via = via_nueva(medida, "medidas", [(estado.get("tipos") or {}).get(rid, "funcional")])
-        if via:
-            ruta = requisitos_dir() / f"{rid}.requisito"
-            estado.setdefault("medidas_pendientes", {})[rid] = {"sha256": medida.get("sha256") or sha256(ruta.read_bytes()), "actor": medida["actor"],
-                                                                "tipo_actor": "agente", "cuando": medida["cuando"],
-                                                                "descartada": via == "rechaza"}
-            del estado["medidas"][rid]
-            estado.update(oracle=None)
-            invalidadas.append(("medidas de " + rid, via))
-    for decision in list(propuestas):
-        if decision != "cierre" and modos.via_agente(nuevo_modo, decision, tipos) == "rechaza":
-            del propuestas[decision]
-            invalidadas.append((f"propuesta de {decision}", "rechaza"))
-    for rid, pendiente in (estado.get("medidas_pendientes") or {}).items():
-        tipo_rid = [(estado.get("tipos") or {}).get(rid, "funcional")]
-        if not pendiente.get("descartada") and modos.via_agente(nuevo_modo, "medidas", tipo_rid) == "rechaza":
-            pendiente["descartada"] = True
-            invalidadas.append((f"propuesta de medidas de {rid}", "rechaza"))
-    texto = {"propone": "pasa a propuesta: una persona la confirma", "rechaza": "se descarta: la decide una persona"}
-    evento(estado, "modo_cambiado", anterior=actual, nuevo=nuevo_modo, invalidadas=[f"{i}: {texto[v]}" for i, v in invalidadas])
-    guardar(carpeta, estado)
-    nota_tarea(identificador, f"Modo de trabajo: {actual} → {nuevo_modo}." + (
-        " Decisiones de agente: " + "; ".join(f"{i} {texto[v]}" for i, v in invalidadas) + "." if invalidadas else ""))
-    print(f"Modo de trabajo: {actual} → {nuevo_modo}.")
-    for item, via in invalidadas:
-        print(f"Decisión de agente sobre {item}: {texto[via]}.")
-
-
 ESQUEMA_ESTADO, ESQUEMA_DONDE = "oracle-factory.estado/1", "oracle-factory.donde/1"
 
 
@@ -1809,155 +1366,6 @@ def _decision(registro: dict | None) -> dict | None:
     if "tipo_actor" not in registro:  # anterior a los modos: el actor estaba en «por» y no se sabe si era persona
         datos["actor"] = registro.get("actor") or registro.get("por")
     return datos
-
-
-def comando_ruta(identificador: str, tipo: str) -> None:
-    leer(identificador)  # el cambio tiene que existir
-    head = git_producto(["git", "rev-parse", "HEAD"])
-    if head.returncode:
-        raise FactoryError("ruta necesita un repositorio Git con al menos un commit")
-    try:
-        # El candidato vigente, como pedir-revision y juzgar: un commit que sólo guarda registros no es un candidato nuevo.
-        # Si no hay, HEAD con los 7 primeros del hash completo (--short=7 lo alarga si es ambiguo y la carpeta cambiaría).
-        sha = candidato_vigente(identificador) or head.stdout.strip()[:7]
-        print(estructura.ruta_canonica(ROOT, identificador, tipo, sha))
-    except ValueError as e:
-        raise FactoryError(str(e)) from e
-
-
-def comando_buscar(texto: str, maximo: int) -> None:
-    if not texto.strip():
-        raise FactoryError("indicá el texto a buscar")
-    # Un .factory enlazado no es nuestra carpeta y no se lee a través de él: entonces se busca en la raíz. Una carpeta de
-    # Oracle mal configurada, en cambio, falla y dice la causa.
-    oracle = "" if (ROOT / estructura.DIR).is_symlink() else oracle_rel()
-    lineas, total, omitidos = estructura.buscar(ROOT, texto, maximo, oracle)
-    for linea in lineas:
-        print(linea)
-    print(f"{total} coincidencia(s)" + (f"; se muestran {len(lineas)}, usá --max para ver más" if total > len(lineas) else ""))
-    if omitidos:
-        print(f"Aviso: {omitidos} archivo(s) omitido(s) por superar {estructura.LIMITE_ARCHIVO // 1_000_000} MB; el texto podría estar ahí.")
-
-
-def comando_skill(instalar: bool, forzar: bool) -> int:
-    """Muestra la skill de agente o, con --instalar, la escribe en el proyecto (nunca fuera de él)."""
-    if forzar and not instalar:
-        raise FactoryError("--forzar sólo vale con --instalar")
-    if not instalar:
-        print(skill_mod.texto(), end="")
-        return 0
-    if PRODUCTO:
-        return almacenes.skill_en_producto(sys.modules[__name__], forzar)
-    try:
-        estado, ruta = skill_mod.instalar(ROOT, forzar)
-    except skill_mod.SkillError as e:
-        raise FactoryError(str(e)) from e
-    print({"instalada": f"Skill instalada en {ruta.relative_to(ROOT)}.", "reemplazada": f"Skill reemplazada en {ruta.relative_to(ROOT)}.",
-           "igual": f"La skill ya estaba instalada en {ruta.relative_to(ROOT)}: sin cambios."}[estado])
-    return 0
-
-
-def comando_agentes(verificar: bool, en_el_repo: bool = False) -> None:
-    """El bloque para agentes de AGENTS.md (y la línea @AGENTS.md de CLAUDE.md), o --verificar que estén al día."""
-    if en_el_repo and AGENTE:
-        raise FactoryError(f"agentes --en-el-repo es una decisión de una persona (versionar la guía en el repo del producto); "
-                           f"{AGENTE} no puede. No escribí nada")
-    if PRODUCTO:  # con almacén aparte, en el producto: sin versionar, o en la guía que ya versiona con --en-el-repo
-        return almacenes.guia_en_producto(sys.modules[__name__], verificar, en_el_repo)
-    nuevo = agentes_mod.bloque(config_proyecto()["modo_por_defecto"])
-    rutas = [ruta_segura(ROOT / "AGENTS.md"), ruta_segura(ROOT / "CLAUDE.md")]
-    actuales = [r.read_text(encoding="utf-8") if r.is_file() else "" for r in rutas]
-    try:
-        esperados = [agentes_mod.con_bloque(actuales[0], nuevo), agentes_mod.con_claude(actuales[1])]
-    except agentes_mod.MarcasRotas as e:
-        raise FactoryError(str(e)) from e
-    if verificar:
-        viejos = [r.name for r, a, e in zip(rutas, actuales, esperados) if a != e]
-        if viejos:
-            raise FactoryError(f"la guía para agentes no está al día en {', '.join(viejos)}; corré oracle-factory agentes")
-        print("La guía para agentes está al día en AGENTS.md (y CLAUDE.md la incluye).")
-        return
-    for ruta, actual, esperado in zip(rutas, actuales, esperados):
-        if actual != esperado:
-            escribir_atomico(ruta, esperado.encode("utf-8"))
-    print("Guía para agentes en AGENTS.md (CLAUDE.md la incluye con @AGENTS.md): quién decide qué, los comandos de una "
-          "persona y de un agente, y cómo consultar el proyecto.")
-
-
-def comando_preguntar(args) -> None:
-    if args.evaluar:
-        if not args.salida:
-            raise FactoryError("--evaluar necesita --salida CARPETA (nueva)")
-        c = rag_mod.evaluar(sys.modules[__name__], args.salida.resolve(), casos=args.casos)
-        print(f"{c['aciertos']} de {c['preguntas']} preguntas de oro con un archivo esperado entre los {rag_mod.PRIMEROS} "
-              f"primeros (MRR {c['mrr']}, modo {c['modo']}, modelo {c['modelo']}). Hechos: {args.salida / 'hechos.json'}")
-        hechos = json.loads((args.salida / 'hechos.json').read_text(encoding='utf-8'))
-        for grupo in hechos['preguntar_grupo']:
-            print(f"{grupo['grupo']}: {grupo['aciertos']}/{grupo['preguntas']}; errores: {grupo['errores']}; "
-                  f"abstenciones incorrectas: {grupo['abstenciones_incorrectas']}; simulado: {bool(grupo['simulado'])}")
-        return
-    if args.casos:
-        raise FactoryError('--casos se usa junto a --evaluar')
-    datos = rag_mod.preguntar(sys.modules[__name__], args.texto, args.maximo)
-    print(json.dumps(datos, ensure_ascii=False, indent=2) if args.json else rag_mod.texto(datos))
-
-
-def mostrar(identificador: str) -> None:
-    carpeta, estado = leer(identificador)
-    if estado.get("fase") == "abandonada":  # sin pendientes ni próximo paso; un registro mínimo no tiene spec
-        print(f"{estado['id']} — {estado['titulo']}\nFase: abandonada\nAbandonado por: {quien(estado.get('abandono'))}")
-        quitados = (estado.get("abandono") or {}).get("requisitos_quitados") or []
-        print("Requisitos quitados de requisitos/: " + (", ".join(quitados) or "ninguno"))
-        for aviso in aviso_union(identificador, estado):  # dos ramas pudieron decidir distinto también sobre esto
-            print(f"Aviso: {aviso}.")
-        return
-    print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {modo_de(estado)}")
-    print("Requisitos Oracle: " + (", ".join(estado.get("requisitos", [])) or "todavía no importados"))
-    print("Pendiente: " + ("; ".join(pendientes_actuales(carpeta, estado)) or "ninguno"))
-    for linea in commits_registrados(estado):
-        print(linea + ".")
-    print(linea_commits(commits_del_cambio(identificador, estado)) + ".")
-    print(linea_quien(quien_del_cambio(estado)) + ".")
-    vigente = candidato_vigente(identificador)
-    prueba = pruebas_mod.datos(ROOT, identificador, estado, vigente, documentos_o_nada(carpeta, estado))
-    editados = alarmas_mod.del_candidato(git_producto, vigente, es_producto=es_producto) if vigente else None
-    flujo = alarmas_mod.del_flujo(git_producto, estado, vigente, es_producto=es_producto)
-    camino = alarmas_mod.linea_camino(alarmas_mod.camino_del_candidato(git_producto, vigente, es_producto=es_producto))
-    try:
-        actual = contexto_del_cambio(identificador)
-    except (FactoryError, OSError):
-        actual = None
-    for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
-                  + aviso_sin_medir(identificador, estado) + aviso_notas(identificador, estado) + aviso_union(identificador, estado)
-                  + pruebas_mod.avisos(prueba) + alarmas_mod.avisos(editados) + alarmas_mod.avisos_del_flujo(flujo)
-                  + [f"FRENO: {x['motivo']}" for x in frenos_del_cambio(identificador, estado, vigente, actual, editados, flujo)]):
-        print("Aviso: " + aviso + ".")
-    if camino:
-        print(camino + ".")
-    for linea in pruebas_mod.lineas(prueba):
-        print(linea + ".")
-    print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
-    rev = estado.get("revision")
-    print("Revisión: " + (f"{rev['revisor']} / {rev['decision']} / {rev['hallazgos_abiertos']} abiertos" if rev else "pendiente"))
-    if rev:
-        formato = rev.get('formato', 'libre histórico')
-        print('Formato de revisión: ' + formato + ('; consistencia estructural, no calidad del análisis' if formato == 'guiado'
-                                                 else '; declaración humana sin validación estructural'))
-    oracle = estado.get("oracle")
-    print("Oracle: " + (f"código {oracle['codigo']} ({oracle['informe']})" if oracle else "pendiente"))
-    if (origen := sensor_mod.hechos_de(identificador, estado)):
-        print("Hechos: " + origen["texto"])
-    if rev:
-        print("Revisión registrada por: " + quien(rev))
-    for rid, medida in (estado.get("medidas") or {}).items():
-        print(f"Medidas de {rid}: {quien(medida)}")
-    if estado.get("cierre"):
-        print("Cierre: " + quien(estado["cierre"]))
-    if estado.get("archivo"):
-        print(f"Archivo: {estado['archivo']['spec']}")
-        for rid, situacion, por in situacion_requisitos(estado):
-            print(f"  {rid}: {situacion}" + (f" por {por}" if por else ""))
-    siguiente(identificador, estado["fase"])
 
 
 LEEME_FACTORY = """# .factory/
@@ -2064,154 +1472,6 @@ def preparar_ejemplo(plan: dict[Path, bytes]) -> None:
         raise FactoryError('copia incompleta; todavía no se creó una tarea. '
                            f'Destino fallido: {ruta}. Archivos copiados: {", ".join(copiados) or "ninguno"}. '
                            'Revisá esos destinos antes de reintentar; no se sobrescriben. ' + str(e)) from e
-
-
-def archivos_faltantes(carpeta: Path, estado: dict) -> list[str]:
-    """Los archivos que el registro del cambio referencia y no están en el disco, relativos a la raíz."""
-    rev, oracle = estado.get("revision") or {}, estado.get("oracle") or {}
-    rutas = [carpeta / "proposal.md", carpeta / "tasks.md", *([ROOT / estado["spec"]] if estado.get("spec") else []),
-             *(requisitos_dir() / f"{r}.requisito" for r in estado.get("requisitos") or []),
-             # Un valor que no es una ruta no es un archivo que recuperar: lo nombran pendientes y se rehace su gate.
-             *(r for r in map(ruta_del_registro, (rev.get("informe"), rev.get("decisiones"), oracle.get("informe"),
-                                                  *(ruta for ruta, _ in hechos_registrados(oracle)))) if r)]
-    return [str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else str(p) for p in rutas if not p.is_file()]
-
-
-def proximo_paso(identificador: str) -> str | None:
-    """El próximo paso según lo que está vigente, en el orden del flujo.
-
-    Un comando completo («oracle-factory …» sin MAYÚSCULAS por completar) se puede ofrecer para ejecutar; un texto que
-    empieza con otra cosa indica algo que la persona tiene que hacer antes.
-    """
-    return (pasos(identificador) or [None])[0]
-
-
-def pasos(identificador: str) -> list[str]:
-    """El próximo paso seguido de las alternativas que también valen; vacía si el cambio terminó."""
-    paso = _pasos(identificador)
-    return [paso] if isinstance(paso, str) else paso or []
-
-
-def _pasos(identificador: str) -> str | list[str] | None:
-    carpeta, estado = leer(identificador)
-    ident = identificador
-    if estado.get("fase") in ("cerrada", "abandonada"):
-        return None
-    # Un archivo que el registro referencia y falta no se arregla con un comando de Factory: se recupera.
-    faltan = archivos_faltantes(carpeta, estado)
-    if faltan:
-        # Con varios sensores, recuperados sus hechos, lo que sigue es juzgar otra vez con todos.
-        varios = hechos_registrados(estado.get("oracle") or {})
-        despues = comando_juzgar(ident, varios) if len(varios) > 1 else f"oracle-factory estado {ident}"
-        return f"faltan archivos del cambio ({', '.join(faltan)}): recuperalos desde Git; después: {despues}"
-    try:  # sin aprobar, o la propuesta/spec cambió después de aprobarla
-        exigir_spec(carpeta, estado)
-    except FactoryError:
-        return f"oracle-factory aprobar-spec {ident}"
-    if not estado.get("requisitos"):
-        return f"oracle-factory importar {ident}"
-    if propuestas_confirmables(estado):
-        return f"oracle-factory medir {ident} --confirmar"
-    medidas = estado.get("medidas") or {}
-    if (any(rid not in medidas for rid in estado["requisitos"]) or medidas_sin_decision(estado)
-            or estado.get("medidas_pendientes")):  # propuestas que ya no se pueden confirmar tal cual: se deciden
-        return f"oracle-factory medir {ident} --listar"
-    # ¿La revisión vale para el producto actual?
-    rev = estado.get("revision") or {}
-    revisado = (bool(rev) and mismo_producto(rev.get("contexto"), contexto_del_cambio(ident))
-                and not problemas_de_revision(estado))  # mismas reglas que pendientes_actuales
-    if not revisado:
-        if cambios_locales_de_producto():
-            return f"commiteá los cambios del producto; después: {pedido_de_revision(ident)}"
-        sha = candidato_vigente(ident)
-        # revisar necesita informes de revisores que la preparación pueda usar (mismas reglas), no sólo evidencia.
-        corte = corte_del_candidato(ident, sha, estado) if sha else None
-        if corte and corte[0]:  # o la persona los acepta como riesgo o los descarta, con motivo
-            return [f"corregí los {len(corte[0])} hallazgos medios o más del candidato {sha} y commitealo; después: "
-                    f"{pedido_de_revision(ident)}", f"oracle-factory revisar {ident}"]
-        if corte is not None:
-            return f"oracle-factory revisar {ident}"
-        return pedido_de_revision(ident)
-    if rev.get("decision") != "aprobar" or rev.get("hallazgos_abiertos") != 0:
-        return f"corregí lo que pidió la revisión y commitealo; después: {pedido_de_revision(ident)}"
-    # Revisión vigente y aprobada: ¿se juzgaron estos hechos?
-    oracle = estado.get("oracle") or {}
-    juzgados = ruta_del_registro(oracle.get("hechos"))
-    varios = hechos_registrados(oracle)
-    if len(varios) > 1 and not juicio_vigente(oracle, contexto_del_cambio(ident)):
-        return comando_juzgar(ident, varios)
-    try:  # hechos del candidato que no son los juzgados: juzgarlos
-        del_candidato = hechos_del_candidato(ident)
-        # También si los hechos registrados no son una ruta: los del candidato se juzgan sin pedir otra.
-        if juzgados is None or sha256(ruta_segura(del_candidato).read_bytes()) != oracle.get("hechos_sha256"):
-            return f"oracle-factory juzgar {ident}"
-    except FactoryError:
-        pass
-    if juicio_vigente(oracle, contexto_del_cambio(ident)):
-        if oracle.get("codigo") != 0:
-            return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
-        if not pendientes_actuales(carpeta, estado):
-            return f"oracle-factory cerrar {ident}"
-        return f"resolvé lo pendiente que lista estado; después: oracle-factory cerrar {ident}"
-    if juzgados is not None and juzgados.is_file():  # hechos que siguen ahí, con un juicio que ya no vale: juzgar de nuevo
-        try:
-            if juzgados.resolve() == hechos_del_candidato(ident).resolve():
-                return f"oracle-factory juzgar {ident}"
-        except FactoryError:
-            pass
-        return f"oracle-factory juzgar {ident} --con {shlex.quote(oracle['hechos'])}"
-    return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS"
-
-
-def siguiente(identificador: str, fase: str | None = None) -> None:
-    paso, *alternativas = pasos(identificador) or [None]
-    if paso:
-        print("Próximo paso: " + paso)
-    for alternativa in alternativas:
-        print(f"También: {alternativa}" + (" — para aceptarlos como riesgo o descartarlos, con motivo"
-                                          if alternativa.startswith("oracle-factory revisar ") else ""))
-
-
-def ofrecer_siguiente(identificador: str) -> int:
-    """En una terminal y sin --agente, ofrece ejecutar el próximo paso si es un comando completo."""
-    comandos = [p for p in pasos(identificador)
-                if p.startswith("oracle-factory ") and not re.search(r"\b[A-Z][A-Z_]{2,}\b", p)]
-    if not comandos or AGENTE or not terminal_interactiva() or not sys.stdout.isatty():
-        return 0
-    eleccion = elegir("¿Seguís?", [*((f"Ejecutar «{p}»", "como si lo escribieras; si es una decisión, abre su propio menú")
-                                    for p in comandos), ("Salir", "no ejecuta nada")])
-    if eleccion is None or eleccion >= len(comandos):
-        return 0
-    return main([*argumentos_de_raiz(), *shlex.split(comandos[eleccion])[1:]])
-
-
-def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = False) -> None:
-    ruta_segura(CHANGES)
-    if not CHANGES.exists():
-        print('No hay cambios Factory. Empezá con oracle-factory init.')
-        return
-    encontrados = 0
-    for carpeta in sorted(CHANGES.iterdir()):
-        if not ID_RE.fullmatch(carpeta.name):
-            continue
-        ruta_segura(carpeta)
-        if not (ruta_registro(carpeta)).exists():
-            continue
-        try:
-            _, estado = leer(carpeta.name)
-        except FactoryError as e:  # uno roto no deja sin lista a los demás
-            print(f"{carpeta.name}  ilegible: {e}")
-            encontrados += 1
-            continue
-        if (fase and estado['fase'] != fase) or (abiertos and estado['fase'] in ('cerrada', 'abandonada')) \
-                or (cerrados and estado['fase'] != 'cerrada'):
-            continue
-        print(f"{carpeta.name}  {estado['fase']}{' (archivado)' if estado.get('archivo') else ''}  {estado['titulo']}")
-        encontrados += 1
-    if not encontrados:
-        print('No hay cambios que coincidan con el filtro.' if (fase or abiertos or cerrados)
-              else 'No hay cambios Factory; las tareas del tracker por sí solas no son cambios Factory.')
-    print(f'Acuerdos: {CHANGES}')
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -2363,13 +1623,38 @@ def _main(argv: list[str] | None = None) -> int:
 
 
 # Lo movido a otros módulos sigue disponible acá, con el mismo nombre (el código movido lee `cli` al usarlo).
+from .ganchos import (  # noqa: E402
+    cambio_del_commit,
+    commits_del_cambio,
+    escribir_atributos,
+    hook_pre_push,
+    instalar_hook,
+    instalar_pre_push,
+    instalar_union,
+    lineas_para_encadenar,
+    poner_trailer,
+    rehacer_generado,
+    unir_registro,
+)
+from .acciones import (  # noqa: E402
+    abandonar,
+    aviso_union,
+    cambiar_modo,
+    decidir_union,
+)
 from .proyecto import (  # noqa: E402
+    comando_agentes,
     comando_autonomia,
     comando_autopilot,
+    comando_buscar,
     comando_desplegar,
     comando_migrar,
+    comando_preguntar,
     comando_procedencia,
+    comando_ruta,
+    comando_skill,
     inicializar,
+    listar,
     plan_ejemplo,
 )
 from .parser import (  # noqa: E402
@@ -2427,9 +1712,11 @@ from .lecturas import (  # noqa: E402
     _fecha_corta,
     _json_de_revision,
     _lista,
+    _pasos,
     actualizar_kb,
     actualizar_resumen,
     archivos_de,
+    archivos_faltantes,
     aviso_ignorados,
     aviso_notas,
     comando_donde,
@@ -2438,19 +1725,26 @@ from .lecturas import (  # noqa: E402
     comando_trazabilidad,
     datos_donde,
     datos_estado,
-    frenos_del_cambio,
-    segundo_revisor_del_cambio,
     datos_trazabilidad,
     dentro_del_tramo,
     escribir_kb,
+    frenos_del_cambio,
     generadas_en_disco,
     insumos_resumen,
     kb_revisada,
+    linea_quien,
+    mostrar,
     nombres,
+    ofrecer_siguiente,
+    pasos,
     por_que,
+    proximo_paso,
+    quien_del_cambio,
     rangos,
     refrescar_kb,
     ruta_resumen,
+    segundo_revisor_del_cambio,
+    siguiente,
     situacion_requisitos,
     texto_resumen,
     tocados_por,
