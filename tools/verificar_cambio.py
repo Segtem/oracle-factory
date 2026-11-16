@@ -21,6 +21,7 @@ import unittest
 AQUI = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(AQUI))
 from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
+from tools import mutar_cambio  # noqa: E402
 from oracle_factory import almacenes, archivo, modos, pruebas, trazabilidad  # noqa: E402
 
 CASO = re.compile(r"test_[a-z]{2,3}(\d+)_")
@@ -169,15 +170,26 @@ def producir(raiz: Path, cambio: str, modulo: str, salida: Path) -> bool:
     escribir(salida / "trazabilidad.json", traza)
     estables = fuentes(raiz, salida) == origen  # después de la segunda corrida, la trazada: ahí también tienen que seguir quietas
     exito = resultado.wasSuccessful() and completa and estables and trazada
-    escribir(salida / "hechos.json", {f"{x}_caso": filas, f"{x}_corrida": [{"completa": int(exito), "casos": len(esperados)}]})
+    # La mutación corre sobre una copia del commit: no toca las fuentes, y su porcentaje no cambia el éxito (lo juzga su medida).
+    mutacion = mutar_cambio.mutar(raiz, cambio, modulo)
+    hechos = {f"{x}_caso": filas, f"{x}_corrida": [{"completa": int(exito), "casos": len(esperados)}]}
+    sumar_mutacion(hechos, x, mutacion)
+    escribir(salida / "hechos.json", hechos)
     versiones = {p: metadata.version(p) for p in ("oracle-metalenguaje", "oracle-task", "oracle-clue") if _instalado(p)}
     escribir(salida / "resultado.json", {
         "exitoso": exito, "tests": resultado.testsRun, "casos_contrato": len(esperados),
         "casos_exactos_sin_omisiones_duplicados_ni_fallas": completa, "fuentes_estables": estables, "origen": origen,
+        "mutacion": mutacion["resumen"],
         "versiones": {**versiones, "python": sys.version},
         "limites": "Casos derivados de los nombres de las pruebas; comprueban lo que ellos prueban, no que la spec esté completa.",
         "artefactos_sha256": {n: sha(salida / n) for n in ("suite.txt", "hechos.json", "trazabilidad.json")}})
     return exito
+
+
+def sumar_mutacion(hechos: dict, x: str, mutacion: dict) -> None:
+    """Las dos relaciones de la mutación automática: cada mutante y el resumen."""
+    hechos[f"{x}_mutante"] = mutacion["mutantes"]
+    hechos[f"{x}_mutacion"] = [mutacion["resumen"]]
 
 
 def _instalado(paquete: str) -> bool:
@@ -202,6 +214,16 @@ def catalogo_de_corrida(x: str, casos: int) -> str:
             f"    alcance \"integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana\"\n")
 
 
+UMBRAL_MUTACION = 80  # decisión de Brian (2026-11-16): al menos 80 de cada 100 mutantes de las líneas del cambio mueren
+
+
+def catalogo_de_mutacion(x: str, alcance: str) -> str:
+    return (f"medida factory_{x}.mutacion:\n    de {x}_mutacion m\n    donde m.porcentaje >= {UMBRAL_MUTACION}\n    resumen contar(1)\n"
+            f"    umbral == 1 segun contrato porque \"al menos {UMBRAL_MUTACION} de cada 100 mutantes de las lineas del cambio los mata "
+            f"una prueba de tests/test_{x}.py; asociar junto a corrida_completa\"\n    requiere {x}_mutacion\n    ambito universal\n"
+            f"    alcance \"{alcance}\"\n")
+
+
 def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> list[str]:
     """Escribe los catálogos del cambio en `catalogos/` de los registros de `raiz` (su almacén si está conectado); devuelve los nombres de los que cambiaron o se retiraron (los que ya estaban igual no se tocan)."""
     if any(c in '"\\' or not c.isprintable() for c in alcance):  # el catálogo lo escribe entre comillas dobles, con la sintaxis de cadenas de JSON
@@ -210,6 +232,7 @@ def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> li
     x = modulo.removeprefix("test_")
     destino = almacenes.registros_de(raiz) / "catalogos"
     textos = {f"factory_{x}.corrida_completa.oracle": catalogo_de_corrida(x, sum(len(v) for v in por_nombre.values())),
+              f"factory_{x}.mutacion.oracle": catalogo_de_mutacion(x, alcance),
               **{f"factory_{x}.{r}.oracle": catalogo_de_requisito(x, r, len(c), alcance) for r, c in por_nombre.items()}}
     # Nada de seguir enlaces simbólicos: escribir sobre uno modificaría un archivo fuera de catalogos/ (o del repositorio). Se mira todo antes de escribir.
     enlaces = [n for n in (destino.name, *textos) if (destino if n == destino.name else destino / n).is_symlink()]

@@ -55,6 +55,28 @@ La convención: una prueba `test_<letras><n>_…` (dos o tres letras minúsculas
 
 Los nombres de los requisitos se comparan como los importa Factory (pasados a slug), los de una sección `REMOVED` o dentro de un bloque de código no cuentan y un requisito repetido es un error. Una subclase cuenta los casos que hereda de otra clase (o de un mixin sin base) del mismo módulo, porque unittest también los corre en ella. El `--alcance` de los catálogos no admite comillas dobles, barras invertidas ni caracteres que no se imprimen (tabulaciones, saltos de línea, separadores Unicode): el catálogo lo escribe entre comillas. Un requisito que declara `Pruebas: no aplica — motivo` no necesita casos: el verificador lo deja fuera de los hechos y de los catálogos (la corrida completa cuenta sólo los casos de los demás), pero conserva la numeración, así que `test_<letras><n>_…` sigue siendo el requisito `n` de la spec. Un caso que nombra un requisito exceptuado es un error, y también lo es una línea `Pruebas:` mal escrita, con el mismo mensaje que da `aprobar-spec`. **Límite:** el requisito exceptuado queda sin medida de esta herramienta; la persona decide con qué otra lo cubre o lo deja «sin medir». Si todos los requisitos están exceptuados no hay evidencia que producir y el verificador falla.
 
+## La mutación automática de las líneas del cambio
+
+Que las pruebas de un cambio pasen no dice si vigilan lo que el cambio tocó. `tools/verificar_cambio.py`, al producir la evidencia, lo
+mide con `tools/mutar_cambio.py`:
+
+- **Qué muta:** las líneas de los archivos `.py` fuera de `tests/` que `git blame` atribuye, en HEAD, a commits con el trailer
+  `Cambio: ID` (el que pone el hook de Factory). No compara contra `main`: en el checkout limpio de `oracle-factory evidencia` no está.
+- **Cómo:** con operadores sobre el AST: `==`↔`!=`, `<`↔`>=`, `>`↔`<=`, `in`↔`not in`, `is`↔`is not`, `and`↔`or`, quitar un `not`,
+  `True`↔`False` y un entero `n` → `n + 1`. Si hay más de 40 mutantes, elige 40 repartidos de forma determinista.
+- **Contra qué:** sólo el módulo de pruebas del cambio (`tests/test_x.py`), en una copia del commit (`git archive HEAD`, con el
+  `node_modules` del producto enlazado): el producto no se toca. Un mutante muere si alguna prueba falla. Antes corre el módulo sin
+  mutar: si ya falla, la mutación no prueba nada y el porcentaje es 0.
+- **Qué deja:** los hechos `x_mutante` (archivo, línea, operador, muerto) y `x_mutacion` (generados, muertos, porcentaje,
+  tope_alcanzado), y el resumen en `resultado.json`. Un cambio sin líneas de producto da 0 generados y porcentaje 100.
+- **La medida:** `--catalogos` escribe `factory_x.mutacion`, que pide 80% o más. Se asocia a cada requisito, junto a
+  `corrida_completa`. El porcentaje no cambia el éxito de la evidencia: lo juzga Oracle con esa medida.
+
+**Límites.** Un mutante equivalente (que no cambia lo que hace el programa) cuenta como sobreviviente: el 80% deja margen para ellos,
+y los sobrevivientes quedan listados en los hechos para quien revisa. Un mutante que sólo mataría una prueba de otro módulo también
+sobrevive. Una línea commiteada sin el trailer no se muta. El texto mutado sale de `ast.unparse`, sin los comentarios del original.
+`tools/mutar_tests_unitarios.py` (las mutaciones a mano, también de documentos) sigue como está.
+
 ## Fuentes
 
 - arXiv 2402.13521: TDD para generación de código; los tests dados de antemano mejoran la corrección.

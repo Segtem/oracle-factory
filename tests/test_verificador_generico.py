@@ -390,7 +390,8 @@ class Catalogos(ProyectoTemporal):
         r = self.correr('--catalogos')
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertEqual(sorted(p.name for p in self.carpeta().glob('*.oracle')),
-                         ['factory_demo.corrida_completa.oracle', 'factory_demo.el_primero.oracle', 'factory_demo.el_segundo.oracle'])
+                         ['factory_demo.corrida_completa.oracle', 'factory_demo.el_primero.oracle', 'factory_demo.el_segundo.oracle',
+                          'factory_demo.mutacion.oracle'])  # el de la mutación: sumado por el cambio mutacion-automatica
         primero = (self.carpeta() / 'factory_demo.el_primero.oracle').read_text()
         segundo = (self.carpeta() / 'factory_demo.el_segundo.oracle').read_text()
         corrida = (self.carpeta() / 'factory_demo.corrida_completa.oracle').read_text()

@@ -108,7 +108,7 @@ class EvidenciaYCatalogos(Proyecto):
         r = self.correr('--catalogos')
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertEqual(self.catalogos(), ['factory_demo.corrida_completa.oracle', 'factory_demo.el_primero.oracle',
-                                            'factory_demo.el_tercero.oracle'])
+                                            'factory_demo.el_tercero.oracle', 'factory_demo.mutacion.oracle'])  # mutación: cambio mutacion-automatica
         self.assertIn('c.casos == 2', (self.carpeta() / 'factory_demo.corrida_completa.oracle').read_text())
 
     def test_na2_un_requisito_que_pasa_a_estar_exceptuado_pierde_su_catalogo_y_los_demas_no_cambian(self):
