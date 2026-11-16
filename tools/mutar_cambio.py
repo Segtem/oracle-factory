@@ -21,10 +21,7 @@ import tarfile
 import tempfile
 import time
 
-AQUI = Path(__file__).resolve().parents[1]
-if str(AQUI) not in sys.path:
-    sys.path.insert(0, str(AQUI))
-from oracle_factory import procesos  # noqa: E402
+from oracle_factory import procesos
 
 TOPE = 40
 COMPARACIONES = {ast.Eq: (ast.NotEq, "==", "!="), ast.NotEq: (ast.Eq, "!=", "=="), ast.Lt: (ast.GtE, "<", ">="),
@@ -51,8 +48,9 @@ def lineas_del_cambio(raiz: Path, cambio: str) -> dict[str, set[int]]:
     return salida
 
 
-def _mutaciones(arbol: ast.AST, lineas: set[int]) -> list[tuple[int, int, str]]:
-    """(posición del nodo en ast.walk, variante, descripción) de cada mutante posible en esas líneas."""
+def _mutaciones(arbol: ast.AST, lineas: set[int]) -> list[tuple[int, int | None, str]]:
+    """(posición del nodo en ast.walk, variante, descripción) de cada mutante posible en esas líneas. La variante es el operador de una
+    comparación encadenada (`a < b < c`); en los demás nodos es None."""
     salida = []
     for i, nodo in enumerate(ast.walk(arbol)):
         if getattr(nodo, "lineno", None) not in lineas:
@@ -61,17 +59,17 @@ def _mutaciones(arbol: ast.AST, lineas: set[int]) -> list[tuple[int, int, str]]:
             salida += [(i, k, f"{COMPARACIONES[type(op)][1]} → {COMPARACIONES[type(op)][2]}")
                        for k, op in enumerate(nodo.ops) if type(op) in COMPARACIONES]
         elif isinstance(nodo, ast.BoolOp):
-            salida.append((i, 0, "and → or" if isinstance(nodo.op, ast.And) else "or → and"))
+            salida.append((i, None, "and → or" if isinstance(nodo.op, ast.And) else "or → and"))
         elif isinstance(nodo, ast.UnaryOp) and isinstance(nodo.op, ast.Not):
-            salida.append((i, 0, "quitar not"))
+            salida.append((i, None, "quitar not"))
         elif isinstance(nodo, ast.Constant) and isinstance(nodo.value, bool):
-            salida.append((i, 0, f"{nodo.value} → {not nodo.value}"))
+            salida.append((i, None, f"{nodo.value} → {not nodo.value}"))
         elif isinstance(nodo, ast.Constant) and type(nodo.value) is int:
-            salida.append((i, 0, f"{nodo.value} → {nodo.value + 1}"))
+            salida.append((i, None, f"{nodo.value} → {nodo.value + 1}"))
     return salida
 
 
-def _aplicar(arbol: ast.AST, posicion: int, variante: int) -> str:
+def _aplicar(arbol: ast.AST, posicion: int, variante: int | None) -> str:
     """El texto del módulo con ese único mutante."""
     arbol = copy.deepcopy(arbol)
     nodos = list(ast.walk(arbol))

@@ -1,5 +1,6 @@
 """La evidencia mide con mutación automática si las pruebas de un cambio vigilan sus líneas: escenarios mu1 (la mutación) y mu2 (la
 medida). Con repositorios Git temporales, commits con el trailer «Cambio:» y Oracle de verdad."""
+import ast
 import json
 import os
 from pathlib import Path
@@ -58,8 +59,8 @@ class Repo(unittest.TestCase):
         self.git('add', '-A')
         self.git('commit', '-qm', f'cambio\n\nCambio: {CAMBIO}')
 
-    def mutar(self, modulo='test_demo', tope=40):
-        return mutar_cambio.mutar(self.raiz, CAMBIO, modulo, tope=tope)
+    def mutar(self, modulo='test_demo', **tope):
+        return mutar_cambio.mutar(self.raiz, CAMBIO, modulo, **tope)  # sin tope: el de la herramienta, 40
 
 
 class Mutacion(Repo):
@@ -78,6 +79,31 @@ class Mutacion(Repo):
         self.assertEqual((resumen['generados'], resumen['muertos']), (len(por), sum(por.values())))
         self.assertEqual(resumen['porcentaje'], resumen['muertos'] * 100 // resumen['generados'])
         self.assertEqual(resumen['tope_alcanzado'], 0)
+
+    def test_mu1_si_mueren_todos_el_porcentaje_es_100(self):
+        self.commit_del_cambio({'paquete/modulo.py': 'def es_mayor(a):\n    return a > 10\n', 'tests/test_demo.py': VIGILA})
+        self.assertEqual(self.mutar()['resumen'], {'generados': 2, 'muertos': 2, 'porcentaje': 100, 'tope_alcanzado': 0})
+
+    def test_mu1_cada_operador_muta_lo_que_dice(self):
+        casos = [('a == b', '== → !=', 'a != b'), ('a != b', '!= → ==', 'a == b'), ('a < b', '< → >=', 'a >= b'), ('a >= b', '>= → <', 'a < b'),
+                 ('a > b', '> → <=', 'a <= b'), ('a <= b', '<= → >', 'a > b'), ('a in b', 'in → not in', 'a not in b'),
+                 ('a not in b', 'not in → in', 'a in b'), ('a is b', 'is → is not', 'a is not b'), ('a is not b', 'is not → is', 'a is b'),
+                 ('a and b', 'and → or', 'a or b'), ('a or b', 'or → and', 'a and b'), ('not a', 'quitar not', 'a'),
+                 ('[not a]', 'quitar not', '[a]'), ('True', 'True → False', 'False'), ('False', 'False → True', 'True'), ('7', '7 → 8', '8'),
+                 ('a < b < c', '< → >=', 'a >= b < c')]
+        for fuente, operador, esperado in casos:
+            with self.subTest(fuente=fuente):
+                arbol = ast.parse(f'x = {fuente}')
+                [(posicion, variante, _)] = [m for m in mutar_cambio._mutaciones(arbol, {1}) if m[2] == operador][:1]
+                self.assertEqual(mutar_cambio._aplicar(arbol, posicion, variante), f'x = {esperado}\n')
+        self.assertEqual(mutar_cambio._mutaciones(ast.parse('x = 1\ny = 2'), {2}), [m for m in mutar_cambio._mutaciones(ast.parse('x = 1\ny = 2'), {2})
+                                                                                       if m[2] == '2 → 3'])  # sólo la línea pedida
+
+    def test_mu1_fuera_de_un_repositorio_se_niega(self):
+        afuera = Path(self.tmp.name) / 'sin_git'
+        afuera.mkdir()
+        with self.assertRaises(subprocess.CalledProcessError):  # nunca «0 mutantes, 100%» en silencio
+            mutar_cambio.mutar(afuera, CAMBIO, 'test_demo')
 
     def test_mu1_el_producto_no_se_toca(self):
         registro = Path(self.tmp.name) / 'donde.txt'  # el módulo de pruebas anota desde dónde corre: nunca desde el producto
