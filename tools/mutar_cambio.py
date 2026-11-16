@@ -51,11 +51,14 @@ def lineas_del_cambio(raiz: Path, cambio: str) -> dict[str, set[int]]:
 def _mutaciones(arbol: ast.AST, lineas: set[int]) -> list[tuple[int, int | None, str]]:
     """(posición del nodo en ast.walk, variante, descripción) de cada mutante posible en esas líneas. La variante es el operador de una
     comparación encadenada (`a < b < c`); en los demás nodos es None."""
-    salida = []
+    salida, negativos = [], set()  # el entero de un `-n`: se muta con su signo, no por separado
     for i, nodo in enumerate(ast.walk(arbol)):
-        if getattr(nodo, "lineno", None) not in lineas:
+        if getattr(nodo, "lineno", None) not in lineas or id(nodo) in negativos:
             continue
-        if isinstance(nodo, ast.Compare):
+        if _negativo(nodo):
+            negativos.add(id(nodo.operand))
+            salida.append((i, None, f"-{nodo.operand.value} → {1 - nodo.operand.value}"))
+        elif isinstance(nodo, ast.Compare):
             salida += [(i, k, f"{COMPARACIONES[type(op)][1]} → {COMPARACIONES[type(op)][2]}")
                        for k, op in enumerate(nodo.ops) if type(op) in COMPARACIONES]
         elif isinstance(nodo, ast.BoolOp):
@@ -69,6 +72,12 @@ def _mutaciones(arbol: ast.AST, lineas: set[int]) -> list[tuple[int, int | None,
     return salida
 
 
+def _negativo(nodo: ast.AST) -> bool:
+    """Un entero negativo escrito `-n`: Python lo lee como un «menos» aplicado a `n`."""
+    return (isinstance(nodo, ast.UnaryOp) and isinstance(nodo.op, ast.USub) and isinstance(nodo.operand, ast.Constant)
+            and type(nodo.operand.value) is int)
+
+
 def _aplicar(arbol: ast.AST, posicion: int, variante: int | None) -> str:
     """El texto del módulo con ese único mutante."""
     arbol = copy.deepcopy(arbol)
@@ -78,6 +87,8 @@ def _aplicar(arbol: ast.AST, posicion: int, variante: int | None) -> str:
         nodo.ops[variante] = COMPARACIONES[type(nodo.ops[variante])][0]()
     elif isinstance(nodo, ast.BoolOp):
         nodo.op = ast.Or() if isinstance(nodo.op, ast.And) else ast.And()
+    elif _negativo(nodo):  # -n → -n + 1
+        nodo.operand.value -= 1
     elif isinstance(nodo, ast.Constant):
         nodo.value = (not nodo.value) if isinstance(nodo.value, bool) else nodo.value + 1
     elif isinstance(nodo, ast.UnaryOp):  # quitar el not: el padre apunta al operando
