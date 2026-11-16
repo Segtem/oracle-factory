@@ -71,7 +71,8 @@ class Registros(Conectado):
         r = self.verificar_cambio('--catalogos', '--salida', str(self.producto / 'evidencia'))
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertEqual(sorted(p.name for p in (self.almacen / 'catalogos').glob('*.oracle')),
-                         ['factory_demo.corrida_completa.oracle', 'factory_demo.el_primero.oracle', 'factory_demo.el_segundo.oracle'])
+                         ['factory_demo.corrida_completa.oracle', 'factory_demo.el_primero.oracle', 'factory_demo.el_segundo.oracle',
+                          'factory_demo.mutacion.oracle'])  # el de la mutación: sumado por el cambio mutacion-automatica
         self.assertTrue(json.loads((self.producto / 'evidencia/resultado.json').read_text(encoding='utf-8'))['exitoso'])
         for registro in ('catalogos', 'openspec', '.factory'):
             self.assertFalse((self.producto / registro).exists(), registro)
