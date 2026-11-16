@@ -134,7 +134,10 @@ def politica() -> str:
 
 
 def pendientes(identificador: str, estado: dict) -> list[str]:
-    """Con «exigir», lo que falta para cerrar si los hechos del veredicto no los produjo Factory."""
+    """Con «exigir», lo que falta para cerrar si los hechos del veredicto no los produjo Factory. Un cambio ya cerrado (o abandonado) no
+    pide nada: se cerró con las reglas de su momento, y «exigir» gobierna el cierre, no lo reabre."""
+    if estado.get("fase") in ("cerrada", "abandonada"):
+        return []
     origen = hechos_de(identificador, estado)
     if not origen or origen["producidos_por_factory"] or politica() != "exigir":
         return []
