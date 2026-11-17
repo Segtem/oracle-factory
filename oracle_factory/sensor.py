@@ -20,6 +20,8 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+import shutil
+import subprocess
 import sys
 import tempfile
 import time
@@ -142,11 +144,23 @@ def entorno_minimo() -> dict[str, str]:
     el usuario de la base del sistema, la carpeta temporal, el idioma, y PYTHONNOUSERSITE. Nada más del entorno de quien lo corre."""
     import pwd
     usuario = pwd.getpwuid(os.getuid())
-    carpetas = [str(Path(sys.executable).parent), str(Path(usuario.pw_dir) / ".local" / "bin"),
-                "/usr/local/sbin", "/usr/local/bin", "/usr/sbin", "/usr/bin", "/sbin", "/bin"]
+    # Primero las del sistema: una carpeta del usuario (la del Python de Factory, ~/.local/bin) la puede escribir quien corre
+    # evidencia, y un «sh» o un «git» puesto ahí suplantaría al del comando aprobado. Las del usuario sólo agregan lo que el sistema no tiene.
+    carpetas = ["/usr/local/sbin", "/usr/local/bin", "/usr/sbin", "/usr/bin", "/sbin", "/bin",
+                str(Path(sys.executable).parent), str(Path(usuario.pw_dir) / ".local" / "bin")]
     return {**{k: os.environ[k] for k in CONSERVADAS if k in os.environ}, "PATH": os.pathsep.join(dict.fromkeys(carpetas)),
             "HOME": usuario.pw_dir, "USER": usuario.pw_name, "LOGNAME": usuario.pw_name, "TMPDIR": tempfile.gettempdir(),
             "PYTHONNOUSERSITE": "1", "PYTHONDONTWRITEBYTECODE": "1"}
+
+
+def _git(args: list[str]) -> subprocess.CompletedProcess:
+    """Git para elegir el commit y armar el checkout del sensor: el del sistema, con el entorno mínimo, sin la configuración global ni
+    la del sistema y sin hooks. El código que corre el sensor es el del commit, no el que deje un «git» o un hook de quien corre
+    evidencia. Límite: quien controla el entorno del propio proceso de Factory (su Python o sus módulos) está fuera de este alcance."""
+    entorno = {**entorno_minimo(), "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull}
+    git = shutil.which("git", path=entorno["PATH"]) or "git"
+    return subprocess.run([git, "-c", f"core.hooksPath={os.devnull}", *args], capture_output=True, text=True, env=entorno,
+                          stdin=subprocess.DEVNULL)
 
 
 def _reemplazar(argumento: str, valores: dict[str, str]) -> str:
@@ -168,11 +182,13 @@ def producir(identificador: str, extra: list[str]) -> None:
     if not aprobado(config):
         raise cli.FactoryError("el sensor declarado no es uno que haya aprobado una persona (nunca se aprobó, o cambió desde entonces): "
                                "pedile que lo mire y corra oracle-factory aprobar-sensor. No se corrió nada")
-    locales = cli.cambios_locales_de_producto()
+    producto = str(cli.PRODUCTO or cli.ROOT)
+    locales = [n for n in (_git(["-C", producto, "diff", "--name-only", "HEAD"]).stdout.splitlines()
+                           + _git(["-C", producto, "ls-files", "--others", "--exclude-standard"]).stdout.splitlines()) if cli.es_producto(n)]
     if locales:
         raise cli.FactoryError("el producto tiene cambios sin commitear: " + ", ".join(locales[:10]) + (" …" if len(locales) > 10 else "")
                                + ". La evidencia se produce del commit: commitealos o guardalos aparte. No se corrió nada")
-    head = cli.git_producto(["git", "rev-parse", "--verify", "HEAD"]).stdout.strip()
+    head = _git(["-C", producto, "rev-parse", "--verify", "HEAD"]).stdout.strip()
     if not head:
         raise cli.FactoryError("el producto no tiene ningún commit todavía")
     sha = head[:7]
@@ -190,11 +206,11 @@ def producir(identificador: str, extra: list[str]) -> None:
     # prestados los objetos del repositorio en lugar de copiarlos, aunque la carpeta temporal esté en otro disco; dura lo que la corrida.
     with tempfile.TemporaryDirectory(prefix=f"oracle-factory-sensor-{sha}-") as tmp:
         checkout = Path(tmp) / "producto"
-        p = cli.ejecutar(["git", "clone", "--quiet", "--shared", "--no-checkout", str(cli.PRODUCTO or cli.ROOT), str(checkout)])
+        p = _git(["clone", "--quiet", "--shared", "--no-checkout", producto, str(checkout)])
         if not p.returncode:
-            p = cli.ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--detach", head])
-        for remoto in cli.ejecutar(["git", "-C", str(checkout), "remote"]).stdout.split() if not p.returncode else []:
-            p = cli.ejecutar(["git", "-C", str(checkout), "remote", "remove", remoto])  # sin remoto: el sensor no empuja nada
+            p = _git(["-C", str(checkout), "checkout", "--quiet", "--detach", head])
+        for remoto in _git(["-C", str(checkout), "remote"]).stdout.split() if not p.returncode else []:
+            p = _git(["-C", str(checkout), "remote", "remove", remoto])  # sin remoto: el sensor no empuja nada
         if p.returncode:
             raise cli.FactoryError(f"no pude preparar el checkout limpio del commit {sha}: {(p.stderr or p.stdout).strip()}")
         valores = {"python": sys.executable, "cambio": identificador, "salida": str(salida), "registros": str(registros),

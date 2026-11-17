@@ -223,6 +223,32 @@ class EvidenciaSa2(Base):
         import pwd
         self.assertEqual(visto['HOME'], pwd.getpwuid(os.getuid()).pw_dir)
 
+    def test_sa2_las_carpetas_del_sistema_van_primero_en_el_path(self):
+        # Lo que encontró codex: ~/.local/bin antes que /usr/bin dejaba que un «sh» puesto ahí suplantara al del comando aprobado.
+        visto = sensor.entorno_minimo()['PATH'].split(os.pathsep)
+        sistema = [visto.index(c) for c in ('/usr/local/bin', '/usr/bin', '/bin')]
+        de_usuario = [visto.index(c) for c in (str(Path(sys.executable).parent), str(Path.home() / '.local' / 'bin')) if c in visto]
+        self.assertLess(max(sistema), min(de_usuario))
+
+    def test_sa2_el_git_que_arma_el_checkout_no_es_el_del_path_de_quien_lo_corre(self):
+        # Lo que encontró codex: un «git» falso en el PATH heredado podía cambiar el código del checkout antes de correr el sensor.
+        ident = self.medido()
+        self.declarar()
+        self.commitear()
+        falso = self.root.parent / 'gitfalso'
+        falso.mkdir()
+        marca = self.root.parent / 'usaron-el-git-falso'
+        (falso / 'git').write_text(f'#!/bin/sh\necho "$@" >> {marca}\nexec /usr/bin/git "$@"\n')
+        (falso / 'git').chmod(0o755)
+        with patch.dict(os.environ, {'PATH': f"{falso}:{os.environ['PATH']}", 'GIT_CONFIG_GLOBAL': str(self.root.parent / 'no-existe')}):
+            sensor.producir(ident, [])
+        # Factory mismo puede usar el git del PATH para lo suyo (por ejemplo, el nombre de quien registra el evento); lo que no
+        # puede es que ese git elija el commit o arme el checkout que corre el sensor.
+        usos = marca.read_text().splitlines() if marca.exists() else []
+        self.assertFalse([u for u in usos if {'clone', 'checkout', 'rev-parse', 'diff', 'ls-files', 'remote'} & set(u.split())],
+                         'el commit o el checkout los resolvió un git del PATH de quien corre evidencia')
+        self.assertEqual(len(self.producciones(ident)), 1)
+
     def test_sa2_el_verificador_deduce_el_modulo_de_las_medidas_confirmadas(self):
         # Sin argumentos extra, tools/verificar_cambio.py saca el módulo de pruebas de las medidas que confirmó una persona.
         registro = self.root / '.factory/cambios/20990101-000000-abc-demo/factory.json'
