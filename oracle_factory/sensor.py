@@ -262,6 +262,23 @@ def hechos_de(identificador: str, estado: dict) -> dict | None:
             else "declarados: no los produjo Factory"}
 
 
+def _declaracion_sin_aprobar() -> str | None:
+    """Por qué la declaración vigente del sensor no vale, o None. Un proyecto que nunca aprobó un sensor no tiene nada que proteger; uno
+    que sí, no puede cambiar ni sacar su declaración (incluida la política) sin otra aprobación."""
+    try:
+        previas = aprobados()
+    except cli.FactoryError as e:
+        return str(e)
+    config = cli.config_proyecto()["sensor"]
+    if not previas:  # nunca se aprobó un sensor: el proyecto todavía no usa la aprobación (por ejemplo, el de notas recién creado)
+        return None
+    if not config:
+        return "el proyecto aprobó un sensor y ahora no declara ninguno: sacarlo también lo decide una persona"
+    if huella(config) not in {a["sha256"] for a in previas}:
+        return "la declaración vigente del sensor (su comando, su tope o su política) no la aprobó una persona"
+    return None
+
+
 def politica() -> str:
     return (cli.config_proyecto()["sensor"] or {}).get("hechos", "avisar")
 
@@ -271,11 +288,15 @@ def pendientes(identificador: str, estado: dict) -> list[str]:
     pide nada: se cerró con las reglas de su momento, y «exigir» gobierna el cierre, no lo reabre."""
     if estado.get("fase") in ("cerrada", "abandonada"):
         return []
+    faltan = []
+    sin_aprobar = _declaracion_sin_aprobar()
+    if sin_aprobar:  # la política misma («exigir» o «avisar») es parte de lo que aprueba una persona: no se baja editando la configuración
+        faltan.append(f"{sin_aprobar}: pedile a una persona que la mire y corra oracle-factory aprobar-sensor")
     origen = hechos_de(identificador, estado)
-    if not origen or origen["producidos_por_factory"] or politica() != "exigir":
-        return []
-    return [f"hechos del veredicto: no los produjo Factory para el candidato vigente (el proyecto exige que sí): corré "
-            f"oracle-factory evidencia {identificador} y volvé a juzgar"]
+    if origen and not origen["producidos_por_factory"] and politica() == "exigir":
+        faltan.append(f"hechos del veredicto: no los produjo Factory para el candidato vigente (el proyecto exige que sí): corré "
+                      f"oracle-factory evidencia {identificador} y volvé a juzgar")
+    return faltan
 
 
 def avisos(identificador: str, estado: dict) -> list[str]:

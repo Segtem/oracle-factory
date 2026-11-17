@@ -339,6 +339,46 @@ class HechosSa3(Base):
         f.juzgar(ident, f.hechos_del_candidato(ident))
         self.assertIn('Hechos: declarados: no los produjo Factory', self.salida())
 
+    def test_sa3_bajar_la_politica_sin_aprobarla_no_deja_cerrar(self):
+        # Lo que encontró codex: cambiar «exigir» por «avisar» en la configuración, sin aprobación, dejaba cerrar con hechos a mano.
+        ident = self.medido()
+        self.declarar(hechos='exigir')
+        self.commitear()
+        self.revisado(ident)
+        self.declarar(hechos='avisar', aprobar=False)
+        self.commitear('otra política')
+        f.juzgar(ident, self.a_mano(ident))
+        self.assertTrue([p for p in f.pendientes_actuales(*f.leer(ident)) if 'aprobar-sensor' in p])
+        with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, 'oracle-factory aprobar-sensor'):
+            f.cerrar(ident)
+        self.assertNotEqual(f.leer(ident)[1]['fase'], 'cerrada')
+
+    def test_sa3_sacar_el_sensor_despues_de_aprobarlo_no_deja_cerrar(self):
+        ident = self.medido()
+        self.declarar(hechos='exigir')
+        self.commitear()
+        self.revisado(ident)
+        ruta = self.root / '.factory/config.json'
+        datos = json.loads(ruta.read_text(encoding='utf-8'))
+        del datos['sensor']
+        ruta.write_text(json.dumps(datos), encoding='utf-8')
+        self.commitear('sin sensor')
+        f.juzgar(ident, self.a_mano(ident))
+        with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, 'ahora no declara ninguno'):
+            f.cerrar(ident)
+        self.assertNotEqual(f.leer(ident)[1]['fase'], 'cerrada')
+
+    def test_sa3_un_proyecto_que_nunca_aprobo_un_sensor_sigue_cerrando(self):
+        ident = self.medido()
+        self.declarar(hechos='avisar', aprobar=False)  # declarado y nunca aprobado: todavía no usa la aprobación
+        self.commitear()
+        self.revisado(ident)
+        f.juzgar(ident, self.a_mano(ident))
+        self.assertEqual([p for p in f.pendientes_actuales(*f.leer(ident)) if 'sensor' in p], [])
+        with self.escribe('1'):
+            f.cerrar(ident)
+        self.assertEqual(f.leer(ident)[1]['fase'], 'cerrada')
+
     def test_sa3_con_el_sensor_aprobado_si_cuentan(self):
         ident = self.con_produccion()
         self.salida()
