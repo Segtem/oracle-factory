@@ -610,7 +610,7 @@ def mostrar(identificador: str) -> None:
         print(f"{estado['id']} — {estado['titulo']}\nFase: abandonada\nAbandonado por: {cli.quien(estado.get('abandono'))}")
         quitados = (estado.get("abandono") or {}).get("requisitos_quitados") or []
         print("Requisitos quitados de requisitos/: " + (", ".join(quitados) or "ninguno"))
-        for aviso in cli.aviso_union(identificador, estado):  # dos ramas pudieron decidir distinto también sobre esto
+        for aviso in cli.datos_estado(identificador)["avisos"]:  # los mismos que el JSON: dos ramas pudieron decidir distinto también sobre esto
             print(f"Aviso: {aviso}.")
         return
     print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {cli.modo_de(estado)}")
@@ -622,17 +622,8 @@ def mostrar(identificador: str) -> None:
     print(cli.linea_quien(cli.quien_del_cambio(estado)) + ".")
     vigente = cli.candidato_vigente(identificador)
     prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, vigente, cli.documentos_o_nada(carpeta, estado))
-    editados = cli.alarmas_mod.del_candidato(cli.git_producto, vigente, es_producto=cli.es_producto) if vigente else None
-    flujo = cli.alarmas_mod.del_flujo(cli.git_producto, estado, vigente, es_producto=cli.es_producto)
     camino = cli.alarmas_mod.linea_camino(cli.alarmas_mod.camino_del_candidato(cli.git_producto, vigente, es_producto=cli.es_producto))
-    try:
-        actual = cli.contexto_del_cambio(identificador)
-    except (cli.FactoryError, OSError):
-        actual = None
-    for aviso in (cli.avisos_head(estado) + cli.aviso_revision(estado) + cli.aviso_lanzamientos(estado) + cli.aviso_sin_autor(estado)
-                  + cli.aviso_sin_medir(identificador, estado) + cli.aviso_notas(identificador, estado) + cli.aviso_union(identificador, estado)
-                  + cli.pruebas_mod.avisos(prueba) + cli.alarmas_mod.avisos(editados) + cli.alarmas_mod.avisos_del_flujo(flujo)
-                  + [f"FRENO: {x['motivo']}" for x in cli.frenos_del_cambio(identificador, estado, vigente, actual, editados, flujo)]):
+    for aviso in cli.datos_estado(identificador)["avisos"]:  # una sola lista de avisos: la del JSON
         print("Aviso: " + aviso + ".")
     if camino:
         print(camino + ".")

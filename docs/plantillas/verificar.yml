@@ -1,6 +1,7 @@
 # Plantilla de GitHub Actions para un proyecto con Oracle Factory: copiala a .github/workflows/verificar.yml.
 # Corre `oracle-factory verificar` (de sólo lectura): sin secretos, no escribe nada.
 # Política: si algún cambio está inconsistente, falla en main y avisa (sin fallar) en las demás ramas y pull requests.
+# Es un chequeo informativo: muestra el estado y no impide integrar (en un pull request sale con 0; integra una persona).
 name: Verificar los cambios de Factory
 on:
   push:
