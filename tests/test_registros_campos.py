@@ -71,7 +71,10 @@ class Campos(_archivo.Archivo):
         _, _, roto, ruta = self.tres_cambios()
         sano = ruta.read_text()
         malos = [('requisitos', [1]), ('requisitos', None), ('cierre', 'x'), ('archivo', 3), ('medidas', []), ('medidas', None),
-                 ('tipos', 'x'), ('propuestas', [])]
+                 ('tipos', 'x'), ('propuestas', []),
+                 # Hallazgo C1R1 de codex: la clase entera, no sólo «aceptados».
+                 ('aceptados', [1]), ('aceptados', 'x'), ('pendientes_de_union', [2]), ('responsable', 'x'), ('abandono', 'x'),
+                 ('medidas_pendientes', []), ('spec', 3)]
         for campo, valor in malos:
             with self.subTest(campo=campo, valor=valor):
                 ruta.write_text(sano)
@@ -86,11 +89,13 @@ class Campos(_archivo.Archivo):
         _, _, roto, ruta = self.tres_cambios()
         sano = json.loads(ruta.read_text())
         for campos in ({'spec_aprobada': None, 'revision': None, 'oracle': None, 'cierre': None, 'archivo': None},
-                       {'medidas': {}, 'tipos': {}, 'propuestas': {}, 'requisitos': ['a.b']}):
+                       {'medidas': {}, 'tipos': {}, 'propuestas': {}, 'requisitos': ['a.b']},
+                       {'aceptados': [], 'pendientes_de_union': [{}], 'responsable': None, 'abandono': None,
+                        'medidas_pendientes': {}, 'spec': 'openspec/x.md'}):
             with self.subTest(campos=campos):
                 self.assertIsNone(robusto.forma_invalida({**sano, **campos}))
         for campo in ('requisitos', 'spec_aprobada', 'revision', 'oracle', 'cierre', 'archivo', 'medidas', 'tipos', 'propuestas',
-                      'spec_sha256'):
+                      'spec_sha256', 'aceptados', 'responsable', 'abandono', 'medidas_pendientes', 'spec'):
             with self.subTest(ausente=campo):
                 self.assertIsNone(robusto.forma_invalida({k: v for k, v in sano.items() if k != campo}))
         codigo, _, errores = self.correr('estado', roto, '--json')
@@ -131,6 +136,17 @@ class Campos(_archivo.Archivo):
         [ilegible] = datos['ilegibles']
         self.assertEqual(ilegible['id'], roto)
         self.assertIn('no es JSON válido', ilegible['motivo'])
+
+    def test_rc2_el_tablero_con_aceptados_que_no_son_objetos(self):
+        # Hallazgo C1R1 de codex: «aceptados: [1]» tiraba el tablero con AttributeError.
+        uno, dos, roto, ruta = self.tres_cambios()
+        self.con(ruta, aceptados=[1])
+        codigo, salida, errores = self.correr('tablero', '--json')
+        self.sin_traceback(codigo, errores)
+        self.assertEqual(codigo, 0, errores)
+        datos = json.loads(salida)
+        self.assertEqual(sorted(c['id'] for c in datos['cambios']), sorted([uno, dos]))
+        self.assertEqual([i['id'] for i in datos['ilegibles']], [roto])
 
     def test_rc2_el_resumen_con_un_registro_roto(self):
         uno, dos, roto, ruta = self.tres_cambios()

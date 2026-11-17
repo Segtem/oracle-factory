@@ -21,10 +21,15 @@ def forma_invalida(estado) -> str | None:
     # Los campos que consumen las consultas, sólo su tipo (registros-campos); ausentes valen: los registros viejos no los tienen.
     if "requisitos" in estado and not (isinstance(estado["requisitos"], list) and all(isinstance(r, str) for r in estado["requisitos"])):
         return "tiene unos «requisitos» que no son una lista de textos"
-    for campo in ("spec_aprobada", "revision", "oracle", "cierre", "archivo"):
+    for campo in ("aceptados", "pendientes_de_union"):
+        if campo in estado and not (isinstance(estado[campo], list) and all(isinstance(a, dict) for a in estado[campo])):
+            return f"tiene «{campo}» que no es una lista de objetos"
+    if not isinstance(estado.get("spec"), (str, type(None))):
+        return "tiene una «spec» que no es texto ni nula"
+    for campo in ("spec_aprobada", "revision", "oracle", "cierre", "archivo", "responsable", "abandono"):
         if not isinstance(estado.get(campo), (dict, type(None))):
             return f"tiene «{campo}» que no es un objeto ni nulo"
-    for campo in ("medidas", "tipos", "propuestas"):
+    for campo in ("medidas", "tipos", "propuestas", "medidas_pendientes"):
         if campo in estado and not isinstance(estado[campo], dict):
             return f"tiene «{campo}» que no es un objeto"
     if estado.get("spec_aprobada") is not None and not isinstance(estado.get("spec_sha256"), str):
