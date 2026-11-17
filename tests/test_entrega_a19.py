@@ -1,4 +1,4 @@
-"""La entrega 0.1.0a18: escenarios ea1–ea3, con el repositorio, el wheel construido e instalado de verdad y datos armados para el juicio."""
+"""La entrega 0.1.0a19: escenarios ea1–ea3, con el repositorio, el wheel construido e instalado de verdad y datos armados para el juicio."""
 from copy import deepcopy
 from pathlib import Path
 import re
@@ -11,9 +11,9 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import oracle_factory  # noqa: E402
-from tools import docs_al_dia, probar_entrega_a18 as pr  # noqa: E402
+from tools import docs_al_dia, probar_entrega_a19 as pr  # noqa: E402
 
-VERSION = "0.1.0a18"
+VERSION = "0.1.0a19"
 BUENA = {
     "archivos_del_wheel": ["oracle_factory/__init__.py", pr.SKILL_EN_EL_WHEEL],
     "importacion": {"rc": 0, "archivo": "/entorno/lib/oracle_factory/__init__.py", "version": VERSION, "desde_el_checkout": False, "en_el_entorno": True},
@@ -24,6 +24,11 @@ BUENA = {
     "ayuda_verificar": {"rc": 0, "usage": "usage: oracle-factory verificar [-h]"},
     "ayuda_destinos": {"rc": 0, "usage": "usage: oracle-factory destinos [-h]"},
     "ayuda_desplegar": {"rc": 0, "usage": "usage: oracle-factory desplegar [-h]"},
+    "ayuda_evidencia": {"rc": 0, "usage": "usage: oracle-factory evidencia [-h]"},
+    "ayuda_aprobar-sensor": {"rc": 0, "usage": "usage: oracle-factory aprobar-sensor [-h]"},
+    "ayuda_conectar": {"rc": 0, "usage": "usage: oracle-factory conectar [-h]"},
+    "ayuda_sincronizar": {"rc": 0, "usage": "usage: oracle-factory sincronizar [-h]"},
+    "ayuda_migrar": {"rc": 0, "usage": "usage: oracle-factory migrar [-h]"},
     "skill": {"rc": 0, "empieza_bien": True, "largo": 5000},
     "skill_instalar": {"rc": 0, "stdout": "Skill instalada", "archivo_existe": True, "igual_a_la_del_comando": True},
     "puerta": {"rc": 0, "salida": "Puerta local de salida"},
@@ -32,7 +37,7 @@ BUENA = {
     "destinos": {"rc": 0, "nombres": ["app"]},
     "desplegar_simulado": {"rc": 0, "muestra_el_plan": True},
 }
-ARTEFACTOS = {"wheel": Path("oracle_factory-0.1.0a18-py3-none-any.whl"), "sdist": Path("oracle_factory-0.1.0a18.tar.gz"),
+ARTEFACTOS = {"wheel": Path("oracle_factory-0.1.0a19-py3-none-any.whl"), "sdist": Path("oracle_factory-0.1.0a19.tar.gz"),
               "wheel_sha256": "a" * 64, "sdist_sha256": "b" * 64}
 
 
@@ -44,17 +49,23 @@ class Version(unittest.TestCase):
         [propio] = [p for p in tomllib.loads((ROOT / "uv.lock").read_text(encoding="utf-8"))["package"] if p["name"] == "oracle-factory"]
         self.assertEqual(propio["version"], VERSION)
 
-    def test_ea1_los_textos_y_la_web_estan_al_dia_y_la_a17_y_la_a18_figuran_publicadas(self):
+    def test_ea1_los_textos_y_la_web_estan_al_dia_la_a18_publicada_y_la_a19_en_preparacion(self):
         self.assertEqual(docs_al_dia.problemas(ROOT), [])
         notas = (ROOT / "NOTAS-DE-RELEASE.md").read_text(encoding="utf-8")
-        # La a18 pasó de «en preparación» a publicada (publicada-a18): el estado de cada una lo fija test_publicada_a18.
-        self.assertEqual(re.findall(r"(?m)^# Oracle Factory (\S+)$", notas)[0], "0.1.0a18")  # la primera versión (antes puede ir «Sin publicar»)
-        self.assertIn("\n# Oracle Factory 0.1.0a17\n", "\n" + notas)
-        self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a17`", notas)
+        titulos = re.findall(r"(?m)^# (.+)$", notas)
+        self.assertEqual(titulos[:2], ["Oracle Factory 0.1.0a19 (en preparación)", "Oracle Factory 0.1.0a18"])
+        primera = notas.split("\n# ", 1)[0]
+        self.assertNotIn("**Publicada.**", primera)  # la a19 no se presenta como publicada
+        self.assertIn("todavía sin publicar", primera)
         self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a18`", notas)
+        self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a17`", notas)
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        self.assertIn("Versión publicada en PyPI: `oracle-factory==0.1.0a18`", readme)
-        self.assertIn("La versión publicada anterior es [0.1.0a17]", readme)
+        self.assertIn("Candidato en preparación `oracle-factory==0.1.0a19`", readme)
+        self.assertNotIn("Versión publicada en PyPI: `oracle-factory==0.1.0a19`", readme)
+        self.assertIn("La versión publicada anterior es [0.1.0a18]", readme)
+        for archivo in ("site/desde-cero.html", "site/index.html"):
+            self.assertIn("0.1.0a19", (ROOT / archivo).read_text(encoding="utf-8"), archivo)
+        self.assertIn("Todavía no está publicada en PyPI", (ROOT / "site/index.html").read_text(encoding="utf-8"))
         for archivo in ("site/desde-cero.html", "site/colaboracion.html", "site/modos.html", "docs/colaboracion.md", "README.md"):
             self.assertIn(VERSION, (ROOT / archivo).read_text(encoding="utf-8"), archivo)
 
@@ -67,13 +78,14 @@ class Version(unittest.TestCase):
             shutil.copytree(ROOT / "docs", repo / "docs")
             shutil.copytree(ROOT / "site", repo / "site")
             guia = repo / "site/desde-cero.html"
-            guia.write_text(guia.read_text(encoding="utf-8").replace("Usá la 0.1.0a18", "Usá la 0.1.0a15"), encoding="utf-8")
+            guia.write_text(guia.read_text(encoding="utf-8").replace("Usá la 0.1.0a19", "Usá la 0.1.0a15"), encoding="utf-8")
             problemas = docs_al_dia.problemas(repo)
             self.assertTrue(any(p.startswith("site/desde-cero.html:") and "0.1.0a15" in p for p in problemas), problemas)
 
     def test_ea1_no_queda_ningun_texto_actual_con_la_version_anterior(self):
-        for archivo in ("pyproject.toml", "oracle_factory/__init__.py", "site/desde-cero.html", "site/colaboracion.html", "site/modos.html", "docs/colaboracion.md"):
-            self.assertNotIn("0.1.0a17", (ROOT / archivo).read_text(encoding="utf-8"), archivo)
+        for archivo in ("pyproject.toml", "oracle_factory/__init__.py", "site/desde-cero.html", "site/colaboracion.html", "site/modos.html", "docs/colaboracion.md",
+                        "site/index.html"):
+            self.assertNotIn("0.1.0a18", (ROOT / archivo).read_text(encoding="utf-8"), archivo)
 
 
 class Juicio(unittest.TestCase):
@@ -97,17 +109,20 @@ class Juicio(unittest.TestCase):
         for camino, dicen in ((("skill_instalar", "rc"), "skill --instalar"), (("skill_instalar", "archivo_existe"), "skill --instalar"),
                               (("skill_instalar", "igual_a_la_del_comando"), "skill --instalar"), (("skill", "empieza_bien"), "oracle-factory skill"),
                               (("puerta", "rc"), "puerta"), (("agentes", "nombra_la_skill"), "agentes"), (("agentes", "nombra_el_camino_ligero"), "agentes"),
-                              (("destinos", "rc"), "destinos"), (("destinos", "nombres"), "destinos"), (("desplegar_simulado", "rc"), "desplegar"), (("desplegar_simulado", "muestra_el_plan"), "desplegar"), (("verificar", "rc"), "verificar"), (("verificar", "esquema"), "verificar"), (("ayuda_destinos", "rc"), "destinos"), (("ayuda_skill", "rc"), "skill"), (("ayuda_puerta", "usage"), "puerta"), (("ayuda_hooks", "rc"), "hooks")):
+                              (("destinos", "rc"), "destinos"), (("destinos", "nombres"), "destinos"), (("desplegar_simulado", "rc"), "desplegar"), (("desplegar_simulado", "muestra_el_plan"), "desplegar"), (("verificar", "rc"), "verificar"), (("verificar", "esquema"), "verificar"), (("ayuda_destinos", "rc"), "destinos"), (("ayuda_skill", "rc"), "skill"), (("ayuda_puerta", "usage"), "puerta"), (("ayuda_hooks", "rc"), "hooks"),
+                              (("ayuda_evidencia", "rc"), "evidencia"), (("ayuda_aprobar-sensor", "rc"), "aprobar-sensor"),
+                              (("ayuda_conectar", "usage"), "conectar"), (("ayuda_sincronizar", "rc"), "sincronizar"),
+                              (("ayuda_migrar", "rc"), "migrar")):
             with self.subTest(camino=camino):
                 [p] = self.roto(*camino, valor=1 if camino[-1] == "rc" else False if camino[-1] != "usage" else "")
                 self.assertIn(dicen, p)
 
     def test_ea2_la_version_o_el_origen_equivocados_se_nombran(self):
-        self.assertTrue(any("0.1.0a17" in p for p in self.roto("importacion", "version", valor="0.1.0a17")))
+        self.assertTrue(any("0.1.0a18" in p for p in self.roto("importacion", "version", valor="0.1.0a18")))
         self.assertTrue(any("fuera del entorno nuevo" in p for p in self.roto("importacion", "desde_el_checkout", valor=True)))
         self.assertTrue(any("fuera del entorno nuevo" in p for p in self.roto("importacion", "archivo", valor="")))
         self.assertTrue(any("fuera del entorno nuevo" in p for p in self.roto("importacion", "en_el_entorno", valor=False)))  # ni del checkout ni del entorno: de otro lado
-        self.assertTrue(any("--version" in p for p in self.roto("cli_version", "salida", valor="oracle-factory 0.1.0a17")))
+        self.assertTrue(any("--version" in p for p in self.roto("cli_version", "salida", valor="oracle-factory 0.1.0a18")))
         self.assertTrue(any("--version" in p for p in self.roto("cli_version", "rc", valor=2)))
 
 
@@ -119,7 +134,7 @@ class WheelReal(unittest.TestCase):
     @classmethod
     def datos(cls):
         if cls._datos is None:
-            tmp = tempfile.TemporaryDirectory(prefix="test-entrega-a18-")
+            tmp = tempfile.TemporaryDirectory(prefix="test-entrega-a19-")
             cls.addClassCleanup(tmp.cleanup)
             cls.addClassCleanup(setattr, cls, "_datos", None)
             base = Path(tmp.name)

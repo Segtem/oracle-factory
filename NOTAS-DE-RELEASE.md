@@ -1,8 +1,16 @@
-# Sin publicar
+# Oracle Factory 0.1.0a19 (en preparación)
 
-Lo que está en `main` y todavía no en una versión publicada. Desde un checkout, `oracle-factory --version` lo dice con el commit:
-`0.1.0a18+SHA (checkout, sin publicar)`.
+Preparada desde `main`, todavía sin publicar en PyPI ni en GitHub. Desde un checkout, `oracle-factory --version` lo dice con el
+commit: `0.1.0a19+SHA (checkout, sin publicar)`.
 
+- **Factory produce los hechos.** `oracle-factory evidencia ID` corre el sensor que declara el proyecto sobre un checkout limpio
+  del commit, fuera del producto y del almacén, con un entorno mínimo, y deja los hechos en la carpeta del candidato; `juzgar`
+  los encuentra solo. Con `"exigir"` en la configuración, un cambio no se cierra con hechos que no produjo Factory.
+- **El sensor lo aprueba una persona.** `oracle-factory aprobar-sensor` (sólo de una persona, desde su terminal) aprueba la
+  declaración del sensor con su huella; `evidencia` se niega con un sensor sin aprobar o con argumentos de más, y los hechos de un
+  sensor no aprobado no cuentan para cerrar. Ver la sección del sensor en el README.
+- **Mutación automática.** La evidencia mide con mutantes si las pruebas de un cambio vigilan las líneas que tocó; la medida pide
+  80 % o más.
 - **Registros en un almacén aparte.** El repo del producto ya no recibe los registros de Factory: viven en un repo Git propio.
   `oracle-factory conectar ALMACEN` (una carpeta o una URL de Git, que se clona) conecta el producto; cada comando commitea lo
   suyo en el almacén y `oracle-factory sincronizar` lo junta con lo de los demás y, si lo corre una persona, lo sube.
@@ -27,7 +35,20 @@ Lo que está en `main` y todavía no en una versión publicada. Desde un checkou
   validar los workflows); el paquete no lo exige.
 - **La guía versionada.** `oracle-factory agentes --en-el-repo` mantiene la guía para agentes en un `AGENTS.md` que el producto
   versiona.
-- La extensión de VS Code del repositorio sigue diciendo 0.5.0, pero la que ve un almacén se arma desde el checkout
+- **Un conductor que actúa.** `oracle-factory autopilot ID` dice el próximo paso por reglas y, con `--ejecutar`, lo da con
+  topes y deja rastro; nunca toma una decisión de persona. `estado` frena los bucles de revisión y las pruebas editadas.
+- **Una interrupción detiene a todo el grupo.** Ctrl-C durante un paso de `autopilot --ejecutar` o de un despliegue detiene
+  también a los procesos que lanzó, igual que el plazo.
+- **Registros que no tumban las consultas.** Un campo de tipo equivocado en un `factory.json` lo nombra en vez de romper;
+  `tablero` y `resumen` siguen con los demás cambios, y un archivo que falta se dice con su ruta y cómo recuperarlo.
+- **Lo mismo con y sin almacén.** Cada comando se comporta igual con los registros adentro o aparte.
+- **Frases que no prometen de más.** La ayuda, las guías y la web dicen lo que hace Factory; `estado` muestra los mismos avisos
+  en texto y en JSON, y el camino de entrada de la guía usa `evidencia`.
+- **Una web nueva.** La portada explica para quién es y cómo empezar, con un recorrido de un cambio y ejemplos que se pueden
+  tocar, en pixel art propio.
+- **Textos al día.** Las notas declaran publicada la 0.1.0a18, con su tag y su release.
+- Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux. La extensión de VS
+  Code del repositorio sigue diciendo 0.5.0, pero la que ve un almacén se arma desde el checkout
   (`python3 editores/vscode/empaquetar.py`).
 
 # Oracle Factory 0.1.0a18
