@@ -21,11 +21,12 @@ def _senal(grupo: int, senal: int) -> None:
 
 
 def _detener(p: subprocess.Popen, gracia: float) -> None:
-    """SIGTERM al grupo, una gracia y SIGKILL; el SIGKILL se manda aunque otra interrupción corte la gracia."""
+    """SIGTERM al grupo, una gracia y SIGKILL. Otra interrupción durante la gracia no reemplaza a la excepción que llevó acá: se la
+    absorbe, el SIGKILL se manda igual y quien llamó relanza la original."""
     try:
         _senal(p.pid, signal.SIGTERM)
         p.wait(timeout=gracia)
-    except subprocess.TimeoutExpired:
+    except BaseException:  # vence la gracia, o llega otro Ctrl-C: igual se termina abajo
         pass
     finally:
         _senal(p.pid, signal.SIGKILL)  # también a un hijo que ignoró SIGTERM, y aunque llegue otro Ctrl-C en la gracia

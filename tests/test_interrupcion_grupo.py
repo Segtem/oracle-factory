@@ -104,6 +104,29 @@ procesos.correr_en_grupo(['sh', '-c', f"trap '' TERM; echo $$ > {r}/sh.pid; whil
         self.no_vuelve(int((self.raiz / 'sh.pid').read_text()))
         self.assertIn('KeyboardInterrupt', (self.raiz / 'errores.txt').read_text())
 
+    def test_ig1_la_excepcion_original_sigue_aunque_llegue_otra_interrupcion(self):
+        # Una excepción propia (SIGUSR1 → RuntimeError) corta la espera; un Ctrl-C en la gracia no la reemplaza.
+        p = self.lanzar('''import signal, sys
+from pathlib import Path
+from oracle_factory import procesos
+r = Path(sys.argv[1])
+def original(*_):
+    raise RuntimeError('la original')
+signal.signal(signal.SIGUSR1, original)
+try:
+    procesos.correr_en_grupo(['sh', '-c', f"trap '' TERM; echo $$ > {r}/sh.pid; while true; do sleep 0.1; done"], r, 60, gracia=3)
+except BaseException as e:
+    (r / 'llego.txt').write_text(f'{type(e).__name__}: {e}')
+''')
+        self.esperar(self.raiz / 'sh.pid')
+        time.sleep(0.2)
+        p.send_signal(signal.SIGUSR1)
+        time.sleep(0.5)  # en medio de la gracia
+        p.send_signal(signal.SIGINT)
+        p.wait(timeout=30)
+        self.no_vuelve(int((self.raiz / 'sh.pid').read_text()))
+        self.assertEqual((self.raiz / 'llego.txt').read_text(), 'RuntimeError: la original')
+
     def test_ig1_el_plazo_sigue_dando_124_con_lo_que_alcanzo_a_escribir(self):
         # La rama del plazo se reordenó junto con la de la interrupción: sigue devolviendo 124, la salida y el motivo.
         sys.path.insert(0, str(SOURCE))
