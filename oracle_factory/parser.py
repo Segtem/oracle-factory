@@ -188,6 +188,7 @@ def construir_parser() -> argparse.ArgumentParser:
     p.add_argument("--hallazgos-abiertos", type=int, help='obligatorio en formato libre; se deriva en guiado')
     p = sub.add_parser("evidencia", help="correr el sensor del proyecto sobre un checkout limpio del commit y registrar los hechos")
     p.add_argument("id"); p.add_argument("extra", nargs=argparse.REMAINDER, help="después de --: argumentos que se agregan al comando del sensor")
+    sub.add_parser("aprobar-sensor", help="una persona aprueba el sensor declarado: oracle-factory evidencia sólo corre un sensor aprobado")
     p = sub.add_parser("juzgar", help="correr Oracle sobre evidencia del sensor")
     p.add_argument("id"); p.add_argument("--con", type=Path, action="append", help="hechos de un sensor; repetible, uno por sensor; por defecto, los del candidato (oracle-factory ruta ID evidencia)")
     return parser

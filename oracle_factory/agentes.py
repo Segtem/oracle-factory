@@ -26,6 +26,7 @@ PERSONA = (
     ("abandonar ID", "abandonar el cambio (un agente propone el motivo con --agente --motivo)"),
     ("modo ID MODO", "bajar la intervención humana de un cambio"),
     ("autonomia ETAPA MODO", "dar o quitar autonomía a un agente en integración, publicación o producción"),
+    ("aprobar-sensor", "aprobar el sensor declarado: el comando que produce los hechos con oracle-factory evidencia"),
     ("soltar ID", "dejar de ser responsable de un cambio"),
     ("decidir-union ID CAMPO nuestro|suyo", "elegir qué vale cuando dos ramas decidieron distinto"),
     ("kb revisada NOTA", "marcar revisada una nota de personas del vault"),

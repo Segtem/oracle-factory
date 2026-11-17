@@ -41,7 +41,7 @@ MATRIZ = {
     'revisar': (['{id}'], None), 'abandonar': (['{id}', '--motivo', 'x'], None), 'aprobar-spec': (['{id}'], None),
     'revision-preparar': (['{id}'], None), 'importar': (['{id}'], None), 'estado': (['{id}'], None), 'cerrar': (['{id}'], None),
     'revision': (['{id}', '--informe', 'x.md', '--revisor', 'r', '--decision', 'aprobar', '--hallazgos-abiertos', '0'], None),
-    'evidencia': (['{id}'], None), 'juzgar': (['{id}'], None),
+    'evidencia': (['{id}'], None), 'juzgar': (['{id}'], None), 'aprobar-sensor': ([], None),  # sumado por el cambio sensor-aprobado
 }
 
 
