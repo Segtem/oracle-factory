@@ -53,8 +53,8 @@ def _agrupar(pendientes: list[str]) -> list[str]:
 
 
 def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, list[str]],
-            abiertos: list[dict], revisiones: dict[str, dict], sin_registro: list[str] = (), ilegibles: list[dict] = (),
-            raiz_relativa: str = '../') -> str:
+            abiertos: list[dict], revisiones: dict[str, dict], sin_registro: list[str] = (),
+            raiz_relativa: str = '../', ilegibles: list[dict] = ()) -> str:
     """El resumen completo, con la línea de huella al principio.
 
     - `indices`: los de `.factory/specs/`, en orden de capacidad.

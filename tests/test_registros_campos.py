@@ -174,6 +174,12 @@ class Campos(_archivo.Archivo):
         codigo, salida, _ = self.correr('tablero', '--json')
         self.assertEqual(json.loads(salida)['ilegibles'], [])
 
+    def test_rc2_la_firma_anterior_del_resumen_se_sigue_leyendo(self):
+        # Hallazgo C1 de codex: el séptimo argumento posicional sigue siendo raiz_relativa.
+        from oracle_factory import resumen
+        self.assertEqual(resumen.generar([], {}, {}, [], {}, [], 'docs/'),
+                         resumen.generar([], {}, {}, [], {}, [], raiz_relativa='docs/'))
+
     # --- rc3: un archivo que falta se dice con su ruta -----------------------------------------------------------------------
     def test_rc3_la_spec_ausente(self):
         _, _, roto, _ = self.tres_cambios()

@@ -70,7 +70,8 @@ def texto_resumen(salida: Path | None = None) -> str:
     """Junta los datos de los registros y genera el resumen (sin escribir nada)."""
     destino = cli.ruta_resumen(salida)
     raiz_relativa = os.path.relpath(cli.ROOT, destino.parent).replace(os.sep, "/") + "/"
-    return resumen.generar(*cli.insumos_resumen(), raiz_relativa="" if raiz_relativa == "./" else raiz_relativa)
+    *insumos, ilegibles = cli.insumos_resumen()
+    return resumen.generar(*insumos, raiz_relativa="" if raiz_relativa == "./" else raiz_relativa, ilegibles=ilegibles)
 
 
 def insumos_resumen() -> tuple:
