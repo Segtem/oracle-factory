@@ -249,6 +249,19 @@ class EvidenciaSa2(Base):
                          'el commit o el checkout los resolvió un git del PATH de quien corre evidencia')
         self.assertEqual(len(self.producciones(ident)), 1)
 
+    def test_sa2_la_configuracion_local_de_git_no_corre_nada(self):
+        # Lo que encontró codex: core.fsmonitor de la configuración local del producto corre un programa durante las comprobaciones.
+        ident = self.medido()
+        self.declarar()
+        self.commitear()
+        marca = self.root.parent / 'corrio-el-fsmonitor'
+        ayudante = self.root.parent / 'fsmonitor.sh'
+        ayudante.write_text(f'#!/bin/sh\ntouch {marca}\n')
+        ayudante.chmod(0o755)
+        self.git('config', 'core.fsmonitor', str(ayudante))  # config local del repositorio temporal de la prueba
+        sensor.producir(ident, [])
+        self.assertFalse(marca.exists(), 'la configuración local de Git corrió un programa al producir la evidencia')
+
     def test_sa2_el_verificador_deduce_el_modulo_de_las_medidas_confirmadas(self):
         # Sin argumentos extra, tools/verificar_cambio.py saca el módulo de pruebas de las medidas que confirmó una persona.
         registro = self.root / '.factory/cambios/20990101-000000-abc-demo/factory.json'
@@ -310,6 +323,14 @@ class HechosSa3(Base):
         self.assertIn('declarados: no los produjo Factory', self.salida())
         with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, f'oracle-factory evidencia {ident}'):
             f.cerrar(ident)
+
+    def test_sa3_otro_commit_con_el_mismo_prefijo_no_cuenta(self):
+        # Lo que encontró codex: la producción se atribuía por los siete primeros caracteres del commit.
+        ident = self.con_produccion()
+        self.cambiar_produccion(ident, lambda p: p.update(commit=p['commit'][:7] + ('0' if p['commit'][7] != '0' else '1') + p['commit'][8:]))
+        self.salida()
+        f.juzgar(ident, f.hechos_del_candidato(ident))
+        self.assertIn('Hechos: declarados: no los produjo Factory', self.salida())
 
     def test_sa3_una_produccion_de_un_sensor_que_nadie_aprobo(self):
         ident = self.con_produccion()

@@ -159,7 +159,9 @@ def _git(args: list[str]) -> subprocess.CompletedProcess:
     evidencia. Límite: quien controla el entorno del propio proceso de Factory (su Python o sus módulos) está fuera de este alcance."""
     entorno = {**entorno_minimo(), "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull}
     git = shutil.which("git", path=entorno["PATH"]) or "git"
-    return subprocess.run([git, "-c", f"core.hooksPath={os.devnull}", *args], capture_output=True, text=True, env=entorno,
+    # Lo que la configuración local del producto podría hacer correr: hooks, fsmonitor, un diff externo o un paginador.
+    neutro = [f"core.hooksPath={os.devnull}", "core.fsmonitor=false", "core.pager=cat", "diff.external=", "core.sshCommand=false"]
+    return subprocess.run([git, *(x for c in neutro for x in ("-c", c)), *args], capture_output=True, text=True, env=entorno,
                           stdin=subprocess.DEVNULL)
 
 
@@ -248,10 +250,12 @@ def hechos_de(identificador: str, estado: dict) -> dict | None:
     if not oracle or not huellas:
         return None
     candidato = cli.candidato_vigente(identificador)
+    # El commit entero, no el prefijo de siete caracteres: si el prefijo es ambiguo (dos commits), no se resuelve y nada cuenta.
+    completo = _git(["-C", str(cli.PRODUCTO or cli.ROOT), "rev-parse", "--verify", "--quiet", f"{candidato}^{{commit}}"]).stdout.strip() if candidato else ""
     del_sensor = _huellas_aprobadas()  # sólo cuenta una producción hecha con un sensor que aprobó una persona
     producidas = {e.get("hechos_sha256") for e in estado.get("eventos") or []
-                  if e.get("accion") == "evidencia_producida" and e.get("codigo") == 0 and candidato
-                  and str(e.get("commit") or "").startswith(candidato) and e.get("sensor_sha256") in del_sensor}
+                  if e.get("accion") == "evidencia_producida" and e.get("codigo") == 0 and completo
+                  and e.get("commit") == completo and e.get("sensor_sha256") in del_sensor}
     propios = all(h and h in producidas for h in huellas)
     return {"producidos_por_factory": propios, "commit": candidato if propios else None,
             "texto": f"producidos por Factory (oracle-factory evidencia, commit {candidato})" if propios

@@ -180,7 +180,9 @@ muestra la declaración vigente y la última aprobada, y registra en `.factory/s
 cuándo. `oracle-factory evidencia` se niega a correr un sensor que no esté entre los aprobados (nunca se aprobó, o alguien cambió su
 comando), y sólo los hechos de un sensor aprobado cuentan como «producidos por Factory». Cada producción registra la huella del sensor
 con que se hizo. **Límite:** ni ese archivo ni el registro están firmados: quien los escribe a mano puede fingir una aprobación. Lo que
-se gana es que cambiar el sensor ya no alcanza con editar la configuración.
+se gana es que cambiar el sensor ya no alcanza con editar la configuración. Por la misma razón, un proceso del mismo usuario que
+esté corriendo a la vez puede modificar el checkout temporal antes de que corra el sensor: Factory se protege de lo que llega por la
+configuración o el entorno, no de otro programa con los mismos permisos.
 
 La preparación de la revisión no da por buena una evidencia que se contradice: si `resultado.json` dice `exitoso` y a la vez cero
 pruebas, fuentes que cambiaron, otro commit o artefactos con otro hash, la comprobación queda «falla» y nombra la contradicción.
