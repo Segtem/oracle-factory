@@ -6,7 +6,10 @@ tests/test_frases_honestas.py: la frase vieja que no tiene que volver y la que l
 import json
 from pathlib import Path
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -201,12 +204,15 @@ class EjemploFc3(Base):
         self.assertNotIn('aprobar-sensor', self.salida())
 
     def test_fc3_el_resto_de_la_configuracion_se_conserva(self):
-        antes = {**json.loads(self.config().read_text(encoding='utf-8')), 'capacidades': {'apuntes': 'notas'}, 'idioma': 'en'}
+        antes = {**json.loads(self.config().read_text(encoding='utf-8')), 'capacidades': {'apuntes': 'notas'}, 'idioma': 'en',
+                 'rag': {'nota': 'sólo en español'}}
         self.config().write_text(json.dumps(antes), encoding='utf-8')
         f.nuevo('Nota', con_ejemplo='notas')
         despues = json.loads(self.config().read_text(encoding='utf-8'))
         self.assertEqual({k: v for k, v in despues.items() if k != 'sensor'}, antes)
         self.assertIn('sensor', despues)
+        # legible, como la escribe init: con sangría de 2 y sin escapar lo que no es ASCII
+        self.assertEqual(self.config().read_text(encoding='utf-8'), json.dumps(despues, indent=2, ensure_ascii=False) + '\n')
 
     def test_fc3_un_cambio_sin_el_ejemplo_no_declara_nada(self):
         antes = self.config().read_bytes()
@@ -256,6 +262,20 @@ class GuiaFc3(unittest.TestCase):
     def test_fc3_el_arnes_de_la_guia_confirma_el_sensor_como_una_persona(self):
         arnes = (SOURCE / 'tools/verify_guide.py').read_text(encoding='utf-8')
         self.assertIn("'aprobar-sensor'", arnes)
+
+    @unittest.skipUnless(all(shutil.which(h) for h in ('oracle', 'tasks', 'uv'))
+                         and (Path(sys.executable).parent / 'oracle-factory').is_file(), 'requiere Oracle, Oracle Task, uv y oracle-factory')
+    def test_fc3_quien_sigue_la_guia_termina_con_hechos_producidos_por_factory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            informe = Path(tmp) / 'guia.json'
+            r = subprocess.run([sys.executable, 'tools/verify_guide.py', '--factory', str(Path(sys.executable).parent / 'oracle-factory'),
+                                '--evidencia', str(informe)], cwd=SOURCE, capture_output=True, text=True, timeout=600, stdin=subprocess.DEVNULL)
+            self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-3000:])
+            comandos = json.loads(informe.read_text(encoding='utf-8'))['comandos']
+        [aprobar] = [c for c in comandos if c['command'] == 'oracle-factory aprobar-sensor']
+        self.assertIn('Sensor aprobado por', aprobar['stdout'])  # lo confirmó el menú, como una persona
+        [juicio] = [c for c in comandos if c['command'].startswith('oracle-factory juzgar ')]
+        self.assertIn('Hechos: producidos por Factory (oracle-factory evidencia, commit ', juicio['stdout'])
 
 
 if __name__ == '__main__':
