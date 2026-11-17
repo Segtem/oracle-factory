@@ -49,6 +49,7 @@ Con `--agente` se niegan o dejan sólo una propuesta. Pedíselos a la persona, c
 - `oracle-factory abandonar ID`: abandonar el cambio (un agente propone el motivo con --agente --motivo)
 - `oracle-factory modo ID MODO`: bajar la intervención humana de un cambio
 - `oracle-factory autonomia ETAPA MODO`: dar o quitar autonomía a un agente en integración, publicación o producción
+- `oracle-factory aprobar-sensor`: aprobar el sensor declarado: el comando que produce los hechos con oracle-factory evidencia
 - `oracle-factory soltar ID`: dejar de ser responsable de un cambio
 - `oracle-factory decidir-union ID CAMPO nuestro|suyo`: elegir qué vale cuando dos ramas decidieron distinto
 - `oracle-factory kb revisada NOTA`: marcar revisada una nota de personas del vault

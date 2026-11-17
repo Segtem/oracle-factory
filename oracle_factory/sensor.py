@@ -10,9 +10,14 @@ registros: el almacén, si está conectado) y `{producto}` (la carpeta del produ
 Con `"hechos": "exigir"`, `cerrar` pide que los hechos del veredicto los haya producido Factory; con `"avisar"` (el valor por
 defecto), sólo se avisa.
 
+La declaración la aprueba una persona (`oracle-factory aprobar-sensor`): `evidencia` sólo corre un sensor aprobado y sólo los hechos
+de un sensor aprobado cuentan como «producidos por Factory». Las aprobaciones quedan en `.factory/sensor-aprobado.json`. Límite: ese
+archivo y el registro no están firmados; quien los escribe a mano puede fingir una aprobación (el límite declarado de Factory).
+
 Lo que necesita de cli.py lo lee de `cli` en el momento de usarlo."""
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 import sys
@@ -46,6 +51,72 @@ def validar(valor) -> dict | None:
     return {"comando": list(comando), "tope_minutos": tope, "hechos": hechos}
 
 
+APROBADOS = "sensor-aprobado.json"  # en los registros: [{sha256, declaracion, actor, tipo_actor, cuando}], de la más vieja a la más nueva
+
+
+def huella(config: dict) -> str:
+    """La huella de una declaración ya validada (comando, tope y política): lo que una persona aprueba."""
+    return cli.sha256(json.dumps(config, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+
+
+def aprobados() -> list[dict]:
+    """Las declaraciones que aprobó una persona. FactoryError si el archivo no se puede leer o no tiene la forma esperada."""
+    ruta = cli.ruta_segura(cli.ROOT / estructura.DIR / APROBADOS)
+    if not ruta.is_file():
+        return []
+    try:
+        datos = json.loads(ruta.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        raise cli.FactoryError(f"{estructura.DIR}/{APROBADOS} no se puede leer: {e}") from e
+    if not isinstance(datos, list) or not all(isinstance(a, dict) and isinstance(a.get("sha256"), str) for a in datos):
+        raise cli.FactoryError(f"{estructura.DIR}/{APROBADOS} no tiene la forma esperada (una lista de aprobaciones con su sha256)")
+    return datos
+
+
+def aprobado(config: dict) -> bool:
+    return huella(config) in {a["sha256"] for a in aprobados()}
+
+
+def _huellas_aprobadas() -> set[str]:
+    """Para las consultas: si el archivo de aprobaciones está roto, ninguna cuenta (y `evidencia` dice por qué)."""
+    try:
+        return {a["sha256"] for a in aprobados()}
+    except cli.FactoryError:
+        return set()
+
+
+def aprobar() -> int:
+    """`oracle-factory aprobar-sensor`: una persona aprueba la declaración vigente del sensor."""
+    config = cli.config_proyecto()["sensor"]
+    if not config:
+        raise cli.FactoryError("el proyecto no declara su sensor: agregalo en .factory/config.json, por ejemplo " + EJEMPLO)
+    previas = aprobados()
+    nueva = huella(config)
+    if nueva in {a["sha256"] for a in previas}:
+        print("Este sensor ya está aprobado; no hay nada que hacer.")
+        return 0
+    print(f"Sensor declarado en {estructura.DIR}/config.json (el que correría oracle-factory evidencia):")
+    print(json.dumps(config, ensure_ascii=False, indent=2))
+    if previas:
+        ultima = previas[-1]
+        print(f"Último sensor aprobado ({ultima.get('actor')}, {ultima.get('cuando')}):")
+        print(json.dumps(ultima.get("declaracion"), ensure_ascii=False, indent=2))
+    else:
+        print("Todavía no hay ningún sensor aprobado en este proyecto.")
+    cli.confirmar_persona(("Aprobar este sensor para producir los hechos", "Aprobar el sensor",
+                           "oracle-factory evidencia correrá ese comando sobre cada candidato, y sus hechos contarán como producidos por Factory"),
+                          "aprobación cancelada; el sensor sigue sin aprobar")
+    quien = cli.actor()  # una persona: confirmar_persona se niega con --agente y sin terminal
+    if cli.config_proyecto()["sensor"] != config or aprobados() != previas:
+        raise cli.FactoryError("la configuración o las aprobaciones cambiaron mientras se aprobaba; volvé a mirarlas. No registré nada")
+    ruta = cli.ruta_segura(cli.ROOT / estructura.DIR / APROBADOS)
+    # ponytail: una lista en un archivo; dos ramas que aprueban a la vez chocan en Git y lo resuelve una persona.
+    cli.escribir_atomico(ruta, (json.dumps([*previas, {"sha256": nueva, "declaracion": config, **quien, "cuando": cli.ahora()}],
+                                           ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+    print(f"Sensor aprobado por {quien['actor']}. Quedó en {estructura.DIR}/{APROBADOS}.")
+    return 0
+
+
 def _reemplazar(argumento: str, valores: dict[str, str]) -> str:
     for nombre in MARCADORES:  # str.replace y no format: un comando de shell puede llevar sus propias llaves
         argumento = argumento.replace("{" + nombre + "}", valores[nombre])
@@ -58,6 +129,9 @@ def producir(identificador: str, extra: list[str]) -> None:
     cli.abierto(identificador)
     if not config:
         raise cli.FactoryError("el proyecto no declara su sensor: agregalo en .factory/config.json, por ejemplo " + EJEMPLO)
+    if not aprobado(config):
+        raise cli.FactoryError("el sensor declarado no es uno que haya aprobado una persona (nunca se aprobó, o cambió desde entonces): "
+                               "pedile que lo mire y corra oracle-factory aprobar-sensor. No se corrió nada")
     locales = cli.cambios_locales_de_producto()
     if locales:
         raise cli.FactoryError("el producto tiene cambios sin commitear: " + ", ".join(locales[:10]) + (" …" if len(locales) > 10 else "")
@@ -97,32 +171,33 @@ def producir(identificador: str, extra: list[str]) -> None:
         segundos = round(time.monotonic() - inicio, 1)
     sys.stdout.write(texto if texto.endswith("\n") or not texto else texto + "\n")
     hechos = salida / "hechos.json"
-    huella = cli.sha256(hechos.read_bytes()) if hechos.is_file() and not hechos.is_symlink() else None
+    huella_hechos = cli.sha256(hechos.read_bytes()) if hechos.is_file() and not hechos.is_symlink() else None
     carpeta, estado = cli.abierto(identificador)  # otra vez: el registro pudo cambiar mientras corría el sensor
-    cli.evento(estado, "evidencia_producida", commit=head, codigo=codigo, segundos=segundos, hechos_sha256=huella,
-               comando=list(config["comando"]) + list(extra))  # el comando declarado, sin las rutas de esta máquina
+    cli.evento(estado, "evidencia_producida", commit=head, codigo=codigo, segundos=segundos, hechos_sha256=huella_hechos,
+               sensor_sha256=huella(config), comando=list(config["comando"]) + list(extra))  # el declarado, sin las rutas de esta máquina
     cli.guardar(carpeta, estado)
     if codigo:
         causa = (f" (se pasó del tope de {config['tope_minutos']} min y se detuvo a todo su grupo de procesos)" if motivo == "plazo"
                  else " (no arrancó)" if motivo == "no_arranca" else "")
         raise cli.FactoryError(f"el sensor terminó con código {codigo}{causa}; la corrida quedó registrada en el cambio")
-    if huella is None:
+    if huella_hechos is None:
         raise cli.FactoryError(f"el sensor terminó bien pero no dejó {hechos.relative_to(cli.ROOT)}; la corrida quedó registrada")
     print(f"Hechos producidos por Factory en {hechos.relative_to(cli.ROOT)} (commit {sha}). Próximo paso: oracle-factory juzgar {identificador}")
 
 
 def hechos_de(identificador: str, estado: dict) -> dict | None:
     """De dónde salen los hechos del veredicto: producidos por Factory si cada huella juzgada es la de una producción registrada para el
-    candidato vigente que terminó bien (código 0: una corrida que falló o se pasó del tope no respalda sus hechos). None si todavía no
-    hay veredicto."""
+    candidato vigente que terminó bien (código 0: una corrida que falló o se pasó del tope no respalda sus hechos) y se hizo con un
+    sensor aprobado por una persona. None si todavía no hay veredicto."""
     oracle = estado.get("oracle") or {}
     huellas = [h for _, h in cli.hechos_registrados(oracle)]
     if not oracle or not huellas:
         return None
     candidato = cli.candidato_vigente(identificador)
+    del_sensor = _huellas_aprobadas()  # sólo cuenta una producción hecha con un sensor que aprobó una persona
     producidas = {e.get("hechos_sha256") for e in estado.get("eventos") or []
                   if e.get("accion") == "evidencia_producida" and e.get("codigo") == 0 and candidato
-                  and str(e.get("commit") or "").startswith(candidato)}
+                  and str(e.get("commit") or "").startswith(candidato) and e.get("sensor_sha256") in del_sensor}
     propios = all(h and h in producidas for h in huellas)
     return {"producidos_por_factory": propios, "commit": candidato if propios else None,
             "texto": f"producidos por Factory (oracle-factory evidencia, commit {candidato})" if propios

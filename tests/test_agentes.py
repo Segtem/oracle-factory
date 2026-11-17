@@ -175,7 +175,8 @@ class Agentes(unittest.TestCase):
                        'abandonar ID': ['abandonar', ident], 'modo ID MODO': ['modo', ident, 'autonomo'],
                        'soltar ID': ['soltar', ident], 'decidir-union ID CAMPO nuestro|suyo': ['decidir-union', ident, 'fase', 'suyo'],
                        'kb revisada NOTA': ['kb', 'revisada', 'kb/notas/guia.md'],
-                       'autonomia ETAPA MODO': ['autonomia', 'produccion', 'autonomo']}
+                       'autonomia ETAPA MODO': ['autonomia', 'produccion', 'autonomo'],
+                       'aprobar-sensor': ['aprobar-sensor']}  # sumado por el cambio sensor-aprobado
             self.assertEqual(set(ordenes), {c for c, _ in agentes.PERSONA})  # la prueba recorre toda la lista de la guía
             for comando, args in ordenes.items():
                 if modo == 'autonomo' and comando == 'modo ID MODO':

@@ -1598,6 +1598,7 @@ def _main(argv: list[str] | None = None) -> int:
         elif args.comando == "revision": revisar(args.id, ROOT / args.informe, args.revisor, args.decision, args.hallazgos_abiertos,
                                                 formato=args.formato, decisiones=ROOT / args.decisiones if args.decisiones else None)
         elif args.comando == "juzgar": juzgar(args.id, [ROOT / c for c in args.con] if args.con else [hechos_del_candidato(args.id)])
+        elif args.comando == "aprobar-sensor": return sensor_mod.aprobar()
         elif args.comando == "evidencia": sensor_mod.producir(args.id, args.extra[1:] if args.extra[:1] == ["--"] else args.extra)
         elif args.comando == "cerrar": cerrar(args.id)
         elif args.comando == "abandonar": abandonar(args.id, args.motivo)

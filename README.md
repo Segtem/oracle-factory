@@ -173,6 +173,13 @@ versiona, como `node_modules`); los argumentos que se escriben después de un `-
 `cerrar` se niega si los hechos del veredicto no los produjo Factory para el candidato vigente, en una corrida que terminó bien (una
 que falló o se pasó del tope queda registrada, pero no respalda sus hechos); con `"avisar"` (el valor por defecto), sólo se avisa.
 
+**El sensor lo aprueba una persona.** `oracle-factory aprobar-sensor` (sólo una persona desde su terminal; con `--agente` se niega)
+muestra la declaración vigente y la última aprobada, y registra en `.factory/sensor-aprobado.json` su huella, quién la aprobó y
+cuándo. `oracle-factory evidencia` se niega a correr un sensor que no esté entre los aprobados (nunca se aprobó, o alguien cambió su
+comando), y sólo los hechos de un sensor aprobado cuentan como «producidos por Factory». Cada producción registra la huella del sensor
+con que se hizo. **Límite:** ni ese archivo ni el registro están firmados: quien los escribe a mano puede fingir una aprobación. Lo que
+se gana es que cambiar el sensor ya no alcanza con editar la configuración.
+
 La preparación de la revisión no da por buena una evidencia que se contradice: si `resultado.json` dice `exitoso` y a la vez cero
 pruebas, fuentes que cambiaron, otro commit o artefactos con otro hash, la comprobación queda «falla» y nombra la contradicción.
 Si sólo trae `exitoso`, el informe dice que el éxito lo declara el sensor y Factory no pudo comprobarlo.

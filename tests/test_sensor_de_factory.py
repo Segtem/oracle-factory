@@ -22,12 +22,16 @@ NOTAS = ['sh', '-c', 'mkdir -p {salida} && {python} examples/notas/sensor.py --s
 class Base(unittest.TestCase):
     setUp, escribe, git, salida = _archivo.Archivo.setUp, _archivo.Archivo.escribe, _archivo.Archivo.git, _archivo.Archivo.salida
 
-    def declarar(self, comando=None, **mas):
-        """El sensor en `.factory/config.json`, commiteado: la configuración no es un cambio de producto."""
+    def declarar(self, comando=None, aprobar=True, **mas):
+        """El sensor en `.factory/config.json`, commiteado: la configuración no es un cambio de producto. Desde el cambio
+        sensor-aprobado, `evidencia` sólo corre un sensor que aprobó una persona: por defecto, acá también se aprueba."""
         ruta = self.root / '.factory/config.json'
         datos = json.loads(ruta.read_text(encoding='utf-8'))
         datos['sensor'] = {'comando': comando or NOTAS, **mas}
         ruta.write_text(json.dumps(datos, indent=2), encoding='utf-8')
+        if aprobar and not sensor.aprobado(f.config_proyecto()['sensor']):
+            with self.escribe('1'):
+                sensor.aprobar()
 
     def medido(self):
         """El ejemplo de notas con su spec aprobada, sus medidas decididas y el producto commiteado."""
