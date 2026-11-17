@@ -132,9 +132,13 @@ class EvidenciaSf1(Base):
 
     def test_sf1_sin_sensor_declarado(self):
         ident = self.medido()
+        ruta = self.root / '.factory/config.json'
+        datos = json.loads(ruta.read_text(encoding='utf-8'))  # desde frases-ci el ejemplo declara su sensor: acá se lo saca
+        datos.pop('sensor', None)
+        ruta.write_text(json.dumps(datos), encoding='utf-8')
         with self.assertRaisesRegex(f.FactoryError, r'"sensor"'):
             sensor.producir(ident, [])
-        ruta = self.root / '.factory/config.json'  # una declaración que no sirve se rechaza al leer la configuración
+        # una declaración que no sirve se rechaza al leer la configuración
         for malo in ({'comando': 'texto'}, {'comando': []}, {'comando': ['sh', 3]}, {'comando': NOTAS, 'hechos': 'quizás'}, {'comando': NOTAS, 'tope_minutos': 0},
                      {'comando': NOTAS, 'otro': 1}):
             datos = json.loads(ruta.read_text(encoding='utf-8'))
