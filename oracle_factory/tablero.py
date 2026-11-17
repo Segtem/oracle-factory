@@ -224,11 +224,16 @@ def armar(cli) -> dict:
     actores_proyecto = {"persona": 0, "agente": 0, "sin_identificar": 0}
     revisores_proyecto: dict[str, dict[str, int]] = {}
     carpetas = sorted(c for c in cli.CHANGES.iterdir() if cli.ID_RE.fullmatch(c.name)) if cli.CHANGES.exists() else []
+    ilegibles = []
     for carpeta in carpetas:
         if not cli.ruta_registro(carpeta).exists():
             continue
         ident = carpeta.name
-        _, estado = cli.leer(ident)
+        try:
+            _, estado = cli.leer(ident)
+        except cli.FactoryError as e:  # uno roto no deja sin tablero a los demás (como listar)
+            ilegibles.append({"id": ident, "motivo": str(e)})
+            continue
         carpeta_estado = raiz / ".factory" / "cambios" / ident
         todos = informes(raiz, carpeta_estado)
         abierto = estado.get("fase") not in ("cerrada", "abandonada")
@@ -307,6 +312,7 @@ def armar(cli) -> dict:
         "esquema": ESQUEMA,
         "yo": yo or None,
         "cambios": cambios,
+        "ilegibles": ilegibles,
         "proyecto": {
             "cambios": totales,
             "mediana_horas_hasta_cierre": round(median(cerrados_horas), 2) if cerrados_horas else None,

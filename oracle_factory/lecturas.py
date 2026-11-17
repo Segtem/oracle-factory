@@ -70,22 +70,26 @@ def texto_resumen(salida: Path | None = None) -> str:
     """Junta los datos de los registros y genera el resumen (sin escribir nada)."""
     destino = cli.ruta_resumen(salida)
     raiz_relativa = os.path.relpath(cli.ROOT, destino.parent).replace(os.sep, "/") + "/"
-    return resumen.generar(*cli.insumos_resumen(), "" if raiz_relativa == "./" else raiz_relativa)
+    return resumen.generar(*cli.insumos_resumen(), raiz_relativa="" if raiz_relativa == "./" else raiz_relativa)
 
 
 def insumos_resumen() -> tuple:
-    """(índices, registros, medidas, abiertos, revisiones, sin registro): lo que leen el resumen en texto y en JSON."""
+    """(índices, registros, medidas, abiertos, revisiones, sin registro, ilegibles): lo que leen el resumen en texto y en JSON."""
     carpeta_specs = cli.ROOT / estructura.DIR / "specs"
     indices = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(carpeta_specs.glob("*.json"))] \
         if carpeta_specs.is_dir() else []
-    registros, abiertos, revisiones, sin_registro = {}, [], {}, []
+    registros, abiertos, revisiones, sin_registro, ilegibles = {}, [], {}, [], []
     for carpeta in sorted(cli.CHANGES.iterdir()) if cli.CHANGES.is_dir() else []:
         if not cli.ID_RE.fullmatch(carpeta.name):
             continue
         if not cli.ruta_registro(carpeta).is_file():
             sin_registro.append(carpeta.name)
             continue
-        _, estado = cli.leer(carpeta.name)
+        try:
+            _, estado = cli.leer(carpeta.name)
+        except cli.FactoryError as e:  # uno roto no deja sin resumen a los demás (como listar)
+            ilegibles.append({"id": carpeta.name, "motivo": str(e)})
+            continue
         registros[estado["id"]] = estado
         if estado.get("fase") == "abandonada":
             continue  # el resumen los toma de registros, en su sección
@@ -112,7 +116,9 @@ def insumos_resumen() -> tuple:
             texto = ruta.read_text(encoding="utf-8") if ruta.is_file() else ""
             m = re.search(r"(?m)^\s+medido_por\s+(.+?)\s*$", texto)
             medidas[req["requisito"]] = [x.strip() for x in m[1].split(",")] if m else []
-    return indices, registros, medidas, abiertos, revisiones, sin_registro
+    for i in ilegibles:
+        print(f"Aviso: {i['id']} ilegible: {i['motivo']}", file=sys.stderr)
+    return indices, registros, medidas, abiertos, revisiones, sin_registro, ilegibles
 
 
 def ruta_resumen(salida: Path | None = None) -> Path:
@@ -123,6 +129,10 @@ def comando_resumen(verificar: bool, salida: Path | None, ver: bool = False) -> 
     destino, texto = cli.ruta_resumen(salida), cli.texto_resumen(salida)
     if verificar:
         actual = destino.read_text(encoding="utf-8") if destino.is_file() else None
+        if resumen.ILEGIBLES in texto:  # aunque coincida, no refleja los registros: alguno no se pudo leer
+            print(f"{destino.relative_to(cli.ROOT)} no puede estar al día: hay registros ilegibles (ver los avisos); "
+                  "restauralos desde Git y regeneralo con oracle-factory resumen.")
+            raise SystemExit(1)
         if actual != texto:
             print(f"{destino.relative_to(cli.ROOT)} " + ("no existe" if actual is None else "quedó viejo o se editó a mano")
                   + "; regeneralo con oracle-factory resumen.")

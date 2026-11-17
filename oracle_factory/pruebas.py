@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 import re
 
-from . import estructura, modos
+from . import estructura, modos, robusto
 from . import procedencia as proc
 
 ESQUEMA_CASOS = "oracle-factory.trazabilidad-casos/1"
@@ -127,7 +127,8 @@ def datos(raiz: Path, identificador: str, estado: dict, candidato: str | None, d
             por_slug = {}
     except (proc.ProcedenciaError, OSError, KeyError, TypeError, ValueError) as e:
         por_slug = {}
-        invalidas.append(f"no pude leer la spec para las excepciones de pruebas ({type(e).__name__}: {e})")
+        motivo = robusto.sin_errno(e, raiz) if isinstance(e, OSError) else f"{type(e).__name__}: {e}"
+        invalidas.append(f"no pude leer la spec para las excepciones de pruebas ({motivo})")
     exceptuados = ({r: por_slug[r.split(".", 1)[-1]] for r in requisitos if r.split(".", 1)[-1] in por_slug}
                    if requisitos else dict(por_slug))  # antes de importar, por el nombre del requisito
     if not requisitos or not isinstance(candidato, str) or not CANDIDATO.fullmatch(candidato):

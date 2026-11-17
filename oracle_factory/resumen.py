@@ -53,7 +53,8 @@ def _agrupar(pendientes: list[str]) -> list[str]:
 
 
 def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, list[str]],
-            abiertos: list[dict], revisiones: dict[str, dict], sin_registro: list[str] = (), raiz_relativa: str = '../') -> str:
+            abiertos: list[dict], revisiones: dict[str, dict], sin_registro: list[str] = (), ilegibles: list[dict] = (),
+            raiz_relativa: str = '../') -> str:
     """El resumen completo, con la línea de huella al principio.
 
     - `indices`: los de `.factory/specs/`, en orden de capacidad.
@@ -62,6 +63,7 @@ def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, 
     - `abiertos`: [{id, titulo, fase, modo, capacidad, pendientes}] en orden de id.
     - `revisiones`: id de cambio cerrado → {'decisiones', 'hallazgos', 'limites', 'problemas'}.
     - `sin_registro`: carpetas de `openspec/changes/` que no tienen registro de Factory.
+    - `ilegibles`: [{id, motivo}] de los registros que no se pudieron leer: se nombran y no se cuentan.
     - `raiz_relativa`: cómo se llega a la raíz del proyecto desde donde se escribe el resumen (para los enlaces).
     """
     vigentes = {r['cambio'] for i in indices for r in i['requisitos'].values()}
@@ -100,6 +102,9 @@ def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, 
     if sin_registro:
         cuerpo += ['', 'Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): '
                    + ', '.join(f'`{c}`' for c in sin_registro) + '.']
+    if ilegibles:
+        cuerpo += ['', f'{ILEGIBLES}, restauralos desde Git y regenerá el resumen:', '']
+        cuerpo += [f"- **{i['id']}**: {_celda(i['motivo'])}" for i in ilegibles]
     for titulo, clave in (('Riesgos aceptados', 'decisiones'), ('Límites declarados', 'limites')):
         cuerpo += ['', f'## {titulo}']
         secciones = []
@@ -127,10 +132,11 @@ def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, 
 
 
 ESQUEMA = 'oracle-factory.resumen/1'
+ILEGIBLES = 'Registros ilegibles (no se cuentan en este resumen)'
 
 
 def datos(indices: list[dict], registros: dict[str, dict], medidas: dict[str, list[str]],
-          abiertos: list[dict], revisiones: dict[str, dict], sin_registro: list[str] = ()) -> dict:
+          abiertos: list[dict], revisiones: dict[str, dict], sin_registro: list[str] = (), ilegibles: list[dict] = ()) -> dict:
     """Lo mismo que `generar`, como datos para un cliente (IDE, panel, MCP). Mismas entradas, mismo resultado."""
     vigentes = {r['cambio'] for i in indices for r in i['requisitos'].values()}
     capacidades = [{'capacidad': i['capacidad'], 'spec': f"openspec/specs/{i['capacidad']}/spec.md",
@@ -153,7 +159,7 @@ def datos(indices: list[dict], registros: dict[str, dict], medidas: dict[str, li
         limites += [{'cambio': ident, 'vigente': ident in vigentes, 'limite': l} for l in rev.get('limites', [])]
     return {'esquema': ESQUEMA, 'capacidades': capacidades,
             'abiertos': [{**a, 'pendientes': _agrupar(a['pendientes'])} for a in abiertos],
-            'abandonados': abandonados, 'sin_registro': list(sin_registro),
+            'abandonados': abandonados, 'sin_registro': list(sin_registro), 'ilegibles': list(ilegibles),
             'riesgos_aceptados': aceptados, 'limites': limites, 'problemas': problemas}
 
 

@@ -997,6 +997,8 @@ def aprobar_spec(identificador: str) -> None:
     if otras:
         raise FactoryError(f"este cambio es de la capacidad {estado['capacidad']} y Factory importa sólo su spec ({estado['spec']}); "
                            f"{', '.join(otras)} no se importaría. Pasá sus requisitos a esa spec o sacala, y aprobá de nuevo")
+    if not spec.is_file():  # la spec es lo que se aprueba: se dice cómo recuperarla
+        raise FactoryError(robusto.falta(spec, ROOT))
     exigir_plantilla_completa((carpeta / "proposal.md", spec, carpeta / "tasks.md"))
     contenido = spec.read_text(encoding="utf-8")
     if not re.search(r"(?m)^### Requirement:", contenido) or not re.search(r"(?m)^#### Scenario:", contenido):
@@ -1617,7 +1619,7 @@ def _main(argv: list[str] | None = None) -> int:
     except BrokenPipeError:
         raise  # no es un error de Factory: lo resuelve main
     except (FactoryError, OSError, json.JSONDecodeError, EOFError) as e:
-        print(f"FACTORY BLOQUEADA: {e}", file=sys.stderr)
+        print(f"FACTORY BLOQUEADA: {robusto.sin_errno(e, ROOT) if isinstance(e, OSError) else e}", file=sys.stderr)
         return 1
     finally:
         if PRODUCTO:
