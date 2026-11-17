@@ -255,10 +255,27 @@ def escribir_catalogos(raiz: Path, cambio: str, modulo: str, alcance: str) -> li
     return cambiados
 
 
+def modulo_del_cambio(raiz: Path, cambio: str) -> str:
+    """El módulo de pruebas del cambio, deducido de sus medidas confirmadas: todas tienen que ser catálogos `factory_<x>.*` de un mismo
+    `<x>`, y el módulo es `test_<x>`. ContratoInvalido si no se puede decir sin adivinar."""
+    registro = almacenes.registros_de(raiz) / ".factory" / "cambios" / cambio / "factory.json"
+    try:
+        medidas = json.loads(registro.read_text(encoding="utf-8")).get("medidas") or {}
+        catalogos = {c for m in medidas.values() for c in (m.get("catalogos") or {})}
+    except (OSError, ValueError, AttributeError) as e:
+        raise ContratoInvalido(f"no puedo leer las medidas del cambio {cambio} para deducir sus pruebas: {e}; indicá --pruebas") from e
+    modulos = {re.fullmatch(r"factory_([a-z0-9_]+)\.[^.]+", c)[1] if re.fullmatch(r"factory_([a-z0-9_]+)\.[^.]+", c) else None for c in catalogos}
+    if len(modulos) != 1 or None in modulos:
+        raise ContratoInvalido(f"no puedo deducir el módulo de pruebas del cambio {cambio} de sus medidas (catálogos: "
+                               f"{', '.join(sorted(catalogos)) or 'ninguno'}); indicá --pruebas")
+    return "test_" + modulos.pop()
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("cambio", help="id del cambio")
-    parser.add_argument("--pruebas", required=True, help="módulo de pruebas del cambio, por ejemplo test_alarmas_flujo")
+    parser.add_argument("--pruebas", help="módulo de pruebas del cambio, por ejemplo test_alarmas_flujo; sin él, se deduce de las medidas "
+                        "que confirmó una persona (así lo corre oracle-factory evidencia, que no acepta argumentos para el sensor)")
     parser.add_argument("--salida", type=Path, help="carpeta nueva de evidencia")
     parser.add_argument("--catalogos", action="store_true", help="escribir los catálogos Oracle del cambio en catalogos/")
     parser.add_argument("--alcance", default="escenarios del cambio con Git de verdad y repositorios temporales, Linux",
@@ -270,6 +287,7 @@ def main(argv=None) -> int:
         parser.error("indicá --salida, --catalogos o los dos")
     raiz = args.raiz.expanduser().resolve()
     try:
+        args.pruebas = args.pruebas or modulo_del_cambio(raiz, args.cambio)
         if args.catalogos:
             cambiados = escribir_catalogos(raiz, args.cambio, args.pruebas, args.alcance)
             print(("Catálogos escritos: " + ", ".join(cambiados)) if cambiados else "Catálogos sin cambios.")
