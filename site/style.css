@@ -2281,3 +2281,370 @@ footer.wrap > div {
     text-align:left
   }
 }
+
+/* ---- La portada interactiva: qué es, el recorrido de un cambio y tres ejemplos (cambio web-interactiva) --------- */
+.empezar {
+  grid-template-columns:1.15fr 1fr;
+  grid-template-areas:"texto escena" "quien quien" "pasos pasos" "sigue sigue";
+  align-items:start;
+  gap:34px 48px
+}
+.empezar-texto { grid-area:texto }
+.empezar .hero-escena { grid-area:escena; grid-column:auto }
+.para-quien { grid-area:quien }
+.tres-pasos { grid-area:pasos }
+.empezar-sigue { grid-area:sigue }
+.empezar h1 {
+  font-size:clamp(38px,4.4vw,60px)
+}
+.frase {
+  font-size:18px;
+  line-height:1.6;
+  color:#3b4a41;
+  margin:22px 0 0;
+  max-width:560px
+}
+.empezar .reparto {
+  flex-direction:column;
+  gap:12px
+}
+.empezar .reparto .personaje.derecha { align-self:flex-end }
+.para-quien {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px
+}
+.quien-si,.quien-no {
+  border:2px solid var(--ink);
+  padding:18px 22px;
+  box-shadow:4px 4px 0 #dce4d3
+}
+.quien-si { background:#eef7e4 }
+.quien-no { background:#fbf1dc }
+.para-quien h2 {
+  font-size:17px;
+  margin:0 0 10px;
+  letter-spacing:-.01em
+}
+.para-quien ul {
+  margin:0;
+  padding-left:20px;
+  font-size:14px;
+  line-height:1.6
+}
+.para-quien li+li { margin-top:6px }
+.tres-pasos {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px
+}
+.tres-pasos>li {
+  display:grid;
+  grid-template-columns:34px minmax(0,1fr);
+  gap:14px;
+  border-top:3px solid var(--ink);
+  padding-top:16px
+}
+.paso-n {
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  background:var(--yellow);
+  border:2px solid var(--ink);
+  font:700 16px var(--mono);
+  box-shadow:3px 3px 0 var(--ink)
+}
+.tres-pasos h3 { font-size:16px; margin:4px 0 10px }
+.tres-pasos p { font-size:13px; line-height:1.6; color:var(--muted); margin:10px 0 0 }
+.tres-pasos p code,.camino-pasos p code,.ejemplo p code,.limites code {
+  font:12px var(--mono);
+  background:#e6ecdc;
+  padding:1px 4px;
+  overflow-wrap:anywhere
+}
+.empezar-sigue {
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px 24px;
+  align-items:center;
+  margin:0
+}
+.empezar-sigue .text-link { margin:0 }
+
+/* un comando con su botón para copiar, y lo que responde Factory */
+.comando {
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  background:#172d23;
+  border:1px solid #385139;
+  margin:10px 0
+}
+.comando pre {
+  flex:1;
+  min-width:0;
+  margin:0;
+  overflow-x:auto;
+  padding:11px 14px;
+  color:#d2e6b9;
+  font:12px/1.7 var(--mono)
+}
+.comando code { font:inherit; background:none; padding:0 }
+.copiar {
+  flex:none;
+  margin:7px 7px 7px 0;
+  color:#e3f1d2;
+  border:1px solid #6d8a57;
+  background:#253e2a;
+  font:11px var(--mono);
+  padding:5px 9px
+}
+.copiar:hover { background:#355238 }
+.copiar:focus-visible { outline-color:var(--yellow); outline-offset:2px }
+.salida {
+  margin:6px 0 12px;
+  padding:10px 14px;
+  background:#fff;
+  border:1px dashed #8a998d;
+  font:12px/1.6 var(--mono);
+  color:#23362c;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere
+}
+.salida.error {
+  border:1px solid #a8473b;
+  background:#fdebe6;
+  color:#7a2a20
+}
+
+/* el recorrido de un cambio */
+.camino { padding-top:70px }
+.rombo { color:#7a540a; font-weight:700 }
+.camino-visor {
+  border:3px solid var(--ink);
+  background:#fff;
+  padding:18px 22px 20px;
+  box-shadow:6px 6px 0 #dce4d3
+}
+.camino-visor[data-persona=si] { border-color:#c99a3e; box-shadow:6px 6px 0 #f0dfb6 }
+.camino-visor:focus-visible { outline:3px solid #278f68; outline-offset:4px }
+.camino-visor .pixel-scene { aspect-ratio:240/64; margin:0 auto 16px; max-width:900px; background:#e7f0dc; border:2px solid var(--ink) }
+.camino-caja { transition:transform .5s steps(6) }
+.camino-pasos {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px
+}
+.camino-pasos>li {
+  border:2px solid var(--line);
+  padding:14px 16px;
+  min-width:0
+}
+.camino-pasos>li.decision-persona { border-color:#c99a3e; background:#fffaf0 }
+.camino-pasos h3 { margin:2px 0 8px; font-size:22px; letter-spacing:-.02em }
+.camino-pasos p { font-size:14px; line-height:1.6; margin:6px 0 }
+.paso-num { font:600 11px var(--mono) !important; letter-spacing:.1em; color:#4f5d54 }
+.sello {
+  display:inline-block;
+  background:var(--yellow);
+  border:2px solid var(--ink);
+  font:700 12px var(--mono) !important;
+  padding:3px 8px;
+  margin:0 0 6px !important
+}
+.actor b,.queda b { font-family:var(--mono); font-size:12px; letter-spacing:.04em }
+.queda { border-left:4px solid var(--green); padding-left:10px; color:#33463b }
+/* con JavaScript se ve un paso por vez, a lo ancho */
+.camino-visor .camino-pasos:has(> li[hidden]) { display:block }
+.camino-intro { font-size:15px; line-height:1.6; margin:0 0 6px; min-height:96px }
+.camino-controles {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:16px;
+  border-top:1px solid var(--line);
+  padding-top:14px
+}
+.camino-controles .counter { margin:0 auto }
+.camino-boton {
+  border:2px solid var(--ink);
+  background:var(--paper);
+  padding:10px 16px;
+  font:600 13px var(--sans);
+  box-shadow:3px 3px 0 var(--ink)
+}
+.camino-boton.siguiente { background:var(--dark); color:var(--paper) }
+.camino-boton[aria-disabled=true] { opacity:.45; cursor:not-allowed; box-shadow:none }
+.camino-boton:active:not([aria-disabled=true]) { translate:2px 2px; box-shadow:1px 1px 0 var(--ink) }
+.camino-mapa {
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  justify-content:center;
+  margin-top:12px
+}
+.camino-mapa button {
+  width:34px;
+  height:34px;
+  border:2px solid var(--ink);
+  background:#fff;
+  font:600 12px var(--mono);
+  color:var(--ink)
+}
+.camino-mapa button.de-persona { background:#fbefd0 }
+.camino-mapa button[aria-current=step] { background:var(--dark); color:var(--paper) }
+
+/* los ejemplos */
+.ejemplos { padding-top:80px }
+.ejemplo {
+  border:2px solid var(--ink);
+  background:#fff;
+  padding:22px 24px;
+  margin-bottom:30px;
+  box-shadow:6px 6px 0 #dce4d3
+}
+.ejemplo-cabeza { max-width:760px }
+.ejemplo-cabeza .eyebrow { margin-bottom:6px; color:#4f5d54 }
+.ejemplo h3 { font-size:28px; letter-spacing:-.03em; margin:0 0 8px }
+.ejemplo h4 { font-size:15px; margin:0 0 8px }
+.ejemplo p { font-size:14px; line-height:1.65 }
+.ejemplo .pixel-scene { margin:14px auto 18px; background:#f3f1e7; border:2px solid var(--ink) }
+.ej-columnas {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);
+  gap:24px;
+  align-items:start
+}
+.ej-columnas>div { min-width:0 }
+.archivo { margin:8px 0 12px }
+.archivo figcaption { font:11px var(--mono); color:#4f5d54; margin-bottom:4px }
+.archivo pre {
+  margin:0;
+  padding:10px 14px;
+  background:#f6f5ec;
+  border:1px solid #b8c2b4;
+  font:12px/1.6 var(--mono);
+  overflow-x:auto;
+  color:var(--ink)
+}
+.veredicto {
+  padding:10px 14px;
+  border:2px solid var(--ink);
+  color:#fff;
+  margin:10px 0
+}
+.veredicto[data-veredicto=verde] { background:#2d6a40 }
+.veredicto[data-veredicto=rojo] { background:#a8473b }
+.veredicto code { background:rgba(255,255,255,.18) !important; color:#fff }
+.ej-controles { margin:0 0 16px }
+.llave {
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  border:2px solid var(--ink);
+  background:var(--paper);
+  padding:9px 16px 9px 10px;
+  font:700 15px var(--sans);
+  box-shadow:3px 3px 0 var(--ink)
+}
+.llave-riel {
+  width:40px;
+  height:20px;
+  border:2px solid var(--ink);
+  background:#2d6a40;
+  position:relative
+}
+.llave-riel span {
+  position:absolute;
+  top:2px;
+  left:2px;
+  width:12px;
+  height:12px;
+  background:#fff;
+  border:2px solid var(--ink);
+  transition:left .15s steps(3)
+}
+.llave[aria-checked=true] .llave-riel { background:#a8473b }
+.llave[aria-checked=true] .llave-riel span { left:20px }
+.sensor-campo { margin:0 0 16px }
+.sensor-campo label { display:block; font-weight:700; font-size:14px; margin-bottom:6px }
+.sensor-campo input {
+  width:100%;
+  font:13px var(--mono);
+  padding:10px 12px;
+  border:2px solid var(--ink);
+  background:#fff;
+  color:var(--ink)
+}
+.sensor-campo input:focus-visible { outline:3px solid #278f68; outline-offset:2px }
+.sensor-atajos { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0 }
+.chip {
+  border:1px solid var(--ink);
+  background:#eef2e6;
+  padding:6px 10px;
+  font:12px var(--mono);
+  color:var(--ink)
+}
+.chip:hover { background:#e0e8d4 }
+.ejemplo .primary { border:0 }
+.pruebas { border:2px solid var(--ink); padding:10px 14px 12px; margin:12px 0 }
+.pruebas legend { font-weight:700; font-size:14px; padding:0 4px }
+.pruebas label { display:flex; gap:8px; align-items:baseline; font-size:13px; line-height:1.5; padding:5px 0; cursor:pointer }
+.pruebas input { width:18px; height:18px; accent-color:#2d6a40; flex:none; translate:0 3px }
+.pruebas code { font:12px var(--mono) }
+.tabla-mutantes { overflow-x:auto }
+#mutacion-tabla { border-collapse:collapse; width:100%; font:12px var(--mono); min-width:440px }
+#mutacion-tabla caption { text-align:left; font:11px var(--mono); color:#4f5d54; padding-bottom:6px }
+#mutacion-tabla th,#mutacion-tabla td { border:1px solid #b8c2b4; padding:6px 7px; text-align:center }
+#mutacion-tabla tbody th { text-align:left; font-weight:600 }
+#mutacion-tabla td:not(:empty) { color:#5a6a5f }
+#mutacion-tabla tr.fuera th,#mutacion-tabla tr.fuera td { background:#ecece4; color:#4f5750; text-decoration:line-through }
+.mutacion-resultado { display:flex; align-items:baseline; gap:12px; margin:14px 0 4px; flex-wrap:wrap }
+.porcentaje { font:700 40px var(--mono); letter-spacing:-.04em }
+.sin-js-nota { font-size:13px !important; color:var(--muted) }
+.limites {
+  border:2px dashed #8a998d;
+  padding:16px 22px;
+  background:#f9f8f1
+}
+.limites h3 { margin:0 0 8px; font-size:17px }
+.limites ul { margin:0; padding-left:20px; font-size:14px; line-height:1.65 }
+.limites li+li { margin-top:6px }
+
+/* las escenas de los ejemplos: qué se ve según el estado */
+.pixel-scene:not([data-roto=si]) .si-roto,.pixel-scene[data-roto=si] .si-sano { display:none }
+.pixel-scene:not([data-sensor=cambiado]) .candado,.pixel-scene[data-sensor=cambiado] .hojas { display:none }
+.pixel-scene:not([data-sensor=reaprobado]) .bandera-ok { display:none }
+.pixel-scene[data-sensor=cambiado] .cinta { animation:none }
+.a-mano { opacity:.75 }
+.mutante:not(.muerto) .tacha { display:none }
+.pixel-scene .mutante.muerto { animation:none; opacity:.45 }
+.px-rotulo { font:600 4.6px var(--mono); fill:var(--ink) }
+
+@media(max-width:1000px) {
+  .empezar { grid-template-columns:1fr 1fr }
+  .tres-pasos { grid-template-columns:1fr }
+  .ej-columnas { grid-template-columns:1fr }
+}
+@media(max-width:700px) {
+  .empezar>*+* { margin-top:26px }
+  .empezar .hero-escena { margin-top:26px }
+  .para-quien { grid-template-columns:1fr }
+  .frase { font-size:16px }
+  .camino-visor,.ejemplo { padding:14px 14px 16px; box-shadow:4px 4px 0 #dce4d3 }
+  .camino-pasos h3 { font-size:19px }
+  .ejemplo h3 { font-size:23px }
+  .camino-controles { gap:8px }
+  .camino-boton { padding:9px 11px }
+  .porcentaje { font-size:32px }
+  .comando pre { white-space:pre-wrap; overflow-wrap:anywhere }
+  .camino-mapa { gap:4px }
+  .camino-mapa button { width:30px; height:32px }
+}

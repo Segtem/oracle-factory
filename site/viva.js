@@ -111,6 +111,59 @@
         P.g('caja', 40, 22, 'viaja2') +
         P.g('agy', 188, 18, 'quien trabaja') + P.g('persona', 220, 18, 'quien saluda'));
     },
+    // El recorrido: una pasarela arriba (quien actúa) y la cinta abajo (la caja del cambio). portada.js mueve la caja y cambia a quién
+    // se ve; acá va lo fijo. Nueve estaciones; las de una persona llevan un rombo amarillo.
+    camino: function () {
+      var cinta = '', estaciones = '';
+      for (var j = 0; j < 31; j++) cinta += r(j * 8, 51, 4, 1, C.c);
+      for (var i = 0; i < 9; i++) {
+        var x = 14 + i * 26;
+        estaciones += r(x + 7, 34, 2, 15, C.c) + r(x + 4, 45, 8, 4, C.k) + r(x + 5, 46, 6, 2, C.d, ' class="luz-estacion" data-i="' + i + '"');
+        if ([2, 3, 6, 8].indexOf(i) >= 0) estaciones += r(x + 6, 35, 4, 2, C.Y) + r(x + 7, 34, 2, 4, C.Y);
+      }
+      return marco(240, 64, r(0, 0, 240, 64, '#e7f0dc') + r(0, 30, 240, 3, C.k) + r(0, 33, 240, 1, C.N) + estaciones +
+        r(0, 49, 240, 2, C.k) + '<g class="cinta">' + cinta + '</g>' + r(0, 52, 240, 2, C.k) + suelo(240, 56) +
+        '<g id="camino-caja" class="camino-caja">' + P.rects(P.SPRITES.caja, 0, 0) + '</g>' +
+        '<g id="camino-actores" class="camino-actores"></g>');
+    },
+    romper: function () {
+      return marco(240, 48, suelo(240, 38) +
+        P.g('agente', 6, 21, 'trabaja') + '<g class="parpadea">' + P.g('pantalla', 22, 19, '') + '</g>' +
+        r(40, 34, 30, 3, C.k) + '<g class="cinta">' + r(42, 35, 4, 1, C.c) + r(52, 35, 4, 1, C.c) + r(62, 35, 4, 1, C.c) + '</g>' +
+        P.g('fabrica', 70, 22, '') + r(88, 34, 22, 3, C.k) +
+        P.g('hoja', 110, 21, '') +
+        '<g class="si-sano">' + r(122, 31, 6, 6, C.G) + r(123, 33, 1, 2, C.w) + r(124, 34, 1, 2, C.w) + r(125, 32, 1, 3, C.w) + '</g>' +
+        '<g class="si-roto">' + r(122, 31, 6, 6, C.r) + r(123, 32, 1, 1, C.w) + r(126, 32, 1, 1, C.w) + r(124, 33, 2, 2, C.w) + r(123, 35, 1, 1, C.w) + r(126, 35, 1, 1, C.w) + '</g>' +
+        P.g('oracle', 140, 21, 'luz') +
+        r(163, 20, 2, 18, C.c) + r(159, 12, 10, 9, C.k) + '<g class="si-sano">' + r(160, 13, 8, 7, C.g) + '</g><g class="si-roto">' + r(160, 13, 8, 7, C.r) + '</g>' +
+        // aparte, la hoja escrita a mano, con su tilde verde que no cambia
+        r(184, 10, 1, 28, C.l) + '<g class="a-mano">' + P.g('hoja', 196, 21, '') + r(208, 31, 6, 6, C.G) + r(209, 33, 1, 2, C.w) +
+        r(210, 34, 1, 2, C.w) + r(211, 32, 1, 3, C.w) + '</g>' + P.g('persona', 216, 21, 'saluda'));
+    },
+    sensor: function () {
+      var cinta = '';
+      for (var j = 0; j < 12; j++) cinta += r(140 + j * 8, 35, 4, 1, C.c);
+      return marco(240, 48, suelo(240, 38) + P.g('persona', 30, 21, 'saluda') +
+        '<g class="bandera-ok">' + P.g('bandera', 48, 21, '') + '</g>' +
+        P.g('fabrica', 112, 22, '') +
+        '<g class="candado">' + P.g('candado', 112, 4, '') + '</g>' +
+        r(132, 34, 108, 3, C.k) + '<g class="cinta">' + cinta + '</g>' +
+        '<g class="hojas">' + P.g('hoja', 150, 20, '') + P.g('hoja', 186, 20, '') + '</g>' + P.g('agente', 218, 21, 'trabaja'));
+    },
+    mutacion: function () {
+      var bichos = '', ops = ['80 → 81', 'and → or', '&gt; → &lt;=', '&lt;= → &gt;', '0 → 1'];
+      for (var i = 0; i < 5; i++) {
+        var x = 18 + i * 44;
+        bichos += '<g class="mutante salta" data-mutante="m' + (i + 1) + '" style="--i:' + i + '">' + P.g('mutante', x, 8, '') +
+          '<g class="tacha">' + r(x + 1, 9, 2, 2, C.R) + r(x + 3, 11, 2, 2, C.R) + r(x + 5, 13, 2, 2, C.R) + r(x + 7, 15, 2, 2, C.R) +
+          r(x + 9, 17, 2, 2, C.R) + r(x + 11, 19, 2, 2, C.R) + r(x + 13, 21, 2, 2, C.R) + r(x + 13, 9, 2, 2, C.R) + r(x + 11, 11, 2, 2, C.R) +
+          r(x + 9, 13, 2, 2, C.R) + r(x + 5, 17, 2, 2, C.R) + r(x + 3, 19, 2, 2, C.R) + r(x + 1, 21, 2, 2, C.R) + '</g>' +
+          '<text x="' + (x + 8) + '" y="31" text-anchor="middle" class="px-rotulo">' + ops[i] + '</text></g>';
+      }
+      return marco(240, 48, r(0, 0, 240, 48, '#efeadb') + bichos + r(18, 37, 204, 6, C.k) + r(19, 38, 202, 4, C.l) +
+        '<rect id="mutacion-barra" x="19" y="38" width="202" height="4" fill="' + C.G + '"/>' +
+        '<g class="luz">' + r(179, 34, 2, 12, C.Y) + '</g><text x="186" y="47" class="px-rotulo">80%</text>');
+    },
     trabajar: function () {
       return marco(240, 48, r(60, 38, 120, 4, C.N) + r(64, 42, 4, 6, C.N) + r(172, 42, 4, 6, C.N) +
         P.g('pantalla', 100, 23, '') + r(108, 30, 1, 2, C.g, ' class="cursor"') +
