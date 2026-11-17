@@ -10,8 +10,10 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import test_sensor_de_factory as _sf  # noqa: E402
 from oracle_factory import sensor  # noqa: E402
+from tools import verificar_cambio  # noqa: E402
 
 f = _sf.f
 OTRO = ['sh', '-c', 'mkdir -p {salida} && echo otro > {salida}/hechos.json']
@@ -99,6 +101,10 @@ class AprobarSa1(Base):
         with patch.object(f, 'AGENTE', 'claude-code'), self.escribe('1'), self.assertRaisesRegex(f.FactoryError, 'persona'):
             sensor.aprobar()
         self.assertIsNone(self.aprobados())
+        self.declarar()  # ya aprobado por una persona: con --agente se niega igual, no «termina bien»
+        with patch.object(f, 'AGENTE', 'claude-code'), self.assertRaisesRegex(f.FactoryError, 'persona'):
+            sensor.aprobar()
+        self.assertEqual(len(self.aprobados()), 1)
 
     def test_sa1_sin_sensor_declarado(self):
         with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, r'"sensor"'):
@@ -142,14 +148,52 @@ class EvidenciaSa2(Base):
         self.commitear()
         ruta = self.root / '.factory/sensor-aprobado.json'
         bueno = ruta.read_text()
-        for roto in ('{', '{}', '[1]', '[{"sha256": 1}]'):
+        [entera] = json.loads(bueno)
+        incompletas = [{k: v for k, v in entera.items() if k != campo} for campo in ('declaracion', 'actor', 'tipo_actor', 'cuando')]
+        rotos = ['{', '{}', '[1]', '[{"sha256": 1}]', json.dumps([{'sha256': entera['sha256']}]),  # sólo el hash: no es una aprobación
+                 *(json.dumps([i]) for i in incompletas),
+                 json.dumps([{**entera, 'tipo_actor': 'agente'}]),  # no la aprobó una persona
+                 json.dumps([{**entera, 'declaracion': {**entera['declaracion'], 'hechos': 'exigir'}}])]  # la huella no es la de su declaración
+        for roto in rotos:
             ruta.write_text(roto)
-            with self.subTest(roto=roto), self.assertRaisesRegex(f.FactoryError, 'sensor-aprobado.json'):
+            with self.subTest(roto=roto[:60]), self.assertRaisesRegex(f.FactoryError, 'sensor-aprobado.json'):
                 sensor.producir(ident, [])
             self.assertFalse(self.evidencia(ident).exists())
-        f.mostrar(ident)  # las consultas siguen: con las aprobaciones rotas, ninguna cuenta
         ruta.write_text(bueno)
         sensor.producir(ident, [])
+        f.juzgar(ident, f.hechos_del_candidato(ident))
+        ruta.write_text('{')  # con veredicto y las aprobaciones rotas, las consultas siguen y ninguna producción cuenta
+        self.salida()
+        f.mostrar(ident)
+        self.assertIn('declarados: no los produjo Factory', self.salida())
+
+    def test_sa2_no_se_aceptan_argumentos_extra(self):
+        # Lo que encontraron codex y agy: con «evidencia ID -- …» se le agregaban al sensor argumentos que nadie aprobó.
+        ident = self.medido()
+        corrio = self.root.parent / 'corrio'
+        self.declarar(['sh', '-c', f'touch {corrio}; mkdir -p {{salida}} && echo "$@" > {{salida}}/hechos.json', 'sensor'])
+        self.commitear()
+        with self.assertRaisesRegex(f.FactoryError, 'argumentos'):
+            sensor.producir(ident, ['--otro', 'valor'])
+        self.assertFalse(corrio.exists())
+        self.assertEqual(self.producciones(ident), [])
+        sensor.producir(ident, [])
+        [p] = self.producciones(ident)
+        self.assertEqual(p['comando'], f.config_proyecto()['sensor']['comando'])  # lo que corrió es lo aprobado, tal cual
+
+    def test_sa2_el_verificador_deduce_el_modulo_de_las_medidas_confirmadas(self):
+        # Sin argumentos extra, tools/verificar_cambio.py saca el módulo de pruebas de las medidas que confirmó una persona.
+        registro = self.root / '.factory/cambios/20990101-000000-abc-demo/factory.json'
+        registro.parent.mkdir(parents=True)
+
+        def con(medidas):
+            registro.write_text(json.dumps({'medidas': medidas}))
+            return verificar_cambio.modulo_del_cambio(self.root, '20990101-000000-abc-demo')
+        uno = {'catalogos': {'factory_demo.el_primero': 'a' * 64, 'factory_demo.corrida_completa': 'b' * 64}}
+        self.assertEqual(con({'flujo_x.el_primero': uno, 'flujo_x.el_segundo': {'catalogos': {'factory_demo.el_segundo': 'c' * 64}}}), 'test_demo')
+        for medidas in ({}, {'r': {'catalogos': {}}}, {'r': uno, 's': {'catalogos': {'factory_otro.x': 'd' * 64}}}, {'r': {'catalogos': {'notas.resultados': 'e' * 64}}}):
+            with self.subTest(medidas=medidas), self.assertRaisesRegex(verificar_cambio.ContratoInvalido, '--pruebas'):
+                con(medidas)
 
     def test_sa2_unos_hechos_que_son_un_enlace_no_valen(self):
         ident = self.medido()
