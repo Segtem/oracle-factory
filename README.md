@@ -21,7 +21,7 @@ Las guías:
 - [Trabajar con agentes](docs/agentes.md): `--agente`, la guía de `AGENTS.md`, el MCP y los revisores.
 - [Revisión guiada](docs/revision-guiada.md): pedir revisiones, preparar el informe y decidir los hallazgos.
 - [Colaboración](docs/colaboracion.md): dos personas con sus agentes, del reparto a la integración, con el banco que lo prueba.
-- [La procedencia de las dependencias](docs/procedencia.md): el inventario CycloneDX de cada candidato, quién usó una dependencia y la auditoría contra avisos OSV.
+- [La procedencia de las dependencias](docs/procedencia.md): el inventario CycloneDX que `procedencia ID` guarda en el candidato, quién usó una dependencia y la auditoría contra avisos OSV.
 - [Dónde está cada cosa](docs/estructura.md) y [trazabilidad](docs/trazabilidad.md).
 
 
@@ -150,8 +150,8 @@ directas y la recuperación, indicando sus límites. Ver [preguntar al proyecto]
 
 Antes de registrar la revisión, se terminan los cambios y se commitea el producto. Factory guarda HEAD y una huella de
 los archivos del producto (versionados y nuevos no ignorados; sin `.factory/`, `tareas/` ni lo que genera). Si cambia el
-código, la spec, las medidas o la evidencia, hay que repetir la revisión y el juicio. Un commit que sólo toca registros no
-invalida: `estado` avisa cuando el HEAD es otro con el mismo producto. Lo que Git ignora queda fuera de la huella: `estado` avisa
+código, la spec o las medidas, hay que repetir la revisión y el juicio; si cambia sólo la evidencia, vence el juicio y la
+revisión sigue vigente. Un commit que sólo toca registros no invalida: `estado` avisa cuando el HEAD es otro con el mismo producto. Lo que Git ignora queda fuera de la huella: `estado` avisa
 de cada archivo de código o configuración ignorado dentro del producto, porque puede cambiar el comportamiento sin vencer nada.
 Los submódulos no están soportados.
 

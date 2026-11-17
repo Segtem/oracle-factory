@@ -1,6 +1,7 @@
 # Corre la suite y `oracle-factory verificar` (de sólo lectura) con el código de este checkout. Sin secretos, sin escribir nada.
 # Este producto tiene sus registros en un almacén aparte (.oracle-factory-almacen): ahí se verifican, en el CI del almacén.
 # Política: si algún cambio está inconsistente, falla en main y avisa (sin fallar) en las demás ramas y pull requests.
+# Es un chequeo informativo: muestra el estado y no impide integrar (en un pull request sale con 0; integra una persona).
 name: Verificar los cambios de Factory
 on:
   push:

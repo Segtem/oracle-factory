@@ -61,7 +61,7 @@ def main():
                 stdin=None
                 if len(argv)>1 and argv[1]=='medir':
                     stdin=''  # decisión de persona: terminal, sin frase
-                if len(argv)>1 and argv[1] in ('aprobar-spec','revision','cerrar'):
+                if len(argv)>1 and argv[1] in ('aprobar-spec','aprobar-sensor','revision','cerrar'):
                     stdin='1\n'  # la opción que confirma en el menú
                 result=(en_terminal(argv,cwd=cwd,env=env,entrada=stdin) if stdin is not None else
                         subprocess.run(argv,cwd=cwd,env=env,text=True,capture_output=True,timeout=90))

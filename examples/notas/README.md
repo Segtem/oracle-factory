@@ -8,6 +8,7 @@ Al crear el cambio con `oracle-factory nuevo --con-ejemplo notas "Comprobar el t
 - Se copian `proposal.md` y `spec.md` al paquete del cambio (`openspec/changes/<id>/`).
 - Se copian las reglas a `catalogos/` (`notas.casos_ejecutados.oracle` y `notas.resultados.oracle`).
 - Rechaza destinos existentes antes de crear la tarea; no sobrescribe archivos y evita pasos manuales de copia.
+- Si el proyecto no declara un sensor, declara el de este ejemplo en `.factory/config.json` (uno que ya está declarado no se toca).
 
 Archivos del ejemplo:
 - `proposal.md` y `spec.md`: propuesta y especificación con tres escenarios (título vacío, espacios y texto).
@@ -22,11 +23,14 @@ Para medir tras `oracle-factory importar <id>`:
 - Ya no es necesario editar la indentación a mano en el archivo `.requisito`, aunque sigue siendo texto plano editable si se necesita inspeccionar en el editor.
 - Una asociación inválida no modifica los archivos; modificar la asociación invalida la revisión y el veredicto de Oracle previos. La especificación debe estar vigente.
 
-Ejecución de pruebas y sensor:
+Ejecución de pruebas y sensor (los hechos los produce Factory, después de commitear):
 
 ```sh
 uv run --no-project --python 3.13 python -m unittest discover -s examples/notas -p "test_*.py" -v
-uv run --no-project --python 3.13 python examples/notas/sensor.py --salida .factory/local/hechos.json
+oracle-factory aprobar-sensor
+oracle-factory evidencia <id>
 ```
+
+`oracle-factory aprobar-sensor` lo corre una persona: muestra el sensor declarado y lo aprueba. `oracle-factory evidencia <id>` corre ese sensor sobre un checkout limpio del commit y deja los hechos en el candidato; `oracle-factory juzgar <id>` los toma de ahí y dice que fueron producidos por Factory.
 
 El sensor observa exactamente los tres casos declarados. Enlazar medidas no prueba por sí mismo su pertinencia ni el cumplimiento del requisito; el código del sensor, la elección de casos y los límites de las reglas requieren criterio y revisión humanos.
