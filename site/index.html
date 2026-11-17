@@ -223,7 +223,7 @@ Hechos producidos por Factory en .factory/cambios/ID/candidatos/4f1bf3a/evidenci
     <div class="pixel-scene" data-escena="mutacion" role="img" aria-label="Cinco mutantes, uno por cada falla posible en la línea del cambio. Los que alguna prueba detecta quedan tachados; abajo, una barra muestra el porcentaje de muertos contra la marca del 80%."></div>
     <div class="ej-columnas">
       <div>
-        <figure class="archivo"><figcaption>notas.py · las líneas del cambio</figcaption><pre>def puede_guardar(titulo, maximo=80):
+        <figure class="archivo"><figcaption>notas.py · un cambio imaginado, que le pone un tope de 80 letras (no es el de examples/notas)</figcaption><pre>def puede_guardar(titulo, maximo=80):
     limpio = titulo.strip()
     return len(limpio) &gt; 0 and len(limpio) &lt;= maximo</pre></figure>
         <fieldset class="pruebas" data-solo-js hidden><legend>Las pruebas del cambio</legend>
@@ -236,7 +236,7 @@ Hechos producidos por Factory en .factory/cambios/ID/candidatos/4f1bf3a/evidenci
         <figure class="archivo" data-solo-js hidden><figcaption>tests/test_notas.py</figcaption><pre class="modulo-pruebas"></pre></figure>
       </div>
       <div>
-        <div class="tabla-mutantes"><table id="mutacion-tabla"><caption>Qué mutante mata cada prueba (medido con <code>tools/mutar_cambio.py</code>)</caption>
+        <div class="tabla-mutantes"><table id="mutacion-tabla"><caption>Qué mutante mata cada prueba: calculado corriendo cada prueba contra cada mutante de este código (lo recalcula <code>tests/test_web_interactiva.py</code>)</caption>
           <thead><tr><th scope="col">Prueba</th><th scope="col" data-mutante="m1">80 → 81</th><th scope="col" data-mutante="m2">and → or</th><th scope="col" data-mutante="m3">&gt; → &lt;=</th><th scope="col" data-mutante="m4">&lt;= → &gt;</th><th scope="col" data-mutante="m5">0 → 1</th></tr></thead>
           <tbody>
             <tr data-prueba="vacio" data-mata="m2 m3"><th scope="row">test_vacio</th><td>·</td><td>mata</td><td>mata</td><td>·</td><td>·</td></tr>

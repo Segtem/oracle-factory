@@ -165,18 +165,45 @@ class SinJavascript(unittest.TestCase):
         filas = list(nodos(tabla, lambda x: x['tag'] == 'tr' and 'data-mata' in x['a']))
         self.assertEqual(len(filas), 5)
 
-    def test_wi2_los_numeros_de_la_mutacion_son_los_que_dio_la_herramienta(self):
-        # Medidos con tools/mutar_cambio.py sobre el ejemplo (uno por prueba); un mutante muere si alguna prueba falla.
-        medido = {'vacio': {'and → or', '> → <='}, 'una_letra': {'> → <=', '<= → >', '0 → 1'},
-                  'con_texto': {'> → <=', '<= → >'}, 'justo_80': {'> → <=', '<= → >'},
-                  'largo_81': {'80 → 81', 'and → or', '<= → >'}}
-        tabla = por_id(por_id(portada(), 'ejemplos'), 'mutacion-tabla')
+    def test_wi2_los_numeros_de_la_mutacion_salen_de_correr_el_codigo_mostrado(self):
+        # Hallazgo WI-MUTACION-MARCAS-FIJAS de codex: la tabla no se copia de ningún lado. Esta prueba toma el código que
+        # muestra la página y las pruebas que arma portada.js, aplica cada mutante y corre cada prueba contra él.
+        ejemplo = por_id(por_id(portada(), 'ejemplos'), 'ej-mutacion')
+        [codigo] = [texto(n) for n in nodos(ejemplo, lambda x: x['tag'] == 'pre')
+                    if 'def puede_guardar' in texto(n)]
+        js = (SITIO / 'portada.js').read_text(encoding='utf-8')
+        cuerpo = re.search(r"var PRUEBAS = \{(.*?)\};", js, re.S).group(1)
+        pruebas = dict(re.findall(r"(\w+): '(self\.assert\w+\(.*?\))'", cuerpo))
+        self.assertEqual(set(pruebas), {'vacio', 'una_letra', 'con_texto', 'justo_80', 'largo_81'})
+        reemplazos = {'80 → 81': ('maximo=80', 'maximo=81'), 'and → or': (' and ', ' or '),
+                      '> → <=': ('> 0', '<= 0'), '<= → >': ('<= maximo', '> maximo'), '0 → 1': ('> 0', '> 1')}
+
+        def mata(fuente, prueba):
+            espacio = {}
+            exec(fuente, espacio)
+            caso = unittest.TestCase()
+            try:
+                eval(prueba, {'self': caso, 'puede_guardar': espacio['puede_guardar']})
+            except AssertionError:
+                return True
+            return False
+
+        for nombre, prueba in pruebas.items():
+            self.assertFalse(mata(codigo, prueba), f'{nombre} tiene que pasar con el código original')
+        medido = {}
+        for etiqueta, (viejo, nuevo) in reemplazos.items():
+            self.assertEqual(codigo.count(viejo), 1, etiqueta)
+            mutante = codigo.replace(viejo, nuevo)
+            for nombre, prueba in pruebas.items():
+                if mata(mutante, prueba):
+                    medido.setdefault(nombre, set()).add(etiqueta)
+        tabla = por_id(ejemplo, 'mutacion-tabla')
         mutantes = {m['a']['data-mutante']: plano(texto(m)) for m in nodos(tabla, lambda x: 'data-mutante' in x['a'])}
-        self.assertEqual(set(mutantes.values()), {'80 → 81', 'and → or', '> → <=', '<= → >', '0 → 1'})
+        self.assertEqual(set(mutantes.values()), set(reemplazos))
         filas = {x['a']['data-prueba']: {mutantes[m] for m in x['a']['data-mata'].split()}
                  for x in nodos(tabla, lambda x: x['tag'] == 'tr' and 'data-mata' in x['a'])}
         self.assertEqual(filas, medido)
-
+        self.assertNotIn('mutar_cambio', plano(texto(tabla)))
 
 class SinRecursosDeAfuera(unittest.TestCase):
     # --- wi4: lo que cargan las páginas ------------------------------------------------------------------------------
