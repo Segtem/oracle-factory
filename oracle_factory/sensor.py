@@ -134,6 +134,21 @@ def aprobar() -> int:
     return 0
 
 
+CONSERVADAS = ("LANG", "LANGUAGE", "LC_ALL", "LC_CTYPE", "LC_MESSAGES", "TERM", "TZ")  # lo único del entorno que pasa tal cual
+
+
+def entorno_minimo() -> dict[str, str]:
+    """El entorno del sensor: un PATH fijo (las carpetas del sistema, la del Python de Factory y ~/.local/bin del usuario real), el HOME y
+    el usuario de la base del sistema, la carpeta temporal, el idioma, y PYTHONNOUSERSITE. Nada más del entorno de quien lo corre."""
+    import pwd
+    usuario = pwd.getpwuid(os.getuid())
+    carpetas = [str(Path(sys.executable).parent), str(Path(usuario.pw_dir) / ".local" / "bin"),
+                "/usr/local/sbin", "/usr/local/bin", "/usr/sbin", "/usr/bin", "/sbin", "/bin"]
+    return {**{k: os.environ[k] for k in CONSERVADAS if k in os.environ}, "PATH": os.pathsep.join(dict.fromkeys(carpetas)),
+            "HOME": usuario.pw_dir, "USER": usuario.pw_name, "LOGNAME": usuario.pw_name, "TMPDIR": tempfile.gettempdir(),
+            "PYTHONNOUSERSITE": "1", "PYTHONDONTWRITEBYTECODE": "1"}
+
+
 def _reemplazar(argumento: str, valores: dict[str, str]) -> str:
     for nombre in MARCADORES:  # str.replace y no format: un comando de shell puede llevar sus propias llaves
         argumento = argumento.replace("{" + nombre + "}", valores[nombre])
@@ -185,8 +200,10 @@ def producir(identificador: str, extra: list[str]) -> None:
         valores = {"python": sys.executable, "cambio": identificador, "salida": str(salida), "registros": str(registros),
                    "producto": str((cli.PRODUCTO or cli.ROOT).resolve())}
         argv = [_reemplazar(a, valores) for a in config["comando"]]
-        # El checkout no está conectado al almacén (la conexión va por el directorio de Git): almacenes.registros_de lo lee de acá.
-        entorno = {**os.environ, "ORACLE_FACTORY_CHECKOUT": str(checkout.resolve()), "ORACLE_FACTORY_REGISTROS": str(registros)}
+        # Un entorno mínimo, no el heredado: con PYTHONPATH, LD_PRELOAD, BASH_ENV o un PATH propio, quien corre `evidencia` podría
+        # cambiar lo que hace el sensor aprobado sin cambiar su declaración. El checkout no está conectado al almacén (la conexión va
+        # por el directorio de Git): almacenes.registros_de lo lee de las dos variables de Factory.
+        entorno = {**entorno_minimo(), "ORACLE_FACTORY_CHECKOUT": str(checkout.resolve()), "ORACLE_FACTORY_REGISTROS": str(registros)}
         inicio = time.monotonic()
         codigo, texto, motivo = procesos.correr_en_grupo(argv, checkout, config["tope_minutos"] * 60, entorno)
         segundos = round(time.monotonic() - inicio, 1)

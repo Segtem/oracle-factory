@@ -168,7 +168,9 @@ en el registro del cambio (`evidencia_producida`: comando, commit, código, huel
 
 Los marcadores del comando: `{python}` (el Python de Factory), `{cambio}`, `{salida}` (la carpeta de evidencia, que el sensor crea y
 donde deja `hechos.json`), `{registros}` (dónde están los registros) y `{producto}` (la carpeta del producto, para lo que no se
-versiona, como `node_modules`). `evidencia` no acepta argumentos para el sensor: corre exactamente el comando aprobado. En el checkout,
+versiona, como `node_modules`). `evidencia` no acepta argumentos para el sensor: corre exactamente el comando aprobado, y con un entorno mínimo (un `PATH` fijo con
+las carpetas del sistema, la del Python de Factory y `~/.local/bin`; el `HOME` del usuario; el idioma y la carpeta temporal): nada del
+entorno de quien lo corre, como `PYTHONPATH` o `LD_PRELOAD`, llega al sensor. En el checkout,
 `almacenes.registros_de` devuelve los registros del proyecto aunque el checkout no esté conectado al almacén. Con `"hechos": "exigir"`,
 `cerrar` se niega si los hechos del veredicto no los produjo Factory para el candidato vigente, en una corrida que terminó bien (una
 que falló o se pasó del tope queda registrada, pero no respalda sus hechos); con `"avisar"` (el valor por defecto), sólo se avisa.

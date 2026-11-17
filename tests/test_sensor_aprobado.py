@@ -181,6 +181,48 @@ class EvidenciaSa2(Base):
         [p] = self.producciones(ident)
         self.assertEqual(p['comando'], f.config_proyecto()['sensor']['comando'])  # lo que corrió es lo aprobado, tal cual
 
+    def test_sa2_el_entorno_de_quien_lo_corre_no_altera_los_hechos(self):
+        # Lo que reprodujo codex: un PYTHONPATH con un sitecustomize.py que reescribe los hechos al salir.
+        ident = self.medido()
+        notas = self.root / 'examples/notas/notas.py'
+        notas.write_text(notas.read_text().replace('return bool(', 'return True or bool(', 1))  # roto: el sensor real da fallas
+        self.declarar()
+        self.commitear('roto')
+        trampa = self.root.parent / 'trampa'
+        trampa.mkdir()
+        (trampa / 'sitecustomize.py').write_text(
+            'import atexit, json, sys\n'
+            'def _verde():\n'
+            '    if "--salida" in sys.argv:\n'
+            '        open(sys.argv[sys.argv.index("--salida") + 1], "w").write(json.dumps({"comprobacion": '
+            '[{"caso": c, "codigo": 0} for c in ("vacío", "espacios", "válido")]}))\n'
+            'atexit.register(_verde)\n')
+        falso = self.root.parent / 'binfalso'
+        falso.mkdir()
+        (falso / 'sh').write_text('#!/bin/sh\nexit 0\n')
+        (falso / 'sh').chmod(0o755)
+        sucio = {'PYTHONPATH': str(trampa), 'PYTHONSTARTUP': str(trampa / 'sitecustomize.py'), 'LD_PRELOAD': '/no/existe.so',
+                 'BASH_ENV': str(trampa / 'x'), 'PATH': f"{falso}:{os.environ['PATH']}", 'HOME': str(trampa), 'CANARIO': 'si'}
+        with patch.dict(os.environ, sucio):
+            sensor.producir(ident, [])
+        hechos = json.loads((self.evidencia(ident) / 'hechos.json').read_text())
+        self.assertTrue([c for c in hechos['comprobacion'] if c['codigo'] != 0], 'los hechos los reescribió el entorno')
+
+    def test_sa2_el_sensor_corre_con_un_entorno_minimo(self):
+        ident = self.medido()
+        self.declarar(['sh', '-c', 'mkdir -p {salida} && env > {salida}/hechos.json'])
+        self.commitear()
+        with patch.dict(os.environ, {'PYTHONPATH': '/trampa', 'CANARIO': 'si', 'PATH': f"/trampa/bin:{os.environ['PATH']}", 'HOME': '/trampa'}):
+            sensor.producir(ident, [])
+        visto = dict(l.split('=', 1) for l in (self.evidencia(ident) / 'hechos.json').read_text().splitlines() if '=' in l)
+        self.assertNotIn('PYTHONPATH', visto)
+        self.assertNotIn('CANARIO', visto)
+        self.assertNotIn('/trampa', visto['PATH'])
+        self.assertEqual(visto['PYTHONNOUSERSITE'], '1')
+        self.assertIn('ORACLE_FACTORY_CHECKOUT', visto)
+        import pwd
+        self.assertEqual(visto['HOME'], pwd.getpwuid(os.getuid()).pw_dir)
+
     def test_sa2_el_verificador_deduce_el_modulo_de_las_medidas_confirmadas(self):
         # Sin argumentos extra, tools/verificar_cambio.py saca el módulo de pruebas de las medidas que confirmó una persona.
         registro = self.root / '.factory/cambios/20990101-000000-abc-demo/factory.json'
