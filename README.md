@@ -168,7 +168,9 @@ en el registro del cambio (`evidencia_producida`: comando, commit, código, huel
 
 Los marcadores del comando: `{python}` (el Python de Factory), `{cambio}`, `{salida}` (la carpeta de evidencia, que el sensor crea y
 donde deja `hechos.json`), `{registros}` (dónde están los registros) y `{producto}` (la carpeta del producto, para lo que no se
-versiona, como `node_modules`); los argumentos que se escriben después de un `--` al final de la línea se agregan al comando. En el checkout,
+versiona, como `node_modules`). `evidencia` no acepta argumentos para el sensor: corre exactamente el comando aprobado, y con un entorno mínimo (un `PATH` fijo con
+las carpetas del sistema, la del Python de Factory y `~/.local/bin`; el `HOME` del usuario; el idioma y la carpeta temporal): nada del
+entorno de quien lo corre, como `PYTHONPATH` o `LD_PRELOAD`, llega al sensor. En el checkout,
 `almacenes.registros_de` devuelve los registros del proyecto aunque el checkout no esté conectado al almacén. Con `"hechos": "exigir"`,
 `cerrar` se niega si los hechos del veredicto no los produjo Factory para el candidato vigente, en una corrida que terminó bien (una
 que falló o se pasó del tope queda registrada, pero no respalda sus hechos); con `"avisar"` (el valor por defecto), sólo se avisa.
@@ -178,7 +180,9 @@ muestra la declaración vigente y la última aprobada, y registra en `.factory/s
 cuándo. `oracle-factory evidencia` se niega a correr un sensor que no esté entre los aprobados (nunca se aprobó, o alguien cambió su
 comando), y sólo los hechos de un sensor aprobado cuentan como «producidos por Factory». Cada producción registra la huella del sensor
 con que se hizo. **Límite:** ni ese archivo ni el registro están firmados: quien los escribe a mano puede fingir una aprobación. Lo que
-se gana es que cambiar el sensor ya no alcanza con editar la configuración.
+se gana es que cambiar el sensor ya no alcanza con editar la configuración. Por la misma razón, un proceso del mismo usuario que
+esté corriendo a la vez puede modificar el checkout temporal antes de que corra el sensor: Factory se protege de lo que llega por la
+configuración o el entorno, no de otro programa con los mismos permisos.
 
 La preparación de la revisión no da por buena una evidencia que se contradice: si `resultado.json` dice `exitoso` y a la vez cero
 pruebas, fuentes que cambiaron, otro commit o artefactos con otro hash, la comprobación queda «falla» y nombra la contradicción.
