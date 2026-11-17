@@ -54,6 +54,10 @@ def validar(valor) -> dict | None:
 APROBADOS = "sensor-aprobado.json"  # en los registros: [{sha256, declaracion, actor, tipo_actor, cuando}], de la más vieja a la más nueva
 
 
+def _legible(dato) -> str:
+    return json.dumps(dato, ensure_ascii=False, indent=2)
+
+
 def huella(config: dict) -> str:
     """La huella de una declaración ya validada (comando, tope y política): lo que una persona aprueba."""
     return cli.sha256(json.dumps(config, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
@@ -96,11 +100,11 @@ def aprobar() -> int:
         print("Este sensor ya está aprobado; no hay nada que hacer.")
         return 0
     print(f"Sensor declarado en {estructura.DIR}/config.json (el que correría oracle-factory evidencia):")
-    print(json.dumps(config, ensure_ascii=False, indent=2))
+    print(_legible(config))
     if previas:
         ultima = previas[-1]
         print(f"Último sensor aprobado ({ultima.get('actor')}, {ultima.get('cuando')}):")
-        print(json.dumps(ultima.get("declaracion"), ensure_ascii=False, indent=2))
+        print(_legible(ultima.get("declaracion")))
     else:
         print("Todavía no hay ningún sensor aprobado en este proyecto.")
     cli.confirmar_persona(("Aprobar este sensor para producir los hechos", "Aprobar el sensor",
@@ -111,8 +115,8 @@ def aprobar() -> int:
         raise cli.FactoryError("la configuración o las aprobaciones cambiaron mientras se aprobaba; volvé a mirarlas. No registré nada")
     ruta = cli.ruta_segura(cli.ROOT / estructura.DIR / APROBADOS)
     # ponytail: una lista en un archivo; dos ramas que aprueban a la vez chocan en Git y lo resuelve una persona.
-    cli.escribir_atomico(ruta, (json.dumps([*previas, {"sha256": nueva, "declaracion": config, **quien, "cuando": cli.ahora()}],
-                                           ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+    cli.escribir_atomico(ruta, (_legible([*previas, {"sha256": nueva, "declaracion": config, **quien, "cuando": cli.ahora()}])
+                                + "\n").encode("utf-8"))
     print(f"Sensor aprobado por {quien['actor']}. Quedó en {estructura.DIR}/{APROBADOS}.")
     return 0
 

@@ -1,7 +1,10 @@
 """El sensor que produce los hechos lo aprueba una persona: `aprobar-sensor` (sa1), `evidencia` sólo corre un sensor aprobado (sa2) y
 los hechos de un sensor no aprobado no cuentan (sa3). Con la CLI en proceso y el ejemplo de notas."""
+import hashlib
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 import unittest
 from unittest.mock import patch
@@ -12,6 +15,8 @@ from oracle_factory import sensor  # noqa: E402
 
 f = _sf.f
 OTRO = ['sh', '-c', 'mkdir -p {salida} && echo otro > {salida}/hechos.json']
+TERCERO = ['sh', '-c', 'mkdir -p {salida} && echo señal > {salida}/hechos.json']
+SOURCE = Path(__file__).resolve().parents[1]
 
 
 class Base(_sf.Base):
@@ -33,14 +38,14 @@ class AprobarSa1(Base):
         self.assertIsNone(self.aprobados())
         self.salida()
         with self.escribe('1'):
-            sensor.aprobar()
+            self.assertEqual(sensor.aprobar(), 0)
         mostrado = self.salida()
-        self.assertIn('examples/notas/sensor.py', mostrado)  # la persona ve el comando que aprueba
+        self.assertIn(json.dumps(f.config_proyecto()['sensor'], ensure_ascii=False, indent=2), mostrado)  # ve lo que aprueba, entero
         [primera] = self.aprobados()
         self.assertEqual((primera['sha256'], primera['tipo_actor']), (self.huella(), 'persona'))
         self.assertTrue(primera['actor'] and primera['cuando'])
         self.assertEqual(primera['declaracion']['comando'], _sf.NOTAS)
-        sensor.aprobar()  # ya aprobado: no pregunta nada ni lo registra dos veces
+        self.assertEqual(sensor.aprobar(), 0)  # ya aprobado: no pregunta nada ni lo registra dos veces
         self.assertIn('ya está aprobado', self.salida())
         self.assertEqual(len(self.aprobados()), 1)
         # Otra declaración: se ve la aprobada antes, y la lista conserva la primera.
@@ -51,11 +56,33 @@ class AprobarSa1(Base):
         self.assertIn('echo otro', mostrado)
         self.assertIn('examples/notas/sensor.py', mostrado)
         self.assertEqual([a['sha256'] for a in self.aprobados()], [primera['sha256'], self.huella()])
-        # Cancelar no registra nada.
-        self.declarar(OTRO, aprobar=False, tope_minutos=5)
+        # Cancelar no registra nada; y lo que se muestra como «último aprobado» es el último, no el primero.
+        self.declarar(TERCERO, aprobar=False)
+        self.salida()
         with self.escribe('2'), self.assertRaisesRegex(f.FactoryError, 'cancelad'):
             sensor.aprobar()
+        mostrado = self.salida()
+        self.assertIn('echo señal', mostrado)  # sin escapar: se lee como se escribió
+        self.assertIn('echo otro', mostrado)
+        self.assertNotIn('examples/notas/sensor.py', mostrado)
         self.assertEqual(len(self.aprobados()), 2)
+
+    def test_sa1_la_huella_es_de_la_declaracion_entera_y_no_depende_del_orden(self):
+        config = {'comando': ['echo', 'señal'], 'tope_minutos': 60, 'hechos': 'exigir'}
+        esperada = hashlib.sha256('{"comando":["echo","señal"],"hechos":"exigir","tope_minutos":60}'.encode('utf-8')).hexdigest()
+        self.assertEqual(sensor.huella(config), esperada)
+        self.assertEqual(sensor.huella(dict(reversed(list(config.items())))), esperada)
+        self.assertNotEqual(sensor.huella({**config, 'hechos': 'avisar'}), esperada)  # la política también se aprueba
+
+    def test_sa1_por_la_cli_un_agente_se_niega(self):
+        self.declarar(aprobar=False)
+        r = subprocess.run([sys.executable, '-c', 'import sys; from oracle_factory.cli import main; sys.exit(main())', '--proyecto', str(self.root),
+                            '--agente', 'claude-code', 'aprobar-sensor'], capture_output=True, text=True, stdin=subprocess.DEVNULL,
+                           env={**os.environ, 'PYTHONPATH': str(SOURCE)})
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn('Aprobar este sensor', r.stderr)  # llegó al comando, y se negó por ser un agente
+        self.assertIn('persona', r.stderr)
+        self.assertIsNone(self.aprobados())
 
     def test_sa1_si_la_declaracion_cambia_mientras_se_aprueba_no_se_registra(self):
         self.declarar(aprobar=False)
@@ -108,6 +135,30 @@ class EvidenciaSa2(Base):
             sensor.producir(ident, [])
         self.assertFalse(self.evidencia(ident).exists())
         self.assertEqual(self.producciones(ident), [])
+
+    def test_sa2_un_archivo_de_aprobaciones_roto(self):
+        ident = self.medido()
+        self.declarar()
+        self.commitear()
+        ruta = self.root / '.factory/sensor-aprobado.json'
+        bueno = ruta.read_text()
+        for roto in ('{', '{}', '[1]', '[{"sha256": 1}]'):
+            ruta.write_text(roto)
+            with self.subTest(roto=roto), self.assertRaisesRegex(f.FactoryError, 'sensor-aprobado.json'):
+                sensor.producir(ident, [])
+            self.assertFalse(self.evidencia(ident).exists())
+        f.mostrar(ident)  # las consultas siguen: con las aprobaciones rotas, ninguna cuenta
+        ruta.write_text(bueno)
+        sensor.producir(ident, [])
+
+    def test_sa2_unos_hechos_que_son_un_enlace_no_valen(self):
+        ident = self.medido()
+        self.declarar(['sh', '-c', 'mkdir -p {salida} && echo x > {salida}/real && ln -s real {salida}/hechos.json'])
+        self.commitear()
+        with self.assertRaisesRegex(f.FactoryError, 'no dejó'):
+            sensor.producir(ident, [])
+        [p] = self.producciones(ident)
+        self.assertIsNone(p['hechos_sha256'])
 
     def test_sa2_aprobado(self):
         ident = self.medido()
