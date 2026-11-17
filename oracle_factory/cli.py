@@ -480,6 +480,7 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
     plan = plan_ejemplo() if con_ejemplo else {}
     if plan:
         preparar_ejemplo(plan)
+    declarado = bool(plan) and declarar_sensor_del_ejemplo()
     # Tres caracteres al azar antes del sufijo: dos clones que crean un cambio en el mismo segundo con el mismo sufijo no
     # generan el mismo ID, y el ID sigue terminando en el sufijo.
     al_azar = "".join(random.choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(3))
@@ -525,6 +526,9 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
     print(f"Propuesta/spec/tasks: {carpeta}")
     if con_ejemplo:
         print(f'Ejemplo y catálogos preparados en {ROOT / "examples/notas"} y {proyecto_oracle() / "catalogos"}. No se ejecutó el programa.')
+        if declarado:
+            print(f"Sensor del ejemplo declarado en {estructura.DIR}/config.json; antes de oracle-factory evidencia, una persona lo "
+                  "aprueba con oracle-factory aprobar-sensor.")
     else:
         print('Completá los TODO antes de pedir aceptación.')
     print(f"Próximo paso humano: revisar {carpeta / 'proposal.md'} y {spec}")
@@ -1659,6 +1663,7 @@ from .proyecto import (  # noqa: E402
     comando_procedencia,
     comando_ruta,
     comando_skill,
+    declarar_sensor_del_ejemplo,
     inicializar,
     listar,
     plan_ejemplo,

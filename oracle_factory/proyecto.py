@@ -20,6 +20,21 @@ from . import osv as osv_mod
 from . import procedencia as procedencia_mod
 
 
+def declarar_sensor_del_ejemplo() -> bool:
+    """`nuevo --con-ejemplo notas` declara el sensor del ejemplo si el proyecto no declara ninguno; True si lo declaró. Declararlo no lo
+    aprueba: eso lo hace una persona con `aprobar-sensor`. Con registros aparte el ejemplo queda en el almacén y no en el producto que
+    corre el sensor, y con la configuración anterior en la raíz (`factory.json`) crear `.factory/config.json` la dejaría sin efecto: en
+    los dos casos no declara nada."""
+    config = cli.ruta_segura(cli.ROOT / estructura.DIR / 'config.json')
+    if cli.PRODUCTO or not config.is_file() or cli.config_proyecto()["sensor"]:
+        return False
+    crudo = config.read_bytes()
+    sensor = {"comando": ["{python}", "examples/notas/sensor.py", "--salida", "{salida}/hechos.json"], "tope_minutos": 5, "hechos": "avisar"}
+    datos = {**json.loads(crudo), "sensor": sensor}
+    cli.escribir_atomico(config, (json.dumps(datos, indent=2, ensure_ascii=False) + "\n").encode(), esperado=crudo)
+    return True
+
+
 def plan_ejemplo() -> dict[Path, bytes]:
     destino = cli.ruta_segura(cli.ROOT / 'examples' / 'notas')
     if destino.exists():
