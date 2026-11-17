@@ -18,7 +18,42 @@ def forma_invalida(estado) -> str | None:
             return f"no tiene «{campo}» como texto" if campo in estado else f"no tiene «{campo}»"
     if "capacidad" in estado and not isinstance(estado["capacidad"], str):
         return "tiene una «capacidad» que no es texto"
+    # Los campos que consumen las consultas, sólo su tipo (registros-campos); ausentes valen: los registros viejos no los tienen.
+    if "requisitos" in estado and not (isinstance(estado["requisitos"], list) and all(isinstance(r, str) for r in estado["requisitos"])):
+        return "tiene unos «requisitos» que no son una lista de textos"
+    for campo in ("aceptados", "pendientes_de_union"):
+        if campo in estado and not (isinstance(estado[campo], list) and all(isinstance(a, dict) for a in estado[campo])):
+            return f"tiene «{campo}» que no es una lista de objetos"
+    if not isinstance(estado.get("spec"), (str, type(None))):
+        return "tiene una «spec» que no es texto ni nula"
+    for campo in ("spec_aprobada", "revision", "oracle", "cierre", "archivo", "responsable", "abandono"):
+        if not isinstance(estado.get(campo), (dict, type(None))):
+            return f"tiene «{campo}» que no es un objeto ni nulo"
+    for campo in ("medidas", "tipos", "propuestas", "medidas_pendientes"):
+        if campo in estado and not isinstance(estado[campo], dict):
+            return f"tiene «{campo}» que no es un objeto"
+    if estado.get("spec_aprobada") is not None and not isinstance(estado.get("spec_sha256"), str):
+        return "tiene la spec aprobada sin su huella «spec_sha256» como texto"
     return None
+
+
+def sin_errno(error: OSError, raiz: Path) -> str:
+    """Un error de archivo dicho con su ruta (relativa a `raiz` si está adentro) y, si falta, cómo recuperarlo; sin «[Errno N]»."""
+    if error.filename is None:
+        return str(error)
+    if isinstance(error, FileNotFoundError):
+        return falta(Path(error.filename), raiz)
+    return f"{error.strerror or type(error).__name__}: {_relativa(Path(error.filename), raiz)}"
+
+
+def falta(ruta: Path, raiz: Path) -> str:
+    """Que falta `ruta` (relativa a `raiz` si está adentro) y cómo recuperarla."""
+    ruta = _relativa(ruta, raiz)
+    return f"falta el archivo {ruta}: recuperalo desde Git (git restore {ruta})"
+
+
+def _relativa(ruta: Path, raiz: Path) -> Path:
+    return ruta.relative_to(raiz) if ruta.is_absolute() and ruta.is_relative_to(raiz) else ruta
 
 
 @contextmanager

@@ -316,7 +316,7 @@ class Estructura(unittest.TestCase):
         ruta = self.root / '.factory/cambios' / ident / 'factory.json'
         estado = json.loads(ruta.read_text())
         estado['spec'] = None
-        estado['requisitos'] = 'texto'
+        # «requisitos» que no es una lista ya no se lee: lo rechaza robusto.forma_invalida (registros-campos, rc1).
         estado['revision'] = {'informe': 5, 'decisiones': [], 'contexto': {'head': 12}}
         estado['oracle'] = {'informe': None, 'hechos': {}, 'contexto': 'x'}
         ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
