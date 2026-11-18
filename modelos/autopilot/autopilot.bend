@@ -1,12 +1,15 @@
 import Base
 
 # Un modelo de `oracle_factory.autopilot.decidir`: qué hace el conductor con el próximo paso de un cambio.
-# El próximo paso llega ya clasificado (el subcomando que el parser real de Factory reconoce, o prosa, o algo ilegible).
+# El próximo paso llega ya clasificado: el subcomando que el parser real de Factory reconoce, prosa, algo ilegible, un paso que dice
+# «faltan archivos» (cualquiera, aunque sea un comando válido) o un comando con una ruta por completar (RUTA_…).
 
 type Sub is Data:
   SinPaso{}
   Prosa{}
   Ilegible{}
+  FaltanArchivos{}
+  Incompleto{}
   AprobarSpec{}
   Revisar{}
   Cerrar{}
@@ -77,6 +80,10 @@ def sin_frenos(s: Sub, terminada: Bool, segundo: Bool, candidato: Bool, propuest
     case Prosa{}:
       delega()
     case Ilegible{}:
+      frena()
+    case FaltanArchivos{}:
+      frena()
+    case Incompleto{}:
       frena()
     case AprobarSpec{}:
       Salida{PedirAPersona{}, AprobarSpec{}}

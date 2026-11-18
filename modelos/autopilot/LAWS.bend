@@ -166,3 +166,19 @@ law sin_candidato_primero_se_construye:
   for segundo: Bool
   for propuesta: Bool
   {Q.decidir(False{}, terminada, Q.PedirRevision{}, segundo, False{}, propuesta) == Q.Salida{Q.DelegarAlAgente{}, Q.SinPaso{}} : Q.Salida}
+
+# Si el próximo paso dice que faltan archivos, o trae una ruta por completar, el conductor frena: se recuperan desde Git o los
+# decide una persona, aunque el resto del paso sea un comando que el agente podría correr.
+law faltan_archivos_frena:
+  for terminada: Bool
+  for segundo: Bool
+  for candidato: Bool
+  for propuesta: Bool
+  {Q.accion_de(Q.decidir(False{}, terminada, Q.FaltanArchivos{}, segundo, candidato, propuesta)) == Q.Frenar{} : Q.Accion}
+
+law un_comando_incompleto_frena:
+  for terminada: Bool
+  for segundo: Bool
+  for candidato: Bool
+  for propuesta: Bool
+  {Q.accion_de(Q.decidir(False{}, terminada, Q.Incompleto{}, segundo, candidato, propuesta)) == Q.Frenar{} : Q.Accion}

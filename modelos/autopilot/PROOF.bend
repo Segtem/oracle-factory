@@ -28,6 +28,18 @@ def Laws.el_conductor_solo_corre_lo_mecanico(s, frenos, terminada, segundo, cand
           {==}
         case False{}:
           {==}
+    case Q.FaltanArchivos{}:
+      match frenos:
+        case True{}:
+          {==}
+        case False{}:
+          {==}
+    case Q.Incompleto{}:
+      match frenos:
+        case True{}:
+          {==}
+        case False{}:
+          {==}
     case Q.AprobarSpec{}:
       match frenos:
         case True{}:
@@ -252,4 +264,10 @@ def Laws.terminado_y_sin_paso_termina(segundo, candidato, propuesta):
   {==}
 
 def Laws.sin_candidato_primero_se_construye(terminada, segundo, propuesta):
+  {==}
+
+def Laws.faltan_archivos_frena(terminada, segundo, candidato, propuesta):
+  {==}
+
+def Laws.un_comando_incompleto_frena(terminada, segundo, candidato, propuesta):
   {==}

@@ -36,6 +36,8 @@ MUTANTES = {
     "la prosa frena": ("    case Prosa{}:\n      delega()", "    case Prosa{}:\n      frena()"),
     "importar se le pide a una persona": ("    case Importar{}:\n      Salida{Actuar{}, Importar{}}", "    case Importar{}:\n      Salida{PedirAPersona{}, Importar{}}"),
     "termina sin estar cerrado": ("        case False{}:\n          frena()\n    case Prosa{}:", "        case False{}:\n          Salida{Terminado{}, SinPaso{}}\n    case Prosa{}:"),
+    "faltan archivos actúa": ("    case FaltanArchivos{}:\n      frena()", "    case FaltanArchivos{}:\n      Salida{Actuar{}, Mensaje{}}"),
+    "un comando incompleto actúa": ("    case Incompleto{}:\n      frena()", "    case Incompleto{}:\n      Salida{Actuar{}, Juzgar{}}"),
     "sin candidato pide la revisión": ("    case False{}:\n      delega()\n\ndef sin_frenos", "    case False{}:\n      Salida{Actuar{}, s}\n\ndef sin_frenos"),
     "revisar sin propuesta se le pide igual": ("    case False{} True{} False{}:\n      delega()", "    case False{} True{} False{}:\n      Salida{PedirAPersona{}, Revisar{}}"),
 }
@@ -44,6 +46,9 @@ ID, CANDIDATO = "20261118-000000-abc-x", "abc1234"
 # Un comando que el parser real de Factory acepta por cada clase de próximo paso, como los da `estado`.
 PASOS = {
     "SinPaso": None, "Prosa": "corregí los hallazgos y commiteá", "Ilegible": "algo que no es un comando",
+    # Hallazgo autopilot-mensaje-faltan-archivos-no-modelado de codex: decidir lee el texto del paso antes de clasificarlo.
+    "FaltanArchivos": [f"oracle-factory mensaje {ID} faltan archivos", "corregí lo que se pueda: faltan archivos del cambio"],
+    "Incompleto": [f"oracle-factory juzgar {ID} --con RUTA_DE_HECHOS"],
     "AprobarSpec": f"oracle-factory aprobar-spec {ID}", "Revisar": f"oracle-factory revisar {ID}", "Cerrar": f"oracle-factory cerrar {ID}",
     "Abandonar": f"oracle-factory abandonar {ID}", "Modo": f"oracle-factory modo {ID} autonomo", "Autonomia": "oracle-factory autonomia integracion autonomo",
     "Soltar": f"oracle-factory soltar {ID}", "DecidirUnion": f"oracle-factory decidir-union {ID} revision nuestro",
@@ -95,24 +100,32 @@ def sub_del_comando(comando) -> str:
 FASES = ("revision", "cerrada", "abandonada")  # el modelo sólo distingue si el cambio está terminado (cerrado o abandonado)
 
 
-def datos(frenos, fase, sub, segundo, candidato, propuesta) -> dict:
-    return {"proximo_paso": PASOS[sub], "fase": fase, "candidato": CANDIDATO if candidato else None,
+def representantes(sub) -> list:
+    """Los próximos pasos con que se prueba una clase: uno, o varios cuando el texto importa además del subcomando."""
+    valor = PASOS[sub]
+    return valor if isinstance(valor, list) else [valor]
+
+
+def datos(frenos, fase, paso, segundo, candidato, propuesta) -> dict:
+    return {"proximo_paso": paso, "fase": fase, "candidato": CANDIDATO if candidato else None,
             "frenos": [{"id": "freno"}] if frenos else [], "segundo_revisor": "agy" if segundo else None,
             "propuesta_de_revision": {"decision": "aprobar", "candidato": CANDIDATO, "actor": "claude-code", "cuando": "2026-11-18"} if propuesta else None}
 
 
 def distintas(node: str) -> list[str]:
     # Hallazgo autopilot-abandonada-sin-paso de codex: las tres fases, no sólo cerrada o en curso.
-    combinaciones = [(f, fase, s, g, k, p) for f, g, k, p in itertools.product((True, False), repeat=4) for fase in FASES for s in PASOS]
+    combinaciones = [(f, fase, s, paso, g, k, p) for f, g, k, p in itertools.product((True, False), repeat=4) for fase in FASES
+                     for s in PASOS for paso in representantes(s)]
     script = (f"import Q from {json.dumps(str(MODELO / 'autopilot.mjs'))};\n"
-              f"const casos = {json.dumps(combinaciones)};\n"
+              f"const casos = {json.dumps([(f, fase, s, g, k, p) for f, fase, s, _, g, k, p in combinaciones])};\n"
               "console.log(JSON.stringify(casos.map(([f, fase, s, g, k, p]) => { const r = Q.decidir(f, fase !== 'revision', {$: s}, g, k, p); return [r.accion.$, r.sub.$]; })));\n")
     r = subprocess.run([node, "--input-type=module", "-e", script], capture_output=True, text=True, timeout=60, check=True)
     modelo = json.loads(r.stdout)
-    assert len(modelo) == len(combinaciones) == 1248
+    assert len(modelo) == len(combinaciones) == 16 * len(FASES) * sum(len(representantes(s)) for s in PASOS) == 1392
     salida = []
     for combinacion, dice_el_modelo in zip(combinaciones, modelo):
-        d = autopilot.decidir(datos(*combinacion))
+        f, fase, _, paso, g, k, p = combinacion
+        d = autopilot.decidir(datos(f, fase, paso, g, k, p))
         dice_el_codigo = [ACCION[d["accion"]], sub_del_comando(d["comando"])]
         if dice_el_codigo != dice_el_modelo:
             salida.append(f"{combinacion}: el código dice {dice_el_codigo}, el modelo dice {dice_el_modelo}")
@@ -146,7 +159,7 @@ class Leyes(unittest.TestCase):
     def test_lp1_cada_ley_tiene_su_prueba(self):
         leyes = {l.split()[1].rstrip(":") for l in (MODELO / "LAWS.bend").read_text(encoding="utf-8").splitlines() if l.startswith("law ")}
         pruebas = {l.split("(")[0].removeprefix("def Laws.") for l in generador().pruebas().splitlines() if l.startswith("def Laws.")}
-        self.assertEqual(len(leyes), 22)
+        self.assertEqual(len(leyes), 24)
         self.assertEqual(leyes, pruebas)
 
     def test_lp1_generar_escribe_proof_al_correrlo_y_no_al_importarlo(self):
@@ -202,7 +215,7 @@ class ModeloYCodigo(unittest.TestCase):
         node = requiere("node")
         for fase, esperado in (("abandonada", "terminado"), ("cerrada", "terminado"), ("revision", "frenar")):
             with self.subTest(fase=fase):
-                self.assertEqual(autopilot.decidir(datos(False, fase, "SinPaso", False, False, False))["accion"], esperado)
+                self.assertEqual(autopilot.decidir(datos(False, fase, None, False, False, False))["accion"], esperado)
         script = (f"import Q from {json.dumps(str(MODELO / 'autopilot.mjs'))};\n"
                   "console.log(JSON.stringify([true, false].map(t => Q.decidir(false, t, {$: 'SinPaso'}, false, false, false).accion.$)));\n")
         r = subprocess.run([node, "--input-type=module", "-e", script], capture_output=True, text=True, timeout=60, check=True)

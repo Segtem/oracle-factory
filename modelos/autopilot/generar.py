@@ -5,7 +5,7 @@
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
-SUBS = ["SinPaso", "Prosa", "Ilegible", "AprobarSpec", "Revisar", "Cerrar", "Abandonar", "Modo", "Autonomia", "Soltar", "DecidirUnion",
+SUBS = ["SinPaso", "Prosa", "Ilegible", "FaltanArchivos", "Incompleto", "AprobarSpec", "Revisar", "Cerrar", "Abandonar", "Modo", "Autonomia", "Soltar", "DecidirUnion",
         "Conectar", "Desconectar", "Importar", "Juzgar", "PedirRevision", "RevisionPreparar", "Tomar", "Mensaje", "Sincronizar",
         "MedirConfirmar", "MedirListar", "MedirOtro", "AprobarSensor", "Evidencia", "Otro"]
 PERSONA = ["AprobarSpec", "Cerrar", "Abandonar", "Modo", "Autonomia", "Soltar", "DecidirUnion", "Conectar", "Desconectar"]
@@ -19,7 +19,8 @@ DIRECTAS = [("con_frenos_siempre_frena", "(s, terminada, segundo, candidato, pro
             ("revisar_pide_antes_el_segundo_revisor", "(terminada, candidato, propuesta)"), ("la_prosa_se_delega", RESTO),
             ("importar_lo_corre_el_agente", RESTO), ("lo_que_no_conoce_lo_frena", RESTO), ("lo_de_persona_no_es_mecanico", "()"),
             ("sin_paso_termina_solo_lo_terminado", "(segundo, candidato, propuesta)"), ("terminado_y_sin_paso_termina", "(segundo, candidato, propuesta)"),
-            ("sin_candidato_primero_se_construye", "(terminada, segundo, propuesta)")]
+            ("sin_candidato_primero_se_construye", "(terminada, segundo, propuesta)"), ("faltan_archivos_frena", RESTO),
+            ("un_comando_incompleto_frena", RESTO)]
 
 
 def casos(indent, scrutinee, ramas):

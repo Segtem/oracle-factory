@@ -223,6 +223,10 @@ function $sin_frenos(_s_0, _terminada_0, _segundo_0, _candidato_0, _propuesta_0)
     return $delega();
   } else if (_s_0.$ === "Ilegible") {
     return $frena();
+  } else if (_s_0.$ === "FaltanArchivos") {
+    return $frena();
+  } else if (_s_0.$ === "Incompleto") {
+    return $frena();
   } else if (_s_0.$ === "AprobarSpec") {
     return {$: "Salida", "accion": {$: "PedirAPersona"}, "sub": {$: "AprobarSpec"}};
   } else if (_s_0.$ === "Revisar") {
