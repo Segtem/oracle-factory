@@ -32,6 +32,11 @@ MUTANTES = {
     "el registro cuenta a las personas": ("          sumar(es_agente(a) && es_decide(puede(a, m, t, d)), decididas_por_agente(m, resto))",
                                           "          sumar(es_decide(puede(a, m, t, d)), decididas_por_agente(m, resto))"),
     "proponer se lee como decidir": ("    case Propone{}:\n      False{}", "    case Propone{}:\n      True{}"),
+    # La misma clase que LB-001 de codex: lo que el agente sí puede también tiene que estar fijado, no sólo lo que no.
+    "funcional: el agente no decide lo no funcional": ("    case Funcional{} NoFunc{} _:\n      Decide{}", "    case Funcional{} NoFunc{} _:\n      NoPuede{}"),
+    "confirmación: el agente no puede ni proponer": ("    case Confirmacion{} _ _:\n      Propone{}", "    case Confirmacion{} _ _:\n      NoPuede{}"),
+    "autónomo: el agente sólo propone": ("    case Autonomo{} _ _:\n      Decide{}", "    case Autonomo{} _ _:\n      Propone{}"),
+    "funcional: el agente cierra lo no funcional": ("    case Funcional{} _ Cierre{}:\n      NoPuede{}\n", ""),
 }
 MODO = {"autonomo": "Autonomo", "funcional": "Funcional", "confirmacion": "Confirmacion"}
 DECISION = {"spec": "Spec", "medidas": "Medidas", "revision": "Revision", "cierre": "Cierre"}
@@ -127,7 +132,9 @@ class SinLeyesVacias(unittest.TestCase):
                                     ("PROOF.bend", "\ndef Laws.una_persona_siempre_decide")):
                 texto = (copia / archivo).read_text(encoding="utf-8")
                 self.assertEqual(texto.count(inicio), 1, archivo)
-                (copia / archivo).write_text(texto[:texto.index(inicio)] + "\n", encoding="utf-8")  # es la última de cada archivo
+                desde = texto.index(inicio)
+                hasta = min((i for i in (texto.find("\n\n# ", desde + 1), texto.find("\n\ndef ", desde + 1)) if i != -1), default=len(texto))
+                (copia / archivo).write_text(texto[:desde] + texto[hasta:], encoding="utf-8")  # sólo ese bloque
             self.assertTrue(pruebas_valen(bend, copia))
             self.assertEqual(sobrevivientes(bend, copia), ["una persona sólo propone"])
 

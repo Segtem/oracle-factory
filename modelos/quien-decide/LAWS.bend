@@ -40,3 +40,19 @@ law una_persona_siempre_decide:
   for t: Q.Tipo
   for d: Q.Decision
   {Q.puede(Q.Persona{}, m, t, d) == Q.Decide{} : Q.Resultado}
+
+# Las filas de la tabla, casilla por casilla: lo que el agente sí puede queda tan fijado como lo que no.
+# Orden de cada fila: spec, medidas, revisión, cierre, aprobar el sensor.
+law la_fila_de_autonomo:
+  for t: Q.Tipo
+  {Q.fila(Q.Autonomo{}, t) == Q.Fila{Q.Decide{}, Q.Decide{}, Q.Decide{}, Q.Decide{}, Q.NoPuede{}} : Q.Fila}
+
+law la_fila_de_funcional_para_lo_funcional:
+  {Q.fila(Q.Funcional{}, Q.Func{}) == Q.Fila{Q.NoPuede{}, Q.NoPuede{}, Q.NoPuede{}, Q.NoPuede{}, Q.NoPuede{}} : Q.Fila}
+
+law la_fila_de_funcional_para_lo_no_funcional:
+  {Q.fila(Q.Funcional{}, Q.NoFunc{}) == Q.Fila{Q.Decide{}, Q.Decide{}, Q.Decide{}, Q.NoPuede{}, Q.NoPuede{}} : Q.Fila}
+
+law la_fila_de_confirmacion:
+  for t: Q.Tipo
+  {Q.fila(Q.Confirmacion{}, t) == Q.Fila{Q.Propone{}, Q.Propone{}, Q.Propone{}, Q.NoPuede{}, Q.NoPuede{}} : Q.Fila}

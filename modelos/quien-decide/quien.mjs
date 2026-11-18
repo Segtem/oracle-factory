@@ -263,6 +263,10 @@ function $decididas_por_agente(_m_0, _pasos_0) {
   }
 }
 
+function $fila(_m_0, _t_0) {
+  return {$: "Fila", "spec": $$del_agente(_m_0, _t_0, {$: "Spec"}), "medidas": $$del_agente(_m_0, _t_0, {$: "Medidas"}), "revision": $$del_agente(_m_0, _t_0, {$: "Revision"}), "cierre": $$del_agente(_m_0, _t_0, {$: "Cierre"}), "sensor": $$del_agente(_m_0, _t_0, {$: "AprobarSensor"})};
+}
+
 function $Bool_and(_a_0, _b_0) {
   if (!_a_0) {
     return false;
@@ -275,11 +279,13 @@ const $$es_agente = $es_agente;
 const $$puede = $puede;
 const $$es_decide = $es_decide;
 const $$Bool_and = $Bool_and;
-const $$decididas_por_agente = $decididas_por_agente;export default {
+const $$decididas_por_agente = $decididas_por_agente;
+const $$del_agente = $del_agente;export default {
   "del_agente": run_lib((a0,a1,a2) => run_loop($del_agente(a0,a1,a2)), 3),
   "puede": run_lib((a0,a1,a2,a3) => run_loop($puede(a0,a1,a2,a3)), 4),
   "es_decide": run_lib((a0) => run_loop($es_decide(a0)), 1),
   "es_agente": run_lib((a0) => run_loop($es_agente(a0)), 1),
   "sumar": run_lib((a0,a1) => run_loop($sumar(a0,nat_in(a1))), 2),
   "decididas_por_agente": run_lib((a0,a1) => run_loop($decididas_por_agente(a0,a1)), 2),
+  "fila": run_lib((a0,a1) => run_loop($fila(a0,a1)), 2),
 };

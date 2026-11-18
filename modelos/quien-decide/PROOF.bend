@@ -103,3 +103,23 @@ def Laws.en_funcional_el_agente_no_decide_lo_funcional(d):
 
 def Laws.una_persona_siempre_decide(m, t, d):
   {==}
+
+def Laws.la_fila_de_autonomo(t):
+  match t:
+    case Q.Func{}:
+      {==}
+    case Q.NoFunc{}:
+      {==}
+
+def Laws.la_fila_de_funcional_para_lo_funcional():
+  {==}
+
+def Laws.la_fila_de_funcional_para_lo_no_funcional():
+  {==}
+
+def Laws.la_fila_de_confirmacion(t):
+  match t:
+    case Q.Func{}:
+      {==}
+    case Q.NoFunc{}:
+      {==}

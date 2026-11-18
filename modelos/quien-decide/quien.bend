@@ -90,3 +90,10 @@ def decididas_por_agente(+m: Modo, pasos: List<Paso>) -> Nat:
       match p:
         case Paso{+a, t, d}:
           sumar(es_agente(a) && es_decide(puede(a, m, t, d)), decididas_por_agente(m, resto))
+
+# Una fila de la tabla de AGENTS.md: lo que pasa cuando un agente pide cada decisión, en un modo y para un tipo de requisito.
+type Fila is Data:
+  Fila{spec: Resultado, medidas: Resultado, revision: Resultado, cierre: Resultado, sensor: Resultado}
+
+def fila(+m: Modo, +t: Tipo) -> Fila:
+  Fila{del_agente(m, t, Spec{}), del_agente(m, t, Medidas{}), del_agente(m, t, Revision{}), del_agente(m, t, Cierre{}), del_agente(m, t, AprobarSensor{})}
