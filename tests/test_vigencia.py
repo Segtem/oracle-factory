@@ -145,7 +145,8 @@ class Vigencia(unittest.TestCase):
         self.stdout.truncate(0); self.stdout.seek(0)
         f.mostrar(ident)
         salida = self.stdout.getvalue()
-        self.assertNotIn('Aviso:', salida)
+        # Desde el cambio firmas, sin «exigir» estado avisa que las decisiones de persona no están firmadas: ése no es de vigencia.
+        self.assertFalse([l for l in salida.splitlines() if l.startswith('Aviso:') and 'no están firmadas' not in l], salida)
         self.assertIn(f'revisión registrada sobre el commit {self.head()[:7]}', salida)  # el commit se muestra siempre
 
     def test_v2_cierre_muestra_el_commit_y_avisa(self):

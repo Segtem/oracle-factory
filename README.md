@@ -140,8 +140,11 @@ directas y la recuperación, indicando sus límites. Ver [preguntar al proyecto]
   humano y medidas defendibles.
 - Lanza los revisores que declara cada proyecto (`pedir-revision`), pero el revisor no decide: los hallazgos los resuelve
   una persona.
-- No autentica a nadie: una persona es un comando que corre en una terminal sin `--agente`. Los modos son un protocolo
-  entre quienes trabajan juntos, no un control de acceso.
+- Sin firmas, no autentica a nadie: una persona es un comando que corre en una terminal sin `--agente`, y los modos son un
+  protocolo entre quienes trabajan juntos, no un control de acceso. Con `"firmas": "exigir"` en `.factory/config.json`, cada
+  decisión de una persona se firma con su llave (una sólo para Factory, con frase) y `verificar`, `juzgar` y `cerrar` no cuentan
+  una sin firma válida de `.factory-firmantes`. No cubre a otro proceso del mismo usuario que lea la memoria de `ssh-keygen` ni un
+  registrador de teclas. Ver [firmas](docs/firmas.md).
 - No empuja el producto ni publica ramas; `sincronizar`, corrido por una persona, sube el almacén de registros. Verificado en Linux; los comandos para Windows y macOS se revisaron pero no tienen
   ejecución automatizada.
 

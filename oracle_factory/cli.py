@@ -28,6 +28,7 @@ from . import robusto
 from . import resumen
 from . import revisores as revisores_mod
 from . import sensor as sensor_mod
+from . import firmas as firmas_mod
 from . import contexto as contexto_mod
 from . import estructura
 from . import migracion
@@ -167,6 +168,7 @@ def guardar(carpeta: Path, estado: dict, esperado: bytes | None = None) -> None:
     destino.parent.mkdir(parents=True, exist_ok=True)
     if destino.exists() and not os.access(destino, os.W_OK):  # el reemplazo atómico saltearía la protección del archivo
         raise FactoryError(f"{destino.relative_to(ROOT)} es de sólo lectura; no lo modifico")
+    firmas_mod.sellar(estado)  # con «exigir», las decisiones de persona nuevas se firman antes de escribirse
     datos = (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     escribir_atomico(destino, datos, esperado=LEIDOS.get(destino) if esperado is None else esperado)  # un corte no lo trunca
     LEIDOS[destino] = datos  # también si no se había leído: es la base de la próxima escritura
@@ -250,7 +252,9 @@ def config_proyecto() -> dict:
               "confiar_escalares": datos.get("confiar_escalares", False),
               "rag": datos.get("rag", {}),
               "idioma": datos.get("idioma", plantillas.POR_DEFECTO),
-              "autonomia": datos.get("autonomia", {}), "sensor": datos.get("sensor")}
+              "autonomia": datos.get("autonomia", {}), "sensor": datos.get("sensor"), "firmas": datos.get("firmas")}
+    if config["firmas"] not in firmas_mod.VALORES:
+        raise FactoryError(f'{ruta}: "firmas" admite "exigir" o "no"; dice {config["firmas"]!r}')
     try:
         config["sensor"] = sensor_mod.validar(config["sensor"])
     except ValueError as e:
@@ -288,8 +292,8 @@ def evento(estado: dict, accion: str, forma: str = "decidio", **datos) -> None:
         ultimo = max(unir_mod.hora(e)[0] for e in previos)
         if unir_mod.hora({"cuando": cuando})[0] <= ultimo:
             cuando = (ultimo + dt.timedelta(microseconds=1)).isoformat(timespec="microseconds")
-    estado.setdefault("eventos", []).append({
-        "accion": accion, **actor(), "modo": modo_de(estado), "forma": forma, "cuando": cuando, **datos})
+    nuevo = {"accion": accion, **actor(), "modo": modo_de(estado), "forma": forma, "cuando": cuando, **datos}
+    estado.setdefault("eventos", []).append(firmas_mod.marcar(nuevo) if accion in firmas_mod.EVENTOS else nuevo)
     # Lo que quedó sin decidir al unir dos ramas lo resuelve la decisión que corresponde.
     resueltos = unir_mod.resueltos_por(accion, datos.get("requisito"))
     if resueltos and estado.get("pendientes_de_union"):
@@ -394,8 +398,8 @@ def registro_decision(estado: dict, forma: str, motivo: tuple[str, str] | None =
     motivo = motivo or estado.pop("motivo_pendiente", None)
     if isinstance(motivo, str):  # registro anterior a los motivos con origen
         motivo = (motivo, "persona")
-    return {**actor(), "forma": forma, "modo": modo_de(estado), "cuando": ahora(),
-            **({"motivo": motivo[0], "origen_motivo": motivo[1]} if motivo else {})}
+    return firmas_mod.marcar({**actor(), "forma": forma, "modo": modo_de(estado), "cuando": ahora(),
+                              **({"motivo": motivo[0], "origen_motivo": motivo[1]} if motivo else {})})
 
 
 def quien(registro: dict | None) -> str:
@@ -1191,7 +1195,7 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
                     faltan.append(nombre + DESACTUALIZADO)
         except (FactoryError, OSError) as e:
             faltan.append(str(e))
-    faltan += problemas_de_revision(estado) + sensor_mod.pendientes(carpeta.name, estado)
+    faltan += problemas_de_revision(estado) + sensor_mod.pendientes(carpeta.name, estado) + firmas_mod.pendientes(estado)
     oracle = estado.get("oracle") or {}
     registrados = hechos_registrados(oracle)
     for etiqueta, ruta, huella in (
@@ -1338,6 +1342,7 @@ def cerrar(identificador: str) -> None:
     if falta:
         raise FactoryError("el contexto cambió durante el cierre: " + "; ".join(falta))
     cierre = registro_decision(estado, forma)
+    firmas_mod.sellar({**estado, "cierre": cierre})  # antes de cerrar la tarea: si la firma no sale, nada queda cerrado
     nota_tarea(identificador, f"Cierre: {quien(cierre)}, tras revisar el informe de código y el veredicto Oracle."
                + (" El cierre lo decidió un agente en modo autónomo." if cierre["tipo_actor"] == "agente" else ""))
     p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])

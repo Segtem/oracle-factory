@@ -254,6 +254,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
                                                                                     original)
             (estado.get('medidas') or {}).pop(requisito_id, None)
             cli.evento(estado, 'medidas_propuestas', forma='propuso', requisito=requisito_id, medidas=medidas)
+            cli.firmas_mod.sellar(estado)
             cli.escribir_atomico(cli.ruta_registro(carpeta), cli.bytes_json(estado), esperado=registro_original)
             cli.nota_tarea(identificador, f'Medidas de {requisito_id} propuestas por {cli.AGENTE} (agente, modo {cli.modo_de(estado)}); '
                        'no cuentan hasta que una persona las confirme.')
@@ -269,6 +270,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
         cli.registrar_medidas(estado, requisito_id, forma, motivo, original)
         cli.evento(estado, 'medidas_confirmadas' if forma == 'confirmo' else 'medidas_elegidas', forma=forma,
                requisito=requisito_id, medidas=medidas)
+        cli.firmas_mod.sellar(estado)
         cli.escribir_atomico(cli.ruta_registro(carpeta), cli.bytes_json(estado), esperado=registro_original)
         cli.nota_tarea(identificador, f'Medidas de {requisito_id}: {cli.quien(estado["medidas"][requisito_id])}.')
         print(f'Medidas de {requisito_id} confirmadas tal como las propuso {pendiente["actor"]}.' if forma == 'confirmo'
@@ -326,6 +328,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             cli.registrar_medidas(estado, requisito_id, 'decidio', motivo, datos)
         cli.evento(estado, 'medidas_propuestas' if via == 'propone' else 'medidas_elegidas',
                forma='propuso' if via == 'propone' else 'decidio', requisito=requisito_id, medidas=medidas, sin_medir=limite)
+        cli.firmas_mod.sellar(estado)
         cli.escribir_atomico(cli.ruta_registro(carpeta), (json.dumps(estado, ensure_ascii=False, indent=2) + '\n').encode(), esperado=registro_original)
         cli.escribir_atomico(ruta, datos, esperado=original)
     cli.nota_tarea(identificador, f'Medidas de {requisito_id}: {", ".join(medidas)}; {"propuestas" if via == "propone" else "elegidas"} por {cli.quien(cli.registro_decision(estado, "propuso" if via == "propone" else "decidio", motivo))}. SIN MEDIR: {limite or "sin límite adicional declarado"}. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.')
@@ -412,7 +415,7 @@ def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
         cli.catalogo_del_proyecto()
     except (OSError, ValueError):
         pass
-    conflictos = cli.conflictos_de_union(estado, salvo="oracle_ejecutado")  # los del juicio y de la fase los resuelve juzgar
+    conflictos = cli.conflictos_de_union(estado, salvo="oracle_ejecutado") + cli.firmas_mod.pendientes(estado)  # los del juicio y de la fase los resuelve juzgar
     if conflictos:
         raise cli.FactoryError("no se puede juzgar: " + "; ".join(conflictos))
     if estado.get("medidas_pendientes"):
