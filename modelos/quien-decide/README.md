@@ -17,7 +17,11 @@ Python (`oracle_factory/modos.py`): es la regla, para poder probarla y compararl
 
 `tests/test_verdict_bend.py` exige además `bend PROOF.bend --verdict`, que vuelve a comprobar las pruebas con el núcleo de Bend
 probado en Lean: hace falta Lean 4.34.0 con `lean` y `leanc` en el PATH (por ejemplo, el tarball `lean-4.34.0-linux.tar.zst` de la
-release de GitHub, comprobado con su sha256). La primera vez compila el núcleo en `~/.bend/bendtt/`. Sin Lean, se omite.
+release de GitHub, comprobado con su sha256). La primera vez compila el núcleo en `~/.bend/bendtt/`. Sin Lean, se omite. La prueba
+mira los códigos de salida y además corre el núcleo solo, sin `bend` en el medio, sobre la traducción (`bend PROOF.bend -o
+PROOF.bendtt`): la acepta, y rechaza una traducción alterada nombrando la ley que deja de valer. Un `bend` falso en el PATH que
+imite también la traducción y el núcleo no se detecta: es la clase «un proceso del mismo usuario en la misma máquina», la misma que
+Factory acepta como riesgo para el sensor.
 
 Límites: `--verdict` comprueba los términos traducidos; el parser y la traducción al núcleo no están probados. El modelo toma un solo tipo de requisito por
 decisión, y `via_agente` recibe una lista. Aprobar el sensor no está en `modos.DECISIONES` (es de `agentes.PERSONA`): esa ley no
