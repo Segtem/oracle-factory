@@ -58,10 +58,9 @@ def lista_para_firmar() -> Path:
 
 def huella(ruta: Path) -> str:
     r = _ssh_keygen(["-lf", str(ruta)], entrada=subprocess.DEVNULL)
-    partes = r.stdout.split()
-    if r.returncode or len(partes) < 2:
+    if r.returncode:
         raise _error(f"no pude leer la huella de la llave {ruta}")
-    return partes[1]
+    return r.stdout.split()[1]
 
 
 def firmar(texto: bytes, entrada=None) -> tuple[str, str]:
@@ -72,8 +71,8 @@ def firmar(texto: bytes, entrada=None) -> tuple[str, str]:
         archivo.write_bytes(texto)
         r = _ssh_keygen(["-Y", "sign", "-f", str(ruta), "-n", NAMESPACE, str(archivo)], entrada=entrada)
         firma = archivo.with_name("decision.sig")
-        if r.returncode or not firma.is_file():
-            raise _error(f"la firma no salió con la llave {ruta}: {(r.stderr or r.stdout).strip() or 'ssh-keygen falló'}; no registré nada")
+        if r.returncode:
+            raise _error(f"la firma no salió con la llave {ruta}: {r.stderr.strip()}; no registré nada")
         return firma.read_text(encoding="utf-8"), huella(ruta)
 
 
@@ -122,13 +121,12 @@ def problema(cambio: str, campo: str, registro: dict, firmantes: Path) -> str | 
         sig = Path(tmp) / "decision.sig"
         sig.write_text(registro["firma"], encoding="utf-8")
         r = _ssh_keygen(["-Y", "find-principals", "-s", str(sig), "-f", str(firmantes)], entrada=subprocess.DEVNULL)
-        principales = r.stdout.split()
-        if r.returncode or not principales:
+        if r.returncode:
             return f"la firma es de una llave que no está en {FIRMANTES}"
         with tempfile.TemporaryFile() as entrada:
             entrada.write(texto(cambio, campo, registro))
             entrada.seek(0)
-            r = _ssh_keygen(["-Y", "verify", "-f", str(firmantes), "-I", principales[0], "-n", NAMESPACE, "-s", str(sig)], entrada=entrada)
+            r = _ssh_keygen(["-Y", "verify", "-f", str(firmantes), "-I", r.stdout.split()[0], "-n", NAMESPACE, "-s", str(sig)], entrada=entrada)
         if r.returncode:
             return "la firma no corresponde a lo registrado (el registro cambió después de firmarse)"
     return None

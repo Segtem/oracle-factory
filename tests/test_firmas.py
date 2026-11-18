@@ -152,6 +152,19 @@ class FirmaFi1(Base):
         self.assertTrue(_sf.sensor.aprobado(config))
 
 
+    def test_fi1_el_texto_firmado_es_canonico(self):
+        registro = {"tipo_actor": "persona", "actor": "Ñandú", "firma": "x", "firma_llave": "y", "cuando": "t"}
+        esperado = '{"cambio":"c","campo":"spec_aprobada","registro":{"actor":"Ñandú","cuando":"t","tipo_actor":"persona"}}'.encode("utf-8")
+        self.assertEqual(firmas.texto("c", "spec_aprobada", registro), esperado)  # ordenado, en UTF-8 y sin la firma
+        self.assertEqual(firmas.texto("c", "spec_aprobada", dict(reversed(list(registro.items())))), esperado)
+
+    def test_fi1_el_motivo_queda_en_lo_que_se_firma(self):
+        carpeta, estado = f.leer(f.nuevo("Nota", con_ejemplo="notas"))
+        registro = f.registro_decision(estado, "decidio", ("lo leí", "persona"))
+        self.assertEqual((registro["motivo"], registro["origen_motivo"]), ("lo leí", "persona"))
+        self.assertIn(b'"motivo":"lo le\xc3\xad"'.decode("unicode_escape").encode("latin-1"), firmas.texto("c", "x", registro))
+
+
 class SinFirmaFi2(Base):
     # --- fi2: una decisión sin firma válida no cuenta ---------------------------------------------------------------------
     def test_fi2_una_decision_sin_firma_no_deja_cerrar(self):
