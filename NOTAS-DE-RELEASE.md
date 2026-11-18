@@ -1,7 +1,11 @@
-# Oracle Factory 0.1.0a19 (en preparación)
+# Sin publicar
 
-Preparada desde `main`, todavía sin publicar en PyPI ni en GitHub. Desde un checkout, `oracle-factory --version` lo dice con el
-commit: `0.1.0a19+SHA (checkout, sin publicar)`.
+Lo que está en `main` y todavía no en una versión publicada. Desde un checkout, `oracle-factory --version` lo dice con el commit:
+`0.1.0a19+SHA (checkout, sin publicar)`.
+
+- Nada todavía.
+
+# Oracle Factory 0.1.0a19
 
 - **Factory produce los hechos.** `oracle-factory evidencia ID` corre el sensor que declara el proyecto sobre un checkout limpio
   del commit, fuera del producto y del almacén, con un entorno mínimo, y deja los hechos en la carpeta del candidato; `juzgar`
@@ -63,6 +67,7 @@ commit: `0.1.0a19+SHA (checkout, sin publicar)`.
 - **Una web nueva.** La portada explica para quién es y cómo empezar, con un recorrido de un cambio y ejemplos que se pueden
   tocar, en pixel art propio.
 - **Textos al día.** Las notas declaran publicada la 0.1.0a18, con su tag y su release.
+- **Publicada.** En PyPI como `oracle-factory==0.1.0a19` y en GitHub con su tag `v0.1.0a19` (pre-release); el wheel y el sdist de PyPI tienen los mismos hashes SHA-256 que los del release de GitHub, construidos desde `main` (wheel `96b7483a9e0b`, sdist `a3081a30c35d`), y el wheel pasó las comprobaciones del probador instalado en un entorno nuevo.
 - Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux. La extensión de VS
   Code del repositorio sigue diciendo 0.5.0, pero la que ve un almacén se arma desde el checkout
   (`python3 editores/vscode/empaquetar.py`).
