@@ -88,6 +88,56 @@ class Version(unittest.TestCase):
             self.assertNotIn("0.1.0a18", (ROOT / archivo).read_text(encoding="utf-8"), archivo)
 
 
+
+class Divergencia(unittest.TestCase):
+    """La regla permanente de docs_al_dia, sin depender de qué versión es la actual (hallazgo A19-TESTS-DIVERGENCIA-PUBLICACION de
+    codex: estos casos vivían en test_publicada_a18, atados a la a18). Una versión inventada, notas armadas y textos sueltos."""
+    V = "1.2.3a4"
+    CANDIDATA = ("Candidato en preparación `oracle-factory==1.2.3a4`, y su wheel.", "La 1.2.3a4 (en preparación) trae el tablero.",
+                 "La 1.2.3a4 en preparación trae el tablero.", "La 1.2.3a4 está en preparación.", "La 1.2.3a4 sigue en preparación.",
+                 "Los comandos de instalación se podrán usar cuando se publique esta versión.", "Versión 1.2.3a4 y estado de preparación.",
+                 "PREPARACIÓN 1.2.3a4", "Esta guía describe el candidato Factory 1.2.3a4.", "Esta guía describe el candidato 1.2.3a4.",
+                 "La versión 1.2.3a4 es la candidata a publicar.", "La 1.2.3a4 es una versión candidata.", "Estado: en preparación: 1.2.3a4.",
+                 "Se instala cuando se publique la 1.2.3a4.", "La 1.2.3a4 se publicará pronto.", "Versión 1.2.3a4 en preparación.",
+                 "Esta guía describe Factory 1.2.3a4 en preparación para entrega.")
+    LEGITIMAS = ("El candidato ca6a267 de la versión 1.2.3a4 fue aprobado.", "El candidato de la revisión de la 1.2.3a4 se prepara aparte.",
+                 "El estado de preparación de un cambio se consulta con oracle-factory estado.", "Un cambio en preparación para entrega no se integra.",
+                 "La 1.2.3a3 estuvo en preparación y hoy está publicada, igual que la 1.2.3a4.", "Cada candidato lleva su evidencia.",
+                 "La 1.2.3a4 corrige el candidato anterior de la guía.", "Preparación de la revisión de la 1.2.3a4.",
+                 "La 1.2.3a4 está publicada. El estado de preparación de un cambio se consulta con estado.",
+                 "Los cambios se integran cuando se publique un cambio de la rama.", "En preparación: la revisión del cambio, no una versión.",
+                 "La 1.2.3a3 fue candidata a publicar antes de la 1.2.3a4.", "El candidato de la 1.2.3a3 pasó la revisión.")
+
+    def notas(self, tmp, encabezado):
+        (Path(tmp) / "NOTAS-DE-RELEASE.md").write_text(f"{encabezado}\n\n- Algo.\n", encoding="utf-8")
+        return Path(tmp)
+
+    def test_ea1_publicada_en_las_notas_y_candidata_en_un_texto_se_nombra(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = self.notas(tmp, f"# Oracle Factory {self.V}")
+            for frase in self.CANDIDATA:
+                with self.subTest(frase=frase):
+                    [p] = docs_al_dia.preparacion_olvidada(raiz, self.V, {"README.md": f"<p>{frase}</p>"})
+                    self.assertTrue(p.startswith(f"README.md: describe la versión {self.V} como candidata o en preparación"), p)
+            for frase in self.LEGITIMAS:
+                with self.subTest(legitima=frase):
+                    self.assertEqual(docs_al_dia.preparacion_olvidada(raiz, self.V, {"README.md": f"<p>{frase}</p>"}), [])
+
+    def test_ea1_en_preparacion_en_las_notas_ni_candidata_es_divergencia_ni_publicada_se_permite(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = self.notas(tmp, f"# Oracle Factory {self.V} (en preparación)")
+            self.assertEqual(docs_al_dia.preparacion_olvidada(raiz, self.V, {"README.md": self.CANDIDATA[0]}), [])
+            for frase in (f"La {self.V} ya está publicada.", f"La {self.V} está disponible en PyPI.", f"Publicada en PyPI: la {self.V}."):
+                with self.subTest(frase=frase):
+                    [p] = docs_al_dia.publicacion_prematura(raiz, self.V, {"site/index.html": frase})
+                    self.assertIn(f"afirma que la versión {self.V} está publicada", p)
+            self.assertEqual(docs_al_dia.publicacion_prematura(raiz, self.V, {"README.md": "La 1.2.3a3 ya está publicada."}), [])
+
+    def test_ea1_sin_notas_la_regla_no_inventa_divergencias(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(docs_al_dia.preparacion_olvidada(Path(tmp), self.V, {"README.md": self.CANDIDATA[0]}), [])
+            self.assertEqual(docs_al_dia.publicacion_prematura(Path(tmp), self.V, {"README.md": f"La {self.V} ya está publicada."}), [])
+
 class Juicio(unittest.TestCase):
     # --- ea2: el wheel instalado ofrece lo nuevo (el juicio, con datos armados) -----------------------------------------------
     def test_ea2_lo_observado_correcto_no_tiene_problemas(self):

@@ -35,13 +35,29 @@ commit: `0.1.0a19+SHA (checkout, sin publicar)`.
   validar los workflows); el paquete no lo exige.
 - **La guía versionada.** `oracle-factory agentes --en-el-repo` mantiene la guía para agentes en un `AGENTS.md` que el producto
   versiona.
+- **La evidencia no dice más de lo que prueba.** Una evidencia que se contradice (éxito con pruebas en cero, otro commit, un
+  artefacto que falta o cambió) queda en «falla» y nombra cada contradicción; `estado` avisa de los archivos de código que Git
+  ignora, y el inventario de procedencia cuenta los paquetes instalados fuera del lock. `"exigir"` vale para cerrar un cambio, no
+  para los que ya se cerraron.
+- **Un despliegue durable.** Si un paso falla o se interrumpe, `desplegar` vuelve atrás todo lo que desplegó, y su registro
+  sobrevive a la interrupción. Los destinos aceptan un alcance opcional.
+- **Pedidos de revisión más claros.** El pedido le dice al revisor dónde trabajar y con qué Python correr las pruebas; una
+  revisión incompleta dice por qué y cómo seguir, y una prueba omitida no la hace incompleta. El agente lanzado recibe un
+  entorno mínimo y una guía de permisos sin Python abierto.
+- **Autonomía por etapa.** `oracle-factory autonomia` muestra quién decide en cada etapa, y `oracle-factory autonomia ETAPA
+  MODO` (sólo de una persona) da o quita autonomía a un agente en integración, publicación y producción; hoy tiene efecto en
+  producción (`desplegar --autorizar`). La construcción sigue siendo el modo de cada cambio.
 - **Un conductor que actúa.** `oracle-factory autopilot ID` dice el próximo paso por reglas y, con `--ejecutar`, lo da con
-  topes y deja rastro; nunca toma una decisión de persona. `estado` frena los bucles de revisión y las pruebas editadas.
+  topes y deja rastro; nunca toma una decisión de persona. Manda construir antes de elegir medidas, no repite el pedido a un
+  revisor que no dejó resultado y, en el camino completo, pide un segundo revisor de otro proveedor. `estado` frena los bucles
+  de revisión y las pruebas editadas; el freno de pruebas editadas cede ante una revisión aprobada y vigente.
 - **Una interrupción detiene a todo el grupo.** Ctrl-C durante un paso de `autopilot --ejecutar` o de un despliegue detiene
   también a los procesos que lanzó, igual que el plazo.
 - **Registros que no tumban las consultas.** Un campo de tipo equivocado en un `factory.json` lo nombra en vez de romper;
   `tablero` y `resumen` siguen con los demás cambios, y un archivo que falta se dice con su ruta y cómo recuperarlo.
 - **Lo mismo con y sin almacén.** Cada comando se comporta igual con los registros adentro o aparte.
+- **Los workflows son YAML válido.** Los del repositorio y las plantillas de CI se validan en las pruebas, y el verificador
+  respeta «Pruebas: no aplica».
 - **Frases que no prometen de más.** La ayuda, las guías y la web dicen lo que hace Factory; `estado` muestra los mismos avisos
   en texto y en JSON, y el camino de entrada de la guía usa `evidencia`.
 - **Una web nueva.** La portada explica para quién es y cómo empezar, con un recorrido de un cambio y ejemplos que se pueden
