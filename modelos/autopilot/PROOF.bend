@@ -4,14 +4,14 @@ import ./LAWS.bend as Laws
 
 # Generado por generar.py (no se edita a mano): análisis por casos sobre el próximo paso y las banderas.
 
-def Laws.el_conductor_solo_corre_lo_mecanico(s, frenos, cerrada, segundo, candidato, propuesta):
+def Laws.el_conductor_solo_corre_lo_mecanico(s, frenos, terminada, segundo, candidato, propuesta):
   match s:
     case Q.SinPaso{}:
       match frenos:
         case True{}:
           {==}
         case False{}:
-          match cerrada:
+          match terminada:
             case True{}:
               {==}
             case False{}:
@@ -191,65 +191,65 @@ def Laws.el_conductor_solo_corre_lo_mecanico(s, frenos, cerrada, segundo, candid
         case False{}:
           {==}
 
-def Laws.con_frenos_siempre_frena(s, cerrada, segundo, candidato, propuesta):
+def Laws.con_frenos_siempre_frena(s, terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.confirmar_las_medidas_es_de_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.confirmar_las_medidas_es_de_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.aprobar_spec_se_le_pide_a_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.aprobar_spec_se_le_pide_a_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.cerrar_se_le_pide_a_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.cerrar_se_le_pide_a_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.abandonar_se_le_pide_a_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.abandonar_se_le_pide_a_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.modo_se_le_pide_a_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.modo_se_le_pide_a_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.autonomia_se_le_pide_a_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.autonomia_se_le_pide_a_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.soltar_se_le_pide_a_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.soltar_se_le_pide_a_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.decidir_union_se_le_pide_a_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.decidir_union_se_le_pide_a_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.conectar_se_le_pide_a_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.conectar_se_le_pide_a_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.desconectar_se_le_pide_a_una_persona(cerrada, segundo, candidato, propuesta):
+def Laws.desconectar_se_le_pide_a_una_persona(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.revisar_se_le_pide_a_una_persona(cerrada):
+def Laws.revisar_se_le_pide_a_una_persona(terminada):
   {==}
 
-def Laws.revisar_sin_propuesta_la_prepara_el_agente(cerrada):
+def Laws.revisar_sin_propuesta_la_prepara_el_agente(terminada):
   {==}
 
-def Laws.revisar_pide_antes_el_segundo_revisor(cerrada, candidato, propuesta):
+def Laws.revisar_pide_antes_el_segundo_revisor(terminada, candidato, propuesta):
   {==}
 
-def Laws.la_prosa_se_delega(cerrada, segundo, candidato, propuesta):
+def Laws.la_prosa_se_delega(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.importar_lo_corre_el_agente(cerrada, segundo, candidato, propuesta):
+def Laws.importar_lo_corre_el_agente(terminada, segundo, candidato, propuesta):
   {==}
 
-def Laws.lo_que_no_conoce_lo_frena(cerrada, segundo, candidato, propuesta):
+def Laws.lo_que_no_conoce_lo_frena(terminada, segundo, candidato, propuesta):
   {==}
 
 def Laws.lo_de_persona_no_es_mecanico():
   {==}
 
-def Laws.sin_paso_termina_solo_lo_cerrado(segundo, candidato, propuesta):
+def Laws.sin_paso_termina_solo_lo_terminado(segundo, candidato, propuesta):
   {==}
 
-def Laws.cerrado_y_sin_paso_termina(segundo, candidato, propuesta):
+def Laws.terminado_y_sin_paso_termina(segundo, candidato, propuesta):
   {==}
 
-def Laws.sin_candidato_primero_se_construye(cerrada, segundo, propuesta):
+def Laws.sin_candidato_primero_se_construye(terminada, segundo, propuesta):
   {==}

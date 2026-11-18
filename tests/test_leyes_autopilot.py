@@ -20,11 +20,12 @@ from test_verdict_bend import herramientas, veredicto  # noqa: E402
 from oracle_factory import autopilot  # noqa: E402
 
 MODELO = ROOT / "modelos" / "autopilot"
+ORIGINAL_DECIDIR = autopilot.decidir
 
 MUTANTES = {
     "cerrar lo corre el agente": ("    case Cerrar{}:\n      Salida{PedirAPersona{}, Cerrar{}}", "    case Cerrar{}:\n      Salida{Actuar{}, Cerrar{}}"),
     "con frenos no frena": ("    case True{}:\n      frena()\n    case False{}:\n      sin_frenos",
-                            "    case True{}:\n      sin_frenos(s, cerrada, segundo, candidato, propuesta)\n    case False{}:\n      sin_frenos"),
+                            "    case True{}:\n      sin_frenos(s, terminada, segundo, candidato, propuesta)\n    case False{}:\n      sin_frenos"),
     "confirmar medidas se delega": ("    case MedirConfirmar{}:\n      Salida{PedirAPersona{}, MedirConfirmar{}}", "    case MedirConfirmar{}:\n      delega()"),
     "revisar con propuesta lo corre el agente": ("    case False{} True{} True{}:\n      Salida{PedirAPersona{}, Revisar{}}",
                                                  "    case False{} True{} True{}:\n      Salida{Actuar{}, Revisar{}}"),
@@ -91,20 +92,24 @@ def sub_del_comando(comando) -> str:
     return POR_NOMBRE.get(args.comando, "Otro")
 
 
-def datos(frenos, cerrada, sub, segundo, candidato, propuesta) -> dict:
-    return {"proximo_paso": PASOS[sub], "fase": "cerrada" if cerrada else "revision", "candidato": CANDIDATO if candidato else None,
+FASES = ("revision", "cerrada", "abandonada")  # el modelo sólo distingue si el cambio está terminado (cerrado o abandonado)
+
+
+def datos(frenos, fase, sub, segundo, candidato, propuesta) -> dict:
+    return {"proximo_paso": PASOS[sub], "fase": fase, "candidato": CANDIDATO if candidato else None,
             "frenos": [{"id": "freno"}] if frenos else [], "segundo_revisor": "agy" if segundo else None,
             "propuesta_de_revision": {"decision": "aprobar", "candidato": CANDIDATO, "actor": "claude-code", "cuando": "2026-11-18"} if propuesta else None}
 
 
 def distintas(node: str) -> list[str]:
-    combinaciones = [(f, c, s, g, k, p) for f, c, g, k, p in itertools.product((True, False), repeat=5) for s in PASOS]
+    # Hallazgo autopilot-abandonada-sin-paso de codex: las tres fases, no sólo cerrada o en curso.
+    combinaciones = [(f, fase, s, g, k, p) for f, g, k, p in itertools.product((True, False), repeat=4) for fase in FASES for s in PASOS]
     script = (f"import Q from {json.dumps(str(MODELO / 'autopilot.mjs'))};\n"
               f"const casos = {json.dumps(combinaciones)};\n"
-              "console.log(JSON.stringify(casos.map(([f, c, s, g, k, p]) => { const r = Q.decidir(f, c, {$: s}, g, k, p); return [r.accion.$, r.sub.$]; })));\n")
+              "console.log(JSON.stringify(casos.map(([f, fase, s, g, k, p]) => { const r = Q.decidir(f, fase !== 'revision', {$: s}, g, k, p); return [r.accion.$, r.sub.$]; })));\n")
     r = subprocess.run([node, "--input-type=module", "-e", script], capture_output=True, text=True, timeout=60, check=True)
     modelo = json.loads(r.stdout)
-    assert len(modelo) == len(combinaciones) == 832
+    assert len(modelo) == len(combinaciones) == 1248
     salida = []
     for combinacion, dice_el_modelo in zip(combinaciones, modelo):
         d = autopilot.decidir(datos(*combinacion))
@@ -188,15 +193,29 @@ class SinLeyesVacias(unittest.TestCase):
 
 
 class ModeloYCodigo(unittest.TestCase):
-    # --- lp3: el modelo del autopilot coincide con el código --------------------------------------------------------------
+    # --- lp3: el modelo del autopilot coincide con el código (1248 combinaciones: 2^4 banderas × 3 fases × 26 pasos) --------------------------------------------------------------
     def test_lp3_el_modelo_compilado_y_decidir_dicen_lo_mismo(self):
         self.assertEqual(distintas(requiere("node")), [])
+
+    def test_lp3_un_cambio_abandonado_sin_paso_termina_en_el_modelo_y_en_el_codigo(self):
+        # Hallazgo autopilot-abandonada-sin-paso de codex: la comparación tiene que recorrer la fase abandonada.
+        node = requiere("node")
+        for fase, esperado in (("abandonada", "terminado"), ("cerrada", "terminado"), ("revision", "frenar")):
+            with self.subTest(fase=fase):
+                self.assertEqual(autopilot.decidir(datos(False, fase, "SinPaso", False, False, False))["accion"], esperado)
+        script = (f"import Q from {json.dumps(str(MODELO / 'autopilot.mjs'))};\n"
+                  "console.log(JSON.stringify([true, false].map(t => Q.decidir(false, t, {$: 'SinPaso'}, false, false, false).accion.$)));\n")
+        r = subprocess.run([node, "--input-type=module", "-e", script], capture_output=True, text=True, timeout=60, check=True)
+        self.assertEqual(json.loads(r.stdout), ["Terminado", "Frenar"])
+        with patch.object(autopilot, "decidir", lambda d: {"accion": "frenar", "comando": None} if d.get("fase") == "abandonada" and not d.get("proximo_paso")
+                          else ORIGINAL_DECIDIR(d)):
+            self.assertTrue(any("'abandonada', 'SinPaso'" in x for x in distintas(node)))
 
     def test_lp3_si_el_codigo_cambia_y_el_modelo_no_se_nombran_las_combinaciones(self):
         node = requiere("node")
         with patch.object(autopilot, "PERSONA", autopilot.PERSONA - {"cerrar"}):
             diferencias = distintas(node)
-        self.assertEqual(len(diferencias), 16)
+        self.assertEqual(len(diferencias), 24)  # cerrar sin frenos: 2^3 banderas × 3 fases
         self.assertTrue(all("'Cerrar'" in d and "el código dice ['Frenar', 'SinPaso']" in d for d in diferencias), diferencias[:3])
 
 

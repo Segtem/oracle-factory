@@ -212,9 +212,9 @@ function $sin_candidato_construye(_candidato_0, _s_0) {
   }
 }
 
-function $sin_frenos(_s_0, _cerrada_0, _segundo_0, _candidato_0, _propuesta_0) {
+function $sin_frenos(_s_0, _terminada_0, _segundo_0, _candidato_0, _propuesta_0) {
   if (_s_0.$ === "SinPaso") {
-    if (_cerrada_0) {
+    if (_terminada_0) {
       return {$: "Salida", "accion": {$: "Terminado"}, "sub": {$: "SinPaso"}};
     } else {
       return $frena();
@@ -272,11 +272,11 @@ function $sin_frenos(_s_0, _cerrada_0, _segundo_0, _candidato_0, _propuesta_0) {
   }
 }
 
-function $decidir(_frenos_0, _cerrada_0, _s_0, _segundo_0, _candidato_0, _propuesta_0) {
+function $decidir(_frenos_0, _terminada_0, _s_0, _segundo_0, _candidato_0, _propuesta_0) {
   if (_frenos_0) {
     return $frena();
   } else {
-    return $sin_frenos(_s_0, _cerrada_0, _segundo_0, _candidato_0, _propuesta_0);
+    return $sin_frenos(_s_0, _terminada_0, _segundo_0, _candidato_0, _propuesta_0);
   }
 }
 

@@ -10,16 +10,16 @@ SUBS = ["SinPaso", "Prosa", "Ilegible", "AprobarSpec", "Revisar", "Cerrar", "Aba
         "MedirConfirmar", "MedirListar", "MedirOtro", "AprobarSensor", "Evidencia", "Otro"]
 PERSONA = ["AprobarSpec", "Cerrar", "Abandonar", "Modo", "Autonomia", "Soltar", "DecidirUnion", "Conectar", "Desconectar"]
 B = ["True", "False"]
-RESTO = "(cerrada, segundo, candidato, propuesta)"
+RESTO = "(terminada, segundo, candidato, propuesta)"
 # Las leyes que se prueban por reflexividad, con sus parámetros: el modelo reduce a un valor sin separar casos.
-DIRECTAS = [("con_frenos_siempre_frena", "(s, cerrada, segundo, candidato, propuesta)"),
+DIRECTAS = [("con_frenos_siempre_frena", "(s, terminada, segundo, candidato, propuesta)"),
             ("confirmar_las_medidas_es_de_una_persona", RESTO),
             *((f"{''.join('_' + c.lower() if c.isupper() else c for c in p).lstrip('_')}_se_le_pide_a_una_persona", RESTO) for p in PERSONA),
-            ("revisar_se_le_pide_a_una_persona", "(cerrada)"), ("revisar_sin_propuesta_la_prepara_el_agente", "(cerrada)"),
-            ("revisar_pide_antes_el_segundo_revisor", "(cerrada, candidato, propuesta)"), ("la_prosa_se_delega", RESTO),
+            ("revisar_se_le_pide_a_una_persona", "(terminada)"), ("revisar_sin_propuesta_la_prepara_el_agente", "(terminada)"),
+            ("revisar_pide_antes_el_segundo_revisor", "(terminada, candidato, propuesta)"), ("la_prosa_se_delega", RESTO),
             ("importar_lo_corre_el_agente", RESTO), ("lo_que_no_conoce_lo_frena", RESTO), ("lo_de_persona_no_es_mecanico", "()"),
-            ("sin_paso_termina_solo_lo_cerrado", "(segundo, candidato, propuesta)"), ("cerrado_y_sin_paso_termina", "(segundo, candidato, propuesta)"),
-            ("sin_candidato_primero_se_construye", "(cerrada, segundo, propuesta)")]
+            ("sin_paso_termina_solo_lo_terminado", "(segundo, candidato, propuesta)"), ("terminado_y_sin_paso_termina", "(segundo, candidato, propuesta)"),
+            ("sin_candidato_primero_se_construye", "(terminada, segundo, propuesta)")]
 
 
 def casos(indent, scrutinee, ramas):
@@ -30,9 +30,9 @@ def casos(indent, scrutinee, ramas):
 
 
 def segun_sub(i, s):
-    """Lo que hay que separar para que decidir(False, cerrada, s, …) reduzca a un valor."""
+    """Lo que hay que separar para que decidir(False, terminada, s, …) reduzca a un valor."""
     if s == "SinPaso":
-        return casos(i, "cerrada", [(f"{b}{{}}", [f"{i}    {{==}}"]) for b in B])
+        return casos(i, "terminada", [(f"{b}{{}}", [f"{i}    {{==}}"]) for b in B])
     if s == "Revisar":
         return casos(i, "segundo candidato propuesta", [(f"{a}{{}} {b}{{}} {c}{{}}", [f"{i}    {{==}}"]) for a in B for b in B for c in B])
     if s in ("PedirRevision", "RevisionPreparar"):
@@ -43,7 +43,7 @@ def segun_sub(i, s):
 def pruebas() -> str:
     lineas = ["import Base", "import ./autopilot.bend as Q", "import ./LAWS.bend as Laws", "",
               "# Generado por generar.py (no se edita a mano): análisis por casos sobre el próximo paso y las banderas.", "",
-              "def Laws.el_conductor_solo_corre_lo_mecanico(s, frenos, cerrada, segundo, candidato, propuesta):", "  match s:"]
+              "def Laws.el_conductor_solo_corre_lo_mecanico(s, frenos, terminada, segundo, candidato, propuesta):", "  match s:"]
     for s in SUBS:
         lineas += [f"    case Q.{s}{{}}:", *casos("      ", "frenos", [("True{}", ["          {==}"]), ("False{}", segun_sub("          ", s))])]
     for nombre, params in DIRECTAS:

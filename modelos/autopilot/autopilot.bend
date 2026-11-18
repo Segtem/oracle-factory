@@ -66,10 +66,10 @@ def sin_candidato_construye(candidato: Bool, +s: Sub) -> Salida:
     case False{}:
       delega()
 
-def sin_frenos(s: Sub, cerrada: Bool, segundo: Bool, candidato: Bool, propuesta: Bool) -> Salida:
+def sin_frenos(s: Sub, terminada: Bool, segundo: Bool, candidato: Bool, propuesta: Bool) -> Salida:
   match s:
     case SinPaso{}:
-      match cerrada:
+      match terminada:
         case True{}:
           Salida{Terminado{}, SinPaso{}}
         case False{}:
@@ -125,12 +125,12 @@ def sin_frenos(s: Sub, cerrada: Bool, segundo: Bool, candidato: Bool, propuesta:
     case Otro{}:
       frena()
 
-def decidir(frenos: Bool, cerrada: Bool, s: Sub, segundo: Bool, candidato: Bool, propuesta: Bool) -> Salida:
+def decidir(frenos: Bool, terminada: Bool, s: Sub, segundo: Bool, candidato: Bool, propuesta: Bool) -> Salida:
   match frenos:
     case True{}:
       frena()
     case False{}:
-      sin_frenos(s, cerrada, segundo, candidato, propuesta)
+      sin_frenos(s, terminada, segundo, candidato, propuesta)
 
 # Los comandos mecánicos de Factory (autopilot.MECANICO): un agente los corre con --agente.
 def es_mecanico(s: Sub) -> Bool:
