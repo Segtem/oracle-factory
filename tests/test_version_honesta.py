@@ -72,7 +72,8 @@ class Notas(unittest.TestCase):
     def test_vh2_la_primera_seccion_es_sin_publicar_y_nombra_lo_nuevo(self):
         texto = (SOURCE / 'NOTAS-DE-RELEASE.md').read_text(encoding='utf-8')
         titulos = re.findall(r'(?m)^# (.+)$', texto)
-        self.assertEqual(titulos[0], 'Sin publicar')
+        # Mientras se prepara una versión, lo sin publicar es su sección «en preparación» (entrega-a19).
+        self.assertIn(titulos[0], ('Sin publicar', f'Oracle Factory {__version__} (en preparación)'))
         self.assertTrue(titulos[1].startswith('Oracle Factory '), titulos[:2])
         seccion = texto.split('\n# ', 2)[0]
         for novedad in ('conectar', 'sincronizar', 'migrar --almacen', '.oracle-factory-almacen', 'verificar-almacen.yml',
