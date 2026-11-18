@@ -75,7 +75,8 @@ class Notas(unittest.TestCase):
         # Mientras se prepara una versión, lo sin publicar es su sección «en preparación» (entrega-a19).
         self.assertIn(titulos[0], ('Sin publicar', f'Oracle Factory {__version__} (en preparación)'))
         self.assertTrue(titulos[1].startswith('Oracle Factory '), titulos[:2])
-        seccion = texto.split('\n# ', 2)[0]
+        # Lo nuevo está en lo sin publicar o en la última versión publicada (publicada-a19: «Sin publicar» vuelve vacía).
+        seccion = '\n# '.join(texto.split('\n# ', 3)[:2])
         for novedad in ('conectar', 'sincronizar', 'migrar --almacen', '.oracle-factory-almacen', 'verificar-almacen.yml',
                         'pendientes_de_union', "'.[dev]'"):
             with self.subTest(novedad=novedad):

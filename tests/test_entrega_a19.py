@@ -49,23 +49,16 @@ class Version(unittest.TestCase):
         [propio] = [p for p in tomllib.loads((ROOT / "uv.lock").read_text(encoding="utf-8"))["package"] if p["name"] == "oracle-factory"]
         self.assertEqual(propio["version"], VERSION)
 
-    def test_ea1_los_textos_y_la_web_estan_al_dia_la_a18_publicada_y_la_a19_en_preparacion(self):
+    def test_ea1_los_textos_y_la_web_estan_al_dia_y_la_a18_y_la_a19_figuran_publicadas(self):
         self.assertEqual(docs_al_dia.problemas(ROOT), [])
         notas = (ROOT / "NOTAS-DE-RELEASE.md").read_text(encoding="utf-8")
-        titulos = re.findall(r"(?m)^# (.+)$", notas)
-        self.assertEqual(titulos[:2], ["Oracle Factory 0.1.0a19 (en preparación)", "Oracle Factory 0.1.0a18"])
-        primera = notas.split("\n# ", 1)[0]
-        self.assertNotIn("**Publicada.**", primera)  # la a19 no se presenta como publicada
-        self.assertIn("todavía sin publicar", primera)
+        # La a19 pasó de «en preparación» a publicada (publicada-a19): el estado de cada una lo fija test_publicada_a19.
+        self.assertEqual(re.findall(r"(?m)^# Oracle Factory (\S+)$", notas)[0], "0.1.0a19")  # la primera versión (antes puede ir «Sin publicar»)
+        self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a19`", notas)
         self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a18`", notas)
-        self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a17`", notas)
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        self.assertIn("Candidato en preparación `oracle-factory==0.1.0a19`", readme)
-        self.assertNotIn("Versión publicada en PyPI: `oracle-factory==0.1.0a19`", readme)
+        self.assertIn("Versión publicada en PyPI: `oracle-factory==0.1.0a19`", readme)
         self.assertIn("La versión publicada anterior es [0.1.0a18]", readme)
-        for archivo in ("site/desde-cero.html", "site/index.html"):
-            self.assertIn("0.1.0a19", (ROOT / archivo).read_text(encoding="utf-8"), archivo)
-        self.assertIn("Todavía no está publicada en PyPI", (ROOT / "site/index.html").read_text(encoding="utf-8"))
         for archivo in ("site/desde-cero.html", "site/colaboracion.html", "site/modos.html", "docs/colaboracion.md", "README.md"):
             self.assertIn(VERSION, (ROOT / archivo).read_text(encoding="utf-8"), archivo)
 
