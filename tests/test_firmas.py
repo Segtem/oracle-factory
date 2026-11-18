@@ -162,7 +162,7 @@ class FirmaFi1(Base):
         carpeta, estado = f.leer(f.nuevo("Nota", con_ejemplo="notas"))
         registro = f.registro_decision(estado, "decidio", ("lo leí", "persona"))
         self.assertEqual((registro["motivo"], registro["origen_motivo"]), ("lo leí", "persona"))
-        self.assertIn(b'"motivo":"lo le\xc3\xad"'.decode("unicode_escape").encode("latin-1"), firmas.texto("c", "x", registro))
+        self.assertIn('"motivo":"lo leí","origen_motivo":"persona"'.encode("utf-8"), firmas.texto("c", "x", registro))
 
 
 class SinFirmaFi2(Base):
