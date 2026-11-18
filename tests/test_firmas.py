@@ -165,6 +165,31 @@ class FirmaFi1(Base):
         self.assertIn('"motivo":"lo leí","origen_motivo":"persona"'.encode("utf-8"), firmas.texto("c", "x", registro))
 
 
+    def test_fi1_un_registro_preparado_con_el_mismo_instante_no_queda_firmado(self):
+        # Hallazgo firmas-01 de codex: sellar reconocía la decisión nueva sólo por su «cuando».
+        self.exigir()
+        carpeta, estado = f.leer(f.nuevo("Nota", con_ejemplo="notas"))
+        nueva = f.registro_decision(estado, "decidio")
+        viejo = {k: v for k, v in nueva.items() if k != firmas.MARCA}  # el mismo instante, sin la marca
+        estado["cierre"], estado["spec_aprobada"] = dict(nueva), {**viejo, "forma": "confirmo"}
+        firmas.sellar(estado)
+        self.assertNotIn("firma", estado["spec_aprobada"])
+        self.assertIsNone(firmas.problema(estado["id"], "cierre", estado["cierre"], self.root / firmas.FIRMANTES))
+        self.assertNotIn(firmas.MARCA, estado["cierre"])
+        # Con una marca inventada, no se firma nada: se nombra la decisión y no se registra.
+        otra = f.registro_decision(estado, "decidio")
+        estado["revision"], estado["abandono"] = dict(otra), {**viejo, firmas.MARCA: "0" * 32}
+        with self.assertRaisesRegex(f.FactoryError, "«abandono».*no armó este proceso"):
+            firmas.sellar(estado)
+        self.assertNotIn("firma", estado["abandono"])
+        self.assertNotIn("firma", estado["revision"])  # ni la legítima: se comprueban todas antes de firmar
+
+    def test_fi1_la_marca_de_por_firmar_no_queda_en_el_registro(self):
+        self.exigir()
+        ident = self.aprobado()
+        self.assertNotIn(firmas.MARCA, json.dumps(self.registro(ident)))
+
+
 class SinFirmaFi2(Base):
     # --- fi2: una decisión sin firma válida no cuenta ---------------------------------------------------------------------
     def test_fi2_una_decision_sin_firma_no_deja_cerrar(self):

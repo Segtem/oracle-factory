@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import os
+import secrets
 from pathlib import Path
 import subprocess
 import tempfile
@@ -24,7 +25,8 @@ SENSOR = "sensor-aprobado"  # el campo con que se firma una aprobación del sens
 FUERA_DEL_TEXTO = ("firma", "firma_llave")
 HEREDADAS = ("SSH_AUTH_SOCK", "SSH_AGENT_PID", "SSH_ASKPASS", "SSH_ASKPASS_REQUIRE")
 ENTORNO_PRUEBA: dict = {}  # sólo lo llenan las pruebas (la frase por SSH_ASKPASS); Factory no lo toma de su entorno
-_POR_FIRMAR: set[str] = set()  # el «cuando» de las decisiones de persona armadas en este proceso: sólo ésas se firman
+MARCA = "_por_firmar"  # una marca al azar que sólo conoce el proceso que armó la decisión; se saca antes de firmar
+_POR_FIRMAR: set[str] = set()  # las marcas de las decisiones de persona armadas en este proceso: sólo ésas se firman
 
 
 def exige(config: dict) -> bool:
@@ -99,16 +101,21 @@ def marcar(registro: dict) -> dict:
     """Con «exigir», deja para firmar al escribirse la decisión de persona que se acaba de armar; comprueba antes la llave."""
     if registro.get("tipo_actor") == "persona" and exige(_cli().config_proyecto()):
         lista_para_firmar()
-        _POR_FIRMAR.add(registro["cuando"])
+        registro[MARCA] = secrets.token_hex(16)
+        _POR_FIRMAR.add(registro[MARCA])
     return registro
 
 
 def sellar(estado: dict) -> None:
     """Firma, antes de escribir el registro, las decisiones de persona armadas en este proceso que todavía no tienen firma."""
-    for campo, registro in registros(estado):
-        if registro.get("cuando") in _POR_FIRMAR and "firma" not in registro:
-            registro["firma"], registro["firma_llave"] = firmar(texto(estado.get("id", ""), campo, registro))
-            _POR_FIRMAR.discard(registro["cuando"])
+    marcados = [(campo, registro) for campo, registro in registros(estado) if MARCA in registro]
+    for campo, registro in marcados:  # todas antes de firmar ninguna: una marca ajena no deja nada firmado
+        if registro[MARCA] not in _POR_FIRMAR or "firma" in registro:
+            raise _error(f"la decisión «{campo}» trae una marca de firma que no armó este proceso; no registré nada")
+    for campo, registro in marcados:
+        marca = registro.pop(MARCA)  # fuera del registro y de lo firmado: sólo existía para reconocerla
+        registro["firma"], registro["firma_llave"] = firmar(texto(estado.get("id", ""), campo, registro))
+        _POR_FIRMAR.discard(marca)
 
 
 def problema(cambio: str, campo: str, registro: dict, firmantes: Path) -> str | None:
