@@ -114,8 +114,8 @@ def distintas(node: str) -> list[str]:
     return salida
 
 
-def generador():
-    spec = importlib.util.spec_from_file_location("generar_autopilot", MODELO / "generar.py")
+def generador(modelo: Path = MODELO):
+    spec = importlib.util.spec_from_file_location("generar_autopilot", modelo / "generar.py")
     modulo = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(modulo)
     return modulo
@@ -143,6 +143,16 @@ class Leyes(unittest.TestCase):
         pruebas = {l.split("(")[0].removeprefix("def Laws.") for l in generador().pruebas().splitlines() if l.startswith("def Laws.")}
         self.assertEqual(len(leyes), 22)
         self.assertEqual(leyes, pruebas)
+
+    def test_lp1_generar_escribe_proof_al_correrlo_y_no_al_importarlo(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            copia = Path(tmp) / "q"
+            shutil.copytree(MODELO, copia)
+            (copia / "PROOF.bend").unlink()
+            esperado = generador(copia).pruebas()
+            self.assertFalse((copia / "PROOF.bend").exists(), "importar generar.py no tiene que escribir PROOF.bend")
+            subprocess.run([sys.executable, "generar.py"], cwd=copia, check=True, capture_output=True, timeout=60)
+            self.assertEqual((copia / "PROOF.bend").read_text(encoding="utf-8"), esperado)
 
     def test_lp1_el_nucleo_probado_acepta_las_pruebas(self):
         codigo, salida = veredicto(herramientas(), MODELO)
