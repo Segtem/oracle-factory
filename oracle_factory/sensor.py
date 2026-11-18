@@ -26,7 +26,7 @@ import sys
 import tempfile
 import time
 
-from . import estructura, procesos
+from . import estructura, firmas, procesos
 
 CLAVES = {"comando", "tope_minutos", "hechos"}
 POLITICAS = ("avisar", "exigir")
@@ -92,13 +92,13 @@ def _aprobacion_valida(a) -> bool:
 
 
 def aprobado(config: dict) -> bool:
-    return huella(config) in {a["sha256"] for a in aprobados()}
+    return huella(config) in {a["sha256"] for a in aprobados() if firmas.aprobacion_cuenta(a)}
 
 
 def _huellas_aprobadas() -> set[str]:
     """Para las consultas: si el archivo de aprobaciones está roto, ninguna cuenta (y `evidencia` dice por qué)."""
     try:
-        return {a["sha256"] for a in aprobados()}
+        return {a["sha256"] for a in aprobados() if firmas.aprobacion_cuenta(a)}
     except cli.FactoryError:
         return set()
 
@@ -111,7 +111,7 @@ def aprobar() -> int:
         raise cli.FactoryError("el proyecto no declara su sensor: agregalo en .factory/config.json, por ejemplo " + EJEMPLO)
     previas = aprobados()
     nueva = huella(config)
-    if nueva in {a["sha256"] for a in previas}:
+    if nueva in {a["sha256"] for a in previas if firmas.aprobacion_cuenta(a)}:  # con «exigir», una aprobación sin firma válida no cuenta
         print("Este sensor ya está aprobado; no hay nada que hacer.")
         return 0
     print(f"Sensor declarado en {estructura.DIR}/config.json (el que correría oracle-factory evidencia):")
@@ -130,8 +130,8 @@ def aprobar() -> int:
         raise cli.FactoryError("la configuración o las aprobaciones cambiaron mientras se aprobaba; volvé a mirarlas. No registré nada")
     ruta = cli.ruta_segura(cli.ROOT / estructura.DIR / APROBADOS)
     # ponytail: una lista en un archivo; dos ramas que aprueban a la vez chocan en Git y lo resuelve una persona.
-    cli.escribir_atomico(ruta, (_legible([*previas, {"sha256": nueva, "declaracion": config, **quien, "cuando": cli.ahora()}])
-                                + "\n").encode("utf-8"))
+    nueva_aprobacion = firmas.firmar_aprobacion({"sha256": nueva, "declaracion": config, **quien, "cuando": cli.ahora()})
+    cli.escribir_atomico(ruta, (_legible([*previas, nueva_aprobacion]) + "\n").encode("utf-8"))
     print(f"Sensor aprobado por {quien['actor']}. Quedó en {estructura.DIR}/{APROBADOS}.")
     return 0
 

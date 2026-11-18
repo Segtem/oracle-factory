@@ -7,6 +7,7 @@ revisión registrada sobre el commit <sha7>.
 Commits: 1; el último <sha7> «producto» (oracle-factory log para verlos).
 Responsable: nadie (oracle-factory tomar ID).
 Aviso: revisión registrada en <sha7>; HEAD actual <sha7> con el producto idéntico.
+Aviso: las decisiones de persona de este cambio no están firmadas: cualquier proceso con una terminal puede tomarlas; con "firmas": "exigir" en .factory/config.json y tu llave en .factory-firmantes, cada una se firma (ver docs/firmas.md).
 Aviso: el candidato no tiene trazabilidad de pruebas: el sensor no dejó trazabilidad.json (ver docs/trazabilidad.md); sin ella no se sabe qué requisitos tienen casos de prueba.
 Camino de revisión: ligero (0 líneas de producto, 150 o menos, sin reglas de decisión): alcanza un revisor y una ronda (ver la guía para agentes).
 Aprobación spec: sí, <actor> (persona, decidio, modo confirmacion)

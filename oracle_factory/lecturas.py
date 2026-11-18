@@ -447,7 +447,7 @@ def datos_estado(identificador: str) -> dict:
         "oracle": gate(estado.get("oracle"), ("codigo", "informe", "hechos", "hechos_mas"),
                        cli.juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
-        "avisos": cli.aviso_union(identificador, estado) if abandonado else (cli.avisos_head(estado) + cli.aviso_revision(estado) + cli.aviso_lanzamientos(estado)
+        "avisos": cli.aviso_union(identificador, estado) if abandonado else (cli.avisos_head(estado) + cli.aviso_revision(estado) + cli.aviso_lanzamientos(estado) + cli.firmas_mod.avisos(estado)
                                          + cli.aviso_sin_autor(estado) + cli.aviso_sin_medir(identificador, estado) + cli.aviso_ignorados()
                                          + cli.aviso_notas(identificador, estado) + cli.aviso_union(identificador, estado)
                                          + cli.pruebas_mod.avisos(prueba) + alarmas.avisos(editados) + alarmas.avisos_del_flujo(flujo)

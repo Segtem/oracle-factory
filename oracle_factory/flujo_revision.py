@@ -482,6 +482,7 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
         estado.update(oracle=None, fase='revision_aprobada' if decision == 'aprobar' else 'cambios_pedidos')
         cli.evento(estado, 'revision_registrada', forma=forma, formato='guiado', revisor=revisor, decision=decision,
                abiertos=abiertos, sha256=cli.sha256(contenido), decisiones_sha256=cli.sha256(resoluciones))
+        cli.firmas_mod.sellar(estado)
         cli.escribir_atomico(registro_ruta, cli.bytes_json(estado), esperado=registro)
     except (cli.FactoryError, OSError) as e:
         raise cli.FactoryError(f'no se publicó la nueva revisión: {e}. Copias residuales en {destino.parent}; '
