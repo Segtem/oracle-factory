@@ -89,6 +89,16 @@ def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
     motivo = cli.elegir_motivo(f"no se va a terminar: queda abandonado en la fase {estado['fase']}"
                            + (f" con {len(requisitos)} requisitos sin cerrar" if requisitos else "")
                            + "; lo que siga va en un cambio nuevo.", propuesto)
+    forma = "confirmo" if motivo[1] == "agente" else "decidio"
+    estado["fase"] = "abandonada"
+    estado["abandono"] = {**cli.registro_decision(estado, forma, motivo), "requisitos_quitados": requisitos}
+    (estado.get("motivos_propuestos") or {}).pop("abandono", None)
+    cli.evento(estado, "abandono", forma=forma, requisitos_quitados=requisitos)
+    cli.firmas_mod.sellar(estado)  # una firma fallida no debe cerrar ni anotar la tarea
+    if cli.firmas_mod.exige(cli.config_proyecto()):
+        firmantes = (cli.PRODUCTO or cli.ROOT) / cli.firmas_mod.FIRMANTES
+        if problema := cli.firmas_mod.problema(identificador, "abandono", estado["abandono"], firmantes):
+            raise cli.FactoryError(f"la decisión de abandono no cuenta: {problema}; no modifiqué la tarea")
     if tarea.is_file():
         # El tracker antes que Factory: si falla, el cambio sigue abierto y repetir abandonar lo completa (una tarea ya
         # cerrada no se vuelve a cerrar y la nota no se repite). Cerrar va primero para no dejar la nota en una tarea abierta.
@@ -101,11 +111,6 @@ def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
             cli.nota_tarea(identificador, nota)
     else:
         print(f"Aviso: {identificador} no tiene tarea en tareas/; no hay nada que cerrar en el tracker.", file=sys.stderr)
-    forma = "confirmo" if motivo[1] == "agente" else "decidio"
-    estado["fase"] = "abandonada"
-    estado["abandono"] = {**cli.registro_decision(estado, forma, motivo), "requisitos_quitados": requisitos}
-    (estado.get("motivos_propuestos") or {}).pop("abandono", None)
-    cli.evento(estado, "abandono", forma=forma, requisitos_quitados=requisitos)
     cli.guardar(carpeta, estado)
     for rid in requisitos:  # después del registro: lo que se quitó queda dicho aunque se corte acá
         (cli.requisitos_dir() / f"{rid}.requisito").unlink(missing_ok=True)
