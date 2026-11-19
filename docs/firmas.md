@@ -45,8 +45,9 @@ cambio contra `.factory-firmantes`. Una decisión sin firma, con una firma que n
 después de firmarse) o de una llave que no está en la lista no cuenta: se nombra y hay que volver a tomarla. Una aprobación del
 sensor sin firma válida no cuenta como aprobación: `aprobar-sensor` la pide de nuevo.
 
-Con `firmas_base`, sólo se toleran sin firma las decisiones que ya estaban en cambios cerrados en ese commit y siguen idénticas.
-Una decisión agregada o modificada después, o una decisión de un cambio que estaba abierto, necesita firma. La base no autentica
+Con `firmas_base`, sólo se toleran sin firma las decisiones que ya estaban en cambios cerrados o abandonados en ese commit,
+siguen en la misma fase y siguen idénticas. Una decisión agregada o modificada después, o una decisión de un cambio que estaba
+abierto, necesita firma. La base no autentica
 la historia anterior: la confianza en esas decisiones depende del commit del almacén elegido por la persona. Al activar «exigir»,
 la aprobación anterior del sensor no se hereda y hay que aprobarlo otra vez con la llave.
 
@@ -60,5 +61,5 @@ Sin «exigir», Factory hace lo de siempre, y `estado` avisa que las decisiones 
 - **La lista de firmantes** es tan confiable como el repo del producto: quien puede commitear en él puede agregarse.
 - **La autonomía por etapa y marcar revisada una nota** todavía no se firman (quedan para otro cambio).
 - **Las decisiones ya tomadas sin firma** no se firman después: sin `firmas_base`, hay que volver a tomarlas. Con esa base,
-  sólo se conserva lo ya cerrado e idéntico; las decisiones de cambios abiertos hay que volver a tomarlas.
+  sólo se conserva lo ya cerrado o abandonado e idéntico; las decisiones de cambios abiertos hay que volver a tomarlas.
 - Llaves físicas (`ed25519-sk`, FIDO): `ssh-keygen` las acepta igual, pero no están probadas.

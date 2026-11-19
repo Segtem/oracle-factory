@@ -141,10 +141,11 @@ def problema(cambio: str, campo: str, registro: dict, firmantes: Path) -> str | 
 
 
 def historicas(estado: dict, base: str | None) -> Counter:
-    """Decisiones sin firma de este cambio ya cerrado en el commit base exacto del almacén."""
+    """Decisiones sin firma de un cambio ya cerrado o abandonado en el commit base del almacén."""
     cli = _cli()
     ident = estado.get("id")
-    if not base or estado.get("fase") != "cerrada" or not isinstance(ident, str) or not cli.ID_RE.fullmatch(ident):
+    fase = estado.get("fase")
+    if not base or fase not in ("cerrada", "abandonada") or not isinstance(ident, str) or not cli.ID_RE.fullmatch(ident):
         return Counter()
     git = lambda *args: subprocess.run(["git", *args], cwd=cli.ROOT, capture_output=True, text=True,
                                         env={**os.environ, "GIT_OPTIONAL_LOCKS": "0"})
@@ -157,7 +158,7 @@ def historicas(estado: dict, base: str | None) -> Counter:
         anterior = json.loads(r.stdout)
     except (ValueError, TypeError):
         return Counter()
-    if not isinstance(anterior, dict) or anterior.get("fase") != "cerrada":
+    if not isinstance(anterior, dict) or anterior.get("fase") != fase:
         return Counter()
     return Counter(json.dumps([campo, registro], ensure_ascii=False, sort_keys=True, separators=(",", ":"))
                    for campo, registro in registros(anterior) if registro.get("tipo_actor") == "persona" and "firma" not in registro)
