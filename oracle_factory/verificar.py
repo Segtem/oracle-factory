@@ -19,7 +19,10 @@ def del_cambio(cli, ident: str) -> tuple[list[str], list[str]]:
     except (cli.FactoryError, OSError, ValueError) as e:
         return [f"registro ilegible: {e}"], []
     if estado.get("fase") == "abandonada":
-        return [], []
+        try:
+            return cli.firmas_mod.pendientes(estado), []
+        except (cli.FactoryError, OSError, ValueError) as e:
+            return [f"no pude comprobarlo: {e}"], []
     cerrado, cierre = estado.get("fase") == "cerrada", estado.get("cierre") or {}
     previstos = set(cli.pendientes(estado)) | {f"medidas de {rid}: {motivo}" for rid, motivo in cli.medidas_sin_decision(estado)}
     try:

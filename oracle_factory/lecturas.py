@@ -436,7 +436,7 @@ def datos_estado(identificador: str) -> dict:
                         "propuesta": cli._decision(None if (pendientes_medidas.get(rid) or {}).get("descartada")
                                                else pendientes_medidas.get(rid))}
                        for rid in estado.get("requisitos") or []],
-        "pendientes": [] if abandonado else cli.pendientes_actuales(carpeta, estado),
+        "pendientes": cli.firmas_mod.pendientes(estado) if abandonado else cli.pendientes_actuales(carpeta, estado),
         "proximo_paso": (todos := cli.pasos(identificador) or [None])[0], "alternativas": todos[1:],
         "decisiones": {"spec": cli._decision(estado.get("spec_aprobada")), "revision": cli._decision(estado.get("revision")),
                        "cierre": cli._decision(estado.get("cierre")), "abandono": cli._decision(estado.get("abandono"))},
@@ -621,7 +621,10 @@ def mostrar(identificador: str) -> None:
         print(f"{estado['id']} — {estado['titulo']}\nFase: abandonada\nAbandonado por: {cli.quien(estado.get('abandono'))}")
         quitados = (estado.get("abandono") or {}).get("requisitos_quitados") or []
         print("Requisitos quitados de requisitos/: " + (", ".join(quitados) or "ninguno"))
-        for aviso in cli.datos_estado(identificador)["avisos"]:  # los mismos que el JSON: dos ramas pudieron decidir distinto también sobre esto
+        datos = cli.datos_estado(identificador)
+        for pendiente in datos["pendientes"]:
+            print("Pendiente: " + pendiente + ".")
+        for aviso in datos["avisos"]:  # los mismos que el JSON: dos ramas pudieron decidir distinto también sobre esto
             print(f"Aviso: {aviso}.")
         return
     print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {cli.modo_de(estado)}")
