@@ -6,6 +6,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+import yaml
 from oracle_factory import cli, firmas
 
 
@@ -125,3 +126,9 @@ class FirmasHistoricas(unittest.TestCase):
         self.base(estado)
         self.config.write_text('{"firmas": "exigir", "firmas_base": "' + "f" * 40 + '"}', encoding="utf-8")
         self.assertEqual(len(self.problemas(estado)), 2)
+
+    def test_fh1_el_ci_del_almacen_trae_el_commit_base(self):
+        plantilla = Path(__file__).resolve().parents[1] / "docs/plantillas/verificar-almacen.yml"
+        pasos = yaml.safe_load(plantilla.read_text(encoding="utf-8"))["jobs"]["verificar"]["steps"]
+        almacen = next(p for p in pasos if p.get("with", {}).get("path") == "almacen")
+        self.assertEqual(almacen["with"].get("fetch-depth"), 0)
