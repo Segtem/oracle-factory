@@ -155,6 +155,8 @@ class AbandonoFirmado(_firmas.Base):
     def test_af2_tracker_falla_despues_de_firmar_y_se_recupera(self):
         self.exigir()
         ident = self.nuevo()
+        with patch.object(f, "AGENTE", "codex"):
+            f.abandonar(ident, "lo reemplazó otro cambio")
         registro, tarea = self.rutas(ident)
         real = f.ejecutar
 
@@ -170,9 +172,11 @@ class AbandonoFirmado(_firmas.Base):
         self.assertIn("ESTADO: CERRADA", tarea.read_text(encoding="utf-8"))
         self.assertNotIn("abandono", json.loads(registro.read_text(encoding="utf-8")))
         self.abandonar(ident)
-        self.assertEqual(f.leer(ident)[1]["fase"], "abandonada")
+        final = f.leer(ident)[1]
+        self.assertEqual(final["fase"], "abandonada")
+        self.assertEqual((final["abandono"]["forma"], final["abandono"]["origen_motivo"]), ("confirmo", "agente"))
         self.assertEqual(tarea.read_text(encoding="utf-8").count("Abandonado por una persona"), 1)
-        self.assertEqual(firmas.pendientes(f.leer(ident)[1]), [])
+        self.assertEqual(firmas.pendientes(final), [])
 
 
 if __name__ == "__main__":
