@@ -61,7 +61,13 @@ class FirmasHistoricas(unittest.TestCase):
         estado = self.estado()
         self.base(estado)
         estado["spec_aprobada"]["tipo_actor"] = "agente"
-        self.assertEqual(len(self.problemas(estado)), 1)
+        self.assertIn("cambió su tipo de actor", " ".join(self.problemas(estado)))
+
+    def test_fh1_una_decision_de_agente_en_la_base_no_se_trata_como_historica(self):
+        estado = self.estado()
+        estado["spec_aprobada"]["tipo_actor"] = "agente"
+        self.base(estado)
+        self.assertEqual(self.problemas(estado), [])
 
     def test_fh1_una_decision_nueva_en_un_cierre_historico_no_se_exime(self):
         estado = self.estado()
@@ -101,6 +107,27 @@ class FirmasHistoricas(unittest.TestCase):
         estado = self.estado("requisitos_importados")
         self.base(estado)
         self.assertEqual(len(self.problemas(estado)), 1)
+
+    def test_fh1_un_cambio_cerrado_despues_de_la_base_no_se_exime(self):
+        anterior = self.estado("requisitos_importados")
+        self.base(anterior)
+        self.assertEqual(len(self.problemas(self.estado())), 2)
+
+    def test_fh1_un_registro_de_base_con_json_roto_no_exime(self):
+        estado = self.estado()
+        self.registro.write_text("{incompleto", encoding="utf-8")
+        self.git("add", ".")
+        self.git("-c", "user.name=Fixture", "-c", "user.email=fixture@example.test", "commit", "-qm", "base")
+        self.config.write_text(json.dumps({"firmas": "exigir", "firmas_base": self.git("rev-parse", "HEAD")}), encoding="utf-8")
+        self.assertEqual(len(self.problemas(estado)), 2)
+
+    def test_fh1_un_registro_de_base_que_no_es_objeto_no_exime(self):
+        estado = self.estado()
+        self.registro.write_text("[]", encoding="utf-8")
+        self.git("add", ".")
+        self.git("-c", "user.name=Fixture", "-c", "user.email=fixture@example.test", "commit", "-qm", "base")
+        self.config.write_text(json.dumps({"firmas": "exigir", "firmas_base": self.git("rev-parse", "HEAD")}), encoding="utf-8")
+        self.assertEqual(len(self.problemas(estado)), 2)
 
     def test_fh1_un_cambio_posterior_a_la_base_no_se_exime(self):
         self.base(self.estado())
