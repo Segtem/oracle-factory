@@ -252,9 +252,13 @@ def config_proyecto() -> dict:
               "confiar_escalares": datos.get("confiar_escalares", False),
               "rag": datos.get("rag", {}),
               "idioma": datos.get("idioma", plantillas.POR_DEFECTO),
-              "autonomia": datos.get("autonomia", {}), "sensor": datos.get("sensor"), "firmas": datos.get("firmas")}
+              "autonomia": datos.get("autonomia", {}), "sensor": datos.get("sensor"), "firmas": datos.get("firmas"),
+              "firmas_base": datos.get("firmas_base")}
     if config["firmas"] not in firmas_mod.VALORES:
         raise FactoryError(f'{ruta}: "firmas" admite "exigir" o "no"; dice {config["firmas"]!r}')
+    if config["firmas_base"] is not None and (not isinstance(config["firmas_base"], str)
+                                                or not re.fullmatch(r"[0-9a-fA-F]{40}", config["firmas_base"])):
+        raise FactoryError(f'{ruta}: "firmas_base" debe ser un SHA de Git completo de 40 caracteres hexadecimales')
     try:
         config["sensor"] = sensor_mod.validar(config["sensor"])
     except ValueError as e:
@@ -279,7 +283,8 @@ def config_proyecto() -> dict:
                                                       for k, v in alias.items())):
         raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}), tipos_obligatorios (true/false), "
                            "capacidades (alias → capacidad, sin cadenas de alias), revisores, oracle (la carpeta del proyecto Oracle) "
-                           "confiar_escalares (true/false), rag (sus embeddings, ver oracle-factory preguntar) idioma (es o en, el de las plantillas de un cambio nuevo) y sensor")
+                           "confiar_escalares (true/false), rag (sus embeddings, ver oracle-factory preguntar), idioma (es o en, "
+                           "el de las plantillas de un cambio nuevo), sensor, firmas y firmas_base")
     return config
 
 

@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import os
 import secrets
+from collections import Counter
 from pathlib import Path
 import subprocess
 import tempfile
@@ -139,20 +140,65 @@ def problema(cambio: str, campo: str, registro: dict, firmantes: Path) -> str | 
     return None
 
 
+def historicas(estado: dict, base: str | None) -> Counter:
+    """Decisiones sin firma de este cambio ya cerrado en el commit base exacto del almacén."""
+    cli = _cli()
+    ident = estado.get("id")
+    if not base or estado.get("fase") != "cerrada" or not isinstance(ident, str) or not cli.ID_RE.fullmatch(ident):
+        return Counter()
+    git = lambda *args: subprocess.run(["git", *args], cwd=cli.ROOT, capture_output=True, text=True,
+                                        env={**os.environ, "GIT_OPTIONAL_LOCKS": "0"})
+    if git("merge-base", "--is-ancestor", base, "HEAD").returncode:
+        return Counter()
+    r = git("show", f"{base}:.factory/cambios/{ident}/factory.json")
+    if r.returncode:
+        return Counter()
+    try:
+        anterior = json.loads(r.stdout)
+    except (ValueError, TypeError):
+        return Counter()
+    if not isinstance(anterior, dict) or anterior.get("fase") != "cerrada":
+        return Counter()
+    return Counter(json.dumps([campo, registro], ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+                   for campo, registro in registros(anterior) if registro.get("tipo_actor") == "persona" and "firma" not in registro)
+
+
 def pendientes(estado: dict) -> list[str]:
     """Con «exigir», cada decisión de persona del cambio sin una firma válida, nombrada."""
     cli = _cli()
-    if not exige(cli.config_proyecto()):
+    config = cli.config_proyecto()
+    if not exige(config):
         return []
     firmantes = (cli.PRODUCTO or cli.ROOT) / FIRMANTES
+    anteriores = historicas(estado, config.get("firmas_base"))
+    campos_anteriores = {json.loads(clave)[0] for clave in anteriores}
+
+    def consumir_campo(campo: str) -> None:
+        for clave, cantidad in anteriores.items():
+            if cantidad > 0 and json.loads(clave)[0] == campo:
+                anteriores[clave] -= 1
+                return
+
     salida = []
     for campo, registro in registros(estado):
         if registro.get("tipo_actor") != "persona":
+            if campo in campos_anteriores:
+                consumir_campo(campo)
+                salida.append(f"la decisión histórica «{campo}» cambió su tipo de actor; no cuenta sin firma válida")
             continue
+        if "firma" not in registro:
+            clave = json.dumps([campo, registro], ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+            if anteriores[clave]:
+                anteriores[clave] -= 1
+                continue
         falla = problema(estado.get("id", ""), campo, registro, firmantes)
+        consumir_campo(campo)
         if falla:
             nombre = campo.replace("medidas/", "medidas de ").replace("eventos/", "").split("@")[0]
             salida.append(f"la decisión «{nombre}» de {registro.get('actor', '?')}: {falla}; no cuenta hasta que una persona la vuelva a tomar")
+    for clave, cantidad in anteriores.items():
+        if cantidad > 0:
+            salida.append(f"la decisión histórica «{json.loads(clave)[0]}» fue quitada; no cuenta sin restaurarla")
     return salida
 
 

@@ -24,7 +24,9 @@ Una firma sólo te distingue de un agente si la llave pide algo que el agente no
    echo "tu-nombre $(cat ~/.ssh/oracle-factory.pub)" >> .factory-firmantes
    ```
 
-3. En `.factory/config.json`, `"firmas": "exigir"`.
+3. En `.factory/config.json`, `"firmas": "exigir"`. Si el proyecto ya tiene cambios cerrados sin firma, tomá antes el SHA
+   completo del commit actual del almacén de registros (`git rev-parse HEAD` allí) y ponelo también como `"firmas_base": "SHA"`.
+   Esa base tiene que ser un ancestro del almacén. Sin base, «exigir» pide firma también a todas las decisiones anteriores.
 
 ## Qué se firma
 
@@ -43,6 +45,11 @@ cambio contra `.factory-firmantes`. Una decisión sin firma, con una firma que n
 después de firmarse) o de una llave que no está en la lista no cuenta: se nombra y hay que volver a tomarla. Una aprobación del
 sensor sin firma válida no cuenta como aprobación: `aprobar-sensor` la pide de nuevo.
 
+Con `firmas_base`, sólo se toleran sin firma las decisiones que ya estaban en cambios cerrados en ese commit y siguen idénticas.
+Una decisión agregada o modificada después, o una decisión de un cambio que estaba abierto, necesita firma. La base no autentica
+la historia anterior: la confianza en esas decisiones depende del commit del almacén elegido por la persona. Al activar «exigir»,
+la aprobación anterior del sensor no se hereda y hay que aprobarlo otra vez con la llave.
+
 Sin «exigir», Factory hace lo de siempre, y `estado` avisa que las decisiones de persona del cambio no están firmadas.
 
 ## Lo que no cubre
@@ -52,5 +59,6 @@ Sin «exigir», Factory hace lo de siempre, y `estado` avisa que las decisiones 
 - **Un registrador de teclas** que capture la frase, o la frase guardada en algún lugar que el agente pueda leer.
 - **La lista de firmantes** es tan confiable como el repo del producto: quien puede commitear en él puede agregarse.
 - **La autonomía por etapa y marcar revisada una nota** todavía no se firman (quedan para otro cambio).
-- **Las decisiones ya tomadas sin firma** no se firman después: con «exigir», hay que volver a tomarlas.
+- **Las decisiones ya tomadas sin firma** no se firman después: sin `firmas_base`, hay que volver a tomarlas. Con esa base,
+  sólo se conserva lo ya cerrado e idéntico; las decisiones de cambios abiertos hay que volver a tomarlas.
 - Llaves físicas (`ed25519-sk`, FIDO): `ssh-keygen` las acepta igual, pero no están probadas.
