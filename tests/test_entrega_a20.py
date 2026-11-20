@@ -27,7 +27,10 @@ class EntregaA20(unittest.TestCase):
     def entrega(cls):
         if cls._entrega is None:
             temporal = tempfile.TemporaryDirectory(prefix="test-entrega-a20-")
-            cls.addClassCleanup(temporal.cleanup)
+            def limpiar():
+                cls._entrega = None
+                temporal.cleanup()
+            cls.addClassCleanup(limpiar)
             salida = Path(temporal.name) / "entrega"
             cls._entrega = salida
             if probador().main(["--salida", str(salida)]) != 0:
