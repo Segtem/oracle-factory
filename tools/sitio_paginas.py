@@ -19,7 +19,7 @@ PAGINAS = [
 ]
 ANCLAS = [("formas", "Cuatro caminos"), ("recorrido", "El recorrido"), ("herramientas", "El kit"), ("jugar", "Jugá"), ("novedades", "Qué trae")]
 DOCS = "https://github.com/Segtem/oracle-factory/blob/main/docs/"
-GRUPOS = {"empezar": ["estructura", "agentes", "modos", "firmas"], "varios": ["colaboracion", "tablero", "revision-guiada"],
+GRUPOS = {"empezar": ["instalacion", "estructura", "agentes", "modos", "firmas"], "varios": ["colaboracion", "tablero", "revision-guiada"],
           "calidad": ["tests", "lista-previa", "puerta", "ci", "despliegue", "procedencia"], "consultar": ["conocimiento", "trazabilidad"]}
 TABLA = ["index.html"] + [f for f, _, _ in PAGINAS]
 
