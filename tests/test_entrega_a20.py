@@ -124,6 +124,22 @@ class EntregaA20(unittest.TestCase):
         self.assertTrue(registro["limites"])
         with self.assertRaises(FileExistsError):
             herramienta.main(["--salida", str(salida)])
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp) / "entrega"
+            destino.mkdir()
+            previo = destino / "registro.json"
+            previo.write_bytes(b'{"registro":"previo"}\n')
+            with patch.object(herramienta.anterior, "construir", side_effect=AssertionError("no debe construir")):
+                with self.assertRaises(FileExistsError):
+                    herramienta.main(["--salida", str(destino)])
+            self.assertEqual(previo.read_bytes(), b'{"registro":"previo"}\n')
+            self.assertFalse((destino / "dist").exists())
+            previo.unlink()
+            previo.symlink_to(destino / "ausente")
+            with patch.object(herramienta.anterior, "construir", side_effect=AssertionError("no debe construir")):
+                with self.assertRaises(FileExistsError):
+                    herramienta.main(["--salida", str(destino)])
+            self.assertTrue(previo.is_symlink())
 
     def test_ea3_registro_incompleto_se_rechaza(self):
         herramienta = probador()

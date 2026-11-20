@@ -44,6 +44,9 @@ def main(argv=None) -> int:
     parser.add_argument("--salida", type=Path, default=ROOT / ".factory/local/entrega-a20")
     args = parser.parse_args(argv)
     salida = args.salida.expanduser().resolve()
+    registro_path = salida / "registro.json"
+    if registro_path.exists() or registro_path.is_symlink():
+        raise FileExistsError(f"no se sobrescribe el registro existente: {registro_path}")
     artefactos = anterior.construir(salida / "dist", raiz=ROOT, version=VERSION)
     with tempfile.TemporaryDirectory(prefix="entrega-a20-") as tmp:
         factory, python = anterior.instalar(Path(tmp) / "venv", artefactos["wheel"])
@@ -56,7 +59,8 @@ def main(argv=None) -> int:
     problemas += problemas_del_registro(registro)
     registro["problemas"] = problemas
     registro["ok"] = not problemas
-    (salida / "registro.json").write_text(json.dumps(registro, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    with registro_path.open("x", encoding="utf-8") as archivo:
+        archivo.write(json.dumps(registro, ensure_ascii=False, indent=2) + "\n")
     print(f"Entrega {VERSION}: {'ok' if not problemas else 'CON PROBLEMAS'}; wheel {registro['hashes']['wheel'][:12]}, "
           f"sdist {registro['hashes']['sdist'][:12]}; registro en {salida / 'registro.json'}")
     for problema in problemas:
