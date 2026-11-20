@@ -137,7 +137,9 @@ class SinJavascript(unittest.TestCase):
             self.assertTrue(comandos_nombrados('\n'.join(codigo)), codigo)
             self.assertEqual(comandos_que_faltan(codigo), [])
         instalar = texto(next(nodos(pasos[0], lambda x: x['tag'] == 'code')))
-        self.assertIn(f'oracle-factory=={f.__version__}', instalar)  # instala la versión que describe el sitio
+        from tools.docs_al_dia import versiones_admitidas
+        publicada = next(iter(versiones_admitidas(ROOT, f.__version__) - {f.__version__}), f.__version__)
+        self.assertIn(f'oracle-factory=={publicada}', instalar)  # instala la última versión publicada
         # Antes de cualquier otro contenido: ninguna otra sección del main va antes.
         self.assertEqual([h['a'].get('id') for h in main['hijos'] if isinstance(h, dict)][:3], ['empezar', 'camino', 'ejemplos'])
 

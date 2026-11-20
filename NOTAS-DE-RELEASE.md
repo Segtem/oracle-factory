@@ -1,9 +1,22 @@
-# Sin publicar
+# Oracle Factory 0.1.0a20 (en preparación)
 
-Lo que está en `main` y todavía no en una versión publicada. Desde un checkout, `oracle-factory --version` lo dice con el commit:
-`0.1.0a19+SHA (checkout, sin publicar)`.
+La candidata 0.1.0a20 reúne lo integrado en `main` desde la 0.1.0a19. Desde un checkout sin tag,
+`oracle-factory --version` informa `0.1.0a20+SHA (checkout, sin publicar)`. La versión publicada en PyPI sigue siendo
+0.1.0a19 hasta que se comprueben la subida y los hashes de los artefactos de esta entrega.
 
-- Nada todavía.
+- **Decisiones de persona firmadas.** Con `"firmas": "exigir"`, la spec, las medidas, la revisión, el cierre, el abandono,
+  los cambios de modo, la liberación de responsabilidad y las decisiones de unión se firman con una llave SSH autorizada.
+  Factory verifica esas firmas, incluida la decisión de un cambio abandonado, y la aprobación del sensor.
+- **Historia anterior conservada con una base explícita.** `firmas_base` permite seguir leyendo decisiones anteriores a la
+  activación sólo si el cambio ya estaba cerrado o abandonado en ese commit y la decisión completa permanece intacta.
+  La confianza de esas decisiones históricas depende del commit base elegido; no se firman retrospectivamente.
+- **Abandono consistente ante errores de firma.** Factory firma y valida la decisión antes de cerrar la tarea en Oracle Task.
+  Si falta la llave, falla la frase o la llave no está autorizada, la tarea y el cambio siguen abiertos.
+- **Alcance de las firmas.** La guía `docs/firmas.md` explica la custodia de `.factory-firmantes` y los límites del modelo:
+  no firma cada ejecución del sensor ni sustituye la revisión independiente. La autonomía por etapa y marcar revisada
+  una nota siguen fuera del conjunto de decisiones firmadas.
+- **Distribución comprobada antes de publicar.** El probador de a20 construye wheel y sdist, instala el wheel fuera del
+  checkout y verifica que lleva el módulo de firmas y la skill, además de registrar los hashes y sus límites.
 
 # Oracle Factory 0.1.0a19
 

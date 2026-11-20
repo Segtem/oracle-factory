@@ -1,5 +1,5 @@
 """La documentación contra la CLI: cada subcomando está documentado, ningún texto nombra uno que no existe y la versión
-de Factory que se nombra es la de pyproject.toml.
+de Factory que se nombra es la de pyproject.toml o, mientras ésta se prepara, la última publicada.
 
     python tools/docs_al_dia.py [--raiz CARPETA]
 
@@ -57,6 +57,24 @@ def versiones_factory(texto: str, nombre: str) -> set[str]:
     texto = re.sub(r'\b(?!oracle-factory\b)[a-zA-Z][\w-]*@' + NUMERO, '', texto)
     texto = OTRO_PRODUCTO.sub('', texto)
     return {m[1] for m in VERSION.finditer(texto)}
+
+
+def versiones_admitidas(raiz: Path, actual: str) -> set[str]:
+    """La candidata y, sólo si las notas la identifican, la última versión ya publicada para las instrucciones de instalación."""
+    notas = raiz / "NOTAS-DE-RELEASE.md"
+    if not notas.is_file():
+        return {actual}
+    texto = notas.read_text(encoding="utf-8")
+    if not re.search(rf"(?m)^# Oracle Factory {re.escape(actual)} \(en preparación\)$", texto):
+        return {actual}
+    anterior = re.search(rf"(?m)^# Oracle Factory ({NUMERO})$", texto)
+    if not anterior:
+        return {actual}
+    publicada = anterior[1]
+    seccion = texto[anterior.end():].split("\n# Oracle Factory ", 1)[0]
+    if f"**Publicada.** En PyPI como `oracle-factory=={publicada}`" not in seccion:
+        return {actual}
+    return {actual, publicada}
 
 
 def comandos_documentados(texto: str) -> set[str]:
@@ -134,6 +152,7 @@ def preparacion_olvidada(raiz: Path, version: str, todo: dict[str, str]) -> list
 def problemas(raiz: Path = ROOT) -> list[str]:
     comandos = subcomandos()
     version = tomllib.loads((raiz / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
+    admitidas = versiones_admitidas(raiz, version)
     salida = []
     todo = textos(raiz)
     for nombre, texto in todo.items():
@@ -141,10 +160,11 @@ def problemas(raiz: Path = ROOT) -> list[str]:
             if m[1] not in comandos:
                 salida.append(f"{nombre}: nombra «oracle-factory {m[1]}», que no es un subcomando")
         de_factory = versiones_factory(texto, nombre)
-        for v in sorted(de_factory - {version}):
-            salida.append(f"{nombre}: nombra la versión {v}; la de pyproject.toml es {version}")
+        for v in sorted(de_factory - admitidas):
+            salida.append(f"{nombre}: nombra la versión {v}; se admiten {', '.join(sorted(admitidas))}")
     salida += publicacion_prematura(raiz, version, todo)
-    salida += preparacion_olvidada(raiz, version, todo)
+    for admitida in admitidas:
+        salida += preparacion_olvidada(raiz, admitida, todo)
     documentado = " ".join(t for n, t in todo.items() if n == "README.md" or n.startswith("docs/"))
     for c in sorted(comandos - comandos_documentados(documentado)):
         salida.append(f"el subcomando {c} no aparece en el README ni en docs/")

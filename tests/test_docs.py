@@ -64,7 +64,7 @@ class Docs(unittest.TestCase):
     def copia(self):
         tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
-        for nombre in ('README.md', 'pyproject.toml'):
+        for nombre in ('README.md', 'pyproject.toml', 'NOTAS-DE-RELEASE.md'):
             shutil.copy(SOURCE / nombre, tmp / nombre)
         shutil.copytree(SOURCE / 'docs', tmp / 'docs')
         shutil.copytree(SOURCE / 'site', tmp / 'site', ignore=shutil.ignore_patterns('*.js', '*.css', '*.svg'))
@@ -100,9 +100,9 @@ class Docs(unittest.TestCase):
         self.cambiar(tmp, 'README.md', 'Versión publicada en PyPI: `oracle-factory==0.1.0a19`.', 'Versión publicada en PyPI: `oracle-factory==0.1.0a9`.')
         self.cambiar(tmp, 'site/desde-cero.html', 'Usá la 0.1.0a19', 'Usá la 0.1.0a7')
         lista = docs_al_dia.problemas(tmp)
-        self.assertIn('README.md: nombra la versión 0.1.0a9; la de pyproject.toml es 0.1.0a19', lista)
-        self.assertIn('site/desde-cero.html: nombra la versión 0.1.0a7; la de pyproject.toml es 0.1.0a19', lista)
-        self.assertEqual([p for p in lista if '0.1.0a2' in p or '0.1.0a12' in p], [])  # Clue y el historial no cuentan
+        self.assertIn('README.md: nombra la versión 0.1.0a9; se admiten 0.1.0a19, 0.1.0a20', lista)
+        self.assertIn('site/desde-cero.html: nombra la versión 0.1.0a7; se admiten 0.1.0a19, 0.1.0a20', lista)
+        self.assertEqual([p for p in lista if re.search(r'nombra la versión 0\.1\.0a(?:2|12)(?!\d)', p)], [])  # Clue y el historial no cuentan
         # El historial de versiones del README puede nombrar las anteriores; una plantilla, un
         # comando que no existe: la comprobación mira también docs/plantillas/.
         tmp = self.copia()
@@ -111,7 +111,7 @@ class Docs(unittest.TestCase):
         self.assertEqual(docs_al_dia.problemas(tmp), [])
         with readme.open('a') as out:
             out.write('\n## Uso actual\nUsá Factory 0.2.0.\n')
-        self.assertIn('README.md: nombra la versión 0.2.0; la de pyproject.toml es 0.1.0a19', docs_al_dia.problemas(tmp))
+        self.assertIn('README.md: nombra la versión 0.2.0; se admiten 0.1.0a19, 0.1.0a20', docs_al_dia.problemas(tmp))
         tmp = self.copia()
         (tmp / 'docs/notas-de-version.md').write_text('# Notas de versión\nLa 0.1.0 agregó cosas.\n')
         self.assertEqual(docs_al_dia.problemas(tmp), [])
@@ -123,11 +123,11 @@ class Docs(unittest.TestCase):
             with self.subTest(version=version):
                 tmp = self.copia()
                 self.cambiar(tmp, 'README.md', 'Versión publicada en PyPI: `oracle-factory==0.1.0a19`.', f'Versión publicada en PyPI: `oracle-factory=={version}`.')
-                self.assertIn(f'README.md: nombra la versión {version}; la de pyproject.toml es 0.1.0a19', docs_al_dia.problemas(tmp))
+                self.assertIn(f'README.md: nombra la versión {version}; se admiten 0.1.0a19, 0.1.0a20', docs_al_dia.problemas(tmp))
         tmp = self.copia()
-        self.cambiar(tmp, 'pyproject.toml', 'version = "0.1.0a19"', 'version = "0.2.0"')
+        self.cambiar(tmp, 'pyproject.toml', 'version = "0.1.0a20"', 'version = "0.2.0"')
         self.cambiar(tmp, 'README.md', 'Versión publicada en PyPI: `oracle-factory==0.1.0a19`.', 'Versión publicada en PyPI: `oracle-factory==0.3.0`.')
-        self.assertIn('README.md: nombra la versión 0.3.0; la de pyproject.toml es 0.2.0', docs_al_dia.problemas(tmp))
+        self.assertIn('README.md: nombra la versión 0.3.0; se admiten 0.2.0', docs_al_dia.problemas(tmp))
         # Un nombre corto, con mayúsculas o con opciones globales válidas no debe escaparse.
         for comando, nombre in (('X', 'X'), ('x', 'x'), ('v2', 'v2'), ('test_cmd', 'test_cmd'),
                                 ('--proyecto=/tmp falso', 'falso'), ('--agente=bot falso', 'falso'),
