@@ -76,7 +76,7 @@ Cambio 20261104-153415-wfw-agregar (trailer) — Agregar una tarea a la lista [r
   2026-11-04 15:34 Requisitos importados — claude-code (agente)</pre></figure>
 </section>
 <section id="despues"><p class="eyebrow">Y DESPUÉS</p><h2>Lo que no usamos en este ejemplo.</h2>
-<p>El ejemplo recorrió el flujo con vos tomando todas las decisiones. Factory 0.1.0a20 trae más, para cuando trabajes con agentes o en equipo:</p>
+<p>El ejemplo recorrió el flujo con vos tomando todas las decisiones. Factory 0.1.0a20 trae más, para cuando trabajes con agentes o en equipo:</p><p>Si querés construir un programa en vez de recibir el código ya escrito, seguí el <a href="https://github.com/Segtem/oracle-factory/blob/main/docs/tutorial-buscaminas.md">tutorial de Buscaminas paso a paso</a>: pruebas antes del juego, sensor, revisión y cierre con Factory.</p>
 <ul>
 <li><strong>Modos de trabajo.</strong> Cada cambio declara cuánto decide una persona: <code>confirmacion</code> (el que usaste: la persona confirma todo), <code>funcional</code> o <code>autonomo</code>. Se elige al crearlo con <code>oracle-factory nuevo --modo</code> o después con <code>oracle-factory modo</code>. Un agente actúa con <code>oracle-factory --agente NOMBRE estado ID</code> y queda registrado como agente. En el modo por defecto, lo que decide sobre la spec, las medidas y la revisión es sólo una propuesta que una persona confirma repitiendo el comando desde su terminal; cerrar no puede (salvo en modo <code>autonomo</code>).</li>
 <li><strong>Revisión guiada.</strong> En lugar de un informe libre, <code>oracle-factory revision-preparar</code> deja un informe y un documento de decisiones por completar, y <code>oracle-factory revision --formato guiado</code> los valida y calcula los hallazgos abiertos.</li>

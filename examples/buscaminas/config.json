@@ -1,0 +1,9 @@
+{
+  "modo_por_defecto": "confirmacion",
+  "tipos_obligatorios": false,
+  "sensor": {
+    "comando": ["{python}", "sensor.py", "--salida", "{salida}"],
+    "tope_minutos": 5,
+    "hechos": "exigir"
+  }
+}

@@ -1,0 +1,8 @@
+medida buscaminas.casos_correctos:
+    de casos c
+    donde c.codigo == 0
+    resumen contar(1)
+    umbral == 6 segun contrato porque "las seis observaciones deben coincidir con lo esperado"
+    requiere casos
+    ambito universal
+    alcance "seis reglas del tablero fijo; su pertinencia depende del sensor revisado"
