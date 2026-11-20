@@ -111,7 +111,8 @@ class Web(unittest.TestCase):
 
     # --- w2: el sitio cuenta lo que trae la versión publicada ---------------------------------------------------------
     def test_w2_el_sitio_cuenta_la_version_publicada(self):
-        version = f.__version__
+        from tools.docs_al_dia import versiones_admitidas
+        version = next(iter(versiones_admitidas(ROOT, f.__version__) - {f.__version__}), f.__version__)
         todas = paginas()
         guia = ' '.join(todas['desde-cero.html'].texto)
         self.assertIn(f'oracle-factory=={version}', guia)

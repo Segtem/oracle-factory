@@ -1,5 +1,5 @@
 """La documentación contra la CLI: cada subcomando está documentado, ningún texto nombra uno que no existe y la versión
-de Factory que se nombra es la de pyproject.toml.
+de Factory que se nombra es la de pyproject.toml o, mientras ésta se prepara, la última publicada.
 
     python tools/docs_al_dia.py [--raiz CARPETA]
 
@@ -59,6 +59,24 @@ def versiones_factory(texto: str, nombre: str) -> set[str]:
     return {m[1] for m in VERSION.finditer(texto)}
 
 
+def versiones_admitidas(raiz: Path, actual: str) -> set[str]:
+    """La candidata y, sólo si las notas la identifican, la última versión ya publicada para las instrucciones de instalación."""
+    notas = raiz / "NOTAS-DE-RELEASE.md"
+    if not notas.is_file():
+        return {actual}
+    texto = notas.read_text(encoding="utf-8")
+    if not re.search(rf"(?m)^# Oracle Factory {re.escape(actual)} \(en preparación\)$", texto):
+        return {actual}
+    anterior = re.search(rf"(?m)^# Oracle Factory ({NUMERO})$", texto)
+    if not anterior:
+        return {actual}
+    publicada = anterior[1]
+    seccion = texto[anterior.end():].split("\n# Oracle Factory ", 1)[0]
+    if f"**Publicada.** En PyPI como `oracle-factory=={publicada}`" not in seccion:
+        return {actual}
+    return {actual, publicada}
+
+
 def comandos_documentados(texto: str) -> set[str]:
     # Aceptamos invocaciones completas y nombres/ejemplos de subcomandos en código Markdown,
     # pero una palabra casual de la prosa («por ejemplo») no documenta un comando.
@@ -92,10 +110,23 @@ def publicacion_prematura(raiz: Path, version: str, todo: dict[str, str]) -> lis
     if not notas.is_file() or f"# Oracle Factory {version} (en preparación)" not in notas.read_text(encoding="utf-8"):
         return []
     v = re.escape(version)
-    publicada = r"(?:ya (?:está|esta) publicad[ao]|publicad[ao] en (?:PyPI|GitHub)|ya (?:está|esta) en PyPI|disponible en PyPI)"
-    afirma = re.compile(rf"{v}[^\n]{{0,80}}{publicada}|{publicada}[^\n]{{0,80}}{v}", re.I)
+    publicada = r"(?:ya (?:está|esta) publicad[ao]|publicad[ao] en (?:PyPI|GitHub)(?!\s+sigue siendo)|ya (?:está|esta) en PyPI|disponible en PyPI)"
+    marcador = rf"\*\*Publicada\.\*\*\s+En PyPI como\s+`oracle-factory=={v}`"
+    afirma = re.compile(rf"{v}[^\n]{{0,80}}{publicada}|{publicada}[^\n]{{0,80}}{v}|{marcador}", re.I)
     return [f"{nombre}: afirma que la versión {version} está publicada, pero NOTAS-DE-RELEASE.md la declara en preparación"
             for nombre, texto in todo.items() if afirma.search(texto)]
+
+
+def instalacion_prematura(raiz: Path, version: str, todo: dict[str, str]) -> list[str]:
+    """Los comandos y las instrucciones de instalación deben usar la última versión publicada mientras ésta se prepara."""
+    notas = raiz / "NOTAS-DE-RELEASE.md"
+    if not notas.is_file() or f"# Oracle Factory {version} (en preparación)" not in notas.read_text(encoding="utf-8"):
+        return []
+    instala = re.compile(
+        rf"(?:uv\s+tool\s+install|(?:python\s+-m\s+)?pip(?:3|x)?\s+install|instal(?:a|á|ar))\b"
+        rf"[^\n]{{0,160}}oracle-factory=={re.escape(version)}(?!\w)", re.I)
+    return [f"{nombre}: indica instalar la versión {version}, que sigue en preparación"
+            for nombre, texto in todo.items() if instala.search(texto)]
 
 
 def patron_preparacion(version: str) -> re.Pattern:
@@ -134,6 +165,7 @@ def preparacion_olvidada(raiz: Path, version: str, todo: dict[str, str]) -> list
 def problemas(raiz: Path = ROOT) -> list[str]:
     comandos = subcomandos()
     version = tomllib.loads((raiz / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
+    admitidas = versiones_admitidas(raiz, version)
     salida = []
     todo = textos(raiz)
     for nombre, texto in todo.items():
@@ -141,10 +173,14 @@ def problemas(raiz: Path = ROOT) -> list[str]:
             if m[1] not in comandos:
                 salida.append(f"{nombre}: nombra «oracle-factory {m[1]}», que no es un subcomando")
         de_factory = versiones_factory(texto, nombre)
-        for v in sorted(de_factory - {version}):
-            salida.append(f"{nombre}: nombra la versión {v}; la de pyproject.toml es {version}")
-    salida += publicacion_prematura(raiz, version, todo)
-    salida += preparacion_olvidada(raiz, version, todo)
+        for v in sorted(de_factory - admitidas):
+            salida.append(f"{nombre}: nombra la versión {v}; se admiten {', '.join(sorted(admitidas))}")
+    notas = raiz / "NOTAS-DE-RELEASE.md"
+    textos_publicacion = {**todo, notas.name: notas.read_text(encoding="utf-8")} if notas.is_file() else todo
+    salida += publicacion_prematura(raiz, version, textos_publicacion)
+    salida += instalacion_prematura(raiz, version, textos_publicacion)
+    for admitida in admitidas:
+        salida += preparacion_olvidada(raiz, admitida, textos_publicacion)
     documentado = " ".join(t for n, t in todo.items() if n == "README.md" or n.startswith("docs/"))
     for c in sorted(comandos - comandos_documentados(documentado)):
         salida.append(f"el subcomando {c} no aparece en el README ni en docs/")

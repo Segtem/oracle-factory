@@ -8,6 +8,9 @@ y quedan registrados como agentes. Los hechos que juzga Oracle los produce el se
 Factory lo corre sobre un checkout limpio del commit y registra lo que dio, así `juzgar` dice si los hechos salieron de ahí o los
 declaró alguien a mano. El sensor sigue siendo código del proyecto, escrito por quien trabaja: no es una medida independiente.
 
+La 0.1.0a20 está en preparación para incluir firmas de decisiones y la verificación de abandonos. La versión
+publicada en PyPI sigue siendo 0.1.0a19 hasta que se comprueben sus artefactos.
+
 Es una CLI local con un flujo visible en Git, una extensión de VS Code con un tablero de comando, y un servidor MCP para que un agente consulte el
 proyecto sin cambiar nada versionado (`preguntar` escribe su caché local). No empuja el producto ni publica ramas: sólo `sincronizar`, corrido por una persona, sube el almacén de registros. El código y las
 pruebas del producto los escribe quien trabaja (una persona o un agente); Factory registra qué se acordó, quién decidió
