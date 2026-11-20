@@ -178,9 +178,9 @@ def problemas(raiz: Path = ROOT) -> list[str]:
     notas = raiz / "NOTAS-DE-RELEASE.md"
     textos_publicacion = {**todo, notas.name: notas.read_text(encoding="utf-8")} if notas.is_file() else todo
     salida += publicacion_prematura(raiz, version, textos_publicacion)
-    salida += instalacion_prematura(raiz, version, todo)
+    salida += instalacion_prematura(raiz, version, textos_publicacion)
     for admitida in admitidas:
-        salida += preparacion_olvidada(raiz, admitida, todo)
+        salida += preparacion_olvidada(raiz, admitida, textos_publicacion)
     documentado = " ".join(t for n, t in todo.items() if n == "README.md" or n.startswith("docs/"))
     for c in sorted(comandos - comandos_documentados(documentado)):
         salida.append(f"el subcomando {c} no aparece en el README ni en docs/")

@@ -94,6 +94,20 @@ class EntregaA20(unittest.TestCase):
                         patch.object(docs_al_dia, "subcomandos", return_value=set()):
                     problemas = docs_al_dia.problemas(raiz)
                 self.assertTrue(any("README.md:" in p and "instal" in p for p in problemas), problemas)
+            notas = raiz / "NOTAS-DE-RELEASE.md"
+            notas.write_text(notas.read_text() + f"\nuv tool install oracle-factory=={VERSION}\n")
+            with patch.object(docs_al_dia, "textos", return_value={}), \
+                    patch.object(docs_al_dia, "subcomandos", return_value=set()):
+                problemas = docs_al_dia.problemas(raiz)
+            self.assertTrue(any("NOTAS-DE-RELEASE.md:" in p and "instal" in p for p in problemas), problemas)
+            notas.write_text(
+                f"# Oracle Factory {VERSION} (en preparación)\n\n"
+                "# Oracle Factory 0.1.0a19\n\n- **Publicada.** En PyPI como `oracle-factory==0.1.0a19`.\n"
+                "La 0.1.0a19 está en preparación.\n")
+            with patch.object(docs_al_dia, "textos", return_value={}), \
+                    patch.object(docs_al_dia, "subcomandos", return_value=set()):
+                problemas = docs_al_dia.problemas(raiz)
+            self.assertTrue(any("NOTAS-DE-RELEASE.md:" in p and "candidata" in p for p in problemas), problemas)
 
     def test_ea1_una_version_mas_vieja_que_la_publicada_se_nombra(self):
         with tempfile.TemporaryDirectory() as tmp:
