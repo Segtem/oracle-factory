@@ -111,9 +111,22 @@ def publicacion_prematura(raiz: Path, version: str, todo: dict[str, str]) -> lis
         return []
     v = re.escape(version)
     publicada = r"(?:ya (?:está|esta) publicad[ao]|publicad[ao] en (?:PyPI|GitHub)(?!\s+sigue siendo)|ya (?:está|esta) en PyPI|disponible en PyPI)"
-    afirma = re.compile(rf"{v}[^\n]{{0,80}}{publicada}|{publicada}[^\n]{{0,80}}{v}", re.I)
+    marcador = rf"\*\*Publicada\.\*\*\s+En PyPI como\s+`oracle-factory=={v}`"
+    afirma = re.compile(rf"{v}[^\n]{{0,80}}{publicada}|{publicada}[^\n]{{0,80}}{v}|{marcador}", re.I)
     return [f"{nombre}: afirma que la versión {version} está publicada, pero NOTAS-DE-RELEASE.md la declara en preparación"
             for nombre, texto in todo.items() if afirma.search(texto)]
+
+
+def instalacion_prematura(raiz: Path, version: str, todo: dict[str, str]) -> list[str]:
+    """Los comandos y las instrucciones de instalación deben usar la última versión publicada mientras ésta se prepara."""
+    notas = raiz / "NOTAS-DE-RELEASE.md"
+    if not notas.is_file() or f"# Oracle Factory {version} (en preparación)" not in notas.read_text(encoding="utf-8"):
+        return []
+    instala = re.compile(
+        rf"(?:uv\s+tool\s+install|(?:python\s+-m\s+)?pip(?:3|x)?\s+install|instal(?:a|á|ar))\b"
+        rf"[^\n]{{0,160}}oracle-factory=={re.escape(version)}(?!\w)", re.I)
+    return [f"{nombre}: indica instalar la versión {version}, que sigue en preparación"
+            for nombre, texto in todo.items() if instala.search(texto)]
 
 
 def patron_preparacion(version: str) -> re.Pattern:
@@ -165,6 +178,7 @@ def problemas(raiz: Path = ROOT) -> list[str]:
     notas = raiz / "NOTAS-DE-RELEASE.md"
     textos_publicacion = {**todo, notas.name: notas.read_text(encoding="utf-8")} if notas.is_file() else todo
     salida += publicacion_prematura(raiz, version, textos_publicacion)
+    salida += instalacion_prematura(raiz, version, todo)
     for admitida in admitidas:
         salida += preparacion_olvidada(raiz, admitida, todo)
     documentado = " ".join(t for n, t in todo.items() if n == "README.md" or n.startswith("docs/"))
