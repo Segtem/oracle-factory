@@ -1,11 +1,14 @@
 """ea1–ea3: versión candidata a20, wheel instalado con firmas y hashes de la entrega."""
 import importlib
+import io
 import json
+from contextlib import redirect_stdout
 from pathlib import Path
 import tempfile
 import tomllib
 import unittest
 from unittest.mock import patch
+from types import SimpleNamespace
 
 from tools import docs_al_dia
 
@@ -89,6 +92,25 @@ class EntregaA20(unittest.TestCase):
         obs["archivos_del_wheel"] = [p for p in registro["archivos_obligatorios"] if p != herramienta.FIRMAS_EN_EL_WHEEL]
         self.assertTrue(any(herramienta.FIRMAS_EN_EL_WHEEL in p for p in herramienta.validar(obs)))
 
+    def test_ea2_firmas_importadas_fuera_del_entorno_se_rechazan(self):
+        herramienta = probador()
+        with tempfile.TemporaryDirectory() as tmp:
+            python = Path(tmp) / "venv/bin/python"
+            with patch.object(herramienta.anterior, "observar", return_value={}), \
+                    patch.object(herramienta.anterior, "correr", return_value=SimpleNamespace(
+                        stdout="/tmp/otro/oracle_factory/firmas.py\n", returncode=0)):
+                obs = herramienta.observar(Path("wheel.whl"), Path("factory"), python, Path(tmp))
+        self.assertFalse(obs["firma_importada"]["en_el_entorno"])
+
+    def test_ea2_importacion_fallida_o_ajena_se_rechaza(self):
+        herramienta = probador()
+        obs = json.loads((self.entrega() / "registro.json").read_text(encoding="utf-8"))["observaciones"]
+        obs["archivos_del_wheel"] = list(herramienta.OBLIGATORIOS)
+        for firma in ({"rc": 1, "en_el_entorno": True}, {"rc": 0, "en_el_entorno": False}):
+            with self.subTest(firma=firma):
+                obs["firma_importada"] = firma
+                self.assertIn("oracle_factory.firmas no se importa desde el entorno nuevo", herramienta.validar(obs))
+
     # ea3: el registro permite identificar los bytes probados y no afirma una subida remota.
     def test_ea3_registro_con_hashes_limites_y_sin_sobrescribir(self):
         herramienta = probador()
@@ -110,6 +132,29 @@ class EntregaA20(unittest.TestCase):
         problemas = herramienta.problemas_del_registro(registro)
         self.assertTrue(any("sdist" in p for p in problemas))
         self.assertTrue(any("límites" in p for p in problemas))
+
+    def test_ea3_una_entrega_fallida_sale_con_codigo_y_resumen_verificables(self):
+        herramienta = probador()
+        hashes = {"wheel": "a" * 64, "sdist": "b" * 64}
+        registro = {"hashes": hashes, "archivos": {"wheel": "w.whl", "sdist": "s.tar.gz"},
+                    "limites": ["límites"], "version": VERSION, "publicada": False,
+                    "observaciones": {}, "problemas": []}
+        with tempfile.TemporaryDirectory() as tmp:
+            salida = Path(tmp) / "entrega"
+            salida.mkdir()
+            stdout = io.StringIO()
+            with patch.object(herramienta.anterior, "construir", return_value={"wheel": Path("w.whl")}), \
+                    patch.object(herramienta.anterior, "instalar", return_value=(Path("factory"), Path("python"))), \
+                    patch.object(herramienta, "observar", return_value={"archivos_del_wheel": list(herramienta.OBLIGATORIOS)}), \
+                    patch.object(herramienta, "validar", return_value=["falló la comprobación"]), \
+                    patch.object(herramienta.anterior, "registro", return_value=registro), \
+                    patch.object(herramienta, "problemas_del_registro", return_value=[]), redirect_stdout(stdout):
+                codigo = herramienta.main(["--salida", str(salida)])
+            texto = (salida / "registro.json").read_text(encoding="utf-8")
+        self.assertEqual(codigo, 1)
+        self.assertIn('"límites"', texto)
+        self.assertIn("Entrega 0.1.0a20: CON PROBLEMAS; wheel aaaaaaaaaaaa, sdist bbbbbbbbbbbb;", stdout.getvalue())
+        self.assertIn("falló la comprobación", stdout.getvalue())
 
 
 if __name__ == "__main__":
