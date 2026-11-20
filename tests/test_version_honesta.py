@@ -72,15 +72,17 @@ class Notas(unittest.TestCase):
     def test_vh2_la_primera_seccion_es_sin_publicar_y_nombra_lo_nuevo(self):
         texto = (SOURCE / 'NOTAS-DE-RELEASE.md').read_text(encoding='utf-8')
         titulos = re.findall(r'(?m)^# (.+)$', texto)
-        # Mientras se prepara una versión, lo sin publicar es su sección «en preparación» (entrega-a19).
-        self.assertIn(titulos[0], ('Sin publicar', f'Oracle Factory {__version__} (en preparación)'))
-        self.assertTrue(titulos[1].startswith('Oracle Factory '), titulos[:2])
-        # Lo nuevo está en lo sin publicar o en la última versión publicada (publicada-a19: «Sin publicar» vuelve vacía).
+        # publicada-a20: «Sin publicar» vuelve a estar vacía; a20 encabeza las versiones publicadas.
+        self.assertEqual(titulos[:2], ['Sin publicar', f'Oracle Factory {__version__}'])
         seccion = '\n# '.join(texto.split('\n# ', 3)[:2])
+        for novedad in ('firmas', 'firmas_base', 'abandono', 'Publicada.'):
+            with self.subTest(novedad=novedad):
+                self.assertIn(novedad, seccion)
+        a19 = texto.split('\n# Oracle Factory 0.1.0a19\n', 1)[1].split('\n# Oracle Factory ', 1)[0]
         for novedad in ('conectar', 'sincronizar', 'migrar --almacen', '.oracle-factory-almacen', 'verificar-almacen.yml',
                         'pendientes_de_union', "'.[dev]'"):
             with self.subTest(novedad=novedad):
-                self.assertIn(novedad, seccion)
+                self.assertIn(novedad, a19)
 
 
 # --- vh3: el CI deja Node 20 ----------------------------------------------------------------------------------------------

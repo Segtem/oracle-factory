@@ -74,8 +74,8 @@ secretos: se versionan). Desde la terminal, `oracle-factory mensaje ID "texto"` 
 `--agente`, como agente.
 
 Los botones del tablero manejan la sesión aunque no veas la barra de estado: «Instalar Live Share», «Compartir sesión»
-(copia el enlace), «Unirse a una sesión», «Terminar sesión» y «Salir de la sesión». Factory no autentica a nadie: quien
-comparte sólo acepta el nombre de un invitado conectado.
+(copia el enlace), «Unirse a una sesión», «Terminar sesión» y «Salir de la sesión». Las firmas de decisiones de Factory no
+autentican a los invitados de Live Share: quien comparte sólo acepta el nombre de un invitado conectado.
 
 ## Integrar sin chocar
 

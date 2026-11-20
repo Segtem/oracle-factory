@@ -21,7 +21,12 @@ def copia(tmp: Path) -> Path:
 
 
 def divergencias(raiz: Path) -> list[str]:
-    return [p for p in docs_al_dia.problemas(raiz) if "describe la versión" in p or "afirma que la versión" in p]
+    # a19 ya es histórica: el chequeo general mira la versión actual, pero esta prueba conserva su regla.
+    todo = docs_al_dia.textos(raiz)
+    notas = raiz / "NOTAS-DE-RELEASE.md"
+    if notas.is_file():
+        todo[notas.name] = notas.read_text(encoding="utf-8")
+    return docs_al_dia.preparacion_olvidada(raiz, V, todo)
 
 
 class PublicadaA19(unittest.TestCase):
@@ -38,11 +43,11 @@ class PublicadaA19(unittest.TestCase):
             self.assertIsNone(docs_al_dia.patron_preparacion(V).search(texto), nombre)
         self.assertEqual(divergencias(ROOT), [])
 
-    def test_pa1_el_readme_y_la_guia_dicen_que_esta_publicada(self):
-        self.assertIn(f"Versión publicada en PyPI: `oracle-factory=={V}`", (ROOT / "README.md").read_text(encoding="utf-8"))
+    def test_pa1_el_historial_conserva_la_publicacion_de_a19(self):
+        # La versión de instalación vigente es a20; a19 permanece como publicada en el historial.
+        self.assertIn(f"La versión publicada anterior es [{V}]", (ROOT / "README.md").read_text(encoding="utf-8"))
         guia = (ROOT / "site/desde-cero.html").read_text(encoding="utf-8")
-        self.assertIn(f"Esta guía describe Factory {V}, publicada en PyPI y en GitHub.", guia)
-        self.assertIn(f"oracle-factory=={V}", guia)
+        self.assertIn("Esta guía describe Factory 0.1.0a20, publicada en PyPI y en GitHub.", guia)
 
     def test_pa1_la_historia_anterior_se_conserva(self):
         notas = (ROOT / "NOTAS-DE-RELEASE.md").read_text(encoding="utf-8")

@@ -37,7 +37,7 @@ class EntregaA20(unittest.TestCase):
                 raise AssertionError("el probador de la entrega a20 falló")
         return cls._entrega
 
-    # ea1: el candidato dice su propia versión sin presentarse como publicado.
+    # ea1: la versión y los metadatos siguen siendo a20; publicada-a20 fija ahora su estado público.
     def test_ea1_version_metadatos_cli_lock_y_textos(self):
         import oracle_factory
         self.assertEqual(tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]["version"], VERSION)
@@ -45,11 +45,12 @@ class EntregaA20(unittest.TestCase):
         [propio] = [p for p in tomllib.loads((ROOT / "uv.lock").read_text())["package"] if p["name"] == "oracle-factory"]
         self.assertEqual(propio["version"], VERSION)
         notas = (ROOT / "NOTAS-DE-RELEASE.md").read_text(encoding="utf-8")
-        self.assertTrue(notas.startswith(f"# Oracle Factory {VERSION} (en preparación)\n"))
+        self.assertTrue(notas.startswith("# Sin publicar\n"))
+        self.assertIn(f"\n# Oracle Factory {VERSION}\n", notas)
         self.assertLess(notas.index(f"# Oracle Factory {VERSION}"), notas.index("# Oracle Factory 0.1.0a19"))
-        self.assertNotIn(f"**Publicada.** En PyPI como `oracle-factory=={VERSION}`", notas)
+        self.assertIn(f"**Publicada.** En PyPI como `oracle-factory=={VERSION}`", notas)
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        self.assertIn("Versión publicada en PyPI: `oracle-factory==0.1.0a19`", readme)
+        self.assertIn(f"Versión publicada en PyPI: `oracle-factory=={VERSION}`", readme)
         self.assertIn(f"{VERSION}", readme)
         self.assertEqual(docs_al_dia.problemas(ROOT), [])
 

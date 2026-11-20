@@ -1,8 +1,11 @@
-# Oracle Factory 0.1.0a20 (en preparación)
+# Sin publicar
 
-La candidata 0.1.0a20 reúne lo integrado en `main` desde la 0.1.0a19. Desde un checkout sin tag,
-`oracle-factory --version` informa `0.1.0a20+SHA (checkout, sin publicar)`. La versión publicada en PyPI sigue siendo
-0.1.0a19 hasta que se comprueben la subida y los hashes de los artefactos de esta entrega.
+Todavía no hay cambios anotados para la próxima versión.
+
+# Oracle Factory 0.1.0a20
+
+La 0.1.0a20 reúne lo integrado en `main` desde la 0.1.0a19. Desde un checkout posterior al tag,
+`oracle-factory --version` informa `0.1.0a20+SHA (checkout, sin publicar)`; el paquete instalado informa `0.1.0a20`.
 
 - **Decisiones de persona firmadas.** Con `"firmas": "exigir"`, la spec, las medidas, la revisión, el cierre, el abandono,
   los cambios de modo, la liberación de responsabilidad y las decisiones de unión se firman con una llave SSH autorizada.
@@ -17,6 +20,12 @@ La candidata 0.1.0a20 reúne lo integrado en `main` desde la 0.1.0a19. Desde un 
   una nota siguen fuera del conjunto de decisiones firmadas.
 - **Distribución comprobada antes de publicar.** El probador de a20 construye wheel y sdist, instala el wheel fuera del
   checkout y verifica que lleva el módulo de firmas y la skill, además de registrar los hashes y sus límites.
+- **Publicada.** En PyPI como `oracle-factory==0.1.0a20` y en GitHub con su tag `v0.1.0a20` y su
+  [prerelease](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a20). El wheel y el sdist se construyeron desde
+  `main` (`d391038c`), pasaron la instalación aislada y tienen en PyPI y GitHub los mismos SHA-256:
+  wheel `f2a9aa64c77788a9a33f64b08c798dd8420edb66b87a680eef6131fdb60bfb60`,
+  sdist `0fa02fff24dc7b166682ccff68449ac46052c06fb4b711ca5dc20f86944e9b7a`.
+  Python >=3.11; comprobado en Linux.
 
 # Oracle Factory 0.1.0a19
 

@@ -132,7 +132,7 @@ El primer piloto con agentes de `tareas/20261004-121432-coordinar-dos/` es anter
 
 ## Límites
 
-- Factory no autentica a nadie. «Persona» quiere decir que el comando corrió en una terminal interactiva sin `--agente`; el nombre es el de la configuración de Git de esa terminal, o el usuario del sistema si Git no tiene nombre. Un agente que tiene una terminal interactiva y omite `--agente` quedaría registrado como persona: los modos son un protocolo entre quienes trabajan juntos, no un control de acceso.
+- Sin `"firmas": "exigir"`, «persona» quiere decir que el comando corrió en una terminal interactiva sin `--agente`; el nombre viene de Git o del usuario del sistema. Con firmas activadas, las decisiones humanas cubiertas llevan una firma SSH verificable de una llave autorizada ([alcance de las firmas](firmas.md)). Los modos siguen sin ser control de acceso: otros eventos no llevan esa firma.
 - Una entrada por tubería (sin terminal) no cuenta como persona: queda «sin identificar» y no puede decidir. Y con `--agente`, una decisión de persona se niega aunque el agente corra en una terminal: sólo puede proponerla.
 - La guía de `AGENTS.md` ([agentes](agentes.md)) les cuenta esto a los agentes, armada desde la misma tabla.
 - El modo dice quién decide, no si la decisión es buena: eso sigue siendo de la revisión y de las medidas.
