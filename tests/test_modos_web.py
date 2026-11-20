@@ -118,7 +118,7 @@ class ModosWeb(unittest.TestCase):
         self.assertIn('](docs/modos.md)', (ROOT / 'README.md').read_text(encoding='utf-8'))
         texto = ' '.join(pagina.texto)
         for tema in ('confirmacion', 'funcional', 'autonomo', 'tipos_obligatorios', 'decidio', 'propuso', 'confirmo',
-                     'oracle-factory modo', 'no autentica'):
+                     'oracle-factory modo', 'firmas'):
             self.assertIn(tema, texto)
             self.assertIn(tema, documento)
 

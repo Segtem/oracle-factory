@@ -73,7 +73,8 @@ class Version(unittest.TestCase):
             shutil.copytree(ROOT / "docs", repo / "docs")
             shutil.copytree(ROOT / "site", repo / "site")
             guia = repo / "site/desde-cero.html"
-            guia.write_text(guia.read_text(encoding="utf-8").replace("Usá la 0.1.0a19", "Usá la 0.1.0a15"), encoding="utf-8")
+            # publicada-a20: la guía usa la versión vigente; la prueba sigue inyectando una obsoleta.
+            guia.write_text(guia.read_text(encoding="utf-8").replace("Usá la 0.1.0a20", "Usá la 0.1.0a15"), encoding="utf-8")
             problemas = docs_al_dia.problemas(repo)
             self.assertTrue(any(p.startswith("site/desde-cero.html:") and "0.1.0a15" in p for p in problemas), problemas)
 

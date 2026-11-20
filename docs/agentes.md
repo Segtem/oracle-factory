@@ -12,8 +12,9 @@ cierre) un agente decide, propone (cuenta cuando una persona la confirma) o no p
 cualquier modo: confirmar medidas, revisar paso a paso, abandonar, bajar la intervención, soltar un cambio, elegir en
 `decidir-union` y marcar revisada una nota. Con `--agente` se niegan aunque el agente corra en una terminal.
 
-Factory no autentica: una persona es un comando que corre en una terminal sin `--agente`. Es un protocolo entre quienes
-trabajan juntos, no un control de acceso.
+Sin `"firmas": "exigir"`, Factory considera persona a un comando que corre en una terminal sin `--agente` y usa el nombre de Git.
+Con firmas activadas, las decisiones humanas cubiertas se firman con una llave SSH autorizada y se verifican al leerlas
+([alcance de las firmas](firmas.md)). El modo de trabajo sigue siendo un protocolo entre quienes trabajan, no un control de acceso.
 
 ## La guía de `AGENTS.md`
 

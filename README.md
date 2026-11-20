@@ -1,4 +1,4 @@
-# Oracle Factory — 0.1.0a19 (alpha)
+# Oracle Factory — 0.1.0a20 (alpha)
 
 Oracle Factory coordina a personas y agentes para producir software con dirección humana: desde una necesidad aceptada
 hasta código, pruebas, revisión y entrega. Cada cambio tiene su acuerdo (propuesta y spec en formato **OpenSpec**), su
@@ -8,8 +8,9 @@ y quedan registrados como agentes. Los hechos que juzga Oracle los produce el se
 Factory lo corre sobre un checkout limpio del commit y registra lo que dio, así `juzgar` dice si los hechos salieron de ahí o los
 declaró alguien a mano. El sensor sigue siendo código del proyecto, escrito por quien trabaja: no es una medida independiente.
 
-La 0.1.0a20 está en preparación para incluir firmas de decisiones y la verificación de abandonos. La versión
-publicada en PyPI sigue siendo 0.1.0a19 hasta que se comprueben sus artefactos.
+La 0.1.0a20 incorpora firmas SSH para decisiones de persona, verifica también los abandonos y conserva con una base
+explícita las decisiones anteriores a la activación de firmas. Está publicada en PyPI y en
+[GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a20).
 
 Es una CLI local con un flujo visible en Git, una extensión de VS Code con un tablero de comando, y un servidor MCP para que un agente consulte el
 proyecto sin cambiar nada versionado (`preguntar` escribe su caché local). No empuja el producto ni publica ramas: sólo `sincronizar`, corrido por una persona, sube el almacén de registros. El código y las
@@ -30,10 +31,10 @@ Las guías:
 
 ## Instalación
 
-Versión publicada en PyPI: `oracle-factory==0.1.0a19`. Con `uv`:
+Versión publicada en PyPI: `oracle-factory==0.1.0a20`. Con `uv`:
 
 ```bash
-uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a19
+uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a20
 uv tool update-shell
 oracle-factory --version
 oracle-factory --proyecto ./mi-proyecto init
@@ -44,7 +45,7 @@ Si uv advierte un conflicto porque `oracle`, `tasks` u `oracle-clue` ya están i
 `--with-executables-from`:
 
 ```bash
-uv tool install --python 3.13 oracle-factory==0.1.0a19
+uv tool install --python 3.13 oracle-factory==0.1.0a20
 ```
 
 Factory usa sus dependencias (`oracle-metalenguaje 0.39.0`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a2`) desde su entorno
@@ -185,8 +186,9 @@ que falló o se pasó del tope queda registrada, pero no respalda sus hechos); c
 muestra la declaración vigente y la última aprobada, y registra en `.factory/sensor-aprobado.json` su huella, quién la aprobó y
 cuándo. `oracle-factory evidencia` se niega a correr un sensor que no esté entre los aprobados (nunca se aprobó, o alguien cambió su
 comando), y sólo los hechos de un sensor aprobado cuentan como «producidos por Factory». Cada producción registra la huella del sensor
-con que se hizo. **Límite:** ni ese archivo ni el registro están firmados: quien los escribe a mano puede fingir una aprobación. Lo que
-se gana es que cambiar el sensor ya no alcanza con editar la configuración. Por la misma razón, un proceso del mismo usuario que
+con que se hizo. **Límite:** con `"firmas": "exigir"`, la aprobación del sensor lleva una firma verificable, pero cada
+ejecución del sensor no tiene firma propia; sin esa opción, quien edita el registro puede fingir una aprobación. Cambiar el sensor
+ya no alcanza con editar la configuración. Por la misma razón, un proceso del mismo usuario que
 esté corriendo a la vez puede modificar el checkout temporal antes de que corra el sensor: Factory se protege de lo que llega por la
 configuración o el entorno, no de otro programa con los mismos permisos.
 
@@ -223,4 +225,4 @@ el minijuego, sin navegador: `node tests/test_juego.cjs`).
 
 ## Historial de versiones
 
-La versión publicada anterior es [0.1.0a18](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a18) (en PyPI como `oracle-factory==0.1.0a18`); la 0.1.0a17 trajo la puerta antes de publicar y el camino ligero, la 0.1.0a16 trajo la procedencia de las dependencias y los avisos de OSV, la 0.1.0a15 trajo el tablero que dice qué hacer y los bloqueos que nombran su causa, la 0.1.0a14 trajo la distribución verificable y las consultas del proyecto, la 0.1.0a13 trajo el tablero de comando y el conocimiento del proyecto, la 0.1.0a12 agregó la portada viva y la 0.1.0a9 incorporó Oracle Clue. Lo que trajo cada versión está en [NOTAS-DE-RELEASE.md](NOTAS-DE-RELEASE.md).
+La versión publicada anterior es [0.1.0a19](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a19) (en PyPI como `oracle-factory==0.1.0a19`); la 0.1.0a18 trajo `verificar` para CI y los despliegues con prueba, la 0.1.0a17 trajo la puerta antes de publicar y el camino ligero, la 0.1.0a16 trajo la procedencia de las dependencias y los avisos de OSV, la 0.1.0a15 trajo el tablero que dice qué hacer y los bloqueos que nombran su causa, la 0.1.0a14 trajo la distribución verificable y las consultas del proyecto, la 0.1.0a13 trajo el tablero de comando y el conocimiento del proyecto, la 0.1.0a12 agregó la portada viva y la 0.1.0a9 incorporó Oracle Clue. Lo que trajo cada versión está en [NOTAS-DE-RELEASE.md](NOTAS-DE-RELEASE.md).

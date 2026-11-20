@@ -232,7 +232,8 @@ class SinRecursosDeAfuera(unittest.TestCase):
         self.assertEqual(comandos_que_faltan([s.replace('\\n', '\n') for s in re.findall(r"'([^'\n]*oracle-factory[^'\n]*)'", js)]), [])
         t = plano(texto(por_id(raiz, 'ejemplos'))).lower()
         self.assertIn('el sensor es código del proyecto', t)
-        self.assertIn('el registro no está firmado', t)
+        # publicada-a20: la aprobación del sensor puede firmarse, pero cada corrida no lleva firma propia.
+        self.assertIn('cada ejecución del sensor sigue sin firma propia', t)
         # La versión final de evidencia no acepta argumentos para el sensor: ningún «evidencia ID -- …».
         self.assertNotRegex(' '.join(codigo), r'evidencia\s+\S+\s+--(\s|$)')
 
