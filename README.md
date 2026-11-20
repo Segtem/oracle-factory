@@ -19,6 +19,7 @@ qué y qué evidencia lo respalda.
 
 Las guías:
 
+- [Instalar el kit y la extensión de VS Code](docs/instalacion.md): CLI sola o kit completo, versión, conflictos y VSIX descargable.
 - [Modos de trabajo](docs/modos.md): quién decide qué en `confirmacion`, `funcional` y `autonomo`.
 - [El tablero y el trabajo de a dos](docs/tablero.md): la extensión de VS Code, quién trabaja en qué, Live Share e integrar sin chocar.
 - [El conocimiento del proyecto](docs/conocimiento.md): el vault `kb/`, `por-que` y `preguntar`.
@@ -34,22 +35,23 @@ Las guías:
 Versión publicada en PyPI: `oracle-factory==0.1.0a20`. Con `uv`:
 
 ```bash
-uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a20
+uv python install 3.13
+uv tool install --python 3.13 oracle-factory==0.1.0a20
 uv tool update-shell
 oracle-factory --version
 oracle-factory --proyecto ./mi-proyecto init
 oracle-factory --proyecto ./mi-proyecto nuevo --con-ejemplo notas "Comprobar el título de una nota"
 ```
 
-Si uv advierte un conflicto porque `oracle`, `tasks` u `oracle-clue` ya están instalados, se instala sin
-`--with-executables-from`:
+Si querés exponer también los comandos de Oracle, Oracle Task y Oracle Clue desde el entorno de Factory:
 
 ```bash
-uv tool install --python 3.13 oracle-factory==0.1.0a20
+uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a20
 ```
 
 Factory usa sus dependencias (`oracle-metalenguaje 0.39.0`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a2`) desde su entorno
 aislado. Python 3.11 o posterior y Git. `--proyecto` va antes del subcomando; sin esa opción se usa la carpeta actual.
+La [guía de instalación](docs/instalacion.md) explica cómo comprobar las cuatro versiones, resolver conflictos de ejecutables, actualizar una versión fijada e instalar el tablero de VS Code sin clonar Factory.
 
 `init` crea la estructura de Oracle, Oracle Task y OpenSpec, la carpeta `.factory/`, los hooks de Git y la guía para
 agentes de `AGENTS.md`; agrega al `.gitignore` lo local (`.factory/local/`, `__pycache__/`, `*.py[cod]`) sin sobrescribir

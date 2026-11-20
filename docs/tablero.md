@@ -6,12 +6,18 @@ el tablero escribe el comando, no lo ejecuta.
 
 ## Instalar la extensión
 
-La extensión está en el repositorio (`editores/vscode/`), no en el Marketplace. Se arma sin `npm` y se instala una vez:
+Instalá primero Factory con la [guía de instalación](instalacion.md). El complemento de esta entrega está disponible como
+[VSIX de la release a20](https://github.com/Segtem/oracle-factory/releases/download/v0.1.0a20/oracle-factory-0.5.0.vsix),
+sin clonar el repositorio. Comprobá el SHA-256 indicado en la guía y elegí **Extensiones → … → Instalar desde VSIX…**
+en VS Code, o ejecutá desde la carpeta de descarga:
 
 ```bash
-python3 editores/vscode/empaquetar.py
-code --install-extension editores/vscode/oracle-factory-0.5.0.vsix
+code --install-extension oracle-factory-0.5.0.vsix
+code --list-extensions --show-versions
 ```
+
+La lista debe contener `cs50-taller.oracle-factory@0.5.0`. El archivo instalado manualmente se actualiza instalando
+otro VSIX cuando salga una nueva versión; no recibe actualizaciones automáticas del Marketplace.
 
 Usa `.venv/bin/oracle-factory` del proyecto si existe, si no `oracle-factory` del `PATH`; la configuración de usuario
 `factory.comando` elige otra (un proyecto no puede cambiarla desde su `.vscode/settings.json`). Sólo corre en espacios de

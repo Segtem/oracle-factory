@@ -53,6 +53,10 @@ def versiones_factory(texto: str, nombre: str) -> set[str]:
     texto = sin_notas_de_version(texto, nombre)
     # El destino de un enlace no se lee como una afirmación de versión del producto.
     texto = re.sub(r'\]\(https?://[^)]+\)', ']', texto)
+    # El paquete VSIX y el identificador instalado llevan la versión de la extensión,
+    # que no tiene por qué coincidir con la versión de la CLI.
+    texto = re.sub(r'\boracle-factory-' + NUMERO + r'\.vsix\b', '', texto)
+    texto = re.sub(r'\bcs50-taller\.oracle-factory@' + NUMERO + r'\b', '', texto)
     texto = re.sub(r'editores/vscode/[^\s`]*\.vsix', '', texto)
     texto = re.sub(r'\b(?!oracle-factory\b)[a-zA-Z][\w-]*@' + NUMERO, '', texto)
     texto = OTRO_PRODUCTO.sub('', texto)
