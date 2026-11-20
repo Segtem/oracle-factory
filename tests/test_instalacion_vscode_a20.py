@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -59,6 +60,23 @@ class InstalacionVscodeA20(unittest.TestCase):
         self.assertIn("cs50-taller.oracle-factory@0.5.0", guia)
         self.assertIn("factory.comando", guia)
         self.assertIn(".venv/bin/oracle-factory", guia)
+
+    def test_iv2_vs_code_lista_el_paquete_en_un_perfil_aislado(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            vsix = base / VSIX
+            subprocess.run([sys.executable, "editores/vscode/empaquetar.py", "--salida", str(vsix)],
+                           cwd=ROOT, check=True, capture_output=True, text=True)
+            self.assertTrue(zipfile.is_zipfile(vsix))
+            code = shutil.which("code")
+            if code is None:
+                return  # VS Code no es dependencia de la suite; la evidencia local sí lo ejercita.
+            perfil = ["--extensions-dir", str(base / "extensions"), "--user-data-dir", str(base / "user")]
+            subprocess.run([code, "--install-extension", str(vsix), *perfil, "--force"],
+                           check=True, capture_output=True, text=True, timeout=60)
+            lista = subprocess.run([code, "--list-extensions", "--show-versions", *perfil],
+                                   check=True, capture_output=True, text=True, timeout=60).stdout.splitlines()
+            self.assertIn("cs50-taller.oracle-factory@0.5.0", lista)
 
     def test_iv3_entradas_conducen_a_las_dos_instalaciones(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
