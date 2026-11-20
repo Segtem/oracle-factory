@@ -110,7 +110,7 @@ def publicacion_prematura(raiz: Path, version: str, todo: dict[str, str]) -> lis
     if not notas.is_file() or f"# Oracle Factory {version} (en preparación)" not in notas.read_text(encoding="utf-8"):
         return []
     v = re.escape(version)
-    publicada = r"(?:ya (?:está|esta) publicad[ao]|publicad[ao] en (?:PyPI|GitHub)|ya (?:está|esta) en PyPI|disponible en PyPI)"
+    publicada = r"(?:ya (?:está|esta) publicad[ao]|publicad[ao] en (?:PyPI|GitHub)(?!\s+sigue siendo)|ya (?:está|esta) en PyPI|disponible en PyPI)"
     afirma = re.compile(rf"{v}[^\n]{{0,80}}{publicada}|{publicada}[^\n]{{0,80}}{v}", re.I)
     return [f"{nombre}: afirma que la versión {version} está publicada, pero NOTAS-DE-RELEASE.md la declara en preparación"
             for nombre, texto in todo.items() if afirma.search(texto)]
@@ -162,7 +162,9 @@ def problemas(raiz: Path = ROOT) -> list[str]:
         de_factory = versiones_factory(texto, nombre)
         for v in sorted(de_factory - admitidas):
             salida.append(f"{nombre}: nombra la versión {v}; se admiten {', '.join(sorted(admitidas))}")
-    salida += publicacion_prematura(raiz, version, todo)
+    notas = raiz / "NOTAS-DE-RELEASE.md"
+    textos_publicacion = {**todo, notas.name: notas.read_text(encoding="utf-8")} if notas.is_file() else todo
+    salida += publicacion_prematura(raiz, version, textos_publicacion)
     for admitida in admitidas:
         salida += preparacion_olvidada(raiz, admitida, todo)
     documentado = " ".join(t for n, t in todo.items() if n == "README.md" or n.startswith("docs/"))

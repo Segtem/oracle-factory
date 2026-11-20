@@ -60,6 +60,15 @@ class EntregaA20(unittest.TestCase):
             problemas = docs_al_dia.publicacion_prematura(
                 raiz, VERSION, {"README.md": f"La {VERSION} ya está publicada en PyPI."})
         self.assertTrue(any("README.md:" in p and VERSION in p for p in problemas), problemas)
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            (raiz / "pyproject.toml").write_text(f'[project]\nversion = "{VERSION}"\n')
+            (raiz / "NOTAS-DE-RELEASE.md").write_text(
+                f"# Oracle Factory {VERSION} (en preparación)\n\nLa {VERSION} ya está publicada en PyPI.\n")
+            with patch.object(docs_al_dia, "textos", return_value={}), \
+                    patch.object(docs_al_dia, "subcomandos", return_value=set()):
+                problemas = docs_al_dia.problemas(raiz)
+        self.assertTrue(any("NOTAS-DE-RELEASE.md:" in p and VERSION in p for p in problemas), problemas)
 
     def test_ea1_una_version_mas_vieja_que_la_publicada_se_nombra(self):
         with tempfile.TemporaryDirectory() as tmp:
