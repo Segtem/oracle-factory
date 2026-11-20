@@ -1,5 +1,5 @@
 /* El texto de las guías como lo lee una persona, sin lo que agrega la fábrica viva ([data-viva]).
-   node tests/texto_guias.cjs > tests/datos/guias-texto.json   — congela el de antes del cambio web-guias. */
+   node tests/texto_guias.cjs > tests/datos/guias-texto.json   — actualiza la captura tras un cambio documental aceptado. */
 'use strict';
 const {chromium} = require('playwright');
 const path = require('node:path');
