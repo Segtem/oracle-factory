@@ -45,6 +45,8 @@ class EjemplosCortos(unittest.TestCase):
 
         with patch.object(sensor, "calcular", side_effect=sin_limite):
             self.assertEqual(sensor.observar()["casos"], [{"caso": "limite", "codigo": 1}])
+        with patch.object(sensor, "calcular", side_effect=RuntimeError("producto roto")):
+            self.assertEqual(sensor.observar()["casos"], [{"caso": "limite", "codigo": 1}])
 
     def test_ec1_precio_tiene_prueba_copiable(self):
         self._prueba_de_ejemplo("precio", "test_total.py")
@@ -61,6 +63,8 @@ class EjemplosCortos(unittest.TestCase):
         self.assertEqual(sensor.observar()["casos"], [{"caso": "fila", "codigo": 0}])
         with patch.object(sensor, "sumar", return_value=7):
             self.assertEqual(sensor.observar()["casos"], [{"caso": "fila", "codigo": 1}])
+        with patch.object(sensor, "sumar", side_effect=RuntimeError("producto roto")):
+            self.assertEqual(sensor.observar()["casos"], [{"caso": "fila", "codigo": 1}])
 
     def test_ec2_csv_tiene_prueba_copiable(self):
         self._prueba_de_ejemplo("csv", "test_lector.py")
@@ -75,6 +79,8 @@ class EjemplosCortos(unittest.TestCase):
             (copia / "uso.md").write_text("# Uso\n\n[Primer paso](faltante.md)\n", encoding="utf-8")
             (copia / "pasos.md").write_text("# Pasos\n", encoding="utf-8")
             self.assertEqual(sensor.observar(copia)["casos"], [{"caso": "enlace", "codigo": 1}])
+        with tempfile.TemporaryDirectory() as temporal:
+            self.assertEqual(sensor.observar(Path(temporal))["casos"], [{"caso": "enlace", "codigo": 1}])
 
     def test_ec3_ayuda_tiene_prueba_copiable(self):
         self._prueba_de_ejemplo("ayuda", "test_ayuda.py")

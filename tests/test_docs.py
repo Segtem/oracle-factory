@@ -19,8 +19,18 @@ VIEJO = ('Hoy existe una POC de CLI', 'no coordina agentes automáticamente', 'a
 GUIAS = {'tablero': 'docs/tablero.md', 'conocimiento': 'docs/conocimiento.md', 'agentes': 'docs/agentes.md'}
 
 
+def enlaces_de_prosa(texto):
+    """Los ejemplos dentro de cercas Markdown no son enlaces de la guía que los muestra."""
+    prosa = re.sub(r"(?ms)^(`{3,}|~{3,})[^\n]*\n.*?^\1[ \t]*$", "", texto)
+    return docs_al_dia.ENLACE.findall(prosa)
+
+
 class Docs(unittest.TestCase):
     # --- dc1: la documentación cuenta lo que Factory hace hoy -------------------------------------------------------
+    def test_dc1_los_enlaces_en_codigo_no_son_enlaces_de_la_guia(self):
+        texto = "[real](ok.md)\n```markdown\n[ejemplo](faltante.md)\n```\n"
+        self.assertEqual(enlaces_de_prosa(texto), ['ok.md'])
+
     def test_dc1_alguien_llega_al_proyecto(self):
         readme = (SOURCE / 'README.md').read_text(encoding='utf-8')
         portada = (SOURCE / 'site/index.html').read_text(encoding='utf-8')
@@ -54,7 +64,7 @@ class Docs(unittest.TestCase):
         self.assertRegex(estructura, r'(?m)^\s+revisores/[^\n]*pedido[^\n]*informe')
         # Los enlaces entre los documentos apuntan a archivos que existen.
         for documento in [SOURCE / 'README.md', *(SOURCE / 'docs').rglob('*.md')]:
-            for destino in docs_al_dia.ENLACE.findall(documento.read_text(encoding='utf-8')):
+            for destino in enlaces_de_prosa(documento.read_text(encoding='utf-8')):
                 if destino.startswith(('http', '#', 'mailto')):
                     continue
                 ruta = (documento.parent / destino.split('#')[0]).resolve()
