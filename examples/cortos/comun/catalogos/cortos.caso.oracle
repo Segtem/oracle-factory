@@ -1,0 +1,8 @@
+medida cortos.caso:
+    de casos c
+    donde c.codigo == 0
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el caso declarado debe cumplir"
+    requiere casos
+    ambito universal
+    alcance "un caso por ejercicio; depende de lo que observe su sensor"

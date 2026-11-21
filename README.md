@@ -21,6 +21,7 @@ Las guías:
 
 - [Instalar el kit y la extensión de VS Code](docs/instalacion.md): CLI sola o kit completo, versión, conflictos y VSIX descargable.
 - [Construir Buscaminas desde cero](docs/tutorial-buscaminas.md): un juego de terminal con pruebas, sensor, revisión y cierre, paso a paso.
+- [Tres ejemplos cortos](docs/ejemplos-cortos.md): precio, CSV y ayuda para ver qué aporta Factory a cambios distintos.
 - [Modos de trabajo](docs/modos.md): quién decide qué en `confirmacion`, `funcional` y `autonomo`.
 - [El tablero y el trabajo de a dos](docs/tablero.md): la extensión de VS Code, quién trabaja en qué, Live Share e integrar sin chocar.
 - [El conocimiento del proyecto](docs/conocimiento.md): el vault `kb/`, `por-que` y `preguntar`.

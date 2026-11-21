@@ -1,0 +1,8 @@
+medida cortos.corrida:
+    de corrida c
+    donde c.completa == 1 y c.casos == 1
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el sensor declara un caso completo"
+    requiere corrida
+    ambito universal
+    alcance "integridad declarada por el sensor; no autentica sus hechos"
