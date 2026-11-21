@@ -296,7 +296,7 @@ La suite debe pasar cuatro casos. En el juego, `d 2 2` destapa y muestra **2**; 
 
 ## 4. Hacé observable el comportamiento para Oracle
 
-Los tests ayudan al desarrollo; Oracle necesita hechos del candidato. Creá `sensor.py` en la raíz del proyecto. Observa seis casos y escribe `codigo: 0` cuando coinciden con lo esperado; una regla rota escribe `codigo: 1`:
+Los tests ayudan al desarrollo; Oracle necesita hechos del candidato. Creá `sensor.py` en la raíz del proyecto. Observa seis reglas; el caso de números comprueba las 20 casillas seguras contra las cinco minas fijas, así también detecta errores localizados. Escribe `codigo: 0` cuando una regla coincide con lo esperado y `codigo: 1` si falla:
 
 ```python archivo=sensor.py
 """Observa seis reglas del Buscaminas y escribe hechos para Oracle."""
@@ -309,7 +309,19 @@ from buscaminas import MINAS, Partida
 
 
 def _numero():
-    return Partida().numero(2, 2) == 2
+    minas_esperadas = frozenset({(1, 1), (1, 5), (3, 3), (5, 1), (5, 5)})
+    if MINAS != minas_esperadas:
+        return False
+    partida = Partida()
+    for fila in range(1, 6):
+        for columna in range(1, 6):
+            if (fila, columna) in minas_esperadas:
+                continue
+            esperado = sum(abs(fila - f) <= 1 and abs(columna - c) <= 1
+                           for f, c in minas_esperadas)
+            if partida.numero(fila, columna) != esperado:
+                return False
+    return True
 
 
 def _cero():
@@ -540,7 +552,7 @@ oracle-factory por-que buscaminas.py:1
 ## Si algo sale rojo
 
 - **Test antes de implementar:** la falla de importación es esperada; después de crear `buscaminas.py`, las cuatro pruebas deben pasar. Una falla de comportamiento requiere corregir código o la expectativa de la spec, no borrar el test.
-- **Regla rota:** si `numero(2, 2)` no da 2 o una bandera deja destapar, el sensor emite un caso con `codigo: 1`; las medidas no dan verde. Revisá `hechos.json`, corregí, repetí pruebas y creá un **nuevo commit**.
+- **Regla rota:** si algún número es incorrecto o una bandera deja destapar, el sensor emite un caso con `codigo: 1`; las medidas no dan verde. Revisá `hechos.json`, corregí, repetí pruebas y creá un **nuevo commit**.
 - **Cambió el candidato:** repetí `oracle-factory evidencia ID_DEL_CAMBIO`, pedí una nueva revisión o actualizá el informe sobre el nuevo commit, registrá la nueva decisión y repetí `oracle-factory juzgar ID_DEL_CAMBIO`. No reutilices un juicio viejo.
 - **Cambió la propuesta o spec:** pedí otra aprobación humana, ejecutá `importar` de nuevo y revisá las medidas. Si cambia el comando del sensor, una persona repite `aprobar-sensor`.
 - **No sabés qué falta:** `oracle-factory listar` recupera el ID y `oracle-factory estado ID_DEL_CAMBIO` indica el próximo paso. Un error de firma o una revisión pendiente no se arregla escribiendo hechos a mano.

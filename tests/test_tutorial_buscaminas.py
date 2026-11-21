@@ -109,6 +109,15 @@ class TutorialBuscaminas(unittest.TestCase):
         with patch.object(m.Partida, "numero", return_value=0):
             hechos = sensor.observar()
         self.assertEqual(next(c for c in hechos["casos"] if c["caso"] == "numero")["codigo"], 1)
+        original = m.Partida.numero
+
+        def roto(partida, fila, columna):
+            valor = original(partida, fila, columna)
+            return valor + 1 if (fila, columna) == (2, 3) else valor
+
+        with patch.object(m.Partida, "numero", new=roto):
+            hechos = sensor.observar()
+        self.assertEqual(next(c for c in hechos["casos"] if c["caso"] == "numero")["codigo"], 1)
 
     def test_tb3_catalogos_miden_casos_y_corrida(self):
         casos = (EJEMPLO / "catalogos/buscaminas.casos_correctos.oracle").read_text(encoding="utf-8")

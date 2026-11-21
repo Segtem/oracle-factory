@@ -8,7 +8,19 @@ from buscaminas import MINAS, Partida
 
 
 def _numero():
-    return Partida().numero(2, 2) == 2
+    minas_esperadas = frozenset({(1, 1), (1, 5), (3, 3), (5, 1), (5, 5)})
+    if MINAS != minas_esperadas:
+        return False
+    partida = Partida()
+    for fila in range(1, 6):
+        for columna in range(1, 6):
+            if (fila, columna) in minas_esperadas:
+                continue
+            esperado = sum(abs(fila - f) <= 1 and abs(columna - c) <= 1
+                           for f, c in minas_esperadas)
+            if partida.numero(fila, columna) != esperado:
+                return False
+    return True
 
 
 def _cero():
