@@ -125,7 +125,7 @@ class Reglas(unittest.TestCase):
         with self.assertRaises(ValueError):
             partida.destapar(1, 1)
         partida.destapar(3, 1)
-        self.assertGreater(len(partida.destapadas), 1)
+        self.assertEqual(partida.destapadas, {(2, 1), (2, 2), (3, 1), (3, 2), (4, 1), (4, 2)})
         self.assertFalse(partida.destapadas & MINAS)
 
     def test_derrota_y_victoria(self):
@@ -296,7 +296,7 @@ La suite debe pasar cuatro casos. En el juego, `d 2 2` destapa y muestra **2**; 
 
 ## 4. Hacé observable el comportamiento para Oracle
 
-Los tests ayudan al desarrollo; Oracle necesita hechos del candidato. Creá `sensor.py` en la raíz del proyecto. Observa seis reglas; el caso de números comprueba las 20 casillas seguras contra las cinco minas fijas, así también detecta errores localizados. Escribe `codigo: 0` cuando una regla coincide con lo esperado y `codigo: 1` si falla:
+Los tests ayudan al desarrollo; Oracle necesita hechos del candidato. Creá `sensor.py` en la raíz del proyecto. Observa seis reglas: comprueba los números de las 20 casillas seguras y el conjunto exacto que destapa cada una de las cuatro regiones vacías. Así detecta errores localizados y expansiones excesivas. Escribe `codigo: 0` cuando una regla coincide con lo esperado y `codigo: 1` si falla:
 
 ```python archivo=sensor.py
 """Observa seis reglas del Buscaminas y escribe hechos para Oracle."""
@@ -325,9 +325,18 @@ def _numero():
 
 
 def _cero():
-    partida = Partida()
-    partida.destapar(3, 1)
-    return len(partida.destapadas) > 1 and not partida.destapadas & MINAS
+    regiones = {
+        (1, 3): {(1, 2), (1, 3), (1, 4), (2, 2), (2, 3), (2, 4)},
+        (3, 1): {(2, 1), (2, 2), (3, 1), (3, 2), (4, 1), (4, 2)},
+        (3, 5): {(2, 4), (2, 5), (3, 4), (3, 5), (4, 4), (4, 5)},
+        (5, 3): {(4, 2), (4, 3), (4, 4), (5, 2), (5, 3), (5, 4)},
+    }
+    for inicio, esperadas in regiones.items():
+        partida = Partida()
+        partida.destapar(*inicio)
+        if partida.destapadas != esperadas or partida.estado != "jugando":
+            return False
+    return True
 
 
 def _bandera():
@@ -552,7 +561,7 @@ oracle-factory por-que buscaminas.py:1
 ## Si algo sale rojo
 
 - **Test antes de implementar:** la falla de importación es esperada; después de crear `buscaminas.py`, las cuatro pruebas deben pasar. Una falla de comportamiento requiere corregir código o la expectativa de la spec, no borrar el test.
-- **Regla rota:** si algún número es incorrecto o una bandera deja destapar, el sensor emite un caso con `codigo: 1`; las medidas no dan verde. Revisá `hechos.json`, corregí, repetí pruebas y creá un **nuevo commit**.
+- **Regla rota:** si algún número es incorrecto, una región vacía destapa de más o una bandera deja destapar, el sensor emite un caso con `codigo: 1`; las medidas no dan verde. Revisá `hechos.json`, corregí, repetí pruebas y creá un **nuevo commit**.
 - **Cambió el candidato:** repetí `oracle-factory evidencia ID_DEL_CAMBIO`, pedí una nueva revisión o actualizá el informe sobre el nuevo commit, registrá la nueva decisión y repetí `oracle-factory juzgar ID_DEL_CAMBIO`. No reutilices un juicio viejo.
 - **Cambió la propuesta o spec:** pedí otra aprobación humana, ejecutá `importar` de nuevo y revisá las medidas. Si cambia el comando del sensor, una persona repite `aprobar-sensor`.
 - **No sabés qué falta:** `oracle-factory listar` recupera el ID y `oracle-factory estado ID_DEL_CAMBIO` indica el próximo paso. Un error de firma o una revisión pendiente no se arregla escribiendo hechos a mano.

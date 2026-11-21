@@ -24,9 +24,18 @@ def _numero():
 
 
 def _cero():
-    partida = Partida()
-    partida.destapar(3, 1)
-    return len(partida.destapadas) > 1 and not partida.destapadas & MINAS
+    regiones = {
+        (1, 3): {(1, 2), (1, 3), (1, 4), (2, 2), (2, 3), (2, 4)},
+        (3, 1): {(2, 1), (2, 2), (3, 1), (3, 2), (4, 1), (4, 2)},
+        (3, 5): {(2, 4), (2, 5), (3, 4), (3, 5), (4, 4), (4, 5)},
+        (5, 3): {(4, 2), (4, 3), (4, 4), (5, 2), (5, 3), (5, 4)},
+    }
+    for inicio, esperadas in regiones.items():
+        partida = Partida()
+        partida.destapar(*inicio)
+        if partida.destapadas != esperadas or partida.estado != "jugando":
+            return False
+    return True
 
 
 def _bandera():

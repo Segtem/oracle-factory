@@ -59,7 +59,7 @@ class TutorialBuscaminas(unittest.TestCase):
         with self.assertRaises(ValueError):
             partida.destapar(1, 1)
         partida.destapar(3, 1)
-        self.assertGreater(len(partida.destapadas), 1)
+        self.assertEqual(partida.destapadas, {(2, 1), (2, 2), (3, 1), (3, 2), (4, 1), (4, 2)})
         self.assertFalse(partida.destapadas & m.MINAS)
         self.assertIn((1, 1), partida.banderas)
         partida.alternar_bandera(1, 1)
@@ -102,6 +102,21 @@ class TutorialBuscaminas(unittest.TestCase):
             self.assertGreaterEqual(len(hechos["casos"]), 6)
             self.assertTrue(all(c["codigo"] == 0 for c in hechos["casos"]))
             self.assertEqual(hechos["corrida"], [{"completa": 1, "casos": len(hechos["casos"])}])
+
+        m = juego()
+        sensor = importlib.import_module("sensor")
+        original = m.Partida.destapar
+
+        def roto(partida, fila, columna):
+            original(partida, fila, columna)
+            if (fila, columna) == (3, 1):
+                partida.destapadas.update((f, c) for f in range(1, 6)
+                                          for c in range(1, 6) if (f, c) not in m.MINAS)
+                partida.estado = "ganada"
+
+        with patch.object(m.Partida, "destapar", new=roto):
+            hechos_rotos = sensor.observar()
+        self.assertEqual(next(c for c in hechos_rotos["casos"] if c["caso"] == "cero")["codigo"], 1)
 
     def test_tb3_sensor_detecta_numero_equivocado(self):
         m = juego()

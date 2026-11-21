@@ -18,7 +18,7 @@ class Reglas(unittest.TestCase):
         with self.assertRaises(ValueError):
             partida.destapar(1, 1)
         partida.destapar(3, 1)
-        self.assertGreater(len(partida.destapadas), 1)
+        self.assertEqual(partida.destapadas, {(2, 1), (2, 2), (3, 1), (3, 2), (4, 1), (4, 2)})
         self.assertFalse(partida.destapadas & MINAS)
 
     def test_derrota_y_victoria(self):
