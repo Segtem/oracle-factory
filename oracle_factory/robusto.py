@@ -7,6 +7,8 @@ import hashlib
 from pathlib import Path
 import tempfile
 
+from . import modos
+
 
 def forma_invalida(estado) -> str | None:
     """Qué le falta a un registro para leerse sin romper nada (Astra H7, Fable H11), o None. Un «eventos» raro se tolera aparte
@@ -32,6 +34,15 @@ def forma_invalida(estado) -> str | None:
     for campo in ("medidas", "tipos", "propuestas", "medidas_pendientes"):
         if campo in estado and not isinstance(estado[campo], dict):
             return f"tiene «{campo}» que no es un objeto"
+    # Y lo que tienen adentro, que las consultas recorren (registros-internos, Astra A4-03): cada decisión, un objeto; cada tipo, uno
+    # de los dos.
+    for campo in ("medidas", "propuestas", "medidas_pendientes"):
+        for clave, valor in (estado.get(campo) or {}).items():
+            if not isinstance(valor, dict):
+                return f"tiene en «{campo}» un valor para «{clave}» que no es un objeto"
+    for clave, valor in (estado.get("tipos") or {}).items():
+        if valor not in modos.TIPOS:
+            return f"tiene en «tipos» un valor para «{clave}» que no es «funcional» ni «no funcional»"
     if estado.get("spec_aprobada") is not None and not isinstance(estado.get("spec_sha256"), str):
         return "tiene la spec aprobada sin su huella «spec_sha256» como texto"
     return None
