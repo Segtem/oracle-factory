@@ -246,6 +246,28 @@ class ModoDo3(Base):
         self.assertEqual(codigo, 1)
         self.assertIn("cierre", problemas)
 
+    def test_do3_un_cambio_de_modo_que_no_parte_del_modo_vigente(self):
+        # D1 de la primera revisión de codex: una persona baja de funcional a autónomo, pero el cambio estaba en confirmación.
+        ident = self.cerrado()
+        self.editar(ident, lambda e: (e.update(modo="autonomo"), e["eventos"].append(
+            {"accion": "modo_cambiado", "actor": "Persona fixture", "tipo_actor": "persona", "modo": "funcional", "forma": "decidio",
+             "cuando": "2026-11-27T00:00:00+00:00", "anterior": "funcional", "nuevo": "autonomo", "invalidadas": []}),
+            e["cierre"].update(tipo_actor="agente", actor="robot")))
+        codigo, problemas = self.verificar()
+        self.assertEqual(codigo, 1)
+        self.assertIn("modo", problemas)
+        self.assertIn("cierre", problemas)
+
+    def test_do3_dos_cambios_de_modo_encadenados(self):
+        self.ident = f.nuevo("Nota", con_ejemplo="notas")
+        with self.escribe("1"):
+            f.cambiar_modo(self.ident, "funcional")
+        with self.escribe("1"):
+            f.cambiar_modo(self.ident, "autonomo")
+        self.salida()
+        self.cerrado(agente="robot")
+        self.assertEqual(self.verificar(), (0, ""))
+
     def test_do3_un_modo_bajado_por_una_persona(self):
         self.ident = f.nuevo("Nota", con_ejemplo="notas")
         with self.escribe("1"):
