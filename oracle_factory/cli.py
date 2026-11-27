@@ -298,7 +298,7 @@ def evento(estado: dict, accion: str, forma: str = "decidio", **datos) -> None:
         if unir_mod.hora({"cuando": cuando})[0] <= ultimo:
             cuando = (ultimo + dt.timedelta(microseconds=1)).isoformat(timespec="microseconds")
     nuevo = {"accion": accion, **actor(), "modo": modo_de(estado), "forma": forma, "cuando": cuando, **datos}
-    estado.setdefault("eventos", []).append(firmas_mod.marcar(nuevo) if accion in firmas_mod.EVENTOS else nuevo)
+    estado.setdefault("eventos", []).append(firmas_mod.marcar(nuevo) if firmas_mod.es_decision(nuevo) else nuevo)
     # Lo que quedó sin decidir al unir dos ramas lo resuelve la decisión que corresponde.
     resueltos = unir_mod.resueltos_por(accion, datos.get("requisito"))
     if resueltos and estado.get("pendientes_de_union"):

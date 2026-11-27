@@ -44,7 +44,9 @@ class FirmasHistoricas(unittest.TestCase):
         return sha
 
     def problemas(self, estado):
-        return firmas.pendientes(estado)
+        # Estos registros de prueba no traen todas las decisiones de un cierre (decisiones-obligatorias lo nombra aparte): acá
+        # sólo cuenta lo de las firmas.
+        return [p for p in firmas.pendientes(estado) if not p.startswith("falta la decisión")]
 
     def test_fh1_un_cierre_historico_intacto_cuenta(self):
         estado = self.estado()
@@ -67,7 +69,9 @@ class FirmasHistoricas(unittest.TestCase):
         estado = self.estado()
         estado["spec_aprobada"]["tipo_actor"] = "agente"
         self.base(estado)
-        self.assertEqual(self.problemas(estado), [])
+        # No se trata como histórica ni pide firma; desde decisiones-obligatorias, en modo confirmacion tampoco cuenta.
+        self.assertEqual(self.problemas(estado), ["la decisión «spec_aprobada» la registró el agente Brian, y en modo confirmacion la toma "
+                                                  "una persona; no cuenta"])
 
     def test_fh1_una_decision_nueva_en_un_cierre_historico_no_se_exime(self):
         estado = self.estado()

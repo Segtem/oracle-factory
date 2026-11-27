@@ -100,11 +100,13 @@ class Verificar(unittest.TestCase):
         codigo, salida, _ = self.verificar()
         self.assertEqual(codigo, 1)
         self.assertIn(ident, salida)
-        self.assertIn('cierre no lo decidió una persona', salida)
+        self.assertIn('«cierre» la registró el agente claude-code', salida)
 
     def test_ci3_un_agente_cerro_en_modo_autonomo(self):
         ident = self.cerrado()
-        self.reescribir(ident, modo='autonomo', cierre={'tipo_actor': 'agente', 'actor': 'claude-code', 'modo': 'autonomo'})
+        eventos = self.estado(ident)['eventos']
+        eventos[0]['modo'] = 'autonomo'  # lo creó una persona en modo autónomo: el modo sale de la historia del cambio
+        self.reescribir(ident, modo='autonomo', eventos=eventos, cierre={'tipo_actor': 'agente', 'actor': 'claude-code', 'modo': 'autonomo'})
         codigo, salida, _ = self.verificar()
         self.assertEqual(codigo, 0, salida)
 
