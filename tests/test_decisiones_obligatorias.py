@@ -208,6 +208,27 @@ class ActorDo2(Base):
         self.assertEqual(self.verificar(), (0, ""))
 
 
+    def test_do2_un_cambio_de_modo_que_no_cuenta_se_nombra(self):
+        # D2 de la cuarta revisión de codex: un modo_cambiado que no cuenta no puede desaparecer sin diagnóstico.
+        ident = f.nuevo("Nota", con_ejemplo="notas")
+        evento = {"accion": "modo_cambiado", "actor": "robot", "tipo_actor": "agente", "modo": "confirmacion", "forma": "decidio",
+                  "cuando": "2026-11-27T00:00:00+00:00", "anterior": "confirmacion", "nuevo": "funcional", "invalidadas": []}
+        for nombre, cambio in {"de un agente que baja": {},
+                               "que no parte del modo vigente": {"tipo_actor": "persona", "actor": "Persona", "anterior": "funcional",
+                                                                 "nuevo": "autonomo"}}.items():
+            with self.subTest(nombre):
+                self.editar(ident, lambda e: e["eventos"].__setitem__(slice(1, None), [{**evento, **cambio}]))
+                codigo, problemas = self.verificar()
+                self.assertEqual(codigo, 1)
+                self.assertIn("modo_cambiado", problemas)
+                self.assertIn("modo_cambiado", self.pendientes(ident))
+        with self.subTest("una creación que baja la intervención sin una persona"):
+            self.editar(ident, lambda e: (e["eventos"].__setitem__(slice(1, None), []),
+                                          e["eventos"][0].update(modo="autonomo", tipo_actor="agente", actor="robot")))
+            codigo, problemas = self.verificar()
+            self.assertEqual(codigo, 1)
+            self.assertIn("cambio_creado", problemas)
+
     def test_do2_una_aprobacion_del_sensor_de_un_agente_no_cuenta(self):
         self.declarar(NOTAS)
         ruta = self.root / ".factory/sensor-aprobado.json"

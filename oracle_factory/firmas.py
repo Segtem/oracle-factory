@@ -194,31 +194,51 @@ def _nombre(campo: str) -> str:
     return campo.replace("medidas/", "medidas de ").replace("eventos/", "").split("@")[0]
 
 
-def modo_de_la_historia(estado: dict, cuenta) -> str:
-    """El modo que vale: el de la creación —con menos intervención que el de por defecto, sólo si la creó una persona y su decisión
-    cuenta— cambiado en orden por los `modo_cambiado` posteriores a la creación que cuentan: los que parten del modo vigente (su `anterior`) y, si bajan la
-    intervención, los de una persona. `cuenta(campo,
-    registro)` dice si la decisión de persona cuenta (con «exigir», si su firma vale)."""
+def historia_del_modo(estado: dict, cuenta) -> tuple[str, list[str]]:
+    """El modo que vale y lo que no contó al reconstruirlo. Vale el de la creación —con menos intervención que el de por defecto,
+    sólo si la creó una persona y su decisión cuenta— cambiado en orden por los `modo_cambiado` posteriores a la creación que
+    cuentan: los que parten del modo vigente (su `anterior`) y, si bajan la intervención, los de una persona. `cuenta(campo,
+    registro)` dice si la decisión de persona cuenta (con «exigir», si su firma vale). Cada creación o cambio de modo que no contó
+    se nombra: ninguno desaparece sin diagnóstico."""
     eventos = [e for e in estado.get("eventos") or [] if isinstance(e, dict)] if isinstance(estado.get("eventos"), list) else []
     de_persona = lambda e: tipo_actor(e, estado) == "persona" and cuenta(f"eventos/{e.get('accion')}@{e.get('cuando')}", e)
+    no_cuentan = []
     inicio = next((i for i, e in enumerate(eventos) if e.get("accion") == "cambio_creado"), None)
     creado = {} if inicio is None else eventos[inicio]
     modo = creado.get("modo", modos.POR_DEFECTO)
     if modo not in modos.MODOS or (_baja(modo) and not de_persona(creado)):
+        no_cuentan.append(f"la creación «cambio_creado» en modo {modo} no cuenta: "
+                          + ("ese modo no existe" if modo not in modos.MODOS else "baja la intervención y no la tomó una persona")
+                          + f"; vale {modos.POR_DEFECTO}")
         modo = modos.POR_DEFECTO
-    for e in eventos[(inicio or 0):]:
+    for i, e in enumerate(eventos):
+        if e.get("accion") != "modo_cambiado":
+            continue
         nuevo = e.get("nuevo")
-        if (e.get("accion") == "modo_cambiado" and e.get("anterior") == modo and nuevo in modos.MODOS
-                and (not modos.baja_intervencion(modo, nuevo) or de_persona(e))):
+        if inicio is not None and i < inicio:
+            motivo = "es anterior a la creación del cambio"
+        elif e.get("anterior") != modo:
+            motivo = f"no parte del modo vigente ({modo}) sino de {e.get('anterior')}"
+        elif nuevo not in modos.MODOS:
+            motivo = f"pide un modo que no existe ({nuevo})"
+        elif modos.baja_intervencion(modo, nuevo) and not de_persona(e):
+            motivo = "baja la intervención y no la tomó una persona"
+        else:
             modo = nuevo
-    return modo
+            continue
+        no_cuentan.append(f"el cambio de modo «modo_cambiado» del {e.get('cuando', '?')} no cuenta: {motivo}")
+    return modo, no_cuentan
+
+
+def modo_de_la_historia(estado: dict, cuenta) -> str:
+    """El modo que vale (ver `historia_del_modo`)."""
+    return historia_del_modo(estado, cuenta)[0]
 
 
 def problemas_de_decisiones(estado: dict, cuenta) -> list[str]:
     """Lo que hace que las decisiones del cambio no cuenten, con y sin «exigir»: las que pide su fase y faltan, las que registró
     quien no podía tomarlas en el modo de su historia, y un campo `modo` que no coincide con ella."""
-    salida = []
-    modo = modo_de_la_historia(estado, cuenta)
+    modo, salida = historia_del_modo(estado, cuenta)
     registrado = estado.get("modo", modos.POR_DEFECTO)
     if registrado != modo:
         salida.append(f"el modo del registro ({registrado}) no coincide con el de su historia ({modo}); vale {modo}")

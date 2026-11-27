@@ -44,9 +44,9 @@ class FirmasHistoricas(unittest.TestCase):
         return sha
 
     def problemas(self, estado):
-        # Estos registros de prueba no traen todas las decisiones de un cierre (decisiones-obligatorias lo nombra aparte): acá
-        # sólo cuenta lo de las firmas.
-        return [p for p in firmas.pendientes(estado) if not p.startswith("falta la decisión")]
+        # Estos registros de prueba no traen todas las decisiones de un cierre, y sus `modo_cambiado` no dicen de qué modo a qué
+        # modo (decisiones-obligatorias nombra las dos cosas aparte): acá sólo cuenta lo de las firmas.
+        return [p for p in firmas.pendientes(estado) if not p.startswith(("falta la decisión", "el cambio de modo"))]
 
     def test_fh1_un_cierre_historico_intacto_cuenta(self):
         estado = self.estado()
