@@ -32,6 +32,7 @@ oracle-factory init
 base="https://raw.githubusercontent.com/Segtem/oracle-factory/main/examples/cortos"
 for archivo in $archivos; do curl --fail --location --silent --show-error "$base/$caso/$archivo" --output "$archivo"; done
 curl --fail --location --silent --show-error "$base/comun/config.json" --output .factory/config.json
+curl --fail --location --silent --show-error "$base/comun/oracle.json" --output oracle.json
 mkdir -p catalogos
 for archivo in cortos.caso.oracle cortos.corrida.oracle; do curl --fail --location --silent --show-error "$base/comun/catalogos/$archivo" --output "catalogos/$archivo"; done
 python3 -m unittest discover -s . -p "test_*.py"
@@ -48,10 +49,20 @@ El archivo compartido que colocaste en `.factory/config.json` declara exactament
   "modo_por_defecto": "confirmacion",
   "tipos_obligatorios": false,
   "sensor": {
-    "comando": ["{python}", "sensor.py", "--salida", "{salida}"],
+    "comando": ["{python}", "sensor.py", "--salida", "{salida}/hechos.json"],
     "tope_minutos": 5,
     "hechos": "exigir"
   }
+}
+```
+
+`comun/oracle.json` reemplaza el que creó `init`: apaga el catálogo base de Oracle, cuyas medidas de simulación leen una tabla `corrida` con otro sentido que la de estos sensores y no podrían juzgarla. Así sólo cuentan los dos catálogos del ejercicio:
+
+```json archivo=comun/oracle.json
+{
+  "esquema": "oracle.proyecto/v1",
+  "catalogo_base": false,
+  "perfiles": []
 }
 ```
 

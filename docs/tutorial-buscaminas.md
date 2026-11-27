@@ -449,10 +449,20 @@ El sensor se declara en `.factory/config.json`. Como `init` acaba de crear este 
   "modo_por_defecto": "confirmacion",
   "tipos_obligatorios": false,
   "sensor": {
-    "comando": ["{python}", "sensor.py", "--salida", "{salida}"],
+    "comando": ["{python}", "sensor.py", "--salida", "{salida}/hechos.json"],
     "tope_minutos": 5,
     "hechos": "exigir"
   }
+}
+```
+
+`init` también creó `oracle.json` con `"catalogo_base": true`, que suma las medidas de simulación que trae Oracle. Leen una tabla `corrida` con otro sentido que la de este sensor y no podrían juzgarla. Un Buscaminas no es una simulación: reemplazá `oracle.json` por este contenido, que deja sólo los catálogos del proyecto:
+
+```json archivo=oracle.json
+{
+  "esquema": "oracle.proyecto/v1",
+  "catalogo_base": false,
+  "perfiles": []
 }
 ```
 

@@ -2,7 +2,7 @@
   "modo_por_defecto": "confirmacion",
   "tipos_obligatorios": false,
   "sensor": {
-    "comando": ["{python}", "sensor.py", "--salida", "{salida}"],
+    "comando": ["{python}", "sensor.py", "--salida", "{salida}/hechos.json"],
     "tope_minutos": 5,
     "hechos": "exigir"
   }
