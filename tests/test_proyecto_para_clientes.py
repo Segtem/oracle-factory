@@ -82,6 +82,21 @@ class CarpetaPc1(Base):
         self.assertIn('git@ejemplo:equipo/registros.git', datos['problema'])
 
 
+    def test_pc1_un_factory_que_es_un_enlace_no_cuenta(self):
+        # PC1-001 de codex: como raiz_del_proyecto, un .factory que es un enlace simbólico no es un marcador de registros.
+        otro = self.base / 'otro'
+        (otro / '.factory').mkdir(parents=True)
+        (self.producto / '.factory').symlink_to(otro / '.factory')
+        datos = self.proyecto(self.producto)
+        self.assertEqual((datos['factory'], datos['registros']), (False, None))
+        (self.producto / '.factory').unlink()
+        self.bien('conectar', str(self.almacen))
+        shutil.rmtree(self.almacen / '.factory', ignore_errors=True)  # conectar la crea; acá es un enlace
+        (self.almacen / '.factory').symlink_to(otro / '.factory')
+        datos = self.proyecto(self.producto)
+        self.assertEqual((datos['factory'], datos['registros']), (False, None))
+        self.assertIn(str(self.almacen), datos['problema'])
+
 class QuienContestaPc2(Base):
     def test_pc2_la_version_y_los_contratos(self):
         self.conectado()

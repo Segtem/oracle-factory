@@ -172,7 +172,8 @@ def proyecto(cli) -> int:
     VS Code, Factory Code, el plugin de Orca) no lo adivine buscando archivos. Sólo lee."""
     from . import resumen, tablero, version
     dir_ = cli.estructura.DIR
-    propios = (cli.ROOT / dir_).is_dir()
+    registro = lambda c: (c / dir_).is_dir() and not (c / dir_).is_symlink()  # como raiz_del_proyecto: un enlace no es un marcador
+    propios = registro(cli.ROOT)
     producto = raiz_git(cli.ROOT) or (cli.ROOT if propios else None)
     almacen = problema = None
     try:
@@ -181,7 +182,7 @@ def proyecto(cli) -> int:
         problema = str(e)
     if almacen is not None and propios:
         problema = f"tiene su propia carpeta {dir_}/ y además está conectado al almacén {almacen}"
-    elif almacen is not None and not (Path(almacen) / dir_).is_dir():
+    elif almacen is not None and not registro(Path(almacen)):
         problema = f"está conectado al almacén {almacen}, que no existe o no tiene {dir_}/"
     elif almacen is None and not propios and producto is not None and (producto / MARCA).exists():
         problema = f"guarda sus registros en el almacén {marca(producto) or '(su ' + MARCA + ' no lo dice)'} y no está conectado a él"
