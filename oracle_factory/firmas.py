@@ -196,16 +196,17 @@ def _nombre(campo: str) -> str:
 
 def modo_de_la_historia(estado: dict, cuenta) -> str:
     """El modo que vale: el de la creación —con menos intervención que el de por defecto, sólo si la creó una persona y su decisión
-    cuenta— cambiado en orden por los `modo_cambiado` que cuentan: los que parten del modo vigente (su `anterior`) y, si bajan la
+    cuenta— cambiado en orden por los `modo_cambiado` posteriores a la creación que cuentan: los que parten del modo vigente (su `anterior`) y, si bajan la
     intervención, los de una persona. `cuenta(campo,
     registro)` dice si la decisión de persona cuenta (con «exigir», si su firma vale)."""
     eventos = [e for e in estado.get("eventos") or [] if isinstance(e, dict)] if isinstance(estado.get("eventos"), list) else []
     de_persona = lambda e: tipo_actor(e, estado) == "persona" and cuenta(f"eventos/{e.get('accion')}@{e.get('cuando')}", e)
-    creado = next((e for e in eventos if e.get("accion") == "cambio_creado"), {})
+    inicio = next((i for i, e in enumerate(eventos) if e.get("accion") == "cambio_creado"), None)
+    creado = {} if inicio is None else eventos[inicio]
     modo = creado.get("modo", modos.POR_DEFECTO)
     if modo not in modos.MODOS or (_baja(modo) and not de_persona(creado)):
         modo = modos.POR_DEFECTO
-    for e in eventos:
+    for e in eventos[(inicio or 0):]:
         nuevo = e.get("nuevo")
         if (e.get("accion") == "modo_cambiado" and e.get("anterior") == modo and nuevo in modos.MODOS
                 and (not modos.baja_intervencion(modo, nuevo) or de_persona(e))):
