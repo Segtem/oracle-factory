@@ -324,6 +324,8 @@ class HistoricoDo4(Base):
         registros = os.environ.get("ORACLE_FACTORY_REGISTROS")
         if not registros or not Path(registros, ".factory").is_dir():
             self.skipTest("sin el almacén de registros de Factory en ORACLE_FACTORY_REGISTROS")
+        if not (SOURCE / ".git").exists():
+            self.skipTest("el producto no es un repositorio Git (la copia de la mutación): verificar no puede compararlo")
         copia = Path(tempfile.mkdtemp(prefix="almacen-"))
         self.addCleanup(shutil.rmtree, copia, True)
         subprocess.run(["git", "clone", "-q", "--no-hardlinks", registros, str(copia / "r")], check=True)
