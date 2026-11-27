@@ -8,6 +8,23 @@ const [extension, proyecto, comando] = process.argv.slice(2);
 
 const terminal = [], comandos = {}, vigias = [];  // vigias: lo que la extensión pidió vigilar (etapa 5b)
 let vista = null;
+// SIN_CONFIANZA=1: la carpeta no es de confianza (modo restringido); CONFIAR=1: después la persona confía. `procesos`: cada proceso
+// que la extensión lanzó (child_process), para comprobar que sin confianza no corre ninguno.
+const procesos = [];
+const hijos = require('child_process');
+for (const f of ['execFile', 'spawn', 'exec', 'execFileSync', 'spawnSync', 'execSync']) {
+    const original = hijos[f];
+    hijos[f] = function (archivo, args) { procesos.push([archivo, ...(Array.isArray(args) ? args : [])].join(' ')); return original.apply(this, arguments); };
+}
+let alConfiar = null;
+const confianza = {
+    get isTrusted() { return !process.env.SIN_CONFIANZA; },
+    onDidGrantWorkspaceTrust: f => { alConfiar = f; return {dispose() {}}; },
+};
+async function confiar() {
+    delete process.env.SIN_CONFIANZA;
+    if (alConfiar) await alConfiar();
+}
 const nada = () => ({dispose() {}});
 const vscode = {
     EventEmitter: class { constructor() { this.event = nada; } fire() {} },
@@ -34,8 +51,11 @@ const vscode = {
             return t;
         },
     },
-    commands: {registerCommand: (id, f) => { comandos[id] = f; return nada(); }},
+    commands: {registerCommand: (id, f) => { comandos[id] = f; return nada(); },
+               executeCommand: async id => { ejecutados.push(id); }},
 };
+Object.defineProperties(vscode.workspace, Object.getOwnPropertyDescriptors(confianza));
+const ejecutados = [];  // los comandos del editor que la extensión pidió (administrar la confianza)
 const requerir = Module.prototype.require;
 Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vscode : requerir.apply(this, arguments); };
 
@@ -44,10 +64,10 @@ async function desplegar(nodo) {
     for (const hijo of await vista.getChildren(nodo)) {
         const item = vista.getTreeItem(hijo);
         const fila = {etiqueta: item.label, descripcion: item.description, icono: item.iconPath && item.iconPath.id,
-                      contexto: item.contextValue,
-                      [{'vscode.open': 'abre', revealInExplorer: 'muestra'}[item.command && item.command.command] || 'sin']:
-                          item.command ? path.relative(proyecto, item.command.arguments[0].fsPath) : undefined};
-        delete fila.sin;
+                      contexto: item.contextValue};
+        const verbo = {'vscode.open': 'abre', revealInExplorer: 'muestra'}[item.command && item.command.command];
+        if (verbo) fila[verbo] = path.relative(proyecto, item.command.arguments[0].fsPath);
+        else if (item.command) fila.ejecuta = item.command.command;  // un comando del editor, sin archivo
         if (item.collapsibleState) fila.hijos = await desplegar(hijo);
         if (item.contextValue === 'paso') comandos['factory.escribirPaso'](hijo);
         salida.push(fila);
@@ -60,5 +80,13 @@ async function desplegar(nodo) {
     modulo.activate({subscriptions: []});
     const arbol = await desplegar(undefined);
     if (modulo.vigilando) await modulo.vigilando();  // los vigías del almacén se arman cuando se sabe dónde está
-    process.stdout.write(JSON.stringify({arbol, terminal, terminales: vscode.window.terminals.length, vigias}));
+    const sinConfianza = procesos.length;
+    let arbolDespues;
+    if (process.env.CONFIAR) {
+        await confiar();
+        arbolDespues = await desplegar(undefined);
+        if (modulo.vigilando) await modulo.vigilando();
+    }
+    process.stdout.write(JSON.stringify({arbol, arbolDespues, terminal, terminales: vscode.window.terminals.length, vigias, procesos,
+                                         procesosAntesDeConfiar: sinConfianza}));
 })().catch(e => { console.error(e); process.exit(1); });
