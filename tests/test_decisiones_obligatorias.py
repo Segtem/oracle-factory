@@ -353,6 +353,19 @@ class HistoricoDo4(Base):
         self.editar(ident, lambda e: e["spec_aprobada"].pop("tipo_actor"))
         self.assertEqual(self.verificar()[0], 1)
 
+    def test_do4_con_exigir_quitar_el_modo_no_vuelve_historico_un_cambio(self):
+        # D1 de la tercera revisión de codex: sin firmas el registro entero es editable (la spec lo declara); con «exigir», borrar el
+        # modo de la creación y el tipo de actor de una decisión de agente la deja como de persona sin firma, y no cuenta.
+        self.exigir()
+        self.autonomo()
+        ident = self.cerrado(agente="robot")
+        self.assertEqual(self.verificar(), (0, ""))
+        self.editar(ident, lambda e: (e.pop("modo", None), e["eventos"][0].pop("modo"), e["eventos"][0].pop("firma"),
+                                      e["eventos"][0].pop("tipo_actor"), e["cierre"].pop("tipo_actor")))
+        codigo, problemas = self.verificar()
+        self.assertEqual(codigo, 1)
+        self.assertIn("cierre", problemas)
+
     def test_do4_el_almacen_real(self):
         """El almacén de registros de Factory, si esta corrida lo tiene (el sensor de Factory lo pasa en ORACLE_FACTORY_REGISTROS)."""
         registros = os.environ.get("ORACLE_FACTORY_REGISTROS")
