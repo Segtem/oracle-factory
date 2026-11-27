@@ -148,7 +148,10 @@ def construir_parser() -> argparse.ArgumentParser:
                                               'sin ella, dice a cuál está conectado el producto')
     q.add_argument('--json', action='store_true', help='sin ALMACÉN: decir la conexión como JSON ({"conectado", "almacen", "producto"}), '
                                                        'sin cambiar nada; también con --agente')
-    sub.add_parser('desconectar', help='quitar la conexión del producto con su almacén (no toca ni el almacén ni el producto); sólo de una persona')
+    q = sub.add_parser('proyecto', help='decir a una interfaz si la carpeta es de Factory, dónde están sus registros y qué versión y '
+                                        'contratos contesta (sólo lectura; también con --agente)')
+    q.add_argument('--json', action='store_true', required=True, help='imprimir el objeto JSON (esquema oracle-factory.proyecto/1)')
+    sub.add_parser('desconectar',help='quitar la conexión del producto con su almacén (no toca ni el almacén ni el producto); sólo de una persona')
     sub.add_parser('sincronizar', help='traer el almacén del remoto, unirlo con lo local y, si lo corre una persona, subir el resultado; '
                                        'con --agente no sube')
     q = sub.add_parser('modo', help='cambiar el modo de trabajo de un cambio')

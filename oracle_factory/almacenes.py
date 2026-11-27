@@ -164,6 +164,36 @@ def exigir_conexion(cli) -> None:
                            "No cambié nada")
 
 
+ESQUEMA_PROYECTO = "oracle-factory.proyecto/1"
+
+
+def proyecto(cli) -> int:
+    """`proyecto --json`: si la carpeta de `cli.ROOT` es de Factory y dónde están sus registros, para que una interfaz (el tablero de
+    VS Code, Factory Code, el plugin de Orca) no lo adivine buscando archivos. Sólo lee."""
+    from . import resumen, tablero, version
+    dir_ = cli.estructura.DIR
+    propios = (cli.ROOT / dir_).is_dir()
+    producto = raiz_git(cli.ROOT) or (cli.ROOT if propios else None)
+    almacen = problema = None
+    try:
+        almacen = leer().get(clave(cli.ROOT) or "") if archivo().exists() else None
+    except ValueError as e:
+        problema = str(e)
+    if almacen is not None and propios:
+        problema = f"tiene su propia carpeta {dir_}/ y además está conectado al almacén {almacen}"
+    elif almacen is not None and not (Path(almacen) / dir_).is_dir():
+        problema = f"está conectado al almacén {almacen}, que no existe o no tiene {dir_}/"
+    elif almacen is None and not propios and producto is not None and (producto / MARCA).exists():
+        problema = f"guarda sus registros en el almacén {marca(producto) or '(su ' + MARCA + ' no lo dice)'} y no está conectado a él"
+    registros = None if problema else almacen if almacen is not None else str(cli.ROOT) if propios else None
+    print(json.dumps({"esquema": ESQUEMA_PROYECTO, "factory": registros is not None, "producto": str(producto) if producto else None,
+                      "registros": registros, "almacen": almacen, "problema": problema,
+                      "version": version.version_completa(),
+                      "contratos": {"proyecto": ESQUEMA_PROYECTO, "tablero": tablero.ESQUEMA, "resumen": resumen.ESQUEMA}},
+                     ensure_ascii=False))
+    return 0
+
+
 def avisar_si_no_coincide(producto: Path, almacen: Path) -> None:
     url, ruta = marca(producto), producto / MARCA
     if url is None and (ruta.exists() or ruta.is_symlink()):

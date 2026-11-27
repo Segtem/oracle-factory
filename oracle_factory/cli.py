@@ -1522,6 +1522,8 @@ def _main(argv: list[str] | None = None) -> int:
     try:
         if args.comando == "migrar" and args.almacen is not None:  # también opera sobre el producto, que todavía tiene sus registros
             return almacenes.migrar(sys.modules[__name__], args.almacen, args.verificar)
+        if args.comando == "proyecto":  # lo que pregunta una interfaz: no se redirige ni se niega, sólo lee
+            return almacenes.proyecto(sys.modules[__name__])
         if args.comando in ("conectar", "desconectar"):  # operan sobre el producto: no se redirigen a su almacén
             return almacenes.comando(sys.modules[__name__], args.comando, getattr(args, "almacen", None), getattr(args, "json", False))
         registros = args.registros.expanduser().resolve() if args.registros is not None else almacenes.conectado(sys.modules[__name__])
