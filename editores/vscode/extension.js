@@ -55,8 +55,9 @@ async function preguntarProyecto(raiz) {
     try {
         p = await correr(raiz, ['proyecto', '--json']);
     } catch (e) {
+        // En una carpeta sin indicios de Factory, una CLI que no está, es vieja o se rompe no es un problema de Factory.
+        if (!indicio(raiz)) return null;
         if (!e.message.includes("'proyecto'")) throw e;
-        if (!indicio(raiz)) return null;  // en una carpeta ajena, una CLI vieja no es un problema de Factory
         throw new Error(`la CLI de Factory (${await texto(raiz, ['--version']) || cli(raiz)}) no sabe decir el proyecto ` +
                         '(oracle-factory proyecto --json): actualizala');
     }
