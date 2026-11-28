@@ -30,15 +30,46 @@ function correr(raiz, args) {
     }));
 }
 
-// Dónde están los registros de la carpeta: ella misma si tiene .factory/, o el almacén al que está conectado el producto
-// (lo dice `conectar --json`). null si no es un proyecto de Factory. Se pregunta una vez por carpeta.
+// Sin confianza (modo restringido) Factory no corre nada: ni la CLI ni otro proceso. Sólo mira si la carpeta tiene un indicio de
+// Factory, para decir por qué no se ve y ofrecer confiar en ella.
+const RESTRINGIDO = 'Este proyecto usa Factory: confiá en la carpeta para verlo (Factory corre su CLI)';
+const CONFIAR = 'workbench.trust.manage';
+function confiable() { return vscode.workspace.isTrusted !== false; }
+// Una entrada cuenta aunque sea un enlace roto (como en proyecto --json): sigue diciendo que el proyecto usa Factory.
+function existe(ruta) { try { fs.lstatSync(ruta); return true; } catch (e) { return false; } }
+function indicio(raiz) { return Boolean(raiz) && ['.factory', '.oracle-factory-almacen'].some(m => existe(path.join(raiz, m))); }
+
+// El contrato del tablero que lee tablero.js.
+const TABLERO_ESQUEMA = 'oracle-factory.tablero/1';
+
+function texto(raiz, args) {
+    return new Promise(ok => execFile(cli(raiz), args, {cwd: raiz}, (error, stdout) => ok(error ? null : stdout.trim())));
+}
+
+// Dónde están los registros de la carpeta: lo dice el núcleo (`oracle-factory proyecto --json`), no se adivina buscando archivos.
+// null si no es un proyecto de Factory; falla, nombrando la versión, con una CLI que no sabe decirlo o que habla otro tablero.
+// Se pregunta una vez por carpeta.
 const conexiones = new Map();
+async function preguntarProyecto(raiz) {
+    let p;
+    try {
+        p = await correr(raiz, ['proyecto', '--json']);
+    } catch (e) {
+        if (!e.message.includes("'proyecto'")) throw e;
+        if (!indicio(raiz)) return null;  // en una carpeta ajena, una CLI vieja no es un problema de Factory
+        throw new Error(`la CLI de Factory (${await texto(raiz, ['--version']) || cli(raiz)}) no sabe decir el proyecto ` +
+                        '(oracle-factory proyecto --json): actualizala');
+    }
+    if (!p.factory) return null;
+    const suyo = (p.contratos || {}).tablero;
+    if (suyo !== TABLERO_ESQUEMA)
+        throw new Error(`la CLI de Factory (${p.version}) habla el tablero ${suyo || 'sin esquema'} y esta extensión lee ` +
+                        `${TABLERO_ESQUEMA}: actualizá la que esté atrás`);
+    return p.registros;
+}
 function registros(raiz) {
-    if (!raiz) return Promise.resolve(null);
-    if (fs.existsSync(path.join(raiz, '.factory'))) return Promise.resolve(raiz);
-    if (!conexiones.has(raiz))
-        conexiones.set(raiz, correr(raiz, ['conectar', '--json']).then(
-            c => c.almacen && fs.existsSync(path.join(c.almacen, '.factory')) ? c.almacen : null, () => null));
+    if (!raiz || !confiable()) return Promise.resolve(null);
+    if (!conexiones.has(raiz)) conexiones.set(raiz, preguntarProyecto(raiz));
     return conexiones.get(raiz);
 }
 
@@ -66,9 +97,12 @@ class Vista {
     async getChildren(nodo) {
         if (nodo && nodo.hijos) return nodo.hijos;
         const raiz = carpeta();
-        if (!await registros(raiz))
-            return aviso('Esta carpeta no es un proyecto de Factory (no tiene .factory/)', 'info');
+        if (!confiable())
+            return indicio(raiz) ? [{etiqueta: RESTRINGIDO, icono: 'shield', confiar: true}]
+                                 : aviso('Esta carpeta no es un proyecto de Factory (no tiene .factory/)', 'info');
         try {
+            if (!await registros(raiz))
+                return aviso('Esta carpeta no es un proyecto de Factory (no tiene .factory/)', 'info');
             if (!nodo) return modelo.raiz(await correr(raiz, ['resumen', '--json']));
             const [estado, donde] = await Promise.all([correr(raiz, ['estado', nodo.cambio, '--json']),
                                                        correr(raiz, ['donde', nodo.cambio, '--json'])]);
@@ -90,6 +124,7 @@ class Vista {
                                         arguments: [vscode.Uri.file(path.resolve(carpeta(), nodo.abrir))]};
         else if (nodo.mostrar) item.command = {command: 'revealInExplorer', title: 'Mostrar en el explorador',
                                                arguments: [vscode.Uri.file(path.resolve(carpeta(), nodo.mostrar))]};
+        else if (nodo.confiar) item.command = {command: CONFIAR, title: 'Administrar la confianza de la carpeta'};
         return item;
     }
 }
@@ -147,7 +182,7 @@ async function escribirEnTerminal(comando) {
 }
 
 function escribirPaso(nodo) {
-    if (!nodo || !nodo.comando) return Promise.resolve();
+    if (!nodo || !nodo.comando || !confiable()) return Promise.resolve();
     const hecho = cola.then(() => escribirEnTerminal(nodo.comando));
     cola = hecho.catch(() => {});  // un pedido que falla lo ve quien lo hizo, pero no traba los siguientes
     return hecho;
@@ -175,7 +210,7 @@ function olvidarConsulta() { generacion++; destinosConsultados = null; }
 async function consultarLosDestinos() {
     const raiz = carpeta();
     const desde = ++generacion;  // una consulta más nueva (o una invalidación) deja vieja a ésta: sólo la última guarda su respuesta
-    const dir = await registros(raiz);  // antes de esperar se toma el número: la espera no puede adelantar a una consulta vieja
+    const dir = await registros(raiz).catch(() => null);  // antes de esperar se toma el número: la espera no puede adelantar a una consulta vieja
     if (!dir || !fs.existsSync(path.join(dir, '.factory', 'destinos.json'))) return;
     try {
         const datos = await correr(raiz, ['destinos', '--json']);
@@ -219,6 +254,9 @@ async function pintarTablero() {
         // Mientras llega el tablero de quien comparte: la sesión, con «Salir de la sesión».
         html = tablero.html({esperando: true, cambios: [], sesion: {...sesion.estado(), invitado: false}},
                             {nonce, cspSource: panel.webview.cspSource});
+    } else if (!invitado && !confiable()) {
+        html = indicio(carpeta()) ? tablero.restringido(RESTRINGIDO, {nonce})
+                                  : tablero.error('Esta carpeta no es un proyecto de Factory (no tiene .factory/).', {nonce});
     } else {
         try {
             const datos = invitado ? await sesion.pedir('tablero', []) : await datosLocales();
@@ -267,6 +305,8 @@ function guardarMensaje(cambio, texto, de) {
 // ejecutarlo o mandar un mensaje. Un invitado lo hace a través de quien comparte.
 async function mensajeDelTablero(m) {
     if (!m) return;
+    if (m.tipo === 'confiar') return vscode.commands.executeCommand(CONFIAR);
+    if (!confiable()) return;  // sin confianza, el panel sólo ofrece confiar: no corre ni escribe nada
     if (m.tipo === 'sesion' && sesion) {  // los botones de la sesión de Live Share (también para un invitado que espera)
         if (m.accion === 'instalar') await sesion.instalar();
         else if (m.accion === 'compartir') await sesion.compartir();
@@ -351,6 +391,7 @@ function abrirTablero() {
 // ¿Por qué existe esta línea? La respuesta de `oracle-factory por-que` en un documento sin guardar: se lee, no cambia nada.
 async function porQue() {
     const raiz = carpeta();
+    if (!confiable()) return vscode.window.showInformationMessage(`Factory: ${RESTRINGIDO}.`);
     const editor = vscode.window.activeTextEditor;
     if (!raiz || !editor) return vscode.window.showErrorMessage('Factory: abrí un archivo del proyecto y poné el cursor en la línea.');
     const relativo = path.relative(raiz, editor.document.uri.fsPath);
@@ -366,6 +407,7 @@ async function porQue() {
 // Preguntar al proyecto: la respuesta de `oracle-factory preguntar` con sus fuentes y límites, sin duplicar la lógica.
 async function preguntar() {
     const raiz = carpeta();
+    if (!confiable()) return vscode.window.showInformationMessage(`Factory: ${RESTRINGIDO}.`);
     if (!raiz) return vscode.window.showErrorMessage('Factory: abrí la carpeta de un proyecto de Factory.');
     const pregunta = await vscode.window.showInputBox({prompt: 'Preguntale al proyecto: conocimiento, decisiones o estado',
                                                       placeHolder: '¿Por qué los IDs de los cambios llevan letras al azar?'});
@@ -399,13 +441,22 @@ function activate(context) {
         vigia.onDidDelete(() => refrescar()));
     // Con los registros en un almacén aparte, se vigilan también allá (fuera del espacio de trabajo).
     const raiz = carpeta();
-    listos = registros(raiz).then(dir => {
+    const vigilarAlmacen = () => registros(raiz).then(dir => {
         if (!dir || dir === raiz) return;
         const cambios = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(dir, '.factory/cambios/**/factory.json'));
         const despliegues = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(dir, '.factory/despliegues/**/registro.json'));
         context.subscriptions.push(cambios, cambios.onDidChange(() => refrescar()), cambios.onDidCreate(() => refrescar()),
             cambios.onDidDelete(() => refrescar()), despliegues, despliegues.onDidChange(despliegue), despliegues.onDidCreate(despliegue));
     }).catch(e => anotar(`No pude vigilar los registros del almacén: ${e.message}`));  // vigilar es una comodidad: la vista sigue
+    listos = vigilarAlmacen();
+    // Al confiar en la carpeta, Factory se carga sin reabrir la ventana.
+    if (vscode.workspace.onDidGrantWorkspaceTrust)
+        context.subscriptions.push(vscode.workspace.onDidGrantWorkspaceTrust(() => {
+            conexiones.clear();
+            listos = vigilarAlmacen();
+            refrescar();
+            return listos;
+        }));
 
     function refrescar() {
         vista.refrescar();

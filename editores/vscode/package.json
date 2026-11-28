@@ -10,13 +10,15 @@
     "main": "./extension.js",
     "activationEvents": [
         "workspaceContains:.factory",
+        "workspaceContains:.oracle-factory-almacen",
         "onStartupFinished"
     ],
     "capabilities": {
         "virtualWorkspaces": true,
         "untrustedWorkspaces": {
-            "supported": false,
-            "description": "La vista corre la CLI de Factory del proyecto (.venv/bin/oracle-factory)."
+            "supported": "limited",
+            "description": "Sin confianza, Factory no corre su CLI (.venv/bin/oracle-factory): sólo avisa que el proyecto usa Factory y ofrece confiar en la carpeta.",
+            "restrictedConfigurations": ["factory.comando"]
         }
     },
     "contributes": {

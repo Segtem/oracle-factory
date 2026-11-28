@@ -316,4 +316,14 @@ function error(mensaje, {nonce}) {
 <body><h1>Tablero de Factory</h1><p>${esc(mensaje)}</p></body></html>`;
 }
 
-module.exports = {html, error, esc};
+// Sin confianza en la carpeta: el aviso y un botón que pide administrar la confianza (el panel no corre nada más).
+function restringido(mensaje, {nonce}) {
+    return `<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';">
+<style nonce="${nonce}">body{font-family:var(--vscode-font-family);color:var(--vscode-foreground);padding:18px}</style></head>
+<body><h1>Tablero de Factory</h1><p>${esc(mensaje)}.</p><button id="confiar">Administrar la confianza de la carpeta</button>
+<script nonce="${nonce}">const vscode = acquireVsCodeApi();
+document.getElementById('confiar').addEventListener('click', () => vscode.postMessage({tipo: 'confiar'}));</script></body></html>`;
+}
+
+module.exports = {html, error, restringido, esc};

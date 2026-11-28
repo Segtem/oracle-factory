@@ -10,6 +10,23 @@ const mensajes = JSON.parse(mensajesJson || '[]');
 
 const terminal = [], historia = [], abiertos = [], diffs = [], documentos = [], errores = [], comandos = {}, vigias = [];
 let panel = null, pintadas = 0;
+// SIN_CONFIANZA=1: la carpeta no es de confianza (modo restringido); CONFIAR=1: después la persona confía. `procesos`: cada proceso
+// que la extensión lanzó (child_process), para comprobar que sin confianza no corre ninguno.
+const procesos = [];
+const hijos = require('child_process');
+for (const f of ['execFile', 'spawn', 'exec', 'execFileSync', 'spawnSync', 'execSync']) {
+    const original = hijos[f];
+    hijos[f] = function (archivo, args) { procesos.push([archivo, ...(Array.isArray(args) ? args : [])].join(' ')); return original.apply(this, arguments); };
+}
+let alConfiar = null;
+const confianza = {
+    get isTrusted() { return !process.env.SIN_CONFIANZA; },
+    onDidGrantWorkspaceTrust: f => { alConfiar = f; return {dispose() {}}; },
+};
+async function confiar() {
+    delete process.env.SIN_CONFIANZA;
+    if (alConfiar) await alConfiar();
+}
 const nada = () => ({dispose() {}});
 const vscode = {
     EventEmitter: class { constructor() { this.event = nada; } fire() {} },
@@ -53,8 +70,11 @@ const vscode = {
             return panel;
         },
     },
-    commands: {registerCommand: (id, f) => { comandos[id] = f; return nada(); }},
+    commands: {registerCommand: (id, f) => { comandos[id] = f; return nada(); },
+               executeCommand: async id => { ejecutados.push(id); }},
 };
+Object.defineProperties(vscode.workspace, Object.getOwnPropertyDescriptors(confianza));
+const ejecutados = [];  // los comandos del editor que la extensión pidió (administrar la confianza)
 const requerir = Module.prototype.require;
 Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vscode : requerir.apply(this, arguments); };
 
@@ -63,6 +83,13 @@ Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vsco
     await comandos['factory.tablero']();
     if (process.env.COMANDO) await comandos[process.env.COMANDO]();  // un comando de la paleta, además del tablero
     const html = panel.webview.html;
+    const procesosAntesDeConfiar = procesos.length;
+    let htmlConfiado;
+    if (process.env.CONFIAR) {
+        await confiar();
+        for (let i = 0; i < 100 && panel.webview.html === html; i++) await new Promise(r => setTimeout(r, 50));
+        htmlConfiado = panel.webview.html;
+    }
     // CONCURRENTE=escalonado: como mensajes, pero cada uno sale cuando existe ESPERAR_ARCHIVO; CONCURRENTE=mensajes: los mensajes se atienden a la vez; CONCURRENTE=registro: además un registro cambia (los vigías avisan) mientras tanto.
     if (process.env.CONCURRENTE === 'escalonado') {
         // Los mensajes salen a la vez, pero cada uno espera a que exista ESPERAR_ARCHIVO (lo escribe lo que dispara el anterior): el orden no depende de la carga.
@@ -82,5 +109,5 @@ Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vsco
     const antes = pintadas;
     for (const v of vigias) for (const f of v.cambios) f();
     for (let i = 0; i < 100 && pintadas === antes; i++) await new Promise(r => setTimeout(r, 50));
-    process.stdout.write(JSON.stringify({html, htmlDespues: panel.webview.html, abiertos, diffs, documentos, errores, terminal, pintadas, historia, vigilados: vigias.map(v => ({glob: v.glob, avisan: v.cambios.length}))}));
+    process.stdout.write(JSON.stringify({html, htmlConfiado, procesos, procesosAntesDeConfiar, ejecutados, htmlDespues: panel.webview.html, abiertos, diffs, documentos, errores, terminal, pintadas, historia, vigilados: vigias.map(v => ({glob: v.glob, avisan: v.cambios.length}))}));
 })().catch(e => { console.error(e); process.exit(1); });
