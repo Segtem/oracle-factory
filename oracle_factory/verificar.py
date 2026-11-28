@@ -23,7 +23,7 @@ def del_cambio(cli, ident: str) -> tuple[list[str], list[str]]:
             return cli.firmas_mod.pendientes(estado), []
         except (cli.FactoryError, OSError, ValueError) as e:
             return [f"no pude comprobarlo: {e}"], []
-    cerrado, cierre = estado.get("fase") == "cerrada", estado.get("cierre") or {}
+    cerrado = estado.get("fase") == "cerrada"
     previstos = set(cli.pendientes(estado)) | {f"medidas de {rid}: {motivo}" for rid, motivo in cli.medidas_sin_decision(estado)}
     try:
         cli.exigir_spec(carpeta, estado)
@@ -39,8 +39,6 @@ def del_cambio(cli, ident: str) -> tuple[list[str], list[str]]:
         if p in previstos or (cerrado and p.endswith(cli.DESACTUALIZADO)):  # integrar un cambio deja distinto el producto, por diseño
             continue
         (avisos if p.startswith(HECHOS_AUSENTES) else problemas).append(p)
-    if cerrado and cierre.get("tipo_actor") == "agente" and (cierre.get("modo") or cli.modo_de(estado)) != "autonomo":
-        problemas.append(f"su cierre no lo decidió una persona (lo registró el agente {cierre.get('actor')})")
     return problemas, avisos
 
 

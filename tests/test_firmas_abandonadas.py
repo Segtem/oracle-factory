@@ -12,6 +12,12 @@ from oracle_factory import cli, firmas
 ID = "20261119-124201-8d6-prueba"
 
 
+def de_firmas(problemas):
+    """Sólo lo de las firmas: estos registros de prueba no traen todas las decisiones de un cierre (decisiones-obligatorias lo
+    nombra aparte)."""
+    return [p for p in problemas if not p.startswith("falta la decisión")]
+
+
 class FirmasAbandonadas(unittest.TestCase):
     def setUp(self):
         temporal = tempfile.TemporaryDirectory()
@@ -76,9 +82,9 @@ class FirmasAbandonadas(unittest.TestCase):
         anterior = self.estado()
         self.base(anterior)
         actual = {**anterior, "fase": "cerrada"}
-        self.assertEqual(len(firmas.pendientes(actual)), 1)
+        self.assertEqual(len(de_firmas(firmas.pendientes(actual))), 1)
 
     def test_fa1_los_cierres_historicos_siguen_contando(self):
         estado = self.estado("cerrada")
         self.base(estado)
-        self.assertEqual(firmas.pendientes(estado), [])
+        self.assertEqual(de_firmas(firmas.pendientes(estado)), [])

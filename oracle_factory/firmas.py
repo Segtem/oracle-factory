@@ -17,11 +17,15 @@ from pathlib import Path
 import subprocess
 import tempfile
 
+from . import modos
+
 NAMESPACE = "oracle-factory-decision"
 FIRMANTES = ".factory-firmantes"
 VALORES = (None, "no", "exigir")
 CAMPOS = ("spec_aprobada", "revision", "cierre", "abandono")
 EVENTOS = ("modo_cambiado", "union_decidida", "soltado")  # decisiones de persona que quedan como eventos del cambio
+SOLO_PERSONA = ("abandono", "union_decidida", "soltado")  # en cualquier modo
+DECISION = {"spec_aprobada": "spec", "revision": "revision", "cierre": "cierre"}  # el campo y su decisión en modos.via_agente
 SENSOR = "sensor-aprobado"  # el campo con que se firma una aprobación del sensor (del proyecto, no de un cambio)
 FUERA_DEL_TEXTO = ("firma", "firma_llave")
 HEREDADAS = ("SSH_AUTH_SOCK", "SSH_AGENT_PID", "SSH_ASKPASS", "SSH_ASKPASS_REQUIRE")
@@ -86,6 +90,28 @@ def texto(cambio: str, campo: str, registro: dict) -> bytes:
                       separators=(",", ":")).encode("utf-8")
 
 
+def _baja(modo) -> bool:
+    """Si el modo tiene menos intervención humana que el de por defecto (crear así es una decisión de persona)."""
+    return modo in modos.MODOS and modos.baja_intervencion(modos.POR_DEFECTO, modo)
+
+
+def es_decision(evento: dict) -> bool:
+    """Si el evento es una decisión de persona que se firma: los de EVENTOS y la creación con menos intervención."""
+    return evento.get("accion") in EVENTOS or (evento.get("accion") == "cambio_creado" and _baja(evento.get("modo")))
+
+
+def anterior_a_los_modos(estado: dict) -> bool:
+    """Un registro de antes de los modos de trabajo: su creación no dice el modo (o no hay evento de creación)."""
+    eventos = estado.get("eventos") if isinstance(estado.get("eventos"), list) else []
+    return not any(isinstance(e, dict) and e.get("accion") == "cambio_creado" and "modo" in e for e in eventos)
+
+
+def tipo_actor(registro: dict, estado: dict):
+    """El tipo de actor de una decisión. Antes de los modos no se registraba: esas decisiones las tomaba una persona."""
+    tipo = registro.get("tipo_actor")
+    return "persona" if tipo is None and anterior_a_los_modos(estado) else tipo
+
+
 def registros(estado: dict) -> list[tuple[str, dict]]:
     """(campo, registro) de cada decisión registrada en el cambio que se firma."""
     salida = [(c, estado[c]) for c in CAMPOS if isinstance(estado.get(c), dict)]
@@ -94,7 +120,7 @@ def registros(estado: dict) -> list[tuple[str, dict]]:
         salida += [(f"medidas/{rid}", r) for rid, r in sorted(medidas.items()) if isinstance(r, dict)]
     eventos = estado.get("eventos")
     if isinstance(eventos, list):
-        salida += [(f"eventos/{e['accion']}@{e.get('cuando')}", e) for e in eventos if isinstance(e, dict) and e.get("accion") in EVENTOS]
+        salida += [(f"eventos/{e['accion']}@{e.get('cuando')}", e) for e in eventos if isinstance(e, dict) and es_decision(e)]
     return salida
 
 
@@ -161,18 +187,112 @@ def historicas(estado: dict, base: str | None) -> Counter:
     if not isinstance(anterior, dict) or anterior.get("fase") != fase:
         return Counter()
     return Counter(json.dumps([campo, registro], ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-                   for campo, registro in registros(anterior) if registro.get("tipo_actor") == "persona" and "firma" not in registro)
+                   for campo, registro in registros(anterior) if tipo_actor(registro, anterior) == "persona" and "firma" not in registro)
+
+
+def _nombre(campo: str) -> str:
+    return campo.replace("medidas/", "medidas de ").replace("eventos/", "").split("@")[0]
+
+
+def historia_del_modo(estado: dict, cuenta) -> tuple[str, list[str]]:
+    """El modo que vale y lo que no contó al reconstruirlo. Vale el de la creación —con menos intervención que el de por defecto,
+    sólo si la creó una persona y su decisión cuenta— cambiado en orden por los `modo_cambiado` posteriores a la creación que
+    cuentan: los que parten del modo vigente (su `anterior`) y, si bajan la intervención, los de una persona. `cuenta(campo,
+    registro)` dice si la decisión de persona cuenta (con «exigir», si su firma vale). Cada creación o cambio de modo que no contó
+    se nombra: ninguno desaparece sin diagnóstico."""
+    eventos = [e for e in estado.get("eventos") or [] if isinstance(e, dict)] if isinstance(estado.get("eventos"), list) else []
+    de_persona = lambda e: tipo_actor(e, estado) == "persona" and cuenta(f"eventos/{e.get('accion')}@{e.get('cuando')}", e)
+    no_cuentan = []
+    inicio = next((i for i, e in enumerate(eventos) if e.get("accion") == "cambio_creado"), None)
+    creado = {} if inicio is None else eventos[inicio]
+    modo = creado.get("modo", modos.POR_DEFECTO)
+    if modo not in modos.MODOS or (_baja(modo) and not de_persona(creado)):
+        no_cuentan.append(f"la creación «cambio_creado» en modo {modo} no cuenta: "
+                          + ("ese modo no existe" if modo not in modos.MODOS else "baja la intervención y no la tomó una persona")
+                          + f"; vale {modos.POR_DEFECTO}")
+        modo = modos.POR_DEFECTO
+    for i, e in enumerate(eventos):
+        if e.get("accion") != "modo_cambiado":
+            continue
+        nuevo = e.get("nuevo")
+        if inicio is not None and i < inicio:
+            motivo = "es anterior a la creación del cambio"
+        elif e.get("anterior") != modo:
+            motivo = f"no parte del modo vigente ({modo}) sino de {e.get('anterior')}"
+        elif nuevo not in modos.MODOS:
+            motivo = f"pide un modo que no existe ({nuevo})"
+        elif modos.baja_intervencion(modo, nuevo) and not de_persona(e):
+            motivo = "baja la intervención y no la tomó una persona"
+        else:
+            modo = nuevo
+            continue
+        no_cuentan.append(f"el cambio de modo «modo_cambiado» del {e.get('cuando', '?')} no cuenta: {motivo}")
+    return modo, no_cuentan
+
+
+def modo_de_la_historia(estado: dict, cuenta) -> str:
+    """El modo que vale (ver `historia_del_modo`)."""
+    return historia_del_modo(estado, cuenta)[0]
+
+
+def problemas_de_decisiones(estado: dict, cuenta) -> list[str]:
+    """Lo que hace que las decisiones del cambio no cuenten, con y sin «exigir»: las que pide su fase y faltan, las que registró
+    quien no podía tomarlas en el modo de su historia, y un campo `modo` que no coincide con ella."""
+    modo, salida = historia_del_modo(estado, cuenta)
+    registrado = estado.get("modo", modos.POR_DEFECTO)
+    if registrado != modo:
+        salida.append(f"el modo del registro ({registrado}) no coincide con el de su historia ({modo}); vale {modo}")
+    requisitos = [r for r in estado.get("requisitos") or [] if isinstance(r, str)] if isinstance(estado.get("requisitos"), list) else []
+    medidas = estado.get("medidas") if isinstance(estado.get("medidas"), dict) else {}
+    fase = estado.get("fase")
+    if fase == "cerrada":
+        faltan = [c for c in DECISION if not isinstance(estado.get(c), dict)]
+        faltan += [f"medidas de {rid}" for rid in requisitos if not isinstance(medidas.get(rid), dict)]
+        if isinstance(estado.get("revision"), dict) and estado["revision"].get("decision") != "aprobar":
+            salida.append("la revisión de un cambio cerrado no dice «aprobar»")
+    else:
+        faltan = ["abandono"] if fase == "abandonada" and not isinstance(estado.get("abandono"), dict) else []
+    salida += [f"falta la decisión «{c}» que pide un cambio {fase}; no cuenta sin restaurarla" for c in faltan]
+    tipos = estado.get("tipos") if isinstance(estado.get("tipos"), dict) else {}
+    todos = [tipos.get(r, "funcional") for r in requisitos]
+    for campo, registro in registros(estado):
+        accion = registro.get("accion") if campo.startswith("eventos/") else campo
+        if accion in ("cambio_creado", "modo_cambiado"):
+            continue  # cuentan o no en el modo de la historia
+        tipo = tipo_actor(registro, estado)
+        if tipo == "persona":
+            continue  # la firma, con «exigir», la mira pendientes
+        nombre = _nombre(campo)
+        if tipo != "agente":
+            salida.append(f"la decisión «{nombre}» no dice quién la tomó (tipo de actor {tipo!r}); no cuenta")
+            continue
+        if accion in SOLO_PERSONA:
+            via = "rechaza"
+        elif campo.startswith("medidas/"):
+            via = modos.via_agente(modo, "medidas", [tipos.get(campo.split("/", 1)[1], "funcional")])
+        else:
+            via = modos.via_agente(modo, DECISION.get(accion, "cierre"), todos)
+        if via != "decide":
+            salida.append(f"la decisión «{nombre}» la registró el agente {registro.get('actor', '?')}, y en modo {modo} la toma una "
+                          "persona; no cuenta")
+    return salida
 
 
 def pendientes(estado: dict) -> list[str]:
-    """Con «exigir», cada decisión de persona del cambio sin una firma válida, nombrada."""
+    """Las decisiones del cambio que no cuentan: las de `problemas_de_decisiones` y, con «exigir», cada una de persona sin una
+    firma válida, nombrada."""
     cli = _cli()
     config = cli.config_proyecto()
     if not exige(config):
-        return []
+        return problemas_de_decisiones(estado, lambda campo, registro: True)
     firmantes = (cli.PRODUCTO or cli.ROOT) / FIRMANTES
     anteriores = historicas(estado, config.get("firmas_base"))
     campos_anteriores = {json.loads(clave)[0] for clave in anteriores}
+    intactas = set(anteriores)
+
+    def cuenta(campo: str, registro: dict) -> bool:
+        clave = json.dumps([campo, registro], ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        return clave in intactas or problema(estado.get("id", ""), campo, registro, firmantes) is None
 
     def consumir_campo(campo: str) -> None:
         for clave, cantidad in anteriores.items():
@@ -180,9 +300,9 @@ def pendientes(estado: dict) -> list[str]:
                 anteriores[clave] -= 1
                 return
 
-    salida = []
+    salida = problemas_de_decisiones(estado, cuenta)
     for campo, registro in registros(estado):
-        if registro.get("tipo_actor") != "persona":
+        if tipo_actor(registro, estado) != "persona":
             if campo in campos_anteriores:
                 consumir_campo(campo)
                 salida.append(f"la decisión histórica «{campo}» cambió su tipo de actor; no cuenta sin firma válida")
@@ -195,7 +315,7 @@ def pendientes(estado: dict) -> list[str]:
         falla = problema(estado.get("id", ""), campo, registro, firmantes)
         consumir_campo(campo)
         if falla:
-            nombre = campo.replace("medidas/", "medidas de ").replace("eventos/", "").split("@")[0]
+            nombre = _nombre(campo)
             salida.append(f"la decisión «{nombre}» de {registro.get('actor', '?')}: {falla}; no cuenta hasta que una persona la vuelva a tomar")
     for clave, cantidad in anteriores.items():
         if cantidad > 0:
