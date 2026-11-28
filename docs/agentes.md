@@ -44,6 +44,14 @@ devuelven lo mismo: `preguntar` (respuestas y fuentes, con sus límites), `estad
 `listar`. Ninguna cambia el proyecto; un argumento mal formado o un error vuelve como error de la herramienta y el
 servidor sigue atendiendo.
 
+## Una interfaz encima de Factory
+
+Factory es la CLI: el tablero de VS Code, Factory Code y el plugin de Orca la corren y leen su JSON. Para saber si una carpeta es de
+Factory, una interfaz pregunta `oracle-factory proyecto --json` en vez de buscar `.factory/` u `.oracle-factory-almacen`: dice
+`factory` (si hay registros), `producto`, `registros` (la carpeta con `.factory/`: el producto o su almacén), `almacen`, `problema`
+(por qué no, si hay un indicio), `version` de la CLI que contesta y `contratos` (el `esquema` de `proyecto`, `tablero` y `resumen`).
+Sólo lee, también con `--agente`. Así un proyecto hecho desde una interfaz se ve igual desde otra.
+
 ## Revisores independientes
 
 Una revisión la puede hacer otra persona u otro agente, de otra familia de modelo que el que escribió el código. Cada

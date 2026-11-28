@@ -36,7 +36,7 @@ MATRIZ = {
     'migrar': (['--verificar'], None), 'donde': ([], None), 'trazabilidad': (['{id}'], None), 'ruta': (['{id}', 'evidencia'], None),
     'procedencia': ([], None), 'buscar': (['demo'], None),
     'agentes': (['--verificar'], 'con almacén la guía va en el repo del producto sólo con --en-el-repo; conectar no la escribe'),
-    'skill': ([], None), 'mcp': ([], None), 'preguntar': (['qué es demo'], None), 'conectar': (['{tmp}/otro'], None),
+    'skill': ([], None), 'mcp': ([], None), 'preguntar': (['qué es demo'], None), 'conectar': (['{tmp}/otro'], None), 'proyecto': (['--json'], None),
     'desconectar': ([], None), 'sincronizar': ([], None), 'modo': (['{id}', 'autonomo'], None), 'medir': (['{id}', '--listar'], None),
     'revisar': (['{id}'], None), 'abandonar': (['{id}', '--motivo', 'x'], None), 'aprobar-spec': (['{id}'], None),
     'revision-preparar': (['{id}'], None), 'importar': (['{id}'], None), 'estado': (['{id}'], None), 'cerrar': (['{id}'], None),
