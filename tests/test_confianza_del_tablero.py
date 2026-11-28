@@ -70,6 +70,13 @@ class RestringidoCt1(Base):
         self.assertIn(RESTRINGIDO, fila['etiqueta'])
         self.assertIn(RESTRINGIDO, tablero['html'])
 
+    def test_ct1_una_marca_que_es_un_enlace_roto_sin_confianza(self):
+        # B1 de codex: como proyecto --json, una marca que es un enlace roto sigue siendo un indicio de Factory.
+        (self.producto / '.oracle-factory-almacen').symlink_to(self.base / 'no-existe')
+        fila, tablero = self.sin_confianza(self.producto)
+        self.assertIn(RESTRINGIDO, fila['etiqueta'])
+        self.assertIn(RESTRINGIDO, tablero['html'])
+
     def test_ct1_una_carpeta_ajena_sin_confianza(self):
         fila, tablero = self.sin_confianza(self.producto)
         self.assertEqual(fila, {'etiqueta': 'Esta carpeta no es un proyecto de Factory (no tiene .factory/)', 'icono': 'info'})

@@ -35,7 +35,9 @@ function correr(raiz, args) {
 const RESTRINGIDO = 'Este proyecto usa Factory: confiá en la carpeta para verlo (Factory corre su CLI)';
 const CONFIAR = 'workbench.trust.manage';
 function confiable() { return vscode.workspace.isTrusted !== false; }
-function indicio(raiz) { return Boolean(raiz) && ['.factory', '.oracle-factory-almacen'].some(m => fs.existsSync(path.join(raiz, m))); }
+// Una entrada cuenta aunque sea un enlace roto (como en proyecto --json): sigue diciendo que el proyecto usa Factory.
+function existe(ruta) { try { fs.lstatSync(ruta); return true; } catch (e) { return false; } }
+function indicio(raiz) { return Boolean(raiz) && ['.factory', '.oracle-factory-almacen'].some(m => existe(path.join(raiz, m))); }
 
 // El contrato del tablero que lee tablero.js.
 const TABLERO_ESQUEMA = 'oracle-factory.tablero/1';
