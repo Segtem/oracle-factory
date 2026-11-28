@@ -97,6 +97,13 @@ class CarpetaPc1(Base):
         self.assertEqual((datos['factory'], datos['registros']), (False, None))
         self.assertIn(str(self.almacen), datos['problema'])
 
+    def test_pc1_una_marca_que_es_un_enlace_roto(self):
+        # PC1-002 de codex: como exigir_conexion, una marca que es un enlace (aunque roto) sigue siendo un indicio y se explica.
+        (self.producto / '.oracle-factory-almacen').symlink_to(self.base / 'no-existe')
+        datos = self.proyecto(self.producto)
+        self.assertEqual((datos['factory'], datos['registros']), (False, None))
+        self.assertIn('.oracle-factory-almacen', datos['problema'])
+
 class QuienContestaPc2(Base):
     def test_pc2_la_version_y_los_contratos(self):
         self.conectado()

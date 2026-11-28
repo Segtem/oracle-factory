@@ -184,7 +184,7 @@ def proyecto(cli) -> int:
         problema = f"tiene su propia carpeta {dir_}/ y además está conectado al almacén {almacen}"
     elif almacen is not None and not registro(Path(almacen)):
         problema = f"está conectado al almacén {almacen}, que no existe o no tiene {dir_}/"
-    elif almacen is None and not propios and producto is not None and (producto / MARCA).exists():
+    elif almacen is None and not propios and producto is not None and ((producto / MARCA).exists() or (producto / MARCA).is_symlink()):
         problema = f"guarda sus registros en el almacén {marca(producto) or '(su ' + MARCA + ' no lo dice)'} y no está conectado a él"
     registros = None if problema else almacen if almacen is not None else str(cli.ROOT) if propios else None
     print(json.dumps({"esquema": ESQUEMA_PROYECTO, "factory": registros is not None, "producto": str(producto) if producto else None,
